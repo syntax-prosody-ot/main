@@ -9,10 +9,13 @@ var categoryPairings = {
 
 
 //Evaluates whether two nodes have corresponding categories.
-function catsMatch(sCat, pCat){
-	if(!categoryPairings.hasOwnProperty(sCat))
-		throw new Error(sCat+" is not a valid syntactic category");
-	return categoryPairings[sCat] === pCat;
+function catsMatch(aCat, bCat){
+	if(categoryPairings.hasOwnProperty(aCat))
+		return categoryPairings[aCat] === bCat;
+	else if(categoryPairings.hasOwnProperty(bCat))
+		return categoryPairings[bCat] === aCat;
+	else
+		throw new Error("Neither "+pCat +" nor "+aCat+" is a valid syntactic category");
 }
 
 
@@ -204,14 +207,39 @@ function sameIdsAndTypes(a1, a2)
 	return true;
 }*/
 
-//Longterm TODO: Technically, Match doesn't compare ordered sets but unordered sets, so for an implementation that wouldn't penalize prosodic scrambling we'd need to sort sParent.children and pParent.children before comparing them.
+function matchPS(sTree, pParent, pCat)
+//Assign a violation for every prosodic node of type pCat in pParent that doesn't have a corresponding syntactic node in sTree, 
+//where "corresponding" is defined as: dominates all and only the same terminals, and has the corresponding syntactic category
+//Assumes no null terminals.
+{
+	return matchSP(pParent, sTree, pCat);
+/*	if(sParent.cat === sCat)
+		logreport("\tSeeking match for "+sParent.id + " in tree rooted in "+pTree.id);
+	var vcount = 0;
+	
+	if((sParent.cat === sCat) && !hasMatch(sParent, pTree)){
+		vcount++;
+		logreport("\tVIOLATION: "+sParent.id+" has no match!");
+	} 
+		
+	if(sParent.children){	
+		for(var i = 0; i < sParent.children.length; i++)
+		{
+			var sChild = sParent.children[i];
+			vcount += matchSP(sChild, pTree, sCat);
+		}
+	}
+	
+	return vcount;
+*/
+}
 
+//Longterm TODO: Technically, Match doesn't compare ordered sets but unordered sets, so for an implementation that wouldn't penalize prosodic scrambling we'd need to sort sParent.children and pParent.children before comparing them.
 //TODO: what about null syntactic terminals?? these need to be filtered out of the syntactic input?? write this function later.
 
 function matchSP(sParent, pTree, sCat)
 //Assign a violation for every syntactic node of type sCat in sParent that doesn't have a corresponding prosodic node in pTree, 
 //where "corresponding" is defined as: dominates all and only the same terminals, and has the corresponding prosodic category
-
 //Assumes no null syntactic terminals.
 {
 	if(sParent.cat === sCat)
