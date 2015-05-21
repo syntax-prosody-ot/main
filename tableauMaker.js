@@ -5,24 +5,57 @@ function makeTableau(candidateSet, constraintSet){
 	var tableau = [];
 	//Make a header for the tableau, containing all the constraint names.
 	//First element is empty, to correspond to the column of candidates.
-	var header = [[]];
+	var header = [''];
 	for(var i=0; i<constraintSet.length; i++){
 		header.push(constraintSet[i]);
-		//TODO turn function name into a string -- is this automatic?
 	}
 	tableau.push(header);
 	
 	//Assess violations for each candidate.
 	for(var i = 0; i < candidateSet.length; i++){
 		var candidate = candidateSet[i];
-		var violations = [candidate];	//TODO how to get a better identifier for the candidate?
+		var violations = [candidate + ''];
 		for(var j = 0; j < constraintSet.length; j++){
-			violations.push(constraintSet[j](candidate));		
-			//TODO Adjust because candidates will most likely be PAIRS of trees: [sTree, pTree]
-			//TODO Adjust to deal with the fact that not all constraints take the same parameters :(
-			//Possible solution: change constraints to always take a pair of trees? (In non-interface constraints, s-tree will be disregarded.)
+			var constraintAndCat = constraintSet[j].split('-');
+			violations.push(runConstraint(constraintAndCat[0], candidate[0], candidate[1], constraintAndCat[1]));
 		}
 		tableau.push(violations);
 	}
 	return tableau;
+}
+
+function tableauToCsv(tableau, separator) {
+	if (!(tableau instanceof Array))
+		return '';
+	var lines = [];
+	for (var i = 0; i < tableau.length; i++) {
+		var row = tableau[i];
+		// TODO: handle special characters (i.e.: cell values containing either double quotes or separator characters) 
+		lines.push(row.join(separator));
+	}
+	return lines.join('\n');
+}
+
+function tableauToHtml(tableau) {
+	if (!(tableau instanceof Array))
+		return '';
+	var htmlChunks = ['<table class="tableau"><thead><tr><th></th>'];
+	var headers = tableau[0] || [];
+	for (var j = 1; j < headers.length; j++) {
+		htmlChunks.push('<th>');
+		htmlChunks.push(headers[j]);
+		htmlChunks.push('</th>');
+	}
+	htmlChunks.push('</tr></thead><tbody>');
+	for (var i = 1; i < tableau.length; i++) {
+		htmlChunks.push('<tr>');
+		for (var j = 0; j < tableau[i].length; j++) {
+			htmlChunks.push(j ? '<td>' : '<td class="candidate">');
+			htmlChunks.push(tableau[i][j]);
+			htmlChunks.push('</td>');
+		}
+		htmlChunks.push('</tr>');
+	}
+	htmlChunks.push('</tbody></table>');
+	return htmlChunks.join('');
 }

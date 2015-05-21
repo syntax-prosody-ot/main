@@ -1,7 +1,15 @@
 <html>
 <head><title>Syntax prosody interface application</title></head>
 
-<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px"> <h2>Syntax prosody interface application</h2><pre id="results-container">Look at the console!</pre>
+<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+	<h2>Syntax prosody interface application</h2>
+	<pre id="log-container"></pre>
+	<div style="display: none" id="tableau-container">
+		<h4 style="margin-bottom: 5px">Tableau</h4>
+		<div id="htmlTableauContainer"></div>
+		<strong>For copying and pasting into OTWorkplace:</strong>
+		<textarea style="display: inline-block; width:30em; height:3em; font-size: 8px" id="tableau-textarea"></textarea>
+	</div>
 
 <style>
 	.report-line {
@@ -23,23 +31,63 @@
 	.expected-violation-count, .actual-violation-count {
 		color: red;
 	}
+	
+	.tableau {
+		border-collapse: collapse;
+	}
+	.tableau, .tableau th, .tableau td, .tableau {
+		border: 1px solid black;
+	}
+	.tableau .candidate {
+		font-weight: bold;
+	} 
 </style>
 
 <script>
-var report = [];
+var logLines = [];
 function logreport(line){
-	report.push(['<span class="report-line">', line, '</span>'].join(''));
+	logLines.push(['<span class="report-line">', line, '</span>'].join(''));
 }
 
-window.addEventListener("load", function(){
-	document.getElementById("results-container").innerHTML=report.join("<br>");
+var logContainer;
+function flushLog() {
+	if (logContainer) {
+		logContainer.innerHTML += logLines.join("<br>");
+		logLines = [];
+	}
+}
+
+var tableauContent, tableauContainer, tableauTextarea;
+function refreshTableau() {
+	if (tableauContainer && tableauTextarea) {
+		var csvVal = tableauTextarea.value = tableauToCsv(tableauContent, '\t') || '';
+		htmlTableauContainer.innerHTML = tableauToHtml(tableauContent);
+		tableauContainer.style.display = csvVal ? 'block' : 'none';
+		if (csvVal) {
+			tableauTextarea.focus();
+			tableauTextarea.select();
+		}
+	}
+}
+
+window.addEventListener('load', function(){
+	logContainer = document.getElementById('log-container');
+	tableauContainer = document.getElementById('tableau-container');
+	tableauTextarea = document.getElementById('tableau-textarea');
+	
+	flushLog();
+	refreshTableau();
 });
 
 function runConstraint(constraint, sname, pname, cat, expectedViolations) {
 	logreport(['<span class="main-report-line">Running ', constraint, '(', (cat || ''), ') on (', sname, ', ', pname, ')', (expectedViolations == null) ? '' : [' - Expected Violations: <span class="expected-violation-count">', expectedViolations, '</span>'].join(''), '</span>'].join(''));
-	logreport('<span class="main-report-line" style="background-color: white">Actual Violations: <span class="actual-violation-count">' +window[constraint](window[sname], window[pname], cat) + '</span></span><br/><br/>');
+	var violationCount = window[constraint](window[sname], window[pname], cat);
+	logreport('<span class="main-report-line" style="background-color: white">Actual Violations: <span class="actual-violation-count">' + violationCount + '</span></span><br/><br/>');
+	return violationCount;
 }
 </script>
+
+<script src="tableauMaker.js"></script>
 
 <script src="trees.js"></script>
 <script src="MyrbergTrees.js"></script>
@@ -101,8 +149,12 @@ logreport("");
 //logreport("Running matchPS(syntree0, prostree0, 'phi') - Should be 3 violations.");
 //logreport("Violations: " +matchPS(syntree0, prostree0, "phi"));
 
-runConstraint('matchPS', 'syntree0', 'prostree0', 'phi', 3);
-runConstraint('matchSP', 'syntree0', 'prostree0', 'xp');
+//runConstraint('matchPS', 'syntree0', 'prostree0', 'phi', 3);
+//runConstraint('matchSP', 'syntree0', 'prostree0', 'xp');
+
+tableauContent = makeTableau([['syntree0','prostree0'], ['syntree1','prostree1']], ['matchSP-xp', 'matchPS-phi']);
+//refreshTableau();
+
 
 /*
 logreport("");
