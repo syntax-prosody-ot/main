@@ -130,18 +130,6 @@ function equalSistersAdj(s, parent, c){
 	return vCount;
 }
 
-
-
-//Ozan's code
-function walkTree(node, foo) {
-	if (foo(node) === false)
-		return;
-	if (node.children instanceof Array)
-		for (var i = 0; i < node.children.length; i++)
-			walkTree(node.children[i], foo);
-}
-
-
 function getLeaves(x)
 //return a list of all the terminals dominated by a node
 {
@@ -160,15 +148,6 @@ function getLeaves(x)
 	{
 		leaves = [x];
 	}
-	return leaves;
-}
-
-function getLeaves2(root) {
-	var leaves = [];
-	walkTree(root, function(node) {
-		if (!(node.children instanceof Array))
-			leaves.push(node);
-	});
 	return leaves;
 }
 
@@ -264,15 +243,6 @@ function matchSP(sParent, pTree, sCat)
 	return vcount;
 }
 
-function matchSP2(sParent, pTree) {
-	var vcount = 0;
-	walkTree(sParent, function(node) {
-		if (!hasMatch2(getLeaves(node), pTree))
-			vcount++;
-	});
-	return vcount;
-}
-
 function hasMatch(sNode, pTree)
 //For a syntactic node sNode and a prosodic tree pTree, search the entire pTree 
 //to see if there is a node in pTree that has the same set of terminals as sNode,
@@ -307,15 +277,4 @@ function hasMatch(sNode, pTree)
 		return false;
 	}
 	
-}
-
-function hasMatch2(sLeaves, pTree) {
-	var result = false;
-	walkTree(pTree, function(node) {
-		if (sameIds(getLeaves(node), sLeaves)) {
-			result = true;
-			return false; // don't continue tree-traversal
-		}
-	});
-	return result;
 }
