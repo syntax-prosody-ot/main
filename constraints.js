@@ -108,7 +108,7 @@ function equalSistersPairwise(s, parent, c){
 //This is probably the version that actually makes sense.
 //Markedness only -- just looks at prosody
 //s and c are just there to fill out the argument structure for tableau-izing purposes.
-function equalSistersAdj(parent){
+function equalSistersAdj(s, parent, c){
 	var vCount = 0;
 	if(parent.children && parent.children.length)
 	//pTree is non-terminal
@@ -122,7 +122,7 @@ function equalSistersAdj(parent){
 				if(child.cat != sister.cat)
 					vCount++;
 			}
-			vCount += equalSistersAdj(child);
+			vCount += equalSistersAdj(s, child, c);
 		}
 	}
 	return vCount;

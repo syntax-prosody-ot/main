@@ -47,25 +47,29 @@ window.addEventListener("load", function(){
 	document.getElementById("results-container").innerHTML=report.join("<br>");
 });
 //logreport(" - violations of equalSistersAdj: 2 expected, "+equalSistersAdj(unequalSisters1)+" actual violations");
-//logreport(" - violations of equalSistersAdj: 2 expected, "+equalSistersAdj(0, unequalSisters1, 0)+" actual violations");
+//logreport(" - violations of equalSistersAdj: 2 expected, "+equalSistersAdj(null, unequalSisters1)+" actual violations");
+
 
 logreport("Running matchSP(sTreeCoord, pTreeA, 'clause') - Should be 0 violations.");
 logreport(matchSP(sTreeCoord, pTreeA, "clause"));
 logreport("Running equalSistersAdj(sTreeCoord, pTreeA, 'clause'): 0 expected");
-logreport(equalSistersAdj(pTreeA)+" actual violations");
+logreport(equalSistersAdj(sTreeCoord, pTreeA, 'clause')+" actual violations");
 logreport("");
 
 logreport("Running matchSP(sTreeCoord, pTreeB, 'clause') - Should be 2 violations (even though Myrberg has a typo & says 1 violation).");
 logreport(matchSP(sTreeCoord, pTreeB, "clause"));
 logreport("Running equalSistersAdj(sTreeCoord, pTreeB, 'clause'): 0 expected");
-logreport(equalSistersAdj(pTreeB)+" actual violations");
+logreport(equalSistersAdj(sTreeCoord, pTreeB, 'clause')+" actual violations");
 logreport("");
 
 logreport("Running matchSP(sTreeCoord, pTreeC, 'clause') - Should be 1 violations.");
 logreport(matchSP(sTreeCoord, pTreeC, "clause"));
 logreport("Running equalSistersAdj(sTreeCoord, pTreeC, 'clause'): 1 expected");
-logreport(equalSistersAdj(pTreeC)+" actual violations");
+logreport(equalSistersAdj(sTreeCoord, pTreeC, 'clause')+" actual violations");
 logreport("");
+
+
+
 /*
 logreport("Running matchSP(syntree1, prostree1, 'xp') - Should be 0 violations.");
 logreport("Violations: " +matchSP(syntree1, prostree1, "xp"));
