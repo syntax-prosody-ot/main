@@ -17,7 +17,8 @@ function makeTableau(candidateSet, constraintSet){
 		var violations = [candidate + ''];
 		for(var j = 0; j < constraintSet.length; j++){
 			var constraintAndCat = constraintSet[j].split('-');
-			violations.push(runConstraint(constraintAndCat[0], candidate[0], candidate[1], constraintAndCat[1]));
+			violations.push(runConstraint(constraintAndCat[0], candidate[0], candidate[1], constraintAndCat[1], null));
+			++segmentId;
 		}
 		tableau.push(violations);
 	}

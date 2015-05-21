@@ -40,33 +40,52 @@
 	}
 	.tableau .candidate {
 		font-weight: bold;
-	} 
+	}
+	
+	.segment-hidden {
+		display: none !important;
+	}
 </style>
 
 <script>
+var segmentId = 0, revealedSegmentId = 0;
+
+
 var logLines = [];
 function logreport(line){
-	logLines.push(['<span class="report-line">', line, '</span>'].join(''));
+	logLines.push(['<span class="report-line segment-hidden segment-', segmentId, '">', line, '<br></span>'].join(''));
+	flushLog();
 }
 
 var logContainer;
 function flushLog() {
 	if (logContainer) {
-		logContainer.innerHTML += logLines.join("<br>");
+		logContainer.innerHTML += logLines.join('');
 		logLines = [];
+	} else {
+		console.error('Tried to flush log before window loaded.');
 	}
 }
 
-var tableauContent, tableauContainer, tableauTextarea;
-function refreshTableau() {
+var tableauContainer, tableauTextarea;
+function writeTableau(tableauContent) {
 	if (tableauContainer && tableauTextarea) {
+		tableauContainer.className += ' segment-hidden segment-' + segmentId;
+		onRevealSegment[segmentId] = function() {
+			tableauTextarea.focus();
+			tableauTextarea.select();
+			console.log('eh?');
+		}
 		var csvVal = tableauTextarea.value = tableauToCsv(tableauContent, '\t') || '';
 		htmlTableauContainer.innerHTML = tableauToHtml(tableauContent);
-		tableauContainer.style.display = csvVal ? 'block' : 'none';
+		tableauContainer.style.display = 'block';
+		/*tableauContainer.style.display = csvVal ? 'block' : 'none';
 		if (csvVal) {
 			tableauTextarea.focus();
 			tableauTextarea.select();
-		}
+		}*/
+	} else {
+		console.error('Tried to write tableau before window loaded.');
 	}
 }
 
@@ -75,14 +94,31 @@ window.addEventListener('load', function(){
 	tableauContainer = document.getElementById('tableau-container');
 	tableauTextarea = document.getElementById('tableau-textarea');
 	
-	flushLog();
-	refreshTableau();
+	runDemo();
+});
+
+
+var onRevealSegment = {};
+
+function revealSegment(sid) {
+	var segmentClass = 'segment-' + sid;
+	var elements = document.getElementsByClassName(segmentClass);
+	for (var i = 0; i < elements.length; i++)
+		elements[i].className = elements[i].className.replace('segment-hidden', '');
+	if (onRevealSegment[sid])
+		onRevealSegment[sid]();
+	window.scrollTo(0, document.body.scrollHeight);
+}
+
+document.addEventListener('keyup', function(event) {
+	if (event.keyCode === 32)
+		revealSegment(revealedSegmentId++);
 });
 
 function runConstraint(constraint, sname, pname, cat, expectedViolations) {
 	logreport(['<span class="main-report-line">Running ', constraint, '(', (cat || ''), ') on (', sname, ', ', pname, ')', (expectedViolations == null) ? '' : [' - Expected Violations: <span class="expected-violation-count">', expectedViolations, '</span>'].join(''), '</span>'].join(''));
 	var violationCount = window[constraint](window[sname], window[pname], cat);
-	logreport('<span class="main-report-line" style="background-color: white">Actual Violations: <span class="actual-violation-count">' + violationCount + '</span></span><br/><br/>');
+	logreport(['<span class="main-report-line" style="background-color: white">Actual Violations: <span class="actual-violation-count">', violationCount, '</span></span><br/><br/>'].join(''));
 	return violationCount;
 }
 </script>
@@ -152,8 +188,9 @@ logreport("");
 //runConstraint('matchPS', 'syntree0', 'prostree0', 'phi', 3);
 //runConstraint('matchSP', 'syntree0', 'prostree0', 'xp');
 
-tableauContent = makeTableau([['syntree0','prostree0'], ['syntree1','prostree1']], ['matchSP-xp', 'matchPS-phi']);
-//refreshTableau();
+function runDemo() {
+	writeTableau(makeTableau([['syntree0','prostree0'], ['syntree1','prostree1']], ['matchSP-xp', 'matchPS-phi']));
+}
 
 
 /*
