@@ -10,12 +10,14 @@ var categoryPairings = {
 
 //Evaluates whether two nodes have corresponding categories.
 function catsMatch(aCat, bCat){
-	if(categoryPairings.hasOwnProperty(aCat))
+	if(aCat === undefined && bCat === undefined)
+		return true;	//vacuously true if both nodes are leaves (with no category)
+	else if(categoryPairings.hasOwnProperty(aCat))
 		return categoryPairings[aCat] === bCat;
 	else if(categoryPairings.hasOwnProperty(bCat))
 		return categoryPairings[bCat] === aCat;
 	else
-		throw new Error("Neither "+pCat +" nor "+aCat+" is a valid syntactic category");
+		throw new Error("Neither "+bCat +" nor "+aCat+" is a valid syntactic category");
 }
 
 

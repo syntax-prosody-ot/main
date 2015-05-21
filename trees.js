@@ -5,16 +5,17 @@
 //An example of a prosodic tree
 var prostree0 = {
 	"id": "phi0",
+	"cat":"phi",
 	"children": [
 		{
 			"id":"phi1",
 			"cat": "phi",
-			"children":[{"id":"w1"}]
+			"children":[{"id":"w1", "cat":"w"}]
 		},
 		{
 			"id":"phi2",
 			"cat":"phi",
-			"children":[{"id":"w2"},{"id":"w3"}]
+			"children":[{"id":"w2", "cat":"w"},{"id":"w3", "cat":"w"}]
 		}
 	]
 };
@@ -26,8 +27,8 @@ var syntree0 = {
 	"children": [
 		{
 			"id":"TP", 
-			"cat":"sp",
-			"children":[{"id":"NP"}, {"id":"VP"}]
+			"cat":"xp",
+			"children":[{"id":"NP", "cat":"x0"}, {"id":"VP", "cat":"x0"}]
 		}
 	]
 };

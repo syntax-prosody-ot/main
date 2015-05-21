@@ -49,7 +49,7 @@ window.addEventListener("load", function(){
 //logreport(" - violations of equalSistersAdj: 2 expected, "+equalSistersAdj(unequalSisters1)+" actual violations");
 //logreport(" - violations of equalSistersAdj: 2 expected, "+equalSistersAdj(null, unequalSisters1)+" actual violations");
 
-
+/*
 logreport("Running matchSP(sTreeCoord, pTreeA, 'clause') - Should be 0 violations.");
 logreport(matchSP(sTreeCoord, pTreeA, "clause"));
 logreport("Running equalSistersAdj(sTreeCoord, pTreeA, 'clause'): 0 expected");
@@ -68,21 +68,20 @@ logreport("Running equalSistersAdj(sTreeCoord, pTreeC, 'clause'): 1 expected");
 logreport(equalSistersAdj(sTreeCoord, pTreeC, 'clause')+" actual violations");
 logreport("");
 
+*/
 
 
+logreport("Running matchPS(syntree0, prostree0, 'phi') - Should be 3 violations.");
+logreport("Violations: " +matchPS(syntree0, prostree0, "phi"));
 /*
-logreport("Running matchSP(syntree1, prostree1, 'xp') - Should be 0 violations.");
-logreport("Violations: " +matchSP(syntree1, prostree1, "xp"));
 logreport("");
-logreport("Running matchSP(syntree1, prostree2, 'xp') - Should be 2 violations.");
-logreport("Violations: " +matchSP(syntree1, prostree2, "xp"));
+logreport("Running matchSP(syntree0, prostree2, 'xp') - Should be 2 violations.");
+logreport("Violations: " +matchSP(syntree1, prostree0, "xp"));
 
 
 logreport("Running 3 versions of EqualSisters on unequalSisters1");
 logreport(" - violations of equalSistersFirstPrivilege: 1 expected, "+equalSistersFirstPrivilege(0, unequalSisters1, 0)+" actual violations");
 logreport(" - violations of equalSistersPairwise: 2 expected, "+equalSistersPairwise(unequalSisters1)+" actual violations");
-
-
 
 logreport("Running 3 versions of EqualSisters on unequalSisters2");
 logreport(" - violations of equalSistersFirstPrivilege: 2 expected, "+equalSistersFirstPrivilege(unequalSisters2)+" actual violations");
@@ -94,12 +93,6 @@ logreport(" - violations of equalSistersFirstPrivilege: 2 expected, "+equalSiste
 logreport(" - violations of equalSistersPairwise: 4 expected, "+equalSistersPairwise(unequalSisters3)+" actual violations");
 logreport(" - violations of equalSistersAdj: 3 expected, "+equalSistersAdj(unequalSisters3)+" actual violations");
 
-console.log("running match(syntree1, prostree1)");
-console.log(matchSP(syntree1, prostree1));
-console.log("running match(syntree1, prostree2)");
-console.log(matchSP(syntree1, prostree2));
-console.log("running match(syntree1, prostree3)");
-console.log(matchSP(syntree1, prostree3));
 */
 
 </script>
