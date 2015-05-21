@@ -11,6 +11,7 @@ function logreport(line){
 </script>
 
 <script src="trees.js"></script>
+<script src="MyrbergTrees.js"></script>
 
 <script src="constraints.js"></script>
 
@@ -45,17 +46,39 @@ window.addEventListener("load", function(){
 	console.log(report);
 	document.getElementById("results-container").innerHTML=report.join("<br>");
 });
+//logreport(" - violations of equalSistersAdj: 2 expected, "+equalSistersAdj(unequalSisters1)+" actual violations");
+//logreport(" - violations of equalSistersAdj: 2 expected, "+equalSistersAdj(0, unequalSisters1, 0)+" actual violations");
 
+logreport("Running matchSP(sTreeCoord, pTreeA, 'clause') - Should be 0 violations.");
+logreport(matchSP(sTreeCoord, pTreeA, "clause"));
+logreport("Running equalSistersAdj(sTreeCoord, pTreeA, 'clause'): 0 expected");
+logreport(equalSistersAdj(pTreeA)+" actual violations");
+logreport("");
+
+logreport("Running matchSP(sTreeCoord, pTreeB, 'clause') - Should be 2 violations (even though Myrberg has a typo & says 1 violation).");
+logreport(matchSP(sTreeCoord, pTreeB, "clause"));
+logreport("Running equalSistersAdj(sTreeCoord, pTreeB, 'clause'): 0 expected");
+logreport(equalSistersAdj(pTreeB)+" actual violations");
+logreport("");
+
+logreport("Running matchSP(sTreeCoord, pTreeC, 'clause') - Should be 1 violations.");
+logreport(matchSP(sTreeCoord, pTreeC, "clause"));
+logreport("Running equalSistersAdj(sTreeCoord, pTreeC, 'clause'): 1 expected");
+logreport(equalSistersAdj(pTreeC)+" actual violations");
+logreport("");
+/*
 logreport("Running matchSP(syntree1, prostree1, 'xp') - Should be 0 violations.");
 logreport("Violations: " +matchSP(syntree1, prostree1, "xp"));
 logreport("");
 logreport("Running matchSP(syntree1, prostree2, 'xp') - Should be 2 violations.");
 logreport("Violations: " +matchSP(syntree1, prostree2, "xp"));
 
+
 logreport("Running 3 versions of EqualSisters on unequalSisters1");
-logreport(" - violations of equalSistersFirstPrivilege: 1 expected, "+equalSistersFirstPrivilege(unequalSisters1)+" actual violations");
+logreport(" - violations of equalSistersFirstPrivilege: 1 expected, "+equalSistersFirstPrivilege(0, unequalSisters1, 0)+" actual violations");
 logreport(" - violations of equalSistersPairwise: 2 expected, "+equalSistersPairwise(unequalSisters1)+" actual violations");
-logreport(" - violations of equalSistersAdj: 2 expected, "+equalSistersAdj(unequalSisters1)+" actual violations");
+
+
 
 logreport("Running 3 versions of EqualSisters on unequalSisters2");
 logreport(" - violations of equalSistersFirstPrivilege: 2 expected, "+equalSistersFirstPrivilege(unequalSisters2)+" actual violations");
@@ -67,7 +90,7 @@ logreport(" - violations of equalSistersFirstPrivilege: 2 expected, "+equalSiste
 logreport(" - violations of equalSistersPairwise: 4 expected, "+equalSistersPairwise(unequalSisters3)+" actual violations");
 logreport(" - violations of equalSistersAdj: 3 expected, "+equalSistersAdj(unequalSisters3)+" actual violations");
 
-/*console.log("running match(syntree1, prostree1)");
+console.log("running match(syntree1, prostree1)");
 console.log(matchSP(syntree1, prostree1));
 console.log("running match(syntree1, prostree2)");
 console.log(matchSP(syntree1, prostree2));

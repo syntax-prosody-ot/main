@@ -61,7 +61,8 @@ TODO does the degree of prosodic inequality make a difference to the severity of
 //EqualSisters: looks at the category of the first sister, and assigns a violation for every one of its sisters that doesn't share its category
 //A definition probably no one wants but which is not ruled out by the "definitions" that appear in papers
 //Markedness only -- just looks at prosody
-function equalSistersFirstPrivilege(parent){
+//s and c are just there to fill out the argument structure for tableau-izing purposes.
+function equalSistersFirstPrivilege(s, parent, c){
 	var vCount = 0;
 	if(parent.children && parent.children.length)
 	//pTree is non-terminal
@@ -71,7 +72,7 @@ function equalSistersFirstPrivilege(parent){
 			var child = parent.children[i];
 			if(child.cat != cat1)
 				vCount++;
-			vCount += equalSistersFirstPrivilege(child);
+			vCount += equalSistersFirstPrivilege(s, child, c);
 		}
 	}
 	return vCount;
@@ -80,7 +81,8 @@ function equalSistersFirstPrivilege(parent){
 //EqualSisters: assigns a violation for every (unordered) pair of sisters whose categories don't match
 //Probably no one wants this version, either. Predicts "majority rules" effects.
 //Markedness only -- just looks at prosody
-function equalSistersPairwise(parent){
+//s and c are just there to fill out the argument structure for tableau-izing purposes.
+function equalSistersPairwise(s, parent, c){
 	var vCount = 0;
 	if(parent.children && parent.children.length)
 	//pTree is non-terminal
@@ -93,7 +95,7 @@ function equalSistersPairwise(parent){
 				if(child.cat != sister.cat)
 					vCount++;
 			}
-			vCount += equalSistersPairwise(child);
+			vCount += equalSistersPairwise(s, child, c);
 		}
 	}
 	return vCount;
@@ -102,11 +104,13 @@ function equalSistersPairwise(parent){
 //EqualSisters: assigns a violation for every pair of adjacent sister nodes that are not of the same prosodic category
 //This is probably the version that actually makes sense.
 //Markedness only -- just looks at prosody
+//s and c are just there to fill out the argument structure for tableau-izing purposes.
 function equalSistersAdj(parent){
 	var vCount = 0;
 	if(parent.children && parent.children.length)
 	//pTree is non-terminal
 	{
+		logreport("\tchecking equality of children of "+parent.id);
 		for(var i=0; i < parent.children.length; i++){
 			var child = parent.children[i];
 			if(i<parent.children.length-1)
