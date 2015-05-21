@@ -1,12 +1,43 @@
 <html>
 <head><title>Syntax prosody interface application</title></head>
 
-<body> <pre id="results-container">Look at the console!</pre>
+<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px"> <h2>Syntax prosody interface application</h2><pre id="results-container">Look at the console!</pre>
+
+<style>
+	.report-line {
+		font-size: 14px;
+		line-height: 110%;
+	}
+	.main-report-line {
+		font-weight: bold;
+		line-height: 180%;
+		background-color: #ccc;
+		color: green;
+		border-radius: 5px;
+		border: 1px solid gray;
+		padding-left: 5px;
+		padding-right: 5px;
+		padding-top: 2px;
+		padding-bottom: 2px;
+	}
+	.expected-violation-count, .actual-violation-count {
+		color: red;
+	}
+</style>
 
 <script>
 var report = [];
 function logreport(line){
-	report.push(line);
+	report.push(['<span class="report-line">', line, '</span>'].join(''));
+}
+
+window.addEventListener("load", function(){
+	document.getElementById("results-container").innerHTML=report.join("<br>");
+});
+
+function runConstraint(constraint, sname, pname, cat, expectedViolations) {
+	logreport(['<span class="main-report-line">Running ', constraint, '(', (cat || ''), ') on (', sname, ', ', pname, ')', (expectedViolations == null) ? '' : [' - Expected Violations: <span class="expected-violation-count">', expectedViolations, '</span>'].join(''), '</span>'].join(''));
+	logreport('<span class="main-report-line" style="background-color: white">Actual Violations: <span class="actual-violation-count">' +window[constraint](window[sname], window[pname], cat) + '</span></span><br/><br/>');
 }
 </script>
 
@@ -42,10 +73,6 @@ console.log("Should be false: running hasMatch(getLeaves(syntree1.children[0]), 
 console.log(hasMatch(getLeaves(syntree1.children[0]), prostree2));
 */
 
-window.addEventListener("load", function(){
-	console.log(report);
-	document.getElementById("results-container").innerHTML=report.join("<br>");
-});
 //logreport(" - violations of equalSistersAdj: 2 expected, "+equalSistersAdj(unequalSisters1)+" actual violations");
 //logreport(" - violations of equalSistersAdj: 2 expected, "+equalSistersAdj(null, unequalSisters1)+" actual violations");
 
@@ -71,8 +98,12 @@ logreport("");
 */
 
 
-logreport("Running matchPS(syntree0, prostree0, 'phi') - Should be 3 violations.");
-logreport("Violations: " +matchPS(syntree0, prostree0, "phi"));
+//logreport("Running matchPS(syntree0, prostree0, 'phi') - Should be 3 violations.");
+//logreport("Violations: " +matchPS(syntree0, prostree0, "phi"));
+
+runConstraint('matchPS', 'syntree0', 'prostree0', 'phi', 3);
+runConstraint('matchSP', 'syntree0', 'prostree0', 'xp');
+
 /*
 logreport("");
 logreport("Running matchSP(syntree0, prostree2, 'xp') - Should be 2 violations.");
