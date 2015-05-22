@@ -60,7 +60,9 @@ function logreport(line){
 var logContainer;
 function flushLog() {
 	if (logContainer) {
-		logContainer.innerHTML += logLines.join('');
+		var fragment = document.createElement('div');
+		fragment.innerHTML = logLines.join('');
+		logContainer.appendChild(fragment);
 		logLines = [];
 	} else {
 		console.error('Tried to flush log before window loaded.');
@@ -74,7 +76,6 @@ function writeTableau(tableauContent) {
 		onRevealSegment[segmentId] = function() {
 			tableauTextarea.focus();
 			tableauTextarea.select();
-			console.log('eh?');
 		}
 		var csvVal = tableauTextarea.value = tableauToCsv(tableauContent, '\t') || '';
 		htmlTableauContainer.innerHTML = tableauToHtml(tableauContent);
