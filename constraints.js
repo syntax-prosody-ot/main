@@ -17,7 +17,10 @@ function catsMatch(aCat, bCat){
 	else if(categoryPairings.hasOwnProperty(bCat))
 		return categoryPairings[bCat] === aCat;
 	else
-		throw new Error("Neither "+bCat +" nor "+aCat+" is a valid syntactic category");
+	{
+		console.warn("Neither argument to catsMatch was a valid syntactic category:", aCat, bCat);	//TODO this gives a false positive warning every time Match PS runs on a tree whose leaves don't have categories.
+		return false;
+	}
 }
 
 
@@ -76,7 +79,10 @@ function equalSistersFirstPrivilege(s, parent, c){
 		for(var i=0; i < parent.children.length; i++){
 			var child = parent.children[i];
 			if(child.cat != cat1)
+			{
+				logreport.debug("\tVIOLATION: "+child.id+" and "+parent.children[0].id+" are unequal.");
 				vCount++;
+			}
 			vCount += equalSistersFirstPrivilege(s, child, c);
 		}
 	}
@@ -98,7 +104,10 @@ function equalSistersPairwise(s, parent, c){
 			for(var j=i; j < sisters.length; j++){
 				var sister = sisters[j];
 				if(child.cat != sister.cat)
+				{
+					logreport.debug("\tVIOLATION: "+child.id+" and "+sister.id+" are unequal.");
 					vCount++;
+				}
 			}
 			vCount += equalSistersPairwise(s, child, c);
 		}
@@ -122,7 +131,10 @@ function equalSistersAdj(s, parent, c){
 			{
 				var sister = parent.children[i+1];
 				if(child.cat != sister.cat)
+				{
+					logreport.debug("\tVIOLATION: "+child.id+" and "+sister.id+" are unequal.");
 					vCount++;
+				}
 			}
 			vCount += equalSistersAdj(s, child, c);
 		}

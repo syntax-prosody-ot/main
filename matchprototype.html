@@ -163,10 +163,13 @@ function runConstraint(constraint, sname, pname, cat, expectedViolations) {
 
 
 function runDemo() {
-	writeTableau(makeTableau([['syntree0','prostree0'], ['syntree1','prostree1']], ['matchSP-xp', 'matchPS-phi']));
+	writeTableau(makeTableau([['sTreeCoord','pTreeA'], ['sTreeCoord','pTreeB'], ['sTreeCoord','pTreeC']], ['equalSistersAdj','matchSP-clause', 'matchPS-i']));
 	lastSegmentId++;
 	logreport('<br><hr>');
-	writeTableau(makeTableau([['syntree1','prostree2'], ['syntree1','prostree3']], ['matchSP-xp', 'matchPS-phi']));
+	writeTableau(makeTableau([['sTreeEmbed','pTreeA'], ['sTreeEmbed','pTreeB'], ['sTreeEmbed','pTreeC']], ['equalSistersAdj','matchSP-clause', 'matchPS-i']));
+	lastSegmentId++;
+	logreport('<br><hr>');
+	writeTableau(makeTableau([[null, 'unequalSisters1'], [null, 'unequalSisters2'], [null, 'unequalSisters3']], ['equalSistersAdj', 'equalSistersFirstPrivilege', 'equalSistersPairwise']));
 	lastSegmentId++;
 }
 
