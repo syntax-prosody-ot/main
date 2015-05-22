@@ -3,13 +3,7 @@
 
 <body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
 	<h2>Syntax prosody interface application</h2>
-	<pre id="log-container"></pre>
-	<div style="display: none" id="tableau-container">
-		<h4 style="margin-bottom: 5px">Tableau</h4>
-		<div id="htmlTableauContainer"></div>
-		<strong>For copying and pasting into OTWorkplace:</strong>
-		<textarea style="display: inline-block; width:30em; height:3em; font-size: 8px" id="tableau-textarea"></textarea>
-	</div>
+	<pre id="results-container"></pre>
 
 <style>
 	.report-line {
@@ -34,9 +28,16 @@
 	
 	.tableau {
 		border-collapse: collapse;
+		margin-bottom: 20px;
 	}
 	.tableau, .tableau th, .tableau td, .tableau {
 		border: 1px solid black;
+	}
+	.tableau th, .tableau td {
+		padding: 4px;
+	}
+	.tableau td {
+		text-align: right;
 	}
 	.tableau .candidate {
 		font-weight: bold;
@@ -45,55 +46,77 @@
 	.segment-hidden {
 		display: none !important;
 	}
+	.tableau-textarea {
+		display: inline-block;
+		width: 30em;
+		height: 3em;
+		font-size: 8px;
+	}
 </style>
 
 <script>
-var segmentId = 0, revealedSegmentId = 0;
+var lastSegmentId = 0, nextSegmentToReveal = 0;
 
 
 var logLines = [];
 function logreport(line){
-	logLines.push(['<span class="report-line segment-hidden segment-', segmentId, '">', line, '<br></span>'].join(''));
+	logLines.push(['<span class="report-line segment-', lastSegmentId, (lastSegmentId >= nextSegmentToReveal) ? ' segment-hidden' : '', '">', line, '<br></span>'].join(''));
 	flushLog();
 }
+logreport.debug = function() {
+	if (logreport.debug.on)
+		return logreport.call(this, Array.prototype.slice.call(arguments));
+}
+logreport.debug.on = true;
 
-var logContainer;
+var resultsContainer;
 function flushLog() {
-	if (logContainer) {
+	if (resultsContainer) {
 		var fragment = document.createElement('div');
 		fragment.innerHTML = logLines.join('');
-		logContainer.appendChild(fragment);
+		resultsContainer.appendChild(fragment);
 		logLines = [];
 	} else {
 		console.error('Tried to flush log before window loaded.');
 	}
 }
 
-var tableauContainer, tableauTextarea;
 function writeTableau(tableauContent) {
-	if (tableauContainer && tableauTextarea) {
-		tableauContainer.className += ' segment-hidden segment-' + segmentId;
-		onRevealSegment[segmentId] = function() {
-			tableauTextarea.focus();
-			tableauTextarea.select();
-		}
-		var csvVal = tableauTextarea.value = tableauToCsv(tableauContent, '\t') || '';
+	if (resultsContainer) {
+		var tableauContainer = document.createElement('div');
+		
+		tableauContainer.innerHTML =  '<h3 style="margin-bottom: 5px">Tableau</h3>';
+		
+		var htmlTableauContainer = document.createElement('div');
 		htmlTableauContainer.innerHTML = tableauToHtml(tableauContent);
-		tableauContainer.style.display = 'block';
-		/*tableauContainer.style.display = csvVal ? 'block' : 'none';
-		if (csvVal) {
-			tableauTextarea.focus();
-			tableauTextarea.select();
-		}*/
+		tableauContainer.appendChild(htmlTableauContainer);		
+		
+		var textareaNote = document.createElement('strong');
+		textareaNote.innerHTML = 'For copying and pasting into OTWorkplace: ';
+		tableauContainer.appendChild(textareaNote);
+		
+		var textarea = document.createElement('textarea');
+		textarea.className = 'tableau-textarea';
+		textarea.value = tableauToCsv(tableauContent, '\t');
+		textarea.readOnly = true;
+		tableauContainer.appendChild(textarea);
+		tableauContainer.className += ' segment-' + lastSegmentId;
+		if (lastSegmentId >= nextSegmentToReveal)
+			tableauContainer.className += ' segment-hidden';
+		onRevealSegment[lastSegmentId] = function() {
+			textarea.focus();
+			textarea.select();
+		}
+		
+		resultsContainer.appendChild(tableauContainer);
+		
 	} else {
 		console.error('Tried to write tableau before window loaded.');
 	}
 }
 
 window.addEventListener('load', function(){
-	logContainer = document.getElementById('log-container');
-	tableauContainer = document.getElementById('tableau-container');
-	tableauTextarea = document.getElementById('tableau-textarea');
+	resultsContainer = document.getElementById('results-container');
 	
 	runDemo();
 });
@@ -101,19 +124,24 @@ window.addEventListener('load', function(){
 
 var onRevealSegment = {};
 
-function revealSegment(sid) {
-	var segmentClass = 'segment-' + sid;
-	var elements = document.getElementsByClassName(segmentClass);
+function revealNextSegment() {
+	if (nextSegmentToReveal > lastSegmentId)
+		return;
+	var elements = document.getElementsByClassName('segment-' + nextSegmentToReveal);
 	for (var i = 0; i < elements.length; i++)
 		elements[i].className = elements[i].className.replace('segment-hidden', '');
-	if (onRevealSegment[sid])
-		onRevealSegment[sid]();
+
+	if (onRevealSegment[nextSegmentToReveal])
+		onRevealSegment[nextSegmentToReveal]();
+
 	window.scrollTo(0, document.body.scrollHeight);
+
+	nextSegmentToReveal++;
 }
 
 document.addEventListener('keyup', function(event) {
 	if (event.keyCode === 32)
-		revealSegment(revealedSegmentId++);
+		revealNextSegment();
 });
 
 function runConstraint(constraint, sname, pname, cat, expectedViolations) {
@@ -132,6 +160,19 @@ function runConstraint(constraint, sname, pname, cat, expectedViolations) {
 <script src="constraints.js"></script>
 
 <script>
+
+
+function runDemo() {
+	writeTableau(makeTableau([['syntree0','prostree0'], ['syntree1','prostree1']], ['matchSP-xp', 'matchPS-phi']));
+	lastSegmentId++;
+	logreport('<br><hr>');
+	writeTableau(makeTableau([['syntree1','prostree2'], ['syntree1','prostree3']], ['matchSP-xp', 'matchPS-phi']));
+	lastSegmentId++;
+}
+
+// Everything below is deprecated.
+
+
 /*******************
 * A bit of Javascript that allows us to see 
 * the output of this program in the browser's console 
@@ -188,10 +229,6 @@ logreport("");
 
 //runConstraint('matchPS', 'syntree0', 'prostree0', 'phi', 3);
 //runConstraint('matchSP', 'syntree0', 'prostree0', 'xp');
-
-function runDemo() {
-	writeTableau(makeTableau([['syntree0','prostree0'], ['syntree1','prostree1']], ['matchSP-xp', 'matchPS-phi']));
-}
 
 
 /*

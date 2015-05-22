@@ -115,7 +115,7 @@ function equalSistersAdj(s, parent, c){
 	if(parent.children && parent.children.length)
 	//pTree is non-terminal
 	{
-		logreport("\tchecking equality of children of "+parent.id);
+		logreport.debug("\tchecking equality of children of "+parent.id);
 		for(var i=0; i < parent.children.length; i++){
 			var child = parent.children[i];
 			if(i<parent.children.length-1)
@@ -195,12 +195,12 @@ function matchPS(sTree, pParent, pCat)
 {
 	return matchSP(pParent, sTree, pCat);
 /*	if(sParent.cat === sCat)
-		logreport("\tSeeking match for "+sParent.id + " in tree rooted in "+pTree.id);
+		logreport.debug("\tSeeking match for "+sParent.id + " in tree rooted in "+pTree.id);
 	var vcount = 0;
 	
 	if((sParent.cat === sCat) && !hasMatch(sParent, pTree)){
 		vcount++;
-		logreport("\tVIOLATION: "+sParent.id+" has no match!");
+		logreport.debug("\tVIOLATION: "+sParent.id+" has no match!");
 	} 
 		
 	if(sParent.children){	
@@ -224,12 +224,12 @@ function matchSP(sParent, pTree, sCat)
 //Assumes no null syntactic terminals.
 {
 	if(sParent.cat === sCat)
-		logreport("\tSeeking match for "+sParent.id + " in tree rooted in "+pTree.id);
+		logreport.debug("\tSeeking match for "+sParent.id + " in tree rooted in "+pTree.id);
 	var vcount = 0;
 	
 	if((sParent.cat === sCat) && !hasMatch(sParent, pTree)){
 		vcount++;
-		logreport("\tVIOLATION: "+sParent.id+" has no match!");
+		logreport.debug("\tVIOLATION: "+sParent.id+" has no match!");
 	} 
 		
 	if(sParent.children){	
@@ -254,7 +254,7 @@ function hasMatch(sNode, pTree)
 	if(catsMatch(sNode.cat, pTree.cat) && sameIds(getLeaves(pTree), sLeaves))
 	// the current prosodic node is the match, both for category and for terminals
 	{
-		logreport("\tMatch found: "+pTree.id);
+		logreport.debug("\tMatch found: "+pTree.id);
 		return true;
 	}
 	
