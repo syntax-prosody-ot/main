@@ -1,0 +1,85 @@
+SPOT
+====
+
+SPOT (Syntax-Prosody in Optimality Theory) is a JavaScript-based application for linguists who are studying the syntax-prosody interface in the theoretical framework of Optimality Theory (Prince and Smolensky 1993). The goal of SPOT is to do for work on the syntax-prosody interface what OTWorkplace already does for metrical phonology -- to enable rigorous theoretical work, particularly typological investigations and theory comparison. 
+
+Features
+--------
+* automatic violation counting: for all constraints in the SPOT system
+* automatic candidate generation: exhaustive generation of all prosodic trees with a given number of terminals [coming soon]
+* easy interface with OTWorkplace: SPOT outputs .csv files that can be pasted into OTWorkplace, so as to take advantage of the typology, optima finding, and constraint ranking tools available there.
+
+All the code for SPOT is available on Github: https://github.com/syntax-prosody-ot/main
+
+FAQs
+----
+[coming soon]
+
+INSTALLING
+----------
+If you already have a web-browser that lets you view most websites without any problems, you almost certainly already have JavaScript and don't need to install anything in order to use SPOT. Just download all the files in https://github.com/syntax-prosody-ot/main. To use SPOT, open the html file with the browser of your choice (Chrome, Mozilla Firefox, Safari, etc -- may not work in older versions of Internet Explorer).
+
+
+INTERFACE
+----------
+The current interface consists of html output to the browser, based on calls to the function writeTableau(makeTableau([candidate set], [constraint set])) in runDemo. 
+
+For example:
+
+	writeTableau(makeTableau([['sTreeCoord','pTreeA'], ['sTreeCoord','pTreeB'], ['sTreeCoord','pTreeC']], ['equalSistersAdj','matchSP-clause', 'matchPS-i']));
+
+has the constraint set: equalSistersAdj, matchSP(clause), matchPS(i)
+and the candidate set: [['sTreeCoord','pTreeA'], ['sTreeCoord','pTreeB'], ['sTreeCoord','pTreeC']]
+The functions writeTableau and makeTableau are defined in tableauMaker.js.
+
+Note that candidates consist of pairs of trees, the first being the input syntactic tree (such as sTreeCoord in the first candidate) and the second being the output candidate prosodic tree (pTreeA in the first candidate). Therefore the array of cnadidates is an array of pairs, that is, an array of arrays. Each array is deliminated with [].
+
+The output to the browser comes in three forms, in the following order:
+
+* output from each cell of the tableau (row by row, left to right), consisting of the following:
+	* the constraint and the candidate it was called on, plus the number of expected violations if you enter this number (useful for testing purposes)
+	* processing info. from the constraint, expressing the function's progress through the trees and where violations are found.
+	* the output: number of violations actually found
+* a visual representation of the tableau in traditional OT format (but without any selection of optima)
+* a tab-separated .csv file which can be copied and pasted into OTWorkplace
+
+In order to run your desired candidate set and constraint set, you'll need to make sure that both the trees you're interested in and the constraints you want to use are in the JavaScript (.js) files. Then go into the function runDemo() in the .html file, and add these lines for your candidate set and constraint set:
+
+	writeTableau(makeTableau([yourInputOutputCandidatesHere], [yourConstraintsHere]]))
+	lastSegmentId++;
+	logreport('<br><hr>');
+
+TREES
+-----
+Trees can be entered in the trees.js file. Or you can create an additional .js file and load it into the .html file using script tags.
+
+For example: 
+
+	<script src="trees.js"></script> 
+
+loads the trees.js file. 
+
+	<script src="myTrees.js"></script>
+	
+will load the file myTrees.js (which you could create). Make sure to put this in the same folder as the matchprototype.html file so it's accessible.
+
+Sample trees can be seen in the trees.js file. The boundaries of each node are represented with {}. 
+
+Every non-terminal node must have the attributes 
+* "id": a string of your choice representing the syntactic or prosodic label of the node (for ease of reference). Avoid giving multiple nodes in your tree the same id because SPOT currently assumes ids are unique but doesn't sanitize the input to ensure uniqueness.
+* "cat": a string representing the syntactic or prosodic category of the node. Must be one of the categories in the array being used for category-pairings, otherwise Match functions will not work properly. Currently only one set of categories is available; it's defined at the top of constraints.js in the array named categoryPairings.
+* "children": an array [] of child nodes, ordered left to right. Each node is an object and so should be contained in {}, and have the attributes id, cat and children (if non-terminal).
+
+Terminal nodes need only have "id" defined, but it's a good idea to also define their categories (cat) since error handling for lack of category definition is not entirely reliable at present.
+
+CONSTRAINTS
+-----------
+Currently all constraints are defined in the file constraints.js. Each constraint is a function. Uniform argument strucutre must be maintained across all constraints so that makeTableau will work.
+
+Every constraint is going to be a recursive function, since it needs to traverse the whole tree (possibly two trees, for interface constraints).
+
+
+TROUBLE-SHOOTING
+----------------
+If things aren't working as expected, the first step is to check the JavaScript console and see if the program has crashed somewhere. Go into your browser's menu and display the JavaScript console. It may be under Tools, View > Developer Tools, ...
+
