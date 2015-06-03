@@ -17,7 +17,8 @@ function parenthesizeTree(tree){
 				parTree.push(')');
 		}
 		else if(node.cat==='w')
-			parTree.push(node.id.split('_')[0]);
+			parTree.push(node.id);
+		//	parTree.push(node.id.split('_')[0]);
 	}
 	
 	processNode(tree);

@@ -151,3 +151,27 @@ var unequalSisters3 = {
 	]
 };
 
+var kinyamboSTree1 = {
+	"id": "matrixCP",
+	"cat": "clause",
+	"children": [
+		{id: "vp", cat: "xp", children: [{id:"showed_0", cat: "x0"}]},
+		{"id": "np1", cat: "xp", children: [{id:"workers_1", cat: "x0"}]},
+		{id: "np2", cat: "xp", children: [{id: "dog_2", cat: "x0"}]}
+		]
+};
+
+var kinyamboSTree2 = {
+	"id": "matrixCP",
+	"cat": "clause",
+	"children": [
+		{id: "vp", cat: "xp", children: [{id:"showed_", cat: "x0"}]},
+		{"id": "np1", cat: "xp", children: 
+			[	{id:"chief", cat:"x0"},
+				{id:"of-workers", cat: "x0"}
+			]
+		},
+		{id: "np2", cat: "xp", children: [{id: "dog", cat: "x0"}]}
+	]
+};
+

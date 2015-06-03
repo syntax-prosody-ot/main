@@ -172,9 +172,10 @@ function runConstraint(constraint, sname, pname, cat, expectedViolations) {
 <script src="treeFormatting.js"></script>
 <script>
 
-var candidateSet3 = GEN('syntree1', "showed workers dog");
+var candidateSet3 = GEN('kinyamboSTree1', "showed workers dog");
 console.log(candidateSet3);
-var candidateSet4 = GEN('syntree1', "showed chief of-workers dog");
+var candidateSet4 = GEN('kinyamboSTree2', "showed chief of-workers dog");
+var constraintSet1 = ['equalSistersAdj','matchSP-xp', 'matchPS-phi']
 
 function runDemo() {
 	/*writeTableau(makeTableau([['sTreeCoord','pTreeA'], ['sTreeCoord','pTreeB'], ['sTreeCoord','pTreeC']], ['equalSistersAdj','matchSP-clause', 'matchPS-i']));
@@ -185,10 +186,10 @@ function runDemo() {
 	logreport('<br><hr>');
 	writeTableau(makeTableau([[null, 'unequalSisters1'], [null, 'unequalSisters2'], [null, 'unequalSisters3']], ['equalSistersAdj', 'equalSistersFirstPrivilege', 'equalSistersPairwise']));
 	lastSegmentId++;*/
-	writeTableau(makeTableau(candidateSet3, ['equalSistersAdj','matchSP-clause', 'matchPS-i']));
+	writeTableau(makeTableau(candidateSet3, constraintSet1));
 	revealNextSegment();
 	lastSegmentId++;
-	writeTableau(makeTableau(candidateSet4, ['equalSistersAdj','matchSP-clause', 'matchPS-i']));
+	writeTableau(makeTableau(candidateSet4, constraintSet1));
 }
 
 // Everything below is deprecated.
