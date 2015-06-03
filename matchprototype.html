@@ -36,6 +36,10 @@
 	.tableau th, .tableau td {
 		padding: 4px;
 	}
+	.tableau th {
+		font-style: italic;
+		background-color: #ddd;
+	}
 	.tableau td {
 		text-align: right;
 	}
@@ -134,7 +138,7 @@ function revealNextSegment() {
 	if (onRevealSegment[nextSegmentToReveal])
 		onRevealSegment[nextSegmentToReveal]();
 
-	window.scrollTo(0, document.body.scrollHeight);
+	// window.scrollTo(0, document.body.scrollHeight); //TODO: scroll to top of last segment, not bottom
 
 	nextSegmentToReveal++;
 }
@@ -144,9 +148,14 @@ document.addEventListener('keyup', function(event) {
 		revealNextSegment();
 });
 
+function globalNameOrDirect(nameOrObject) {
+	return (typeof nameOrObject === 'string') ? window[nameOrObject] : nameOrObject;
+}
+
 function runConstraint(constraint, sname, pname, cat, expectedViolations) {
-	logreport(['<span class="main-report-line">Running ', constraint, '(', (cat || ''), ') on (', sname, ', ', pname, ')', (expectedViolations == null) ? '' : [' - Expected Violations: <span class="expected-violation-count">', expectedViolations, '</span>'].join(''), '</span>'].join(''));
-	var violationCount = window[constraint](window[sname], window[pname], cat);
+	var pTree = globalNameOrDirect(pname);
+	logreport(['<span class="main-report-line">Running ', constraint, '(', (cat || ''), ') on (', sname, ', ', parenthesizeTree(pTree), ')', (expectedViolations == null) ? '' : [' - Expected Violations: <span class="expected-violation-count">', expectedViolations, '</span>'].join(''), '</span>'].join(''));
+	var violationCount = globalNameOrDirect(constraint)(globalNameOrDirect(sname), pTree, cat);
 	logreport(['<span class="main-report-line" style="background-color: white">Actual Violations: <span class="actual-violation-count">', violationCount, '</span></span><br/><br/>'].join(''));
 	return violationCount;
 }
@@ -159,18 +168,27 @@ function runConstraint(constraint, sname, pname, cat, expectedViolations) {
 
 <script src="constraints.js"></script>
 
+<script src="candidategenerator.js"></script>
+<script src="treeFormatting.js"></script>
 <script>
 
+var candidateSet3 = GEN('syntree1', "showed workers dog");
+console.log(candidateSet3);
+var candidateSet4 = GEN('syntree1', "showed chief of-workers dog");
 
 function runDemo() {
-	writeTableau(makeTableau([['sTreeCoord','pTreeA'], ['sTreeCoord','pTreeB'], ['sTreeCoord','pTreeC']], ['equalSistersAdj','matchSP-clause', 'matchPS-i']));
+	/*writeTableau(makeTableau([['sTreeCoord','pTreeA'], ['sTreeCoord','pTreeB'], ['sTreeCoord','pTreeC']], ['equalSistersAdj','matchSP-clause', 'matchPS-i']));
 	lastSegmentId++;
 	logreport('<br><hr>');
 	writeTableau(makeTableau([['sTreeEmbed','pTreeA'], ['sTreeEmbed','pTreeB'], ['sTreeEmbed','pTreeC']], ['equalSistersAdj','matchSP-clause', 'matchPS-i']));
 	lastSegmentId++;
 	logreport('<br><hr>');
 	writeTableau(makeTableau([[null, 'unequalSisters1'], [null, 'unequalSisters2'], [null, 'unequalSisters3']], ['equalSistersAdj', 'equalSistersFirstPrivilege', 'equalSistersPairwise']));
+	lastSegmentId++;*/
+	writeTableau(makeTableau(candidateSet3, ['equalSistersAdj','matchSP-clause', 'matchPS-i']));
+	revealNextSegment();
 	lastSegmentId++;
+	writeTableau(makeTableau(candidateSet4, ['equalSistersAdj','matchSP-clause', 'matchPS-i']));
 }
 
 // Everything below is deprecated.
