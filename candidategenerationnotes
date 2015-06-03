@@ -1,0 +1,18 @@
+automatic candidate generation:
+assumptions: 
+	terminals are all words: 
+		(workers helped)
+		(workers mature helped)
+		showed workers dog
+**		showed chief of-workers dog **
+
+	intermediate levels are phi
+	root =  iota
+	variable: phi-rootedness. That is: Is the tree rooted in a phi? (is there a phi that's coextensive with the iota?) i.e. do the intermediate levels form a singly-rooted tree?
+	
+	
+generate candidates (represent with parentheses?) -> save the parenthesized candidates as strings
+	generate a list of the candidate names for use in the tableau
+translate candidates into JavaScript notation
+
+... and then run makeTableau on the candidate set generated.

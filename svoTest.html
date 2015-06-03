@@ -163,11 +163,13 @@ candidateSetBinarity = [['sTreeS1VO1', 'smallP2w1a'], ['sTreeS1VO1', 'smallP2w1b
 						['sTreeS1VO1', 'bigP3w1a'], ['sTreeS1VO1', 'bigP3w1b'],['sTreeS1VO1', 'bigP3w1d'],
 						['sTreeS1VO1', 'pTree3words'], ['sTreeS1VO1', 'pTree4words']];
 
-constraintSet = ['binMinBranches-phi', 'binMaxBranches-phi', 'binMaxBranchesGradient-phi'];
+constraintSet1 = ['binMinBranches-phi', 'binMaxBranches-phi'];
+constraintSet2 = ['binMinBranches-phi', 'binMaxBranchesGradient-phi'];
 
 function runDemo() {
-	writeTableau(makeTableau(candidateSetBinarity, constraintSet));
-	//writeTableau(makeTableau([['sTreeS1VO1','smallP3w1b'], ['sTreeS1VO1','smallP3w1c'], ['sTreeS1VO1','smallP3w1d'], ['sTreeS1VO1','smallP3w2a'], ['sTreeS1VO1','smallP3w2b'], ['sTreeS1VO1','smallP3w2c'], ['sTreeS1VO1','smallP3w2d'], ['sTreeS1VO1','smallP3w3a'], ['sTreeS1VO1','smallP3w3b'], ['sTreeS1VO1','smallP3w3c'], ['sTreeS1VO1','smallP3w3d'], ['sTreeS1VO1','smallP3w4a'], ['sTreeS1VO1','smallP3w4b'], ['sTreeS1VO1','smallP3w4c'], ['sTreeS1VO1','smallP3w4d'], ['sTreeS1VO1','smallP3w5a'], ['sTreeS1VO1','smallP3w5b'], ['sTreeS1VO1','smallP3w5c'], ['sTreeS1VO1','smallP3w5d'], ['sTreeS1VO1','smallP3w6a'], ['sTreeS1VO1','smallP3w6b'], ['sTreeS1VO1','smallP3w6c'], ['sTreeS1VO1','smallP3w6d'], ['sTreeS1VO1','bigP3w1a'], ['sTreeS1VO1','bigP3w1b'], ['sTreeS1VO1','bigP3w1c'], ['sTreeS1VO1','bigP3w1d'], ['sTreeS1VO1','bigP3w2a'], ['sTreeS1VO1','bigP3w2b'], ['sTreeS1VO1','bigP3w2c'], ['sTreeS1VO1','bigP3w2d'], ['sTreeS1VO1','bigP3w3a'], ['sTreeS1VO1','bigP3w3b'], ['sTreeS1VO1','bigP3w3c'], ['sTreeS1VO1','bigP3w3d'], ['sTreeS1VO1','bigP3w4a'], ['sTreeS1VO1','bigP3w4b'], ['sTreeS1VO1','bigP3w4c'], ['sTreeS1VO1','bigP3w4d'], ['sTreeS1VO1','bigP3w5a'], ['sTreeS1VO1','bigP3w5b'], ['sTreeS1VO1','bigP3w5c'], ['sTreeS1VO1','bigP3w5d'], ['sTreeS1VO1','bigP3w6a'], ['sTreeS1VO1','bigP3w6b'], ['sTreeS1VO1','bigP3w6c'], ['sTreeS1VO1','bigP3w6d']], ['matchSP-xp','matchPS-phi','equalSistersAdj']));
+	writeTableau(makeTableau(candidateSetBinarity, constraintSet1));
+	writeTableau(makeTableau(candidateSetBinarity, constraintSet2));
+	
 	lastSegmentId++;
 	logreport('<br><hr>');
 	lastSegmentId++;
