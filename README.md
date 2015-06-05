@@ -93,8 +93,9 @@ NOTE: Match constraints require an exact match in the terminals dominated by cor
 
 Categories and the prosodic hierarchy
 -------------------------------------
-Prosodic and syntactic categories that our constraints recognize are defined in the array named categoryPairings, in the file prosodicHierarchy.js. For a node to be recognized by Match, it must have a value for "cat" that is 
-Must be one of the categories in the array being used for category-pairings, otherwise Match functions will not work properly. Currently only one set of categories is available; it's defined in .
+Prosodic and syntactic categories that our constraints recognize are defined in the array named categoryPairings (in the file prosodicHierarchy.js). For a node to be recognized by Match and other constraints that establish correspondence, the node's value for "cat" must be one of the categories listed in categoryPairings. 
+
+However, as far as the purely prosodic constraints are concerned, nodes can have any category.
 
 Constraints
 -----------
