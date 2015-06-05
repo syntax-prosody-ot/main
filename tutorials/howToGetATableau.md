@@ -43,11 +43,11 @@ For the html file to see all the variables (like trees) and functions (like cons
 
 	* Manually define the candidate set. Suppose you are only interested in evaluating four prosodic trees, and you've already written them up in the file mytree.js with the variable names ptree1, ptree2, ptree3, and ptree4. And suppose further that you're interested in the syntactic input stree, also in the file mytree.js. You can make these trees into a candidate set by putting them in an array, which we'll call myCandidateSet:
 		
-		var myCandidateSet1 = [[stree, ptree1], [stree, ptree2], [stree, ptree3], [stree, ptree4]];
+			var myCandidateSet1 = [[stree, ptree1], [stree, ptree2], [stree, ptree3], [stree, ptree4]];
 
 	* Automatically generate the candidate set using the function GEN. Suppose you want to consider all posible phonological phrasings of the string of words "ideas sleep furiously".
 	
-		var myCandidateSet2 = GEN(stree, "ideas sleep furiously");
+		<code>var myCandidateSet2 = GEN(stree, "ideas sleep furiously");</code>
 	
 	This line creates an array of input-output pairs, where stree is the input and the 48 possible phonological phrasings of "ideas sleep furiously".
 	
