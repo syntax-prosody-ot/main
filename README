@@ -6,14 +6,20 @@ SPOT (Syntax-Prosody in Optimality Theory) is a JavaScript-based application for
 Features
 --------
 * automatic violation counting: for all constraints in the SPOT system
-* automatic candidate generation: exhaustive generation of all prosodic trees with a given number of terminals [coming soon]
+* automatic candidate generation: exhaustive generation of all prosodic trees with a given number of terminals
 * easy interface with OTWorkplace: SPOT outputs .csv files that can be pasted into OTWorkplace, so as to take advantage of the typology, optima finding, and constraint ranking tools available there.
 
 All the code for SPOT is available on Github: https://github.com/syntax-prosody-ot/main
 
+HOW TO CITE
+-----------
+Bellik, J., O. Bellik, N. Kalivoda (2015). Syntax-Prosody for OT. JavaScript application. <https://github.com/syntax-prosody-ot>
+
+
 FAQs
 ----
 [coming soon]
+
 
 INSTALLING
 ----------
@@ -32,7 +38,7 @@ has the constraint set: equalSistersAdj, matchSP(clause), matchPS(i)
 and the candidate set: [['sTreeCoord','pTreeA'], ['sTreeCoord','pTreeB'], ['sTreeCoord','pTreeC']]
 The functions writeTableau and makeTableau are defined in tableauMaker.js.
 
-Note that candidates consist of pairs of trees, the first being the input syntactic tree (such as sTreeCoord in the first candidate) and the second being the output candidate prosodic tree (pTreeA in the first candidate). Therefore the array of cnadidates is an array of pairs, that is, an array of arrays. Each array is deliminated with [].
+Note that candidates consist of pairs of trees, the first being the input syntactic tree (such as sTreeCoord in the first candidate) and the second being the output candidate prosodic tree (pTreeA in the first candidate). Therefore the array of candidates is an array of pairs, that is, an array of arrays. Each array is deliminated with [].
 
 The output to the browser comes in three forms, in the following order:
 
@@ -43,11 +49,20 @@ The output to the browser comes in three forms, in the following order:
 * a visual representation of the tableau in traditional OT format (but without any selection of optima)
 * a tab-separated .csv file which can be copied and pasted into OTWorkplace
 
-In order to run your desired candidate set and constraint set, you'll need to make sure that both the trees you're interested in and the constraints you want to use are in the JavaScript (.js) files. Then go into the function runDemo() in the .html file, and add these lines for your candidate set and constraint set:
+In order to run your desired candidate set and constraint set, you'll need to make sure that both the trees you're interested in and the constraints you want to use are in JavaScript (.js) files. If you created new .js files for any of your trees or constraints, be sure to put those files in the same directory as the other SPOT files, and load your scripts into the .html file:
+
+<script src="yourScriptNameHere.js"></script>
+
+Then go into the function runDemo() in the .html file, and add these lines for your candidate set and constraint set:
 
 	writeTableau(makeTableau([yourInputOutputCandidatesHere], [yourConstraintsHere]]))
 	lastSegmentId++;
 	logreport('<br><hr>');
+	
+If you're using a large number of constraints or candidates, it's a good idea to define variables for them outside the runDemo() function (e.g., right above the line function runDemo()). Then you can succinctly refer to your candidate set and constraint set in your call to makeTableau.
+
+	var myCandidates = [[syntree1, prostree1], [syntree1, prostree2], [syntree2, prostree1]];
+	var myConstraints = ["matchPS-phi", "matchSP-xp", "binMinBranches", "equalSistesAdj"];
 
 TREES
 -----
@@ -72,11 +87,20 @@ Every non-terminal node must have the attributes
 
 Terminal nodes need only have "id" defined, but it's a good idea to also define their categories (cat) since error handling for lack of category definition is not entirely reliable at present.
 
+NOTE: Match constraints require an exact match in the terminals dominated by corresponding nodes; therefore silent syntactic terminals that do not have phonological exponents should be excluded from trees.
+
+
 CONSTRAINTS
 -----------
-Currently all constraints are defined in the file constraints.js. Each constraint is a function. Uniform argument strucutre must be maintained across all constraints so that makeTableau will work.
+Currently all constraints are defined in the file constraints.js. Each constraint is a function. Uniform argument structure must be maintained across all constraints so that makeTableau will work. The necessary argument structure is: (s, p, c), where
 
-Every constraint is going to be a recursive function, since it needs to traverse the whole tree (possibly two trees, for interface constraints).
+* s is the syntactic tree
+* p is the prosodic tree
+* c is the category the constraint targets
+
+Though the argument structure is fixed, the names of the argments can vary from constraint to constraint, and it's not a problem if not all arguments are actually used in the function.
+
+Every constraint is going to be a recursive function, since it needs to traverse the whole tree (possibly two trees, for interface constraints). 
 
 
 TROUBLE-SHOOTING
