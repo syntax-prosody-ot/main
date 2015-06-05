@@ -84,13 +84,17 @@ Sample trees can be seen in the trees.js file. The boundaries of each node are r
 
 Every non-terminal node must have the attributes 
 * "id": a string of your choice representing the syntactic or prosodic label of the node (for ease of reference). Avoid giving multiple nodes in your tree the same id because SPOT currently assumes ids are unique but doesn't sanitize the input to ensure uniqueness.
-* "cat": a string representing the syntactic or prosodic category of the node. Must be one of the categories in the array being used for category-pairings, otherwise Match functions will not work properly. Currently only one set of categories is available; it's defined in prosodicHierarchy.js (in the array named categoryPairings).
+* "cat": a string representing the syntactic or prosodic category of the node. See Categories and the prosodic hierarchy. 
 * "children": an array [] of child nodes, ordered left to right. Each node is an object and so should be contained in {}, and have the attributes id, cat and children (if non-terminal).
 
 Terminal nodes need only have "id" defined, but it's a good idea to also define their categories (cat) since error handling for lack of category definition is not entirely reliable at present.
 
 NOTE: Match constraints require an exact match in the terminals dominated by corresponding nodes; therefore silent syntactic terminals that do not have phonological exponents need to have an extra attribute silent: true.
 
+Categories and the prosodic hierarchy
+-------------------------------------
+Prosodic and syntactic categories that our constraints recognize are defined in the array named categoryPairings, in the file prosodicHierarchy.js. For a node to be recognized by Match, it must have a value for "cat" that is 
+Must be one of the categories in the array being used for category-pairings, otherwise Match functions will not work properly. Currently only one set of categories is available; it's defined in .
 
 Constraints
 -----------
