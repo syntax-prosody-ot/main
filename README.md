@@ -11,7 +11,7 @@ Features
 
 All the code for SPOT is available on Github: https://github.com/syntax-prosody-ot/main
 
-HOW TO CITE
+How to cite
 -----------
 Bellik, J., O. Bellik, N. Kalivoda (2015). Syntax-Prosody for OT. JavaScript application. <https://github.com/syntax-prosody-ot>
 
@@ -21,18 +21,20 @@ FAQs
 [coming soon]
 
 
-INSTALLING
+Installing
 ----------
 If you already have a web-browser that lets you view most websites without any problems, you almost certainly already have JavaScript and don't need to install anything in order to use SPOT. Just download all the files in https://github.com/syntax-prosody-ot/main. To use SPOT, open the html file with the browser of your choice (Chrome, Mozilla Firefox, Safari, etc -- may not work in older versions of Internet Explorer).
 
 
-INTERFACE
+Interface
 ----------
 The current interface consists of html output to the browser, based on calls to the function writeTableau(makeTableau([candidate set], [constraint set])) in runDemo. 
 
 For example:
 
-	writeTableau(makeTableau([['sTreeCoord','pTreeA'], ['sTreeCoord','pTreeB'], ['sTreeCoord','pTreeC']], ['equalSistersAdj','matchSP-clause', 'matchPS-i']));
+	var candidateSet = [['sTreeCoord','pTreeA'], ['sTreeCoord','pTreeB'], ['sTreeCoord','pTreeC']];
+	var constraintSet = ['equalSistersAdj','matchSP-clause', 'matchPS-i'];
+	writeTableau(makeTableau(candidateSet, constraintSet));
 
 has the constraint set: equalSistersAdj, matchSP(clause), matchPS(i)
 and the candidate set: [['sTreeCoord','pTreeA'], ['sTreeCoord','pTreeB'], ['sTreeCoord','pTreeC']]
@@ -64,7 +66,7 @@ If you're using a large number of constraints or candidates, it's a good idea to
 	var myCandidates = [[syntree1, prostree1], [syntree1, prostree2], [syntree2, prostree1]];
 	var myConstraints = ["matchPS-phi", "matchSP-xp", "binMinBranches", "equalSistesAdj"];
 
-TREES
+Trees
 -----
 Trees can be entered in the trees.js file. Or you can create an additional .js file and load it into the .html file using script tags. Put your trees in the trees folder.
 
@@ -90,7 +92,7 @@ Terminal nodes need only have "id" defined, but it's a good idea to also define 
 NOTE: Match constraints require an exact match in the terminals dominated by corresponding nodes; therefore silent syntactic terminals that do not have phonological exponents need to have an extra attribute silent: true.
 
 
-CONSTRAINTS
+Constraints
 -----------
 All constraint files are in the folder constraints. Each constraint is a function. Uniform argument structure must be maintained across all constraints so that makeTableau will work. The necessary argument structure is: (s, p, c), where
 
@@ -103,7 +105,7 @@ Though the argument structure is fixed, the names of the argments can vary from 
 Every constraint is going to be a recursive function, since it needs to traverse the whole tree (possibly two trees, for interface constraints). 
 
 
-TROUBLE-SHOOTING
+Trouble-shooting
 ----------------
 If things aren't working as expected, the first step is to check the JavaScript console and see if the program has crashed somewhere. Go into your browser's menu and display the JavaScript console. It may be under Tools, View > Developer Tools, ...
 
