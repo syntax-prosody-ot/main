@@ -144,15 +144,15 @@ function runConstraint(constraint, sname, pname, cat, expectedViolations) {
 }
 </script>
 
-<script src="tableauMaker.js"></script>
+<script src="../tableauMaker.js"></script>
+<script src="../treeFormatting.js"></script>
+<script src="../trees/svoTest.js"></script>
 
-<script src="svoTest.js"></script>
-
-<script src="constraints.js"></script>
-
-<script src="binarity.js"></script>
-
-<script src="binarityTrees.js"></script>
+<script src="../constraints/match.js"></script>
+<script src="../prosodicHierarchy.js"></script>
+<script src="../constraints/binarity.js"></script>
+<script src="../constraints/equalSisters.js"></script>
+<script src="../trees/binarityTrees.js"></script>
 
 <script>
 
@@ -176,66 +176,6 @@ function runDemo() {
 	
 }
 
-// Everything below is deprecated.
-/*******************
-* A bit of Javascript that allows us to see 
-* the output of this program in the browser's console 
-* when we open this html file in the browser to run the JS program
-*******************/
-/*console.log(syntree1.children);		//some optionality in the JS syntax
-console.log(syntree1["children"]);
-console.log(JSON.stringify(syntree1.children)); //getting text version of the object
-console.log(getLeaves(syntree1));
-console.log(sameIds(getLeaves(syntree1), getLeaves(syntree1)));
-console.log(sameIds(getLeaves(syntree1), getLeaves(prostree1)));
-console.log("This should be false.")
-console.log(sameIds(getLeaves(syntree1), getLeaves(syntree0)));
-console.log("running hasMatch(getLeaves(syntree1), prostree1)");
-console.log(hasMatch(getLeaves(syntree1), prostree1));
-console.log("Should be true: running hasMatch(getLeaves(syntree1.children[0]), prostree1)");
-console.log(hasMatch(getLeaves(syntree1.children[0]), prostree1));
-console.log("Should be false: running hasMatch(getLeaves(syntree1.children[0]), prostree2)");
-console.log(hasMatch(getLeaves(syntree1.children[0]), prostree2));
-*/
-//logreport(" - violations of equalSistersAdj: 2 expected, "+equalSistersAdj(unequalSisters1)+" actual violations");
-//logreport(" - violations of equalSistersAdj: 2 expected, "+equalSistersAdj(null, unequalSisters1)+" actual violations");
-/*
-logreport("Running matchSP(sTreeCoord, pTreeA, 'clause') - Should be 0 violations.");
-logreport(matchSP(sTreeCoord, pTreeA, "clause"));
-logreport("Running equalSistersAdj(sTreeCoord, pTreeA, 'clause'): 0 expected");
-logreport(equalSistersAdj(sTreeCoord, pTreeA, 'clause')+" actual violations");
-logreport("");
-logreport("Running matchSP(sTreeCoord, pTreeB, 'clause') - Should be 2 violations (even though Myrberg has a typo & says 1 violation).");
-logreport(matchSP(sTreeCoord, pTreeB, "clause"));
-logreport("Running equalSistersAdj(sTreeCoord, pTreeB, 'clause'): 0 expected");
-logreport(equalSistersAdj(sTreeCoord, pTreeB, 'clause')+" actual violations");
-logreport("");
-logreport("Running matchSP(sTreeCoord, pTreeC, 'clause') - Should be 1 violations.");
-logreport(matchSP(sTreeCoord, pTreeC, "clause"));
-logreport("Running equalSistersAdj(sTreeCoord, pTreeC, 'clause'): 1 expected");
-logreport(equalSistersAdj(sTreeCoord, pTreeC, 'clause')+" actual violations");
-logreport("");
-*/
-//logreport("Running matchPS(syntree0, prostree0, 'phi') - Should be 3 violations.");
-//logreport("Violations: " +matchPS(syntree0, prostree0, "phi"));
-//runConstraint('matchPS', 'syntree0', 'prostree0', 'phi', 3);
-//runConstraint('matchSP', 'syntree0', 'prostree0', 'xp');
-/*
-logreport("");
-logreport("Running matchSP(syntree0, prostree2, 'xp') - Should be 2 violations.");
-logreport("Violations: " +matchSP(syntree1, prostree0, "xp"));
-logreport("Running 3 versions of EqualSisters on unequalSisters1");
-logreport(" - violations of equalSistersFirstPrivilege: 1 expected, "+equalSistersFirstPrivilege(0, unequalSisters1, 0)+" actual violations");
-logreport(" - violations of equalSistersPairwise: 2 expected, "+equalSistersPairwise(unequalSisters1)+" actual violations");
-logreport("Running 3 versions of EqualSisters on unequalSisters2");
-logreport(" - violations of equalSistersFirstPrivilege: 2 expected, "+equalSistersFirstPrivilege(unequalSisters2)+" actual violations");
-logreport(" - violations of equalSistersPairwise: 4 expected, "+equalSistersPairwise(unequalSisters2)+" actual violations");
-logreport(" - violations of equalSistersAdj: 2 expected, "+equalSistersAdj(unequalSisters2)+" actual violations");
-logreport("Running 3 versions of EqualSisters on unequalSisters3");
-logreport(" - violations of equalSistersFirstPrivilege: 2 expected, "+equalSistersFirstPrivilege(unequalSisters3)+" actual violations");
-logreport(" - violations of equalSistersPairwise: 4 expected, "+equalSistersPairwise(unequalSisters3)+" actual violations");
-logreport(" - violations of equalSistersAdj: 3 expected, "+equalSistersAdj(unequalSisters3)+" actual violations");
-*/
 </script>
 
 </body>

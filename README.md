@@ -66,15 +66,15 @@ If you're using a large number of constraints or candidates, it's a good idea to
 
 TREES
 -----
-Trees can be entered in the trees.js file. Or you can create an additional .js file and load it into the .html file using script tags.
+Trees can be entered in the trees.js file. Or you can create an additional .js file and load it into the .html file using script tags. Put your trees in the trees folder.
 
 For example: 
 
-	<script src="trees.js"></script> 
+	<script src="trees/trees.js"></script> 
 
 loads the trees.js file. 
 
-	<script src="myTrees.js"></script>
+	<script src="trees/myTrees.js"></script>
 	
 will load the file myTrees.js (which you could create). Make sure to put this in the same folder as the matchprototype.html file so it's accessible.
 
@@ -82,17 +82,17 @@ Sample trees can be seen in the trees.js file. The boundaries of each node are r
 
 Every non-terminal node must have the attributes 
 * "id": a string of your choice representing the syntactic or prosodic label of the node (for ease of reference). Avoid giving multiple nodes in your tree the same id because SPOT currently assumes ids are unique but doesn't sanitize the input to ensure uniqueness.
-* "cat": a string representing the syntactic or prosodic category of the node. Must be one of the categories in the array being used for category-pairings, otherwise Match functions will not work properly. Currently only one set of categories is available; it's defined at the top of constraints.js in the array named categoryPairings.
+* "cat": a string representing the syntactic or prosodic category of the node. Must be one of the categories in the array being used for category-pairings, otherwise Match functions will not work properly. Currently only one set of categories is available; it's defined in prosodicHierarchy.js (in the array named categoryPairings).
 * "children": an array [] of child nodes, ordered left to right. Each node is an object and so should be contained in {}, and have the attributes id, cat and children (if non-terminal).
 
 Terminal nodes need only have "id" defined, but it's a good idea to also define their categories (cat) since error handling for lack of category definition is not entirely reliable at present.
 
-NOTE: Match constraints require an exact match in the terminals dominated by corresponding nodes; therefore silent syntactic terminals that do not have phonological exponents should be excluded from trees.
+NOTE: Match constraints require an exact match in the terminals dominated by corresponding nodes; therefore silent syntactic terminals that do not have phonological exponents need to have an extra attribute silent: true.
 
 
 CONSTRAINTS
 -----------
-Currently all constraints are defined in the file constraints.js. Each constraint is a function. Uniform argument structure must be maintained across all constraints so that makeTableau will work. The necessary argument structure is: (s, p, c), where
+All constraint files are in the folder constraints. Each constraint is a function. Uniform argument structure must be maintained across all constraints so that makeTableau will work. The necessary argument structure is: (s, p, c), where
 
 * s is the syntactic tree
 * p is the prosodic tree
