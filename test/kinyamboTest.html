@@ -1,187 +1,48 @@
 <html>
-<head><title>Syntax-prosody interface application</title></head>
+<head>
+	<title>Syntax-prosody interface application</title>
+
+	<link rel="stylesheet" type="text/css" href="../spot.css">
+
+	<!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
+	(open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
+	<script src="../build/spot.js"></script>
+	
+</head>
 
 <body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
-	<h2>Syntax-prosody interface application</h2>
+	<h2>Syntax-prosody interface application -- Kinyambo Test</h2>
 	<pre id="results-container"></pre>
 
-<style>
-	.report-line {
-		font-size: 14px;
-		line-height: 110%;
-	}
-	.main-report-line {
-		font-weight: bold;
-		line-height: 180%;
-		background-color: #ccc;
-		color: green;
-		border-radius: 5px;
-		border: 1px solid gray;
-		padding-left: 5px;
-		padding-right: 5px;
-		padding-top: 2px;
-		padding-bottom: 2px;
-	}
-	.expected-violation-count, .actual-violation-count {
-		color: red;
-	}
-	
-	.tableau {
-		border-collapse: collapse;
-		margin-bottom: 20px;
-	}
-	.tableau, .tableau th, .tableau td, .tableau {
-		border: 1px solid black;
-	}
-	.tableau th, .tableau td {
-		padding: 4px;
-	}
-	.tableau th {
-		font-style: italic;
-		background-color: #ddd;
-	}
-	.tableau td {
-		text-align: right;
-	}
-	.tableau .candidate {
-		font-weight: bold;
-	}
-	
-	.segment-hidden {
-		display: none !important;
-	}
-	.tableau-textarea {
-		display: inline-block;
-		width: 30em;
-		height: 3em;
-		font-size: 8px;
-	}
-</style>
+	<script src="../trees/kinyamboTestTrees.js"></script>
+	<script src="../trees/docTrees.js"></script>
 
-<script>
-var lastSegmentId = 0, nextSegmentToReveal = 0;
-var logLines = [];
-function logreport(line){
-	logLines.push(['<span class="report-line segment-', lastSegmentId, (lastSegmentId >= nextSegmentToReveal) ? ' segment-hidden' : '', '">', line, '<br></span>'].join(''));
-	flushLog();
-}
-logreport.debug = function() {
-	if (logreport.debug.on)
-		return logreport.call(this, Array.prototype.slice.call(arguments));
-}
-logreport.debug.on = true;
-var resultsContainer;
-function flushLog() {
-	if (resultsContainer) {
-		var fragment = document.createElement('div');
-		fragment.innerHTML = logLines.join('');
-		resultsContainer.appendChild(fragment);
-		logLines = [];
-	} else {
-		console.error('Tried to flush log before window loaded.');
-	}
-}
-function writeTableau(tableauContent) {
-	if (resultsContainer) {
-		var tableauContainer = document.createElement('div');
-		
-		tableauContainer.innerHTML =  '<h3 style="margin-bottom: 5px">Tableau</h3>';
-		
-		var htmlTableauContainer = document.createElement('div');
-		htmlTableauContainer.innerHTML = tableauToHtml(tableauContent);
-		tableauContainer.appendChild(htmlTableauContainer);		
-		
-		var textareaNote = document.createElement('strong');
-		textareaNote.innerHTML = 'For copying and pasting into OTWorkplace: ';
-		tableauContainer.appendChild(textareaNote);
-		
-		var textarea = document.createElement('textarea');
-		textarea.className = 'tableau-textarea';
-		textarea.value = tableauToCsv(tableauContent, '\t');
-		textarea.readOnly = true;
-		tableauContainer.appendChild(textarea);
-		tableauContainer.className += ' segment-' + lastSegmentId;
-		if (lastSegmentId >= nextSegmentToReveal)
-			tableauContainer.className += ' segment-hidden';
-		onRevealSegment[lastSegmentId] = function() {
-			textarea.focus();
-			textarea.select();
-		}
-		
-		resultsContainer.appendChild(tableauContainer);
-		
-	} else {
-		console.error('Tried to write tableau before window loaded.');
-	}
-}
-window.addEventListener('load', function(){
-	resultsContainer = document.getElementById('results-container');
-	
-	runDemo();
-});
-var onRevealSegment = {};
-function revealNextSegment() {
-	if (nextSegmentToReveal > lastSegmentId)
-		return;
-	var elements = document.getElementsByClassName('segment-' + nextSegmentToReveal);
-	for (var i = 0; i < elements.length; i++)
-		elements[i].className = elements[i].className.replace('segment-hidden', '');
-	if (onRevealSegment[nextSegmentToReveal])
-		onRevealSegment[nextSegmentToReveal]();
-	// window.scrollTo(0, document.body.scrollHeight); //TODO: scroll to top of last segment, not bottom
-	nextSegmentToReveal++;
-}
-document.addEventListener('keyup', function(event) {
-	if (event.keyCode === 32)
+	<script>
+	//var candidateSet2 = GEN('', "workers helped");
+	var candidateSet3 = GEN('sTreeFlatSWD', "showed workers dog");
+	console.log(candidateSet3);
+	var candidateSet4 = GEN('sTreeShowChiedOfWorkersDog', "showed chief of-workers dog");
+	function runDemo() {
+		/*writeTableau(makeTableau([['sTreeCoord','pTreeA'], ['sTreeCoord','pTreeB'], ['sTreeCoord','pTreeC']], ['equalSistersAdj','matchSP-clause', 'matchPS-i']));
+		lastSegmentId++;
+		logreport('<br><hr>');
+		writeTableau(makeTableau([['sTreeEmbed','pTreeA'], ['sTreeEmbed','pTreeB'], ['sTreeEmbed','pTreeC']], ['equalSistersAdj','matchSP-clause', 'matchPS-i']));
+		lastSegmentId++;
+		logreport('<br><hr>');
+		writeTableau(makeTableau([[null, 'unequalSisters1'], [null, 'unequalSisters2'], [null, 'unequalSisters3']], ['equalSistersAdj', 'equalSistersFirstPrivilege', 'equalSistersPairwise']));
+		lastSegmentId++;*/
+		writeTableau(makeTableau(candidateSet3, ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj', 'binMinBranches-phi', 'binMaxBranches-phi']));
 		revealNextSegment();
-});
-function globalNameOrDirect(nameOrObject) {
-	return (typeof nameOrObject === 'string') ? window[nameOrObject] : nameOrObject;
-}
-function runConstraint(constraint, sname, pname, cat, expectedViolations) {
-	var pTree = globalNameOrDirect(pname);
-	logreport(['<span class="main-report-line">Running ', constraint, '(', (cat || ''), ') on (', sname, ', ', parenthesizeTree(pTree), ')', (expectedViolations == null) ? '' : [' - Expected Violations: <span class="expected-violation-count">', expectedViolations, '</span>'].join(''), '</span>'].join(''));
-	var violationCount = globalNameOrDirect(constraint)(globalNameOrDirect(sname), pTree, cat);
-	logreport(['<span class="main-report-line" style="background-color: white">Actual Violations: <span class="actual-violation-count">', violationCount, '</span></span><br/><br/>'].join(''));
-	return violationCount;
-}
-</script>
-<script src="../prosodicHierarchy.js"></script>
-<script src="../tableauMaker.js"></script>
-<script src="../trees/kinyamboTestTrees.js"></script>
-<script src="../trees/docTrees.js"></script>
-<script src="../constraints/match.js"></script>
-<script src="../constraints/binarity.js"></script>
-<script src="../constraints/equalSisters.js"></script>
-<script src="../candidategenerator.js"></script>
-<script src="../treeFormatting.js"></script>
-
-<script>
-//var candidateSet2 = GEN('', "workers helped");
-var candidateSet3 = GEN('sTreeFlatSWD', "showed workers dog");
-console.log(candidateSet3);
-var candidateSet4 = GEN('sTreeShowChiedOfWorkersDog', "showed chief of-workers dog");
-function runDemo() {
-	/*writeTableau(makeTableau([['sTreeCoord','pTreeA'], ['sTreeCoord','pTreeB'], ['sTreeCoord','pTreeC']], ['equalSistersAdj','matchSP-clause', 'matchPS-i']));
-	lastSegmentId++;
-	logreport('<br><hr>');
-	writeTableau(makeTableau([['sTreeEmbed','pTreeA'], ['sTreeEmbed','pTreeB'], ['sTreeEmbed','pTreeC']], ['equalSistersAdj','matchSP-clause', 'matchPS-i']));
-	lastSegmentId++;
-	logreport('<br><hr>');
-	writeTableau(makeTableau([[null, 'unequalSisters1'], [null, 'unequalSisters2'], [null, 'unequalSisters3']], ['equalSistersAdj', 'equalSistersFirstPrivilege', 'equalSistersPairwise']));
-	lastSegmentId++;*/
-	writeTableau(makeTableau(candidateSet3, ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj', 'binMinBranches-phi', 'binMaxBranches-phi']));
-	revealNextSegment();
-	lastSegmentId++;
+		lastSegmentId++;
 	
-	writeTableau(makeTableau(candidateSet4, ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj', 'binMinBranches-phi'])); 
-	/*writeTableau(makeTableau(candidateSet3, ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj', 'binMinBranches-phi', 'binMaxBranches-phi']));*/
-	revealNextSegment();
-	lastSegmentId++;
-	/* writeTableau(makeTableau(candidateSet4, ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj', 'binMinBranches-phi', 'binMaxBranches-phi'])); */
-}
+		writeTableau(makeTableau(candidateSet4, ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj', 'binMinBranches-phi'])); 
+		/*writeTableau(makeTableau(candidateSet3, ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj', 'binMinBranches-phi', 'binMaxBranches-phi']));*/
+		revealNextSegment();
+		lastSegmentId++;
+		/* writeTableau(makeTableau(candidateSet4, ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj', 'binMinBranches-phi', 'binMaxBranches-phi'])); */
+	}
 
-</script>
+	</script>
 
 </body>
 

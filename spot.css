@@ -1,0 +1,50 @@
+.report-line {
+    font-size: 14px;
+    line-height: 110%;
+}
+.main-report-line {
+    font-weight: bold;
+    line-height: 180%;
+    background-color: #ccc;
+    color: green;
+    border-radius: 5px;
+    border: 1px solid gray;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+.expected-violation-count, .actual-violation-count {
+    color: red;
+}
+
+.tableau {
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+.tableau, .tableau th, .tableau td, .tableau {
+    border: 1px solid black;
+}
+.tableau th, .tableau td {
+    padding: 4px;
+}
+.tableau th {
+    font-style: italic;
+    background-color: #ddd;
+}
+.tableau td {
+    text-align: right;
+}
+.tableau .candidate {
+    font-weight: bold;
+}
+
+.segment-hidden {
+    display: none !important;
+}
+.tableau-textarea {
+    display: inline-block;
+    width: 30em;
+    height: 3em;
+    font-size: 8px;
+}

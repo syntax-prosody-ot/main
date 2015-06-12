@@ -1,182 +1,45 @@
 <html>
-<head><title>SPOT application</title></head>
+<head>
+	<title>SPOT application</title>
+
+	<link rel="stylesheet" type="text/css" href="../spot.css">
+
+	<!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
+	(open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
+	<script src="../build/spot.js"></script>
+	
+</head>
 
 <body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
 	<h2>SPOT application</h2>
 	<pre id="results-container"></pre>
 
-<style>
-	.report-line {
-		font-size: 14px;
-		line-height: 110%;
-	}
-	.main-report-line {
-		font-weight: bold;
-		line-height: 180%;
-		background-color: #ccc;
-		color: green;
-		border-radius: 5px;
-		border: 1px solid gray;
-		padding-left: 5px;
-		padding-right: 5px;
-		padding-top: 2px;
-		padding-bottom: 2px;
-	}
-	.expected-violation-count, .actual-violation-count {
-		color: red;
-	}
+	<script src="../trees/svoTest.js"></script>
+	<script src="../trees/binarityTrees.js"></script>
+
+	<script>
+
+		//logreport(binMinBranches(sTreesS1VO1, smallP2w1b, phi));
+		// This is where you set up a tableau.
+
+		candidateSetBinarity = [['sTreeS1VO1', 'smallP2w1a'], ['sTreeS1VO1', 'smallP2w1b'], ['sTreeS1VO1', 'bigP2w1d'], 
+								['sTreeS1VO1', 'bigP3w1a'], ['sTreeS1VO1', 'bigP3w1b'],['sTreeS1VO1', 'bigP3w1d'],
+								['sTreeS1VO1', 'pTree3words'], ['sTreeS1VO1', 'pTree4words']];
+
+		constraintSet1 = ['binMinBranches-phi', 'binMaxBranches-phi'];
+		constraintSet2 = ['binMinBranches-phi', 'binMaxBranchesGradient-phi'];
+
+		function runDemo() {
+			writeTableau(makeTableau(candidateSetBinarity, constraintSet1));
+			writeTableau(makeTableau(candidateSetBinarity, constraintSet2));
 	
-	.tableau {
-		border-collapse: collapse;
-		margin-bottom: 20px;
-	}
-	.tableau, .tableau th, .tableau td, .tableau {
-		border: 1px solid black;
-	}
-	.tableau th, .tableau td {
-		padding: 4px;
-	}
-	.tableau td {
-		text-align: right;
-	}
-	.tableau .candidate {
-		font-weight: bold;
-	}
+			lastSegmentId++;
+			logreport('<br><hr>');
+			lastSegmentId++;
 	
-
-	.segment-hidden {
-			/*This is the part you comment out if you want everything to show up at once.*/
-		/*display: none !important;*/
-	}
-	.tableau-textarea {
-		display: inline-block;
-		width: 30em;
-		height: 3em;
-		font-size: 8px;
-	}
-</style>
-
-<script>
-
-// This is where the JS starts.
-
-var lastSegmentId = 0, nextSegmentToReveal = 0;
-var logLines = [];
-function logreport(line){
-	logLines.push(['<span class="report-line segment-', lastSegmentId, (lastSegmentId >= nextSegmentToReveal) ? ' segment-hidden' : '', '">', line, '<br></span>'].join(''));
-	flushLog();
-}
-logreport.debug = function() {
-	if (logreport.debug.on)
-		return logreport.call(this, Array.prototype.slice.call(arguments));
-}
-logreport.debug.on = true;
-var resultsContainer;
-function flushLog() {
-	if (resultsContainer) {
-		var fragment = document.createElement('div');
-		fragment.innerHTML = logLines.join('');
-		resultsContainer.appendChild(fragment);
-		logLines = [];
-	} else {
-		console.error('Tried to flush log before window loaded.');
-	}
-}
-function writeTableau(tableauContent) {
-	if (resultsContainer) {
-		var tableauContainer = document.createElement('div');
-		
-		tableauContainer.innerHTML =  '<h3 style="margin-bottom: 5px">Tableau</h3>';
-		
-		var htmlTableauContainer = document.createElement('div');
-		htmlTableauContainer.innerHTML = tableauToHtml(tableauContent);
-		tableauContainer.appendChild(htmlTableauContainer);		
-		
-		var textareaNote = document.createElement('strong');
-		textareaNote.innerHTML = 'For copying and pasting into OTWorkplace: ';
-		tableauContainer.appendChild(textareaNote);
-		
-		var textarea = document.createElement('textarea');
-		textarea.className = 'tableau-textarea';
-		textarea.value = tableauToCsv(tableauContent, '\t');
-		textarea.readOnly = true;
-		tableauContainer.appendChild(textarea);
-		tableauContainer.className += ' segment-' + lastSegmentId;
-		if (lastSegmentId >= nextSegmentToReveal)
-			tableauContainer.className += ' segment-hidden';
-		onRevealSegment[lastSegmentId] = function() {
-			textarea.focus();
-			textarea.select();
 		}
-		
-		resultsContainer.appendChild(tableauContainer);
-		
-	} else {
-		console.error('Tried to write tableau before window loaded.');
-	}
-}
-window.addEventListener('load', function(){
-	resultsContainer = document.getElementById('results-container');
-	
-	runDemo();
-});
-var onRevealSegment = {};
-function revealNextSegment() {
-	if (nextSegmentToReveal > lastSegmentId)
-		return;
-	var elements = document.getElementsByClassName('segment-' + nextSegmentToReveal);
-	for (var i = 0; i < elements.length; i++)
-		elements[i].className = elements[i].className.replace('segment-hidden', '');
-	if (onRevealSegment[nextSegmentToReveal])
-		onRevealSegment[nextSegmentToReveal]();
-	window.scrollTo(0, document.body.scrollHeight);
-	nextSegmentToReveal++;
-}
-document.addEventListener('keyup', function(event) {
-	if (event.keyCode === 32)
-		revealNextSegment();
-});
-function runConstraint(constraint, sname, pname, cat, expectedViolations) {
-	logreport(['<span class="main-report-line">Running ', constraint, '(', (cat || ''), ') on (', sname, ', ', pname, ')', (expectedViolations == null) ? '' : [' - Expected Violations: <span class="expected-violation-count">', expectedViolations, '</span>'].join(''), '</span>'].join(''));
-	var violationCount = window[constraint](window[sname], window[pname], cat);
-	logreport(['<span class="main-report-line" style="background-color: white">Actual Violations: <span class="actual-violation-count">', violationCount, '</span></span><br/><br/>'].join(''));
-	return violationCount;
-}
-</script>
 
-<script src="../tableauMaker.js"></script>
-<script src="../treeFormatting.js"></script>
-<script src="../trees/svoTest.js"></script>
-
-<script src="../constraints/match.js"></script>
-<script src="../prosodicHierarchy.js"></script>
-<script src="../constraints/binarity.js"></script>
-<script src="../constraints/equalSisters.js"></script>
-<script src="../trees/binarityTrees.js"></script>
-
-<script>
-
-	//logreport(binMinBranches(sTreesS1VO1, smallP2w1b, phi));
-// This is where you set up a tableau.
-
-candidateSetBinarity = [['sTreeS1VO1', 'smallP2w1a'], ['sTreeS1VO1', 'smallP2w1b'], ['sTreeS1VO1', 'bigP2w1d'], 
-						['sTreeS1VO1', 'bigP3w1a'], ['sTreeS1VO1', 'bigP3w1b'],['sTreeS1VO1', 'bigP3w1d'],
-						['sTreeS1VO1', 'pTree3words'], ['sTreeS1VO1', 'pTree4words']];
-
-constraintSet1 = ['binMinBranches-phi', 'binMaxBranches-phi'];
-constraintSet2 = ['binMinBranches-phi', 'binMaxBranchesGradient-phi'];
-
-function runDemo() {
-	writeTableau(makeTableau(candidateSetBinarity, constraintSet1));
-	writeTableau(makeTableau(candidateSetBinarity, constraintSet2));
-	
-	lastSegmentId++;
-	logreport('<br><hr>');
-	lastSegmentId++;
-	
-}
-
-</script>
+	</script>
 
 </body>
 
