@@ -27,11 +27,14 @@ function makeTableau(candidateSet, constraintSet){
 }
 
 function tableauToCsv(tableau, separator) {
-	if (!(tableau instanceof Array))
+	if (!(tableau instanceof Array) || !tableau.length)
 		return '';
-	var lines = [];
-	for (var i = 0; i < tableau.length; i++) {
-		var row = tableau[i];
+	var lines = ['']; // empty first row for regexes
+	var synTree = tableau[0][0];
+	var headerRow = ['', '', ''].concat(tableau[0].slice(1, tableau[0].length));
+	lines.push(headerRow.join(separator));
+	for (var i = 1; i < tableau.length; i++) {
+		var row = [(i === 1) ? synTree : '', tableau[i][0], ''].concat(tableau[i].slice(1, tableau[i].length));
 		// TODO: handle special characters (i.e.: cell values containing either double quotes or separator characters) 
 		lines.push(row.join(separator));
 	}
