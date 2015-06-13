@@ -3,7 +3,7 @@ function parenthesizeTree(tree){
 	var parTree = [];
 	
 	function processNode(node){
-		if(node.cat==='phi' || node.cat === 'iota'){
+		if(node.cat==='phi' || node.cat === 'i'){
 			if (node.cat === 'phi')
 				parTree.push('(');
 			if(node.children instanceof Array){

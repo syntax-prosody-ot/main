@@ -19,7 +19,9 @@ window.GEN = function(sTree, words, options){
 	
 	var candidates = [];
 	for(var i=0; i<rootlessCand.length; i++){
-		var iota = iotafy(rootlessCand[i]);
+		var iota = iotafy(rootlessCand[i], options);
+		if (!iota)
+			continue;
 		if (options.obeysHeadedness && !ioataIsHeaded(iota))
 			continue;
 		candidates.push([sTree, iota]);
@@ -32,12 +34,20 @@ function ioataIsHeaded(ioata) {
 	for (var i = 0; i < children.length; i++)
 		if (children[i].cat === 'phi')
 			return true;
-	console.log(children);
 	return false;
 }
 
-function iotafy(candidate){
-	return {id: 'iota', cat: 'iota', children: candidate};
+function obeysExhaustivity(cat, children) {
+	for (var i = 0; i < children.length; i++)
+		if (cat !== children[i].cat && pCat.nextLower(cat) !== children[i].cat)
+			return false;
+	return true;
+}
+
+function iotafy(candidate, options){
+	if (options && options.obeysExhaustivity && !obeysExhaustivity('i', candidate))
+		return null;
+	return {id: 'iota', cat: 'i', children: candidate};
 }
 
 function omegafy(word){
@@ -116,6 +126,8 @@ function topLevelRecursive(candidate) {
 }
 
 function phiify(candidate, options){
+	if (options && options.obeysExhaustivity && !obeysExhaustivity('phi', candidate)) // not doing anything yet, because there's nothing between phi and w
+		return null;
 	if (options && options.obeysNonrecursivity)
 		for (var i = 0; i < candidate.length; i++)
 			if (candidate[i].cat === 'phi')
