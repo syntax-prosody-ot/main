@@ -336,9 +336,12 @@ var phiNum = 0;
 var wNum = 0;
 
 //takes a list of words and returns the candidate set of trees (JS objects)
-window.GEN = function(sTree, words){
+window.GEN = function(sTree, words, options){
+	options = options || {};
+	
 	if(typeof words === "string")
 		words = words.split(' ');
+	
 	var leaves = [];
 	phiNum = wNum = 0;
 	for(var i=0; i<words.length; i++){
@@ -349,9 +352,21 @@ window.GEN = function(sTree, words){
 	
 	var candidates = [];
 	for(var i=0; i<rootlessCand.length; i++){
-		candidates.push([sTree, iotafy(rootlessCand[i])]);
+		var iota = iotafy(rootlessCand[i]);
+		if (options.obeysHeadedness && !ioataIsHeaded(iota))
+			continue;
+		candidates.push([sTree, iota]);
 	}
 	return candidates;
+}
+
+function ioataIsHeaded(ioata) {
+	var children = ioata.children || [];
+	for (var i = 0; i < children.length; i++)
+		if (children[i].cat === 'phi')
+			return true;
+	console.log(children);
+	return false;
 }
 
 function iotafy(candidate){
