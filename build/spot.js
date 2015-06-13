@@ -377,7 +377,10 @@ function omegafy(word){
 	return {id: word+'_'+(wNum++), cat: 'w'};
 }
 
-function gen(leaves){
+// conceptually, returns all possible parenthesizations of leaves that don't have a set of parentheses enclosing all of the leaves
+// format: returns an array of parenthesizations, where each parenthesization is an array of children, where each child is
+// either a phi node (with descendant nodes attached) or a leaf
+function gen(leaves, options){
 	var candidates = [];	//each candidate will be an array of siblings
 	if(!(leaves instanceof Array))
 		throw new Error(leaves+" is not a list of leaves.");	
@@ -393,11 +396,11 @@ function gen(leaves){
 	//Recursive case: at least 1 word. Consider all candidates where the first i words are grouped together
 	for(var i = 1; i <= leaves.length; i++){
 	
-		//Case 1: the first i leaves attach directly to iota (no phi wrapping)
+		//Case 1: the first i leaves attach directly to parent (no phi wrapping)
 		
 		var leftside = leaves.slice(0,i);
 		var rightsides = addPhiWrapped(gen(leaves.slice(i, leaves.length)));
-		//Combine the non-phi-wrapped leftside with all the possible rightsides that have a phi at their left edge (or are empty)
+		//Combine the all-leaf leftside with all the possible rightsides that have a phi at their left edge (or are empty)
 		for(var j = 0; j<rightsides.length; j++){
 			if(!rightsides[j].length || rightsides[j][0].cat === 'phi')
 			{
