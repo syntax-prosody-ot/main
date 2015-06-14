@@ -1,0 +1,82 @@
+<html>
+<head>
+	<title>Syntax prosody interface application</title>
+
+	<link rel="stylesheet" type="text/css" href="spot.css">
+
+	<!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
+	(open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
+	<script src="build/spot.js"></script>
+
+	<script src="trees/sTreesKinyambo1.js"></script>
+	<script src="trees/sTreesKinyambo2.js"></script>
+	<script src="trees/sTreesKinyambo3.js"></script>
+	<script src="trees/sTreesKinyambo4.js"></script>
+		
+</head>
+
+<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+	<h2>Kinyambo in Match: investigation using SPOT</h2>
+	<pre id="results-container"></pre>
+
+<script>
+	//Array of all the Kinyambo trees from files sTreesKinyambo1 - ...4.
+	var allKinyamboTrees = [kinyamboTrees_ignoreNothing, 
+							kinyamboTrees_ignoreLowerXPsegs, 
+							kinyamboTrees_ignoreAdjAdv, 
+							kinyamboTrees_ignoreLowerXPandAdjAdv];
+
+    var con1 = ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj'];
+    var con2 = con1.concat(['binMinBranches-phi']);
+    var con3 = con1.concat(['binMaxBranches-phi']);
+    var con4 = con2.concat(['binMaxBranches-phi']);
+    var constraintSets = [con1, con2, con3, con4];
+
+    function makeKinyamboCsvs(h) {
+        //For each set of Kinyambo trees (i.e., for each set of assumptions about visibility to Match)
+        for(var i = 0; i<allKinyamboTrees.length; i++){
+            var csvSegs = [];
+            //For each tree in the current set of trees
+            for(var j=0; j<allKinyamboTrees[i].length; j++){
+                var currentSTree = globalNameOrDirect(allKinyamboTrees[i][j]); 
+                var wordArray = getLeaves(currentSTree);
+                var words = [];
+                //make the string of terminals
+                for(k=0; k<wordArray.length; k++){
+                    words.push(wordArray[k].id.split("_")[0]);
+                }
+                //make the candidate set
+                var candSet = GEN(allKinyamboTrees[i][j], words, {obeysHeadedness: true});
+                var tabl = makeTableau(candSet, constraintSets[h]);
+                csvSegs.push(tableauToCsv(tabl, '\t', {noHeader: j}));
+            }
+            //reveal one 
+            revealNextSegment();
+            lastSegmentId++;
+            download(csvSegs.join('\n'), "kinyambo"+(i+1)+"_con"+(h+1)+".csv");
+        }
+    }
+    function runDemo() {
+        for (var consI = 0; consI < constraintSets.length; consI++)
+            makeKinyamboCsvs(consI);
+    }
+    
+    function download(text, name) {
+        /*var myCsv = "Col1,Col2,Col3\nval1,val2,val3";
+        window.open('data:text/csv;charset=utf-8,' + escape(myCsv));
+        */
+        var a = document.createElement("a");
+        a.display = "none";
+        var file = new Blob([text], {type: "text/csv", encoding: 'utf-8'});
+        a.href = URL.createObjectURL(file);
+        a.download = name;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+
+</script>
+
+</body>
+
+</html>

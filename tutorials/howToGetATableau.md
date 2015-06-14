@@ -47,7 +47,7 @@ For the html file to see all the variables (like trees) and functions (like cons
 
 	* Automatically generate the candidate set using the function GEN. Suppose you want to consider all posible phonological phrasings of the string of words "ideas sleep furiously".
 	
-		<code>var myCandidateSet2 = GEN(stree, "ideas sleep furiously");</code>
+			var myCandidateSet2 = GEN(stree, "ideas sleep furiously");
 	
 	This line creates an array of input-output pairs, where stree is the input and the 48 possible phonological phrasings of "ideas sleep furiously".
 	

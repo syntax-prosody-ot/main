@@ -61,8 +61,8 @@ function writeTableau(tableauContent) {
 
 window.addEventListener('load', function(){
     resultsContainer = document.getElementById('results-container');
-
-    runDemo();
+    if(typeof runDemo === 'function')
+        runDemo();
 });
 
 
@@ -88,6 +88,9 @@ document.addEventListener('keyup', function(event) {
         revealNextSegment();
 });
 
+
+//Given a string that is the name of a (global) object, returns the object itself.
+//Given an object, returns that object.
 function globalNameOrDirect(nameOrObject) {
     return (typeof nameOrObject === 'string') ? window[nameOrObject] : nameOrObject;
 }

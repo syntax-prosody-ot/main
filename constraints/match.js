@@ -4,7 +4,7 @@ and their numerous helpers
 ************************/
 
 function getLeaves(x)
-//return a list of all the terminals dominated by a node
+//return a list of all the non-silent terminals dominated by a node
 {
 	var leaves = [];
 	if(x.children && x.children.length)

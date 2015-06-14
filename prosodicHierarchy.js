@@ -18,7 +18,7 @@ function catsMatch(aCat, bCat){
 		return categoryPairings[bCat] === aCat;
 	else
 	{
-		console.warn("Neither argument to catsMatch was a valid syntactic category:", aCat, bCat);	//TODO this gives a false positive warning every time Match PS runs on a tree whose leaves don't have categories.
+		//console.warn("Neither argument to catsMatch was a valid syntactic category:", aCat, bCat);	//TODO this gives a false positive warning every time Match PS runs on a tree whose leaves don't have categories.
 		return false;
 	}
 }
