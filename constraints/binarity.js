@@ -49,11 +49,71 @@ function binMaxBranchesGradient(s, ptree, cat){
 	return vcount;
 }
 
+//Parent-category-neutral version of:
+//Sandalo & Truckenbrodt 2002: "Max-Bin: P-phrases consist of maximally two prosodic words"
+//Assigns a violation for every node in ptree that dominates more than two prosodic words.
+//UNTESTED.
+function binMax2Words(s, ptree, cat){
+	var vcount = 0;
+	if(ptree.children && ptree.children.length){
+		wDesc = getDescendentsOfCat(ptree, 'w');
+		if(ptree.cat === cat && wDesc.length>2){
+			logreport("VIOLATION: "+ptree.id+" dominates "+wDesc.length+" words!");
+			vcount++;
+		}
+		for(var i = 0; i<ptree.children.length; i++){
+			vcount += binMax2Words(s, ptree.children[i], cat);
+		}
+	}
+	return vcount;
+}
+
+//Gradient version of Truckenbrodt's Binarity
+//UNTESTED.
+function binMax2WordsGradient(s, ptree, cat){
+	var vcount = 0;
+	if(ptree.children && ptree.children.length){
+		wDesc = getDescendentsOfCat(ptree, 'w');
+		if(ptree.cat === cat && wDesc.length>2){
+			logreport("VIOLATION: "+ptree.id+" dominates "+wDesc.length+" words!");
+			vcount += (wDesc - 2);
+		}
+		for(var i = 0; i<ptree.children.length; i++){
+			vcount += binMax2Words(s, ptree.children[i], cat);
+		}
+	}
+	return vcount;
+}
+
+//Helper function: given a node x, returns all the descendents of x that have category cat.
+//Since this function is designed for use on prosodic trees, it does not take silence into account.
+//UNTESTED.
+function getDescendentsOfCat(x, cat){
+	var descendents = [];
+	if(x.children && x.children.length)
+	//x is non-terminal
+	{
+		for(var y=0; y < x.children.length; y++){
+			var yDescendents = getDescendentsOfCat(x.children[y]);
+			for(var i=0; i < yDescendents.length; i++){
+				descendents.push(yDescendents[i]);
+			}
+		}
+	}
+	else if(x.cat === cat)	// x is a terminal of the right category
+	{
+		descendents.push(x);
+	}
+	return descendents;
+}
+
+
 /* Binarity constraints that care about the number of leaves 
 Note: relies on getLeaves. 
 In the future we might want to have structure below the level of the (terminal) word, e.g., feet
 and in that case would need a type-sensitive implementation of getLeaves
 */
+
 
 function binMinLeaves(s, ptree, cat){
 	parentcat = cat[0];
