@@ -22,6 +22,10 @@
 	var candidateSet3 = GEN('sTreeFlatSWD', "showed workers dog");
 	console.log(candidateSet3);
 	var candidateSet4 = GEN('sTreeShowChiedOfWorkersDog', "showed chief of-workers dog");
+	var constraintSet1 = ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj', 'binMinBranches-phi', 'binMaxBranches-phi'];
+	var constraintSetBin = ['binMaxBranches-phi', 'binMaxBranchesGradient-phi', 'binMax2Words-phi', 'binMax2WordsGradient-phi'];
+	
+	
 	function runDemo() {
 		/*writeTableau(makeTableau([['sTreeCoord','pTreeA'], ['sTreeCoord','pTreeB'], ['sTreeCoord','pTreeC']], ['equalSistersAdj','matchSP-clause', 'matchPS-i']));
 		lastSegmentId++;
@@ -31,15 +35,16 @@
 		logreport('<br><hr>');
 		writeTableau(makeTableau([[null, 'unequalSisters1'], [null, 'unequalSisters2'], [null, 'unequalSisters3']], ['equalSistersAdj', 'equalSistersFirstPrivilege', 'equalSistersPairwise']));
 		lastSegmentId++;*/
+		writeTableau(makeTableau(candidateSet3.slice(20, candidateSet3.length), constraintSetBin));
+		revealNextSegment();
+		lastSegmentId++;
+/*	
+		writeTableau(makeTableau(candidateSet4, ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj', 'binMinBranches-phi'])); 
 		writeTableau(makeTableau(candidateSet3, ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj', 'binMinBranches-phi', 'binMaxBranches-phi']));
 		revealNextSegment();
 		lastSegmentId++;
-	
-		writeTableau(makeTableau(candidateSet4, ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj', 'binMinBranches-phi'])); 
-		/*writeTableau(makeTableau(candidateSet3, ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj', 'binMinBranches-phi', 'binMaxBranches-phi']));*/
-		revealNextSegment();
-		lastSegmentId++;
-		/* writeTableau(makeTableau(candidateSet4, ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj', 'binMinBranches-phi', 'binMaxBranches-phi'])); */
+		 writeTableau(makeTableau(candidateSet4, ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj', 'binMinBranches-phi', 'binMaxBranches-phi'])); 
+*/
 	}
 
 	</script>
