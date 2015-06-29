@@ -1,3 +1,102 @@
+var pTree0word = {
+	"id":"phi0",
+	"cat":"phi",
+	"children":
+		[
+			{
+				"id":"clitic1",
+				"cat":"foot"
+			}
+		]
+};
+
+var pTree0wordRec = {
+	"id":"phi0",
+	"cat":"phi",
+	"children":
+		[
+			{
+					"id":"phi1",
+					"cat":"phi",
+					"children":
+					[
+						{
+							"id":"clitic",
+							"cat":"foot"
+						}
+					]
+			}
+		]
+};
+
+var pTree1word = {
+	"id":"phi0",
+	"cat":"phi",
+	"children":
+		[
+			{
+				"id":"word1",
+				"cat":"w"
+			}
+		]
+};
+
+var pTree1wordRec = {
+	"id":"phi0",
+	"cat":"phi",
+	"children":
+		[
+			{
+					"id":"phi1",
+					"cat":"phi",
+					"children":
+					[
+						{
+							"id":"word1",
+							"cat":"w"
+						}
+					]
+			}
+		]
+};
+
+var pTree1word2xRec = {
+	"id":"phi0",
+	"cat":"phi",
+	"children": [
+	{
+		"id":"phi1",
+		"cat":"phi",
+		"children": [
+		{
+			"id":"phi2",
+			"cat":"phi",
+			"children":
+			[
+				{"id":"word1","cat":"w"}
+			]
+		}
+		]
+	}
+	]
+};
+
+var pTree2words = {
+	"id":"phi0",
+	"cat":"phi",
+	"children":
+		[
+			{
+				"id":"word1",
+				"cat":"w"
+			},
+			{
+				"id":"word2",
+				"cat":"w"
+			}
+		]
+};
+
 //Violates gradient BinMax ONCE; violates categorical BinMax ONCE.
 
 var pTree3words = {

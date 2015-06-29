@@ -18,12 +18,14 @@
 	<script src="../trees/trees.js"></script>
 	
 	<script>
-	var constraintSetBin = ['binMaxBranches-phi', 'binMaxBranchesGradient-phi', 'binMax2Words-phi', 'binMax2WordsGradient-phi'];
+	var constraintSetBinMax = ['binMaxBranches-phi', 'binMaxBranchesGradient-phi', 'binMax2Words-phi', 'binMax2WordsGradient-phi'];
 	var candidateSet = [[syntree1, pTree3words], [syntree1, pTree4words], [syntree1, pTree4wordsRec], [syntree1, pTree4words2xRec]];
+	var constraintSetBinMin = ['binMin2Words-phi', 'binMin2WordsGradient-phi'];
+	var candidateSetMin = [[syntree1, pTree0word], [syntree1, pTree0wordRec], [syntree1, pTree1word], [syntree1, pTree1wordRec], [syntree1, pTree1word2xRec], [syntree1, pTree2words]];
 		
 	function runDemo() {
 		
-		writeTableau(makeTableau(candidateSet, constraintSetBin));
+		writeTableau(makeTableau(candidateSetMin, constraintSetBinMin));
 		revealNextSegment();
 		lastSegmentId++;
 	}

@@ -25,12 +25,28 @@
 							kinyamboTrees_ignoreLowerXPsegs, 
 							kinyamboTrees_ignoreAdjAdv, 
 							kinyamboTrees_ignoreLowerXPandAdjAdv];
-
+	//Basic constraint sets
     var con1 = ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj'];
     var con2 = con1.concat(['binMinBranches-phi']);
     var con3 = con1.concat(['binMaxBranches-phi']);
     var con4 = con2.concat(['binMaxBranches-phi']);
-    var constraintSets = [con1, con2, con3, con4];
+
+	//Gradient extension
+    var con5 = con1.concat(['binMaxBranchesGradient-phi']);
+    var con6 = con2.concat(['binMaxBranchesGradient-phi']);
+
+	//Truckenbrodt Binarity extension (non-gradient and gradient)
+	//non-gradient
+	var con7 = con1.concat(['binMin2Words-phi']);
+    var con8 = con1.concat(['binMax2Words-phi']);
+    var con9 = con7.concat(['binMax2Words-phi']);
+    //gradient
+    var con10 = con1.concat(['binMin2WordsGradient-phi']);
+    var con11 = con1.concat(['binMax2WordsGradient-phi']);
+    var con12 = con10.concat(['binMax2WordsGradient-phi']);
+	    
+    var constraintSets_Vancouver = [con1, con2, con3, con4];
+    var constraintSets_GrTr = [con5, con6, con7, con8, con9, con10, con11, con12]; //using gradient and/or Truckenbrodt binarity
 
     function makeKinyamboCsvs(h) {
         //For each set of Kinyambo trees (i.e., for each set of assumptions about visibility to Match)
@@ -47,17 +63,20 @@
                 }
                 //make the candidate set
                 var candSet = GEN(allKinyamboTrees[i][j], words, {obeysHeadedness: true});
-                var tabl = makeTableau(candSet, constraintSets[h]);
+                //currently set to only use the extended constraint sets (gradient and Truckenbrodt).
+                //Change constraintSets_GrTr below to constraintSets_Vancouver to use the original constraint sets.
+                //Also in runDemo's forloop
+                var tabl = makeTableau(candSet, constraintSets_GrTr[h]);
                 csvSegs.push(tableauToCsv(tabl, '\t', {noHeader: j}));
             }
             //reveal one 
             revealNextSegment();
             lastSegmentId++;
-            download(csvSegs.join('\n'), "kinyambo"+(i+1)+"_con"+(h+1)+".csv");
+            download(csvSegs.join('\n'), "kinyambo"+(i+1)+"_con"+(h+5)+".csv");	//adding 5 to h to make the file name conh match up with the variable name
         }
     }
     function runDemo() {
-        for (var consI = 0; consI < constraintSets.length; consI++)
+        for (var consI = 0; consI < constraintSets_GrTr.length; consI++)
             makeKinyamboCsvs(consI);
     }
     

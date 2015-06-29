@@ -5,7 +5,7 @@ function binMinBranches(s, ptree, cat){
 	var vcount = 0;
 	if(ptree.children && ptree.children.length){
 		if(ptree.cat === cat && ptree.children.length===1){
-			logreport("VIOLATION: "+ptree.id+" has only one child");
+			//logreport("VIOLATION: "+ptree.id+" has only one child");
 			vcount++;
 		}
 		for(var i = 0; i<ptree.children.length; i++){
@@ -39,7 +39,7 @@ function binMaxBranchesGradient(s, ptree, cat){
 		var numChildren = ptree.children.length;
 		if(ptree.cat === cat && numChildren>2){
 			var excessChildren = numChildren - 2;
-			logreport(excessChildren+ " VIOLATION(s): "+ptree.id+" has "+numChildren+" children!");
+			//logreport(excessChildren+ " VIOLATION(s): "+ptree.id+" has "+numChildren+" children!");
 			vcount += excessChildren;
 		}
 		for(var i = 0; i<ptree.children.length; i++){
@@ -49,6 +49,8 @@ function binMaxBranchesGradient(s, ptree, cat){
 	return vcount;
 }
 
+/*TRUCKENBRODT-STYLE BINARITY*/
+
 //Parent-category-neutral version of:
 //Sandalo & Truckenbrodt 2002: "Max-Bin: P-phrases consist of maximally two prosodic words"
 //Assigns a violation for every node in ptree that dominates more than two prosodic words.
@@ -57,7 +59,7 @@ function binMax2Words(s, ptree, cat){
 	if(ptree.children && ptree.children.length){
 		wDesc = getDescendentsOfCat(ptree, 'w');
 		if(ptree.cat === cat && wDesc.length>2){
-			logreport("VIOLATION: "+ptree.id+" dominates "+wDesc.length+" words!");
+			//logreport("VIOLATION: "+ptree.id+" dominates "+wDesc.length+" words!");
 			vcount++;
 		}
 		for(var i = 0; i<ptree.children.length; i++){
@@ -67,13 +69,13 @@ function binMax2Words(s, ptree, cat){
 	return vcount;
 }
 
-//Gradient version of Truckenbrodt's Binarity
+//Gradient version of Truckenbrodt's Maximum Binarity
 function binMax2WordsGradient(s, ptree, cat){
 	var vcount = 0;
 	if(ptree.children && ptree.children.length){
 		wDesc = getDescendentsOfCat(ptree, 'w');
 		if(ptree.cat === cat && wDesc.length>2){
-			logreport("VIOLATION: "+ptree.id+" dominates "+wDesc.length+" words!");
+			//logreport("VIOLATION: "+ptree.id+" dominates "+wDesc.length+" words!");
 			vcount += (wDesc.length - 2);
 		}
 		for(var i = 0; i<ptree.children.length; i++){
@@ -105,6 +107,35 @@ function getDescendentsOfCat(x, cat){
 	return descendents;
 }
 
+function binMin2Words(s, ptree, cat){
+	var vcount = 0;
+	if(ptree.children && ptree.children.length){
+		wDesc = getDescendentsOfCat(ptree, 'w');
+		if(ptree.cat === cat && wDesc.length<2){
+			//logreport("VIOLATION: "+ptree.id+" only dominates "+wDesc.length+" words!");
+			vcount++;
+		}
+		for(var i = 0; i<ptree.children.length; i++){
+			vcount += binMin2Words(s, ptree.children[i], cat);
+		}
+	}
+	return vcount;
+}
+
+function binMin2WordsGradient(s, ptree, cat){
+	var vcount = 0;
+	if(ptree.children && ptree.children.length){
+		wDesc = getDescendentsOfCat(ptree, 'w');
+		if(ptree.cat === cat && wDesc.length<2){
+			//logreport("VIOLATION: "+ptree.id+" dominates "+wDesc.length+" words!");
+			vcount += (2-wDesc.length);
+		}
+		for(var i = 0; i<ptree.children.length; i++){
+			vcount += binMin2WordsGradient(s, ptree.children[i], cat);
+		}
+	}
+	return vcount;
+}
 
 /* Binarity constraints that care about the number of leaves 
 Note: relies on getLeaves. 
