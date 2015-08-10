@@ -66,7 +66,7 @@ function wrap(sTree, pTree, cat){
 		walkTree(pTree, function(pNode){
 			if(!catsMatch(cat, pNode.cat))
 				return;
-			if(contains(getLeaves(pNode), sLeaves)){	// if the current pNode wraps our sNode
+			if(containsIds(getLeaves(pNode), sLeaves)){	// if the current pNode wraps our sNode
 				noMatch = false;
 				return false;	 // stop looking for a match
 			}
@@ -79,7 +79,7 @@ function wrap(sTree, pTree, cat){
 
 // Returns true if a contains b
 // More precisely, if a contains a set of nodes whose ids are identical to the ids of the nodes in b.
-function contains(a, b){
+function containsIds(a, b){
 	for(var i=0; i<=(a.length-b.length); i++){
 		var j=0;
 		while((j<b.length)&&(a[i+j].id === b[j].id))

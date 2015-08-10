@@ -19,14 +19,14 @@
 	
 	<script>
 	var constraintSetAlign = ['alignLeft-xp', 'alignRight-xp', 'wrap-xp'];
-	var candidateSet = [[syntree1, pTree3words], [syntree1, pTree4words], [syntree1, pTree4wordsRec], [syntree1, pTree4words2xRec]];
+	var candidateSet = [[sTreeAlign1, pTree3words], [sTreeAlign1, pTree4words], [sTreeAlign1, pTree4wordsRec], [sTreeAlign1, pTree4words2xRec]];
 
 
-	var candidateSetMin = [[syntree1, pTree0word], [syntree1, pTree0wordRec], [syntree1, pTree1word], [syntree1, pTree1wordRec], [syntree1, pTree1word2xRec], [syntree1, pTree2words]];
+	var candidateSetMin = [[sTreeAlign1, pTree0word], [sTreeAlign1, pTree0wordRec], [sTreeAlign1, pTree1word], [sTreeAlign1, pTree1wordRec], [sTreeAlign1, pTree1word2xRec], [sTreeAlign1, pTree2words]];
 		
 	function runDemo() {
 		
-		writeTableau(makeTableau(candidateSet, constraintSetAlign));
+		writeTableau(makeTableau(candidateSetMin, constraintSetAlign));
 		revealNextSegment();
 		lastSegmentId++;
 	}

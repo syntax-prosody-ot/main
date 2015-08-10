@@ -1,3 +1,22 @@
+var sTreeAlign1 = { // should have no violations when compared to pTree1wordRec
+	"id":"xp0",
+	"cat":"xp",
+	"children":
+		[
+			{
+					"id":"xp1",
+					"cat":"xp",
+					"children":
+					[
+						{
+							"id":"word1",
+							"cat":"x0"
+						}
+					]
+			}
+		]
+};
+
 var pTree0word = {
 	"id":"phi0",
 	"cat":"phi",
