@@ -28,12 +28,12 @@ function sameIds(a1, a2)
 //helper function to compare two arrays (notably for comparing the children arrays)
 //since there isn't a built_in array comparator.
 {
-	if(a1.length != a2.length)
+	if(a1.length !== a2.length)
 		return false;
 	
 	var i = 0;
 	while(i<a1.length){
-		if(a1[i].id != a2[i].id)
+		if(a1[i].id !== a2[i].id)
 			return false;
 		i++;
 	}
