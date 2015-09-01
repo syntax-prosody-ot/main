@@ -27,12 +27,19 @@ function catsMatch(aCat, bCat){
 
 //defines the prosodic hierarchy
 var pCat = ["i", "phi", "w"];
-pCat.isHigher = function (cat1, cat2){
+
 //Function that compares two prosodic categories and returns whether cat1 is higher in the prosodic hierarchy than cat2
+pCat.isHigher = function (cat1, cat2){
 	return (pCat.indexOf(cat1) < pCat.indexOf(cat2));
 }
-pCat.nextLower = function(cat) {
+
+// Function that compares two prosodic categories and returns true if cat 1 is lower in the prosodic hierarchy than cat2
+pCat.isLower = function (cat1, cat2){
+	return (pCat.indexOf(cat1) > pCat.indexOf(cat2));
+}
+
 // Function that returns the prosodic category that is one level lower than the given category
+pCat.nextLower = function(cat) {
 	var i = pCat.indexOf(cat);
 	if (i < 0)
 		throw new Error(cat + ' is not a prosodic category');

@@ -1,0 +1,101 @@
+<html>
+<head>
+	<title>Syntax-prosody interface application -- Strong Start Test</title>
+
+	<link rel="stylesheet" type="text/css" href="../spot.css">
+
+	<!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
+	(open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
+	<script src="../build/spot.js"></script>
+	
+</head>
+
+<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+	<h2>Syntax-prosody interface application -- Strong Start Test</h2>
+	<pre id="results-container"></pre>
+
+	<script src="../trees/binarityTrees.js"></script>
+	<script src="../trees/trees.js"></script>
+	
+	<script>
+	//Some trees to run tests with.
+	var zeroVtree1 = {
+		"id": "iota1",
+		"cat": "i",
+		"children": 
+		[
+			{
+				"id": "phi1",
+				"cat": "phi"
+			},
+			{
+				"id":"phi2",
+				"cat":"phi"
+			}
+		]		
+	};
+	
+	var zeroVtree2 = {
+		"id": "iota1",
+		"cat": "i",
+		"children": 
+		[
+			{
+				"id": "w1",
+				"cat": "w"
+			},
+			{
+				"id":"w2",
+				"cat":"w"
+			}
+		]		
+	};
+	
+	var oneVtree1 = {
+		"id": "iota1",
+		"cat": "i",
+		"children": 
+		[
+			{	"id": "w1",	"cat": "w"},
+			{	"id":"phi2", "cat":"phi"}
+		]		
+	};
+	
+	var twoVtree1 = {
+		"id": "iota1",
+		"cat": "i",
+		"children": 
+		[
+			{
+				"id": "w1",
+				"cat": "w",
+				"children": 
+				[
+					{	"id": "w1",	"cat": "w"},
+					{	"id":"phi2", "cat":"phi"}
+				]
+			},
+			{
+				"id":"phi2",
+				"cat":"phi"
+			}
+		]		
+	};
+	
+	var emptyTree = {};
+	
+	var constraintSet = ['strongStart_Elfner-w'];
+	var candidateSet = [['emptyTree', 'zeroVtree1'], ['emptyTree', 'zeroVtree2'], ['emptyTree', 'oneVtree1'], ['emptyTree', 'twoVtree1']];
+		
+	function runDemo() {
+		
+		writeTableau(makeTableau(candidateSet, constraintSet));
+		revealNextSegment();
+		lastSegmentId++;
+	}
+
+	</script>
+
+</body>
+
+</html>
