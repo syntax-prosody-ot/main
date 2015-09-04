@@ -57,7 +57,7 @@
 		"children": 
 		[
 			{	"id": "w1",	"cat": "w"},
-			{	"id":"phi2", "cat":"phi"}
+			{	"id":"phi2", "cat":"phi", "children":[{"id":"another word", "cat":"w"}]}
 		]		
 	};
 	
@@ -71,13 +71,18 @@
 				"cat": "w",
 				"children": 
 				[
-					{	"id": "w1",	"cat": "w"},
-					{	"id":"phi2", "cat":"phi"}
+					{	"id": "w2",	"cat": "w"},
+					{	"id":"phi2", "cat":"phi", "children": [
+																{"id":"anotherword", 
+																"cat":"w"}
+																]
+					}
 				]
 			},
 			{
-				"id":"phi2",
-				"cat":"phi"
+				"id":"phi3",
+				"cat":"phi",
+				"children":[{"id":"thirdword", "cat":"w"}]
 			}
 		]		
 	};
