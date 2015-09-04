@@ -4,7 +4,7 @@
 * by another node of category x"
 ******************/
 
-function nonRec1(parent, type){
+function nonRec1(s, parent, cat){
 //Assumes trees that obey Layering.
 	
 	//Base case: if parent is a terminal, return 0 violations.
@@ -18,10 +18,10 @@ function nonRec1(parent, type){
 	
 	for (var i=0; i < parent.children.length; i++){
 		child = parent.children[i];
-		if (parent.type===type && child.type===type){
+		if (parent.cat===cat && child.cat===cat){
 			vcount++;
 		}		
-		vcount+=nonRec1(child, type);
+		vcount+=nonRec1(child, cat);
 	}
 	return vcount;
 }
