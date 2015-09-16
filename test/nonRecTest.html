@@ -11,11 +11,8 @@
 </head>
 
 <body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
-	<h2>Syntax-prosody interface application -- Strong Start Test</h2>
+	<h2>Syntax-prosody interface application -- Truckenbrodt Nonrecursivity Test</h2>
 	<pre id="results-container"></pre>
-
-	<script src="../trees/binarityTrees.js"></script>
-	<script src="../trees/trees.js"></script>
 	
 	<script>
 	//Some trees to run tests with.
@@ -41,12 +38,26 @@
 		"children": 
 		[
 			{
-				"id": "w1",
-				"cat": "w"
-			},
-			{
-				"id":"w2",
-				"cat":"w"
+				"id": "phi1",
+				"cat": "phi",
+				"children":
+				[
+					{
+						"id":"phi2",
+						"cat":"phi",
+						"children":
+						[
+							{
+								"id": "w1",
+								"cat": "w"
+							},
+							{
+								"id":"w2",
+								"cat":"w"
+							}
+						]
+					}
+				]
 			}
 		]		
 	};
@@ -56,40 +67,68 @@
 		"cat": "i",
 		"children": 
 		[
-			{	"id": "w1",	"cat": "w"},
-			{	"id":"phi2", "cat":"phi", "children":[{"id":"another word", "cat":"w"}]}
+			{
+				"id": "phi1",
+				"cat": "phi",
+				"children":
+				[
+					{
+						"id":"phi2",
+						"cat":"phi",
+						"children":
+						[
+							{
+								"id": "w1",
+								"cat": "w"
+							}
+						]
+					},
+					{
+						"id":"w2",
+						"cat":"w"
+					}
+				]
+			}
 		]		
 	};
-	//this tree violates layeredness
+
 	var twoVtree1 = {
 		"id": "iota1",
 		"cat": "i",
 		"children": 
 		[
 			{
-				"id": "w1",
-				"cat": "w",
-				"children": 
+				"id": "phi1",
+				"cat": "phi",
+				"children":
 				[
-					{	"id": "w2",	"cat": "w"},
-					{	"id":"phi2", "cat":"phi", "children": [
-																{"id":"anotherword", 
-																"cat":"w"}
-																]
+					{
+						"id":"phi2",
+						"cat":"phi",
+						"children":
+						[
+							{
+								"id": "w1",
+								"cat": "w"
+							}
+						]
+					},
+					{
+						"id":"w2",
+						"cat":"w"
+					},
+					{
+						"id":"w3",
+						"cat":"w"
 					}
 				]
-			},
-			{
-				"id":"phi3",
-				"cat":"phi",
-				"children":[{"id":"thirdword", "cat":"w"}]
 			}
 		]		
 	};
 	
 	var emptyTree = {};
 	
-	var constraintSet = ['strongStart_Elfner-w'];
+	var constraintSet = ['nonRecTruckenbrodt-phi', 'nonRecTruckenbrodt-w', 'nonRecTruckenbrodt-i', 'nonRec1-phi'];
 	var candidateSet = [['emptyTree', 'zeroVtree1'], ['emptyTree', 'zeroVtree2'], ['emptyTree', 'oneVtree1'], ['emptyTree', 'twoVtree1']];
 		
 	function runDemo() {
