@@ -12,7 +12,9 @@
 	<script src="trees/sTreesKinyambo2.js"></script>
 	<script src="trees/sTreesKinyambo3.js"></script>
 	<script src="trees/sTreesKinyambo4.js"></script>
-		
+	<script src="trees/sTreesKinyambo5.js"></script>
+	<script src="trees/sTreesKinyambo6.js"></script>
+			
 </head>
 
 <body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
@@ -20,18 +22,28 @@
 	<pre id="results-container"></pre>
 
 <script>
-	//Array of all the Kinyambo trees from files sTreesKinyambo1 - ...4.
+	//Array of all the Kinyambo trees from files sTreesKinyambo1 - ...6.
 	var allKinyamboTrees = [kinyamboTrees_ignoreNothing, 
 							kinyamboTrees_ignoreLowerXPsegs, 
 							kinyamboTrees_ignoreAdjAdv, 
-							kinyamboTrees_ignoreLowerXPandAdjAdv];
-	//Basic constraint sets
-    var con1 = ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj'];
+							kinyamboTrees_ignoreLowerXPandAdjAdv,
+							kinyamboTrees_ignoreHigherXP,
+							kinyamboTrees_ignoreHigherXPAndAdjAdv];
+	//Basic constraint set: set its value according to the flag 'theory' which should be set to "Match" or "Align"
+	var theory = "Align";
+	var con1;
+	if(theory==="Match")
+	    con1 = ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj'];
+	else if(theory==="Align")
+		con1 = ['alignRight-xp', 'alignLeft-xp', 'wrap-xp', 'equalSistersAdj'];
+	else throw new Error("Value of theory not recognized");
+		
+	//Plain constraint sets based off of con1
     var con2 = con1.concat(['binMinBranches-phi']);
     var con3 = con1.concat(['binMaxBranches-phi']);
     var con4 = con2.concat(['binMaxBranches-phi']);
 
-	//Gradient extension
+	//Gradient extension using standard binarity
     var con5 = con1.concat(['binMaxBranchesGradient-phi']);
     var con6 = con2.concat(['binMaxBranchesGradient-phi']);
 
@@ -45,10 +57,19 @@
     var con11 = con1.concat(['binMax2WordsGradient-phi']);
     var con12 = con10.concat(['binMax2WordsGradient-phi']);
 	    
-    var constraintSets_Vancouver = [con1, con2, con3, con4];
-    var constraintSets_GrTr = [con5, con6, con7, con8, con9, con10, con11, con12]; //using gradient and/or Truckenbrodt binarity
-
-    function makeKinyamboCsvs(h) {
+    var constraintSets_Vancouver_old = ['con1', 'con2', 'con3', 'con4'];
+    var constraintSets_GrTr_old = ['con5', 'con6', 'con7', 'con8', 'con9', 'con10', 'con11', 'con12']; //using gradient and/or Truckenbrodt binarity
+    
+    var constraintSets_Vancouver = ['con1', 'con4', 'con9'];	// We will just look at the sets that use both binMin and binMax, 
+    															// and compare branching binarity vs word-count binarity.
+    															// Follow up by removing constraints to see if that results in 
+    															// better predictions (less pathology)
+/*    if(theory==="Match")
+    	constraintSets_Vancouver = ['con1', 'con2', 'con3', 'con4', 'con9'];
+    else if(theory==="Align")
+    	constraintSets_Vancouver = ['con1', 'con2', 'con3', 'con4', 'con9'];
+*/
+    function makeKinyamboCsvs(consName) {
         //For each set of Kinyambo trees (i.e., for each set of assumptions about visibility to Match)
         for(var i = 0; i<allKinyamboTrees.length; i++){
             var csvSegs = [];
@@ -63,21 +84,21 @@
                 }
                 //make the candidate set
                 var candSet = GEN(allKinyamboTrees[i][j], words, {obeysHeadedness: true});
-                //currently set to only use the extended constraint sets (gradient and Truckenbrodt).
-                //Change constraintSets_GrTr below to constraintSets_Vancouver to use the original constraint sets.
-                //Also in runDemo's forloop
-                var tabl = makeTableau(candSet, constraintSets_GrTr[h]);
+                
+                var tabl = makeTableau(candSet, window[consName]);
                 csvSegs.push(tableauToCsv(tabl, '\t', {noHeader: j}));
             }
             //reveal one 
             revealNextSegment();
             lastSegmentId++;
-            download(csvSegs.join('\n'), "kinyambo"+(i+1)+"_con"+(h+5)+".csv");	//adding 5 to h to make the file name conh match up with the variable name
+            download(csvSegs.join('\n'), "kinyambo"+(i+1)+"_"+theory+"_"+consName+".csv");	
         }
     }
     function runDemo() {
-        for (var consI = 0; consI < constraintSets_GrTr.length; consI++)
-            makeKinyamboCsvs(consI);
+        for (var consI = 0; consI < constraintSets_Vancouver.length; consI++)
+        {
+            makeKinyamboCsvs(constraintSets_Vancouver[consI]);
+        }
     }
     
     function download(text, name) {

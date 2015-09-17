@@ -1,5 +1,3 @@
-//NONE OF THIS HAS BEEN TESTED. AT ALL.
-
 /* Assign a violation for every node in sTree of category sCat
 whose d edge is not aligned with the d edge of a node in pTree 
 of the prosodic category corresponding to s

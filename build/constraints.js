@@ -1,5 +1,3 @@
-//NONE OF THIS HAS BEEN TESTED. AT ALL.
-
 /* Assign a violation for every node in sTree of category sCat
 whose d edge is not aligned with the d edge of a node in pTree 
 of the prosodic category corresponding to s
@@ -515,7 +513,7 @@ function nonRec1(s, parent, cat){
 *  assign a violation for every leaf dominated by y that is not also dominated by x.
 */
 function nonRecTruckenbrodt(s, parent, cat){
-	console.log("looking for nonRecTruckenbrodt violations in prosodic tree "+parent.id);
+	//console.log("looking for nonRecTruckenbrodt violations in prosodic tree "+parent.id);
 	if(!parent.children||(parent.children.length===0)){
 		return 0;
 	}
