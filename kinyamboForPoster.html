@@ -1,0 +1,122 @@
+<html>
+<head>
+	<title>Syntax prosody interface application</title>
+
+	<link rel="stylesheet" type="text/css" href="spot.css">
+
+	<script src="lib/jszip.min.js"></script>
+
+	<!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
+	(open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
+	<script src="build/spot.js"></script>
+
+	<script src="trees/sTreesKinyambo_poster.js"></script>
+			
+</head>
+
+<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+	<h2>Kinyambo in Match: investigation using SPOT</h2>
+	<pre id="results-container"></pre>
+
+<script>
+	//Array of all the Kinyambo trees from files sTreesKinyambo_poster.
+	//Kinyambo 1 has everything visible (high and low), K2 just high is visible, K3 is just the lower segment visible
+	var allKinyamboTrees = [kinyamboTrees_HLvisible,
+							kinyamboTrees_Hvisible,
+							kinyamboTrees_Lvisible
+							];
+	//Basic constraint set: set its value according to the flag 'theory' which should be set to "Match" or "Align"
+	var theory = "Match";
+	var con1;
+	if(theory==="Match")
+	    con1 = ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj'];
+	else if(theory==="Align")
+		con1 = ['alignRight-xp', 'alignLeft-xp', 'wrap-xp', 'equalSistersAdj'];
+	else throw new Error("Value of theory not recognized");
+		
+	//Plain constraint sets based off of con1
+    var con2 = con1.concat(['binMinBranches-phi']);
+    var con3 = con1.concat(['binMaxBranches-phi']);
+    var con4 = con2.concat(['binMaxBranches-phi']);
+
+	//Gradient extension using standard binarity
+    var con5 = con1.concat(['binMaxBranchesGradient-phi']);
+    var con6 = con2.concat(['binMaxBranchesGradient-phi']);
+
+	//Truckenbrodt Binarity extension (non-gradient and gradient)
+	//non-gradient
+	var con7 = con1.concat(['binMin2Words-phi']);
+    var con8 = con1.concat(['binMax2Words-phi']);
+    var con9 = con7.concat(['binMax2Words-phi']);
+    //gradient
+    var con10 = con1.concat(['binMin2WordsGradient-phi']);
+    var con11 = con1.concat(['binMax2WordsGradient-phi']);
+    var con12 = con10.concat(['binMax2WordsGradient-phi']);
+	    
+    var constraintSets_poster = ['con4', 'con9'];	// We will just look at the sets that use both binMin and binMax, 
+    															// and compare branching binarity vs word-count binarity.
+    															// Follow up by removing constraints to see if that results in 
+    															// better predictions (less pathology)
+/*    if(theory==="Match")
+    	constraintSets_Vancouver = ['con1', 'con2', 'con3', 'con4', 'con9'];
+    else if(theory==="Align")
+    	constraintSets_Vancouver = ['con1', 'con2', 'con3', 'con4', 'con9'];
+*/
+
+	var zip = new JSZip();
+
+    function makeKinyamboCsvs(consName) {
+        //For each set of Kinyambo trees (i.e., for each set of assumptions about visibility to Match)
+        for(var i = 0; i<allKinyamboTrees.length; i++){
+            var csvSegs = [];
+            //For each tree in the current set of trees
+            for(var j=0; j<allKinyamboTrees[i].length; j++){
+                var currentSTree = globalNameOrDirect(allKinyamboTrees[i][j]); 
+                var wordArray = getLeaves(currentSTree);
+                var words = [];
+                //make the string of terminals
+                for(k=0; k<wordArray.length; k++){
+                    words.push(wordArray[k].id.split("_")[0]);
+                }
+                //make the candidate set
+                var candSet = GEN(allKinyamboTrees[i][j], words, {obeysHeadedness: true});
+                
+                var tabl = makeTableau(candSet, window[consName]);
+                csvSegs.push(tableauToCsv(tabl, '\t', {noHeader: j}));
+            }
+            //reveal one 
+            revealNextSegment();
+            lastSegmentId++;
+            //saveTextAs(csvSegs.join('\n'), "kinyambo"+(i+1)+"_"+theory+"_"+consName+".csv");
+            zip.file("kinyambo"+(i+1)+"_"+theory+"_"+consName+".txt", csvSegs.join('\n'));
+        }
+    }
+    function runDemo() {
+        for (var consI = 0; consI < constraintSets_poster.length; consI++)
+        {
+            makeKinyamboCsvs(constraintSets_poster[consI]);
+        }
+        saveAs(zip.generate({type: 'Blob'}), 'kinyambo_'+theory+'.zip');       
+         
+    }
+    
+    
+    function saveAs(blob, name) {
+        var a = document.createElement("a");
+        a.display = "none";
+        a.href = URL.createObjectURL(blob);
+        a.download = name;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+    
+    function saveTextAs(text, name) {
+        saveAs(new Blob([text], {type: "text/csv", encoding: 'utf-8'}), name);
+    }
+
+</script>
+
+</body>
+
+</html>
