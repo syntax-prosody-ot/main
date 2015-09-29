@@ -26,7 +26,7 @@
 							kinyamboTrees_Lvisible
 							];
 	//Basic constraint set: set its value according to the flag 'theory' which should be set to "Match" or "Align"
-	var theory = "Match";
+	var theory = "Align";
 	var con1;
 	if(theory==="Match")
 	    con1 = ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj'];
@@ -52,11 +52,17 @@
     var con10 = con1.concat(['binMin2WordsGradient-phi']);
     var con11 = con1.concat(['binMax2WordsGradient-phi']);
     var con12 = con10.concat(['binMax2WordsGradient-phi']);
+    
+    //with non-recursivity
+    var con_BinBr_NonRec = con4.concat(['nonRec1-phi']);
+    var con_BinW_NonRecT = con9.concat(['nonRecTruckenbrodt']);
 	    
-    var constraintSets_poster = ['con4', 'con9'];	// We will just look at the sets that use both binMin and binMax, 
-    															// and compare branching binarity vs word-count binarity.
-    															// Follow up by removing constraints to see if that results in 
-    															// better predictions (less pathology)
+    var constraintSets_poster = ['con_BinBr_NonRec', 'con_BinW_NonRecT'];
+													// CURRENT follow-up: adding non-recursivity to see if it helps Align/Wrap.
+ 															// We will just look at the sets that use both binMin and binMax, 
+ 															// and compare branching binarity vs word-count binarity.
+  															// Follow up by removing constraints to see if that results in 
+  															// better predictions (less pathology)
 /*    if(theory==="Match")
     	constraintSets_Vancouver = ['con1', 'con2', 'con3', 'con4', 'con9'];
     else if(theory==="Align")
