@@ -11,6 +11,7 @@
 	<script src="build/spot.js"></script>
 
 	<script src="trees/sTreesKinyambo_poster.js"></script>
+	<script src="trees/sTreesKinyambo_Truckenbrodt100.js"></script>
 			
 </head>
 
@@ -21,10 +22,10 @@
 <script>
 	//Array of all the Kinyambo trees from files sTreesKinyambo_poster.
 	//Kinyambo 1 has everything visible (high and low), K2 just high is visible, K3 is just the lower segment visible
-	var allKinyamboTrees = [kinyamboTrees_HLvisible,
+	var allKinyamboTrees = [kinyamboTrees_Truckenbrodt];/*[kinyamboTrees_HLvisible,
 							kinyamboTrees_Hvisible,
 							kinyamboTrees_Lvisible
-							];
+							];*/
 	//Basic constraint set: set its value according to the flag 'theory' which should be set to "Match" or "Align"
 	var theory = "Align";
 	var con1;
@@ -55,9 +56,12 @@
     
     //with non-recursivity
     var con_BinBr_NonRec = con4.concat(['nonRec1-phi']);
-    var con_BinW_NonRecT = con9.concat(['nonRecTruckenbrodt']);
-	    
-    var constraintSets_poster = ['con_BinBr_NonRec', 'con_BinW_NonRecT'];
+    var con_BinW_NonRecT = con9.concat(['nonRecTruckenbrodt-phi']);
+	
+	var con_Tr100 = ['alignRight-xp', 'alignLeft-xp', 'wrap-xp', 
+					'binMin2Words-phi','binMax2Words-phi', 'nonRecTruckenbrodt-phi', 'exhaust1'];
+	
+    var constraintSets_poster = ['con_Tr100'];
 													// CURRENT follow-up: adding non-recursivity to see if it helps Align/Wrap.
  															// We will just look at the sets that use both binMin and binMax, 
  															// and compare branching binarity vs word-count binarity.
