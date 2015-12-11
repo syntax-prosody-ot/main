@@ -17,7 +17,7 @@ function makeTableau(candidateSet, constraintSet){
 		var violations = [parenthesizeTree(globalNameOrDirect(candidate[1]))];
 		for(var j = 0; j < constraintSet.length; j++){
 			var constraintAndCat = constraintSet[j].split('-');
-			// var numViolations = runConstraint(constraintAndCat[0], candidate[0], candidate[1], constraintAndCat[1]); ++lastSegmentId; // show log of each constraint run
+			//var numViolations = runConstraint(constraintAndCat[0], candidate[0], candidate[1], constraintAndCat[1]); ++lastSegmentId; // show log of each constraint run
 			var oldDebugOn = logreport.debug.on; logreport.debug.on = false; var numViolations = globalNameOrDirect(constraintAndCat[0])(globalNameOrDirect(candidate[0]), globalNameOrDirect(candidate[1]), constraintAndCat[1]); logreport.debug.on = oldDebugOn; // don't show the log of each constraint run
 			violations.push(numViolations);
 		}

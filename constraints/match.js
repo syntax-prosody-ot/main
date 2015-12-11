@@ -25,7 +25,7 @@ function getLeaves(x)
 }
 
 function sameIds(a1, a2)
-//helper function to compare two arrays (notably for comparing the children arrays)
+//helper function to compare two arrays of children
 //since there isn't a built_in array comparator.
 {
 	if(a1.length !== a2.length)

@@ -1,11 +1,10 @@
 /****************
 * Function that implements Nonrecursivity, version 1:
-* "Assign a violation for every node of category x dominated 
+* "Assign a violation for every node of category x immediately dominated 
 * by another node of category x"
 ******************/
 
 function nonRec1(s, parent, cat){
-//Assumes trees that obey Layering.
 	
 	//Base case: if parent is a terminal, return 0 violations.
 	if (!parent.children){
