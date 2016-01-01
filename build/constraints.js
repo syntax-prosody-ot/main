@@ -435,7 +435,18 @@ For each phi, assign a violation for every U that is a) non-initial b) preceded 
 
 */
 function lapse(s, p, c){
+	if(!p.children || !p.children.length)
+	{
+		return 0;
+	}
 	
+	var vCount = 0;
+	
+	for(var i=0; i<p.children.length; i++){
+		
+	}
+	
+	return vCount;
 }
 /***********************
 MATCH THEORY constraints

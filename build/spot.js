@@ -435,7 +435,18 @@ For each phi, assign a violation for every U that is a) non-initial b) preceded 
 
 */
 function lapse(s, p, c){
+	if(!p.children || !p.children.length)
+	{
+		return 0;
+	}
 	
+	var vCount = 0;
+	
+	for(var i=0; i<p.children.length; i++){
+		
+	}
+	
+	return vCount;
 }
 /***********************
 MATCH THEORY constraints
@@ -834,6 +845,43 @@ function addPhiWrapped(candidates, options){
 }
 
 })();
+window.addEventListener('load', function(){
+
+	var spotForm = document.getElementById('spotForm');
+
+    spotForm.onsubmit=function(e){
+    	if (e.preventDefault) e.preventDefault();
+    	
+		
+    	//Build a list of checked constraints.
+		var constraintSet = [];
+		for(var i=0; i<spotForm.constraints.length; i++){
+			var constraintBox = spotForm.constraints[i];
+			if(constraintBox.checked)
+				constraintSet.push(constraintBox.value);
+		}
+		
+		//Get the input syntactic tree.
+		var sTree; 
+    	try{
+			sTree = JSON.parse(spotForm.sTree.value);
+		}
+		catch(e){
+			alert(e.message);
+			return;
+		}
+		
+		//Get input to GEN.
+		var pString = spotForm.inputToGen.value;
+		var candidateSet = GEN(sTree, pString);
+		
+		//Make the violation tableau with the info we just got.
+		writeTableau(makeTableau(candidateSet, constraintSet));
+		revealNextSegment();
+    	
+    	return false;
+    };
+});
 //An array of pairs to define which syntactic categories "match" which prosodic categories.
 //For theory comparison, we'll want one array for each theory.
 var categoryPairings = {

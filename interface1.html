@@ -1,0 +1,88 @@
+<html>
+	<head>
+		<title>SPOT Interface</title>
+		
+		<script src="build/spot.js"></script>
+		<link rel="stylesheet" type="text/css" href="spot.css">
+
+	</head>
+	<body>
+	<div style="padding-left:80px; padding-right:80px; padding-top:20px; padding-bottom:40px">
+		<h1>SPOT Interface</h1>
+		<p><i>SPOT is a very useful tool! Here is an html interface so you don't have to write JavaScript.</i></p>
+		<p>Please select all the constraints you would like to use. </p>
+		<p><i>Currently uses phi/xp as the category for all constraints. Future versions will allow selection of the desired category.</i></p>
+		<form id="spotForm">
+			
+			<fieldset>
+			
+				<legend><h2>Syntax-prosody mapping constraints</h2></legend>
+			
+				<h3>Align/Wrap</h3>
+				<input type="checkbox" name="constraints" value="alignLeft-xp">Align-Left<br/>
+				<input type="checkbox" name="constraints" value="alignRight-xp">Align-Right<br/>
+				<input type="checkbox" name="constraints" value="wrap-xp">Wrap<br/>
+			
+				<h3>Match Theory</h3>
+				<input type="checkbox" name="constraints" value="matchSP-xp">Match-SP<br/>
+				<input type="checkbox" name="constraints" value="matchPS-phi">Match-PS<br/>
+			
+			</fieldset>
+			
+			<br/>
+			
+			<fieldset>
+			
+				<legend><h2>Markedness constraints: Binarity</h2></legend>
+			
+				<h3>...counting branches</h3>
+			
+				<input type="checkbox" name="constraints" value="binMinBranches-phi">BinMin(branches) <br/>
+				<input type="checkbox" name="constraints" value="binMaxBranches-phi">BinMax(branches) <i>categorical</i><br/>
+				<input type="checkbox" name="constraints" value="binMaxBranchesGradient-phi">BinMax(branches) <i>gradient</i><br/>
+				
+				<h3>...counting words</h3>
+				<input type="checkbox" name="constraints" value="binMin2Words-phi">BinMin(words)<br/>
+				<input type="checkbox" name="constraints" value="binMax2Words-phi">BinMax(words) <i>categorical</i><br/>
+				<input type="checkbox" name="constraints" value="binMax2WordsGradient-phi">BinMax(words) <i>gradient</i><br/>
+			
+			</fieldset>
+			
+			<br/>
+			
+			<fieldset>
+			
+				<legend><h2>Markedness constraints: EqualSisters</h2></legend>
+				<input type="checkbox" name="constraints" value="equalSistersAdj-phi">EqualSisters<br/>
+			
+			</fieldset>
+			<br/>
+			
+			<hr/>
+			<p><i>Currently only supports evaluation of one syntactic tree at a time.</i></p>
+			
+			<p>Input syntactic tree: paste in the contents of JS file of your input syntactic tree (from the opening brace to the closing brace, removing any comments and excluding the final semi-colon). </p>
+			<textarea name="sTree" rows="15" style="width:90%"></textarea>
+			
+			<p>Input string(s) on which to run Gen to create the output candidate prosodic trees: <br/>
+			<i>N.B. Input strings longer than 6 words may be very slow, and risk freezing your system.</i>
+			</p>
+			
+			<p>Input 1: <input type="text" name="inputToGen"><p/>
+			<!--
+			<p>Input 2: <input type="text" name="inputToGen"><p/>
+			<p>Input 3: <input type="text" name="inputToGen"><p/>
+			
+			-->
+			<div align="center"><input type="submit" value="Submit" style="font-size:18px; font-weight:bold">
+			<h2>Scroll down to see your results!</h2></div>
+		
+		</form>
+
+		<pre id="results-container"></pre>
+
+	</div>
+	
+	
+	</body>
+</html>
