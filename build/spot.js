@@ -417,7 +417,8 @@ function accentAsHead(s, p, c){
 					//console.log("child.id ("+child.id+") is an accented word. aCount = "+aCount);
 				}
 			}
-			vCount += (aCount-1);
+			vCount += aCount;
+			if(p.children.length>1) vCount--; 	//The first unaccented child doesn't receive a violation because it's initial in the phi. TODO check if this produces the intended results when there is just 1 child.
 		}
 	}
 	

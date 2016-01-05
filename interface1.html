@@ -9,9 +9,9 @@
 	<body>
 	<div style="padding-left:80px; padding-right:80px; padding-top:20px; padding-bottom:40px">
 		<h1>SPOT Interface</h1>
-		<p><i>SPOT is a very useful tool! Here is an html interface so you don't have to write JavaScript.</i></p>
-		<p>Please select all the constraints you would like to use. </p>
+		<p><i>SPOT is a very useful tool! Here is an html interface so you don't have to write JavaScript to use it.</i></p>
 		<p><i>Currently uses phi/xp as the category for all constraints. Future versions will allow selection of the desired category.</i></p>
+		<p>Please select all the constraints you would like to use by checking the associated checkbox for each constraint. </p>
 		<form id="spotForm">
 			
 			<fieldset>
@@ -55,8 +55,7 @@
 				<legend><h2>Markedness constraints: EqualSisters</h2></legend>
 				<input type="checkbox" name="constraints" value="equalSistersAdj-phi"><b>EqualSisters (adjacent)</b>: Assign a violation for every pair of adjacent sister nodes that are not of the same prosodic category.<br/>
 				<input type="checkbox" name="constraints" value="equalSistersPairwise-phi"><b>EqualSisters (pairwise)</b>: Assign a violation for every (unordered) pair of sisters nodes that are not of the same prosodic category.<br/>
-				<input type="checkbox" name="constraints" value="equalSistersFirstPrivilege-phi"><b>EqualSisters (first privilege)</b>:
-			
+				<input type="checkbox" name="constraints" value="equalSistersFirstPrivilege-phi"><b>EqualSisters (first privilege)</b>: For each set of sisters, assign a violation for every child that has a different prosodic category from the first (leftmost) sister in the set.
 			</fieldset>
 			<br/>
 			
@@ -67,15 +66,21 @@
 				<input type="checkbox" name="constraints" value="noLapseL"><b>NoLapse-L</b>: No accentual lapse. Assign a violation for every fully L-toned w.<br/>
 			</fieldset>
 			
+			<br/>
+			<br/>
 			<hr/>
-			<p><i>Currently only supports evaluation of one syntactic tree at a time. If you want to look at more than one tree, you can run all the trees you're interested in one at a time, and paste the resulting text-area's contents into OT Workplace as you go along.</i></p>
+			<h2>Input syntactic tree</h2>
 			
-			<p><b>Input syntactic tree</b>: Select a tree from your JavaScript tree file (pre-made trees are in the directory main/trees, and end with .js). Paste in the contents of JS file of your input syntactic tree (from the opening brace to the closing brace, removing any comments and excluding the final semi-colon). </p>
+			<p><i>Currently only supports evaluation of one syntactic tree at a time. If you want to look at more than one tree, you can run all the trees you're interested in one at a time, and paste the resulting text-area's contents into OT Workplace as you go along.</i></p>
+			<p>Select a tree from your JavaScript tree file (pre-made trees are in the directory <i>main/trees</i>, and end with .js). Paste in the contents of JS file of your input syntactic tree (from the opening brace to the closing brace, removing any comments and excluding the final semi-colon). </p>
 			<textarea name="sTree" rows="15" style="width:90%"></textarea>
 			
-			<p>Input string(s) on which to run Gen to create the output candidate prosodic trees: <br/>
-			<i>N.B. Input strings longer than 6 words may be very slow, and risk freezing your system.</i>
-			</p>
+			<br/>
+			<br/>
+			<hr/>
+			<h2>Input string(s) for Gen (to create output candidate prosodic trees)</h2>
+			<p><b>Instructions</b>: Type the words that you want to be included in the output prosodic trees, separating them with spaces. Be sure to make the words you type as input to Gen exactly match the ids of the nodes in your input syntactic tree -- BUT exclude any indices. E.g. If your syntactic tree contains nodes with ids <i>"tomodachi-no_0", "pasokon_1"</i>, then the input to Gen should be "tomodachi-no pasokon". This will ensure that Match and Align function properly.</p>
+			<p><b>N.B.</b> Input strings longer than 6 words may be very slow, and risk freezing your system.</p>
 			
 			<p>Input 1: <input type="text" name="inputToGen"><p/>
 			<!--
