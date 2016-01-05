@@ -430,11 +430,21 @@ Defined in Ito&Mester(2013) as: "No accentual lapse. Assign a violation for ever
 Operationalized as: 
 "For every U (= w[-accent]), assign a violation if U is non-initial (i.e. index of U in the children array > 0) and preceded by A in phi (i.e. there is an A in the children array with index greater than indexOf(U))."
 
-For each iota, assign a violation for every immediately dominated U. TODO find out if there is an accent for the beginning of iota -- i.e. should the initial U *not* receive a violation as well...???
-For each phi, assign a violation for every U that is a) non-initial b) preceded an A (within the maximal phi).
+For each iota, assign a violation for every immediately dominated U. 
+TODO find out if there is an accent for the beginning of iota -- i.e. should the initial U *not* receive a violation as well...???
+ANSWER: Assuming words can be immediately dominated by intonational phrases (i.e. violable Exhaustivity):
+	iota( U ... ) : If the U receives a high tone by virtue of being at the left edge of the iota, then it shouldn't receive a violation. Otherwise, it should. =====> Seems correct.
+
+	iota( phi(U) U ) : What about a U immediately dominated by iota that is preceded by a U that receives a high tone by virtue of being first in a phi?
+	======> There would be no fall, hence no violation of NoLapse-L.
+
+	iota( phi(A) U ) : We assume the U here does receive a violation (i.e. is all L's) since the A contributes a fall.
+	======> Yes, that sounds right.
+
+	For each phi, assign a violation for every U that is a) non-initial b) preceded an A (within the maximal phi).
 
 */
-function lapse(s, p, c){
+function noLapseL(s, p, c){
 	if(!p.children || !p.children.length)
 	{
 		return 0;

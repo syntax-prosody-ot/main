@@ -53,15 +53,24 @@
 			<fieldset>
 			
 				<legend><h2>Markedness constraints: EqualSisters</h2></legend>
-				<input type="checkbox" name="constraints" value="equalSistersAdj-phi">EqualSisters<br/>
+				<input type="checkbox" name="constraints" value="equalSistersAdj-phi"><b>EqualSisters (adjacent)</b>: Assign a violation for every pair of adjacent sister nodes that are not of the same prosodic category.<br/>
+				<input type="checkbox" name="constraints" value="equalSistersPairwise-phi"><b>EqualSisters (pairwise)</b>: Assign a violation for every (unordered) pair of sisters nodes that are not of the same prosodic category.<br/>
+				<input type="checkbox" name="constraints" value="equalSistersFirstPrivilege-phi"><b>EqualSisters (first privilege)</b>:
 			
 			</fieldset>
 			<br/>
 			
-			<hr/>
-			<p><i>Currently only supports evaluation of one syntactic tree at a time.</i></p>
+			<fieldset>
+				<legend><h2>Markedness constraints: Japanese accentedness constraints</h2></legend>
+				<p><i>N.B. Current evaluation of these constraints requires the id's of all words to be 'a' or 'u' </i> </p>
+				<input type="checkbox" name="constraints" value="accentAsHead"><b>AccentAsHead</b>: Assign a violation for each prosodic word that is not the head of a minimal phi.<br/>
+				<input type="checkbox" name="constraints" value="noLapseL"><b>NoLapse-L</b>: No accentual lapse. Assign a violation for every fully L-toned w.<br/>
+			</fieldset>
 			
-			<p>Input syntactic tree: paste in the contents of JS file of your input syntactic tree (from the opening brace to the closing brace, removing any comments and excluding the final semi-colon). </p>
+			<hr/>
+			<p><i>Currently only supports evaluation of one syntactic tree at a time. If you want to look at more than one tree, you can run all the trees you're interested in one at a time, and paste the resulting text-area's contents into OT Workplace as you go along.</i></p>
+			
+			<p><b>Input syntactic tree</b>: Select a tree from your JavaScript tree file (pre-made trees are in the directory main/trees, and end with .js). Paste in the contents of JS file of your input syntactic tree (from the opening brace to the closing brace, removing any comments and excluding the final semi-colon). </p>
 			<textarea name="sTree" rows="15" style="width:90%"></textarea>
 			
 			<p>Input string(s) on which to run Gen to create the output candidate prosodic trees: <br/>
