@@ -366,62 +366,62 @@ function exhaust1(s, ptree){
 };
 /*
 Defined in Ito & Mester (2013) as: "Every accented word must be the head of a (minimal) phi
-Assign a violation for each prosodic word that is not the head of a minimal phi."
+Assign a violation for each accented prosodic word that is not the head of a minimal phi."
 
 Operationalized as:
-For each node, look at all children. If at least one child is a phi, then assign a violation for every A (= w [+accent]) in the array of children. 
+For each phi, look at all children. If at least one child is a phi, then the current node is a non-minimal phi, 
+so assign a violation for every A (= w [+accent]) in the array of children. 
 If no child is a phi, let aCount = the number of A in the children array, and assign (aCount-1) violations."
 
 Notes:
 - Assumes accent as a separate attribute of a word. TODO fix Gen do add this; currently testing by assuming accent is specified in word id. ex. a_1, a_2, u_3
 - As currently implemented, assumes no recursive phonological words.
 */
-var accentCalls = 0;
+
 
 function accentAsHead(s, p, c){
 	var vCount = 0;
 	var child;
-	accentCalls++;	
-	// look at all non-terminal nodes
-	if(p.children && p.children.length){
-		// is one of the children a phi?
-		var hasPhi = false;
-		for(var i=0; i<p.children.length; i++){
-			child = p.children[i];
-			if(child.cat=="phi")
-			{
-				hasPhi = true;
-				vCount += accentAsHead(s, child, c);
-			}
+	
+	//Base case: p is a leaf.
+	if(!p.children || !p.children.length)
+		return vCount;
+	
+	//Recursive case: p is a non-leaf.
+	
+	//Count all the accented words that are immediate daughters of current node p.
+	// Store value in aCount.
+	var aCount = 0;
+	
+	for(i=0; i < p.children.length; i++){
+		child = p.children[i];
+		if(child.cat==="w" && !child.accent){
+			child.accent = child.id.split('_')[0]	//If accent isn't defined, try to get it from the node's id.
+			console.log("child.id ("+child.id+") is assigned accent "+child.accent);
 		}
 		
-		// if there is a phi in the current children array
-		if(hasPhi){
-			for(i=0; i<p.children.length; i++){
-				child = p.children[i];
-				child.accent = child.id.split('_')[0]	//for testing while Gen hasn't been modified to include accents!
-				if(child.cat=="w" && child.accent=="a"){
-					vCount++;
-					console.log("child.id ("+child.id+") is an accented word that isn't a head. vCount = "+vCount);
-				}
-			}
+		//if an accented word is discovered...
+		if(child.accent==="a" && child.cat==="w"){
+			aCount++;
+			console.log("child.id ("+child.id+") is an accented word. aCount = "+aCount);
 		}
-		// no phi in the current children array
-		else{
-			var aCount = 0;
-			for(i=0; i<p.children.length; i++){
-				child = p.children[i];
-				child.accent = child.id.split('_')[0]	//for testing while Gen hasn't been modified to include accents!
-				if(child.cat==="w" && child.accent==="a"){
-					aCount++;
-					//console.log("child.id ("+child.id+") is an accented word. aCount = "+aCount);
-				}
-			}
-			vCount += aCount;
-			if(p.children.length>1) vCount--; 	//The first unaccented child doesn't receive a violation because it's initial in the phi. TODO check if this produces the intended results when there is just 1 child.
-		}
+		
+		vCount += accentAsHead(s,child,c);
+	}
+		
+	// Case 1: p is a minimal phi. Assign a violation for every accented word except the first
+	// by incrementing the violation count by one less than the total number of accented words (or 0 if there are none).
+	if((p.cat==="phi") && isMinimal(p) && aCount>0){
+		vCount += (aCount-1);
 	}
 	
+	// Case 2: p is not a minimal phi (i.e. it's an iota, non-minimal phi, or w)
+	// 			-> Assign a violation for every accented word. 
+	else{
+		vCount += aCount;
+	}
+	
+	console.log("For node "+p.id+", vCount is: "+vCount);
 	return vCount;
 }
 
@@ -431,12 +431,15 @@ Defined in Ito&Mester(2013) as: "No accentual lapse. Assign a violation for ever
 Operationalized as: 
 "For every U (= w[-accent]), assign a violation if U is non-initial (i.e. index of U in the children array > 0) and preceded by A in phi (i.e. there is an A in the children array with index greater than indexOf(U))."
 
-For each iota, assign a violation for every immediately dominated U. 
 TODO find out if there is an accent for the beginning of iota -- i.e. should the initial U *not* receive a violation as well...???
-ANSWER: Assuming words can be immediately dominated by intonational phrases (i.e. violable Exhaustivity):
-	iota( U ... ) : If the U receives a high tone by virtue of being at the left edge of the iota, then it shouldn't receive a violation. Otherwise, it should. =====> Seems correct.
 
-	iota( phi(U) U ) : What about a U immediately dominated by iota that is preceded by a U that receives a high tone by virtue of being first in a phi?
+ANSWER: Assuming words can be immediately dominated by intonational phrases (i.e. violable Exhaustivity):
+
+	iota( U ... ) : If the U receives a high tone by virtue of being at the left edge of the iota, 
+	then it shouldn't receive a violation. (Otherwise, it should.) =====> Seems correct. [*Which* does????]
+
+	iota( phi(U) U ) : What about a U immediately dominated by iota that is preceded by 
+	a U that receives a high tone by virtue of being first in a phi?
 	======> There would be no fall, hence no violation of NoLapse-L.
 
 	iota( phi(A) U ) : We assume the U here does receive a violation (i.e. is all L's) since the A contributes a fall.
@@ -446,18 +449,36 @@ ANSWER: Assuming words can be immediately dominated by intonational phrases (i.e
 
 */
 function noLapseL(s, p, c){
-	if(!p.children || !p.children.length)
-	{
-		return 0;
-	}
 	
 	var vCount = 0;
+	var wordToneList = assignAccents(p);
+	var word = wordToneList.head;	//TODO determine if is this the best way to refer to things?
 	
-	for(var i=0; i<p.children.length; i++){
+	while(word != null){
+		if(word.tone === 'L')
+			vCount++;
+		word = word.next;
+	}	
 		
-	}
-	
 	return vCount;
+}
+
+/* Helper function for noLapseL: take a prosodic tree with words marked as U or A
+	and determine for each word what tone(s) it receives
+	where tones are contributed by:
+		1. accent: a -> HL
+		2. [ (left phi boundary) -> H
+	and an unaccented word (accent: u) receives its accent from whatever is immediately to its left.
+	
+	Procedure:
+	- convert the tree to a linked list consisting of: all the word nodes and all the left phi and iota boundaries.
+	- assign tones to all the words in the list according to the principles above.
+	- remove non-words (the boundaries) from the list
+	- return the list which maps words to tones.
+		
+*/
+function assignAccents(p){
+	
 }
 /***********************
 MATCH THEORY constraints
@@ -640,6 +661,37 @@ function leafDifferenceSize(x,y){
 	return y.length-x.length;
 }
 	
+
+/*
+Returns true if node does not dominate any other nodes of its category
+*/
+function isMinimal(node){
+	var cat = node.cat;
+	var isMin = true;
+	//If the node is a leaf, it's minimal.
+	if(!node.children || !node.children.length)
+		return isMin;
+	//Otherwise, we have to look at its children to determine whether it's minimal.
+	var i = 0;
+	var chil = node.children;
+	while(isMin && i<chil.length){
+		if(chil[i].cat===cat)
+			isMin = false;
+		i++;
+	}
+	return isMin;
+}
+
+/*
+Returns true if parent.cat is of a higher level than child.cat
+To be revised!!!
+For the long run, Ozan suggests pre-processing trees to mark every node as minimal/maximal.
+*/
+function isMaximal(parent, child){
+	if(parent.cat===child.cat)
+		return false;
+	else return true;
+}
 /* Assign a violation for every node whose leftmost daughter constituent is of type k
 *  and is lower in the prosodic hierarchy than its sister constituent immediately to its right: *(Kn Kn-1)
 *  Elfner's StrongStart.

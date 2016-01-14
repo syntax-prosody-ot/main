@@ -16,6 +16,7 @@ function isMinimal(node){
 			isMin = false;
 		i++;
 	}
+	return isMin;
 }
 
 /*

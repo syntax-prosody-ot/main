@@ -1,7 +1,7 @@
 
 /*
 Defined in Ito & Mester (2013) as: "Every accented word must be the head of a (minimal) phi
-Assign a violation for each prosodic word that is not the head of a minimal phi."
+Assign a violation for each accented prosodic word that is not the head of a minimal phi."
 
 Operationalized as:
 For each phi, look at all children. If at least one child is a phi, then the current node is a non-minimal phi, 
@@ -24,18 +24,21 @@ function accentAsHead(s, p, c){
 	
 	//Recursive case: p is a non-leaf.
 	
-	
+	//Count all the accented words that are immediate daughters of current node p.
+	// Store value in aCount.
 	var aCount = 0;
-	for(i=0; i<p.children.length; i++){
+	
+	for(i=0; i < p.children.length; i++){
 		child = p.children[i];
-		if(!child.accent){
+		if(child.cat==="w" && !child.accent){
 			child.accent = child.id.split('_')[0]	//If accent isn't defined, try to get it from the node's id.
+			console.log("child.id ("+child.id+") is assigned accent "+child.accent);
 		}
 		
 		//if an accented word is discovered...
-		if(child.cat==="w" && child.accent==="a"){
+		if(child.accent==="a" && child.cat==="w"){
 			aCount++;
-			//console.log("child.id ("+child.id+") is an accented word. aCount = "+aCount);
+			console.log("child.id ("+child.id+") is an accented word. aCount = "+aCount);
 		}
 		
 		vCount += accentAsHead(s,child,c);
@@ -49,9 +52,11 @@ function accentAsHead(s, p, c){
 	
 	// Case 2: p is not a minimal phi (i.e. it's an iota, non-minimal phi, or w)
 	// 			-> Assign a violation for every accented word. 
-	else
+	else{
 		vCount += aCount;
+	}
 	
+	console.log("For node "+p.id+", vCount is: "+vCount);
 	return vCount;
 }
 
@@ -79,22 +84,34 @@ ANSWER: Assuming words can be immediately dominated by intonational phrases (i.e
 
 */
 function noLapseL(s, p, c){
-	if(!p.children || !p.children.length)
-	{
-		return 0;
-	}
 	
 	var vCount = 0;
+	var wordToneList = assignAccents(p);
+	var word = wordToneList.head;	//TODO determine if is this the best way to refer to things?
 	
-	for(var i=0; i<p.children.length; i++){
-		//Case 1: we're in a phi
-		if(p.c==="phi"){
+	while(word != null){
+		if(word.tone === 'L')
+			vCount++;
+		word = word.next;
+	}	
 		
-		}
-		
-		//Case 2: we're in an iota
-		//Case 3: we're in a recursive w??
-	}
-	
 	return vCount;
+}
+
+/* Helper function for noLapseL: take a prosodic tree with words marked as U or A
+	and determine for each word what tone(s) it receives
+	where tones are contributed by:
+		1. accent: a -> HL
+		2. [ (left phi boundary) -> H
+	and an unaccented word (accent: u) receives its accent from whatever is immediately to its left.
+	
+	Procedure:
+	- convert the tree to a linked list consisting of: all the word nodes and all the left phi and iota boundaries.
+	- assign tones to all the words in the list according to the principles above.
+	- remove non-words (the boundaries) from the list
+	- return the list which maps words to tones.
+		
+*/
+function assignAccents(p){
+	
 }

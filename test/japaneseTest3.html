@@ -16,25 +16,26 @@
 
 	<!--  Load the tree files that you need  -->
 	<script src="../trees/japaneseAccent_sTrees.js"></script>
-	
+	<script src="../trees/accentAsHeadTestTrees.js"></script>
+		
 	<script>
 	//Now we're in the JavaScript section
 	
 	/*Let's list our constraints: get the names out of the constraint definition js files
 	Category name should be separated from constraint name by -
 	*/
-	var constraintSet = ['accentAsHead-phi', 'noLapseL', 
+	var constraintSet = ['accentAsHead-phi']; /*['accentAsHead-phi', 'noLapseL', 
 						'binMinBranches-phi', 'binMax2Words-phi', 'binMaxBranches-phi', 
 						'matchSP-xp', 'matchPS-phi', 
 						'nonRec1-phi', 
-						'equalSistersAdj-phi'];
+						'equalSistersAdj-phi'];*/
 	
 	/*Here we generate all the possible prosodic parses of the string consisting of 
 	terminals [a a a]
 	This call to GEN does require obedience to headedness or exhaustivity.
 	*/
 
-	var candidateSet = GEN(sTreeLaaa, 'a a a', {obeysHeadedness: true, obeysExhaustivity: true});
+	var candidateSet = [['aa1', 'aa1']]; //GEN(sTreeLaaa, 'u a', {obeysHeadedness: true, obeysExhaustivity: false});
 
 		
 	function runDemo() {
