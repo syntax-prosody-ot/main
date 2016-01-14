@@ -393,8 +393,9 @@ function accentAsHead(s, p, c){
 	// Store value in aCount.
 	var aCount = 0;
 	
-	for(i=0; i < p.children.length; i++){
+	for(var i=0; i < p.children.length; i++){
 		child = p.children[i];
+		console.log("child.id is:"+child.id);
 		if(child.cat==="w" && !child.accent){
 			child.accent = child.id.split('_')[0]	//If accent isn't defined, try to get it from the node's id.
 			console.log("child.id ("+child.id+") is assigned accent "+child.accent);
