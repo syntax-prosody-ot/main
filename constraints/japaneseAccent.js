@@ -32,14 +32,14 @@ function accentAsHead(s, p, c){
 		child = p.children[i];
 		console.log("child.id is:"+child.id);
 		if(child.cat==="w" && !child.accent){
-			child.accent = child.id.split('_')[0]	//If accent isn't defined, try to get it from the node's id.
-			console.log("child.id ("+child.id+") is assigned accent "+child.accent);
+			child = accentFromId(child);	//If accent isn't defined, try to get it from the node's id.
+			//console.log("child.id ("+child.id+") is assigned accent "+child.accent);
 		}
 		
 		//if an accented word is discovered...
 		if(child.accent==="a" && child.cat==="w"){
 			aCount++;
-			console.log("child.id ("+child.id+") is an accented word. aCount = "+aCount);
+			//console.log("child.id ("+child.id+") is an accented word. aCount = "+aCount);
 		}
 		
 		vCount += accentAsHead(s,child,c);
@@ -57,7 +57,7 @@ function accentAsHead(s, p, c){
 		vCount += aCount;
 	}
 	
-	console.log("For node "+p.id+", vCount is: "+vCount);
+	//console.log("For node "+p.id+", vCount is: "+vCount);
 	return vCount;
 }
 
@@ -71,30 +71,37 @@ TODO find out if there is an accent for the beginning of iota -- i.e. should the
 
 ANSWER: Assuming words can be immediately dominated by intonational phrases (i.e. violable Exhaustivity):
 
-	iota( U ... ) : If the U receives a high tone by virtue of being at the left edge of the iota, 
-	then it shouldn't receive a violation. (Otherwise, it should.) =====> Seems correct. [*Which* does????]
-
-	iota( phi(U) U ) : What about a U immediately dominated by iota that is preceded by 
-	a U that receives a high tone by virtue of being first in a phi?
-	======> There would be no fall, hence no violation of NoLapse-L.
-
-	iota( phi(A) U ) : We assume the U here does receive a violation (i.e. is all L's) since the A contributes a fall.
-	======> Yes, that sounds right.
-
-	For each phi, assign a violation for every U that is a) non-initial b) preceded an A (within the maximal phi).
+	For each phi, assign a violation for every U that is a) non-initial 
+    b) preceded an A (within the maximal phi) with no intervening left-edge phi boundaries.
 
 */
 function noLapseL(s, p, c){
 	
 	var vCount = 0;
-	var wordToneList = assignAccents(p);
-	var word = wordToneList.head;	//TODO determine if is this the best way to refer to things?
+    var spreadLow = false;     //Left edge of phi or iota contributes H
 	
-	while(word != null){
-		if(word.tone === 'L')
-			vCount++;
-		word = word.next;
-	}	
+    walkTree(p, function(node){
+        node = accentFromId(node);  //assign an accent if necessary
+        
+        if(node.cat==='w'){
+            if(node.accent==='a'){
+                spreadLow = true;
+            }
+            
+            /* spreadLow will be true if no phi or iota left edge intervenes
+               between the last accented word and the current word
+            */ 
+            else if(spreadLow && node.accent==='u'){
+                vCount++;
+            }
+        }
+        /* Otherwise, the current node is a phi or iota
+           and contributes a high tone to the following node,
+           so we can turn off spreadLow.
+        */
+        else spreadLow = false; 
+        
+    });
 		
 	return vCount;
 }
@@ -107,12 +114,13 @@ function noLapseL(s, p, c){
 	and an unaccented word (accent: u) receives its accent from whatever is immediately to its left.
 	
 	Procedure:
-	- convert the tree to a linked list consisting of: all the word nodes and all the left phi and iota boundaries.
-	- assign tones to all the words in the list according to the principles above.
-	- remove non-words (the boundaries) from the list
-	- return the list which maps words to tones.
-		
+	- traverse the tree in order (L->R). Let the current node = child, and let its parent = var parent.
+	- track whether to assign L to the next word: var spreadLow = {true, false}.
+		if(parent.children.indexOf[p]
+		if(p.accent === "a") spreadLow = true;
 */
-function assignAccents(p){
-	
+function accentFromId(node){
+    if(!node.accent)
+        node.accent = node.id.split('_')[0];
+    return node;
 }
