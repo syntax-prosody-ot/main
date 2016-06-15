@@ -26,7 +26,15 @@ window.addEventListener('load', function(){
 		
 		//Get input to GEN.
 		var pString = spotForm.inputToGen.value;
-		var candidateSet = GEN(sTree, pString);
+		
+		//Build a list of checked GEN options.
+		var genOptions = {};
+		for(var i=0; i<spotForm.genOptions.length; i++){
+			var optionBox = spotForm.genOptions[i];
+			genOptions[optionBox.value]=optionBox.checked;
+		}
+		
+		var candidateSet = GEN(sTree, pString, genOptions);
 		
 		//Make the violation tableau with the info we just got.
 		writeTableau(makeTableau(candidateSet, constraintSet));

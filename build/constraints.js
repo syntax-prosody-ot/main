@@ -488,7 +488,8 @@ function accentFromId(node){
     if(!node.accent)
         node.accent = node.id.split('_')[0];
     return node;
-}/***********************
+}
+/***********************
 MATCH THEORY constraints
 and their numerous helpers
 ************************/

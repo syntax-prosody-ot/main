@@ -4,6 +4,12 @@
 		
 		<script src="build/spot.js"></script>
 		<link rel="stylesheet" type="text/css" href="spot.css">
+		
+		<style>
+			table.spaceytable td {
+				padding:10px
+			}
+		</style>
 
 	</head>
 	<body>
@@ -52,10 +58,27 @@
 			
 			<fieldset>
 			
-				<legend><h2>Markedness constraints: EqualSisters</h2></legend>
+				<legend><h2>Markedness constraints: EqualSisters and StrongStart</h2></legend>
 				<input type="checkbox" name="constraints" value="equalSistersAdj-phi"><b>EqualSisters (adjacent)</b>: Assign a violation for every pair of adjacent sister nodes that are not of the same prosodic category.<br/>
 				<input type="checkbox" name="constraints" value="equalSistersPairwise-phi"><b>EqualSisters (pairwise)</b>: Assign a violation for every (unordered) pair of sisters nodes that are not of the same prosodic category.<br/>
-				<input type="checkbox" name="constraints" value="equalSistersFirstPrivilege-phi"><b>EqualSisters (first privilege)</b>: For each set of sisters, assign a violation for every child that has a different prosodic category from the first (leftmost) sister in the set.
+				<input type="checkbox" name="constraints" value="equalSistersFirstPrivilege-phi"><b>EqualSisters (first privilege)</b>: For each set of sisters, assign a violation for every child that has a different prosodic category from the first (leftmost) sister in the set.<br/>
+				
+				<br/>
+				<input type="checkbox" name="constraints" value="strongStart_Elfner-phi"><b>StrongStart</b>: Assign a violation for every node whose leftmost daughter constituent is of type k and is lower in the prosodic hierarchy than its sister constituent immediately to its right: *(Kn Kn-1). (Elfner's StrongStart)
+				
+			</fieldset>
+			
+			<br/>
+			
+			<fieldset>
+			
+				<legend><h2>Markedness constraints: Other</h2></legend>
+				<input type="checkbox" name="constraints" value="exhaust1"><b>Exhaustivity, version 1</b>: Assign a violation for every parent-child pair (x,y) such that x is of PH-level n and y is of PH-level n-m, m >= 2.<br/>
+				
+				<br/>
+				<input type="checkbox" name="constraints" value="nonRec1-phi"><b>Non-recursivity, version 1</b>: Assign a violation for every node of category x immediately dominated by another node of category x.<br/>
+				<input type="checkbox" name="constraints" value="nonRecTruckenbrodt-phi"><b>Non-recursivity, version 2</b>: "Any two p-phrases that are not disjoint in extension are identical in extension." For every node x of category p dominated by another node y of category p, assign a violation for every leaf dominated by y that is not also dominated by x.
+				
 			</fieldset>
 			<br/>
 			
@@ -78,6 +101,17 @@
 			<br/>
 			<br/>
 			<hr/>
+			<h2>Gen options</h2>
+			Generate only prosodic trees that obey...<br/>
+			<table class="spaceytable"><tbody><tr>
+				<td><input type="checkbox" name="genOptions" value="obeysNonrecursivity">Non-recursivity</td>
+				<td><input type="checkbox" name="genOptions" value="obeysExhaustivity">Exhaustivity</td>
+				<td><input type="checkbox" name="genOptions" value="obeysHeadedness">Headedness</td>
+			</tr></tbody></table>
+			<small>(The more boxes are checked, the fewer trees will be generated.)</small><br/>
+			
+			<hr/>
+			
 			<h2>Input string(s) for Gen (to create output candidate prosodic trees)</h2>
 			<p><b>Instructions</b>: Type the words that you want to be included in the output prosodic trees, separating them with spaces. Be sure to make the words you type as input to Gen exactly match the ids of the nodes in your input syntactic tree -- BUT exclude any indices. E.g. If your syntactic tree contains nodes with ids <i>"tomodachi-no_0", "pasokon_1"</i>, then the input to Gen should be "tomodachi-no pasokon". This will ensure that Match and Align function properly.</p>
 			<p><b>N.B.</b> Input strings longer than 6 words may be very slow, and risk freezing your system.</p>

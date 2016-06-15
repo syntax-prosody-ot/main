@@ -4,9 +4,9 @@ var wNum = 0;
 
 //takes a list of words and returns the candidate set of trees (JS objects)
 window.GEN = function(sTree, words, options){
-	options = options || {};
+	options = options || {}; // if options is undefined, set it to an empty object (so you can query its properties without crashing things)
 	
-	if(typeof words === "string")
+	if(typeof words === "string") // words can be a space-separated string of words or an array of words; if string, split up into an array
 		words = words.split(' ');
 	
 	var leaves = [];
@@ -72,11 +72,12 @@ function gen(leaves, options){
 
 	//Recursive case: at least 1 word. Consider all candidates where the first i words are grouped together
 	for(var i = 1; i <= leaves.length; i++){
+	
+		var rightsides = addPhiWrapped(gen(leaves.slice(i, leaves.length), options), options);
 
 		//Case 1: the first i leaves attach directly to parent (no phi wrapping)
 	
 		var leftside = leaves.slice(0,i);
-		var rightsides = addPhiWrapped(gen(leaves.slice(i, leaves.length), options), options);
 		
 		// for case 1, we don't need to check the left side for nonrecursivity, because it's all leaves
 		
