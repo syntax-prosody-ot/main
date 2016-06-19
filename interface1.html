@@ -9,15 +9,18 @@
 			table.spaceytable td {
 				padding:10px
 			}
+			table.constraint-selection-table td {
+				padding-right:20px
+			}
 		</style>
 
 	</head>
 	<body>
 	<div style="padding-left:80px; padding-right:80px; padding-top:20px; padding-bottom:40px">
 		<h1>SPOT Interface</h1>
-		<p><i>SPOT is a very useful tool! Here is an html interface so you don't have to write JavaScript to use it.</i></p>
-		<p><i>Currently uses phi/xp as the category for all constraints. Future versions will allow selection of the desired category.</i></p>
-		<p>Please select all the constraints you would like to use by checking the associated checkbox for each constraint. </p>
+		
+		<p>Please select all the constraints you would like to use by checking the associated checkbox for each constraint. Hover over a constraint name to see its definition. <i>Hover-text is not available for all constraints.</i></p>
+		<p>By default, XP and phi are selected as the cateogories to assess violations over. Use the radio buttons next to each constraint to change the desired category.</p>
 		<form id="spotForm">
 			
 			<fieldset>
@@ -25,13 +28,46 @@
 				<legend><h2>Syntax-prosody mapping constraints</h2></legend>
 			
 				<h3>Align/Wrap</h3>
-				<input type="checkbox" name="constraints" value="alignLeft-xp">Align-Left<br/>
-				<input type="checkbox" name="constraints" value="alignRight-xp">Align-Right<br/>
-				<input type="checkbox" name="constraints" value="wrap-xp">Wrap<br/>
+				<table class="constraint-selection-table">
+				<tbody>
+					<tr>
+						<td><input type="checkbox" name="constraints" value="alignLeft">Align-Left</td>
+						<td><input type="radio" name="category-alignLeft" value="cp">CP</td>
+						<td><input type="radio" name="category-alignLeft" value="xp" checked="checked">XP</td>
+						<td><input type="radio" name="category-alignLeft" value="x0">X0</td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" name="constraints" value="alignRight">Align-Right</td>
+						<td><input type="radio" name="category-alignRight" value="cp">CP</td>
+						<td><input type="radio" name="category-alignRight" value="xp" checked="checked">XP</td>
+						<td><input type="radio" name="category-alignRight" value="x0">X0</td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" name="constraints" value="wrap">Wrap</td>
+						<td><input type="radio" name="category-wrap" value="cp">CP</td>
+						<td><input type="radio" name="category-wrap" value="xp" checked="checked">XP</td>
+						<td><input type="radio" name="category-wrap" value="x0">X0</td>
+					</tr>
+				</tbody>
+				</table>
 			
 				<h3>Match Theory</h3>
-				<input type="checkbox" name="constraints" value="matchSP-xp">Match-SP<br/>
-				<input type="checkbox" name="constraints" value="matchPS-phi">Match-PS<br/>
+				<table class="constraint-selection-table">
+				<tbody>
+					<tr>
+						<td><input type="checkbox" name="constraints" value="matchSP">MatchSP</td>
+						<td><input type="radio" name="category-matchSP" value="cp">CP</td>
+						<td><input type="radio" name="category-matchSP" value="xp" checked="checked">XP</td>
+						<td><input type="radio" name="category-matchSP" value="x0">X0</td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" name="constraints" value="matchPS">MatchPS</td>
+						<td><input type="radio" name="category-matchPS" value="cp">CP</td>
+						<td><input type="radio" name="category-matchPS" value="xp" checked="checked">XP</td>
+						<td><input type="radio" name="category-matchPS" value="x0">X0</td>
+					</tr>
+				</tbody>
+				</table>
 			
 			</fieldset>
 			
@@ -39,32 +75,98 @@
 			
 			<fieldset>
 			
-				<legend><h2>Markedness constraints: Binarity</h2></legend>
+				<legend><h2>Binarity constraints</h2></legend>
 			
 				<h3>...counting branches</h3>
 			
-				<input type="checkbox" name="constraints" value="binMinBranches-phi">BinMin(branches) <br/>
-				<input type="checkbox" name="constraints" value="binMaxBranches-phi">BinMax(branches) <i>categorical</i><br/>
-				<input type="checkbox" name="constraints" value="binMaxBranchesGradient-phi">BinMax(branches) <i>gradient</i><br/>
+				<table class="constraint-selection-table">
+				<tbody>
+					<tr>
+						<td><input type="checkbox" name="constraints" value="binMinBranches">BinMin(branches)</td>
+						<td><input type="radio" name="category-binMinBranches" value="iota">iota</td>
+						<td><input type="radio" name="category-binMinBranches" value="phi" checked="checked">phi</td>
+						<td><input type="radio" name="category-binMinBranches" value="w">w</td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" name="constraints" value="binMaxBranches">BinMax(branches) - <i>categorical</i></td>
+						<td><input type="radio" name="category-binMaxBranches" value="iota">iota</td>
+						<td><input type="radio" name="category-binMaxBranches" value="phi" checked="checked">phi</td>
+						<td><input type="radio" name="category-binMaxBranches" value="w">w</td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" name="constraints" value="binMaxBranchesGradient">BinMax(branches) - <i>gradient</i></td>
+						<td><input type="radio" name="category-binMaxBranchesGradient" value="iota">iota</td>
+						<td><input type="radio" name="category-binMaxBranchesGradient" value="phi" checked="checked">phi</td>
+						<td><input type="radio" name="category-binMaxBranchesGradient" value="w">w</td>
+					</tr>
+				</tbody>
+				</table>
 				
 				<h3>...counting words</h3>
-				<input type="checkbox" name="constraints" value="binMin2Words-phi">BinMin(words)<br/>
-				<input type="checkbox" name="constraints" value="binMax2Words-phi">BinMax(words) <i>categorical</i><br/>
-				<input type="checkbox" name="constraints" value="binMax2WordsGradient-phi">BinMax(words) <i>gradient</i><br/>
-			
+				<table class="constraint-selection-table">
+				<tbody>
+					<tr>
+						<td><input type="checkbox" name="constraints" value="binMin2Words">BinMin(words)</td>
+						<td><input type="radio" name="category-binMin2Words" value="iota">iota</td>
+						<td><input type="radio" name="category-binMin2Words" value="phi" checked="checked">phi</td>
+						<td><input type="radio" name="category-binMin2Words" value="w">w</td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" name="constraints" value="binMax2Words">BinMax(words) - <i>categorical</i></td>
+						<td><input type="radio" name="category-binMax2Words" value="iota">iota</td>
+						<td><input type="radio" name="category-binMax2Words" value="phi" checked="checked">phi</td>
+						<td><input type="radio" name="category-binMax2Words" value="w">w</td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" name="constraints" value="binMax2WordsGradient">BinMax(words) - <i>gradient</i></td>
+						<td><input type="radio" name="category-binMax2WordsGradient" value="iota">iota</td>
+						<td><input type="radio" name="category-binMax2WordsGradient" value="phi" checked="checked">phi</td>
+						<td><input type="radio" name="category-binMax2WordsGradient" value="w">w</td>
+					</tr>
+				</tbody>
+				</table>
 			</fieldset>
 			
 			<br/>
 			
 			<fieldset>
 			
-				<legend><h2>Markedness constraints: EqualSisters and StrongStart</h2></legend>
-				<input type="checkbox" name="constraints" value="equalSistersAdj-phi"><b>EqualSisters (adjacent)</b>: Assign a violation for every pair of adjacent sister nodes that are not of the same prosodic category.<br/>
-				<input type="checkbox" name="constraints" value="equalSistersPairwise-phi"><b>EqualSisters (pairwise)</b>: Assign a violation for every (unordered) pair of sisters nodes that are not of the same prosodic category.<br/>
-				<input type="checkbox" name="constraints" value="equalSistersFirstPrivilege-phi"><b>EqualSisters (first privilege)</b>: For each set of sisters, assign a violation for every child that has a different prosodic category from the first (leftmost) sister in the set.<br/>
+				<legend><h2>Markedness constraints on horizontal relationships</h2></legend>
+				<h3>EqualSisters</h3>
+				<table class="constraint-selection-table">
+				<tbody>
+					<tr>
+						<td title="Assign a violation for every pair of adjacent sister nodes that are not of the same prosodic category."><input type="checkbox" name="constraints" value="equalSistersAdj">EqualSisters (adjacent)</td>
+						<td><input type="radio" name="category-equalSistersAdj" value="iota">iota</td>
+						<td><input type="radio" name="category-equalSistersAdj" value="phi" checked="checked">phi</td>
+						<td><input type="radio" name="category-equalSistersAdj" value="w">w</td>
+					</tr>
+					<tr>
+						<td title="Assign a violation for every (unordered) pair of sisters nodes that are not of the same prosodic category."><input type="checkbox" name="constraints" value="equalSistersPairwise">EqualSisters (pairwise)</td>
+						<td><input type="radio" name="category-equalSistersPairwise" value="iota">iota</td>
+						<td><input type="radio" name="category-equalSistersPairwise" value="phi" checked="checked">phi</td>
+						<td><input type="radio" name="category-equalSistersPairwise" value="w">w</td>
+					</tr>
+					<tr>
+						<td title="For each set of sisters, assign a violation for every child that has a different prosodic category from the first (leftmost) sister in the set."><input type="checkbox" name="constraints" value="equalSistersFirstPrivilege">EqualSisters (first privilege)</td>
+						<td><input type="radio" name="category-equalSistersFirstPrivilege" value="iota">iota</td>
+						<td><input type="radio" name="category-equalSistersFirstPrivilege" value="phi" checked="checked">phi</td>
+						<td><input type="radio" name="category-equalSistersFirstPrivilege" value="w">w</td>
+					</tr>
+				</tbody>
+				</table>
 				
-				<br/>
-				<input type="checkbox" name="constraints" value="strongStart_Elfner-phi"><b>StrongStart</b>: Assign a violation for every node whose leftmost daughter constituent is of type k and is lower in the prosodic hierarchy than its sister constituent immediately to its right: *(Kn Kn-1). (Elfner's StrongStart)
+				<h3>StrongStart</h3>
+				<table class="constraint-selection-table">
+				<tbody>
+					<tr>
+						<td title="Assign a violation for every node whose leftmost daughter constituent is of type k and is lower in the prosodic hierarchy than its sister constituent immediately to its right: *(Kn Kn-1). (Elfner's StrongStart)"><input type="checkbox" name="constraints" value="strongStart">StrongStart</td>
+						<td><input type="radio" name="category-strongStart" value="iota">iota</td>
+						<td><input type="radio" name="category-strongStart" value="phi" checked="checked">phi</td>
+						<td><input type="radio" name="category-strongStart" value="w">w</td>
+					</tr>
+				</tbody>
+				</table>
 				
 			</fieldset>
 			
@@ -72,18 +174,32 @@
 			
 			<fieldset>
 			
-				<legend><h2>Markedness constraints: Other</h2></legend>
-				<input type="checkbox" name="constraints" value="exhaust1"><b>Exhaustivity, version 1</b>: Assign a violation for every parent-child pair (x,y) such that x is of PH-level n and y is of PH-level n-m, m >= 2.<br/>
-				
-				<br/>
-				<input type="checkbox" name="constraints" value="nonRec1-phi"><b>Non-recursivity, version 1</b>: Assign a violation for every node of category x immediately dominated by another node of category x.<br/>
-				<input type="checkbox" name="constraints" value="nonRecTruckenbrodt-phi"><b>Non-recursivity, version 2</b>: "Any two p-phrases that are not disjoint in extension are identical in extension." For every node x of category p dominated by another node y of category p, assign a violation for every leaf dominated by y that is not also dominated by x.
+				<legend><h2>Markedness constraints on vertical relationships</h2></legend>
+				<table class="constraint-selection-table">
+				<tbody>
+					<tr>
+						<td title="Assign a violation for every parent-child pair (x,y) such that x is of PH-level n and y is of PH-level n-m, m >= 2."><input type="checkbox" name="constraints" value="exhaustivity">Exhaustivity</td>
+					</tr>
+					<tr>
+						<td title="Assign a violation for every node of category x immediately dominated by another node of category x."><input type="checkbox" name="constraints" value="nonRec1">Non-recursivity, assessed by dominated node</td>
+						<td><input type="radio" name="category-nonRec1" value="iota">iota</td>
+						<td><input type="radio" name="category-nonRec1" value="phi" checked="checked">phi</td>
+						<td><input type="radio" name="category-nonRec1" value="w">w</td>
+					</tr>
+					<tr>
+						<td title="&quot;Any two p-phrases that are not disjoint in extension are identical in extension.&quot; For every node x of category p dominated by another node y of category p, assign a violation for every leaf dominated by y that is not also dominated by x."><input type="checkbox" name="constraints" value="nonRecTruckenbrodt">Non-recursivity, assessed by non-overlapping leaves</td>
+						<td><input type="radio" name="category-nonRecTruckenbrodt" value="iota">iota</td>
+						<td><input type="radio" name="category-nonRecTruckenbrodt" value="phi" checked="checked">phi</td>
+						<td><input type="radio" name="category-nonRecTruckenbrodt" value="w">w</td>
+					</tr>
+				</tbody>
+				</table>
 				
 			</fieldset>
 			<br/>
 			
 			<fieldset>
-				<legend><h2>Markedness constraints: Japanese accentedness constraints</h2></legend>
+				<legend><h2>Japanese: constraints on accentedness</h2></legend>
 				<p><i>N.B. Current evaluation of these constraints requires the id's of all words to be 'a' or 'u' </i> </p>
 				<input type="checkbox" name="constraints" value="accentAsHead"><b>AccentAsHead</b>: Assign a violation for each prosodic word that is not the head of a minimal phi.<br/>
 				<input type="checkbox" name="constraints" value="noLapseL"><b>NoLapse-L</b>: No accentual lapse. Assign a violation for every fully L-toned w.<br/>

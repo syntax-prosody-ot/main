@@ -930,9 +930,18 @@ window.addEventListener('load', function(){
 		var constraintSet = [];
 		for(var i=0; i<spotForm.constraints.length; i++){
 			var constraintBox = spotForm.constraints[i];
-			if(constraintBox.checked)
-				constraintSet.push(constraintBox.value);
+			if(constraintBox.checked){
+				var constraint = constraintBox.value;
+				if(spotForm['category-'+constraint]){
+					var category = spotForm['category-'+constraint].value;
+					constraintSet.push(constraint+'-'+category);
+				}
+				else
+					constraintSet.push(constraint);
+			}
 		}
+		
+		console.log(constraintSet);
 		
 		//Get the input syntactic tree.
 		var sTree; 
