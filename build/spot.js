@@ -1018,9 +1018,35 @@ window.addEventListener('load', function(){
 		}
 		
 		console.log(sTree);
+		
+		
 		//Make a table based on the dummy tree
 		
 	});
+	
+	function jsTreeToHtml(sTree){
+		var rows = [];
+		
+		function processNode(node, leftOffset){
+			var hasChildren = node.children && node.children.length;
+			var width = 0, height = 0;	//height counts how many levels up from the terminals this node is
+			if(hasChildren){
+				for(var i=0; i<node.children.length; i++){
+					var childResult = processNode(node.children[i], leftOffset+width);
+					width += childResult.width;
+					height = Math.max(childResult.height, height);
+				}
+				//Add one to the height to take the current row into account.
+				height += 1;
+			}
+			//TODO add html for this node.
+			return {width:width, height:height};
+		}
+		
+		processNode(sTree,0);
+		//TODO join html fragments and return the joined string
+		//return 
+	}
 });
 //An array of pairs to define which syntactic categories "match" which prosodic categories.
 //For theory comparison, we'll want one array for each theory.
