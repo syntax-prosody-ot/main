@@ -56,13 +56,12 @@ function UTree(root) {
 	
 	this.toHtml = function() {
 		var table = this.toTable();
-		console.log(table);
 		var frags = [];
 		for (var h = table.length-1; h >= 0; h--) {
 			var rowFrags = [];
 			var row = table[h];
 			for (var i = 0; i < row.length; i++) {
-				var block = row[i];
+				var block = row[i], node = block.node;
 				var pxWidth = block.width*80; // should be an even number of pixels
 				var stemLeftWidth = pxWidth/2 - 2, stemRightWidth = pxWidth/2;
 				var stem = '<div class="inline-block stemSide" style="width: ' + stemLeftWidth + 'px; border-right: 2px black solid"></div><div class="inline-block stemSide" style="width: ' + stemRightWidth + 'px"></div>';
@@ -73,7 +72,8 @@ function UTree(root) {
 					if (block.hasStem) {
 						stemContainer = '<div class="stemContainer">' + stem + '</div>';
 					}
-					rowFrags.push('<div class="inline-block" style="width: ' + pxWidth + 'px">' + stemContainer + '<div class="inputContainer"><input class="catInput" type="text" value="' + block.node.cat + '"></input></div><div class="inputContainer"><input class="idInput" type="text" value="' + block.node.id + '"></input></div></div>');
+					var catInputId = 'catInput-' + node.m.nodeId, idInputId = 'idInput-' + node.m.nodeId; 
+					rowFrags.push('<div class="inline-block" style="width: ' + pxWidth + 'px">' + stemContainer + '<div class="inputContainer"><input id="' + catInputId + '" class="catInput" type="text" value="' + node.cat + '"></input></div><div class="inputContainer"><input id="' + idInputId + '" class="idInput" type="text" value="' + node.id + '"></input></div></div>');
 				}
 			}
 			frags.push('<div>');
@@ -81,6 +81,12 @@ function UTree(root) {
 			frags.push('</div>');
 		}
 		return frags.join('');
+	};
+	
+	this.toJSON = function() {
+		return JSON.stringify(this.root, function(k, v) {
+			if (k !== 'm') return v;
+		}, 4);
 	};
 }
 UTree.fromTerminals = function(terminalList) {
@@ -218,6 +224,16 @@ window.addEventListener('load', function(){
 	
 	//Look at the html tree and turn it into a JSON tree. Put the JSON in the following textarea.
 	document.getElementById('htmlToJsonTreeButton').addEventListener('click',function(){
-		
+		if (treeUIsTree) {
+			spotForm.sTree.value = treeUIsTree.toJSON(); 
+		}
+	});
+	
+	document.getElementById('treeTableContainer').addEventListener('input', function(e) {
+		var target = e.target;
+		var idPieces = target.id.split('-');
+		var nodeId = idPieces[1];
+		var isCat = idPieces[0] === 'catInput';
+		treeUIsTree.nodeMap[nodeId][isCat ? 'cat' : 'id'] = target.value;
 	});
 });
