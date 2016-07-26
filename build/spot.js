@@ -918,6 +918,127 @@ function addPhiWrapped(candidates, options){
 }
 
 })();
+function UTree(root) {
+
+	this.root = root;
+	
+	this.nodeNum = 0;
+	this.nodeMap = {};
+	this.addMeta = function(node) {
+		node.m = {nodeId: this.nodeNum++};
+		this.nodeMap[node.m.nodeId] = node;
+		if (node.children) {
+			for (var i = 0; i < node.children.length; i++) {
+				this.addMeta(node.children[i]);
+			}
+		}
+	};
+	this.addMeta(this.root);
+	
+	function assignDims(node) {
+		var height = 0, width = 0;
+		if (node.children && node.children.length) {
+			for (var i = 0; i < node.children.length; i++) {
+				var childResult = assignDims(node.children[i]);
+				width += childResult.width;
+				height = Math.max(childResult.height, height);
+			}
+			height += 1; // for this node
+		} else {
+			width = 1;
+		}
+		node.m.height = height;
+		node.m.width = width;
+		return node.m;
+	}
+	
+	this.toTable = function() {
+		assignDims(this.root);
+		var table = [];
+		for (var i = 0; i <= this.root.m.height; i++) {
+			table.push([]);
+		}
+		function processNode(node, parentHeight) {
+			var height = node.m.height;
+			table[height].push({node: node, width: node.m.width, hasStem: parentHeight > height, stemOnly: false});
+			for (var h = height+1; h < parentHeight; h++) {
+				table[h].push({width: node.m.width, stemOnly: true});
+			}				
+			if (node.children && node.children.length) {
+				for (var i = 0; i < node.children.length; i++) {
+					processNode(node.children[i], height);
+				}
+			}
+		}
+		processNode(this.root, this.root.height);
+		return table;
+	};
+	
+	this.toHtml = function() {
+		var table = this.toTable();
+		console.log(table);
+		var frags = [];
+		for (var h = table.length-1; h >= 0; h--) {
+			var rowFrags = [];
+			var row = table[h];
+			for (var i = 0; i < row.length; i++) {
+				var block = row[i];
+				var pxWidth = block.width*80;
+				var stemLeftWidth = pxWidth/2 - 2, stemRightWidth = pxWidth/2;
+				var stem = '<div class="inline-block stemSide" style="width: ' + stemLeftWidth + 'px; border-right: 2px black solid"></div><div class="inline-block stemSide" style="width: ' + stemRightWidth + 'px"></div>';
+				if (block.stemOnly) {
+					rowFrags.push(stem);
+				} else {
+					var stemContainer = '';
+					if (block.hasStem) {
+						stemContainer = '<div class="stemContainer">' + stem + '</div>';
+					}
+					console.log(row);
+					rowFrags.push('<div class="inline-block" style="width: ' + pxWidth + 'px">' + stemContainer + '<div class="inputContainer"><input class="catInput" type="text" value="' + block.node.cat + '"></input></div><div class="inputContainer"><input class="idInput" type="text" value="' + block.node.id + '"></input></div></div>');
+				}
+			}
+			frags.push('<div>');
+			frags.push(rowFrags.join(''));
+			frags.push('</div>');
+		}
+		return frags.join('');
+	};
+}
+UTree.fromTerminals = function(terminalList) {
+	//Check for duplicate words
+	var occurrences = {};
+	var dedupedTerminals = [];
+	for(var i=0; i<terminalList.length; i++){
+		var t = terminalList[i];
+		//If this is the first occurrence of t, don't append an index
+		if(!occurrences.hasOwnProperty(t)){
+			dedupedTerminals.push(t);
+			occurrences[t] = 1;
+		}
+		// If we've seen t before, then add an index to it such that the 2nd occurrence of t
+		// becomes t_1.
+		else{
+			dedupedTerminals.push(t+'_'+occurrences[t]);
+			occurrences[t] = occurrences[t] + 1;
+		}
+	}
+	
+	//Make the js tree (a dummy tree only containing the root CP)
+	var root = {
+		"id":"CP1",
+		"cat":"cp",
+		"children":[]
+	};
+	//Add the provided terminals
+	for(var i=0; i<dedupedTerminals.length; i++){
+		root.children.push({
+			"id":dedupedTerminals[i],
+			"cat":"x0"
+		});
+	}
+	return new UTree(root);
+};
+
 
 //This function takes a JS tree and creates an html representation of it.
 function jsTreeToHtml(sTree){
@@ -941,7 +1062,7 @@ function jsTreeToHtml(sTree){
 		for (i = 0; i < height; i++) {
 			r = rows[i];
 			if (r.width < leftOffset) {
-				var space = '<div class="inline-block" style="width: ' + (leftOffset-r.width) + 'px"></div>';
+				var space = '<div class="inline-block" style="height: 15px; width: ' + (leftOffset-r.width) + 'px"></div>';
 				r.contentRow.push(space);
 				r.lineRow.push(space);
 				r.width = leftOffset;
@@ -1032,20 +1153,23 @@ window.addEventListener('load', function(){
 		return false;
 	};
 	
+	
+	
 	//Code for generating the JS for a syntactic tree
-
+	var treeUIsTree;
+	
 	//Open the tree making GUI 
 	document.getElementById('startTreeUIButton').addEventListener('click', function(){
 		document.getElementById('treeUI').style.display = 'block';
 	});
 	
-	//Set up the table...?
+	//Set up the table...
 	document.getElementById('goButton').addEventListener('click', function(){
 		// Get the string of terminals
 		var terminalString = spotForm.sTreeTerminals.value;
 		var terminalList = terminalString.trim().split(/\s+/);
 		
-		//Check for duplicate words
+		/*//Check for duplicate words
 		var occurrences = {};
 		var dedupedTerminals = [];
 		for(var i=0; i<terminalList.length; i++){
@@ -1064,26 +1188,48 @@ window.addEventListener('load', function(){
 		}
 		
 		//Make the js tree (a dummy tree only containing the root CP)
-		var sTree = {
+		treeUIsTree = {
 			"id":"CP1",
 			"cat":"cp",
 			"children":[]
 		};
 		//Add the provided terminals
 		for(var i=0; i<dedupedTerminals.length; i++){
-			sTree.children.push({
+			treeUIsTree.children.push({
 				"id":dedupedTerminals[i],
 				"cat":"x0"
 			});
 		}
 		
-		console.log(sTree);
+		console.log(treeUIsTree);*/
+		
+		treeUIsTree = UTree.fromTerminals(terminalList);
 		
 		//Make a table based on the dummy tree
-		document.getElementById('treeTableContainer').innerHTML = jsTreeToHtml(sTree);
+		document.getElementById('treeTableContainer').innerHTML = treeUIsTree.toHtml(); // jsTreeToHtml(treeUIsTree);
 	});
 	
+	document.getElementById('treeTableContainer').innerHTML = (new UTree({
+		id: "CP1",
+		cat: "cp",
+		children: [
+			{id: "a", cat: "x0"},
+			{id: "n", cat: "n", children: [
+				{id: "b", cat: "x0"},
+				{id: "c", cat: "x0"},
+			]},
+			{id: "d", cat: "x0"}
+		]
+	})).toHtml();
 	
+	function updateJStreeFromHtml(){
+		
+	}
+	
+	//Look at the html tree and turn it into a JSON tree. Put the JSON in the following textarea.
+	document.getElementById('htmlToJsonTreeButton').addEventListener('click',function(){
+		
+	});
 });
 //An array of pairs to define which syntactic categories "match" which prosodic categories.
 //For theory comparison, we'll want one array for each theory.
