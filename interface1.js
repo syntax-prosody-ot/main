@@ -9,7 +9,7 @@ function UTree(root) {
 		this.nodeMap[node.m.nodeId] = node;
 		if (node.children) {
 			for (var i = 0; i < node.children.length; i++) {
-				this.addMeta(node.children[i], parent);
+				this.addMeta(node.children[i], node);
 			}
 		}
 	};
@@ -93,6 +93,52 @@ function UTree(root) {
 			if (k !== 'm') return v;
 		}, 4);
 	};
+	
+	this.addParent = function(nodes) {
+		var indices = [], parent = nodes[0].m.parent;
+		for (var i = 0; i < nodes.length; i++) {
+			var node = nodes[i];
+			if (node.m.parent !== parent) throw new Error('Nodes must have same the mother.');
+			indices.push(parent.children.indexOf(node));
+		}
+		indices.sort();
+		if (indices[0] < 0) throw new Error('Mother node not found.');
+		for (var i = 1; i < indices.length; i++) {
+			if (indices[i] !== indices[i-1]+1) throw new Error('Nodes must be adjacent sisters.');
+		}
+	
+		// create new node, connect it to parent
+		var newNode = {cat: 'xp'};
+		this.addMeta(newNode, parent);
+		newNode.id = 'XP_' + newNode.m.nodeId; // this does not guarantee uniqueness, but probably close enough for now
+		
+		// connect new node to children
+		var firstChildIndex = indices[0], lastChildIndex = indices[indices.length-1];
+		newNode.children = parent.children.slice(firstChildIndex, lastChildIndex+1);
+		
+		// connect children to new node
+		for (var i = 0; i < newNode.children.length; i++) {
+			newNode.children[i].m.parent = newNode;
+		}
+		
+		// connect parent to new node
+		parent.children = parent.children.slice(0, firstChildIndex).concat([newNode], parent.children.slice(lastChildIndex+1));
+	};
+	
+	this.deleteNode = function(node) {
+		// connect children to parent
+		var parent = node.m.parent, children = node.children || [];
+		for (var i = 0; i < children.length; i++) {
+			children[i].m.parent = parent;
+		}
+		
+		// connect parent to children
+		var index = node.m.parent.children.indexOf(node);
+		node.m.parent.children = node.m.parent.children.slice(0, index).concat(children, node.m.parent.children.slice(index+1));
+		
+		// remove from node map
+		delete this.nodeMap[node.m.nodeId];
+	};
 }
 UTree.fromTerminals = function(terminalList) {
 	//Check for duplicate words
@@ -163,6 +209,7 @@ window.addEventListener('load', function(){
 			sTree = JSON.parse(spotForm.sTree.value);
 		}
 		catch(e){
+			console.error(e);
 			alert(e.message);
 			return;
 		}
@@ -217,6 +264,7 @@ window.addEventListener('load', function(){
 	});
 	
 	// For testing only
+	/*
 	treeUIsTree = new UTree({
 		id: "CP1",
 		cat: "cp",
@@ -231,6 +279,7 @@ window.addEventListener('load', function(){
 	});
 	refreshHtmlTree();
 	document.getElementById('treeUIinner').style.display = 'block';
+	*/
 	
 	//Look at the html tree and turn it into a JSON tree. Put the JSON in the following textarea.
 	document.getElementById('htmlToJsonTreeButton').addEventListener('click',function(){
@@ -289,26 +338,20 @@ window.addEventListener('load', function(){
 	
 	document.getElementById('treeUImakeParent').addEventListener('click', function() {
 		var nodes = getSelectedNodes();
-		var parent = nodes[0].parent;
-		for (var i = 1; i < nodes.length; i++) {
-			if (nodes[i].parent !== parent) return;
+		try {
+			treeUIsTree.addParent(nodes);
+			refreshHtmlTree();
+		} catch (err) {
+			console.error(err);
+			alert('Error, unable to add daughter: ' + err.message);
 		}
-		// TODO:
-		// 0. find nodes in parent and make sure they are adjacent
-		// 1. make new node A (with meta info)
-		// 2. append nodes to A.children
-		// 3. set .m.parent to A for all nodes
-		// 4. replace nodes in originalParent.children with A
-		// 5. set A.m.parent to originalParent
-		refreshHtmlTree(); 
 	});
 	
 	document.getElementById('treeUIdeleteNodes').addEventListener('click', function() {
 		var nodes = getSelectedNodes();
-		// TODO:
-		// For each node:
-		// Find entry in node.parent.children, replace with node.children
-		// For all nodes A in node.children, set A.m.parent to node.parent
+		for (var i = 0; i < nodes.length; i++) {
+			treeUIsTree.deleteNode(nodes[i]);
+		}
 		refreshHtmlTree();
 	});
 	
@@ -317,7 +360,6 @@ window.addEventListener('load', function(){
 		for (var i = elements.length-1; i >= 0; i--) {
 			elements[i].classList.remove('selected');
 		}
-		console.log(elements);
 		refreshNodeEditingButtons();
 	});
 });
