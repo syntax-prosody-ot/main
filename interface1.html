@@ -252,7 +252,9 @@
 			<br/>
 			<hr/>
 			<h2>Input syntactic tree</h2>
-			
+			<p>
+				Create a JavaScript representation of your syntactic tree using the button "Generate JS for a tree", or write the JavaScript yourself in the text area.
+			</p>
             <button id="startTreeUIButton" type="button">Generate JS for a tree</button>
             <div id="treeUI" style="display:none">
                 <p>String of terminals: <input type="text" name="sTreeTerminals"> <button id="goButton" type="button">Go!</button><p/>
@@ -263,14 +265,20 @@
               			<button class="nodeEditingButton" id="treeUIdeleteNodes" type="button" disabled style="margin-right: 50px">Delete</button>
               			<button class="nodeEditingButton" id="treeUIclearSelection" type="button" disabled>Clear Selection</button>
               		</div>
+              		
               		<br/>
                 	<div id="treeTableContainer"></div>
-                	<br/>
+                	<i><small>
+		            	<p>To add a node, select one or more adjacent sisters and click "Add Mother." To remove nodes, select them and click "Delete." </p>
+		            	<p>All labels are editable. The small labels with grey backgrounds represent node categories, and must be "cp", "xp", or "x0" for a node to be visible to the syntax-prosody mapping constraints. The larger labels with white backgrounds represent node ids, and can be any unique alphanumeric string.</p>
+		            </small></i>
+                	</p>
                 	<button id="htmlToJsonTreeButton" type="button">Convert tree to code</button>
             	</div>
+            	<hr/>
             </div>
-			<p><i>Currently only supports evaluation of one syntactic tree at a time. If you want to look at more than one tree, you can run all the trees you're interested in one at a time, and paste the resulting text-area's contents into OT Workplace as you go along.</i></p>
-			<p>Select a tree from your JavaScript tree file (pre-made trees are in the directory <i>main/trees</i>, and end with .js). Paste in the contents of JS file of your input syntactic tree (from the opening brace to the closing brace, removing any comments and excluding the final semi-colon). Note that if you're only using Markedness constraints, you can just keep the default value of an empty tree (like so: {}) as the syntactic input.</p>
+			
+			<p><small><b>For manual tree entry:</b> Select a tree from your JavaScript tree file (pre-made trees are in the directory <i>main/trees</i>, and end with .js). Paste in the contents of JS file of your input syntactic tree (from the opening brace to the closing brace, removing any comments and excluding the final semi-colon). Note that if you're only using Markedness constraints, you can just keep the default value of an empty tree (like so: {}) as the syntactic input.</small></p>
 			<textarea name="sTree" rows="15" style="width:90%">{}</textarea>
 			
 			<br/>
@@ -288,10 +296,10 @@
 			<hr/>
 			
 			<h2>Input string(s) for Gen (to create output candidate prosodic trees)</h2>
-			<p><b>Instructions</b>: Type the words that you want to be included in the output prosodic trees, separating them with spaces. Be sure to make the words you type as input to Gen exactly match the ids of the nodes in your input syntactic tree -- BUT exclude any indices. E.g. If your syntactic tree contains nodes with ids <i>"tomodachi-no_0", "pasokon_1"</i>, then the input to Gen should be "tomodachi-no pasokon". This will ensure that Match and Align function properly.</p>
+			<p>Type the words that you want to be included in the output prosodic trees, separating them with spaces. Be sure to make the words you type as input to Gen exactly match the ids of the nodes in your input syntactic tree.</p>
 			<p><b>N.B.</b> Input strings longer than 6 words may be very slow, and risk freezing your system.</p>
 			
-			<p>Input 1: <input type="text" name="inputToGen"><p/>
+			<p>String of terminals: <input type="text" name="inputToGen"><p/>
 			<!--
 			<p>Input 2: <input type="text" name="inputToGen"><p/>
 			<p>Input 3: <input type="text" name="inputToGen"><p/>

@@ -766,6 +766,27 @@ function hasMatch2(sLeaves, pTree) {
 	});
 	return result;
 }
+function deduplicateTerminals(terminalList) {
+	//Check for duplicate words
+	var occurrences = {};
+	var dedupedTerminals = [];
+	for(var i=0; i<terminalList.length; i++){
+		var t = terminalList[i];
+		//If this is the first occurrence of t, don't append an index
+		if(!occurrences.hasOwnProperty(t)){
+			dedupedTerminals.push(t);
+			occurrences[t] = 1;
+		}
+		// If we've seen t before, then add an index to it such that the 2nd occurrence of t
+		// becomes t_1.
+		else{
+			dedupedTerminals.push(t+'_'+occurrences[t]);
+			occurrences[t] = occurrences[t] + 1;
+		}
+	}
+	return dedupedTerminals;
+}
+
 (function() {
 var phiNum = 0;
 var wNum = 0;
@@ -776,6 +797,7 @@ window.GEN = function(sTree, words, options){
 	
 	if(typeof words === "string") // words can be a space-separated string of words or an array of words; if string, split up into an array
 		words = words.split(' ');
+	words = deduplicateTerminals(words);
 	
 	var leaves = [];
 	phiNum = wNum = 0;
@@ -819,7 +841,7 @@ function iotafy(candidate, options){
 }
 
 function omegafy(word){
-	return {id: word+'_'+(wNum++), cat: 'w'};
+	return {id: word, cat: 'w'};
 }
 
 // conceptually, returns all possible parenthesizations of leaves that don't have a set of parentheses enclosing all of the leaves
@@ -1061,23 +1083,7 @@ function UTree(root) {
 	};
 }
 UTree.fromTerminals = function(terminalList) {
-	//Check for duplicate words
-	var occurrences = {};
-	var dedupedTerminals = [];
-	for(var i=0; i<terminalList.length; i++){
-		var t = terminalList[i];
-		//If this is the first occurrence of t, don't append an index
-		if(!occurrences.hasOwnProperty(t)){
-			dedupedTerminals.push(t);
-			occurrences[t] = 1;
-		}
-		// If we've seen t before, then add an index to it such that the 2nd occurrence of t
-		// becomes t_1.
-		else{
-			dedupedTerminals.push(t+'_'+occurrences[t]);
-			occurrences[t] = occurrences[t] + 1;
-		}
-	}
+	var dedupedTerminals = deduplicateTerminals(terminalList);
 	
 	//Make the js tree (a dummy tree only containing the root CP)
 	var root = {
