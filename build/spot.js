@@ -918,6 +918,66 @@ function addPhiWrapped(candidates, options){
 }
 
 })();
+
+//This function takes a JS tree and creates an html representation of it.
+function jsTreeToHtml(sTree){
+	var rows = [];
+	
+	function processNode(node, leftOffset){
+		var hasChildren = node.children && node.children.length;
+		var width = 0, height = 0;	//height counts how many levels up from the terminals this node is
+		var i, r;
+		if(hasChildren){
+			for(i=0; i<node.children.length; i++){
+				var childResult = processNode(node.children[i], leftOffset+width);
+				width += childResult.width;
+				height = Math.max(childResult.height, height);
+			}
+			//Add one to the height to take the current row into account.
+			height += 1;
+		}
+		width = Math.max(width, 80); // should be an even number of pixels
+		while (height >= rows.length) rows.push({contentRow: [], lineRow: [], width: 0});
+		for (i = 0; i < height; i++) {
+			r = rows[i];
+			if (r.width < leftOffset) {
+				var space = '<div class="inline-block" style="width: ' + (leftOffset-r.width) + 'px"></div>';
+				r.contentRow.push(space);
+				r.lineRow.push(space);
+				r.width = leftOffset;
+			}
+		}
+		r = rows[height];
+		r.contentRow.push('<div class="inline-block" style="width: ' + width + 'px"><div class="inputContainer"><input class="catInput" type="text" value="' + node.cat + '"></input></div><div class="inputContainer"><input class="idInput" type="text" value="' + node.id + '"></input></div></div>');
+		r.lineRow.push('<div class="inline-block" style="width: ' + width/2 + 'px; height: 12px; border-right: 2px black solid"></div><div class="inline-block" style="width: ' + width/2 + 'px"></div>');
+		r.width += width;
+		return {width:width, height:height};
+	}
+	
+	processNode(sTree,0);
+	
+	var fragments = [];
+	rows = rows.reverse();	//Reverse the order of the rows so that terminals are on the bottom
+	
+	// Reduce the two-dimensional array to a one dimensional array.
+	for (i = 0; i < rows.length; i++) {
+		//Add the line row unless we're at the root node
+		if(i>0){
+			fragments.push('<div>');
+			fragments.push(rows[i].lineRow.join(''));
+			fragments.push('</div>');
+		}
+		//Add the content row
+		fragments.push('<div>');
+		fragments.push(rows[i].contentRow.join(''));
+		fragments.push('</div>');
+	}
+	return fragments.join('');
+}
+
+
+
+
 window.addEventListener('load', function(){
 
 	var spotForm = document.getElementById('spotForm');
@@ -1019,34 +1079,11 @@ window.addEventListener('load', function(){
 		
 		console.log(sTree);
 		
-		
 		//Make a table based on the dummy tree
-		
+		document.getElementById('treeTableContainer').innerHTML = jsTreeToHtml(sTree);
 	});
 	
-	function jsTreeToHtml(sTree){
-		var rows = [];
-		
-		function processNode(node, leftOffset){
-			var hasChildren = node.children && node.children.length;
-			var width = 0, height = 0;	//height counts how many levels up from the terminals this node is
-			if(hasChildren){
-				for(var i=0; i<node.children.length; i++){
-					var childResult = processNode(node.children[i], leftOffset+width);
-					width += childResult.width;
-					height = Math.max(childResult.height, height);
-				}
-				//Add one to the height to take the current row into account.
-				height += 1;
-			}
-			//TODO add html for this node.
-			return {width:width, height:height};
-		}
-		
-		processNode(sTree,0);
-		//TODO join html fragments and return the joined string
-		//return 
-	}
+	
 });
 //An array of pairs to define which syntactic categories "match" which prosodic categories.
 //For theory comparison, we'll want one array for each theory.
