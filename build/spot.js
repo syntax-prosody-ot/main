@@ -924,16 +924,17 @@ function UTree(root) {
 	
 	this.nodeNum = 0;
 	this.nodeMap = {};
-	this.addMeta = function(node) {
-		node.m = {nodeId: this.nodeNum++};
+	this.addMeta = function(node, parent) {
+		node.m = {nodeId: this.nodeNum++, parent: parent};
 		this.nodeMap[node.m.nodeId] = node;
 		if (node.children) {
 			for (var i = 0; i < node.children.length; i++) {
-				this.addMeta(node.children[i]);
+				this.addMeta(node.children[i], parent);
 			}
 		}
 	};
 	this.addMeta(this.root);
+	this.root.m.isRoot = true;
 	
 	function assignDims(node) {
 		var height = 0, width = 0;
@@ -992,8 +993,12 @@ function UTree(root) {
 					if (block.hasStem) {
 						stemContainer = '<div class="stemContainer">' + stem + '</div>';
 					}
+					var nodeClasses = 'treeNode';
+					if (node.m.isRoot) {
+						nodeClasses += ' rootNode';
+					}
 					var catInputId = 'catInput-' + node.m.nodeId, idInputId = 'idInput-' + node.m.nodeId; 
-					rowFrags.push('<div class="inline-block" style="width: ' + pxWidth + 'px">' + stemContainer + '<div class="inputContainer"><input id="' + catInputId + '" class="catInput" type="text" value="' + node.cat + '"></input></div><div class="inputContainer"><input id="' + idInputId + '" class="idInput" type="text" value="' + node.id + '"></input></div></div>');
+					rowFrags.push('<div id="treeNode-' + node.m.nodeId + '" class="' + nodeClasses + '" style="width: ' + pxWidth + 'px">' + stemContainer + '<div class="inputContainer"><input id="' + catInputId + '" class="catInput" type="text" value="' + node.cat + '"></input></div><div class="inputContainer"><input id="' + idInputId + '" class="idInput" type="text" value="' + node.id + '"></input></div></div>');
 				}
 			}
 			frags.push('<div>');
@@ -1105,11 +1110,17 @@ window.addEventListener('load', function(){
 	
 	//Code for generating the JS for a syntactic tree
 	var treeUIsTree;
+	var treeTableContainer = document.getElementById('treeTableContainer');
 	
 	//Open the tree making GUI 
 	document.getElementById('startTreeUIButton').addEventListener('click', function(){
 		document.getElementById('treeUI').style.display = 'block';
 	});
+	
+	function refreshHtmlTree() {
+		treeTableContainer.innerHTML = treeUIsTree.toHtml();
+		refreshNodeEditingButtons();
+	}
 	
 	//Set up the table...
 	document.getElementById('goButton').addEventListener('click', function(){
@@ -1120,12 +1131,13 @@ window.addEventListener('load', function(){
 		//Make the js tree (a dummy tree only containing the root CP)
 		treeUIsTree = UTree.fromTerminals(terminalList);
 		
-		//Make a table based on the dummy tree
-		document.getElementById('treeTableContainer').innerHTML = treeUIsTree.toHtml();
+		refreshHtmlTree();
+		
+		document.getElementById('treeUIinner').style.display = 'block';
 	});
 	
 	// For testing only
-	/*document.getElementById('treeTableContainer').innerHTML = (new UTree({
+	treeUIsTree = new UTree({
 		id: "CP1",
 		cat: "cp",
 		children: [
@@ -1136,11 +1148,9 @@ window.addEventListener('load', function(){
 			]},
 			{id: "d", cat: "x0"}
 		]
-	})).toHtml();*/
-	
-	function updateJStreeFromHtml(){
-		
-	}
+	});
+	refreshHtmlTree();
+	document.getElementById('treeUIinner').style.display = 'block';
 	
 	//Look at the html tree and turn it into a JSON tree. Put the JSON in the following textarea.
 	document.getElementById('htmlToJsonTreeButton').addEventListener('click',function(){
@@ -1149,12 +1159,86 @@ window.addEventListener('load', function(){
 		}
 	});
 	
-	document.getElementById('treeTableContainer').addEventListener('input', function(e) {
+	treeTableContainer.addEventListener('input', function(e) {
 		var target = e.target;
 		var idPieces = target.id.split('-');
 		var nodeId = idPieces[1];
 		var isCat = idPieces[0] === 'catInput';
 		treeUIsTree.nodeMap[nodeId][isCat ? 'cat' : 'id'] = target.value;
+	});
+	
+	function refreshNodeEditingButtons() {
+		var hasSelection = treeTableContainer.getElementsByClassName('selected').length > 0;
+		var buttons = document.getElementsByClassName('nodeEditingButton');
+		for (var i = 0; i < buttons.length; i++) {
+			buttons[i].disabled = !hasSelection;
+		}
+	}
+	
+	treeTableContainer.addEventListener('click', function(e) {
+		var node = e.target;
+		if (e.target.classList.contains('stemSide') || e.target.classList.contains('inputContainer')) {
+			while (node && !node.classList.contains('treeNode')) {
+				node = node.parentElement;
+			}
+		}
+		if (node.classList.contains('treeNode') && !node.classList.contains('rootNode')) {
+			node.classList.toggle('selected');
+			refreshNodeEditingButtons();
+		}
+	});
+	
+	function elementToNode(el) {
+		var idFrags = el.id.split('-');
+		if (idFrags[0] !== 'treeNode') return null;
+		var nodeId = idFrags[1];
+		return treeUIsTree.nodeMap[nodeId];
+	}
+	
+	function getSelectedNodes() {
+		var elements = treeTableContainer.getElementsByClassName('selected');
+		var nodes = [];
+		for (var i = 0; i < elements.length; i++) {
+			var node = elementToNode(elements[i]);
+			if (node) {
+				nodes.push(node);
+			}
+		}
+		return nodes;
+	}
+	
+	document.getElementById('treeUImakeParent').addEventListener('click', function() {
+		var nodes = getSelectedNodes();
+		var parent = nodes[0].parent;
+		for (var i = 1; i < nodes.length; i++) {
+			if (nodes[i].parent !== parent) return;
+		}
+		// TODO:
+		// 0. find nodes in parent and make sure they are adjacent
+		// 1. make new node A (with meta info)
+		// 2. append nodes to A.children
+		// 3. set .m.parent to A for all nodes
+		// 4. replace nodes in originalParent.children with A
+		// 5. set A.m.parent to originalParent
+		refreshHtmlTree(); 
+	});
+	
+	document.getElementById('treeUIdeleteNodes').addEventListener('click', function() {
+		var nodes = getSelectedNodes();
+		// TODO:
+		// For each node:
+		// Find entry in node.parent.children, replace with node.children
+		// For all nodes A in node.children, set A.m.parent to node.parent
+		refreshHtmlTree();
+	});
+	
+	document.getElementById('treeUIclearSelection').addEventListener('click', function() {
+		var elements = treeTableContainer.getElementsByClassName('selected');
+		for (var i = elements.length-1; i >= 0; i--) {
+			elements[i].classList.remove('selected');
+		}
+		console.log(elements);
+		refreshNodeEditingButtons();
 	});
 });
 //An array of pairs to define which syntactic categories "match" which prosodic categories.
