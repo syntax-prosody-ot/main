@@ -221,7 +221,7 @@
 				<table class="constraint-selection-table">
 				<tbody>
 					<tr>
-						<td title="Assign a violation for every parent-child pair (x,y) such that x is of PH-level n and y is of PH-level n-m, m >= 2."><input type="checkbox" name="constraints" value="exhaust1">Exhaustivity</td>
+						<td title="Assign a violation for every parent-child pair (x,y) such that x is of PH-level n and y is of PH-level n-m, m >= 2."><input type="checkbox" name="constraints" value="exhaustivity">Exhaustivity</td>
 					</tr>
 					<tr>
 						<td title="Assign a violation for every node of category x immediately dominated by another node of category x."><input type="checkbox" name="constraints" value="nonRec1">Non-recursivity, assessed by dominated node</td>
