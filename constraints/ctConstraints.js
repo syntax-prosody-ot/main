@@ -116,27 +116,6 @@ function hasParent(myTree, x)
 	}
 };
 
-function getLeaves(x)
-//return a list of all the non-silent terminals dominated by a node
-{
-	var leaves = [];
-	if(x.children && x.children.length)
-	//x is non-terminal
-	{
-		for(var y=0; y < x.children.length; y++){
-			var yLeaves = getLeaves(x.children[y]);
-			for(var i=0; i < yLeaves.length; i++){
-				leaves.push(yLeaves[i]);
-			}
-		}
-	}
-	else if(!x.silent)	// x is itself a non-silent terminal
-	{
-		leaves.push(x);
-	}
-	return leaves;
-}
-
 function getPhis(pTree)
 {
 	var phiArray = [];
@@ -294,7 +273,7 @@ function mutualNonCommand(tree,x,y)
 	};
 };
 
-function split(sTree,pTree)
+function splitNMC(sTree,pTree)
 {
 	var vcount = 0;
 	var sLeaves = getLeaves(sTree);
@@ -313,7 +292,7 @@ function split(sTree,pTree)
 	return vcount;
 };
 
-function splitMin(sTree,pTree)
+function splitNMCmin(sTree,pTree)
 {
 	var vcount = 0;
 	var sLeaves = getLeaves(sTree);
