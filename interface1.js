@@ -262,13 +262,32 @@ window.addEventListener('load', function(){
 			genOptions[optionBox.value]=optionBox.checked;
 		}
 
+		var csvSegs = [];
 		for (var i = 0; i < sTrees.length; i++) {
 			var sTree = sTrees[i];
 			var candidateSet = GEN(sTree, pString, genOptions);
 			
 			//Make the violation tableau with the info we just got.
-			writeTableau(makeTableau(candidateSet, constraintSet));
+			var tabl = makeTableau(candidateSet, constraintSet);
+			csvSegs.push(tableauToCsv(tabl, ',', {noHeader: i}));
+			writeTableau(tabl);
 			revealNextSegment();
+		}
+		
+		saveTextAs(csvSegs.join('\n'), 'SPOT_Results.csv');
+		
+		function saveAs(blob, name) {
+			var a = document.createElement("a");
+			a.display = "none";
+			a.href = URL.createObjectURL(blob);
+			a.download = name;
+			document.body.appendChild(a);
+			a.click();
+			document.body.removeChild(a);
+		}
+
+		function saveTextAs(text, name) {
+			saveAs(new Blob([text], {type: "text/csv", encoding: 'utf-8'}), name);
 		}
 		
 		return false;
