@@ -1521,9 +1521,12 @@ window.addEventListener('load', function(){
 		console.log(constraintSet);
 		
 		//Get the input syntactic tree.
-		var sTree; 
+		var sTrees; 
 		try{
-			sTree = JSON.parse(spotForm.sTree.value);
+			sTrees = JSON.parse(spotForm.sTree.value);
+			if (!(sTrees instanceof Array)) {
+				sTrees = [sTrees];
+			}
 		}
 		catch(e){
 			console.error(e);
@@ -1540,12 +1543,15 @@ window.addEventListener('load', function(){
 			var optionBox = spotForm.genOptions[i];
 			genOptions[optionBox.value]=optionBox.checked;
 		}
-		
-		var candidateSet = GEN(sTree, pString, genOptions);
-		
-		//Make the violation tableau with the info we just got.
-		writeTableau(makeTableau(candidateSet, constraintSet));
-		revealNextSegment();
+
+		for (var i = 0; i < sTrees.length; i++) {
+			var sTree = sTrees[i];
+			var candidateSet = GEN(sTree, pString, genOptions);
+			
+			//Make the violation tableau with the info we just got.
+			writeTableau(makeTableau(candidateSet, constraintSet));
+			revealNextSegment();
+		}
 		
 		return false;
 	};
