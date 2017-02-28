@@ -37,22 +37,28 @@ window.GEN = function(sTree, words, options){
 		leaves.push(omegafy(words[i]));
 	}
 	
-	var rootlessCand = addPhiWrapped(gen(leaves, options), options);
+	var recursiveOptions = {};
+	for (var k in Object.keys(options)) {
+		if (options.hasOwnProperty(k) && k !== 'requirePhiStem')
+			recursiveOptions[k] = options[k];
+	}
+	
+	var rootlessCand = addPhiWrapped(gen(leaves, recursiveOptions), options);
 	
 	var candidates = [];
 	for(var i=0; i<rootlessCand.length; i++){
 		var iota = iotafy(rootlessCand[i], options);
 		if (!iota)
 			continue;
-		if (options.obeysHeadedness && !ioataIsHeaded(iota))
+		if (options.obeysHeadedness && !iotaIsHeaded(iota))
 			continue;
 		candidates.push([sTree, iota]);
 	}
 	return candidates;
 }
 
-function ioataIsHeaded(ioata) {
-	var children = ioata.children || [];
+function iotaIsHeaded(iota) {
+	var children = iota.children || [];
 	for (var i = 0; i < children.length; i++)
 		if (children[i].cat === 'phi')
 			return true;
@@ -161,14 +167,18 @@ function phiify(candidate, options){
 //Takes a list of candidates and doubles it to root each of them in a phi
 function addPhiWrapped(candidates, options){
 	var origLen = candidates.length;
+	var result = [];
+	if (!options.requirePhiStem) {
+		result = candidates;
+	}
 	for(var i=0; i<origLen; i++){
 		if(candidates[i].length) {
 			var phiNode = phiify(candidates[i], options);
 			if (phiNode)
-				candidates.push([phiNode]);
+				result.push([phiNode]);
 		}
 	}
-	return candidates;
+	return result;
 }
 
 })();
