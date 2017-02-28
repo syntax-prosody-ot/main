@@ -159,7 +159,58 @@ UTree.fromTerminals = function(terminalList) {
 	return new UTree(root);
 };
 
+function danishTrees() {
+	var patterns = [
+		[[{}],[{}]],
+		[[{}],[{},{}]],
+		[[{},{}],[{}]],
+		[[{},{}],[{},{}]],
+		[[{}],[[{}],[{}]]],
+		[[{}],[[{}],[{},{}]]],
+		[[{}],[[{},{}],[{}]]],
+		[[{},{}],[[{}],[{}]]],
+		[[{}],[[{},{}],[{},{}]]],
+		[[{},{}],[[{}],[{},{}]]],
+		[[{},{}],[[{},{}],[{}]]],
+		[[{},{}],[[{},{}],[{},{}]]],
+		[[[{}],[{}]],[{}]],
+		[[[{}],[{}]],[{},{}]],
+		[[[{}],[{},{}]],[{}]],
+		[[[{},{}],[{}]],[{}]],
+		[[[{}],[{},{}]],[{},{}]],
+		[[[{},{}],[{}]],[{},{}]],
+		[[[{},{}],[{},{}]],[{}]],
+		[[[{},{}],[{},{}]],[{},{}]]
+	];
 
+	function patternToJS(pattern) {
+		var xpid = 1, x0id = 1;
+		function patternPartToJS(pattern) {
+			var node = {};
+			if (pattern instanceof Array) {
+				node.id = "XP" + xpid++;
+				node.cat = "xp";
+				node.children = [];
+				for (var i = 0; i < pattern.length; i++) {
+					node.children.push(patternPartToJS(pattern[i]));
+				}
+			} else {
+				node.id = "f_" + x0id++;
+				node.cat = "x0";
+			}
+			return node;
+		}
+		return patternPartToJS(pattern);
+	}
+
+	var sTrees = [];
+
+	for (var i = 0; i < patterns.length; i++) {
+		sTrees.push(patternToJS(patterns[i]));
+	}
+
+	return sTrees;
+}
 
 
 window.addEventListener('load', function(){
@@ -270,6 +321,10 @@ window.addEventListener('load', function(){
 		if (treeUIsTree) {
 			spotForm.sTree.value = treeUIsTree.toJSON(); 
 		}
+	});
+
+	document.getElementById('danishJsonTreesButton').addEventListener('click', function() {
+		spotForm.sTree.value = JSON.stringify(danishTrees(), null, 4);
 	});
 	
 	treeTableContainer.addEventListener('input', function(e) {
