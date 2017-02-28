@@ -27,10 +27,20 @@ var wNum = 0;
 window.GEN = function(sTree, words, options){
 	options = options || {}; // if options is undefined, set it to an empty object (so you can query its properties without crashing things)
 	
-	if(typeof words === "string") // words can be a space-separated string of words or an array of words; if string, split up into an array
-		words = words.split(' ');
-	words = deduplicateTerminals(words);
-	
+	if(typeof words === "string") { // words can be a space-separated string of words or an array of words; if string, split up into an array
+		if (!words) { // if empty, scrape words from sTree
+			words = getLeaves(sTree);
+			for (var i = 0; i < words.length; i++) {
+				words[i] = words[i].id;
+			}
+		} else {
+			words = words.split(' ');
+			words = deduplicateTerminals(words);
+		}
+	} else {
+		words = deduplicateTerminals(words);
+	}
+
 	var leaves = [];
 	phiNum = wNum = 0;
 	for(var i=0; i<words.length; i++){

@@ -1115,10 +1115,20 @@ var wNum = 0;
 window.GEN = function(sTree, words, options){
 	options = options || {}; // if options is undefined, set it to an empty object (so you can query its properties without crashing things)
 	
-	if(typeof words === "string") // words can be a space-separated string of words or an array of words; if string, split up into an array
-		words = words.split(' ');
-	words = deduplicateTerminals(words);
-	
+	if(typeof words === "string") { // words can be a space-separated string of words or an array of words; if string, split up into an array
+		if (!words) { // if empty, scrape words from sTree
+			words = getLeaves(sTree);
+			for (var i = 0; i < words.length; i++) {
+				words[i] = words[i].id;
+			}
+		} else {
+			words = words.split(' ');
+			words = deduplicateTerminals(words);
+		}
+	} else {
+		words = deduplicateTerminals(words);
+	}
+
 	var leaves = [];
 	phiNum = wNum = 0;
 	for(var i=0; i<words.length; i++){
@@ -1291,7 +1301,901 @@ function addPhiWrapped(candidates, options){
     [[[{},{}],[{}]],[{},{}]],
     [[[{},{}],[{},{}]],[{}]],
     [[[{},{}],[{},{}]],[{},{}]]
-];*/function UTree(root) {
+];*/
+
+
+/*
+[
+    {
+        "id": "XP1",
+        "cat": "xp",
+        "children": [
+            {
+                "id": "XP2",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "f_1",
+                        "cat": "x0"
+                    }
+                ]
+            },
+            {
+                "id": "XP3",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "f_2",
+                        "cat": "x0"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "XP1",
+        "cat": "xp",
+        "children": [
+            {
+                "id": "XP2",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "f_1",
+                        "cat": "x0"
+                    }
+                ]
+            },
+            {
+                "id": "XP3",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "f_2",
+                        "cat": "x0"
+                    },
+                    {
+                        "id": "f_3",
+                        "cat": "x0"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "XP1",
+        "cat": "xp",
+        "children": [
+            {
+                "id": "XP2",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "f_1",
+                        "cat": "x0"
+                    },
+                    {
+                        "id": "f_2",
+                        "cat": "x0"
+                    }
+                ]
+            },
+            {
+                "id": "XP3",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "f_3",
+                        "cat": "x0"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "XP1",
+        "cat": "xp",
+        "children": [
+            {
+                "id": "XP2",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "f_1",
+                        "cat": "x0"
+                    },
+                    {
+                        "id": "f_2",
+                        "cat": "x0"
+                    }
+                ]
+            },
+            {
+                "id": "XP3",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "f_3",
+                        "cat": "x0"
+                    },
+                    {
+                        "id": "f_4",
+                        "cat": "x0"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "XP1",
+        "cat": "xp",
+        "children": [
+            {
+                "id": "XP2",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "f_1",
+                        "cat": "x0"
+                    }
+                ]
+            },
+            {
+                "id": "XP3",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "XP4",
+                        "cat": "xp",
+                        "children": [
+                            {
+                                "id": "f_2",
+                                "cat": "x0"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "XP5",
+                        "cat": "xp",
+                        "children": [
+                            {
+                                "id": "f_3",
+                                "cat": "x0"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "XP1",
+        "cat": "xp",
+        "children": [
+            {
+                "id": "XP2",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "f_1",
+                        "cat": "x0"
+                    }
+                ]
+            },
+            {
+                "id": "XP3",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "XP4",
+                        "cat": "xp",
+                        "children": [
+                            {
+                                "id": "f_2",
+                                "cat": "x0"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "XP5",
+                        "cat": "xp",
+                        "children": [
+                            {
+                                "id": "f_3",
+                                "cat": "x0"
+                            },
+                            {
+                                "id": "f_4",
+                                "cat": "x0"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "XP1",
+        "cat": "xp",
+        "children": [
+            {
+                "id": "XP2",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "f_1",
+                        "cat": "x0"
+                    }
+                ]
+            },
+            {
+                "id": "XP3",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "XP4",
+                        "cat": "xp",
+                        "children": [
+                            {
+                                "id": "f_2",
+                                "cat": "x0"
+                            },
+                            {
+                                "id": "f_3",
+                                "cat": "x0"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "XP5",
+                        "cat": "xp",
+                        "children": [
+                            {
+                                "id": "f_4",
+                                "cat": "x0"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "XP1",
+        "cat": "xp",
+        "children": [
+            {
+                "id": "XP2",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "f_1",
+                        "cat": "x0"
+                    },
+                    {
+                        "id": "f_2",
+                        "cat": "x0"
+                    }
+                ]
+            },
+            {
+                "id": "XP3",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "XP4",
+                        "cat": "xp",
+                        "children": [
+                            {
+                                "id": "f_3",
+                                "cat": "x0"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "XP5",
+                        "cat": "xp",
+                        "children": [
+                            {
+                                "id": "f_4",
+                                "cat": "x0"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "XP1",
+        "cat": "xp",
+        "children": [
+            {
+                "id": "XP2",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "f_1",
+                        "cat": "x0"
+                    }
+                ]
+            },
+            {
+                "id": "XP3",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "XP4",
+                        "cat": "xp",
+                        "children": [
+                            {
+                                "id": "f_2",
+                                "cat": "x0"
+                            },
+                            {
+                                "id": "f_3",
+                                "cat": "x0"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "XP5",
+                        "cat": "xp",
+                        "children": [
+                            {
+                                "id": "f_4",
+                                "cat": "x0"
+                            },
+                            {
+                                "id": "f_5",
+                                "cat": "x0"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "XP1",
+        "cat": "xp",
+        "children": [
+            {
+                "id": "XP2",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "f_1",
+                        "cat": "x0"
+                    },
+                    {
+                        "id": "f_2",
+                        "cat": "x0"
+                    }
+                ]
+            },
+            {
+                "id": "XP3",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "XP4",
+                        "cat": "xp",
+                        "children": [
+                            {
+                                "id": "f_3",
+                                "cat": "x0"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "XP5",
+                        "cat": "xp",
+                        "children": [
+                            {
+                                "id": "f_4",
+                                "cat": "x0"
+                            },
+                            {
+                                "id": "f_5",
+                                "cat": "x0"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "XP1",
+        "cat": "xp",
+        "children": [
+            {
+                "id": "XP2",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "f_1",
+                        "cat": "x0"
+                    },
+                    {
+                        "id": "f_2",
+                        "cat": "x0"
+                    }
+                ]
+            },
+            {
+                "id": "XP3",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "XP4",
+                        "cat": "xp",
+                        "children": [
+                            {
+                                "id": "f_3",
+                                "cat": "x0"
+                            },
+                            {
+                                "id": "f_4",
+                                "cat": "x0"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "XP5",
+                        "cat": "xp",
+                        "children": [
+                            {
+                                "id": "f_5",
+                                "cat": "x0"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "XP1",
+        "cat": "xp",
+        "children": [
+            {
+                "id": "XP2",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "f_1",
+                        "cat": "x0"
+                    },
+                    {
+                        "id": "f_2",
+                        "cat": "x0"
+                    }
+                ]
+            },
+            {
+                "id": "XP3",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "XP4",
+                        "cat": "xp",
+                        "children": [
+                            {
+                                "id": "f_3",
+                                "cat": "x0"
+                            },
+                            {
+                                "id": "f_4",
+                                "cat": "x0"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "XP5",
+                        "cat": "xp",
+                        "children": [
+                            {
+                                "id": "f_5",
+                                "cat": "x0"
+                            },
+                            {
+                                "id": "f_6",
+                                "cat": "x0"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "XP1",
+        "cat": "xp",
+        "children": [
+            {
+                "id": "XP2",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "XP3",
+                        "cat": "xp",
+                        "children": [
+                            {
+                                "id": "f_1",
+                                "cat": "x0"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "XP4",
+                        "cat": "xp",
+                        "children": [
+                            {
+                                "id": "f_2",
+                                "cat": "x0"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "XP5",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "f_3",
+                        "cat": "x0"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "XP1",
+        "cat": "xp",
+        "children": [
+            {
+                "id": "XP2",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "XP3",
+                        "cat": "xp",
+                        "children": [
+                            {
+                                "id": "f_1",
+                                "cat": "x0"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "XP4",
+                        "cat": "xp",
+                        "children": [
+                            {
+                                "id": "f_2",
+                                "cat": "x0"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "XP5",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "f_3",
+                        "cat": "x0"
+                    },
+                    {
+                        "id": "f_4",
+                        "cat": "x0"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "XP1",
+        "cat": "xp",
+        "children": [
+            {
+                "id": "XP2",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "XP3",
+                        "cat": "xp",
+                        "children": [
+                            {
+                                "id": "f_1",
+                                "cat": "x0"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "XP4",
+                        "cat": "xp",
+                        "children": [
+                            {
+                                "id": "f_2",
+                                "cat": "x0"
+                            },
+                            {
+                                "id": "f_3",
+                                "cat": "x0"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "XP5",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "f_4",
+                        "cat": "x0"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "XP1",
+        "cat": "xp",
+        "children": [
+            {
+                "id": "XP2",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "XP3",
+                        "cat": "xp",
+                        "children": [
+                            {
+                                "id": "f_1",
+                                "cat": "x0"
+                            },
+                            {
+                                "id": "f_2",
+                                "cat": "x0"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "XP4",
+                        "cat": "xp",
+                        "children": [
+                            {
+                                "id": "f_3",
+                                "cat": "x0"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "XP5",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "f_4",
+                        "cat": "x0"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "XP1",
+        "cat": "xp",
+        "children": [
+            {
+                "id": "XP2",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "XP3",
+                        "cat": "xp",
+                        "children": [
+                            {
+                                "id": "f_1",
+                                "cat": "x0"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "XP4",
+                        "cat": "xp",
+                        "children": [
+                            {
+                                "id": "f_2",
+                                "cat": "x0"
+                            },
+                            {
+                                "id": "f_3",
+                                "cat": "x0"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "XP5",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "f_4",
+                        "cat": "x0"
+                    },
+                    {
+                        "id": "f_5",
+                        "cat": "x0"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "XP1",
+        "cat": "xp",
+        "children": [
+            {
+                "id": "XP2",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "XP3",
+                        "cat": "xp",
+                        "children": [
+                            {
+                                "id": "f_1",
+                                "cat": "x0"
+                            },
+                            {
+                                "id": "f_2",
+                                "cat": "x0"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "XP4",
+                        "cat": "xp",
+                        "children": [
+                            {
+                                "id": "f_3",
+                                "cat": "x0"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "XP5",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "f_4",
+                        "cat": "x0"
+                    },
+                    {
+                        "id": "f_5",
+                        "cat": "x0"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "XP1",
+        "cat": "xp",
+        "children": [
+            {
+                "id": "XP2",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "XP3",
+                        "cat": "xp",
+                        "children": [
+                            {
+                                "id": "f_1",
+                                "cat": "x0"
+                            },
+                            {
+                                "id": "f_2",
+                                "cat": "x0"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "XP4",
+                        "cat": "xp",
+                        "children": [
+                            {
+                                "id": "f_3",
+                                "cat": "x0"
+                            },
+                            {
+                                "id": "f_4",
+                                "cat": "x0"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "XP5",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "f_5",
+                        "cat": "x0"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "XP1",
+        "cat": "xp",
+        "children": [
+            {
+                "id": "XP2",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "XP3",
+                        "cat": "xp",
+                        "children": [
+                            {
+                                "id": "f_1",
+                                "cat": "x0"
+                            },
+                            {
+                                "id": "f_2",
+                                "cat": "x0"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "XP4",
+                        "cat": "xp",
+                        "children": [
+                            {
+                                "id": "f_3",
+                                "cat": "x0"
+                            },
+                            {
+                                "id": "f_4",
+                                "cat": "x0"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "XP5",
+                "cat": "xp",
+                "children": [
+                    {
+                        "id": "f_5",
+                        "cat": "x0"
+                    },
+                    {
+                        "id": "f_6",
+                        "cat": "x0"
+                    }
+                ]
+            }
+        ]
+    }
+]
+*/function UTree(root) {
 
 	this.root = root;
 	
