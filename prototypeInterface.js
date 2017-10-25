@@ -29,11 +29,7 @@ function writeTableau(tableauContent) {
     if (resultsContainer) {
         var tableauContainer = document.createElement('div');
 
-        tableauContainer.innerHTML =  '<h3 style="margin-bottom: 5px">Tableau</h3>';
-
-        var htmlTableauContainer = document.createElement('div');
-        htmlTableauContainer.innerHTML = tableauToHtml(tableauContent);
-        tableauContainer.appendChild(htmlTableauContainer);		
+        tableauContainer.innerHTML =  '<h3 style="margin-bottom: 5px">Tableau</h3>';	
 
         var textareaNote = document.createElement('strong');
         textareaNote.innerHTML = 'For copying and pasting into OTWorkplace: ';
@@ -44,6 +40,7 @@ function writeTableau(tableauContent) {
         textarea.value = tableauToCsv(tableauContent, '\t');
         textarea.readOnly = true;
         tableauContainer.appendChild(textarea);
+		tableauContainer.appendChild(document.createElement('p'));
         tableauContainer.className += ' segment-' + lastSegmentId;
         if (lastSegmentId >= nextSegmentToReveal)
             tableauContainer.className += ' segment-hidden';
@@ -51,6 +48,10 @@ function writeTableau(tableauContent) {
             textarea.focus();
             textarea.select();
         }
+
+        var htmlTableauContainer = document.createElement('div');
+        htmlTableauContainer.innerHTML = tableauToHtml(tableauContent);
+        tableauContainer.appendChild(htmlTableauContainer);	
 
         resultsContainer.appendChild(tableauContainer);
 
