@@ -48,14 +48,14 @@ var sCat = ["cp", "xp", "x0"];
 
 function markMinMax(mytree, parcat){
 	// Check for maximality
-	if(!mytree.hasOwnProperty(isMax)){
+	if(!mytree.hasOwnProperty('isMax')){
 		mytree.isMax = (mytree.cat !== parcat)
 	}
 	
 	// Check for minimality
-	if(!mytree.hasOwnProperty(isMin){
+	if(!mytree.hasOwnProperty('isMin')){
 		mytree.isMin = isMinimal(mytree);
-		
+	}
 /* 		// Breadth-first search of the children to see if 
 		// any immediate children are the same category as the current node
 		var i = 0;
@@ -71,7 +71,7 @@ function markMinMax(mytree, parcat){
 				}
 				
 			} */		
-	}
+	
 	if(mytree.children && mytree.children.length){
 		parcat = mytree.cat;
 		for(var i = 0; i < mytree.children.length; i++){
