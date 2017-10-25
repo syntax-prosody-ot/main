@@ -127,19 +127,19 @@
 				<table class="constraint-selection-table">
 				<tbody>
 					<tr>
-						<td><input type="checkbox" name="constraints" value="binMinBranches">BinMin(branches)</td>
+						<td title="Assign a violation for every pTree-node of category K that has less than two children."><input type="checkbox" name="constraints" value="binMinBranches">BinMin(branches)</td>
 						<td><input type="radio" name="category-binMinBranches" value="iota">&iota;</td>
 						<td><input type="radio" name="category-binMinBranches" value="phi" checked="checked">&phiv;</td>
 						<td><input type="radio" name="category-binMinBranches" value="w">&omega;</td>
 					</tr>
 					<tr>
-						<td><input type="checkbox" name="constraints" value="binMaxBranches">BinMax(branches) - <i>categorical</i></td>
+						<td title="Assign a violation for every pTree-node of category K that has more than two children."><input type="checkbox" name="constraints" value="binMaxBranches">BinMax(branches) - <i>categorical</i></td>
 						<td><input type="radio" name="category-binMaxBranches" value="iota">&iota;</td>
 						<td><input type="radio" name="category-binMaxBranches" value="phi" checked="checked">&phiv;</td>
 						<td><input type="radio" name="category-binMaxBranches" value="w">&omega;</td>
 					</tr>
 					<tr>
-						<td><input type="checkbox" name="constraints" value="binMaxBranchesGradient">BinMax(branches) - <i>gradient</i></td>
+						<td title="For every pTree-node N of category K, assign a violation for every child of N that is not initial or pen-initial in N."><input type="checkbox" name="constraints" value="binMaxBranchesGradient">BinMax(branches) - <i>gradient</i></td>
 						<td><input type="radio" name="category-binMaxBranchesGradient" value="iota">&iota;</td>
 						<td><input type="radio" name="category-binMaxBranchesGradient" value="phi" checked="checked">&phiv;</td>
 						<td><input type="radio" name="category-binMaxBranchesGradient" value="w">&omega;</td>
