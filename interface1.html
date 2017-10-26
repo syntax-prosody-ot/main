@@ -63,9 +63,11 @@
 		<h1>SPOT Interface</h1>
 		
 		<p>Please select all the constraints you would like to use by checking the associated checkbox for each constraint. Hover over a constraint name to see its definition. <i>Hover-text is not available for all constraints.</i></p>
-		<p>By default, XP and phi are selected as the cateogories to assess violations over. Use the radio buttons next to each constraint to change the desired category.</p>
-		<p>SPOT is a JavaScript application. Make sure you have JavaScript enabled. We have tested SPOT in Firefox and Chrome, but not in Edge or Internet Explorer.</p>
-		<p>Our current implementation of Gen only produces recursion at the phi-level, so candidates with recursive iotas or omegas will not be generated.</p>
+		<ul>
+		<li>By default, XP and &phiv; are selected as the cateogories to assess violations over. Use the radio buttons next to each constraint to change the desired category.</li>
+		<li>SPOT is a JavaScript application. Make sure you have JavaScript enabled. We have tested SPOT in Firefox and Chrome, but not in Edge or Internet Explorer.</li>
+		<li>The current implementation of Gen only produces recursion at the &phiv;-level, so candidates with recursive &iota;s or &omega;s will not be generated.</li>
+		</ul>
 		<form id="spotForm">
 			
 			<fieldset>
@@ -279,7 +281,7 @@
             	</div>
             	<hr/>
             </div>
-			<div><button id="danishJsonTreesButton" type="button">Danish Trees: generate s-tree code</button></div>
+			<!--<div><button id="danishJsonTreesButton" type="button">Danish Trees: generate s-tree code</button></div>-->
 			
 			<p><small><b>For manual tree entry:</b> Select a tree from your JavaScript tree file (pre-made trees are in the directory <i>main/trees</i>, and end with .js). Paste in the contents of JS file of your input syntactic tree (from the opening brace to the closing brace, removing any comments and excluding the final semi-colon). Note that if you're only using Markedness constraints, you can just keep the default value of an empty tree (like so: {}) as the syntactic input.</small></p>
 			<textarea name="sTree" rows="15" style="width:90%">{}</textarea>
@@ -295,7 +297,7 @@
 				<td><input type="checkbox" name="genOptions" value="obeysHeadedness">Headedness</td>
 				<td><input type="checkbox" name="genOptions" value="requirePhiStem">Require &phiv; Stem</td>
 			</tr></tbody></table>
-			<small>(Checking a box will tell Gen not to produce certain trees.)</small><br/>
+			<small>(Checking a box will tell Gen not to produce certain trees. Also note that the current implementation of Gen only creates recursion at the &phiv; level.)</small><br/>
 			
 			<hr/>
 			
@@ -311,6 +313,13 @@
 			
 			-->
 			<div align="center"><input type="submit" value="Submit" style="font-size:18px; font-weight:bold">
+			<div align="left">
+			<ul>
+				<li>Clicking "submit" will initiate a download of a tab-separated version of the resulting tableau</li>
+				<li>The tab-separated version of the tableau will also appear in a text-area, from which it can be copy-pasted. (Use Control-A to select it if it's not already selected.) </li>
+				<li>An html version of the tableau will also display below.</li>
+			</ul>
+			</div>
 			<h2>Scroll down to see your results!</h2></div>
 		
 		</form>
