@@ -84,4 +84,3 @@ function equalSistersAdj(s, parent, c){
 	}
 	return vCount;
 }
-

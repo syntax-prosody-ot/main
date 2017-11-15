@@ -11,8 +11,9 @@ function strongStart_Elfner(s, ptree, k){
 		return 0;
 	}
 	
+	var vcount = 0;
+	
 	if(ptree.children.length>1){		
-		var vcount = 0;
 		var leftmostCat = ptree.children[0].cat;
 		var sisterCat = ptree.children[1].cat;
 		
