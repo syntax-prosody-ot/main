@@ -9,6 +9,9 @@
 			body {
 				font-family: Arial, Helvetica, sans-serif;
 			}
+			.header .subtitle {
+				color: #3A5370;
+			}
 			table.spaceytable td {
 				padding:10px
 			}
@@ -76,7 +79,6 @@
 			button.orange-button:hover {
 			    background-color: #ec971f;
 			    border-color: #d58512;
-				color: darken(#6d86a3, 10%)
 			}
 			button.submit-button {
 				font-size: 16px;
@@ -87,9 +89,12 @@
 			}
 			fieldset h2 {
 				margin: 0px;
+				font-size: 20px;
 			}
 			fieldset h3, fieldset p {
-				margin: 5px
+				margin: 5px;
+				color: #3A5370;
+				font-weight: normal;
 			}
 			.constraint-selection-table {
 				margin-left: 30px;
@@ -105,10 +110,10 @@
 	</head>
 	<body>
 	<div style="padding-bottom:40px">
-		<div style="position: fixed; top: 0; padding-top: 5px; z-index: 1; background-color: white; width: 100%">
+		<div class="header" style="position: fixed; top: 0; padding-top: 5px; z-index: 1; background-color: white; width: 100%">
 			<div style="padding-left:80px; padding-right:80px;">
 				<span style="font-weight: bold; font-size: 24px; margin-right: 30px">SPOT</span>
-				An application for Syntax Prosody in Optimal Theory
+				<span class="subtitle">An application for Syntax Prosody in Optimal Theory</span>
 				<hr>
 			</div>
 		</div>
