@@ -21,7 +21,7 @@ Bellik, J., O. Bellik, N. Kalivoda (2017). Syntax-Prosody for OT. JavaScript app
 
 
 
-======================================
+
 Below is some information for anyone interested in writing their own constraints:
 
 Categories and the prosodic hierarchy
