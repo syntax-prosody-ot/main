@@ -1839,7 +1839,7 @@ function writeTableau(tableauContent) {
     if (resultsContainer) {
         var tableauContainer = document.createElement('div');
 
-        tableauContainer.innerHTML =  '<h3 style="margin-bottom: 5px">Tableau</h3>';	
+        tableauContainer.innerHTML =  '<h2 style="margin-bottom: 5px">Tableau</h2>';	
 
         var textareaNote = document.createElement('strong');
         textareaNote.innerHTML = 'For copying and pasting into OTWorkplace: ';
