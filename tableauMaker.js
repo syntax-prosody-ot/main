@@ -5,7 +5,11 @@ function makeTableau(candidateSet, constraintSet){
 	var tableau = [];
 	//Make a header for the tableau, containing all the constraint names.
 	//First element is empty, to correspond to the column of candidates.
-	var header = [candidateSet[0] ? candidateSet[0][0] : ''];
+	var sTree = candidateSet[0] ? candidateSet[0][0] : '';
+	if (sTree instanceof Object) {
+		sTree = parenthesizeTree(sTree, {parens: '[]'}); //JSON.stringify(sTreeName);
+	}
+	var header = [sTree];
 	for(var i=0; i<constraintSet.length; i++){
 		header.push(constraintSet[i]);
 	}

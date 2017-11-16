@@ -236,7 +236,6 @@ window.addEventListener('load', function(){
 			}
 		}
 		
-		console.log(constraintSet);
 		
 		//Get the input syntactic tree.
 		var sTrees; 
