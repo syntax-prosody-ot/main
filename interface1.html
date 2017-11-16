@@ -6,6 +6,9 @@
 		<link rel="stylesheet" type="text/css" href="spot.css">
 		
 		<style>
+			body {
+				font-family: Arial, Helvetica, sans-serif;
+			}
 			table.spaceytable td {
 				padding:10px
 			}
@@ -55,8 +58,19 @@
 			.treeNode.selected {
 				background-color: #cdf;
 			}
-			.side-padded {
-				padding-left:80px; padding-right:80px; 
+			.submit-button {
+				color: #ffffff;
+			    background-color: #f0ad4e;
+			    border-color: #eea236;
+				border: 1px solid transparent;
+				border-radius: 4px;
+				cursor: pointer;
+				font-size: 16px;
+				padding: 8px 20px;
+			}
+			.submit-button:hover { 
+			    background-color: #ec971f;
+			    border-color: #d58512;
 			}
 		</style>
 
@@ -64,13 +78,13 @@
 	<body>
 	<div style="padding-bottom:40px">
 		<div style="position: fixed; top: 0; padding-top: 5px; z-index: 1; background-color: white; width: 100%">
-			<div class="side-padded">
+			<div style="padding-left:80px; padding-right:80px;">
 				<span style="font-weight: bold; font-size: 24px; margin-right: 30px">SPOT</span>
 				An application for Syntax Prosody in Optimal Theory
+				<hr>
 			</div>
-			<hr>
 		</div>
-		<div class="side-padded" style="position: absolute; top: 40px">
+		<div class="side-padded" style="padding-left: 130px; padding-right: 130px; position: absolute; top: 40px">
 			<p>Please select all the constraints you would like to use by checking the associated checkbox for each constraint. Hover over a constraint name to see its definition. <i>Hover-text is not available for all constraints.</i></p>
 			<ul>
 				<li>By default, XP and &phiv; are selected as the cateogories to assess violations over. Use the radio buttons next to each constraint to change the desired category.</li>
@@ -320,7 +334,7 @@
 				<p>Input 3: <input type="text" name="inputToGen"></p>
 				
 				-->
-				<div align="center"><input type="submit" value="Submit" style="font-size:18px; font-weight:bold">
+				<div align="center"><button class="submit-button" type="submit">Submit</button>
 				<div align="left">
 				<ul>
 					<li>Clicking "submit" will initiate a download of a tab-separated version of the resulting tableau</li>
