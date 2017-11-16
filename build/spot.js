@@ -1757,8 +1757,31 @@ window.addEventListener('load', function(){
 		}
 		refreshNodeEditingButtons();
 	});
+	
+	document.body.addEventListener('click', function(event) {
+		var el = event.target;
+		if (el.tagName === 'LEGEND') {
+			var fieldset = el.closest('fieldset');
+			if (fieldset) {
+				fieldset.classList.toggle('open');
+			}
+		}
+	});
 });
-//An array of pairs to define which syntactic categories "match" which prosodic categories.
+if (!Element.prototype.matches)
+		Element.prototype.matches = Element.prototype.msMatchesSelector || 
+																Element.prototype.webkitMatchesSelector;
+
+if (!Element.prototype.closest)
+		Element.prototype.closest = function(s) {
+				var el = this;
+				if (!document.documentElement.contains(el)) return null;
+				do {
+						if (el.matches(s)) return el;
+						el = el.parentElement;
+				} while (el !== null); 
+				return null;
+		};//An array of pairs to define which syntactic categories "match" which prosodic categories.
 //For theory comparison, we'll want one array for each theory.
 var categoryPairings = {
 	"clause": "i", 
