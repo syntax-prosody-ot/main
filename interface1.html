@@ -12,9 +12,6 @@
 			table.spaceytable td {
 				padding:10px
 			}
-			table.constraint-selection-table td {
-				padding-right:20px
-			}
 			#treeTableContainer div > * {
 				vertical-align: middle;
 			}
@@ -58,19 +55,50 @@
 			.treeNode.selected {
 				background-color: #cdf;
 			}
-			.submit-button {
+			button {
 				color: #ffffff;
-			    background-color: #f0ad4e;
-			    border-color: #eea236;
+				background-color: #6d86a3;
+				border-color: #546D8A;
 				border: 1px solid transparent;
 				border-radius: 4px;
 				cursor: pointer;
+				font-size: 14px;
+				padding: 4px 8px;
+			}
+			button:hover { 
+				background-color: #546D8A;
+				border-color: #3A5370;
+			}
+			button.orange-button {
+			    background-color: #f0ad4e;
+			    border-color: #eea236;
+			}
+			button.orange-button:hover {
+			    background-color: #ec971f;
+			    border-color: #d58512;
+				color: darken(#6d86a3, 10%)
+			}
+			button.submit-button {
 				font-size: 16px;
 				padding: 8px 20px;
 			}
-			.submit-button:hover { 
-			    background-color: #ec971f;
-			    border-color: #d58512;
+			fieldset {
+				margin-top: 10px;
+			}
+			fieldset h2 {
+				margin: 0px;
+			}
+			fieldset h3, fieldset p {
+				margin: 5px
+			}
+			.constraint-selection-table {
+				margin-left: 30px;
+			}
+			.constraint-selection-table td {
+				padding-right:20px;
+			}
+			.checkbox-set-indentation {
+				margin-left: 30px;
 			}
 		</style>
 
@@ -271,8 +299,10 @@
 				<fieldset>
 					<legend><h2>Japanese: constraints on accentedness</h2></legend>
 					<p><i>N.B. Current evaluation of these constraints requires the id's of all words to be 'a' or 'u' </i> </p>
-					<input type="checkbox" name="constraints" value="accentAsHead"><b>AccentAsHead</b>: Assign a violation for each prosodic word that is not the head of a minimal &phiv;.<br/>
-					<input type="checkbox" name="constraints" value="noLapseL"><b>NoLapse-L</b>: No accentual lapse. Assign a violation for every fully L-toned &omega;.<br/>
+					<div class="checkbox-set-indentation">
+						<input type="checkbox" name="constraints" value="accentAsHead"><b>AccentAsHead</b>: Assign a violation for each prosodic word that is not the head of a minimal &phiv;.<br/>
+						<input type="checkbox" name="constraints" value="noLapseL"><b>NoLapse-L</b>: No accentual lapse. Assign a violation for every fully L-toned &omega;.<br/>
+					</div>
 				</fieldset>
 				
 				<br/>
@@ -282,7 +312,7 @@
 				<p>
 					Create a JavaScript representation of your syntactic tree using the button "Generate JS for a tree", or write the JavaScript yourself in the text area.
 				</p>
-	            <button id="startTreeUIButton" type="button">Generate JS for a tree</button>
+	            <button id="startTreeUIButton" class="orange-button" type="button">Generate JS for a tree</button>
 	            <div id="treeUI" style="display:none">
 	                <p>String of terminals: <input type="text" name="sTreeTerminals"> <button id="goButton" type="button">Go!</button></p>
 	              	<div id="treeUIinner" style="display: block">
@@ -334,7 +364,7 @@
 				<p>Input 3: <input type="text" name="inputToGen"></p>
 				
 				-->
-				<div align="center"><button class="submit-button" type="submit">Submit</button>
+				<div align="center"><button class="orange-button submit-button" type="submit">Submit</button>
 				<div align="left">
 				<ul>
 					<li>Clicking "submit" will initiate a download of a tab-separated version of the resulting tableau</li>
