@@ -315,7 +315,7 @@
 				<hr/>
 				<h2>Input syntactic tree</h2>
 				<p>
-					Create a JavaScript representation of your syntactic tree using the button "Generate JS for a tree", or write the JavaScript yourself in the text area.
+					Create a JavaScript representation of your syntactic tree.
 				</p>
 	            <button id="startTreeUIButton" class="orange-button" type="button">Generate JS for a tree</button>
 	            <div id="treeUI" style="display:none">
@@ -337,15 +337,13 @@
 	                	<button id="htmlToJsonTreeButton" type="button">Done! Convert tree to code</button>
 	            	</div>
 	            	<hr/>
+					<div style="display:none"><button id="danishJsonTreesButton" type="button">Danish Trees: generate s-tree code</button></div>
+					
+					<p><small><b>For manual tree entry:</b> Select a tree from your JavaScript tree file (pre-made trees are in the directory <i>main/trees</i>, and end with .js). Paste in the contents of JS file of your input syntactic tree (from the opening brace to the closing brace, removing any comments and excluding the final semi-colon). Note that if you're only using Markedness constraints, you can just keep the default value of an empty tree (like so: {}) as the syntactic input.</small></p>
+					<textarea name="sTree" rows="15" style="width:90%">{}</textarea>
 	            </div>
-				<div style="display:none"><button id="danishJsonTreesButton" type="button">Danish Trees: generate s-tree code</button></div>
 				
-				<p><small><b>For manual tree entry:</b> Select a tree from your JavaScript tree file (pre-made trees are in the directory <i>main/trees</i>, and end with .js). Paste in the contents of JS file of your input syntactic tree (from the opening brace to the closing brace, removing any comments and excluding the final semi-colon). Note that if you're only using Markedness constraints, you can just keep the default value of an empty tree (like so: {}) as the syntactic input.</small></p>
-				<textarea name="sTree" rows="15" style="width:90%">{}</textarea>
-				
-				<br/>
-				<br/>
-				<hr/>
+				<hr style="margin-top: 20px">
 				<h2>Gen options</h2>
 				Generate only prosodic trees that obey...<br/>
 				<table class="spaceytable"><tbody><tr>
