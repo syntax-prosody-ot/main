@@ -48,7 +48,7 @@ window.GEN = function(sTree, words, options){
 	}
 	
 	var recursiveOptions = {};
-	for (var k in Object.keys(options)) {
+	for (var k in options) {
 		if (options.hasOwnProperty(k) && k !== 'requirePhiStem')
 			recursiveOptions[k] = options[k];
 	}
@@ -151,17 +151,6 @@ function gen(leaves, options){
 	}
 
 	return candidates;
-}
-
-function topLevelRecursive(candidate) {
-	for (var i = 0; i < candidate.length; i++) {
-		var topNode = candidate[i];
-		var topChildren = topNode.children || [];
-		for (var j = 0; j < topChildren.length; j++)
-			if (topNode.cat === topChildren[j].cat)
-				return true;
-	}
-	return false;
 }
 
 function phiify(candidate, options){
