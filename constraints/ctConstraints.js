@@ -81,7 +81,7 @@ function getParent(myTree,goal)
 function commands(myTree,x)
 {
 	var domain = [];
-	var xParent = getParent(tree,x);
+	var xParent = getParent(myTree,x);
 	if(hasParent(myTree,x) && (xParent.children.length > 1))
 	{
 		for(var i = 0; i < xParent.children.length; i++)
