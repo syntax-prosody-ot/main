@@ -841,7 +841,6 @@ function sameIds(a1, a2)
 	return true;
 }
 
-
 function matchPS(sTree, pParent, pCat)
 //Assign a violation for every prosodic node of type pCat in pParent that doesn't have a corresponding syntactic node in sTree, 
 //where "corresponding" is defined as: dominates all and only the same terminals, and has the corresponding syntactic category
