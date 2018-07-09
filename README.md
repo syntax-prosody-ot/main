@@ -13,6 +13,8 @@ Features
 
 All the code for SPOT is available on Github: https://github.com/syntax-prosody-ot/main
 
+A template for custom analyses can be found in SPOT_custom_analysis_template.html.
+
 Please contact the Jenny Bellik or Nick Kalivoda (UC Santa Cruz) if you would like to see a new constraint added to SPOT, or for assistance in developing one yourself.
 
 How to cite
