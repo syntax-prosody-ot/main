@@ -31,7 +31,11 @@ window.GEN = function(sTree, words, options){
 		if (!words) { // if empty, scrape words from sTree
 			words = getLeaves(sTree);
 			for (var i = 0; i < words.length; i++) {
-				words[i] = words[i].id;
+				var catSuffix = '';
+				if (words[i].cat == 'func'){
+					catSuffix = '-func';
+				}
+				words[i] = words[i].id+catSuffix;
 			}
 		} else {
 			words = words.split(' ');
@@ -89,7 +93,11 @@ function iotafy(candidate, options){
 }
 
 function omegafy(word){
-	return {id: word, cat: 'w'};
+	var myCat = 'w';
+	var isClitic = word.indexOf('-func')>=0;
+	if (isClitic)
+		myCat = 'syll';
+	return {id: word.split('-func')[0], cat: myCat};
 }
 
 // conceptually, returns all possible parenthesizations of leaves that don't have a set of parentheses enclosing all of the leaves

@@ -330,7 +330,7 @@ function getParent(myTree,goal)
 function commands(myTree,x)
 {
 	var domain = [];
-	var xParent = getParent(tree,x);
+	var xParent = getParent(myTree,x);
 	if(hasParent(myTree,x) && (xParent.children.length > 1))
 	{
 		for(var i = 0; i < xParent.children.length; i++)
@@ -558,8 +558,7 @@ function splitNMCmin(sTree,pTree)
 		}
 	}
 	return vcount;
-};
-/********************
+};/********************
 * Some implementations of EqualSisters (Myrberg 2013)
 * Myrberg introduces this constraint but doesn't actually define 
 * how to count violations if there are more than 2 sisters.
@@ -1169,7 +1168,11 @@ window.GEN = function(sTree, words, options){
 		if (!words) { // if empty, scrape words from sTree
 			words = getLeaves(sTree);
 			for (var i = 0; i < words.length; i++) {
-				words[i] = words[i].id;
+				var catSuffix = '';
+				if (words[i].cat == 'func'){
+					catSuffix = '-func';
+				}
+				words[i] = words[i].id+catSuffix;
 			}
 		} else {
 			words = words.split(' ');
@@ -1227,7 +1230,11 @@ function iotafy(candidate, options){
 }
 
 function omegafy(word){
-	return {id: word, cat: 'w'};
+	var myCat = 'w';
+	var isClitic = word.indexOf('-func')>=0;
+	if (isClitic)
+		myCat = 'syll';
+	return {id: word.split('-func')[0], cat: myCat};
 }
 
 // conceptually, returns all possible parenthesizations of leaves that don't have a set of parentheses enclosing all of the leaves

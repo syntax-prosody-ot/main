@@ -1,0 +1,38 @@
+<html>
+	<head>
+		<script src="../build/spot.js"></script>
+		<script src="../build/constraints.js"></script>
+		<script src="../candidategenerator.js"></script>
+	</head>
+	<body>
+		<script>
+			var di_vino = {
+							"id": "PP",
+							"cat": "xp",
+							"children": [
+								{
+									"id": "di",
+									"cat": "func"
+								},
+								{
+									"cat": "xp",
+									"id": "NP",
+									"children": [
+										{
+											"id": "vino",
+											"cat": "x0"
+										}
+									]
+								}
+							]
+						}
+						
+			//Make the candidate set using the GEN function (defined in candidategenerator.js)
+            var candSet = GEN(di_vino, 'di-func vino');
+			var con = ['match-xp','binMinBranches-phi','binMin2Words-phi'];
+            
+			//Make the tableau using the makeTableau function (defined in tableauMaker.js)
+            var tabl = makeTableau(candSet, con);
+		</script>
+	</body>
+</html>
