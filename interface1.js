@@ -216,6 +216,11 @@ function danishTrees() {
 window.addEventListener('load', function(){
 
 	var spotForm = document.getElementById('spotForm');
+	
+	if (!spotForm) {
+		console.error('no spot form');
+		return;
+	}
 
 	spotForm.onsubmit=function(e){
 		if (e.preventDefault) e.preventDefault();
