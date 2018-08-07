@@ -24,6 +24,7 @@ var phiNum = 0;
 var wNum = 0;
 
 //takes a list of words and returns the candidate set of trees (JS objects)
+//options is an object consisting of the parameters of GEN. Its properties can be obeysExhaustivity (boolean or array of categories at which to require conformity to exhaustivity), obeysHeadedness (boolean), and obeysNonrecursivity (boolean).
 window.GEN = function(sTree, words, options){
 	options = options || {}; // if options is undefined, set it to an empty object (so you can query its properties without crashing things)
 	
@@ -81,14 +82,23 @@ function iotaIsHeaded(iota) {
 
 function obeysExhaustivity(cat, children) {
 	for (var i = 0; i < children.length; i++)
-		if (cat !== children[i].cat && pCat.nextLower(cat) !== children[i].cat)
+		if (cat !== children[i].cat && pCat.nextLower(cat) !== children[i].cat){
+			console.log('violates Exhaustivity:',cat, 'next lower cat:',pCat.nextLower(cat), '; actual child cat:', children[i].cat);
 			return false;
+		}
 	return true;
 }
 
 function iotafy(candidate, options){
-	if (options && options.obeysExhaustivity && !obeysExhaustivity('i', candidate))
-		return null;
+	if (options && options.obeysExhaustivity){ // check that options.obeysExhaustivity is defined
+		if(typeof options.obeysExhaustivity ==="boolean" && options.obeysExhaustivity && !obeysExhaustivity('i', candidate)){
+			return null;
+		}
+		else if (options.obeysExhaustivity instanceof Array && options.obeysExhaustivity.indexOf('i')>=0 && !obeysExhaustivity('i', candidate)){
+			return null;
+		}
+	}
+	//if we get here, there aren't any relevant exhaustivity violations
 	return {id: 'iota', cat: 'i', children: candidate};
 }
 
@@ -162,8 +172,11 @@ function gen(leaves, options){
 }
 
 function phiify(candidate, options){
-	if (options && options.obeysExhaustivity && !obeysExhaustivity('phi', candidate)) // not doing anything yet, because there's nothing between phi and w
-		return null;
+	// Check for Exhaustivity violations below the phi, if phi is listed as one of the exhaustivity levels to check
+	if (options && options.obeysExhaustivity){
+		if ((typeof options.obeysExhaustivity === "boolean" || options.obeysExhaustivity.indexOf('phi')>=0) && !obeysExhaustivity('phi', candidate))
+			return null;
+	}
 	if (options && options.obeysNonrecursivity)
 		for (var i = 0; i < candidate.length; i++)
 			if (candidate[i].cat === 'phi')

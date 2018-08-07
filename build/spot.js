@@ -1218,13 +1218,15 @@ function iotaIsHeaded(iota) {
 
 function obeysExhaustivity(cat, children) {
 	for (var i = 0; i < children.length; i++)
-		if (cat !== children[i].cat && pCat.nextLower(cat) !== children[i].cat)
+		if (cat !== children[i].cat && pCat.nextLower(cat) !== children[i].cat){
+			//console.log('violates Exhaustivity:',cat, 'next lower cat:',pCat.nextLower(cat), '; actual child cat:', children[i].cat);
 			return false;
+		}
 	return true;
 }
 
 function iotafy(candidate, options){
-	if (options && options.obeysExhaustivity && !obeysExhaustivity('i', candidate))
+	if (options && options.obeysExhaustivity && (typeOf(options.obeysExhaustivity)==="boolean" || options.obeysExhaustivity.indexOf['i']>=0) && !obeysExhaustivity('i', candidate))
 		return null;
 	return {id: 'iota', cat: 'i', children: candidate};
 }
@@ -1299,8 +1301,12 @@ function gen(leaves, options){
 }
 
 function phiify(candidate, options){
-	if (options && options.obeysExhaustivity && !obeysExhaustivity('phi', candidate)) // not doing anything yet, because there's nothing between phi and w
-		return null;
+	// Check for Exhaustivity violations below the phi, if phi is listed as one of the exhaustivity levels to check
+	if (options && options.obeysExhaustivity){
+		var opEx = options.obeysExhaustivity;
+		if ((typeOf(opEx)==="boolean" || opEx.indexOf('phi')>=0) && !obeysExhaustivity('phi', candidate))
+			return null;
+	}
 	if (options && options.obeysNonrecursivity)
 		for (var i = 0; i < candidate.length; i++)
 			if (candidate[i].cat === 'phi')
@@ -1810,7 +1816,7 @@ function catsMatch(aCat, bCat){
 
 
 //defines the prosodic hierarchy
-var pCat = ["i", "phi", "w"];
+var pCat = ["i", "phi", "w", "syll"];
 
 //Function that compares two prosodic categories and returns whether cat1 is higher in the prosodic hierarchy than cat2
 pCat.isHigher = function (cat1, cat2){
