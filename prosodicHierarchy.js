@@ -26,7 +26,7 @@ function catsMatch(aCat, bCat){
 
 
 //defines the prosodic hierarchy
-var pCat = ["i", "phi", "w"];
+var pCat = ["i", "phi", "w", "syll"];
 
 //Function that compares two prosodic categories and returns whether cat1 is higher in the prosodic hierarchy than cat2
 pCat.isHigher = function (cat1, cat2){
