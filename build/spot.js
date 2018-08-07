@@ -1647,7 +1647,10 @@ window.addEventListener('load', function(){
 		return false;
 	};
 	
-	
+	document.getElementById('exhaustivityBox').addEventListener('click', function(){
+		document.getElementById('exhaustivityLabelContainer').style.display = 'block';
+		document.getElementById('exhaustivityCatContainer').style.display = 'block';
+		});
 	
 	//Code for generating the JS for a syntactic tree
 	var treeUIsTree;
