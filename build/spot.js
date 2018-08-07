@@ -1161,6 +1161,7 @@ var phiNum = 0;
 var wNum = 0;
 
 //takes a list of words and returns the candidate set of trees (JS objects)
+//options is an object consisting of the parameters of GEN. Its properties can be obeysExhaustivity (boolean or array of categories at which to require conformity to exhaustivity), obeysHeadedness (boolean), and obeysNonrecursivity (boolean).
 window.GEN = function(sTree, words, options){
 	options = options || {}; // if options is undefined, set it to an empty object (so you can query its properties without crashing things)
 	
@@ -1226,8 +1227,15 @@ function obeysExhaustivity(cat, children) {
 }
 
 function iotafy(candidate, options){
-	if (options && options.obeysExhaustivity && (typeOf(options.obeysExhaustivity)==="boolean" || options.obeysExhaustivity.indexOf['i']>=0) && !obeysExhaustivity('i', candidate))
-		return null;
+	if (options && options.obeysExhaustivity){ // check that options.obeysExhaustivity is defined
+		if(typeof options.obeysExhaustivity ==="boolean" && options.obeysExhaustivity && !obeysExhaustivity('i', candidate)){
+			return null;
+		}
+		else if (options.obeysExhaustivity instanceof Array && options.obeysExhaustivity.indexOf('i')>=0 && !obeysExhaustivity('i', candidate)){
+			return null;
+		}
+	}
+	//if we get here, there aren't any relevant exhaustivity violations
 	return {id: 'iota', cat: 'i', children: candidate};
 }
 
@@ -1303,8 +1311,7 @@ function gen(leaves, options){
 function phiify(candidate, options){
 	// Check for Exhaustivity violations below the phi, if phi is listed as one of the exhaustivity levels to check
 	if (options && options.obeysExhaustivity){
-		var opEx = options.obeysExhaustivity;
-		if ((typeOf(opEx)==="boolean" || opEx.indexOf('phi')>=0) && !obeysExhaustivity('phi', candidate))
+		if ((typeof options.obeysExhaustivity === "boolean" || options.obeysExhaustivity.indexOf('phi')>=0) && !obeysExhaustivity('phi', candidate))
 			return null;
 	}
 	if (options && options.obeysNonrecursivity)
@@ -1546,7 +1553,6 @@ function danishTrees() {
 	return sTrees;
 }
 
-
 window.addEventListener('load', function(){
 
 	var spotForm = document.getElementById('spotForm');
@@ -1599,6 +1605,16 @@ window.addEventListener('load', function(){
 			var optionBox = spotForm.genOptions[i];
 			genOptions[optionBox.value]=optionBox.checked;
 		}
+		if(genOptions['obeysExhaustivity']){
+			var exCats = [];
+			for(var i=0; i<spotForm.exhaustivityCats.length; i++){
+				var exCatBox = spotForm.exhaustivityCats[i];
+				if(exCatBox.checked)
+					exCats = exCats.concat(exCatBox.value);
+			}
+			genOptions['obeysExhaustivity'] = exCats;
+		}
+		
 
 		var csvSegs = [];
 		for (var i = 0; i < sTrees.length; i++) {

@@ -212,7 +212,6 @@ function danishTrees() {
 	return sTrees;
 }
 
-
 window.addEventListener('load', function(){
 
 	var spotForm = document.getElementById('spotForm');
@@ -265,6 +264,16 @@ window.addEventListener('load', function(){
 			var optionBox = spotForm.genOptions[i];
 			genOptions[optionBox.value]=optionBox.checked;
 		}
+		if(genOptions['obeysExhaustivity']){
+			var exCats = [];
+			for(var i=0; i<spotForm.exhaustivityCats.length; i++){
+				var exCatBox = spotForm.exhaustivityCats[i];
+				if(exCatBox.checked)
+					exCats = exCats.concat(exCatBox.value);
+			}
+			genOptions['obeysExhaustivity'] = exCats;
+		}
+		
 
 		var csvSegs = [];
 		for (var i = 0; i < sTrees.length; i++) {

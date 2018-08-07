@@ -83,7 +83,7 @@ function iotaIsHeaded(iota) {
 function obeysExhaustivity(cat, children) {
 	for (var i = 0; i < children.length; i++)
 		if (cat !== children[i].cat && pCat.nextLower(cat) !== children[i].cat){
-			console.log('violates Exhaustivity:',cat, 'next lower cat:',pCat.nextLower(cat), '; actual child cat:', children[i].cat);
+			//console.log('violates Exhaustivity:',cat, 'next lower cat:',pCat.nextLower(cat), '; actual child cat:', children[i].cat);
 			return false;
 		}
 	return true;
