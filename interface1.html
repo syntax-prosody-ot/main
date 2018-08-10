@@ -373,7 +373,7 @@
 	                	<div id="treeTableContainer"></div>
 	                	<i><small>
 			            	<p>To add a node, select one or more adjacent sisters and click "Add Mother." To remove nodes, select them and click "Delete." </p>
-			            	<p>All labels are editable. The small labels with grey backgrounds represent node categories, and must be "cp", "xp", or "x0" for a node to be visible to the syntax-prosody mapping constraints. Use "func" as the category for a node that should be treated as prosodically dependent and not receive a corresponding &omega;. The larger labels with white backgrounds represent node ids, and can be any unique alphanumeric string.</p>
+			            	<p>All labels are editable. The small labels with grey backgrounds represent node categories, and must be "cp", "xp", or "x0" for a node to be visible to the syntax-prosody mapping constraints. Use "clitic" as the category for a node that should be treated as prosodically dependent and not receive a corresponding &omega;. The larger labels with white backgrounds represent node ids, and can be any unique alphanumeric string.</p>
 			            </small></i>
 	                	<button id="htmlToJsonTreeButton" type="button">Done! Convert tree to code</button>
 	            	</div>
@@ -407,7 +407,7 @@
 				
 				<h2>Optional: Input string(s) for Gen (to create output candidate prosodic trees)</h2>
 				<p><i>Leave blank to get from syntatic tree(s)</i></p>
-				<p>Type the words that you want to be included in the output prosodic trees, separating them with spaces. Suffix a word with "-func" to map it to a syllable instead of &omega; in all prosodic trees.</p>
+				<p>Type the words that you want to be included in the output prosodic trees, separating them with spaces. Suffix a word with "-clitic" to map it to a syllable instead of &omega; in all prosodic trees.</p>
 				<p><b>N.B.</b> Input strings longer than 6 words may be very slow, and risk freezing your system.</p>
 				
 				<p>String of terminals: <input type="text" name="inputToGen"></p>
