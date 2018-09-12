@@ -1,0 +1,235 @@
+/*
+TABLE OF CONTENTS
+Line 9: trees with no adjuncts
+Line 118: trees with adjuncts; all XP segments visible
+Line 263: trees with adjuncts; higher XP segments visible, lower XP segments invisible
+Line 408: trees with adjuncts; lower XP segments visible, higher XP segments invisible
+*/
+
+//Trees with no adjuncts. Used by all systems.
+
+var sTreeNV = {
+	"id":"TP",
+	"cat":"xp",
+	"children":
+		[
+			{
+				"id":"NP",
+				"cat":"xp",
+				"children":
+					[
+						{
+							"id":"workers",
+							"cat":"x0"
+						}
+					]
+			},
+			{
+				"id":"Tbar",
+				"cat":"xbar",
+				"children":
+					[
+						{
+							"id":"VP",
+							"cat":"xp",
+							"children":
+								[
+									{
+										"id":"helped",
+										"cat":"x0"
+									}
+								]
+						}
+					]
+			}
+		]
+};
+
+var sTreeVNN = {
+	"id":"TP",
+	"cat":"xp",
+	"children":
+		[
+			{
+				"id":"vP",
+				"cat":"xp",
+				"children":
+					[
+						{
+							"id":"show",
+							"cat":"x0"
+						},
+						{
+							"id":"VP",
+							"cat":"xp",
+							"children":
+								[
+									{
+										"id":"NP-IO",
+										"cat":"xp",
+										"children":
+											[
+												{
+													"id":"workers",
+													"cat":"x0"
+												}
+											]
+									},
+									{
+										"id":"Vbar",
+										"cat":"xbar",
+										"children":
+											[
+												{
+													"id":"NP-DO",
+													"cat":"xp",
+													"children":
+														[
+															{
+																"id":"dog",
+																"cat":"x0"
+															}
+														]
+												}
+											]
+									}
+								]
+						}
+					]
+			}
+		]
+};
+
+//Trees with adjuncts. All XP segments visible.
+
+var sTreeNAV_HL = {
+	"id":"TP",
+	"cat":"xp",
+	"children":
+		[
+			{
+				"id":"NP1",
+				"cat":"xp",
+				"children":
+					[
+						{
+							"id":"NP2",
+							"cat":"xp",
+							"children":
+								[
+									{
+										"id":"workers",
+										"cat":"x0"
+									}
+								]
+						},
+						{
+							"id":"AP",
+							"cat":"xp",
+							"children":
+								[
+									{
+										"id":"mature",
+										"cat":"x0"
+									}
+								]
+						}
+					]
+			},
+			{
+				"id":"Tbar",
+				"cat":"xbar",
+				"children":
+					[
+						{
+							"id":"VP",
+							"cat":"xp",
+							"children":
+								[
+									{
+										"id":"helped",
+										"cat":"x0"
+									}
+								]
+						}
+					]
+			}
+		]
+};
+
+var sTreeVNNAdv_HL = {
+	"id":"TP",
+	"cat":"xp",
+	"children":
+		[
+			{
+				"id":"vP1",
+				"cat":"xp",
+				"children":
+					[
+						{
+							"id":"vP2",
+							"cat":"xp",
+							"children":
+								[
+									{
+										"id":"give",
+										"cat":"x0"
+									},
+									{
+										"id":"VP",
+										"cat":"xp",
+										"children":
+											[
+												{
+													"id":"NP-IO",
+													"cat":"xp",
+													"children":
+														[
+															{
+																"id":"worker",
+																"cat":"x0"
+															}
+														]
+												},
+												{
+													"id":"Vbar",
+													"cat":"xbar",
+													"children":
+														[
+															{
+																"id":"NP-DO",
+																"cat":"xp",
+																"children":
+																	[
+																		{
+																			"id":"chair",
+																			"cat":"x0"
+																		}
+																	]
+															}
+														]
+												}
+											]
+									}
+								]
+						},
+						{
+							"id":"AdvP",
+							"cat":"xp",
+							"children":
+								[
+									{
+										"id":"slowly",
+										"cat":"x0"
+									}
+								]
+						}
+					]
+			}
+		]
+};
+
+
+kinyamboTreesNoAdjuncts = [sTreeNV, sTreeVNN];
+kinyamboTrees_HLvisible = kinyamboTreesNoAdjuncts.concat([sTreeNAV_HL, sTreeVNNAdv_HL]);
