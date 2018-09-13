@@ -21,23 +21,23 @@ var sTreeLuuu = {
 							"children":
 								[
 									{
-										"id":"amerika-no_0",
+										"id":"amerika-no",
 										"cat":"x0",
-										"accent":"u"
+										"accent":"unaccented"
 									}
 								]
 						},
 						{
-							"id":"tomodachi-no_1",
+							"id":"tomodachi-no",
 							"cat":"x0",
-							"accent":"u"
+							"accent":"unaccented"
 						}
 					]
 			},
 			{
-				"id":"pasokon_2",
+				"id":"pasokon",
 				"cat":"x0",
-				"accent":"u"
+				"accent":"unaccented"
 			}
 		]
 };
@@ -59,23 +59,23 @@ var sTreeLuaa = {
 							"children":
 								[
 									{
-										"id":"amerika-no_0",
+										"id":"amerika-no",
 										"cat":"x0",
-										"accent":"u"
+										"accent":"unaccented"
 									}
 								]
 						},
 						{
-							"id":"kurasumeeto-no_1",
+							"id":"kurasumeeto-no",
 							"cat":"x0",
-							"accent":"a"
+							"accent":"accented"
 						}
 					]
 			},
 			{
-				"id":"rapputoppu_2",
+				"id":"rapputoppu",
 				"cat":"x0",
-				"accent":"a"
+				"accent":"accented"
 			}
 		]
 };
@@ -97,23 +97,23 @@ var sTreeLuau = {
 							"children":
 								[
 									{
-										"id":"amerika-no_0",
+										"id":"amerika-no",
 										"cat":"x0",
-										"accent":"u"
+										"accent":"unaccented"
 									}
 								]
 						},
 						{
-							"id":"kurasumeeto-no_1",
+							"id":"kurasumeeto-no",
 							"cat":"x0",
-							"accent":"a"
+							"accent":"accented"
 						}
 					]
 			},
 			{
-				"id":"pasokon_2",
+				"id":"pasokon",
 				"cat":"x0",
-				"accent":"u"
+				"accent":"unaccented"
 			}
 		]
 };
@@ -135,23 +135,23 @@ var sTreeLuua = {
 							"children":
 								[
 									{
-										"id":"amerika-no_0",
+										"id":"amerika-no",
 										"cat":"x0",
-										"accent":"u"
+										"accent":"unaccented"
 									}
 								]
 						},
 						{
-							"id":"tomodachi-no_1",
+							"id":"tomodachi-no",
 							"cat":"x0",
-							"accent":"u"
+							"accent":"unaccented"
 						}
 					]
 			},
 			{
-				"id":"rapputoppu_2",
+				"id":"rapputoppu",
 				"cat":"x0",
-				"accent":"a"
+				"accent":"accented"
 			}
 		]
 };
@@ -173,23 +173,23 @@ var sTreeLaaa = {
 							"children":
 								[
 									{
-										"id":"isuraeru-no_0",
+										"id":"isuraeru-no",
 										"cat":"x0",
-										"accent":"a"
+										"accent":"accented"
 									}
 								]
 						},
 						{
-							"id":"kurasumeeto-no_1",
+							"id":"kurasumeeto-no",
 							"cat":"x0",
-							"accent":"a"
+							"accent":"accented"
 						}
 					]
 			},
 			{
-				"id":"rapputoppu_2",
+				"id":"rapputoppu",
 				"cat":"x0",
-				"accent":"a"
+				"accent":"accented"
 			}
 		]
 };
@@ -211,23 +211,23 @@ var sTreeLaau = {
 							"children":
 								[
 									{
-										"id":"isuraeru-no_0",
+										"id":"isuraeru-no",
 										"cat":"x0",
-										"accent":"a"
+										"accent":"accented"
 									}
 								]
 						},
 						{
-							"id":"kurasumeeto-no_1",
+							"id":"kurasumeeto-no",
 							"cat":"x0",
-							"accent":"a"
+							"accent":"accented"
 						}
 					]
 			},
 			{
-				"id":"pasokon_2",
+				"id":"pasokon",
 				"cat":"x0",
-				"accent":"u"
+				"accent":"unaccented"
 			}
 		]
 };
@@ -249,23 +249,23 @@ var sTreeLaua = {
 							"children":
 								[
 									{
-										"id":"isuraeru-no_0",
+										"id":"isuraeru-no",
 										"cat":"x0",
-										"accent":"a"
+										"accent":"accented"
 									}
 								]
 						},
 						{
-							"id":"tomodachi-no_1",
+							"id":"tomodachi-no",
 							"cat":"x0",
-							"accent":"u"
+							"accent":"unaccented"
 						}
 					]
 			},
 			{
-				"id":"rapputoppu_2",
+				"id":"rapputoppu",
 				"cat":"x0",
-				"accent":"a"
+				"accent":"accented"
 			}
 		]
 };
@@ -287,23 +287,23 @@ var sTreeLauu = {
 							"children":
 								[
 									{
-										"id":"isuraeru-no_0",
+										"id":"isuraeru-no",
 										"cat":"x0",
-										"accent":"a"
+										"accent":"accented"
 									}
 								]
 						},
 						{
-							"id":"tomodachi_1",
+							"id":"tomodachi",
 							"cat":"x0",
-							"accent":"u"
+							"accent":"unaccented"
 						}
 					]
 			},
 			{
-				"id":"pasokon_2",
+				"id":"pasokon",
 				"cat":"x0",
-				"accent":"u"
+				"accent":"unaccented"
 			}
 		]
 };

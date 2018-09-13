@@ -1245,18 +1245,24 @@ function iotafy(candidate, options){
 
 function omegafy(word){
 	var myCat = 'w';
+	var wordId = word;
 	var isClitic = word.indexOf('-clitic')>=0;
-	if (isClitic)
+	if (isClitic){
 		myCat = 'syll';
-	var wordObj = {id: word.split('-clitic')[0], cat: myCat};
-	var accented = word.indexOf('-a') >= 0;
-	var	unaccented = word.indexOf('-u') >= 0;
+		wordId = wordId.split('-clitic')[0];
+	}
+	var wordObj = {cat: myCat};
+	var accented = word.indexOf('-accented') >= 0;
+	var	unaccented = word.indexOf('-unaccented') >= 0;
 	if(accented){
 		wordObj.accent = 'a';
+		wordId = wordId.split('-accented')[0];
 	}
 	else if(unaccented){
 		wordObj.accent = 'u';
+		wordId = wordId.split('-unaccented')[0];
 	}
+	wordObj.id = wordId;
 	return wordObj;
 }
 
