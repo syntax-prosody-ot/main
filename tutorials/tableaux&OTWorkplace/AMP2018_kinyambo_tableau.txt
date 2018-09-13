@@ -1,0 +1,20 @@
+
+			matchSP-xp	matchPS-phi	binMinBranches-phi	binMaxBranches-phi
+[[workers] [[helped]]]	(workers) (helped)		1	0	2	0
+	(workers helped)		2	0	0	0
+[[show [[workers] [[dog]]]]]	(show) (workers) (dog)		3	1	3	0
+	(show) (workers dog)		4	1	1	0
+	(show workers) (dog)		4	1	1	0
+	(show workers dog)		3	0	0	1
+[[[workers] [mature]] [[helped]]]	(workers) (mature) (helped)		2	0	3	0
+	(workers) (mature helped)		4	1	1	0
+	(workers mature) (helped)		3	0	1	0
+	(workers mature helped)		4	0	0	1
+[[[give [[worker] [[chair]]]] [slowly]]]	(give) (worker) (chair) (slowly)		4	1	4	0
+	(give) (worker) (chair slowly)		6	2	2	0
+	(give) (worker chair) (slowly)		5	1	2	0
+	(give) (worker chair slowly)		7	2	1	1
+	(give worker) (chair) (slowly)		5	1	2	0
+	(give worker) (chair slowly)		7	2	0	0
+	(give worker chair) (slowly)		5	0	1	1
+	(give worker chair slowly)		5	0	0	1
