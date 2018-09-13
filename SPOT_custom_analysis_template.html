@@ -55,6 +55,11 @@
 			//Make the tableau using the makeTableau function (defined in tableauMaker.js)
             var tabl = makeTableau(candSet, window[consName]);
 			
+			//Write the tableau to the screen and reveal it -- only uncomment this if you don't have too many tableaux!
+			//writeTableau(tabl)
+			//revealNextSegment();
+			//lastSegmentId++;
+			
 			//Add the tableau from the current stree to cumulative tableau that is being built in csvSegs.
             csvSegs.push(tableauToCsv(tabl, '\t', {noHeader: j}));
         }
