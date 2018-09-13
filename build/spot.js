@@ -704,7 +704,7 @@ function accentAsHead(s, p, c){
 	
 	for(var i=0; i < p.children.length; i++){
 		child = p.children[i];
-		console.log("child.id is:"+child.id);
+		//console.log("child.id is:"+child.id);
 		if(child.cat==="w" && !child.accent){
 			child = accentFromId(child);	//If accent isn't defined, try to get it from the node's id.
 			//console.log("child.id ("+child.id+") is assigned accent "+child.accent);
@@ -1173,7 +1173,11 @@ window.GEN = function(sTree, words, options){
 				if (words[i].cat == 'clitic'){
 					catSuffix = '-clitic';
 				}
-				words[i] = words[i].id+catSuffix;
+				var accentSuffix = '';
+				if(words[i].accent){
+					accentSuffix = '-'+words[i].accent;
+				}
+				words[i] = words[i].id+catSuffix+accentSuffix;
 			}
 		} else {
 			words = words.split(' ');
@@ -1244,7 +1248,16 @@ function omegafy(word){
 	var isClitic = word.indexOf('-clitic')>=0;
 	if (isClitic)
 		myCat = 'syll';
-	return {id: word.split('-clitic')[0], cat: myCat};
+	var wordObj = {id: word.split('-clitic')[0], cat: myCat};
+	var accented = word.indexOf('-a') >= 0;
+	var	unaccented = word.indexOf('-u') >= 0;
+	if(accented){
+		wordObj.accent = 'a';
+	}
+	else if(unaccented){
+		wordObj.accent = 'u';
+	}
+	return wordObj;
 }
 
 // conceptually, returns all possible parenthesizations of leaves that don't have a set of parentheses enclosing all of the leaves

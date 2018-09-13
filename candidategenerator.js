@@ -36,7 +36,11 @@ window.GEN = function(sTree, words, options){
 				if (words[i].cat == 'clitic'){
 					catSuffix = '-clitic';
 				}
-				words[i] = words[i].id+catSuffix;
+				var accentSuffix = '';
+				if(words[i].accent){
+					accentSuffix = '-'+words[i].accent;
+				}
+				words[i] = words[i].id+catSuffix+accentSuffix;
 			}
 		} else {
 			words = words.split(' ');
@@ -107,7 +111,16 @@ function omegafy(word){
 	var isClitic = word.indexOf('-clitic')>=0;
 	if (isClitic)
 		myCat = 'syll';
-	return {id: word.split('-clitic')[0], cat: myCat};
+	var wordObj = {id: word.split('-clitic')[0], cat: myCat};
+	var accented = word.indexOf('-a') >= 0;
+	var	unaccented = word.indexOf('-u') >= 0;
+	if(accented){
+		wordObj.accent = 'a';
+	}
+	else if(unaccented){
+		wordObj.accent = 'u';
+	}
+	return wordObj;
 }
 
 // conceptually, returns all possible parenthesizations of leaves that don't have a set of parentheses enclosing all of the leaves
