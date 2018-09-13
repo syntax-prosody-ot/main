@@ -1,0 +1,311 @@
+/*These are sTrees corresponding to those in (40) in Ito & Mester 2013. 
+Names begin with 'sTree'. This is followed by 'L' for the left-branching 
+trees in (40), followed by an accent profile.
+*/
+
+
+//Left-branching sTree 1 of 8; UUU, 'amerika-no tomodachi-no pasokon'; (40a) in Ito & Mester 2013.
+var sTreeLuuu = {
+	"id":"NP1",
+	"cat":"xp",
+	"children":
+		[
+			{
+				"id":"NP2",
+				"cat":"xp",
+				"children":
+					[
+						{
+							"id":"NP3",
+							"cat":"xp",
+							"children":
+								[
+									{
+										"id":"amerika-no_0",
+										"cat":"x0",
+										"accent":"u"
+									}
+								]
+						},
+						{
+							"id":"tomodachi-no_1",
+							"cat":"x0",
+							"accent":"u"
+						}
+					]
+			},
+			{
+				"id":"pasokon_2",
+				"cat":"x0",
+				"accent":"u"
+			}
+		]
+};
+
+//Left-branching sTree 2 of 8; UAA, 'amerika-no kurasumeeto-no rapputoppu'; (40b) in Ito & Mester 2013.
+var sTreeLuaa = {
+	"id":"NP1",
+	"cat":"xp",
+	"children":
+		[
+			{
+				"id":"NP2",
+				"cat":"xp",
+				"children":
+					[
+						{
+							"id":"NP3",
+							"cat":"xp",
+							"children":
+								[
+									{
+										"id":"amerika-no_0",
+										"cat":"x0",
+										"accent":"u"
+									}
+								]
+						},
+						{
+							"id":"kurasumeeto-no_1",
+							"cat":"x0",
+							"accent":"a"
+						}
+					]
+			},
+			{
+				"id":"rapputoppu_2",
+				"cat":"x0",
+				"accent":"a"
+			}
+		]
+};
+
+//Left-branching sTree 3 of 8; UAU, 'amerika-no kurasumeeto-no pasokon'; (40c) in Ito & Mester 2013.
+var sTreeLuau = {
+	"id":"NP1",
+	"cat":"xp",
+	"children":
+		[
+			{
+				"id":"NP2",
+				"cat":"xp",
+				"children":
+					[
+						{
+							"id":"NP3",
+							"cat":"xp",
+							"children":
+								[
+									{
+										"id":"amerika-no_0",
+										"cat":"x0",
+										"accent":"u"
+									}
+								]
+						},
+						{
+							"id":"kurasumeeto-no_1",
+							"cat":"x0",
+							"accent":"a"
+						}
+					]
+			},
+			{
+				"id":"pasokon_2",
+				"cat":"x0",
+				"accent":"u"
+			}
+		]
+};
+
+//Left-branching sTree 4 of 8; UUA, 'amerika-no tomodachi-no rapputoppu'; (40d) in Ito & Mester 2013.
+var sTreeLuua = {
+	"id":"NP1",
+	"cat":"xp",
+	"children":
+		[
+			{
+				"id":"NP2",
+				"cat":"xp",
+				"children":
+					[
+						{
+							"id":"NP3",
+							"cat":"xp",
+							"children":
+								[
+									{
+										"id":"amerika-no_0",
+										"cat":"x0",
+										"accent":"u"
+									}
+								]
+						},
+						{
+							"id":"tomodachi-no_1",
+							"cat":"x0",
+							"accent":"u"
+						}
+					]
+			},
+			{
+				"id":"rapputoppu_2",
+				"cat":"x0",
+				"accent":"a"
+			}
+		]
+};
+
+//Left-branching sTree 5 of 8; AAA, 'isuraeru-no kurasumeeto-no rapputoppu'; (40e) in Ito & Mester 2013.
+var sTreeLaaa = {
+	"id":"NP1",
+	"cat":"xp",
+	"children":
+		[
+			{
+				"id":"NP2",
+				"cat":"xp",
+				"children":
+					[
+						{
+							"id":"NP3",
+							"cat":"xp",
+							"children":
+								[
+									{
+										"id":"isuraeru-no_0",
+										"cat":"x0",
+										"accent":"a"
+									}
+								]
+						},
+						{
+							"id":"kurasumeeto-no_1",
+							"cat":"x0",
+							"accent":"a"
+						}
+					]
+			},
+			{
+				"id":"rapputoppu_2",
+				"cat":"x0",
+				"accent":"a"
+			}
+		]
+};
+
+//Left-branching sTree 6 of 8; AAU, 'isuraeru-no kurasumeeto-no pasokon'; (40f) in Ito & Mester 2013.
+var sTreeLaau = {
+	"id":"NP1",
+	"cat":"xp",
+	"children":
+		[
+			{
+				"id":"NP2",
+				"cat":"xp",
+				"children":
+					[
+						{
+							"id":"NP3",
+							"cat":"xp",
+							"children":
+								[
+									{
+										"id":"isuraeru-no_0",
+										"cat":"x0",
+										"accent":"a"
+									}
+								]
+						},
+						{
+							"id":"kurasumeeto-no_1",
+							"cat":"x0",
+							"accent":"a"
+						}
+					]
+			},
+			{
+				"id":"pasokon_2",
+				"cat":"x0",
+				"accent":"u"
+			}
+		]
+};
+
+//Left-branching sTree 7 of 8; AUA, 'isuraeru-no tomodachi-no rapputoppu'; (40g) in Ito & Mester 2013.
+var sTreeLaua = {
+	"id":"NP1",
+	"cat":"xp",
+	"children":
+		[
+			{
+				"id":"NP2",
+				"cat":"xp",
+				"children":
+					[
+						{
+							"id":"NP3",
+							"cat":"xp",
+							"children":
+								[
+									{
+										"id":"isuraeru-no_0",
+										"cat":"x0",
+										"accent":"a"
+									}
+								]
+						},
+						{
+							"id":"tomodachi-no_1",
+							"cat":"x0",
+							"accent":"u"
+						}
+					]
+			},
+			{
+				"id":"rapputoppu_2",
+				"cat":"x0",
+				"accent":"a"
+			}
+		]
+};
+
+//Left-branching sTree 8 of 8; AUU, 'isuraeru-no tomodachi-no pasokon'; (40g) in Ito & Mester 2013.
+var sTreeLauu = {
+	"id":"NP1",
+	"cat":"xp",
+	"children":
+		[
+			{
+				"id":"NP2",
+				"cat":"xp",
+				"children":
+					[
+						{
+							"id":"NP3",
+							"cat":"xp",
+							"children":
+								[
+									{
+										"id":"isuraeru-no_0",
+										"cat":"x0",
+										"accent":"a"
+									}
+								]
+						},
+						{
+							"id":"tomodachi_1",
+							"cat":"x0",
+							"accent":"u"
+						}
+					]
+			},
+			{
+				"id":"pasokon_2",
+				"cat":"x0",
+				"accent":"u"
+			}
+		]
+};
+
+var japaneseTrees = [sTreeLaaa, sTreeLaau, sTreeLaua, sTreeLauu, sTreeLuaa, sTreeLuau, sTreeLuua, sTreeLuuu];

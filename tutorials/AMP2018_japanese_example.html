@@ -1,0 +1,190 @@
+<html>
+<head>
+	<title>SPOT app - AMP2018 - Japanese</title>
+
+	<link rel="stylesheet" type="text/css" href="../spot.css">
+
+	<script src="../lib/jszip.min.js"></script>
+
+	<!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
+	(open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
+	<script src="../build/spot.js"></script>
+
+	<!--Change "AMP2018_japanese_trees.js" to the name of your tree file on the following line. Make sure your file is in main/trees-->
+	<script src="../trees/AMP2018_japanese_trees.js"></script>
+	
+	<script>
+	/*Some custom constraints*/
+	
+	// Assign a violation for every maximal XP in sParent that lacks a corresponding phi in the pTree
+	//This will only work properly if the only CP node in the tree is the ROOT node!
+	function matchXPmax(sParent, pTree, sCat)
+	{
+		var vcount = 0;
+		if((sParent.cat === 'xp') && !hasMatch(sParent, pTree)){
+			vcount++;
+			logreport.debug("\tVIOLATION: "+sParent.id+" has no match!");
+		}
+		if(((sParent.cat === 'cp') || (sParent.cat === 'clause')) && sParent.children && sParent.children.length)
+		{
+			for(var i = 0; i  < sParent.children.length; i++)
+			{
+				var child = sParent.children[i];
+				if((child.cat === 'xp') && !hasMatch(child, pTree))
+				{
+					vcount++;
+				}
+			}
+		}
+		return vcount;
+	}
+	
+	/*Match-SP-nonUnary: Assign a violation for every node of category sCat in sParent 
+	that contains more than one child and lacks a corresponding node in pTree
+	*/
+	function matchSP_nonUnary(sParent, pTree, sCat)
+	{
+		if(sParent.cat === sCat)
+			logreport.debug("\tSeeking match for "+sParent.id + " in tree rooted in "+pTree.id);
+		var vcount = 0;
+	
+		if((sParent.cat === sCat) && !hasMatch(sParent, pTree)){
+			if(sParent.children.length >= 2)
+			{
+				vcount++;
+				logreport.debug("\tVIOLATION: "+sParent.id+" has no match!");
+			}
+		}
+		
+		if(sParent.children){	
+			for(var i = 0; i < sParent.children.length; i++)
+			{
+				var sChild = sParent.children[i];
+				vcount += matchSP_nonUnary(sChild, pTree, sCat);
+			}
+		}
+		return vcount;
+	}
+	
+	/*Match-PS-nonUnary: Assign a violation for every node of category pCat in pParent 
+	that contains more than one child and lacks a corresponding node in sTree*/
+	function matchPS_nonUnary(sTree, pParent, pCat)
+	{
+		return matchSP_nonUnary(pParent, sTree, pCat);
+	}
+	
+	/* Assign a violation for every non-minimal phi node that has a omega sister 
+	NB: Assumes that category c is phi.
+	*/
+	function equalSistersAdj_2(s, pparent, c){
+		var vCount = 0;
+		if(pparent.children && pparent.children.length)
+		//pTree is non-terminal
+		{
+			for(var i=0; i < pparent.children.length; i++){
+				var child = pparent.children[i];
+				if(i<pparent.children.length-1){
+					var sister = pparent.children[i+1];
+					if(child.cat != sister.cat){
+						if(hasPhiChild(child) && !hasPhiChild(sister)){
+							vCount++;
+						}
+						if(!hasPhiChild(child) && hasPhiChild(sister)){
+							vCount++;
+						}
+					}
+				}
+				vCount += equalSistersAdj_2(s, child, c);
+			}
+		}
+		return vCount;
+	};
+	
+	//Helper function for equalSistersAdj_2
+	function hasPhiChild(p){
+		var answer = false;
+		if(p.children && p.children.length)
+		{
+			for(var i = 0; i < p.children.length; i++)
+			{
+				var child = p.children[i];
+				if(child.cat == "phi")
+				{
+					var answer = true;
+					break;
+				}
+			}
+		}
+		return answer;
+	}
+
+	</script>
+</head>
+
+<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+	<h2>Size effects in Kinyambo phrasing -- AMP2018 SPOT workshop</h2>
+	<pre id="results-container"></pre>
+
+<script>
+	/*sTreeList is an array of variable names of syntactic trees from AMP2018_kinyambo_trees.js*/
+	var sTreeList = japaneseTrees;
+	
+	/*Constraint sets are defined below. You can change these or add your own. A constraint set is a list of constraint function names (refer to the files in constraints.js for names) + category arguments (separated from constraint names with -; refer to prosodicHierarchy.js for a list of defined categories).*/
+	var constraintSet = ['matchXPmax-xp', 'matchSP-xp', 'matchSP_nonUnary-xp',
+						'matchPS_nonUnary-phi', 'matchPS-phi',   
+						'binMinBranches-phi', 'binMaxBranches-phi', 'binMax2Words-phi', 
+						'equalSistersAdj-phi', 'equalSistersAdj_2-phi', 
+						'accentAsHead-phi', 'noLapseL'];
+		
+	/*This function executes automatically when the page is reloaded. It calls all the other functions.*/
+    function runDemo() {
+		var csvSegs = [];	//List to accumulate tableaux in
+		
+        //For each syntactic tree in sTreeList, make a tableau using the current constraint set
+        for(var j=0; j<sTreeList.length; j++){
+            var currentSTree = globalNameOrDirect(sTreeList[j]); 
+            var wordArray = getLeaves(currentSTree);
+            var words = [];
+            //make the string of terminals
+            for(k=0; k<wordArray.length; k++){
+                words.push(wordArray[k].id);
+            }
+            //Make the candidate set using the GEN function (defined in candidategenerator.js)
+            var candSet = GEN(sTreeList[j], words, {obeysHeadedness: false, obeysNonrecursivity: false, obeysExhaustivity: true});
+            
+			//Make the tableau using the makeTableau function (defined in tableauMaker.js)
+            var tabl = makeTableau(candSet, constraintSet);
+			
+			//Write the tableau to the screen and reveal it
+			writeTableau(tabl)
+			revealNextSegment();
+			lastSegmentId++;
+			
+			//Add the tableau from the current stree to cumulative tableau that is being built in csvSegs.
+            csvSegs.push(tableauToCsv(tabl, '\t', {noHeader: j}));
+        }
+		
+		//Save the tableau as a tab-separated file
+        saveTextAs(csvSegs.join('\n'),"AMP2018_japanese_tableau.txt");
+    }
+    
+    /*Utilities for saving files.*/
+    function saveAs(blob, name) {
+        var a = document.createElement("a");
+        a.display = "none";
+        a.href = URL.createObjectURL(blob);
+        a.download = name;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+   
+    function saveTextAs(text, name) {
+        saveAs(new Blob([text], {type: "text/csv", encoding: 'utf-8'}), name);
+    }
+
+</script>
+
+</body>
+
+</html>
