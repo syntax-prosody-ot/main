@@ -130,8 +130,8 @@
 	var sTreeList = japaneseTrees;
 	
 	/*Constraint sets are defined below. You can change these or add your own. A constraint set is a list of constraint function names (refer to the files in constraints.js for names) + category arguments (separated from constraint names with -; refer to prosodicHierarchy.js for a list of defined categories).*/
-	var constraintSet = ['accentAsHead', 'noLapseL'];
-	var constraintSet1 = ['matchXPmax-xp', 'matchSP-xp', 'matchSP_nonUnary-xp',
+	//var constraintSet = ['accentAsHead', 'noLapseL'];
+	var constraintSet = ['matchXPmax-xp', 'matchSP-xp', 'matchSP_nonUnary-xp',
 						'matchPS_nonUnary-phi', 'matchPS-phi',   
 						'binMinBranches-phi', 'binMaxBranches-phi', 'binMax2Words-phi', 
 						'equalSistersAdj-phi', 'equalSistersAdj_2-phi', 
@@ -144,13 +144,7 @@
         //For each syntactic tree in sTreeList, make a tableau using the current constraint set
         for(var j=0; j<sTreeList.length; j++){
             var currentSTree = globalNameOrDirect(sTreeList[j]); 
-            /*var wordArray = getLeaves(currentSTree);
-            var words = [];
-            //make the string of terminals
-            for(k=0; k<wordArray.length; k++){
-                words.push(wordArray[k].id);
-            }
-			*/
+
             //Make the candidate set using the GEN function (defined in candidategenerator.js)
             var candSet = GEN(sTreeList[j], '', {obeysHeadedness: false, obeysNonrecursivity: false, obeysExhaustivity: true});
             

@@ -34,14 +34,9 @@
         //For each syntactic tree in sTreeList, make a tableau using the current constraint set
         for(var j=0; j<sTreeList.length; j++){
             var currentSTree = globalNameOrDirect(sTreeList[j]); 
-            var wordArray = getLeaves(currentSTree);
-            var words = [];
-            //make the string of terminals
-            for(k=0; k<wordArray.length; k++){
-                words.push(wordArray[k].id);
-            }
+
             //Make the candidate set using the GEN function (defined in candidategenerator.js)
-            var candSet = GEN(sTreeList[j], words, {obeysHeadedness: true, obeysNonrecursivity: true, obeysExhaustivity: true});
+            var candSet = GEN(sTreeList[j], '', {obeysHeadedness: true, obeysNonrecursivity: true, obeysExhaustivity: true});
             
 			//Make the tableau using the makeTableau function (defined in tableauMaker.js)
             var tabl = makeTableau(candSet, conMatch);
