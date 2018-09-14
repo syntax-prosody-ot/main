@@ -31,7 +31,7 @@
     function runDemo() {
 		var csvSegs = [];	//List to accumulate tableaux in
 		
-        //For each syntactic tree in sTreeList, make a tableau using the current constraint set
+        //For each syntactic tree in sTreeList, make a tableau
         for(var j=0; j<sTreeList.length; j++){
             var currentSTree = globalNameOrDirect(sTreeList[j]); 
 
@@ -41,7 +41,7 @@
 			//Make the tableau using the makeTableau function (defined in tableauMaker.js)
             var tabl = makeTableau(candSet, conMatch);
 			
-			//Write the tableau to the screen and reveal it
+			//Write the tableau to the browser and reveal it
 			writeTableau(tabl)
 			revealNextSegment();
 			lastSegmentId++;
