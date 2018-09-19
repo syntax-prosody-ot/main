@@ -50,7 +50,7 @@
 
             //Make the candidate set using the GEN function (defined in candidategenerator.js)
 			//Leave the 2nd argument as an empty string to scrape words from the terminals of the syntactic tree.
-            var candSet = GEN(sTreeList[j], '', {obeysHeadedness: true});
+            var candSet = GEN(sTreeList[j], '', {obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: false});
             
 			//Make the tableau using the makeTableau function (defined in tableauMaker.js)
             var tabl = makeTableau(candSet, window[consName]);
@@ -65,7 +65,7 @@
         }
 		
 		//Save the tableau as a tab-separated file, named after consName
-        saveTextAs(csvSegs.join('\n'),"tableau_"+consName+".txt");
+        saveTextAs(csvSegs.join('\n'),"tableau_"+consName+".csv");
     }
 	
 	/*This function executes automatically when the page is reloaded. It calls all the other functions.*/
