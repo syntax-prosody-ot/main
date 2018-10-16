@@ -708,58 +708,6 @@ function kjMax(string)
 	return vcount;
 };
 
-//FUNCTIONS FOR LATEX
-
-function latexTable(string)
-{
-	var latexRes = "";
-	var line1 = "\\begin{tabular}{";
-	var sTier = "";
-	var mTier = "";
-	var tTier = "";
-	var mCount = 0;
-	var hCount = star("H",string);
-	var lCount = star("L",string);
-	var tCount = hCount+lCount;
-	for(var i = 0; i < string.length; i++)
-	{
-		if(isMora(string[i]))
-		{
-			mCount++;
-		};
-	};
-	var columnCount = 0;
-	if(mCount > tCount)
-	{
-		columnCount = mCount;
-	}
-	else
-	{
-		columnCount = tCount;
-	};
-	for(var i = 0; i < columnCount; i++)
-	{
-		line1 = line1.concat("c");
-		if(mCount >= tCount)
-		{
-			mTier = mTier.concat("$\\mu_{").concat(i+1).concat("}$")
-			if(i < (columnCount-1))
-			{
-				mTier = mTier.concat(" & ");
-			}
-			else
-			{
-				mTier = mTier.concat(" \\\\");
-			}
-			
-		};
-	};
-	line1 = line1.concat("} ");
-	return line1.concat(mTier).concat(" \\end{tabular}");
-};
-
-//inputs
-
 function kjInputs(sMin,sMax)
 {
 	var kji = [];
@@ -774,6 +722,8 @@ function kjInputs(sMin,sMax)
 	};
 	return kji;
 };
+
+var kjForms = kjInputs(1,4);
 
 //UNNECESSARY
 function eMoraToTone(cset)
