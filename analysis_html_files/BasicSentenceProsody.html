@@ -4,53 +4,45 @@
 
 	<link rel="stylesheet" type="text/css" href="spot.css">
 
-	<script src="lib/jszip.min.js"></script>
+	<script src="../lib/jszip.min.js"></script>
 
 	<!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
 	(open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
-	<script src="build/spot.js"></script>	
-
-	<script>
-	/*Custom constraints can be defined inside <script> tags, as here, or in a separate file which you can load, also using a script tag*/
-	function constraint1(stree, ptree, cat){
-		var vcount = 0;
-		//Code for going through the tree and evaluate for some structure goes here
-		return vcount;
-	}
-	</script>
-	
+	<script src="../build/spot.js"></script>
 
 	<!--Change "YOUR_TREES_HERE" to the name of your tree file on the following line. Make sure your file is in main/trees-->
-	<script src="trees/YOUR_TREES_HERE.js"></script>
+	<script src="../trees/BSP_trees.js"></script>
 	
+	<script>
+	/*Custom constraints can be defined inside <script> tags, as here, or in a separate file which you can load, also using a script tag*/
+		function constraint1(stree, ptree, cat){
+			var vcount = 0;
+			//Code for going through the tree and evaluate for some structure goes here
+			return vcount;
+		}
+	</script>
 			
 </head>
 
 <body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
-	<h2>MY ANALYSIS: investigation using SPOT</h2>
+	
+	<h2>SPOT: Basic Sentence Prosody</h2>
 	<pre id="results-container"></pre>
 
 <script>
-	// ---- Variables that need to be customized ----
-	
 	/*sTreeList is an array of variable names of syntactic trees, either from your tree file (trees/YOUR_TREES_HERE.js) or defined in this document.*/
-	var sTreeList = [sTree1, sTree2];
+	
+	
+	var sTreeList = [bsp_Tree1, bsp_Tree2, bsp_Tree3, bsp_Tree4, bsp_Tree5, bsp_Tree6];
 	
 	/*Constraint sets are defined below. You can change these or add your own. A constraint set is a list of constraint function names (refer to the files in constraints.js for names) + category arguments (separated from constraint names with -; refer to prosodicHierarchy.js for a list of defined categories).*/
-	var conMatch = ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj-phi'];
-	var conAlign = ['alignRight-xp', 'alignLeft-xp', 'wrap-xp', 'equalSistersAdj-phi'];
+	var conMatch = ['matchSP-xp', 'matchPS-phi', 'binMinBranches-phi', 'nonRec1-phi'];
+	var conAlign = ['alignRight-xp', 'alignLeft-xp', 'wrap-xp', 'binMinBranches-phi', 'nonRec1-phi'];
 	//var conOther = ['constraint1-xp','constraint2-phi', 'constraint3-w', 'etc-i'];
 	
 	/*A list of names for your constraint sets. These are used for naming the tableau csv files and finding the lists of constraint names. They need to match the variable names above.*/
     var conNames = ['conMatch', 'conAlign'];
-	
-	//Candidate sets are generated with the options below.
-	var gen_options = {obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: false};
 
-	
-	
-	// ---- Functions that don't necessarily need to be customized ----
-	
 	/*Function that concatenates a bunch of tableaux for various candidate sets into one large tableau. It does not need to be modified if you are only comparing different constraint sets. But it can be modified to deal with your particular analysis. For example, to consider multiple possible input syntaxes, you can add an outer for-loop to iterate over the different tree sets, as well as interating over the trees in each set.*/
     function makeTableauCsvs(consName) {
         var csvSegs = [];	//List to accumulate tableaux in
@@ -61,7 +53,7 @@
 
             //Make the candidate set using the GEN function (defined in candidategenerator.js)
 			//Leave the 2nd argument as an empty string to scrape words from the terminals of the syntactic tree.
-            var candSet = GEN(sTreeList[j], '', gen_options);
+            var candSet = GEN(sTreeList[j], '', {obeysHeadedness: true, obeysExhaustivity: true});
             
 			//Make the tableau using the makeTableau function (defined in tableauMaker.js)
             var tabl = makeTableau(candSet, window[consName]);
@@ -76,7 +68,7 @@
         }
 		
 		//Save the tableau as a tab-separated file, named after consName
-        saveTextAs(csvSegs.join('\n'),"tableau_"+consName+".csv");
+        saveTextAs(csvSegs.join('\n'),"tableau_"+consName+".txt");
     }
 	
 	/*This function executes automatically when the page is reloaded. It calls all the other functions.*/

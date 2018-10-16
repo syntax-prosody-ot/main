@@ -126,7 +126,7 @@
 	<pre id="results-container"></pre>
 
 <script>
-	/*sTreeList is an array of variable names of syntactic trees from AMP2018_kinyambo_trees.js*/
+	/*sTreeList is an array of variable names of syntactic trees from AMP2018_japanese_trees.js*/
 	var sTreeList = japaneseTrees;
 	
 	/*Constraint sets are defined below. You can change these or add your own. A constraint set is a list of constraint function names (refer to the files in constraints.js for names) + category arguments (separated from constraint names with -; refer to prosodicHierarchy.js for a list of defined categories).*/
@@ -161,7 +161,7 @@
         }
 		
 		//Save the tableau as a tab-separated file
-        saveTextAs(csvSegs.join('\n'),"AMP2018_japanese_tableau.txt");
+        saveTextAs(csvSegs.join('\n'),"AMP2018_japanese_tableau.csv");
     }
     
     /*Utilities for saving files.*/
