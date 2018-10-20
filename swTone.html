@@ -22,8 +22,10 @@
 	<pre id="results-container"></pre>
 
 <script>
+	
 	/*sTreeList is an array of variable names of syntactic trees, either from your tree file (trees/YOUR_TREES_HERE.js) or defined in this document.*/
 	var sTreeList = kjForms;
+	
 	
 	/*Constraint sets are defined below. You can change these or add your own. A constraint set is a list of constraint function names (refer to the files in constraints.js for names) + category arguments (separated from constraint names with -; refer to prosodicHierarchy.js for a list of defined categories).*/
 	var con1 = ['atlWord', 'atlSyl', 'atrWord', 'atrSyl', 'ahlWord', 'ahlSyl', 'ahrWord', 'ahrSyl', 'allWord', 'allSyl', 'alrWord', 'alrSyl', 'kjCrispEdge', 'kjDep', 'kjMax'];
@@ -38,14 +40,12 @@
 		
         //For each syntactic tree in sTreeList, make a tableau using the current constraint set
         for(var j=0; j<sTreeList.length; j++){
-            var currentSTree = globalNameOrDirect(sTreeList[j]); 
-
             //Make the candidate set using the GEN function (defined in candidategenerator.js)
 			//Leave the 2nd argument as an empty string to scrape words from the terminals of the syntactic tree.
             var candSet = kjGen(sTreeList[j]);
             
 			//Make the tableau using the makeTableau function (defined in tableauMaker.js)
-            var tabl = makeTableau(candSet, window[consName]);
+            var tabl = makeTableau(candSet, window[consName], {inputTypeString: true});
 			
 			//Write the tableau to the screen and reveal it -- only uncomment this if you don't have too many tableaux!
 			//writeTableau(tabl)

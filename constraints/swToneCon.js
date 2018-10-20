@@ -700,9 +700,13 @@ function kjMax(string)
 		{
 			vcount++;
 		};
-		if(tTier == "LH")
+		if((tTier == "LH"))
 		{
 			vcount++;
+		};
+		if(tTier == "")
+		{
+			vcount += 2;
 		};
 	};
 	return vcount;
