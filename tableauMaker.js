@@ -1,7 +1,8 @@
 
 //Produces an array of arrays representing a tableau
 
-function makeTableau(candidateSet, constraintSet){
+function makeTableau(candidateSet, constraintSet, options){
+	options = options || {};
 	var tableau = [];
 	//Make a header for the tableau, containing all the constraint names.
 	//First element is empty, to correspond to the column of candidates.
@@ -15,14 +16,18 @@ function makeTableau(candidateSet, constraintSet){
 	}
 	tableau.push(header);
 	
+	var getCandidate = options.inputTypeString ? function(candidate) {return candidate;} : globalNameOrDirect;
+	
 	//Assess violations for each candidate.
 	for(var i = 0; i < candidateSet.length; i++){
 		var candidate = candidateSet[i];
-		var violations = [parenthesizeTree(globalNameOrDirect(candidate[1]))];
+		var violations = [options.inputTypeString ? candidate[1] : parenthesizeTree(globalNameOrDirect(candidate[1]))];
 		for(var j = 0; j < constraintSet.length; j++){
 			var constraintAndCat = constraintSet[j].split('-');
 			//var numViolations = runConstraint(constraintAndCat[0], candidate[0], candidate[1], constraintAndCat[1]); ++lastSegmentId; // show log of each constraint run
-			var oldDebugOn = logreport.debug.on; logreport.debug.on = false; var numViolations = globalNameOrDirect(constraintAndCat[0])(globalNameOrDirect(candidate[0]), globalNameOrDirect(candidate[1]), constraintAndCat[1]); logreport.debug.on = oldDebugOn; // don't show the log of each constraint run
+			var oldDebugOn = logreport.debug.on;
+			logreport.debug.on = false;
+			var numViolations = globalNameOrDirect(constraintAndCat[0])(getCandidate(candidate[0]), getCandidate(candidate[1]), constraintAndCat[1]); logreport.debug.on = oldDebugOn; // don't show the log of each constraint run
 			violations.push(numViolations);
 		}
 		tableau.push(violations);

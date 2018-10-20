@@ -93,7 +93,14 @@ document.addEventListener('keyup', function(event) {
 //Given a string that is the name of a (global) object, returns the object itself.
 //Given an object, returns that object.
 function globalNameOrDirect(nameOrObject) {
-    return (typeof nameOrObject === 'string') ? window[nameOrObject] : nameOrObject;
+    if (!window.disableGlobalNameOrDirect && typeof nameOrObject === 'string') {
+		if (!window.hasOwnProperty(nameOrObject)) {
+			console.error('globalNameOrDirect error: ' + nameOrObject + ' is not defined in the global namespace')
+		}
+    	return window[nameOrObject];
+    } else {
+		return nameOrObject;
+	}
 }
 
 function runConstraint(constraint, sname, pname, cat, expectedViolations) {
