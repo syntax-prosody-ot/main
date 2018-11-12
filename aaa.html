@@ -9,7 +9,7 @@
 	<!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
 	(open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
 	<script src="build/spot.js"></script>
-	<script src="constraints/swToneCon.js"></script>
+	<script src="aaa.js"></script>
 	
 	<script>
 	/*Custom constraints can be defined inside <script> tags, as here, or in a separate file which you can load, also using a script tagfunction */
@@ -23,33 +23,9 @@
 
 <script>
 	
-	/*sTreeList is an array of variable names of syntactic trees, either from your tree file (trees/YOUR_TREES_HERE.js) or defined in this document.*/
-	var sTreeList2 = ["h:2", "f:2", "h:1111", "f:1111", "h:11112", "f:11112", "f:121", "f:122"]
-	var sTreeList = ["h:.mm.", "f:.mm.", "h:.m.m.m.m.", "f:.m.m.m.m.", "h:.m.m.m.m.mm.", "f:.m.m.m.m.mm.", "f:.m.mm.m.", "f:.m.mm.mm."];
+	var sTreeListAAA = ["0:XY", "W:XY", "0:XYm", "W:XYm", "0:mXY", "W:mXY", "0:mmX", "W:mmX", "0:XYmm", "W:XYmm", "0:mXYm", "W:mXYm", "0:mmXY", "W:mmXY", "0:mmmX", "W:mmmX", "0:XYmmm", "W:XYmmm", "0:mXYmm", "W:mXYmm", "0:mmXYm", "W:mmXYm", "0:mmmXY", "W:mmmXY", "0:mmmmX", "W:mmmmX"];
 	
-	var sTreeListAAA = ["0:HL", "L:HL", "0:HLm", "L:HLm", "0:mHL", "L:mHL", "0:mmH", "L:mmH", "0:HLmm", "L:HLmm", "0:mHLm", "L:mHLm", "0:mmHL", "L:mmHL", "0:mmmH", "L:mmmH", "0:HLmmm", "L:HLmmm", "0:mHLmm", "L:mHLmm", "0:mmHLm", "L:mmHLm", "0:mmmHL", "L:mmmHL", "0:mmmmH", "L:mmmmH"];
-	
-	var otwInputs = ["oo", "ooo", "oooo", "ooooo", "oooooo", "ooooooo", "oooooooo", "ooooooooo"];
-	
-	/*Constraint sets are defined below. You can change these or add your own. A constraint set is a list of constraint function names (refer to the files in constraints.js for names) + category arguments (separated from constraint names with -; refer to prosodicHierarchy.js for a list of defined categories).*/
-	
-	var aaaCon = ['accAR_H_w', 'accAR_L_w', 'accAR_T_w', 'accAL_H_w', 'accAL_L_w', 'accAL_T_w', 'auCrisp_mH', 'auCrisp_mL', 'aaaIdT'];
-		
-	var con1 = ['auMax', 'auDep', 'au_mTroch', 'auCrisp_sT', 'auCrisp_sH', 'auCrisp_sL', 'auCrisp_mT', 'auCrisp_mH', 'auCrisp_mL', 'auAFL', 'auAFR', 'auRightmost', 'auInitialFt', 'auParse', 'au_noLink_H_unparsedM', 'auAlignLeft_T_f', 'auAlignLeft_H_f', 'auAlignLeft_L_f', 'auAlignLeft_T_hf', 'auAlignLeft_H_hf', 'auAlignLeft_L_hf', 'auAlignLeft_T_w', 'auAlignLeft_H_w', 'auAlignLeft_L_w', 'auAlignRight_T_f', 'auAlignRight_H_f', 'auAlignRight_L_f', 'auAlignRight_T_hf', 'auAlignRight_H_hf', 'auAlignRight_L_hf', 'auAlignRight_T_w', 'auAlignRight_H_w', 'auAlignRight_L_w', 'au_ftBinT', 'auAlignLeft_f_H', 'auAlignLeft_f_L', 'auAlignLeft_hf_H', 'auAlignLeft_hf_L'];
-	
-	var con2 = ['auMax', 'auDep',  'auAlignLeft_H_f', 'auAlignLeft_L_f', 'auAlignLeft_H_w', 'auAlignLeft_L_w', 'auAlignRight_H_f', 'auAlignRight_L_f', 'auAlignRight_H_hf', 'auAlignRight_L_hf', 'auAlignRight_H_w', 'auAlignRight_L_w', 'auAlignLeft_f_H', 'auAlignLeft_f_L', 'auAlignLeft_hf_H', 'auAlignLeft_hf_L', 'auAlignRight_f_H', 'auAlignRight_f_L', 'auAlignRight_hf_H', 'auAlignRight_hf_L'];
-	
-		var con3 = ['auMax', 'auDep', 'au_mTroch', 'auAFR', 'auParse', 'auAlignLeft_H_f', 'auAlignLeft_H_hf', 'auAlignLeft_H_w', 'auAlignRight_H_f', 'auAlignRight_H_hf', 'auAlignRight_H_w', 'auAlignLeft_f_H', 'auAlignLeft_hf_H', 'auAlignRight_f_H', 'auAlignRight_hf_H'];
-		
-		var con4 = ['auAlignLeft_hm_H', 'auAlignLeft_hm_L', 'auAlignRight_hm_H', 'auAlignRight_hm_L', 'auMax', 'auDep', 'au_mTroch', 'auAFR', 'auParse'];
-		
-		var con5 = ['auAlignLeft_hm_H', 'auAlignLeft_hm_L', 'auAlignRight_hm_H', 'auAlignRight_hm_L', 'auDep', 'au_mTroch', 'auAFR', 'auAFL', 'auParse', 'auAlignRight_H_w'];
-	
-var con6 = ['auAlignLeft_hm_T', 'auAlignRight_hm_T', 'auDep', 'au_mTroch', 'auAFR', 'auParse', 'auRightmost'];
-
-var con7 = ['auAlignLeft_hm_T', 'auAlignLeft_hm_H', 'auAlignLeft_hm_L', 'auAlignRight_hm_T', 'auAlignRight_hm_H', 'auAlignRight_hm_L', 'auAFR', 'auParse', 'auAlignRight_H_w', 'auBinMin'];
-
-var con8 = ['accAR_A_w', 'accAR_H_w', 'accAR_L_w', 'accAR_T_w', 'accMaxT', 'hdLicA', 'accNCS', 'peakA'];
+	var aaaCon = ['aaaSpec', 'aaaAlignLeftH', 'aaaAlignLeftL', 'aaaAlignLeftT', 'aaaAlignRightH', 'aaaAlignRightL', 'aaaAlignRightT', 'aaaNoMultiLinkH', 'aaaNoMultiLinkL', 'aaaNoMultiLinkT', 'aaaMaxT', 'aaaDepH', 'aaaDepL', 'aaaDepT'];
 	
 	/*A list of names for your constraint sets. These are used for naming the tableau csv files and finding the lists of constraint names. They need to match the variable names above.*/
     var conNames = ['aaaCon'];
