@@ -86,7 +86,7 @@ function aaaGen(ur)
 			okay = false;
 		};
 		//check for X-doubling
-		if(/X[HLMWY]+X/.test(cur))
+		if(/X[HLmWY]+X/.test(cur))
 		{
 			okay = false;
 		};
