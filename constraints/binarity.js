@@ -24,7 +24,31 @@ function binMinBranches(s, ptree, cat){
 
 	return vcount;
 }
+function binMinBranchesInit(s, ptree, cat){
+	var vcount = 0;
+	if(ptree.children && ptree.children.length){
+		if(ptree.cat === cat && ptree.children.length===1){
+			//logreport("VIOLATION: "+ptree.id+" has only one child");
+			vcount++;
+		}
+		for(var i = 0; i<ptree.children.length; i++){
+			//This is the proposed alteration to stop violation counting at one
+			if(vcount === 1 && ptree.children.length===1){
+				break;
+			} else {
+				return 0;
+			}
+			/*if(vcount == 1 && ptree.children.length==1){
+				return 1;
+			} else {
+				return 0;
+			}*/
+			vcount += binMinBranches(s, ptree.children[i], cat);
+		}
+	}
 
+	return vcount;
+}
 //sensitive to the category of the parent only (2 branches of any type is acceptable)
 //categorical evaluation: 1 violation for every super-binary branching node
 function binMaxBranches(s, ptree, cat){
