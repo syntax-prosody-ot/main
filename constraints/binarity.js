@@ -9,9 +9,19 @@ function binMinBranches(s, ptree, cat){
 			vcount++;
 		}
 		for(var i = 0; i<ptree.children.length; i++){
+			/*This is the proposed alteration to stop violation counting at one
+			if(vcount === 1 && ptree.children.length===1){
+				break;
+			}
+			if(vcount == 1 && ptree.children.length==1){
+				return 1;
+			} else {
+				return 0;
+			}*/
 			vcount += binMinBranches(s, ptree.children[i], cat);
 		}
 	}
+
 	return vcount;
 }
 
