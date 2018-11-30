@@ -1,0 +1,2508 @@
+
+
+//10a.
+
+
+var ASC210a = {
+    "id": "CP1",
+    "cat": "cp",
+    "children": [
+        {
+            "cat": "xp",
+            "id": "VP1",
+            "children": [
+                {
+                    "cat": "xp",
+                    "id": "VP2",
+                    "children": [
+                        {
+                            "id": "parlan",
+                            "cat": "x0"
+                        }
+                    ]
+                },
+                {
+                    "cat": "xp",
+                    "id": "AP",
+                    "children": [
+                        {
+                            "id": "bene",
+                            "cat": "x0"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
+
+//10b. Note: This is ungrammatical. 
+
+
+var ASC210b = {
+    "id": "CP1",
+    "cat": "cp",
+    "children": [
+        {
+            "cat": "xp",
+            "id": "DP1",
+            "children": [
+                {
+                    "cat": "xp",
+                    "id": "DP2",
+                    "children": [
+                        {
+                            "id": "un",
+                            "cat": "x0"
+                        },
+                        {
+                            "id": "grabbian",
+                            "cat": "x0"
+                        }
+                    ]
+                },
+                {
+                    "cat": "xp",
+                    "id": "AP",
+                    "children": [
+                        {
+                            "id": "bianchissimo",
+                            "cat": "x0"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
+
+//20a. Raddoppiamento Sintattico (RS) 
+
+
+var ASC220a = {
+    "id": "CP1",
+    "cat": "cp",
+    "children": [
+        {
+            "cat": "xp",
+            "id": "DP1",
+            "children": [
+                {
+                    "id": "Il",
+                    "cat": "clitic"
+                },
+                {
+                    "id": "ragno",
+                    "cat": "x0"
+                }
+            ]
+        },
+        {
+            "cat": "xp",
+            "id": "TP1",
+            "children": [
+                {
+                    "id": "aveva",
+                    "cat": "x0"
+                },
+                {
+                    "cat": "xp",
+                    "id": "VP",
+                    "children": [
+                        {
+                            "id": "mangiato",
+                            "cat": "x0"
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "DP2",
+                            "children": [
+                                {
+                                    "cat": "xp",
+                                    "id": "AP",
+                                    "children": [
+                                        {
+                                            "id": "metá",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "DP3",
+                                    "children": [
+                                        {
+                                            "id": "[f:]arfalla",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
+// 20b.
+
+var ASC220b ={
+    "id": "CP1",
+    "cat": "cp",
+    "children": [
+        {
+            "cat": "xp",
+            "id": "DP1",
+            "children": [
+                {
+                    "id": "Il",
+                    "cat": "clitic"
+                },
+                {
+                    "id": "ragno",
+                    "cat": "x0"
+                }
+            ]
+        },
+        {
+            "cat": "xp",
+            "id": "TP",
+            "children": [
+                {
+                    "id": "aveva",
+                    "cat": "x0"
+                },
+                {
+                    "cat": "xp",
+                    "id": "VP",
+                    "children": [
+                        {
+                            "id": "mangiato",
+                            "cat": "x0"
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "DP2",
+                            "children": [
+                                {
+                                    "cat": "xp",
+                                    "id": "AP",
+                                    "children": [
+                                        {
+                                            "id": "metá",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "DP3",
+                                    "children": [
+                                        {
+                                            "id": "[g:]rillo",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
+//20c. 
+
+var ASC220c = {
+    "id": "CP1",
+    "cat": "cp",
+    "children": [
+        {
+            "cat": "xp",
+            "id": "DP1",
+            "children": [
+                {
+                    "id": "Il",
+                    "cat": "clitic"
+                },
+                {
+                    "id": "ragno",
+                    "cat": "x0"
+                }
+            ]
+        },
+        {
+            "cat": "xp",
+            "id": "TP",
+            "children": [
+                {
+                    "id": "aveva",
+                    "cat": "x0"
+                },
+                {
+                    "cat": "xp",
+                    "id": "VP",
+                    "children": [
+                        {
+                            "id": "mangiato",
+                            "cat": "x0"
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "DP2",
+                            "children": [
+                                {
+                                    "cat": "xp",
+                                    "id": "AP",
+                                    "children": [
+                                        {
+                                            "id": "metá",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "DP3",
+                                    "children": [
+                                        {
+                                            "id": "[s]corpione",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
+//22a.
+
+var ASC222a ={
+    "id": "CP1",
+    "cat": "cp",
+    "children": [
+        {
+            "cat": "xp",
+            "id": "TP",
+            "children": [
+                {
+                    "id": "Ha",
+                    "cat": "x0"
+                },
+                {
+                    "id": "appena",
+                    "cat": "x0"
+                },
+                {
+                    "cat": "xp",
+                    "id": "VP",
+                    "children": [
+                        {
+                            "id": "comprato",
+                            "cat": "x0"
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "DP1",
+                            "children": [
+                                {
+                                    "cat": "xp",
+                                    "id": "DP2",
+                                    "children": [
+                                        {
+                                            "cat": "xp",
+                                            "id": "DP3",
+                                            "children": [
+                                                {
+                                                    "id": "un",
+                                                    "cat": "x0"
+                                                },
+                                                {
+                                                    "id": "colibrí",
+                                                    "cat": "x0"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "cat": "xp",
+                                            "id": "AP1",
+                                            "children": [
+                                                {
+                                                    "id": "[b:]lú",
+                                                    "cat": "x0"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "PP",
+                                    "children": [
+                                        {
+                                            "id": "[k]on",
+                                            "cat": "x0"
+                                        },
+                                        {
+                                            "cat": "xp",
+                                            "id": "DP4",
+                                            "children": [
+                                                {
+                                                    "cat": "xp",
+                                                    "id": "DP5",
+                                                    "children": [
+                                                        {
+                                                            "id": "le",
+                                                            "cat": "x0"
+                                                        },
+                                                        {
+                                                            "id": "ali",
+                                                            "cat": "x0"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "cat": "xp",
+                                                    "id": "AP2",
+                                                    "children": [
+                                                        {
+                                                            "id": "sottilissime",
+                                                            "cat": "x0"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
+//22c. 
+
+var ASC222c = {
+    "id": "CP1",
+    "cat": "cp",
+    "children": [
+        {
+            "cat": "xp",
+            "id": "DP1",
+            "children": [
+                {
+                    "id": "un",
+                    "cat": "x0"
+                },
+                {
+                    "id": "levriero",
+                    "cat": "x0"
+                }
+            ]
+        },
+        {
+            "cat": "xp",
+            "id": "VP",
+            "children": [
+                {
+                    "id": "costerá",
+                    "cat": "x0"
+                },
+                {
+                    "cat": "xp",
+                    "id": "DP2",
+                    "children": [
+                        {
+                            "id": "[s:]uppergiú",
+                            "cat": "x0"
+                        },
+                        {
+                            "id": "[m]ezzo",
+                            "cat": "x0"
+                        },
+                        {
+                            "id": "milione",
+                            "cat": "x0"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
+//22d. 
+
+var ASC222d = {
+    "id": "CP1",
+    "cat": "cp",
+    "children": [
+        {
+            "cat": "xp",
+            "id": "VP1",
+            "children": [
+                {
+                    "cat": "xp",
+                    "id": "VP2",
+                    "children": [
+                        {
+                            "id": "disegnó",
+                            "cat": "x0"
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "DP1",
+                            "children": [
+                                {
+                                    "cat": "xp",
+                                    "id": "DP2",
+                                    "children": [
+                                        {
+                                            "id": "[b:]alene",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "AP1",
+                                    "children": [
+                                        {
+                                            "id": "blú",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "cat": "xp",
+                    "id": "PP",
+                    "children": [
+                        {
+                            "id": "[k]on",
+                            "cat": "x0"
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "DP3",
+                            "children": [
+                                {
+                                    "cat": "xp",
+                                    "id": "DP4",
+                                    "children": [
+                                        {
+                                            "id": "inchiostro",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "AP2",
+                                    "children": [
+                                        {
+                                            "id": "di",
+                                            "cat": "x0"
+                                        },
+                                        {
+                                            "id": "lapislazzuli",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
+//24a.
+
+var ASC224a ={
+    "id": "CP1",
+    "cat": "cp",
+    "children": [
+        {
+            "cat": "xp",
+            "id": "TP",
+            "children": [
+                {
+                    "id": "ho",
+                    "cat": "x0"
+                },
+                {
+                    "cat": "xp",
+                    "id": "VP",
+                    "children": [
+                        {
+                            "id": "visto",
+                            "cat": "x0"
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "DP1",
+                            "children": [
+                                {
+                                    "cat": "xp",
+                                    "id": "DP2",
+                                    "children": [
+                                        {
+                                            "id": "tré",
+                                            "cat": "x0"
+                                        },
+                                        {
+                                            "id": "[k:]olibrí",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "AP",
+                                    "children": [
+                                        {
+                                            "id": "[b:]rutti",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
+//24b.
+
+var ASC224b = {
+    "id": "CP1",
+    "cat": "cp",
+    "children": [
+        {
+            "cat": "xp",
+            "id": "TP",
+            "children": [
+                {
+                    "id": "ho",
+                    "cat": "x0"
+                },
+                {
+                    "cat": "xp",
+                    "id": "VP",
+                    "children": [
+                        {
+                            "id": "visto",
+                            "cat": "x0"
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "DP1",
+                            "children": [
+                                {
+                                    "cat": "xp",
+                                    "id": "DP2",
+                                    "children": [
+                                        {
+                                            "id": "tré",
+                                            "cat": "x0"
+                                        },
+                                        {
+                                            "id": "[k:]olibrí",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "AP",
+                                    "children": [
+                                        {
+                                            "id": "[k]osí",
+                                            "cat": "x0"
+                                        },
+                                        {
+                                            "id": "[b:]rutti",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
+//26a - b is in French. 
+
+//28a.
+
+var ASC228a ={
+    "id": "CP1",
+    "cat": "cp",
+    "children": [
+        {
+            "cat": "xp",
+            "id": "DP1",
+            "children": [
+                {
+                    "id": "lo",
+                    "cat": "x0"
+                },
+                {
+                    "id": "zoo",
+                    "cat": "x0"
+                }
+            ]
+        },
+        {
+            "cat": "xp",
+            "id": "TP",
+            "children": [
+                {
+                    "id": "ha",
+                    "cat": "x0"
+                },
+                {
+                    "cat": "xp",
+                    "id": "VP1",
+                    "children": [
+                        {
+                            "id": "appena",
+                            "cat": "x0"
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "VP2",
+                            "children": [
+                                {
+                                    "id": "comprato",
+                                    "cat": "x0"
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "DP2",
+                                    "children": [
+                                        {
+                                            "id": "uno",
+                                            "cat": "x0"
+                                        },
+                                        {
+                                            "cat": "xp",
+                                            "id": "NP1",
+                                            "children": [
+                                                {
+                                                    "cat": "xp",
+                                                    "id": "AP1",
+                                                    "children": [
+                                                        {
+                                                            "id": "nuova",
+                                                            "cat": "x0"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "cat": "xp",
+                                                    "id": "NP2",
+                                                    "children": [
+                                                        {
+                                                            "id": "[]antera",
+                                                            "cat": "x0"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
+//28b.
+
+var ASC228b = {
+    "id": "CP1",
+    "cat": "cp",
+    "children": [
+        {
+            "cat": "xp",
+            "id": "DP1",
+            "children": [
+                {
+                    "id": "ci",
+                    "cat": "x0"
+                }
+            ]
+        },
+        {
+            "cat": "xp",
+            "id": "VP1",
+            "children": [
+                {
+                    "cat": "xp",
+                    "id": "VP2",
+                    "children": [
+                        {
+                            "id": "sono",
+                            "cat": "x0"
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "DP2",
+                            "children": [
+                                {
+                                    "id": "tantissimi",
+                                    "cat": "x0"
+                                },
+                                {
+                                    "id": "[]arli",
+                                    "cat": "x0"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "cat": "xp",
+                    "id": "PP",
+                    "children": [
+                        {
+                            "id": "nella",
+                            "cat": "x0"
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "DP3",
+                            "children": [
+                                {
+                                    "id": "mia",
+                                    "cat": "x0"
+                                },
+                                {
+                                    "id": "scrivinia",
+                                    "cat": "x0"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
+
+//28c.
+
+var ASC228c = {
+    "id": "CP1",
+    "cat": "cp",
+    "children": [
+        {
+            "cat": "xp",
+            "id": "DP1",
+            "children": [
+                {
+                    "id": "sta",
+                    "cat": "x0"
+                }
+            ]
+        },
+        {
+            "cat": "xp",
+            "id": "VP",
+            "children": [
+                {
+                    "id": "arrivando",
+                    "cat": "x0"
+                },
+                {
+                    "cat": "xp",
+                    "id": "DP2",
+                    "children": [
+                        {
+                            "id": "uno",
+                            "cat": "x0"
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "NP1",
+                            "children": [
+                                {
+                                    "cat": "xp",
+                                    "id": "NP2",
+                                    "children": [
+                                        {
+                                            "id": "stormo",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "PP",
+                                    "children": [
+                                        {
+                                            "id": "di",
+                                            "cat": "x0"
+                                        },
+                                        {
+                                            "cat": "xp",
+                                            "id": "DP3",
+                                            "children": [
+                                                {
+                                                    "id": "[h]orvi",
+                                                    "cat": "x0"
+                                                },
+                                                {
+                                                    "cat": "xp",
+                                                    "id": "AP",
+                                                    "children": [
+                                                        {
+                                                            "id": "neri",
+                                                            "cat": "x0"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
+//30a.
+
+var ASC230a = {
+    "id": "CP1",
+    "cat": "cp",
+    "children": [
+        {
+            "cat": "xp",
+            "id": "DP1",
+            "children": [
+                {
+                    "cat": "xp",
+                    "id": "DP2",
+                    "children": [
+                        {
+                            "id": "le",
+                            "cat": "x0"
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "NP1",
+                            "children": [
+                                {
+                                    "cat": "xp",
+                                    "id": "NP2",
+                                    "children": [
+                                        {
+                                            "id": "zanne",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "PP1",
+                                    "children": [
+                                        {
+                                            "id": "dell'elefante",
+                                            "cat": "x0"
+                                        },
+                                        {
+                                            "cat": "xp",
+                                            "id": "AP1",
+                                            "children": [
+                                                {
+                                                    "id": "bianco",
+                                                    "cat": "x0"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "cat": "xp",
+                    "id": "PP2",
+                    "children": [
+                        {
+                            "id": "dell'Africa",
+                            "cat": "x0"
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "AP2",
+                            "children": [
+                                {
+                                    "id": "oriental",
+                                    "cat": "x0"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "cat": "xp",
+            "id": "VP",
+            "children": [
+                {
+                    "id": "[k]ostano",
+                    "cat": "x0"
+                },
+                {
+                    "id": "sempre",
+                    "cat": "x0"
+                },
+                {
+                    "cat": "xp",
+                    "id": "DP3",
+                    "children": [
+                        {
+                            "id": "di",
+                            "cat": "x0"
+                        },
+                        {
+                            "id": "piú",
+                            "cat": "x0"
+                        }
+                    ]
+                },
+                {
+                    "cat": "xp",
+                    "id": "PP3",
+                    "children": [
+                        {
+                            "id": "in",
+                            "cat": "x0"
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "DP4",
+                            "children": [
+                                {
+                                    "id": "Europa",
+                                    "cat": "x0"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
+//30b.
+
+var ASC230b = {
+    "id": "CP1",
+    "cat": "cp",
+    "children": [
+        {
+            "cat": "xp",
+            "id": "DP1",
+            "children": [
+                {
+                    "cat": "xp",
+                    "id": "DP2",
+                    "children": [
+                        {
+                            "cat": "xp",
+                            "id": "DP2",
+                            "children": [
+                                {
+                                    "id": "quella",
+                                    "cat": "x0"
+                                },
+                                {
+                                    "id": "bandaa",
+                                    "cat": "x0"
+                                }
+                            ]
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "AP1",
+                            "children": [
+                                {
+                                    "id": "segreta",
+                                    "cat": "x0"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "cat": "xp",
+                    "id": "PP1",
+                    "children": [
+                        {
+                            "id": "di",
+                            "cat": "x0"
+                        },
+                        {
+                            "id": "ragazzi",
+                            "cat": "x0"
+                        }
+                    ]
+                },
+                {
+                    "cat": "xp",
+                    "id": "CP2",
+                    "children": [
+                        {
+                            "id": "temuta",
+                            "cat": "x0"
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "PP2",
+                            "children": [
+                                {
+                                    "id": "da",
+                                    "cat": "x0"
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "DP4",
+                                    "children": [
+                                        {
+                                            "id": "tutti",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "cat": "xp",
+            "id": "VP1",
+            "children": [
+                {
+                    "cat": "xp",
+                    "id": "VP2",
+                    "children": [
+                        {
+                            "id": "[k]accia",
+                            "cat": "x0"
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "DP5",
+                            "children": [
+                                {
+                                    "cat": "xp",
+                                    "id": "DP6",
+                                    "children": [
+                                        {
+                                            "id": "orsi",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "AP2",
+                                    "children": [
+                                        {
+                                            "id": "ferocissimi",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "cat": "xp",
+                    "id": "AP3",
+                    "children": [
+                        {
+                            "id": "solo",
+                            "cat": "x0"
+                        },
+                        {
+                            "id": "per",
+                            "cat": "x0"
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "DP7",
+                            "children": [
+                                {
+                                    "id": "divertirsi",
+                                    "cat": "x0"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
+//30c.
+
+var ASC230c ={
+    "id": "CP1",
+    "cat": "cp",
+    "children": [
+        {
+            "cat": "xp",
+            "id": "DP1",
+            "children": [
+                {
+                    "cat": "xp",
+                    "id": "DP2",
+                    "children": [
+                        {
+                            "id": "certi",
+                            "cat": "x0"
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "NP1",
+                            "children": [
+                                {
+                                    "id": "tipi",
+                                    "cat": "x0"
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "PP1",
+                                    "children": [
+                                        {
+                                            "id": "di",
+                                            "cat": "x0"
+                                        },
+                                        {
+                                            "cat": "xp",
+                                            "id": "DP3",
+                                            "children": [
+                                                {
+                                                    "id": "uccelli",
+                                                    "cat": "x0"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "cat": "xp",
+                    "id": "CP2",
+                    "children": [
+                        {
+                            "id": "trovati",
+                            "cat": "x0"
+                        },
+                        {
+                            "id": "solo",
+                            "cat": "x0"
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "PP2",
+                            "children": [
+                                {
+                                    "id": "in",
+                                    "cat": "x0"
+                                },
+                                {
+                                    "id": "Australia",
+                                    "cat": "x0"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "cat": "xp",
+            "id": "VP1",
+            "children": [
+                {
+                    "id": "[k]ostruiscono",
+                    "cat": "x0"
+                },
+                {
+                    "cat": "xp",
+                    "id": "DP4",
+                    "children": [
+                        {
+                            "cat": "xp",
+                            "id": "DP5",
+                            "children": [
+                                {
+                                    "id": "nidi",
+                                    "cat": "x0"
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "AP1",
+                                    "children": [
+                                        {
+                                            "id": "complicatissimi",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "AP2",
+                            "children": [
+                                {
+                                    "id": "a",
+                                    "cat": "x0"
+                                },
+                                {
+                                    "id": "due",
+                                    "cat": "x0"
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "NP2",
+                                    "children": [
+                                        {
+                                            "id": "piani",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
+//32a.
+
+var ASC232a ={
+    "id": "CP1",
+    "cat": "cp",
+    "children": [
+        {
+            "cat": "xp",
+            "id": "DP1",
+            "children": [
+                {
+                    "id": "gli",
+                    "cat": "x0"
+                },
+                {
+                    "cat": "xp",
+                    "id": "NP1",
+                    "children": [
+                        {
+                            "id": "struzzi",
+                            "cat": "x0"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "cat": "xp",
+            "id": "VP1",
+            "children": [
+                {
+                    "cat": "xp",
+                    "id": "VP2",
+                    "children": [
+                        {
+                            "id": "[h]orrono",
+                            "cat": "x0"
+                        }
+                    ]
+                },
+                {
+                    "cat": "xp",
+                    "id": "AP1",
+                    "children": [
+                        {
+                            "id": "velocemente",
+                            "cat": "x0"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
+//32b.
+
+var ASC232b = {
+    "id": "CP1",
+    "cat": "cp",
+    "children": [
+        {
+            "cat": "xp",
+            "id": "DP1",
+            "children": [
+                {
+                    "id": "un",
+                    "cat": "x0"
+                },
+                {
+                    "cat": "xp",
+                    "id": "NP1",
+                    "children": [
+                        {
+                            "id": "levriero",
+                            "cat": "x0"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "cat": "xp",
+            "id": "VP1",
+            "children": [
+                {
+                    "cat": "xp",
+                    "id": "VP2",
+                    "children": [
+                        {
+                            "id": "[h]osta",
+                            "cat": "x0"
+                        }
+                    ]
+                },
+                {
+                    "cat": "xp",
+                    "id": "AP1",
+                    "children": [
+                        {
+                            "id": "moltissimo",
+                            "cat": "x0"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
+//for spanish examples (34) and (36), see spanish trees file
+
+//44a. 
+
+var ASC244a = {
+    "id": "CP1",
+    "cat": "cp",
+    "children": [
+        {
+            "cat": "xp",
+            "id": "VP1",
+            "children": [
+                {
+                    "id": "ne",
+                    "cat": "x0"
+                },
+                {
+                    "id": "voglio",
+                    "cat": "x0"
+                }
+            ]
+        },
+        {
+            "cat": "xp",
+            "id": "CP2",
+            "children": [
+                {
+                    "cat": "xp",
+                    "id": "VP2",
+                    "children": [
+                        {
+                            "id": "comprare",
+                            "cat": "x0"
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "DP1",
+                            "children": [
+                                {
+                                    "id": "metá",
+                                    "cat": "x0"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "cat": "xp",
+                    "id": "ADV",
+                    "children": [
+                        {
+                            "id": "[s]ubito",
+                            "cat": "x0"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
+//44b. 
+
+var ASC244b = {
+    "id": "CP1",
+    "cat": "cp",
+    "children": [
+        {
+            "cat": "xp",
+            "id": "VP1",
+            "children": [
+                {
+                    "cat": "xp",
+                    "id": "VP2",
+                    "children": [
+                        {
+                            "id": "ne",
+                            "cat": "x0"
+                        },
+                        {
+                            "id": "incontreró",
+                            "cat": "x0"
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "DP1",
+                            "children": [
+                                {
+                                    "id": "tré",
+                                    "cat": "x0"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "cat": "xp",
+                    "id": "PP1",
+                    "children": [
+                        {
+                            "id": "[v]enerdí",
+                            "cat": "x0"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
+//46a. 
+
+var ASC246a = {
+    "id": "CP1",
+    "cat": "cp",
+    "children": [
+        {
+            "cat": "xp",
+            "id": "CP2",
+            "children": [
+                {
+                    "cat": "xp",
+                    "id": "DP1",
+                    "children": [
+                        {
+                            "id": "tu",
+                            "cat": "x0"
+                        }
+                    ]
+                },
+                {
+                    "cat": "xp",
+                    "id": "VP1",
+                    "children": [
+                        {
+                            "id": "dai",
+                            "cat": "x0"
+                        },
+                        {
+                            "id": "da",
+                            "cat": "x0"
+                        },
+                        {
+                            "id": "mangiare",
+                            "cat": "x0"
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "PP1",
+                            "children": [
+                                {
+                                    "id": "al",
+                                    "cat": "x0"
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "NP1",
+                                    "children": [
+                                        {
+                                            "cat": "xp",
+                                            "id": "NP2",
+                                            "children": [
+                                                {
+                                                    "id": "puma",
+                                                    "cat": "x0"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "cat": "xp",
+                                            "id": "AP1",
+                                            "children": [
+                                                {
+                                                    "id": "australiano",
+                                                    "cat": "x0"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "cat": "xp",
+            "id": "COORD",
+            "children": [
+                {
+                    "id": "e",
+                    "cat": "x0"
+                }
+            ]
+        },
+        {
+            "cat": "xp",
+            "id": "CP3",
+            "children": [
+                {
+                    "cat": "xp",
+                    "id": "DP2",
+                    "children": [
+                        {
+                            "id": "io",
+                            "cat": "x0"
+                        }
+                    ]
+                },
+                {
+                    "cat": "xp",
+                    "id": "PP2",
+                    "children": [
+                        {
+                            "id": "a",
+                            "cat": "x0"
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "NP3",
+                            "children": [
+                                {
+                                    "cat": "xp",
+                                    "id": "NP4",
+                                    "children": [
+                                        {
+                                            "id": "quello",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "AP2",
+                                    "children": [
+                                        {
+                                            "id": "[]eruviano",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
+//46b.
+
+var ASC246b = {
+    "id": "CP1",
+    "cat": "cp",
+    "children": [
+        {
+            "id": "ci",
+            "cat": "x0"
+        },
+        {
+            "cat": "xp",
+            "id": "VP1",
+            "children": [
+                {
+                    "id": "sono",
+                    "cat": "x0"
+                },
+                {
+                    "cat": "xp",
+                    "id": "DP1",
+                    "children": [
+                        {
+                            "cat": "xp",
+                            "id": "DP2",
+                            "children": [
+                                {
+                                    "id": "due",
+                                    "cat": "x0"
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "NP1",
+                                    "children": [
+                                        {
+                                            "cat": "xp",
+                                            "id": "NP2",
+                                            "children": [
+                                                {
+                                                    "id": "leoni",
+                                                    "cat": "x0"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "cat": "xp",
+                                            "id": "AP1",
+                                            "children": [
+                                                {
+                                                    "id": "obesi",
+                                                    "cat": "x0"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "COORD",
+                            "children": [
+                                {
+                                    "id": "e",
+                                    "cat": "x0"
+                                }
+                            ]
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "DP3",
+                            "children": [
+                                {
+                                    "id": "quattro",
+                                    "cat": "x0"
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "NP3",
+                                    "children": [
+                                        {
+                                            "cat": "xp",
+                                            "id": "NP3",
+                                            "children": [
+                                                {
+                                                    "id": "[]utti",
+                                                    "cat": "x0"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "cat": "xp",
+                                            "id": "AP2",
+                                            "children": [
+                                                {
+                                                    "id": "magri",
+                                                    "cat": "x0"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
+//46c.
+
+var ASC246c = {
+    "id": "CP1",
+    "cat": "cp",
+    "children": [
+        {
+            "cat": "xp",
+            "id": "TP1",
+            "children": [
+                {
+                    "id": "ho",
+                    "cat": "x0"
+                },
+                {
+                    "cat": "xp",
+                    "id": "VP1",
+                    "children": [
+                        {
+                            "id": "visto",
+                            "cat": "x0"
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "DP1",
+                            "children": [
+                                {
+                                    "cat": "xp",
+                                    "id": "DP2",
+                                    "children": [
+                                        {
+                                            "id": "un",
+                                            "cat": "x0"
+                                        },
+                                        {
+                                            "cat": "xp",
+                                            "id": "NP1",
+                                            "children": [
+                                                {
+                                                    "cat": "xp",
+                                                    "id": "NP2",
+                                                    "children": [
+                                                        {
+                                                            "id": "passero",
+                                                            "cat": "x0"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "cat": "xp",
+                                                    "id": "AP1",
+                                                    "children": [
+                                                        {
+                                                            "id": "pennuto",
+                                                            "cat": "x0"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "COORD",
+                                    "children": [
+                                        {
+                                            "id": "e",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "DP3",
+                                    "children": [
+                                        {
+                                            "cat": "xp",
+                                            "id": "NP3",
+                                            "children": [
+                                                {
+                                                    "id": "uno",
+                                                    "cat": "x0"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "cat": "xp",
+                                            "id": "AP2",
+                                            "children": [
+                                                {
+                                                    "id": "[h]alvo",
+                                                    "cat": "x0"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
+//50a.
+
+var ASC250a = {
+    "id": "CP1",
+    "cat": "cp",
+    "children": [
+        {
+            "cat": "xp",
+            "id": "CP2",
+            "children": [
+                {
+                    "cat": "xp",
+                    "id": "DP1",
+                    "children": [
+                        {
+                            "id": "hanno",
+                            "cat": "x0"
+                        }
+                    ]
+                },
+                {
+                    "cat": "xp",
+                    "id": "VP1",
+                    "children": [
+                        {
+                            "id": "trascurato",
+                            "cat": "x0"
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "DP2",
+                            "children": [
+                                {
+                                    "cat": "xp",
+                                    "id": "NP1",
+                                    "children": [
+                                        {
+                                            "id": "l'armadillo",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "AP1",
+                                    "children": [
+                                        {
+                                            "id": "zoppo",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "cat": "xp",
+            "id": "COORD",
+            "children": [
+                {
+                    "id": "per",
+                    "cat": "x0"
+                }
+            ]
+        },
+        {
+            "cat": "xp",
+            "id": "CP3",
+            "children": [
+                {
+                    "cat": "xp",
+                    "id": "VP2",
+                    "children": [
+                        {
+                            "id": "concentrarsi",
+                            "cat": "x0"
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "DP3",
+                            "children": [
+                                {
+                                    "id": "tutti",
+                                    "cat": "x0"
+                                }
+                            ]
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "DP4",
+                            "children": [
+                                {
+                                    "id": "su",
+                                    "cat": "x0"
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "NP2",
+                                    "children": [
+                                        {
+                                            "cat": "xp",
+                                            "id": "NP3",
+                                            "children": [
+                                                {
+                                                    "id": "quello",
+                                                    "cat": "x0"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "cat": "xp",
+                                            "id": "AP2",
+                                            "children": [
+                                                {
+                                                    "id": "[?]eco",
+                                                    "cat": "x0"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
+//50b.
+
+var ASC250b = {
+    "id": "CP1",
+    "cat": "cp",
+    "children": [
+        {
+            "id": "parlava",
+            "cat": "x0"
+        },
+        {
+            "cat": "xp",
+            "id": "PP1",
+            "children": [
+                {
+                    "cat": "xp",
+                    "id": "PP2",
+                    "children": [
+                        {
+                            "id": "di",
+                            "cat": "x0"
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "DP2",
+                            "children": [
+                                {
+                                    "id": "un",
+                                    "cat": "x0"
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "NP1",
+                                    "children": [
+                                        {
+                                            "cat": "xp",
+                                            "id": "NP2",
+                                            "children": [
+                                                {
+                                                    "id": "pinguino",
+                                                    "cat": "x0"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "cat": "xp",
+                                            "id": "AP1",
+                                            "children": [
+                                                {
+                                                    "id": "nane",
+                                                    "cat": "x0"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "cat": "xp",
+                    "id": "COORD",
+                    "children": [
+                        {
+                            "id": "e",
+                            "cat": "x0"
+                        }
+                    ]
+                },
+                {
+                    "cat": "xp",
+                    "id": "PP3",
+                    "children": [
+                        {
+                            "id": "di",
+                            "cat": "x0"
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "NP3",
+                            "children": [
+                                {
+                                    "cat": "xp",
+                                    "id": "NP4",
+                                    "children": [
+                                        {
+                                            "id": "uno",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "AP2",
+                                    "children": [
+                                        {
+                                            "id": "[?]igante",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
+//52a.
+
+var ASC252a = {
+    "id": "CP1",
+    "cat": "cp",
+    "children": [
+        {
+            "cat": "xp",
+            "id": "VP1",
+            "children": [
+                {
+                    "cat": "xp",
+                    "id": "DP1",
+                    "children": [
+                        {
+                            "id": "cosa",
+                            "cat": "x0"
+                        }
+                    ]
+                },
+                {
+                    "cat": "xp",
+                    "id": "VP2",
+                    "children": [
+                        {
+                            "cat": "xp",
+                            "id": "VP3",
+                            "children": [
+                                {
+                                    "id": "filmerá",
+                                    "cat": "x0"
+                                }
+                            ]
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "ADV",
+                            "children": [
+                                {
+                                    "id": "[d:]omani",
+                                    "cat": "x0"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
+//52b.
+
+var ASC252b = {
+    "id": "CP1",
+    "cat": "cp",
+    "children": [
+        {
+            "cat": "xp",
+            "id": "DP1",
+            "children": [
+                {
+                    "id": "filippo",
+                    "cat": "x0"
+                }
+            ]
+        },
+        {
+            "cat": "xp",
+            "id": "TP",
+            "children": [
+                {
+                    "id": "é",
+                    "cat": "x0"
+                },
+                {
+                    "id": "il",
+                    "cat": "clitic"
+                },
+                {
+                    "cat": "xp",
+                    "id": "DP2",
+                    "children": [
+                        {
+                            "id": "cavallo",
+                            "cat": "x0"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "cat": "xp",
+            "id": "CP2",
+            "children": [
+                {
+                    "id": "che",
+                    "cat": "x0"
+                },
+                {
+                    "cat": "xp",
+                    "id": "VP1",
+                    "children": [
+                        {
+                            "cat": "xp",
+                            "id": "VP2",
+                            "children": [
+                                {
+                                    "id": "monteró",
+                                    "cat": "x0"
+                                }
+                            ]
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "ADV",
+                            "children": [
+                                {
+                                    "id": "[d:]omani",
+                                    "cat": "x0"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
+//54a-c in Spanish
+
+//58a.
+
+var ASC258a = {
+    "id": "CP1",
+    "cat": "cp",
+    "children": [
+        {
+            "cat": "xp",
+            "id": "TP1",
+            "children": [
+                {
+                    "id": "ho",
+                    "cat": "x0"
+                },
+                {
+                    "cat": "xp",
+                    "id": "VP1",
+                    "children": [
+                        {
+                            "cat": "xp",
+                            "id": "ADV1",
+                            "children": [
+                                {
+                                    "id": "giá",
+                                    "cat": "x0"
+                                }
+                            ]
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "VP2",
+                            "children": [
+                                {
+                                    "id": "capito",
+                                    "cat": "x0"
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "DP1",
+                                    "children": [
+                                        {
+                                            "id": "quello",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "CP2",
+                                    "children": [
+                                        {
+                                            "id": "che",
+                                            "cat": "x0"
+                                        },
+                                        {
+                                            "cat": "xp",
+                                            "id": "VP3",
+                                            "children": [
+                                                {
+                                                    "cat": "xp",
+                                                    "id": "VP4",
+                                                    "children": [
+                                                        {
+                                                            "id": "fáro",
+                                                            "cat": "x0"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "cat": "xp",
+                                                    "id": "ADV2",
+                                                    "children": [
+                                                        {
+                                                            "id": "dópo",
+                                                            "cat": "x0"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
+//58b.
+
+var ASC258b = {
+    "id": "CP1",
+    "cat": "cp",
+    "children": [
+        {
+            "cat": "xp",
+            "id": "DP1",
+            "children": [
+                {
+                    "id": "ci",
+                    "cat": "x0"
+                },
+                {
+                    "id": "si",
+                    "cat": "x0"
+                }
+            ]
+        },
+        {
+            "cat": "xp",
+            "id": "VP1",
+            "children": [
+                {
+                    "id": "domanda",
+                    "cat": "x0"
+                },
+                {
+                    "cat": "xp",
+                    "id": "CP2",
+                    "children": [
+                        {
+                            "id": "cosa",
+                            "cat": "x0"
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "VP2",
+                            "children": [
+                                {
+                                    "cat": "xp",
+                                    "id": "VP3",
+                                    "children": [
+                                        {
+                                            "id": "fára",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "ADV",
+                                    "children": [
+                                        {
+                                            "id": "dópo",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
+//58c.
+
+var ASC258c = {
+    "id": "CP1",
+    "cat": "cp",
+    "children": [
+        {
+            "cat": "xp",
+            "id": "DP1",
+            "children": [
+                {
+                    "id": "cosa",
+                    "cat": "x0"
+                }
+            ]
+        },
+        {
+            "cat": "xp",
+            "id": "VP1",
+            "children": [
+                {
+                    "cat": "xp",
+                    "id": "VP2",
+                    "children": [
+                        {
+                            "id": "dirá",
+                            "cat": "x0"
+                        }
+                    ]
+                },
+                {
+                    "cat": "xp",
+                    "id": "ADV",
+                    "children": [
+                        {
+                            "id": "dópo",
+                            "cat": "x0"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
+
+
+
+
+
+
+
+
+
+
