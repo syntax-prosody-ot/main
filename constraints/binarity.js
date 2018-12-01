@@ -24,6 +24,7 @@ function binMinBranches(s, ptree, cat){
 
 	return vcount;
 }
+
 function binMinBranchesInit(s, ptree, cat){
 	var vcount = 0;
 	if(ptree.children && ptree.children.length){
@@ -35,15 +36,13 @@ function binMinBranchesInit(s, ptree, cat){
 			//This is the proposed alteration to stop violation counting at one
 			if(vcount === 1 && ptree.children.length===1){
 				break;
-			} else {
-				return 0;
 			}
 			/*if(vcount == 1 && ptree.children.length==1){
 				return 1;
 			} else {
 				return 0;
 			}*/
-			vcount += binMinBranches(s, ptree.children[i], cat);
+			vcount += binMinBranchesInit(s, ptree.children[i], cat);
 		}
 	}
 
