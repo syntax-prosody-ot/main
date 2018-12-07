@@ -9,15 +9,7 @@ function binMinBranches(s, ptree, cat){
 			vcount++;
 		}
 		for(var i = 0; i<ptree.children.length; i++){
-			/*This is the proposed alteration to stop violation counting at one
-			if(vcount === 1 && ptree.children.length===1){
-				break;
-			}
-			if(vcount == 1 && ptree.children.length==1){
-				return 1;
-			} else {
-				return 0;
-			}*/
+			
 			vcount += binMinBranches(s, ptree.children[i], cat);
 		}
 	}
@@ -25,6 +17,7 @@ function binMinBranches(s, ptree, cat){
 	return vcount;
 }
 
+//This function stops counting the violations once it finds the first one
 function binMinBranchesInit(s, ptree, cat){
 	var vcount = 0;
 	if(ptree.children && ptree.children.length){
@@ -33,17 +26,19 @@ function binMinBranchesInit(s, ptree, cat){
 			vcount++;
 		}
 		for(var i = 0; i<ptree.children.length; i++){
-			//This is the proposed alteration to stop violation counting at one
-			if(vcount === 1 && ptree.children.length===1){
+			//these are some debugging print codes
+			/*console.log("ptree.children.length: "+ ptree.children.length);
+			console.log("i: "+ i);
+			console.log(ptree.cat);
+			console.log('vcount: '+vcount);
+			console.log('word: '+ptree.id);
+			*/
+			if(i === 1){
 				break;
 			}
-			/*if(vcount == 1 && ptree.children.length==1){
-				return 1;
-			} else {
-				return 0;
-			}*/
 			vcount += binMinBranchesInit(s, ptree.children[i], cat);
 		}
+		
 	}
 
 	return vcount;
