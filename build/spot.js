@@ -2468,6 +2468,19 @@ window.addEventListener('load', function(){
 		console.error('no spot form');
 		return;
 	}
+	
+	spotForm.addEventListener('change', function(ev) {
+		var target = ev.target;
+		if (target.name === 'constraints') {
+			var trClassList = target.closest('tr').classList;
+			if (target.checked) {
+				trClassList.add('constraint-checked');
+			}
+			else {
+				trClassList.remove('constraint-checked');
+			}
+		}
+	});
 
 	spotForm.onsubmit=function(e){
 		if (e.preventDefault) e.preventDefault();
