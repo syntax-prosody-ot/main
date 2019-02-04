@@ -220,6 +220,19 @@ window.addEventListener('load', function(){
 		console.error('no spot form');
 		return;
 	}
+	
+	spotForm.addEventListener('change', function(ev) {
+		var target = ev.target;
+		if (target.name === 'constraints') {
+			var trClassList = target.closest('tr').classList;
+			if (target.checked) {
+				trClassList.add('constraint-checked');
+			}
+			else {
+				trClassList.remove('constraint-checked');
+			}
+		}
+	});
 
 	spotForm.onsubmit=function(e){
 		if (e.preventDefault) e.preventDefault();
@@ -231,9 +244,16 @@ window.addEventListener('load', function(){
 			var constraintBox = spotForm.constraints[i];
 			if(constraintBox.checked){
 				var constraint = constraintBox.value;
+				//Figure out all the categories selected for the constraint
 				if(spotForm['category-'+constraint]){
-					var category = spotForm['category-'+constraint].value;
-					constraintSet.push(constraint+'-'+category);
+					var constraintCatSet = spotForm['category-'+constraint];
+					for(var i=0; i<constraintCatSet.length; i++){	
+						var categoryBox = constraintCatSet[i];
+						if(categoryBox.checked){
+							var category = categoryBox.value;
+							constraintSet.push(constraint+'-'+category);
+						}
+					}
 				}
 				else
 					constraintSet.push(constraint);

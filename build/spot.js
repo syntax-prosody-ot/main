@@ -103,12 +103,40 @@ function binMinBranches(s, ptree, cat){
 			vcount++;
 		}
 		for(var i = 0; i<ptree.children.length; i++){
+			
 			vcount += binMinBranches(s, ptree.children[i], cat);
 		}
 	}
+
 	return vcount;
 }
 
+//This function stops counting the violations once it finds the first one
+function binMinBranchesInit(s, ptree, cat){
+	var vcount = 0;
+	if(ptree.children && ptree.children.length){
+		if(ptree.cat === cat && ptree.children.length===1){
+			//logreport("VIOLATION: "+ptree.id+" has only one child");
+			vcount++;
+		}
+		for(var i = 0; i<ptree.children.length; i++){
+			//these are some debugging print codes
+			/*console.log("ptree.children.length: "+ ptree.children.length);
+			console.log("i: "+ i);
+			console.log(ptree.cat);
+			console.log('vcount: '+vcount);
+			console.log('word: '+ptree.id);
+			*/
+			if(i === 1){
+				break;
+			}
+			vcount += binMinBranchesInit(s, ptree.children[i], cat);
+		}
+		
+	}
+
+	return vcount;
+}
 //sensitive to the category of the parent only (2 branches of any type is acceptable)
 //categorical evaluation: 1 violation for every super-binary branching node
 function binMaxBranches(s, ptree, cat){
@@ -1799,13 +1827,9 @@ function kjMax(string)
 		{
 			vcount++;
 		};
-		if((tTier == "LH"))
+		if(tTier == "LH")
 		{
 			vcount++;
-		};
-		if(tTier == "")
-		{
-			vcount += 2;
 		};
 	};
 	return vcount;
@@ -2444,6 +2468,19 @@ window.addEventListener('load', function(){
 		console.error('no spot form');
 		return;
 	}
+	
+	spotForm.addEventListener('change', function(ev) {
+		var target = ev.target;
+		if (target.name === 'constraints') {
+			var trClassList = target.closest('tr').classList;
+			if (target.checked) {
+				trClassList.add('constraint-checked');
+			}
+			else {
+				trClassList.remove('constraint-checked');
+			}
+		}
+	});
 
 	spotForm.onsubmit=function(e){
 		if (e.preventDefault) e.preventDefault();
@@ -2455,9 +2492,16 @@ window.addEventListener('load', function(){
 			var constraintBox = spotForm.constraints[i];
 			if(constraintBox.checked){
 				var constraint = constraintBox.value;
+				//Figure out all the categories selected for the constraint
 				if(spotForm['category-'+constraint]){
-					var category = spotForm['category-'+constraint].value;
-					constraintSet.push(constraint+'-'+category);
+					var constraintCatSet = spotForm['category-'+constraint];
+					for(var i=0; i<constraintCatSet.length; i++){	
+						var categoryBox = constraintCatSet[i];
+						if(categoryBox.checked){
+							var category = categoryBox.value;
+							constraintSet.push(constraint+'-'+category);
+						}
+					}
 				}
 				else
 					constraintSet.push(constraint);
