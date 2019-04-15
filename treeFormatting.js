@@ -1,4 +1,4 @@
-//takes a [defualt=prosodic] tree and returns a string version where phi boundaries are marked with '(' ')'
+//takes a [default=prosodic] tree and returns a string version where phi boundaries are marked with '(' ')'
 function parenthesizeTree(tree, options){
 	var parTree = [];
 	options = options || {};
