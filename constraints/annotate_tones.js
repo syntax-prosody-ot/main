@@ -9,10 +9,8 @@ Arguments:
 	afterA = is there a preceding accent in this phi?
 */
 function addJapaneseTones(ptree, parentCat, afterA){
-	console.log(ptree);
 	//Iota: No tonal diagnostics; just call recursively on the children
 	if(ptree.cat=='i'){
-		console.log("iota");
 		if(ptree.children && ptree.children.length){
 			for(var child in ptree.children)
 			{

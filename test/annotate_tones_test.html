@@ -7,6 +7,7 @@
 	<!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
 	(open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
 	<script src="../build/spot.js"></script>
+	<script src="../build/constraints.js"></script>
 	
 </head>
 
@@ -43,6 +44,11 @@
 			}
 		]
 	};
+	console.log(parenthesizeTree(accentTree1, {showTones: true}));
+	annotatedTree = addJapaneseTones(accentTree1, 'na', false)[0];
+	console.log(annotatedTree);
+	console.log(parenthesizeTree(annotatedTree, {showTones: true}));
+	console.log(parenthesizeTree(accentTree1, {showTones: false}));
 	
 	var sTreeAlign2 = { 
 		"id":"xp0",
