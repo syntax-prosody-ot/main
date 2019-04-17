@@ -76,16 +76,11 @@
 
 	
 	var constraintSetAlign = ['alignLeft-xp', 'alignRight-xp', 'wrap-xp'];
-	var candidateSet = [[sTreeAlign1, pTree3words], [sTreeAlign1, pTree4words], [sTreeAlign1, pTree4wordsRec], [sTreeAlign1, pTree4words2xRec]];
-
-
-	var candidateSetMin = [[sTreeAlign1, pTree0word], [sTreeAlign1, pTree0wordRec], [sTreeAlign1, pTree1word], [sTreeAlign1, pTree1wordRec], [sTreeAlign1, pTree1word2xRec], [sTreeAlign1, pTree2words]];
-	
-	var candidateSet2 = [[sTreeAlign2, pTree0word], [sTreeAlign2, pTree0wordRec], [sTreeAlign2, pTree1word], [sTreeAlign2, pTree1wordRec], [sTreeAlign2, pTree1word2xRec], [sTreeAlign2, pTree2words]];
+	var candidateSet = [[sTreeAlign1, addJapaneseTones(pTree3words)], [sTreeAlign1, addJapaneseTones(pTree4words)], [sTreeAlign1, addJapaneseTones(pTree4wordsRec)], [sTreeAlign1, addJapaneseTones(pTree4words2xRec)]];
 		
 	function runDemo() {
 		
-		writeTableau(makeTableau(candidateSet2, constraintSetAlign));
+		writeTableau(makeTableau(candidateSet, constraintSetAlign, {showTones: true}));
 		revealNextSegment();
 		lastSegmentId++;
 	}

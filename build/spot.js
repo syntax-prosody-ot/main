@@ -2999,16 +2999,17 @@ function makeTableau(candidateSet, constraintSet, options){
 	//Assess violations for each candidate.
 	for(var i = 0; i < candidateSet.length; i++){
 		var candidate = candidateSet[i];
-		var violations = [options.inputTypeString ? candidate[1] : parenthesizeTree(globalNameOrDirect(candidate[1]))];
+		var ptreeStr = options.inputTypeString ? candidate[1] : parenthesizeTree(globalNameOrDirect(candidate[1]), {showTones: options.showTones});
+		var tableauRow = [ptreeStr];
 		for(var j = 0; j < constraintSet.length; j++){
 			var constraintAndCat = constraintSet[j].split('-');
 			//var numViolations = runConstraint(constraintAndCat[0], candidate[0], candidate[1], constraintAndCat[1]); ++lastSegmentId; // show log of each constraint run
 			var oldDebugOn = logreport.debug.on;
 			logreport.debug.on = false;
 			var numViolations = globalNameOrDirect(constraintAndCat[0])(getCandidate(candidate[0]), getCandidate(candidate[1]), constraintAndCat[1]); logreport.debug.on = oldDebugOn; // don't show the log of each constraint run
-			violations.push(numViolations);
+			tableauRow.push(numViolations);
 		}
-		tableau.push(violations);
+		tableau.push(tableauRow);
 	}
 	return tableau;
 }
@@ -3037,6 +3038,7 @@ function tableauToHtml(tableau) {
 		return '';
 	var htmlChunks = ['<table class="tableau"><thead><tr>'];
 	var headers = tableau[0] || [];
+	htmlChunks.push('<th></th>');
 	for (var j = 0; j < headers.length; j++) {
 		htmlChunks.push('<th>');
 		htmlChunks.push(headers[j]);
@@ -3045,6 +3047,7 @@ function tableauToHtml(tableau) {
 	htmlChunks.push('</tr></thead><tbody>');
 	for (var i = 1; i < tableau.length; i++) {
 		htmlChunks.push('<tr>');
+		htmlChunks.push('<td>' + i + '.</td>');
 		for (var j = 0; j < tableau[i].length; j++) {
 			htmlChunks.push(j ? '<td>' : '<td class="candidate">');
 			htmlChunks.push(tableau[i][j]);
