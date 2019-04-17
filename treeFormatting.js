@@ -51,7 +51,7 @@ function parenthesizeTree(tree, options){
 				if(toneIdDiff > 0)
 					parTree.push(' '.repeat(toneIdDiff));
 				if(toneIdDiff < 0)
-					toneTree.push(' '.repeat(toneIdDiff));
+					toneTree.push(' '.repeat(-toneIdDiff));
 			}
 		}
 		//	parTree.push(node.id.split('_')[0]);
