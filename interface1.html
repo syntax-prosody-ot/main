@@ -398,22 +398,27 @@
 				<hr style="margin-top: 20px">
 				<h2>Gen options</h2>
 				Generate only prosodic trees that obey...<br/>
+				<table class="spaceytable"><tbody>
+					<tr>
+						<td><input type="checkbox" name="genOptions" value="obeysNonrecursivity">Non-recursivity (all levels)</td>
+						<td><input type="checkbox" name="genOptions" value="obeysHeadedness">Headedness (all levels)</td>
+						<td><input type="checkbox" name="genOptions" value="requirePhiStem">Require &phiv; Stem</td>
+						<td><input type="checkbox" name="genOptions" id="exhaustivityBox" value="obeysExhaustivity">Exhaustivity</td>
+					</tr>
+					<tr id="exhaustivityDetailRow" style="display: none">
+						<td><div id="exhaustivityLabelContainer">Enforce Exhaustivity at...</div></td>
+						<td><div id="exhaustivityCatContainer">
+							<input type="checkbox" name="exhaustivityCats" value="i" checked="checked">&iota;&nbsp;&nbsp;
+							<input type="checkbox" name="exhaustivityCats" value="phi" checked="checked">&phiv;&nbsp;&nbsp;
+							<input type="checkbox" name="exhaustivityCats" value="w" checked="checked">&omega;
+						</div></td>
+					</tr>
+				</tbody></table>
+				<i>Other Gen options:</i><br/>
 				<table class="spaceytable"><tbody><tr>
-					<td><input type="checkbox" name="genOptions" value="obeysNonrecursivity">Non-recursivity (all levels)</td>
-					<td><input type="checkbox" name="genOptions" value="obeysHeadedness">Headedness (all levels)</td>
-					<td><input type="checkbox" name="genOptions" value="requirePhiStem">Require &phiv; Stem</td>
-					<td><input type="checkbox" name="genOptions" id="exhaustivityBox" value="obeysExhaustivity">Exhaustivity</td>
-					</tr>
-					</tr>
-					<td><div id="exhaustivityLabelContainer" style="display: none">Enforce Exhaustivity at...</div></td>
-					<td><div id="exhaustivityCatContainer" style="display: none">
-						<input type="checkbox" name="exhaustivityCats" value="i" checked="checked">&iota;&nbsp;&nbsp;
-						<input type="checkbox" name="exhaustivityCats" value="phi" checked="checked">&phiv;&nbsp;&nbsp;
-						<input type="checkbox" name="exhaustivityCats" value="w" checked="checked">&omega;
-					</div></td>
+					<td><input type="checkbox" name="genOptions" value="addTones">Include tones</td>
 				</tr></tbody></table>
-				<small>Checking a box will tell Gen not to produce certain trees. N.B. Gen currently only creates recursion at the &phiv; level.</small><br/>
-				
+				<small>Checking a box will tell Gen not to produce certain trees, or to annotate the trees. N.B. Gen currently only creates recursion at the &phiv; level.</small><br/>
 				<hr/>
 				
 				<h2>Optional: Input string(s) for Gen (to create output candidate prosodic trees)</h2>

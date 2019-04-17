@@ -118,7 +118,7 @@ function addJapaneseTones(ptree){
 		else if(ptree.cat==='phi'){
 			//Non-maximal phi following a pitch-drop is assigned a downstepped LH
 			if(parentCat === 'phi' && afterA){
-				pTree.tones = 'L!H';
+				ptree.tones = 'L!H';
 			}
 			//Otherwise, LH is not downstepped
 			else{
@@ -2630,7 +2630,7 @@ window.addEventListener('load', function(){
 			var candidateSet = GEN(sTree, pString, genOptions);
 			
 			//Make the violation tableau with the info we just got.
-			var tabl = makeTableau(candidateSet, constraintSet);
+			var tabl = makeTableau(candidateSet, constraintSet, {showTones: genOptions.addTones});
 			csvSegs.push(tableauToCsv(tabl, ',', {noHeader: i}));
 			writeTableau(tabl);
 			revealNextSegment();
@@ -2656,8 +2656,7 @@ window.addEventListener('load', function(){
 	};
 	
 	document.getElementById('exhaustivityBox').addEventListener('click', function(){
-		document.getElementById('exhaustivityLabelContainer').style.display = 'block';
-		document.getElementById('exhaustivityCatContainer').style.display = 'block';
+		document.getElementById('exhaustivityDetailRow').style.display = 'block';
 		});
 	
 	//Code for generating the JS for a syntactic tree
@@ -3025,8 +3024,14 @@ function tableauToCsv(tableau, separator, options) {
         var headerRow = ['', '', ''].concat(tableau[0].slice(1, tableau[0].length));
         lines.push(headerRow.join(separator));
     }
+	var lineBreakRegex = /\n/g;
 	for (var i = 1; i < tableau.length; i++) {
 		var row = [(i === 1) ? synTree : '', tableau[i][0], ''].concat(tableau[i].slice(1, tableau[i].length));
+		for (var j = 0; j < row.length; j++) {
+			if (typeof row[j] === 'string') {
+				row[j] = '"' + row[j] + '"';
+			}
+		}
 		// TODO: handle special characters (i.e.: cell values containing either double quotes or separator characters) 
 		lines.push(row.join(separator));
 	}
@@ -3120,6 +3125,6 @@ function parenthesizeTree(tree, options){
 	processNode(tree);
 	guiTree = parTree.join('');
 	if(showTones)
-		guiTree = guiTree + ' \n' + toneTree.join('');
+		guiTree = guiTree + '\n' + toneTree.join('');
 	return guiTree;
 }

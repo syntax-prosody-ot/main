@@ -24,7 +24,7 @@ function addJapaneseTones(ptree){
 		else if(ptree.cat==='phi'){
 			//Non-maximal phi following a pitch-drop is assigned a downstepped LH
 			if(parentCat === 'phi' && afterA){
-				pTree.tones = 'L!H';
+				ptree.tones = 'L!H';
 			}
 			//Otherwise, LH is not downstepped
 			else{

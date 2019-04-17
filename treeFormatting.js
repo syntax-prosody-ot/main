@@ -60,6 +60,6 @@ function parenthesizeTree(tree, options){
 	processNode(tree);
 	guiTree = parTree.join('');
 	if(showTones)
-		guiTree = guiTree + ' \n' + toneTree.join('');
+		guiTree = guiTree + '\n' + toneTree.join('');
 	return guiTree;
 }

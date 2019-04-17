@@ -301,7 +301,7 @@ window.addEventListener('load', function(){
 			var candidateSet = GEN(sTree, pString, genOptions);
 			
 			//Make the violation tableau with the info we just got.
-			var tabl = makeTableau(candidateSet, constraintSet);
+			var tabl = makeTableau(candidateSet, constraintSet, {showTones: genOptions.addTones});
 			csvSegs.push(tableauToCsv(tabl, ',', {noHeader: i}));
 			writeTableau(tabl);
 			revealNextSegment();
@@ -327,8 +327,7 @@ window.addEventListener('load', function(){
 	};
 	
 	document.getElementById('exhaustivityBox').addEventListener('click', function(){
-		document.getElementById('exhaustivityLabelContainer').style.display = 'block';
-		document.getElementById('exhaustivityCatContainer').style.display = 'block';
+		document.getElementById('exhaustivityDetailRow').style.display = 'block';
 		});
 	
 	//Code for generating the JS for a syntactic tree
