@@ -92,7 +92,81 @@ function containsIds(a, b){
 
 
 
-/* Binarity that cares about the number of branches */
+/* Function that takes a prosodic tree and returns a version annotated it with the phonological tones that it would have in Japanese or Lekeitio Basque.
+Tones:
+	A -> H*L
+	left edge of phi -> LH on initial word
+	H following H*L within a maximal phi -> !H (downstep)
+Arguments:
+	ptree = a prosodic tree
+	parentCat = prosodic category of ptree's parent
+	afterA = is there a preceding accent in this phi?
+*/
+function addJapaneseTones(ptree){
+	
+	function addJapaneseTonesInner(ptree, parentCat, afterA){
+		//Iota: No tonal diagnostics; just call recursively on the children
+		if(ptree.cat==='i'){
+			if(ptree.children && ptree.children.length){
+				for(var child in ptree.children)
+				{
+					child = addJapaneseTonesInner(ptree.children[child], ptree.cat, false)[0];
+				}
+			}
+		}
+		//Phi: domain for downstep
+		else if(ptree.cat==='phi'){
+			//Non-maximal phi following a pitch-drop is assigned a downstepped LH
+			if(parentCat === 'phi' && afterA){
+				ptree.tones = 'L!H';
+			}
+			//Otherwise, LH is not downstepped
+			else{
+				ptree.tones = 'LH';
+			}
+			
+			if(ptree.children && ptree.children.length){			
+				for(var child in ptree.children)
+				{
+				outputs = addJapaneseTonesInner(ptree.children[child], ptree.cat, afterA);
+					child = outputs[0];
+					afterA = outputs[1];
+				}
+			}
+		}
+		
+		else if(ptree.cat === 'w'){
+			//Unaccented w
+			if(!ptree.accent){
+				ptree.accent = ptree.id.split('_')[0];
+			}
+			if(ptree.accent === 'A' || ptree.accent === 'a'){
+				ptree.tones = 'H*L';
+				if(afterA)
+					ptree.tones = '!H*L';
+				afterA = true;
+			}
+			//Accented w
+			else{
+				ptree.tones = '-';
+			}
+			//this is only necessary if we have recursive prosodic words...
+			// if(
+			// outputs = addJapaneseTonesInner(child, ptree.cat, afterA);
+			// child = outputs[0];
+			// afterA = outputs[1];
+		}
+		
+		else{
+			console.log("Unrecognized prosodic category"+ptree.cat);
+			ptree.tones = '-';
+		}
+		
+		return [ptree, afterA];
+	}
+	
+	return addJapaneseTonesInner(ptree)[0];
+}/* Binarity that cares about the number of branches */
 
 //sensitive to the category of the parent only (2 branches of any type is acceptable)
 function binMinBranches(s, ptree, cat){
@@ -2048,8 +2122,13 @@ function deduplicateTerminals(terminalList) {
 var phiNum = 0;
 var wNum = 0;
 
-//takes a list of words and returns the candidate set of trees (JS objects)
-//options is an object consisting of the parameters of GEN. Its properties can be obeysExhaustivity (boolean or array of categories at which to require conformity to exhaustivity), obeysHeadedness (boolean), and obeysNonrecursivity (boolean).
+/* Takes a list of words and returns the candidate set of trees (JS objects)
+   Options is an object consisting of the parameters of GEN. Its properties can be: 
+   - obeysExhaustivity (boolean or array of categories at which to require conformity to exhaustivity)
+   - obeysHeadedness (boolean)
+   - obeysNonrecursivity (boolean)
+   - addTones (boolean)
+*/
 window.GEN = function(sTree, words, options){
 	options = options || {}; // if options is undefined, set it to an empty object (so you can query its properties without crashing things)
 	
@@ -2096,6 +2175,8 @@ window.GEN = function(sTree, words, options){
 			continue;
 		if (options.obeysHeadedness && !iotaIsHeaded(iota))
 			continue;
+		if(options.addTones)
+			addJapaneseTones(iota);
 		candidates.push([sTree, iota]);
 	}
 	return candidates;
@@ -2549,7 +2630,7 @@ window.addEventListener('load', function(){
 			var candidateSet = GEN(sTree, pString, genOptions);
 			
 			//Make the violation tableau with the info we just got.
-			var tabl = makeTableau(candidateSet, constraintSet);
+			var tabl = makeTableau(candidateSet, constraintSet, {showTones: genOptions.addTones});
 			csvSegs.push(tableauToCsv(tabl, ',', {noHeader: i}));
 			writeTableau(tabl);
 			revealNextSegment();
@@ -2575,8 +2656,7 @@ window.addEventListener('load', function(){
 	};
 	
 	document.getElementById('exhaustivityBox').addEventListener('click', function(){
-		document.getElementById('exhaustivityLabelContainer').style.display = 'block';
-		document.getElementById('exhaustivityCatContainer').style.display = 'block';
+		document.getElementById('exhaustivityDetailRow').style.display = 'block';
 		});
 	
 	//Code for generating the JS for a syntactic tree
@@ -2918,16 +2998,17 @@ function makeTableau(candidateSet, constraintSet, options){
 	//Assess violations for each candidate.
 	for(var i = 0; i < candidateSet.length; i++){
 		var candidate = candidateSet[i];
-		var violations = [options.inputTypeString ? candidate[1] : parenthesizeTree(globalNameOrDirect(candidate[1]))];
+		var ptreeStr = options.inputTypeString ? candidate[1] : parenthesizeTree(globalNameOrDirect(candidate[1]), {showTones: options.showTones});
+		var tableauRow = [ptreeStr];
 		for(var j = 0; j < constraintSet.length; j++){
 			var constraintAndCat = constraintSet[j].split('-');
 			//var numViolations = runConstraint(constraintAndCat[0], candidate[0], candidate[1], constraintAndCat[1]); ++lastSegmentId; // show log of each constraint run
 			var oldDebugOn = logreport.debug.on;
 			logreport.debug.on = false;
 			var numViolations = globalNameOrDirect(constraintAndCat[0])(getCandidate(candidate[0]), getCandidate(candidate[1]), constraintAndCat[1]); logreport.debug.on = oldDebugOn; // don't show the log of each constraint run
-			violations.push(numViolations);
+			tableauRow.push(numViolations);
 		}
-		tableau.push(violations);
+		tableau.push(tableauRow);
 	}
 	return tableau;
 }
@@ -2943,8 +3024,14 @@ function tableauToCsv(tableau, separator, options) {
         var headerRow = ['', '', ''].concat(tableau[0].slice(1, tableau[0].length));
         lines.push(headerRow.join(separator));
     }
+	var lineBreakRegex = /\n/g;
 	for (var i = 1; i < tableau.length; i++) {
 		var row = [(i === 1) ? synTree : '', tableau[i][0], ''].concat(tableau[i].slice(1, tableau[i].length));
+		for (var j = 0; j < row.length; j++) {
+			if (typeof row[j] === 'string') {
+				row[j] = '"' + row[j] + '"';
+			}
+		}
 		// TODO: handle special characters (i.e.: cell values containing either double quotes or separator characters) 
 		lines.push(row.join(separator));
 	}
@@ -2956,6 +3043,7 @@ function tableauToHtml(tableau) {
 		return '';
 	var htmlChunks = ['<table class="tableau"><thead><tr>'];
 	var headers = tableau[0] || [];
+	htmlChunks.push('<th></th>');
 	for (var j = 0; j < headers.length; j++) {
 		htmlChunks.push('<th>');
 		htmlChunks.push(headers[j]);
@@ -2964,6 +3052,7 @@ function tableauToHtml(tableau) {
 	htmlChunks.push('</tr></thead><tbody>');
 	for (var i = 1; i < tableau.length; i++) {
 		htmlChunks.push('<tr>');
+		htmlChunks.push('<td>' + i + '.</td>');
 		for (var j = 0; j < tableau[i].length; j++) {
 			htmlChunks.push(j ? '<td>' : '<td class="candidate">');
 			htmlChunks.push(tableau[i][j]);
@@ -2974,32 +3063,68 @@ function tableauToHtml(tableau) {
 	htmlChunks.push('</tbody></table>');
 	return htmlChunks.join('');
 }
-//takes a [defualt=prosodic] tree and returns a string version where phi boundaries are marked with '(' ')'
+/* Function that takes a [default=prosodic] tree and returns a string version where phi boundaries are marked with '(' ')'
+   Possible options: 
+   - invisibleCategories: by default, i does not receive a visualization
+   - parens: default () can be changed to, e.g., [] for syntactic trees
+   - showTones: set to true to display whatever tones are in the tree
+	 (only useful if the tree has been annotated with tones, as by the function addJapaneseTones in annotate_tones.js)
+*/
 function parenthesizeTree(tree, options){
 	var parTree = [];
+	var toneTree = [];
 	options = options || {};
 	var invisCats = options.invisibleCategories || ['i'];
+	var showTones = options.showTones || false;
 	var parens = options.parens || '()';
 	
 	function processNode(node){
 		var nonTerminal = (node.children instanceof Array) && node.children.length;
 		var visible = invisCats.indexOf(node.cat) === -1;
 		if (nonTerminal) {
-			if (visible)
+			if (visible) {
 				parTree.push(parens[0]);
+				if(showTones){
+					toneTree.push(parens[0]);
+					if(node.tones){
+						toneTree.push(node.tones);
+						toneTree.push(' ');
+						var toneStringLength = node.tones.length+1;
+						parTree.push(' '.repeat(toneStringLength));
+					}
+				}
+			}
 			for(var i=0; i<node.children.length; i++){
 				processNode(node.children[i]);
-				if(i<node.children.length-1)
+				if(i<node.children.length-1){
 					parTree.push(' ');
+					if(showTones){
+						toneTree.push(' ');
+					}
+				}
 			}
-			if (visible)
+			if (visible){
 				parTree.push(parens[1]);
+				if(showTones)
+					toneTree.push(parens[1]);
+			}
 		} else if (visible) {
 			parTree.push(node.id);
+			if(showTones && node.tones){
+				toneTree.push(node.tones);
+				var toneIdDiff = node.tones.length - node.id.length;
+				if(toneIdDiff > 0)
+					parTree.push(' '.repeat(toneIdDiff));
+				if(toneIdDiff < 0)
+					toneTree.push(' '.repeat(-toneIdDiff));
+			}
 		}
 		//	parTree.push(node.id.split('_')[0]);
 	}
 	
 	processNode(tree);
-	return parTree.join('');
+	guiTree = parTree.join('');
+	if(showTones)
+		guiTree = guiTree + '\n' + toneTree.join('');
+	return guiTree;
 }

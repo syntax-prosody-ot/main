@@ -37,6 +37,8 @@
 }
 .tableau .candidate {
     font-weight: bold;
+	white-space: pre;
+	text-align: left;
 }
 
 .segment-hidden {
