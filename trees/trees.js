@@ -104,6 +104,32 @@ var prostree3 = {
 	]
 };
 
+var ex_violation_tree = {
+    "id": "iota",
+    "cat": "i",
+    "children": [
+        {
+            "cat": "w"
+        },
+        {
+            "cat": "phi",
+            "id": "phi",
+            "children": [
+                {
+                    "id": "b",
+                    "cat": "w"
+                },
+                {
+                    "id": "c",
+                    "cat": "w"
+                }
+            ]
+        }
+    ]
+}
+
+
+
 /*EqualSisters violations: should get 
 - 1 violation from equalSistersFirstPrivilege
 - 2 violations from equalSistersPairwise
