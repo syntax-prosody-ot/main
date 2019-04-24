@@ -18,21 +18,21 @@ var sTreeLuuu = {
 							"children":
 								[
 									{
-										"id":"u_0",
+										"id":"u",
 										"cat":"x0",
 										"accent":"u"
 									}
 								]
 						},
 						{
-							"id":"u_1",
+							"id":"u",
 							"cat":"x0",
 							"accent":"u"
 						}
 					]
 			},
 			{
-				"id":"u_2",
+				"id":"u",
 				"cat":"x0",
 				"accent":"u"
 			}
@@ -55,21 +55,21 @@ var sTreeLuaa = {
 							"children":
 								[
 									{
-										"id":"u_0",
+										"id":"u",
 										"cat":"x0",
 										"accent":"u"
 									}
 								]
 						},
 						{
-							"id":"a_1",
+							"id":"a",
 							"cat":"x0",
 							"accent":"a"
 						}
 					]
 			},
 			{
-				"id":"a_2",
+				"id":"a",
 				"cat":"x0",
 				"accent":"a"
 			}
@@ -92,21 +92,21 @@ var sTreeLuau = {
 							"children":
 								[
 									{
-										"id":"u_0",
+										"id":"u",
 										"cat":"x0",
 										"accent":"u"
 									}
 								]
 						},
 						{
-							"id":"a_1",
+							"id":"a",
 							"cat":"x0",
 							"accent":"a"
 						}
 					]
 			},
 			{
-				"id":"u_2",
+				"id":"u",
 				"cat":"x0",
 				"accent":"u"
 			}
@@ -129,21 +129,21 @@ var sTreeLuua = {
 							"children":
 								[
 									{
-										"id":"u_0",
+										"id":"u",
 										"cat":"x0",
 										"accent":"u"
 									}
 								]
 						},
 						{
-							"id":"u_1",
+							"id":"u",
 							"cat":"x0",
 							"accent":"u"
 						}
 					]
 			},
 			{
-				"id":"a_2",
+				"id":"a",
 				"cat":"x0",
 				"accent":"a"
 			}
@@ -166,21 +166,21 @@ var sTreeLaaa = {
 							"children":
 								[
 									{
-										"id":"a_0",
+										"id":"a",
 										"cat":"x0",
 										"accent":"a"
 									}
 								]
 						},
 						{
-							"id":"a_1",
+							"id":"a",
 							"cat":"x0",
 							"accent":"a"
 						}
 					]
 			},
 			{
-				"id":"a_2",
+				"id":"a",
 				"cat":"x0",
 				"accent":"a"
 			}
@@ -203,21 +203,21 @@ var sTreeLaau = {
 							"children":
 								[
 									{
-										"id":"a_0",
+										"id":"a",
 										"cat":"x0",
 										"accent":"a"
 									}
 								]
 						},
 						{
-							"id":"a_1",
+							"id":"a",
 							"cat":"x0",
 							"accent":"a"
 						}
 					]
 			},
 			{
-				"id":"u_2",
+				"id":"u",
 				"cat":"x0",
 				"accent":"u"
 			}
@@ -240,21 +240,21 @@ var sTreeLaua = {
 							"children":
 								[
 									{
-										"id":"a_0",
+										"id":"a",
 										"cat":"x0",
 										"accent":"a"
 									}
 								]
 						},
 						{
-							"id":"u_1",
+							"id":"u",
 							"cat":"x0",
 							"accent":"u"
 						}
 					]
 			},
 			{
-				"id":"a_2",
+				"id":"a",
 				"cat":"x0",
 				"accent":"a"
 			}
@@ -277,23 +277,25 @@ var sTreeLauu = {
 							"children":
 								[
 									{
-										"id":"a_0",
+										"id":"a",
 										"cat":"x0",
 										"accent":"a"
 									}
 								]
 						},
 						{
-							"id":"u_1",
+							"id":"u",
 							"cat":"x0",
 							"accent":"u"
 						}
 					]
 			},
 			{
-				"id":"u_2",
+				"id":"u",
 				"cat":"x0",
 				"accent":"u"
 			}
 		]
 };
+
+var threeWordAccentTreesLeftBranching = [sTreeLuuu, sTreeLuaa, sTreeLuau, sTreeLuua, sTreeLaaa, sTreeLaau, sTreeLaua, sTreeLauu];

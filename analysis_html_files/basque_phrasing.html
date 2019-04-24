@@ -2,13 +2,14 @@
 <head>
 	<title>SPOT investigation of Basque & Japanese phrasing</title>
 
-	<link rel="stylesheet" type="text/css" href="spot.css">
+	<link rel="stylesheet" type="text/css" href="../spot.css">
 
-	<script src="lib/jszip.min.js"></script>
+	<script src="../lib/jszip.min.js"></script>
 
 	<!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
 	(open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
-	<script src="build/spot.js"></script>	
+	<script src="../build/spot.js"></script>	
+	<script src="../constraints/nongeneral/japaneseBasqueConstraints2019.js"></script>
 	<script>
 	/*Custom constraints can be defined inside <script> tags, as here, or in a separate file which you can load, also using a script tag*/
 	function constraint1(stree, ptree, cat){
@@ -20,29 +21,34 @@
 	
 
 	<!--Change "YOUR_TREES_HERE" to the name of your tree file on the following line. Make sure your file is in main/trees-->
-	<script src="trees/accent_trees.js"></script>
-	
-			
+	<script src="../trees/left_branching_accent_trees_2_3_4_words.js"></script>
+				
 </head>
 
 <body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
-	<h2>MY ANALYSIS: investigation using SPOT</h2>
+	<h2>Basque and Japanese phrasing: investigation using SPOT</h2>
 	<pre id="results-container"></pre>
 
 <script>
 	// ---- Variables that need to be customized ----
-	var sTreeList = [sTree1, sTree2];
+	var sTreeList = getAccentTrees();
 	
 	/*Constraint sets are defined below. You can change these or add your own. A constraint set is a list of constraint function names (refer to the files in constraints.js for names) + category arguments (separated from constraint names with -; refer to prosodicHierarchy.js for a list of defined categories).*/
-	var conMatch = ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj-phi', 'binMaxBranches-phi', 'binMinBranches-phi', 'accentAsHead-phi', 'noLapseL-phi'];
-	var conAlign = ['alignRight-xp', 'alignLeft-xp', 'wrap-xp', 'equalSistersAdj-phi'];
+	var conES2 = ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj-phi', 'equalSistersAdj_2-phi',
+						'binMaxBranches-phi', 'binMinBranches-phi', 'binMax2Words-phi',
+						'accentAsHead', 'noLapseL', 
+						'matchPS_nmin-phi','matchSP_nmin-xp', 'matchXPmax-xp'];
+	var conNoPostAcc = ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj-phi',
+						'binMaxBranches-phi', 'binMinBranches-phi', 'binMax2Words-phi',
+						'accentAsHead', 'noPostAccW',
+						'matchPS_nmin-phi','matchSP_nmin-xp', 'matchXPmax-xp'];
 	//var conOther = ['constraint1-xp','constraint2-phi', 'constraint3-w', 'etc-i'];
 	
-	/*A list of names for your constraint sets. These are used for naming the tableau csv files and finding the lists of constraint names. They need to match the variable names above.*/
-    var conNames = ['conMatch', 'conAlign'];
+	/*A list of names for constraint sets.*/
+    var conNames = ['conES2','conNoPostAcc'];
 	
 	//Candidate sets are generated with the options below.
-	var gen_options = {obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: false, addTones: true};
+	var gen_options = {obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: true, addTones: true};
 
 	
 	
@@ -55,18 +61,24 @@
         //For each syntactic tree in sTreeList, make a tableau using the current constraint set
         for(var j=0; j<sTreeList.length; j++){
             var currentSTree = globalNameOrDirect(sTreeList[j]); 
+			var leaves = getLeaves(currentSTree);
+			var wordList = [];
+			for(var i=0; i < leaves.length; i++){
+				wordList.push(leaves[i].id);
+			}
+			var wordString = wordList.join(' ');
 
             //Make the candidate set using the GEN function (defined in candidategenerator.js)
 			//Leave the 2nd argument as an empty string to scrape words from the terminals of the syntactic tree.
             var candSet = GEN(sTreeList[j], '', gen_options);
             
 			//Make the tableau using the makeTableau function (defined in tableauMaker.js)
-            var tabl = makeTableau(candSet, window[consName]);
+            var tabl = makeTableau(candSet, window[consName], {showTones: gen_options.addTones});
 			
 			//Write the tableau to the screen and reveal it -- only uncomment this if you don't have too many tableaux!
-			//writeTableau(tabl)
-			//revealNextSegment();
-			//lastSegmentId++;
+			writeTableau(tabl)
+			revealNextSegment();
+			lastSegmentId++;
 			
 			//Add the tableau from the current stree to cumulative tableau that is being built in csvSegs.
             csvSegs.push(tableauToCsv(tabl, '\t', {noHeader: j}));
