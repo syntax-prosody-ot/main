@@ -7,7 +7,7 @@
 	<!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
 	(open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
 	<script src="../build/spot.js"></script>
-	<script src="../constraints/binRightmost.js">
+	<script src="../constraints/binRightmost.js"></script>
 	
 </head>
 
@@ -18,20 +18,26 @@
 	
 	<script>
 	//create all the prosodic trees you need to test this constraint with here.
-	var syntree1 = {};
-	var pTree1 = {};
-	var pTree2 = {};
+	var syntree1 = {id:"sroot", cat:"cp", children: []};
+	var pTree1 = {
+					id: "i1", 
+					cat: "i", 
+					children: [
+						{id:"phi0",cat:"phi", children: [{id:"w1",cat:"w"}]}, 
+						{id:"phi0",cat:"phi", children: [{id:"w1",cat:"w"}]}
+						]
+				};
+	/*var pTree2 = {};
 	var pTree3 = {};
 	var pTree4 = {};
 	var pTree5 = {};
-	
-	var constraintSet = ['binMaxRight-phi'];
-	var candidateSet = [[syntree1, pTree1], [syntree1, pTree2], [syntree1, pTree3], 
-						[syntree1, pTree4], [syntree1, pTree5]];
+	*/
+	var constraintSet = ['binMaxBranches-phi'];
+	var candidateSet = [[syntree1, pTree1]];//, [syntree1, pTree2], [syntree1, pTree3], [syntree1, pTree4], [syntree1, pTree5]];
 		
 	function runDemo() {
 		
-		writeTableau(makeTableau(candidateSetMin, constraintSet));
+		writeTableau(makeTableau(candidateSet, constraintSet));
 		revealNextSegment();
 		lastSegmentId++;
 	}
