@@ -47,3 +47,12 @@ pCat.nextLower = function(cat) {
 }
 //pCat(type1).isHigherThan(type2)
 
+function nodeHasLowerCat(node1, node2){
+	if(pCat.isLower(node1.cat, node2.cat)){
+		return true;
+	}
+	else if(node1.cat===node2.cat && isMinimal(node1) && !isMinimal(node2)){
+		return true;
+	}
+	else return false;
+}
