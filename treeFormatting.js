@@ -9,7 +9,7 @@ function parenthesizeTree(tree, options){
 	var parTree = [];
 	var toneTree = [];
 	options = options || {};
-	var invisCats = options.invisibleCategories || ['i'];
+	var invisCats = options.invisibleCategories || ['i', 'cp'];
 	var showTones = options.showTones || false;
 	var parens = options.parens || '()';
 	
