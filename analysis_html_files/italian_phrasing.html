@@ -25,6 +25,7 @@
 	<script src="../constraints/strongStart.js"></script>
 	<script src="../prosodicHierarchy.js"></script>
 	<script src="../constraints/nongeneral/japaneseBasqueConstraints2019.js"></script>
+	<script src="../constraints/nongeneral/binMax2words_maximalPhi.js"></script>
 				
 </head>
 
@@ -39,7 +40,7 @@
 	/*Constraint sets are defined below. You can change these or add your own. A constraint set is a list of constraint function names (refer to the files in constraints.js for names) + category arguments (separated from constraint names with -; refer to prosodicHierarchy.js for a list of defined categories).*/
 	var con1 = ['strongStart_Elfner_SubCat-allparents',
 				'matchSP-xp', 'matchPS-phi', 'matchXPmax-xp',
-				'binMinBranches-phi', 'binMax2Words-phi'];
+				'binMinBranches-phi', 'binMax2Words-phi', 'binMax2Words_maxPCat-phi'];
 	var con2 = ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj-phi',];
 	//var conOther = ['constraint1-xp','constraint2-phi', 'constraint3-w', 'etc-i'];
 	
@@ -47,7 +48,7 @@
     var conNames = ['con1'];
 	
 	//Candidate sets are generated with the options below.
-	var gen_options = {obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: false, addTones: false};
+	var gen_options = {obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: true, addTones: false};
 
 	
 	
