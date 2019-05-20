@@ -9,7 +9,7 @@ function binMaxRightParent(s, ptree, cat) {
     if (ptree.cat === cat) {
 	  //This condition needs to change to be general across categories -- don't just check for 'phi'
 	  // You'll need to look at prosodichierarchy.js to help you out here.
-    if (cat == 'phi') {
+    if (cat === 'phi') {
       var len = ptree.children.length - 1;
       var rightMost = ptree.children[len];
       if (rightMost.children.length > 2) {
