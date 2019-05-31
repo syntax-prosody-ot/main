@@ -33,7 +33,7 @@ var ptree_2phi_0v =
             ]
         }
     ]
-};
+}
 
 var ptree_3phi_1v
 //iota goes to three phis, the third phi has three words, incurring one violation
