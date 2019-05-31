@@ -20,22 +20,14 @@
 	<script>
 	//create all the prosodic trees you need to test this constraint with here.
 	var syntree1 = {id:"sroot", cat:"cp", children: []};
-	var pTree1 = {
-					id: "i1", 
-					cat: "i", 
-					children: [
-						{id:"phi0",cat:"phi", children: [{id:"w1",cat:"w"}]}, 
-						{id:"phi0",cat:"phi", children: [{id:"w1",cat:"w"}]}
-						]
-				};
-				
-	/*var pTree2 = {};
+	var pTree1 = {};
+	var pTree2 = {};
 	var pTree3 = {};
 	var pTree4 = {};
 	var pTree5 = {};
-	*/
+	
 	var constraintSet = ['binMaxRightParent-iota', 'binMaxRightChild-phi'];
-	var candidateSet = [[syntree1, pTree1]]; [[syntree1, ptree_3phi_1v], [syntree1, ptree_2phi_1v], [syntree1, ptree_recurphi_0v]];
+	var candidateSet = [[syntree1, ptree_2phi_1v], [syntree1, ptree_2phi_0v], [syntree1, ptree_recurphi_0v], [syntree1, ptree_recurphi_0v_2], [syntree1, ptree_recurphi_1v], [syntree1, ptree_3phi_1v]];
 		
 	function runDemo() {
 		
