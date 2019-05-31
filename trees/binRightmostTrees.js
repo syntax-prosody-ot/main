@@ -1,4 +1,4 @@
-var ptree_2phi_0v =
+var  ptree_2phi_0v =
 // Iota branches to two phis. each phi is binary, no violations
 {
     "id": "CP1",
@@ -34,8 +34,8 @@ var ptree_2phi_0v =
         }
     ]
 }
-
-var ptree_3phi_1v
+;
+var ptree_3phi_1v =
 //iota goes to three phis, the third phi has three words, incurring one violation
 {
     "id": "CP1",
@@ -89,8 +89,8 @@ var ptree_3phi_1v
         }
     ]
 }
-
-var  ptree_2phi_1v
+;
+var  ptree_2phi_1v  =
 // iota branches to two phis, Right most phi as three w's. One violation
 {
     "id": "CP1",
@@ -130,9 +130,11 @@ var  ptree_2phi_1v
         }
     ]
 }
+;
+var ptree_recurphi_0v =
 
-var ptree_recurphi_0v
 // Recursive phi on the right. Right most phi has  two w's. No violations
+{
     "id": "CP1",
     "cat": "iota",
     "children": [
@@ -186,8 +188,8 @@ var ptree_recurphi_0v
         }
     ]
 }
-
-var ptree_recurphi_0v_2
+;
+var ptree_recurphi_0v_2 =
 
 // iota branches to two phis. The right phi is recursive.  From that phi, the right phi has two words whereas the left phi has three. No violations
 {
@@ -248,8 +250,8 @@ var ptree_recurphi_0v_2
         }
     ]
 }
-
-var ptree_recurphi_1v
+;
+var ptree_recurphi_1v =
 
 // Recursive phi on the right. Right most phi has  three w's.  One violation
 
@@ -311,3 +313,4 @@ var ptree_recurphi_1v
         }
     ]
 }
+;
