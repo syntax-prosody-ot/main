@@ -813,7 +813,7 @@ function accentAsHead(s, p, c){
 		}
 		
 		//if an accented word is discovered...
-		if(child.accent==="a" && child.cat==="w"){
+		if((child.accent==="a" || child.accent==='A') && child.cat==="w"){
 			aCount++;
 			//console.log("child.id ("+child.id+") is an accented word. aCount = "+aCount);
 		}
@@ -860,14 +860,14 @@ function noLapseL(s, p, c){
         node = accentFromId(node);  //assign an accent if necessary
         
         if(node.cat==='w'){
-            if(node.accent==='a'){
+            if(node.accent==='a' || node.accent === 'A'){
                 spreadLow = true;
             }
             
             /* spreadLow will be true if no phi or iota left edge intervenes
                between the last accented word and the current word
             */ 
-            else if(spreadLow && node.accent==='u'){
+            else if(spreadLow && (node.accent==='u' || node.accent==='U')){
                 vCount++;
             }
         }
@@ -1016,26 +1016,26 @@ function hasMatch(sNode, pTree)
 }
 /****************
 * Function that implements Nonrecursivity, version 1:
-* "Assign a violation for every node of category x immediately dominated 
+* "Assign a violation for every node of category x immediately dominated
 * by another node of category x"
 ******************/
 
 function nonRec1(s, parent, cat){
-	
+
 	//Base case: if parent is a terminal, return 0 violations.
 	if (!parent.children){
 		return 0;
 	}
-	
+
 	//Recursive case: if parent is non-terminal, find out how many violations are in each of the subtrees rooted in its children
 	var vcount = 0;
 	var child;
-	
+
 	for (var i=0; i < parent.children.length; i++){
 		child = parent.children[i];
 		if (parent.cat===cat && child.cat===cat){
 			vcount++;
-		}		
+		}
 		vcount+=nonRec1(s, child, cat);
 	}
 	return vcount;
@@ -1044,7 +1044,7 @@ function nonRec1(s, parent, cat){
 
 /* Non-recursivity, Truckenbrodt style:
 *  "Any two p-phrases that are not disjoint in extension are identical in extension."
-*  For every node x of category p dominated by another node y of category p, 
+*  For every node x of category p dominated by another node y of category p,
 *  assign a violation for every leaf dominated by y that is not also dominated by x.
 */
 function nonRecTruckenbrodt(s, parent, cat){
@@ -1052,10 +1052,10 @@ function nonRecTruckenbrodt(s, parent, cat){
 	if(!parent.children||(parent.children.length===0)){
 		return 0;
 	}
-	
+
 	var vcount=0;
 	var child;
-	
+
 	for(var i=0; i<parent.children.length; i++){
 		child = parent.children[i];
 		if(parent.cat===cat && child.cat===cat){
@@ -1079,7 +1079,73 @@ function leafDifferenceSize(x,y){
 	}
 	return y.length-x.length;
 }
-	
+
+/* Nonrecursivity, Pairwise (Max Tarlov)
+"Assign a violation for every pair of nodes a and b such that a and b are both
+of category c and a dominates b."
+
+This constraint requires two recursive function calls, one for each member of
+the pair. nonRecPairs (the main constraint function) deals primarily with the
+parent node and will call the helper function numOfCats, which returns a value
+representing the number of occurances of nodes which match the category c in
+a child of the parent node. This may be just one if the child is terminal or
+dominates no nodes of category c.
+
+In theory, this constraint should evaluate all pairs of nodes, but the functions
+here will only evaluate pairs where a dominates b. This is ok because a must
+dominate b for the pair to incur a violation.
+*/
+
+function nonRecPairs(s, parent, c){ //markedness constraint, s argument is for consistancy
+	var vcount = 0; //number of violations counted in this function call (return)
+	var child; //a child of parent (from array parent.children[])
+
+	//Base case: if parent is a terminal, return 0 violations.
+	if (!parent.children){
+		return 0;
+	}
+
+	//also return 0 if the parent is not of category c:
+	else if (parent.cat !== c) {//nonRec1 uses strict comparison, so I will too, don't know why, though.
+		return 0;
+	}
+
+	//Recursivity case: if parent is non-terminal and of category c, start counting violations.
+	else{
+		for (var i = 0; i < parent.children.length; i ++ ) {
+			child = parent.children[i];//new name, to avoid confusion and for consistency
+			//add the number of nodes of cat c in the substructure/node child:
+			vcount += numOfCats(child, c);
+			//run this function on the substructure child and add to vcount
+			vcount += nonRecPairs(s, child, c);//recursive function call
+		}
+		return vcount;
+	}
+}
+
+/*
+Helper function to count the number of nodes in a substructure which are of the
+category c. Called by nonRecPairs if a node is of the right catogory and is
+non-terminal
+*/
+function numOfCats(p, c){//not a constraint, does not require s
+	var occurances = 0; //number of nodes of category c (return this)
+	if (p.cat === c){ //nonRec1 uses strict comparison
+		occurances ++;
+	}
+	//count the number of children of category c
+	if (p.children){
+		for (var i = 0; i < p.children.length; i ++){
+			var child = p.children[i];
+			occurances += numOfCats(child, c);//recursive function call
+		}
+	}
+	return occurances;
+	/*
+	since prosodic trees may not be properly layered, numOfCats must inspect
+	children even if the parent is not of the relevant category
+	*/
+}
 
 /*
 Returns true if node does not dominate any other nodes of its category
@@ -1105,7 +1171,8 @@ function isMinimal(node){
 }
 
 /*
-Returns true if parent.cat is of a higher level than child.cat
+Returns true even if parent.cat is of a higher level than child.cat
+(i.e, assumes layering)
 To be revised!!!
 For the long run, Ozan suggests pre-processing trees to mark every node as minimal/maximal.
 */
@@ -1129,7 +1196,7 @@ function isMaximal(parent, child){
 var sCat = ["cp", "xp", "x0"];
 
 function markMinMax(mytree, parcat){
-	// Check for maximality
+	// Check for maximalitys
 	if(!mytree.hasOwnProperty('isMax')){
 		mytree.isMax = (mytree.cat !== parcat)
 	}
@@ -1167,7 +1234,6 @@ function markMinMax(mytree, parcat){
 */
 
 function strongStart_Elfner(s, ptree, k){
-	console.log("strongStart_Elfner call");
 
 	//base case: ptree is a leaf or only has one child
 	if(!ptree.children){
@@ -1199,7 +1265,81 @@ function strongStart_Elfner(s, ptree, k){
 	
 	return vcount;
 }
-/*KEY FOR REPRESENTATIONS
+
+/* Assign a violation for every node of category cat whose leftmost daughter constituent
+*  and is lower in the prosodic hierarchy than its sister constituent immediately to its right.
+*  (intuitive strong start, according to the intuition of Bellik & Kalivoda 2019)
+*/
+
+function strongStart(s, ptree, cat){
+
+	//base case: ptree is a leaf or only has one child
+	if(!ptree.children){
+		return 0;
+	}
+	
+	var vcount = 0;
+	
+	if(ptree.cat === cat && ptree.children.length>1){		
+		var leftmostCat = ptree.children[0].cat;
+		var sisterCat = ptree.children[1].cat;
+		
+		//console.log(leftmostCat);
+		//console.log(sisterCat);
+		//console.log(pCat.isLower(leftmostCat, sisterCat));
+
+		if(pCat.isLower(leftmostCat, sisterCat))
+		{
+			vcount++;
+		}
+	}
+	
+	// Recurse
+	for(var i=0; i<ptree.children.length; i++){
+		child = ptree.children[i];
+		vcount += strongStart(s, child, cat);
+	}
+	
+	return vcount;
+}
+
+/* Assign a violation for every node of category cat whose leftmost daughter constituent
+*  and is lower in the prosodic hierarchy than its sister constituent immediately to its right.
+*  Sensitive to whether nodes are (non)minimal: phi min is lower than phi non-min
+*  Not sensitive to the category of the parent.
+*  (Van Handel's strongStart from SPOT2 2019)
+*/
+
+function strongStart_Elfner_SubCat(s, ptree, cat){
+	//base case: ptree is a leaf or only has one child
+	if(!ptree.children){
+		return 0;
+	}
+	
+	var vcount = 0;
+	
+	if(ptree.children.length>1){		
+		var leftmost = ptree.children[0];
+		var sister = ptree.children[1];
+		
+		//console.log(leftmostCat);
+		//console.log(sisterCat);
+		//console.log(pCat.isLower(leftmostCat, sisterCat));
+		
+		if(nodeHasLowerCat(leftmost, sister))
+		{
+			vcount++;
+		}
+	}
+	
+	// Recurse
+	for(var i=0; i<ptree.children.length; i++){
+		child = ptree.children[i];
+		vcount += strongStart_Elfner_SubCat(s, child, cat);
+	}
+	
+	return vcount;
+}/*KEY FOR REPRESENTATIONS
 	
 	<	left of stressed syllable
 	>   right of stressed syllable

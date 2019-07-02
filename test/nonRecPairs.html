@@ -1,0 +1,84 @@
+<!-- Max Tarlov 7/1/19 testing nonRecPairs -->
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="../spot.css">
+		<script src="../build/spot.js"></script>
+		<script src="../build/constraints.js"></script>
+		<script src="../candidategenerator.js"></script>
+	</head>
+	<body>
+		<pre id="results-container"></pre>
+		<script>
+			var testTree ={
+    		"id": "one",
+    		"cat": "phi",
+    		"children": [
+        		{
+            		"id": "two",
+            		"cat": "phi"
+        		},
+        		{
+            		"cat": "phi",
+            		"id": "three",
+            		"children": [
+                		{
+                    		"cat": "phi",
+                    		"id": "four",
+                    		"children": [
+                        		{
+                            		"id": "five",
+                            		"cat": "phi"
+                        		},
+                        		{
+                            		"id": "six",
+                            		"cat": "w"
+                        		}
+                    		]
+                		},
+                		{
+                    		"id": "seven",
+                    		"cat": "phi"
+                		}
+            		]
+        			}
+    			]
+				}
+				var testTree1 ={
+	    		"id": "one",
+	    		"cat": "phi",
+	    		"children": [
+	        		{
+	            		"id": "two",
+	            		"cat": "phi"
+	        		},
+	        		{
+	            		"cat": "phi",
+	            		"id": "three",
+	            		"children": [
+	                		{
+	                    		"cat": "phi",
+	                    		"id": "four",
+	                    		"children": [
+	                        		{
+	                            		"id": "five",
+	                            		"cat": "phi"
+	                        		},
+	                        		{
+	                            		"id": "six",
+	                            		"cat": "phi"
+	                        		}
+	                    		]
+	                		},
+	                		{
+	                    		"id": "seven",
+	                    		"cat": "phi"
+	                		}
+	            		]
+	        			}
+	    			]
+					}
+
+			console.log("testTree incurs " + nonRecPairs("sTree", testTree, "phi") + " violations of Non-recursivity (Pairwise)");
+		</script>
+	</body>
+</html>
