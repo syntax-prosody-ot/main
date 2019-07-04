@@ -1116,6 +1116,7 @@ function nonRecPairs(s, parent, c){ //markedness constraint, s argument is for c
 			child = parent.children[i];//new name, to avoid confusion and for consistency
 			//add the number of nodes of cat c in the substructure/node child:
 			vcount += numOfCats(child, c);
+			console.log("Counting number of " + c + "'s dominated by " + parent.id);
 			//run this function on the substructure child and add to vcount
 			vcount += nonRecPairs(s, child, c);//recursive function call
 		}

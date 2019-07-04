@@ -1,5 +1,6 @@
 <!-- Max Tarlov 7/1/19 testing nonRecPairs -->
 <html>
+	<title>nonRecPairs Test</title>
 	<head>
 		<link rel="stylesheet" type="text/css" href="../spot.css">
 		<script src="../build/spot.js"></script>
@@ -7,9 +8,34 @@
 		<script src="../candidategenerator.js"></script>
 	</head>
 	<body>
-		<pre id="results-container"></pre>
+		<p><button type="button" onclick="fill()">Test</button></p>
+		<p>This first tree we will test has only Phi's: ((first)(((second)(third))(fourth))).
+			This should incur 12 violations of Pairwise Non-Recursivity. The SPOT
+			constraint nonRecPairs returns <b id=testOne>?</b> violations.</p>
+		<p>Next, we see that if we change the first terminal from a phi to a word,
+			the violation count should go down to 11. When fed into nonRecPairs, the
+			tree ({first}(((second)(third))(fourth))) returns<b id=testTwo>?</b>
+			violations.</p>
+		<p>So far nothing interesting about this constraint can be found, but if we
+			change a terminal farther down, the tree will incur fewer violations. The
+			fourth terminal is dominated by one more phi than the first, so if it is
+			changed to a word, the violation count should go down by one more than if
+			the first terminal is changed to a word. When ((first)(((second)(third)){fourth}))
+			is fed into nonRecPairs, <b id=testThree>?</b> violations are returned.</p>
+		<p>Similarly, the second terminal is dominated by one more phi than the fourth
+			and by two more than the first, so if it is changed to a word, it should
+			incur 9 violations. When ((first)(({second}(third))(fourth))) is fed into
+			nonRecPairs, <b id=testFour>?</b> violations are returned.</p>
+		<p>As a sanity check, I will test the tree ({first}(((second){third})(fourth)))
+			since it involves multiple words. This particular tree should incur 8 violations,
+			and nonRecParis returns <b id=testFive>?</b> violations.</p>
+		<p>The way Pairwise Non-recursivity is written, immediate domination is not
+			necessary to incur violations. The nonRecPairs function handles this, as
+			shown if we input a tree like this one, where a phi dominates an iota, which
+			dominates a phi: ((first)[((second)(third))(fourth)]). If all is functioning
+			properly, nonRecPais should return 7 violations. It returns <b id=testSix>?</b>.</p>
 		<script>
-			var testTree ={
+			var testTreeOne ={
     		"id": "one",
     		"cat": "phi",
     		"children": [
@@ -31,7 +57,7 @@
                         		},
                         		{
                             		"id": "six",
-                            		"cat": "w"
+                            		"cat": "phi"
                         		}
                     		]
                 		},
@@ -43,13 +69,14 @@
         			}
     			]
 				}
-				var testTree1 ={
+
+				var testTreeTwo ={
 	    		"id": "one",
 	    		"cat": "phi",
 	    		"children": [
 	        		{
 	            		"id": "two",
-	            		"cat": "phi"
+	            		"cat": "w"
 	        		},
 	        		{
 	            		"cat": "phi",
@@ -77,8 +104,152 @@
 	        			}
 	    			]
 					}
+					var testTreeThree ={
+		    		"id": "one",
+		    		"cat": "phi",
+		    		"children": [
+		        		{
+		            		"id": "two",
+		            		"cat": "phi"
+		        		},
+		        		{
+		            		"cat": "phi",
+		            		"id": "three",
+		            		"children": [
+		                		{
+		                    		"cat": "phi",
+		                    		"id": "four",
+		                    		"children": [
+		                        		{
+		                            		"id": "five",
+		                            		"cat": "phi"
+		                        		},
+		                        		{
+		                            		"id": "six",
+		                            		"cat": "phi"
+		                        		}
+		                    		]
+		                		},
+		                		{
+		                    		"id": "seven",
+		                    		"cat": "w"
+		                		}
+		            		]
+		        			}
+		    			]
+						}
+						var testTreeFour ={
+			    		"id": "one",
+			    		"cat": "phi",
+			    		"children": [
+			        		{
+			            		"id": "two",
+			            		"cat": "phi"
+			        		},
+			        		{
+			            		"cat": "phi",
+			            		"id": "three",
+			            		"children": [
+			                		{
+			                    		"cat": "phi",
+			                    		"id": "four",
+			                    		"children": [
+			                        		{
+			                            		"id": "five",
+			                            		"cat": "w"
+			                        		},
+			                        		{
+			                            		"id": "six",
+			                            		"cat": "phi"
+			                        		}
+			                    		]
+			                		},
+			                		{
+			                    		"id": "seven",
+			                    		"cat": "phi"
+			                		}
+			            		]
+			        			}
+			    			]
+							}
+							var testTreeFive ={
+				    		"id": "one",
+				    		"cat": "phi",
+				    		"children": [
+				        		{
+				            		"id": "two",
+				            		"cat": "w"
+				        		},
+				        		{
+				            		"cat": "phi",
+				            		"id": "three",
+				            		"children": [
+				                		{
+				                    		"cat": "phi",
+				                    		"id": "four",
+				                    		"children": [
+				                        		{
+				                            		"id": "five",
+				                            		"cat": "phi"
+				                        		},
+				                        		{
+				                            		"id": "six",
+				                            		"cat": "w"
+				                        		}
+				                    		]
+				                		},
+				                		{
+				                    		"id": "seven",
+				                    		"cat": "phi"
+				                		}
+				            		]
+				        			}
+				    			]
+								}
+								var testTreeSix ={
+					    		"id": "one",
+					    		"cat": "phi",
+					    		"children": [
+					        		{
+					            		"id": "two",
+					            		"cat": "phi"
+					        		},
+					        		{
+					            		"cat": "iota",
+					            		"id": "three",
+					            		"children": [
+					                		{
+					                    		"cat": "phi",
+					                    		"id": "four",
+					                    		"children": [
+					                        		{
+					                            		"id": "five",
+					                            		"cat": "phi"
+					                        		},
+					                        		{
+					                            		"id": "six",
+					                            		"cat": "phi"
+					                        		}
+					                    		]
+					                		},
+					                		{
+					                    		"id": "seven",
+					                    		"cat": "phi"
+					                		}
+					            		]
+					        			}
+					    			]
+									}
 
-			console.log("testTree incurs " + nonRecPairs("sTree", testTree, "phi") + " violations of Non-recursivity (Pairwise)");
+				function fill(){
+					document.getElementById("testOne").innerHTML = nonRecPairs("sTree", testTreeOne, "phi");
+					document.getElementById("testTwo").innerHTML = nonRecPairs("sTree", testTreeTwo, "phi");
+					document.getElementById("testThree").innerHTML = nonRecPairs("sTree", testTreeThree, "phi");
+					document.getElementById("testFour").innerHTML = nonRecPairs("sTree", testTreeFour, "phi");
+					document.getElementById("testFive").innerHTML = nonRecPairs("sTree", testTreeFive, "phi");
+					document.getElementById("testSix").innerHTML = nonRecPairs("sTree", testTreeSix, "phi");
+				}
+
 		</script>
 	</body>
 </html>
