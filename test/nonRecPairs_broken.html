@@ -16,7 +16,7 @@
 			constraint nonRecPairs returns <b id=testOne>?</b> violations.</p>
 		<p>Next, we see that if we change the first terminal from a phi to a word,
 			the violation count should go down to 11. When fed into nonRecPairs, the
-			tree ({first}(((second)(third))(fourth))) returns<b id=testTwo>?</b>
+			tree ({first}(((second)(third))(fourth))) returns <b id=testTwo>?</b>
 			violations.</p>
 		<p>So far nothing interesting about this constraint can be found, but if we
 			change a terminal farther down, the tree will incur fewer violations. The
@@ -36,6 +36,11 @@
 			shown if we input a tree like this one, where a phi dominates an iota, which
 			dominates a phi: ((first)[((second)(third))(fourth)]). If all is functioning
 			properly, nonRecPais should return 7 violations. It returns <b id=testSix>?</b>.</p>
+			<p>Finally, I couldn't quite get the writeTableau finction to work, but
+			here are all of the candidates and violations of Pairwise Non-Recursivity
+			for the syntax tree [[first second][third fourth]] (the brackets are all
+			xps).</p>
+			<p id="tableau">(Press Test)</p>
 		<script>
 			var testTreeOne ={
     		"id": "one",
@@ -71,6 +76,7 @@
         			}
     			]
 				}
+
 				var testTreeTwo ={
 	    		"id": "one",
 	    		"cat": "phi",
@@ -241,6 +247,7 @@
 					        			}
 					    			]
 									}
+
 				function fill(){
 					document.getElementById("testOne").innerHTML = nonRecPairs("sTree", testTreeOne, "phi");
 					document.getElementById("testTwo").innerHTML = nonRecPairs("sTree", testTreeTwo, "phi");
@@ -248,7 +255,65 @@
 					document.getElementById("testFour").innerHTML = nonRecPairs("sTree", testTreeFour, "phi");
 					document.getElementById("testFive").innerHTML = nonRecPairs("sTree", testTreeFive, "phi");
 					document.getElementById("testSix").innerHTML = nonRecPairs("sTree", testTreeSix, "phi");
+
+					/* still trying to get the tableau to work
+					var tableau = "Psudo Tableau: ";
+					for (var i = 0; i < theCandidates.length; i++){
+						var candidate = theCandidates[i];
+						tableau += candidate;
+						tabluea += nonRecPairs(sTree, candidate, "phi");
+						tableau += ", ";
+					}
+					document.getElementById("finalTest").innerHTML = tableau;
+					*/
 				}
+
+				//trying to implement GEN
+
+				var sTree = {
+    			"id": "xp_1",
+    			"cat": "xp",
+    			"children": [
+        		{
+		        	"cat": "xp",
+		          "id": "xp_2",
+		          "children": [
+	          		{
+	              	"id": "first",
+	                "cat": "x0"
+	              },
+	              {
+	               	"id": "second",
+	                "cat": "x0"
+	              }
+	            ]
+	        	},
+	        	{
+	            "cat": "xp",
+	            "id": "xp_3",
+	            "children": [
+	                {
+	                    "id": "third",
+	                    "cat": "x0"
+	                },
+	                {
+	                    "id": "fourth",
+	                    "cat": "x0"
+	                }
+	            	]
+	        		}
+	    			]
+					}
+
+				var theCandidates = GEN(sTree, 'first second third fourth', {"obeysExhaustivity":false});
+				/*
+				var con = ["nonRecPairs-phi", "nonRecPairs-w", "nonRecPairs-iota"];
+				window.addEventListener("load",function(){
+					writeTableau(makeTableau(theCandidates, con));
+					revealNextSegment();
+				});
+				/*
+
 		</script>
 	</body>
 </html>
