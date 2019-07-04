@@ -2751,7 +2751,7 @@ window.addEventListener('load', function(){
 		});
 	
 	//Code for generating the JS for a syntactic tree
-	var treeUIsTree;
+	var treeUIsTree, treeUIsTreeMap = {};
 	var treeTableContainer = document.getElementById('treeTableContainer');
 	
 	//Open the tree making GUI 
@@ -2773,8 +2773,7 @@ window.addEventListener('load', function(){
 		//Make the js tree (a dummy tree only containing the root CP)
 		treeUIsTree = UTree.fromTerminals(terminalList);
 		
-		treeTableContainer.innerHTML += treeUIsTree.toHtml();
-		refreshNodeEditingButtons();
+		refreshHtmlTree();
 		
 		document.getElementById('treeUIinner').style.display = 'block';
 	});
