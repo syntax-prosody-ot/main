@@ -2401,9 +2401,13 @@ function addPhiWrapped(candidates, options){
 }
 
 })();
+var uTreeCounter = 0;
+
 function UTree(root) {
 
+	var self = this;
 	this.root = root;
+	this.treeIndex = uTreeCounter++;
 	
 	this.nodeNum = 0;
 	this.nodeMap = {};
@@ -2457,6 +2461,10 @@ function UTree(root) {
 		processNode(this.root, this.root.height);
 		return table;
 	};
+
+	function makeElementId(elType, node) {
+		return [elType, node.m.nodeId, self.treeIndex].join('-');
+	}
 	
 	this.toHtml = function() {
 		var table = this.toTable();
@@ -2480,7 +2488,7 @@ function UTree(root) {
 					if (node.m.isRoot) {
 						nodeClasses += ' rootNode';
 					}
-					var catInputId = 'catInput-' + node.m.nodeId, idInputId = 'idInput-' + node.m.nodeId; 
+					var catInputId = makeElementId('catInput', node), idInputId = makeElementId('idInput', node);
 					rowFrags.push('<div id="treeNode-' + node.m.nodeId + '" class="' + nodeClasses + '" style="width: ' + pxWidth + 'px">' + stemContainer + '<div class="inputContainer"><input id="' + catInputId + '" class="catInput" type="text" value="' + node.cat + '"></input></div><div class="inputContainer"><input id="' + idInputId + '" class="idInput" type="text" value="' + node.id + '"></input></div></div>');
 				}
 			}
@@ -2543,6 +2551,7 @@ function UTree(root) {
 		delete this.nodeMap[node.m.nodeId];
 	};
 }
+
 UTree.fromTerminals = function(terminalList) {
 	var dedupedTerminals = deduplicateTerminals(terminalList);
 	
@@ -2561,6 +2570,17 @@ UTree.fromTerminals = function(terminalList) {
 	}
 	return new UTree(root);
 };
+
+function getSTrees() {
+	var spotForm = document.getElementById('spotForm');
+	var sTrees; 
+	sTrees = JSON.parse(spotForm.sTree.value);
+	if (!(sTrees instanceof Array)) {
+		sTrees = [sTrees];
+	}
+	return sTrees;
+
+}
 
 function danishTrees() {
 	var patterns = [
@@ -2667,10 +2687,7 @@ window.addEventListener('load', function(){
 		//Get the input syntactic tree.
 		var sTrees; 
 		try{
-			sTrees = JSON.parse(spotForm.sTree.value);
-			if (!(sTrees instanceof Array)) {
-				sTrees = [sTrees];
-			}
+			sTrees = getSTrees();
 		}
 		catch(e){
 			console.error(e);
@@ -2756,7 +2773,8 @@ window.addEventListener('load', function(){
 		//Make the js tree (a dummy tree only containing the root CP)
 		treeUIsTree = UTree.fromTerminals(terminalList);
 		
-		refreshHtmlTree();
+		treeTableContainer.innerHTML += treeUIsTree.toHtml();
+		refreshNodeEditingButtons();
 		
 		document.getElementById('treeUIinner').style.display = 'block';
 	});
@@ -2782,7 +2800,7 @@ window.addEventListener('load', function(){
 	//Look at the html tree and turn it into a JSON tree. Put the JSON in the following textarea.
 	document.getElementById('htmlToJsonTreeButton').addEventListener('click',function(){
 		if (treeUIsTree) {
-			spotForm.sTree.value = treeUIsTree.toJSON(); 
+			spotForm.sTree.value = treeUIsTree.toJSON();
 		}
 	});
 
