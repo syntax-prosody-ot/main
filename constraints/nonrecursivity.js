@@ -141,3 +141,39 @@ function numOfCats(p, c){//not a constraint, does not require s
 	line 71.
 	*/
 }
+
+/*Non-recursivity, assesed by parent node.
+*"Assign one violation for every node of category c that immideately dominates
+*at least one node of the category c."
+*
+*In general, this constraint will assign fewer violations than nonRec1 above.
+*/
+
+function nonRecParent(s, p, c){ //markedness constraint, s is for consistancy
+	var vcount = 0; //number of violations, return
+	var child; //p.children[i], see comment on variable's assignment (l. 165)
+	var doms = 0; //the number of nodes of category c immidately dominated by p
+
+	//base case: p has no children and cannot incur nonRec violations
+	if(!p.children){
+		return 0;
+	}
+
+	//otherwise, start counting violations
+	for (var i = 0; i < p.children.length; i ++){
+		child = p.children[i];
+		//if both parent and child are of the category c, add increase doms
+		if (p.cat === c && child.cat === c){
+			doms ++;
+		}
+		//run function on child as well, running through the whole tree
+		vcount += nonRecParent("sTree", child, c);//recursive function call
+	}
+
+	//if  parent has at least one child of the same category, assign a violation
+	if (doms > 0){
+		vcount ++;
+	}
+
+	return vcount;
+}
