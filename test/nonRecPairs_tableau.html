@@ -8,6 +8,8 @@
 		<script src="../candidategenerator.js"></script>
 	</head>
 	<body>
+		<pre id="results-container"></pre>
+	<!--
 		<p>This is the test document for the SPOT implementation of Pairwise Non-
 		recursivity. To get rid of the bolded question marks, pres the button below.</p>
 		<p><button type="button" onclick="fill()">Test</button></p>
@@ -41,6 +43,7 @@
 			for the syntax tree [[first second][third fourth]] (the brackets are all
 			xps).</p>
 			<p id="tableau">(Press Test)</p>
+		-->
 		<script>
 			var testTreeOne ={
     		"id": "one",
@@ -306,13 +309,11 @@
 					}
 
 				var theCandidates = GEN(sTree, 'first second third fourth', {"obeysExhaustivity":false});
-				/*
 				var con = ["nonRecPairs-phi", "nonRecPairs-w", "nonRecPairs-iota"];
 				window.addEventListener("load",function(){
 					writeTableau(makeTableau(theCandidates, con));
 					revealNextSegment();
 				});
-				/*
 
 		</script>
 	</body>

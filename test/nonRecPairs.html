@@ -36,6 +36,7 @@
 			shown if we input a tree like this one, where a phi dominates an iota, which
 			dominates a phi: ((first)[((second)(third))(fourth)]). If all is functioning
 			properly, nonRecPais should return 7 violations. It returns <b id=testSix>?</b>.</p>
+		<!-- Try with no violations -->
 		<script>
 			var testTreeOne ={
     		"id": "one",
@@ -248,6 +249,7 @@
 					document.getElementById("testFour").innerHTML = nonRecPairs("sTree", testTreeFour, "phi");
 					document.getElementById("testFive").innerHTML = nonRecPairs("sTree", testTreeFive, "phi");
 					document.getElementById("testSix").innerHTML = nonRecPairs("sTree", testTreeSix, "phi");
+					//add a tree for no violations
 				}
 		</script>
 	</body>
