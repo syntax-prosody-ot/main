@@ -28,6 +28,7 @@
 		<p>The function should return two violations for the tree ((first)((second)(third)))
 		since there are only two parents which immidiately dominate a node of the
 		same category. nonRecParent returns <b id="testThree">?</b> violations.</p>
+		<pre id="results-container"></pre>
 		<script>
 			var testTreeOne = {
 				"id" : "one",
@@ -88,6 +89,15 @@
 					document.getElementById("testTwo").innerHTML = nonRecParent("sTree", testTreeTwo, "phi");
 					document.getElementById("testThree").innerHTML = nonRecParent("sTree", testTreeThree, "phi");
 				}
+
+
+
+				var theCandidates = GEN("sTree", 'first second third fourth', {"obeysExhaustivity":false});
+				var con = ["nonRecParent-phi", "nonRecParent-w"];
+				window.addEventListener("load",function(){
+					writeTableau(makeTableau(theCandidates, con));
+					revealNextSegment();
+				});
 		</script>
 	</body>
 </html>
