@@ -1,4 +1,4 @@
-unction binaryRightmost(stree, ptree, cat)
+function binaryRightmost(stree, ptree, cat)
 {
 	var vcount=0;
 	var root = ptree;
