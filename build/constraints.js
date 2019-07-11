@@ -1168,6 +1168,7 @@ function markMinMax(mytree, parcat){
 */
 
 function strongStart_Elfner(s, ptree, k){
+	console.log("strongStart_Elfner", ptree, ptree.children);
 
 	//base case: ptree is a leaf or only has one child
 	if(!ptree.children){

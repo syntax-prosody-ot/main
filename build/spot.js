@@ -1168,6 +1168,7 @@ function markMinMax(mytree, parcat){
 */
 
 function strongStart_Elfner(s, ptree, k){
+	console.log("strongStart_Elfner", ptree, ptree.children);
 
 	//base case: ptree is a leaf or only has one child
 	if(!ptree.children){
@@ -2640,7 +2641,6 @@ window.addEventListener('load', function(){
 	spotForm.onsubmit=function(e){
 		if (e.preventDefault) e.preventDefault();
 		
-		
 		//Build a list of checked constraints.
 		var constraintSet = [];
 		for(var i=0; i<spotForm.constraints.length; i++){
@@ -2650,8 +2650,8 @@ window.addEventListener('load', function(){
 				//Figure out all the categories selected for the constraint
 				if(spotForm['category-'+constraint]){
 					var constraintCatSet = spotForm['category-'+constraint];
-					for(var i=0; i<constraintCatSet.length; i++){	
-						var categoryBox = constraintCatSet[i];
+					for(var j=0; j<constraintCatSet.length; j++){	
+						var categoryBox = constraintCatSet[j];
 						if(categoryBox.checked){
 							var category = categoryBox.value;
 							constraintSet.push(constraint+'-'+category);
@@ -2662,7 +2662,7 @@ window.addEventListener('load', function(){
 					constraintSet.push(constraint);
 			}
 		}
-		
+		console.log(constraintSet);
 		
 		//Get the input syntactic tree.
 		var sTrees; 

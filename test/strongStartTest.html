@@ -19,6 +19,38 @@
 	
 	<script>
 	//Some trees to run tests with.
+	var abtree = {
+		"id": "iota1",
+		"cat": "i",
+		"children": 
+		[
+			{
+				"id": "a",
+				"cat": "w"
+			},
+			{
+				"id":"b",
+				"cat":"w"
+			}
+		]		
+	};
+
+	var abtree_syll = {
+		"id": "iota1",
+		"cat": "i",
+		"children": 
+		[
+			{
+				"id": "a",
+				"cat": "syll"
+			},
+			{
+				"id":"b",
+				"cat":"w"
+			}
+		]		
+	};
+	
 	var zeroVtree1 = {
 		"id": "iota1",
 		"cat": "i",
@@ -60,6 +92,17 @@
 			{	"id":"phi2", "cat":"phi", "children":[{"id":"another word", "cat":"w"}]}
 		]		
 	};
+
+	var oneVtree1_clitic = {
+		"id": "phi1",
+		"cat": "phi",
+		"children": 
+		[
+			{	"id": "syll1",	"cat": "syll"},
+			{	"id":"phi2", "cat":"phi", "children":[{"id":"another word", "cat":"w"}]}
+		]		
+	};
+
 	//this tree violates layeredness
 	var twoVtree1 = {
 		"id": "iota1",
@@ -89,8 +132,8 @@
 	
 	var emptyTree = {};
 	
-	var constraintSet = ['strongStart_Elfner-w'];
-	var candidateSet = [['emptyTree', 'zeroVtree1'], ['emptyTree', 'zeroVtree2'], ['emptyTree', 'oneVtree1'], ['emptyTree', 'twoVtree1']];
+	var constraintSet = ['strongStart_Elfner-w', 'strongStart_Elfner-syll', 'strongStart-phi', 'strongStart-i'];
+	var candidateSet = [['emptyTree','abtree_syll'],['emptyTree', 'abtree'], ['emptyTree', 'oneVtree1_clitic'],['emptyTree', 'zeroVtree1'], ['emptyTree', 'zeroVtree2'], ['emptyTree', 'oneVtree1'], ['emptyTree', 'twoVtree1']];
 		
 	function runDemo() {
 		
