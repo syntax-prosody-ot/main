@@ -237,7 +237,6 @@ window.addEventListener('load', function(){
 	spotForm.onsubmit=function(e){
 		if (e.preventDefault) e.preventDefault();
 		
-		
 		//Build a list of checked constraints.
 		var constraintSet = [];
 		for(var i=0; i<spotForm.constraints.length; i++){
@@ -247,8 +246,8 @@ window.addEventListener('load', function(){
 				//Figure out all the categories selected for the constraint
 				if(spotForm['category-'+constraint]){
 					var constraintCatSet = spotForm['category-'+constraint];
-					for(var i=0; i<constraintCatSet.length; i++){	
-						var categoryBox = constraintCatSet[i];
+					for(var j=0; j<constraintCatSet.length; j++){	
+						var categoryBox = constraintCatSet[j];
 						if(categoryBox.checked){
 							var category = categoryBox.value;
 							constraintSet.push(constraint+'-'+category);
@@ -259,7 +258,6 @@ window.addEventListener('load', function(){
 					constraintSet.push(constraint);
 			}
 		}
-		
 		
 		//Get the input syntactic tree.
 		var sTrees; 
@@ -301,7 +299,7 @@ window.addEventListener('load', function(){
 			var candidateSet = GEN(sTree, pString, genOptions);
 			
 			//Make the violation tableau with the info we just got.
-			var tabl = makeTableau(candidateSet, constraintSet);
+			var tabl = makeTableau(candidateSet, constraintSet, {showTones: genOptions.addTones});
 			csvSegs.push(tableauToCsv(tabl, ',', {noHeader: i}));
 			writeTableau(tabl);
 			revealNextSegment();
@@ -327,8 +325,7 @@ window.addEventListener('load', function(){
 	};
 	
 	document.getElementById('exhaustivityBox').addEventListener('click', function(){
-		document.getElementById('exhaustivityLabelContainer').style.display = 'block';
-		document.getElementById('exhaustivityCatContainer').style.display = 'block';
+		document.getElementById('exhaustivityDetailRow').style.display = 'block';
 		});
 	
 	//Code for generating the JS for a syntactic tree

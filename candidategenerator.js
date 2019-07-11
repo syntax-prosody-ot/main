@@ -23,8 +23,13 @@ function deduplicateTerminals(terminalList) {
 var phiNum = 0;
 var wNum = 0;
 
-//takes a list of words and returns the candidate set of trees (JS objects)
-//options is an object consisting of the parameters of GEN. Its properties can be obeysExhaustivity (boolean or array of categories at which to require conformity to exhaustivity), obeysHeadedness (boolean), and obeysNonrecursivity (boolean).
+/* Takes a list of words and returns the candidate set of trees (JS objects)
+   Options is an object consisting of the parameters of GEN. Its properties can be: 
+   - obeysExhaustivity (boolean or array of categories at which to require conformity to exhaustivity)
+   - obeysHeadedness (boolean)
+   - obeysNonrecursivity (boolean)
+   - addTones (boolean)
+*/
 window.GEN = function(sTree, words, options){
 	options = options || {}; // if options is undefined, set it to an empty object (so you can query its properties without crashing things)
 	
@@ -71,6 +76,8 @@ window.GEN = function(sTree, words, options){
 			continue;
 		if (options.obeysHeadedness && !iotaIsHeaded(iota))
 			continue;
+		if(options.addTones)
+			addJapaneseTones(iota);
 		candidates.push([sTree, iota]);
 	}
 	return candidates;

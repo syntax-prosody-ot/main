@@ -37,7 +37,7 @@ function accentAsHead(s, p, c){
 		}
 		
 		//if an accented word is discovered...
-		if(child.accent==="a" && child.cat==="w"){
+		if((child.accent==="a" || child.accent==='A') && child.cat==="w"){
 			aCount++;
 			//console.log("child.id ("+child.id+") is an accented word. aCount = "+aCount);
 		}
@@ -84,14 +84,14 @@ function noLapseL(s, p, c){
         node = accentFromId(node);  //assign an accent if necessary
         
         if(node.cat==='w'){
-            if(node.accent==='a'){
+            if(node.accent==='a' || node.accent === 'A'){
                 spreadLow = true;
             }
             
             /* spreadLow will be true if no phi or iota left edge intervenes
                between the last accented word and the current word
             */ 
-            else if(spreadLow && node.accent==='u'){
+            else if(spreadLow && (node.accent==='u' || node.accent==='U')){
                 vCount++;
             }
         }
