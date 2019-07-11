@@ -1,10 +1,10 @@
 <html>
 	<head>
 		<title>SPOT Interface</title>
-		
+
 		<script src="build/spot.js"></script>
 		<link rel="stylesheet" type="text/css" href="spot.css">
-		
+
 		<style>
 			body {
 				margin: 0px;
@@ -105,7 +105,7 @@
 				font-size: 14px;
 				padding: 4px 8px;
 			}
-			button:hover { 
+			button:hover {
 				background-color: #546D8A;
 				border-color: #3A5370;
 			}
@@ -145,14 +145,14 @@
 			.constraint-selection-table tr:not(.constraint-checked) td:not(:first-child) {
 				visibility: hidden;
 			}
-			
+
 			.constraint-selection-table td:first-child {
 				font-variant: small-caps;
 				font-family: "Palatino Linotype", Garamond, serif;
 				letter-spacing: 0.07em;
 				font-size: 110%;
 			}
-			
+
 			.checkbox-set-indentation {
 				margin-left: 30px;
 			}
@@ -177,11 +177,11 @@
 				<li>The current implementation of Gen only produces recursion at the &phiv;-level, so candidates with recursive &iota;s or &omega;s will not be generated.</li>
 			</ul>
 			<form id="spotForm">
-				
+
 				<fieldset>
-				
+
 					<legend><h2>Syntax-prosody mapping constraints</h2></legend>
-				
+
 					<h3>Align/Wrap</h3>
 					<table class="constraint-selection-table">
 					<tbody>
@@ -205,7 +205,7 @@
 						</tr>
 					</tbody>
 					</table>
-				
+
 					<h3>Match Theory</h3>
 					<table class="constraint-selection-table">
 					<tbody>
@@ -223,17 +223,17 @@
 						</tr>
 					</tbody>
 					</table>
-				
+
 				</fieldset>
-				
+
 				<br/>
-				
+
 				<fieldset>
-				
+
 					<legend><h2>Binarity constraints</h2></legend>
-				
+
 					<h3>...counting branches</h3>
-				
+
 					<table class="constraint-selection-table">
 					<tbody>
 						<tr>
@@ -256,7 +256,7 @@
 						</tr>
 					</tbody>
 					</table>
-					
+
 					<h3>...counting words</h3>
 					<table class="constraint-selection-table">
 					<tbody>
@@ -281,11 +281,11 @@
 					</tbody>
 					</table>
 				</fieldset>
-				
+
 				<br/>
-				
+
 				<fieldset>
-				
+
 					<legend><h2>Markedness constraints on horizontal relationships</h2></legend>
 					<h3>EqualSisters</h3>
 					<table class="constraint-selection-table">
@@ -310,7 +310,7 @@
 						</tr>
 					</tbody>
 					</table>
-					
+
 					<h3>StrongStart</h3>
 					<table class="constraint-selection-table">
 					<tbody>
@@ -319,16 +319,17 @@
 							<td><input type="checkbox" name="category-strongStart_Elfner" value="i">&iota;</td>
 							<td><input type="checkbox" name="category-strongStart_Elfner" value="phi">&phiv;</td>
 							<td><input type="checkbox" name="category-strongStart_Elfner" value="w" checked="checked">&omega;</td>
+							<td><input type="checkbox" name="category-strongStart_Elfner" value="syll">&sigma;</td><!--not quite working yet, maybe GEN isn't generating structures that violate it yet-->
 						</tr>
 					</tbody>
 					</table>
-					
+
 				</fieldset>
-				
+
 				<br/>
-				
+
 				<fieldset>
-				
+
 					<legend><h2>Markedness constraints on vertical relationships</h2></legend>
 					<table class="constraint-selection-table">
 					<tbody>
@@ -349,10 +350,10 @@
 						</tr>
 					</tbody>
 					</table>
-					
+
 				</fieldset>
 				<br/>
-				
+
 				<fieldset>
 					<legend><h2>Japanese: constraints on accentedness</h2></legend>
 					<p>Current evaluation of these constraints requires the id's of all words to be 'a' or 'u'.</p>
@@ -361,7 +362,7 @@
 						<input type="checkbox" name="constraints" value="noLapseL"><b>NoLapse-L</b>: No accentual lapse. Assign a violation for every fully L-toned &omega;.<br/>
 					</div>
 				</fieldset>
-				
+
 				<br/>
 				<br/>
 				<hr/>
@@ -379,7 +380,7 @@
 	              			<button class="nodeEditingButton" id="treeUIdeleteNodes" type="button" disabled style="margin-right: 50px">Delete</button>
 	              			<button class="nodeEditingButton" id="treeUIclearSelection" type="button" disabled>Clear Selection</button>
 	              		</div>
-	              		
+
 	              		<br/>
 	                	<div id="treeTableContainer"></div>
 	                	<i><small>
@@ -390,11 +391,11 @@
 	            	</div>
 	            	<hr/>
 					<div style="display:none"><button id="danishJsonTreesButton" type="button">Danish Trees: generate s-tree code</button></div>
-					
+
 					<p><small><b>For manual tree entry:</b> Select a tree from your JavaScript tree file (pre-made trees are in the directory <i>main/trees</i>, and end with .js). Paste in the contents of JS file of your input syntactic tree (from the opening brace to the closing brace, removing any comments and excluding the final semi-colon). Note that if you're only using Markedness constraints, you can just keep the default value of an empty tree (like so: {}) as the syntactic input.</small></p>
 					<textarea class="stree-textarea" name="sTree" rows="15">{}</textarea>
 	            </div>
-				
+
 				<hr style="margin-top: 20px">
 				<h2>Gen options</h2>
 				Generate only prosodic trees that obey...<br/>
@@ -420,17 +421,17 @@
 				</tr></tbody></table>
 				<small>Checking a box will tell Gen not to produce certain trees, or to annotate the trees. N.B. Gen currently only creates recursion at the &phiv; level.</small><br/>
 				<hr/>
-				
+
 				<h2>Optional: Input string(s) for Gen (to create output candidate prosodic trees)</h2>
 				<p><i>Leave blank to get from syntatic tree(s)</i></p>
 				<p>Type the words that you want to be included in the output prosodic trees, separating them with spaces. Suffix a word with "-clitic" to map it to a syllable instead of &omega; in all prosodic trees.</p>
 				<p><b>N.B.</b> Input strings longer than 6 words may be very slow, and risk freezing your system.</p>
-				
+
 				<p>String of terminals: <input type="text" name="inputToGen"></p>
 				<!--
 				<p>Input 2: <input type="text" name="inputToGen"></p>
 				<p>Input 3: <input type="text" name="inputToGen"></p>
-				
+
 				-->
 				<div align="center"><button class="orange-button submit-button" type="submit">Submit</button>
 				<div align="left">
@@ -441,13 +442,13 @@
 				</ul>
 				</div>
 				<h2>Scroll down to see your results!</h2></div>
-			
+
 			</form>
-	
+
 			<pre id="results-container"></pre>
-	
+
 		</div>
 	</div>
-	
+
 	</body>
 </html>
