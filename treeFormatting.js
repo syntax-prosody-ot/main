@@ -5,7 +5,9 @@ var categoryBrackets = {
 	"xp": "[]",
 	"phi": "()",
 	"x0": ["[x0 ","]"],
-	"w": ["(w ", ")"]
+	"w": ["(w ", ")"],
+	"clitic": ["",""],
+	"syll": ["",""]
 };
 
 /* Function that takes a [default=prosodic] tree and returns a string version where phi boundaries are marked with '(' ')'
@@ -62,6 +64,9 @@ function parenthesizeTree(tree, options){
 			}
 		} else if (visible) {
 			parTree.push(node.id);
+			if(node.cat!='w' && node.cat!='x0'){
+				parTree.push('.'+node.cat);
+			}
 			if(showTones && node.tones){
 				toneTree.push(node.tones);
 				var toneIdDiff = node.tones.length - node.id.length;
