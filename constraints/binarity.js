@@ -9,7 +9,7 @@ function binMinBranches(s, ptree, cat){
 			vcount++;
 		}
 		for(var i = 0; i<ptree.children.length; i++){
-			
+
 			vcount += binMinBranches(s, ptree.children[i], cat);
 		}
 	}
@@ -38,7 +38,7 @@ function binMinBranchesInit(s, ptree, cat){
 			}
 			vcount += binMinBranchesInit(s, ptree.children[i], cat);
 		}
-		
+
 	}
 
 	return vcount;
@@ -165,19 +165,8 @@ function binMin2WordsGradient(s, ptree, cat){
 	return vcount;
 }
 
-/* Binarity constraints that care about the number of leaves 
-Note: relies on getLeaves. 
+/* Binarity constraints that care about the number of leaves
+Note: relies on getLeaves.
 In the future we might want to have structure below the level of the (terminal) word, e.g., feet
 and in that case would need a type-sensitive implementation of getLeaves
 */
-
-//INCOMPLETE
-function binMinLeaves(s, ptree, cat){
-	parentcat = cat[0];
-	childcat2 = cat[1];
-}
-
-//INCOMPLETE
-function binMaxLeaves(s, ptree, cat){
-
-}

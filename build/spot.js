@@ -177,7 +177,7 @@ function binMinBranches(s, ptree, cat){
 			vcount++;
 		}
 		for(var i = 0; i<ptree.children.length; i++){
-			
+
 			vcount += binMinBranches(s, ptree.children[i], cat);
 		}
 	}
@@ -206,7 +206,7 @@ function binMinBranchesInit(s, ptree, cat){
 			}
 			vcount += binMinBranchesInit(s, ptree.children[i], cat);
 		}
-		
+
 	}
 
 	return vcount;
@@ -333,22 +333,11 @@ function binMin2WordsGradient(s, ptree, cat){
 	return vcount;
 }
 
-/* Binarity constraints that care about the number of leaves 
-Note: relies on getLeaves. 
+/* Binarity constraints that care about the number of leaves
+Note: relies on getLeaves.
 In the future we might want to have structure below the level of the (terminal) word, e.g., feet
 and in that case would need a type-sensitive implementation of getLeaves
 */
-
-//INCOMPLETE
-function binMinLeaves(s, ptree, cat){
-	parentcat = cat[0];
-	childcat2 = cat[1];
-}
-
-//INCOMPLETE
-function binMaxLeaves(s, ptree, cat){
-
-}
 function isInArray(myArray, x)
 {
 	var answer = false;
@@ -1191,6 +1180,29 @@ function nonRecParent(s, p, c){ //markedness constraint, s is for consistancy
 		vcount ++;
 	}
 
+	return vcount;
+}
+
+
+/*Changed name of nonRec1 to nonRecChild. copy needed for backwards compatability*/
+function nonRec1(s, parent, cat){
+
+	//Base case: if parent is a terminal, return 0 violations.
+	if (!parent.children){
+		return 0;
+	}
+
+	//Recursive case: if parent is non-terminal, find out how many violations are in each of the subtrees rooted in its children
+	var vcount = 0;
+	var child;
+
+	for (var i=0; i < parent.children.length; i++){
+		child = parent.children[i];
+		if (parent.cat===cat && child.cat===cat){
+			vcount++;
+		}
+		vcount+=nonRecChild(s, child, cat);
+	}
 	return vcount;
 }
 
