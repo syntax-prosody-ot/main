@@ -1,5 +1,15 @@
+/*defines brackets used in tableau for various categories*/
+var categoryBrackets = {
+	"i": "{}",
+	"cp": "{}",
+	"xp": "[]",
+	"phi": "()",
+	"x0": ["[x0 ","]"],
+	"w": ["(w ", ")"]
+};
+
 /* Function that takes a [default=prosodic] tree and returns a string version where phi boundaries are marked with '(' ')'
-   Possible options: 
+   Possible options:
    - invisibleCategories: by default, i does not receive a visualization
    - parens: default mappings in categoryBrackets can be overwritten with a map
    - showTones: set to true to display whatever tones are in the tree
@@ -13,13 +23,14 @@ function parenthesizeTree(tree, options){
 	var showTones = options.showTones || false;
 	var parens = options.parens || categoryBrackets;
 	//categoryBrackets is defined in prosodicHierarchy.js
-	
+
 	function processNode(node){
 		var nonTerminal = (node.children instanceof Array) && node.children.length;
 		var visible = invisCats.indexOf(node.cat) === -1;
 		if (nonTerminal) {
 			if (visible) {
-				parTree.push(parens[0]);
+				parTree.push(parens[node.cat][0]);//pushes the right perens
+				//parTree.push(parens[0]);
 				if(showTones){
 					toneTree.push(parens[0]);
 					if(node.tones){
@@ -40,7 +51,8 @@ function parenthesizeTree(tree, options){
 				}
 			}
 			if (visible){
-				parTree.push(parens[1]);
+				parTree.push(parens[node.cat][1]);
+				//parTree.push(parens[1]);
 				if(showTones)
 					toneTree.push(parens[1]);
 			}
@@ -57,7 +69,7 @@ function parenthesizeTree(tree, options){
 		}
 		//	parTree.push(node.id.split('_')[0]);
 	}
-	
+
 	processNode(tree);
 	guiTree = parTree.join('');
 	if(showTones)

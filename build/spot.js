@@ -1165,9 +1165,9 @@ function numOfCats(p, c){//not a constraint, does not require s
 *In general, this constraint will assign fewer violations than nonRec1 above.
 */
 
-function nonRecParent(s, p, c){ //markedness constraint, s for consistancy
+function nonRecParent(s, p, c){ //markedness constraint, s is for consistancy
 	var vcount = 0; //number of violations, return
-	var child; //p.children[i], for cleaner code
+	var child; //p.children[i], see comment on variable's assignment (l. 165)
 	var doms = 0; //the number of nodes of category c immidately dominated by p
 
 	//base case: p has no children and cannot incur nonRec violations
@@ -1186,7 +1186,7 @@ function nonRecParent(s, p, c){ //markedness constraint, s for consistancy
 		vcount += nonRecParent("sTree", child, c);//recursive function call
 	}
 
-	//if parent has at least one child of the same category, assign a violation
+	//if  parent has at least one child of the same category, assign a violation
 	if (doms > 0){
 		vcount ++;
 	}
@@ -3008,6 +3008,15 @@ var categoryPairings = {
 	"x0": "w"
 };
 
+var categoryBrackets = {
+	"i": "{}", 
+	"cp": "{}",
+	"xp": "[]",
+	"phi": "()",
+	"x0": ["x0[","]x0"],
+	"w": ["w(", ")w"]
+};
+
 
 //Evaluates whether two nodes have corresponding categories.
 function catsMatch(aCat, bCat){
@@ -3178,7 +3187,7 @@ function makeTableau(candidateSet, constraintSet, options){
 	//First element is empty, to correspond to the column of candidates.
 	var sTree = candidateSet[0] ? candidateSet[0][0] : '';
 	if (sTree instanceof Object) {
-		sTree = parenthesizeTree(sTree, {parens: '[]'}); //JSON.stringify(sTreeName);
+		sTree = parenthesizeTree(sTree); //JSON.stringify(sTreeName);
 	}
 	var header = [sTree];
 	for(var i=0; i<constraintSet.length; i++){
@@ -3257,9 +3266,9 @@ function tableauToHtml(tableau) {
 	return htmlChunks.join('');
 }
 /* Function that takes a [default=prosodic] tree and returns a string version where phi boundaries are marked with '(' ')'
-   Possible options: 
+   Possible options:
    - invisibleCategories: by default, i does not receive a visualization
-   - parens: default () can be changed to, e.g., [] for syntactic trees
+   - parens: default mappings in categoryBrackets can be overwritten with a map
    - showTones: set to true to display whatever tones are in the tree
 	 (only useful if the tree has been annotated with tones, as by the function addJapaneseTones in annotate_tones.js)
 */
@@ -3267,16 +3276,18 @@ function parenthesizeTree(tree, options){
 	var parTree = [];
 	var toneTree = [];
 	options = options || {};
-	var invisCats = options.invisibleCategories || ['i', 'cp'];
+	var invisCats = options.invisibleCategories || [];
 	var showTones = options.showTones || false;
-	var parens = options.parens || '()';
-	
+	var parens = options.parens || categoryBrackets;
+	//categoryBrackets is defined in prosodicHierarchy.js
+
 	function processNode(node){
 		var nonTerminal = (node.children instanceof Array) && node.children.length;
 		var visible = invisCats.indexOf(node.cat) === -1;
 		if (nonTerminal) {
 			if (visible) {
-				parTree.push(parens[0]);
+				parTree.push(parens[node.cat][0]);//pushes the right perens
+				//parTree.push(parens[0]);
 				if(showTones){
 					toneTree.push(parens[0]);
 					if(node.tones){
@@ -3297,7 +3308,8 @@ function parenthesizeTree(tree, options){
 				}
 			}
 			if (visible){
-				parTree.push(parens[1]);
+				parTree.push(parens[node.cat][1]);
+				//parTree.push(parens[1]);
 				if(showTones)
 					toneTree.push(parens[1]);
 			}
@@ -3314,7 +3326,7 @@ function parenthesizeTree(tree, options){
 		}
 		//	parTree.push(node.id.split('_')[0]);
 	}
-	
+
 	processNode(tree);
 	guiTree = parTree.join('');
 	if(showTones)
