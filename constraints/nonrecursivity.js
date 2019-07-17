@@ -4,7 +4,7 @@
 * by another node of category x"
 ******************/
 
-function nonRec1(s, parent, cat){
+function nonRecChild(s, parent, cat){
 
 	//Base case: if parent is a terminal, return 0 violations.
 	if (!parent.children){
@@ -20,7 +20,7 @@ function nonRec1(s, parent, cat){
 		if (parent.cat===cat && child.cat===cat){
 			vcount++;
 		}
-		vcount+=nonRec1(s, child, cat);
+		vcount+=nonRecChild(s, child, cat);
 	}
 	return vcount;
 }
