@@ -10,8 +10,9 @@ var categoryBrackets = {
 
 /* Function that takes a [default=prosodic] tree and returns a string version where phi boundaries are marked with '(' ')'
    Possible options:
-   - invisibleCategories: by default, i does not receive a visualization
+   - invisibleCategories: by default, every category in categoryBrackets gets a bracket
    - parens: default mappings in categoryBrackets can be overwritten with a map
+   - showNewCats: if true, annotate categories that aren't found in categoryBrackets with [cat ], where cat is the new category
    - showTones: set to true to display whatever tones are in the tree
 	 (only useful if the tree has been annotated with tones, as by the function addJapaneseTones in annotate_tones.js)
 */
@@ -19,17 +20,20 @@ function parenthesizeTree(tree, options){
 	var parTree = [];
 	var toneTree = [];
 	options = options || {};
+	var showNewCats = options.showNewCats || false;
 	var invisCats = options.invisibleCategories || [];
 	var showTones = options.showTones || false;
-	var parens = options.parens || categoryBrackets;
-	//categoryBrackets is defined in prosodicHierarchy.js
+	var parens = options.parens || Object.assign({}, categoryBrackets);
 
 	function processNode(node){
 		var nonTerminal = (node.children instanceof Array) && node.children.length;
-		var visible = invisCats.indexOf(node.cat) === -1;
+		if (showNewCats && !parens.hasOwnProperty(node.cat)){
+			parens[node.cat] = ["["+node.cat+" ", "]"];
+		}
+		var visible = invisCats.indexOf(node.cat) === -1 && parens.hasOwnProperty(node.cat);
 		if (nonTerminal) {
 			if (visible) {
-				parTree.push(parens[node.cat][0]);//pushes the right perens
+				parTree.push(parens[node.cat][0]);//pushes the right parens
 				//parTree.push(parens[0]);
 				if(showTones){
 					toneTree.push(parens[0]);
