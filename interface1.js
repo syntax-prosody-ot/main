@@ -1,11 +1,17 @@
+var uTreeCounter = 0;
+var treeUIsTreeMap = {};
+
 function UTree(root) {
 
+	var self = this;
 	this.root = root;
+	this.treeIndex = uTreeCounter++;
+	treeUIsTreeMap[this.treeIndex] = this;
 	
 	this.nodeNum = 0;
 	this.nodeMap = {};
 	this.addMeta = function(node, parent) {
-		node.m = {nodeId: this.nodeNum++, parent: parent};
+		node.m = {nodeId: this.nodeNum++, parent: parent, treeIndex: this.treeIndex};
 		this.nodeMap[node.m.nodeId] = node;
 		if (node.children) {
 			for (var i = 0; i < node.children.length; i++) {
@@ -54,10 +60,14 @@ function UTree(root) {
 		processNode(this.root, this.root.height);
 		return table;
 	};
+
+	function makeElementId(elType, node) {
+		return [elType, node.m.nodeId, self.treeIndex].join('-');
+	}
 	
-	this.toHtml = function() {
-		var table = this.toTable();
-		var frags = [];
+	function toInnerHtmlFrags(frags) {
+		if (!frags) frags = [];
+		var table = self.toTable();
 		for (var h = table.length-1; h >= 0; h--) {
 			var rowFrags = [];
 			var row = table[h];
@@ -77,16 +87,31 @@ function UTree(root) {
 					if (node.m.isRoot) {
 						nodeClasses += ' rootNode';
 					}
-					var catInputId = 'catInput-' + node.m.nodeId, idInputId = 'idInput-' + node.m.nodeId; 
-					rowFrags.push('<div id="treeNode-' + node.m.nodeId + '" class="' + nodeClasses + '" style="width: ' + pxWidth + 'px">' + stemContainer + '<div class="inputContainer"><input id="' + catInputId + '" class="catInput" type="text" value="' + node.cat + '"></input></div><div class="inputContainer"><input id="' + idInputId + '" class="idInput" type="text" value="' + node.id + '"></input></div></div>');
+					var catInputId = makeElementId('catInput', node), idInputId = makeElementId('idInput', node);
+					rowFrags.push('<div id="treeNode-' + node.m.nodeId + '-' + node.m.treeIndex + '" class="' + nodeClasses + '" style="width: ' + pxWidth + 'px">' + stemContainer + '<div class="inputContainer"><input id="' + catInputId + '" class="catInput" type="text" value="' + node.cat + '"></input></div><div class="inputContainer"><input id="' + idInputId + '" class="idInput" type="text" value="' + node.id + '"></input></div></div>');
 				}
 			}
 			frags.push('<div>');
 			frags.push(rowFrags.join(''));
 			frags.push('</div>');
 		}
-		return frags.join('');
+		return frags;
 	};
+
+	this.toInnerHtml = function() {
+		return toInnerHtmlFrags().join('');
+	}
+
+	this.toHtml = function() {
+		var frags = ['<div class="treeUI-tree" id="treeUI-' + self.treeIndex + '">'];
+		toInnerHtmlFrags(frags);
+		frags.push('</div>');
+		return frags.join('');
+	}
+
+	this.refreshHtml = function() {
+		document.getElementById('treeUI-'+self.treeIndex).innerHTML = self.toInnerHtml();
+	}
 	
 	this.toJSON = function() {
 		return JSON.stringify(this.root, function(k, v) {
@@ -96,13 +121,18 @@ function UTree(root) {
 	
 	this.addParent = function(nodes) {
 		var indices = [], parent = nodes[0].m.parent;
+		if (!parent) {
+			throw new Error('Cannot add a mother to the root node');
+		}
 		for (var i = 0; i < nodes.length; i++) {
 			var node = nodes[i];
 			if (node.m.parent !== parent) throw new Error('Nodes must have same the mother.');
-			indices.push(parent.children.indexOf(node));
+			if (parent) {
+				indices.push(parent.children.indexOf(node));
+			}
 		}
 		indices.sort();
-		if (indices[0] < 0) throw new Error('Mother node not found.');
+		if (indices && indices[0] < 0) throw new Error('Mother node not found.');
 		for (var i = 1; i < indices.length; i++) {
 			if (indices[i] !== indices[i-1]+1) throw new Error('Nodes must be adjacent sisters.');
 		}
@@ -133,13 +163,20 @@ function UTree(root) {
 		}
 		
 		// connect parent to children
-		var index = node.m.parent.children.indexOf(node);
-		node.m.parent.children = node.m.parent.children.slice(0, index).concat(children, node.m.parent.children.slice(index+1));
+		if (node.m.parent) {
+			var index = node.m.parent.children.indexOf(node);
+			node.m.parent.children = node.m.parent.children.slice(0, index).concat(children, node.m.parent.children.slice(index+1));
 		
-		// remove from node map
-		delete this.nodeMap[node.m.nodeId];
+			// remove from node map
+			delete this.nodeMap[node.m.nodeId];
+		} else { // delete UTree and associated element if root
+			delete treeUIsTreeMap[node.m.treeIndex];
+			var elem = document.getElementById('treeUI-' + this.treeIndex);
+			elem.parentNode.removeChild(elem);
+		}
 	};
 }
+
 UTree.fromTerminals = function(terminalList) {
 	var dedupedTerminals = deduplicateTerminals(terminalList);
 	
@@ -158,6 +195,17 @@ UTree.fromTerminals = function(terminalList) {
 	}
 	return new UTree(root);
 };
+
+function getSTrees() {
+	var spotForm = document.getElementById('spotForm');
+	var sTrees; 
+	sTrees = JSON.parse(spotForm.sTree.value);
+	if (!(sTrees instanceof Array)) {
+		sTrees = [sTrees];
+	}
+	return sTrees;
+
+}
 
 function danishTrees() {
 	var patterns = [
@@ -262,10 +310,7 @@ window.addEventListener('load', function(){
 		//Get the input syntactic tree.
 		var sTrees; 
 		try{
-			sTrees = JSON.parse(spotForm.sTree.value);
-			if (!(sTrees instanceof Array)) {
-				sTrees = [sTrees];
-			}
+			sTrees = getSTrees();
 		}
 		catch(e){
 			console.error(e);
@@ -329,7 +374,6 @@ window.addEventListener('load', function(){
 		});
 	
 	//Code for generating the JS for a syntactic tree
-	var treeUIsTree;
 	var treeTableContainer = document.getElementById('treeTableContainer');
 	
 	//Open the tree making GUI 
@@ -337,8 +381,17 @@ window.addEventListener('load', function(){
 		document.getElementById('treeUI').style.display = 'block';
 	});
 	
-	function refreshHtmlTree() {
-		treeTableContainer.innerHTML = treeUIsTree.toHtml();
+	function refreshHtmlTree(treeIndex) {
+		if (treeIndex === undefined) {
+			for (index of Object.keys(treeUIsTreeMap)) {
+				refreshHtmlTree(index);
+			}
+			return;
+		}
+		
+		if (treeIndex in treeUIsTreeMap) {
+			treeUIsTreeMap[treeIndex].refreshHtml();
+		}
 		refreshNodeEditingButtons();
 	}
 	
@@ -349,16 +402,16 @@ window.addEventListener('load', function(){
 		var terminalList = terminalString.trim().split(/\s+/);
 		
 		//Make the js tree (a dummy tree only containing the root CP)
-		treeUIsTree = UTree.fromTerminals(terminalList);
-		
-		refreshHtmlTree();
+		var tree = UTree.fromTerminals(terminalList);
+		treeTableContainer.innerHTML += tree.toHtml();
+		refreshNodeEditingButtons();
 		
 		document.getElementById('treeUIinner').style.display = 'block';
 	});
 	
 	// For testing only
 	/*
-	treeUIsTree = new UTree({
+	new UTree({
 		id: "CP1",
 		cat: "cp",
 		children: [
@@ -375,10 +428,10 @@ window.addEventListener('load', function(){
 	*/
 	
 	//Look at the html tree and turn it into a JSON tree. Put the JSON in the following textarea.
-	document.getElementById('htmlToJsonTreeButton').addEventListener('click',function(){
-		if (treeUIsTree) {
-			spotForm.sTree.value = treeUIsTree.toJSON(); 
-		}
+	document.getElementById('htmlToJsonTreeButton').addEventListener('click', function(){
+		spotForm.sTree.value = JSON.stringify(Object.values(treeUIsTreeMap).map(function(tree) {
+			return JSON.parse(tree.toJSON()); // bit of a hack to get around replacer not being called recursively
+		}), null, 4);
 	});
 
 	document.getElementById('danishJsonTreesButton').addEventListener('click', function() {
@@ -388,9 +441,10 @@ window.addEventListener('load', function(){
 	treeTableContainer.addEventListener('input', function(e) {
 		var target = e.target;
 		var idPieces = target.id.split('-');
+		var treeIndex = idPieces[2];
 		var nodeId = idPieces[1];
 		var isCat = idPieces[0] === 'catInput';
-		treeUIsTree.nodeMap[nodeId][isCat ? 'cat' : 'id'] = target.value;
+		treeUIsTreeMap[treeIndex].nodeMap[nodeId][isCat ? 'cat' : 'id'] = target.value;
 	});
 	
 	function refreshNodeEditingButtons() {
@@ -408,7 +462,7 @@ window.addEventListener('load', function(){
 				node = node.parentElement;
 			}
 		}
-		if (node.classList.contains('treeNode') && !node.classList.contains('rootNode')) {
+		if (node.classList.contains('treeNode')) {
 			node.classList.toggle('selected');
 			refreshNodeEditingButtons();
 		}
@@ -418,7 +472,7 @@ window.addEventListener('load', function(){
 		var idFrags = el.id.split('-');
 		if (idFrags[0] !== 'treeNode') return null;
 		var nodeId = idFrags[1];
-		return treeUIsTree.nodeMap[nodeId];
+		return treeUIsTreeMap[idFrags[2]].nodeMap[nodeId];
 	}
 	
 	function getSelectedNodes() {
@@ -436,7 +490,7 @@ window.addEventListener('load', function(){
 	document.getElementById('treeUImakeParent').addEventListener('click', function() {
 		var nodes = getSelectedNodes();
 		try {
-			treeUIsTree.addParent(nodes);
+			treeUIsTreeMap[nodes[0].m.treeIndex].addParent(nodes);
 			refreshHtmlTree();
 		} catch (err) {
 			console.error(err);
@@ -446,10 +500,20 @@ window.addEventListener('load', function(){
 	
 	document.getElementById('treeUIdeleteNodes').addEventListener('click', function() {
 		var nodes = getSelectedNodes();
-		for (var i = 0; i < nodes.length; i++) {
-			treeUIsTree.deleteNode(nodes[i]);
+		if (nodes) {
+			var treeIndex = nodes[0].m.treeIndex;
+			for (var i = 1; i < nodes.length; i++) {
+				if (nodes[i].treeIndex != treeIndex) {
+					alert('Attempting to delete nodes from multiple trees. Please delete nodes one tree at a time.');
+					return;
+				}
+			}
 		}
-		refreshHtmlTree();
+		var tree = treeUIsTreeMap[treeIndex];
+		for (var i = 0; i < nodes.length; i++) {
+			tree.deleteNode(nodes[i]);
+		}
+		refreshHtmlTree(treeIndex);
 	});
 	
 	document.getElementById('treeUIclearSelection').addEventListener('click', function() {
