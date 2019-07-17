@@ -1020,7 +1020,7 @@ function hasMatch(sNode, pTree)
 * by another node of category x"
 ******************/
 
-function nonRec1(s, parent, cat){
+function nonRecChild(s, parent, cat){
 
 	//Base case: if parent is a terminal, return 0 violations.
 	if (!parent.children){
@@ -1036,7 +1036,7 @@ function nonRec1(s, parent, cat){
 		if (parent.cat===cat && child.cat===cat){
 			vcount++;
 		}
-		vcount+=nonRec1(s, child, cat);
+		vcount+=nonRecChild(s, child, cat);
 	}
 	return vcount;
 }
@@ -1165,9 +1165,9 @@ function numOfCats(p, c){//not a constraint, does not require s
 *In general, this constraint will assign fewer violations than nonRec1 above.
 */
 
-function nonRecParent(s, p, c){ //markedness constraint, s for consistancy
+function nonRecParent(s, p, c){ //markedness constraint, s is for consistancy
 	var vcount = 0; //number of violations, return
-	var child; //p.children[i], for cleaner code
+	var child; //p.children[i], see comment on variable's assignment (l. 165)
 	var doms = 0; //the number of nodes of category c immidately dominated by p
 
 	//base case: p has no children and cannot incur nonRec violations
@@ -1186,7 +1186,7 @@ function nonRecParent(s, p, c){ //markedness constraint, s for consistancy
 		vcount += nonRecParent("sTree", child, c);//recursive function call
 	}
 
-	//if parent has at least one child of the same category, assign a violation
+	//if  parent has at least one child of the same category, assign a violation
 	if (doms > 0){
 		vcount ++;
 	}

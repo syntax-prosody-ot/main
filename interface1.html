@@ -88,12 +88,11 @@
 				background-color: #eee;
 				cursor: pointer;
 			}
-			.treeNode.rootNode {
-				background-color: #fff;
-				cursor: default;
-			}
 			.treeNode.selected {
 				background-color: #cdf;
+			}
+			.treeUI-tree {
+				margin-top: 15px;
 			}
 			button {
 				color: #ffffff;
@@ -337,16 +336,28 @@
 							<td title="Assign a violation for every parent-child pair (x,y) such that x is of PH-level n and y is of PH-level n-m, m >= 2."><input type="checkbox" name="constraints" value="exhaust1">Exhaustivity</td>
 						</tr>
 						<tr>
-							<td title="Assign a violation for every node of category x immediately dominated by another node of category x."><input type="checkbox" name="constraints" value="nonRec1">Non-recursivity, assessed by dominated node</td>
-							<td><input type="checkbox" name="category-nonRec1" value="i">&iota;</td>
-							<td><input type="checkbox" name="category-nonRec1" value="phi" checked="checked">&phiv;</td>
-							<td><input type="checkbox" name="category-nonRec1" value="w">&omega;</td>
+							<td title="Assign a violation for every node of category x immediately dominated by another node of category x."><input type="checkbox" name="constraints" value="nonRecChild">Non-recursivity, assessed by dominated node (nonRecChild)</td>
+							<td><input type="checkbox" name="category-nonRecChild" value="i">&iota;</td>
+							<td><input type="checkbox" name="category-nonRecChild" value="phi" checked="checked">&phiv;</td>
+							<td><input type="checkbox" name="category-nonRecChild" value="w">&omega;</td>
 						</tr>
 						<tr>
-							<td title="&quot;Any two p-phrases that are not disjoint in extension are identical in extension.&quot; For every node x of category p dominated by another node y of category p, assign a violation for every leaf dominated by y that is not also dominated by x."><input type="checkbox" name="constraints" value="nonRecTruckenbrodt">Non-recursivity, assessed by non-overlapping leaves</td>
+							<td title="Assign a violation for every node of category x that immediately dominates a node of category x."><input type="checkbox" name="constraints" value="nonRecParent">Non-recursivity, assessed by dominating node (nonRecParent)</td>
+							<td><input type="checkbox" name="category-nonRecParent" value="i">&iota;</td>
+							<td><input type="checkbox" name="category-nonRecParent" value="phi" checked="checked">&phiv;</td>
+							<td><input type="checkbox" name="category-nonRecParent" value="w">&omega;</td>
+						</tr>
+						<tr>
+							<td title="&quot;Any two p-phrases that are not disjoint in extension are identical in extension.&quot; For every node x of category p dominated by another node y of category p, assign a violation for every leaf dominated by y that is not also dominated by x."><input type="checkbox" name="constraints" value="nonRecTruckenbrodt">Non-recursivity, assessed by non-overlapping leaves (nonRecTruckenbrodt)</td>
 							<td><input type="checkbox" name="category-nonRecTruckenbrodt" value="i">&iota;</td>
 							<td><input type="checkbox" name="category-nonRecTruckenbrodt" value="phi" checked="checked">&phiv;</td>
 							<td><input type="checkbox" name="category-nonRecTruckenbrodt" value="w">&omega;</td>
+						</tr>
+						<tr>
+							<td title="Assign a violation for every pair of nodes a and b such that a and b are both of category p and a dominates b."><input type="checkbox" name=constraints value="nonRecPairs">Non-recursivity, pairwise</td>
+							<td><input type="checkbox" name="category-nonRecPairs" value="i">&iota;</td>
+							<td><input type="checkbox" name="category-nonRecPairs" value="phi" checked="checked">&phiv;</td>
+							<td><input type="checkbox" name="category-nonRecPairs" value="w">&omega;</td>
 						</tr>
 					</tbody>
 					</table>
