@@ -1,7 +1,7 @@
 /* Function that takes a [default=prosodic] tree and returns a string version where phi boundaries are marked with '(' ')'
    Possible options: 
    - invisibleCategories: by default, i does not receive a visualization
-   - parens: default () can be changed to, e.g., [] for syntactic trees
+   - parens: default mappings in categoryBrackets can be overwritten with a map
    - showTones: set to true to display whatever tones are in the tree
 	 (only useful if the tree has been annotated with tones, as by the function addJapaneseTones in annotate_tones.js)
 */
@@ -9,9 +9,10 @@ function parenthesizeTree(tree, options){
 	var parTree = [];
 	var toneTree = [];
 	options = options || {};
-	var invisCats = options.invisibleCategories || ['i', 'cp'];
+	var invisCats = options.invisibleCategories || [];
 	var showTones = options.showTones || false;
-	var parens = options.parens || '()';
+	var parens = options.parens || categoryBrackets;
+	//categoryBrackets is defined in prosodicHierarchy.js
 	
 	function processNode(node){
 		var nonTerminal = (node.children instanceof Array) && node.children.length;

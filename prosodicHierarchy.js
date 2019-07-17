@@ -7,6 +7,15 @@ var categoryPairings = {
 	"x0": "w"
 };
 
+var categoryBrackets = {
+	"i": "{}", 
+	"cp": "{}",
+	"xp": "[]",
+	"phi": "()",
+	"x0": ["x0[","]x0"],
+	"w": ["w(", ")w"]
+};
+
 
 //Evaluates whether two nodes have corresponding categories.
 function catsMatch(aCat, bCat){
