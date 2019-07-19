@@ -38,7 +38,7 @@ function parenthesizeTree(tree, options){
 				parTree.push(parens[node.cat][0]);//pushes the right parens
 				//parTree.push(parens[0]);
 				if(showTones){
-					toneTree.push(parens[0]);
+					toneTree.push(parens[node.cat][0]);
 					if(node.tones){
 						toneTree.push(node.tones);
 						toneTree.push(' ');
