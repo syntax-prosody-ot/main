@@ -95,7 +95,7 @@ function containsIds(a, b){
 /* Function that takes a prosodic tree and returns a version annotated it with the phonological tones that it would have in Japanese or Lekeitio Basque.
 Tones:
 	A -> H*L
-	left edge of phi -> LH on initial word
+	left edge of phi -> LH on initial word. NB Here if there are multiple left-aligned phis, only one LH is annotated.
 	H following H*L within a maximal phi -> !H (downstep)
 Arguments:
 	ptree = a prosodic tree
@@ -104,7 +104,7 @@ Arguments:
 */
 function addJapaneseTones(ptree){
 	
-	function addJapaneseTonesInner(ptree, parentCat, afterA){
+	function addJapaneseTonesInner(ptree, parentCat, afterA, firstInPhi){
 		//Iota: No tonal diagnostics; just call recursively on the children
 		if(ptree.cat==='i'){
 			if(ptree.children && ptree.children.length){
@@ -117,18 +117,18 @@ function addJapaneseTones(ptree){
 		//Phi: domain for downstep
 		else if(ptree.cat==='phi'){
 			//Non-maximal phi following a pitch-drop is assigned a downstepped LH
-			if(parentCat === 'phi' && afterA){
+			if(parentCat === 'phi' && afterA && !firstInPhi){
 				ptree.tones = 'L!H';
 			}
 			//Otherwise, LH is not downstepped
-			else{
+			else if(!firstInPhi){
 				ptree.tones = 'LH';
 			}
 			
 			if(ptree.children && ptree.children.length){			
 				for(var child in ptree.children)
 				{
-				outputs = addJapaneseTonesInner(ptree.children[child], ptree.cat, afterA);
+					outputs = addJapaneseTonesInner(ptree.children[child], ptree.cat, afterA, child==0);
 					child = outputs[0];
 					afterA = outputs[1];
 				}
