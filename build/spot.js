@@ -166,6 +166,124 @@ function addJapaneseTones(ptree){
 	}
 	
 	return addJapaneseTonesInner(ptree)[0];
+}
+
+/* Function that takes a prosodic tree and returns a version annotated it with the phonological tones that it would have in Irish, according to Elfner (2012)'s diagnostics.
+Tones:
+	left edge of non-minimal phi: LH
+	right edge of any phi: HL
+	
+Arguments:
+	ptree = a prosodic tree
+	parentCat = prosodic category of ptree's parent
+	afterA = is there a preceding accent in this phi?
+*/
+function addIrishTones_Elfner(ptree){
+	
+	function addIrishTones_Elfner_Inner(ptree, getsRise, getsFall){
+		//Iota: No tonal diagnostics; just call recursively on the children
+		if(ptree.cat==='i'){
+			if(ptree.children && ptree.children.length){
+				for(var child in ptree.children)
+				{
+					child = addIrishTones_Elfner_Inner(ptree.children[child], false, false);
+				}
+			}
+		}
+		//Phi: domain for downstep
+		else if(ptree.cat==='phi'){
+			
+			if(ptree.children && ptree.children.length){			
+				for(var child in ptree.children)
+				{
+					var firstInNonMinPhi = (child==0 && !isMinimal(ptree));
+					var lastInPhi = (child == (ptree.children.length-1));
+					child = addIrishTones_Elfner_Inner(ptree.children[child], firstInNonMinPhi, lastInPhi);
+				}
+			}
+		}
+		
+		else if(ptree.cat === 'w'){
+			ptree.tones = '';
+			if(getsRise){
+				ptree.tones += 'LH';
+			}
+			if(getsFall){
+				ptree.tones += 'HL';
+			}
+			if(!getsRise && !getsFall){
+				ptree.tones = '-';
+			}
+		}
+		
+		else{
+			console.log("Unrecognized prosodic category"+ptree.cat);
+			ptree.tones = '-';
+		}
+		
+		return ptree;
+	}
+	
+	return addIrishTones_Elfner_Inner(ptree);
+}
+
+/* Function that takes a prosodic tree and returns a version annotated it with the phonological tones that it would have in Irish, according to our revised diagnostics.
+Tones:
+	left edge of any phi: LH
+	right edge of any phi: HL
+	
+Arguments:
+	ptree = a prosodic tree
+	parentCat = prosodic category of ptree's parent
+	afterA = is there a preceding accent in this phi?
+*/
+function addIrishTones_Kalivoda(ptree){
+	
+	function addIrishTones_Kalivoda_Inner(ptree, getsRise, getsFall){
+		//Iota: No tonal diagnostics; just call recursively on the children
+		if(ptree.cat==='i'){
+			if(ptree.children && ptree.children.length){
+				for(var child in ptree.children)
+				{
+					child = addIrishTones_Kalivoda_Inner(ptree.children[child], false, false);
+				}
+			}
+		}
+		
+		else if(ptree.cat==='phi'){
+			
+			if(ptree.children && ptree.children.length){			
+				for(var child in ptree.children)
+				{
+					var firstInPhi = (child == 0);
+					var lastInPhi = (child == (ptree.children.length-1));
+					child = addIrishTones_Kalivoda_Inner(ptree.children[child], firstInPhi, lastInPhi);
+				}
+			}
+		}
+		
+		else if(ptree.cat === 'w'){
+			ptree.tones = '';
+			if(getsRise){
+				ptree.tones += 'LH';
+			}
+			if(getsFall){
+				ptree.tones += 'HL';
+			}
+			if(!getsRise && !getsFall){
+				ptree.tones = '-';
+			}
+		}
+		
+		else{
+			console.log("Unrecognized prosodic category"+ptree.cat);
+			ptree.tones = '-';
+		}
+		
+		return ptree;
+	}
+	
+	return addIrishTones_Kalivoda_Inner(ptree);
 }/* Binarity that cares about the number of branches */
 
 //sensitive to the category of the parent only (2 branches of any type is acceptable)
@@ -3382,8 +3500,11 @@ function parenthesizeTree(tree, options){
 			if (visible){
 				parTree.push(parens[node.cat][1]);
 				//parTree.push(parens[1]);
-				if(showTones)
-					toneTree.push(parens[1]);
+				if(showTones){
+					toneTree.push(parens[node.cat][1]);
+					//console.log(parens[node.cat]);
+					//console.log(toneTree[toneTree.length-1]);
+				}
 			}
 		} else if (visible) {
 			parTree.push(node.id);
