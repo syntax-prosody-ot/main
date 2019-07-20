@@ -59,8 +59,11 @@ function parenthesizeTree(tree, options){
 			if (visible){
 				parTree.push(parens[node.cat][1]);
 				//parTree.push(parens[1]);
-				if(showTones)
-					toneTree.push(parens[1]);
+				if(showTones){
+					toneTree.push(parens[node.cat][1]);
+					//console.log(parens[node.cat]);
+					//console.log(toneTree[toneTree.length-1]);
+				}
 			}
 		} else if (visible) {
 			parTree.push(node.id);
