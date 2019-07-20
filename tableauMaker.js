@@ -8,7 +8,7 @@ function makeTableau(candidateSet, constraintSet, options){
 	//First element is empty, to correspond to the column of candidates.
 	var sTree = candidateSet[0] ? candidateSet[0][0] : '';
 	if (sTree instanceof Object) {
-		sTree = parenthesizeTree(sTree, {parens: '[]'}); //JSON.stringify(sTreeName);
+		sTree = parenthesizeTree(sTree); //JSON.stringify(sTreeName);
 	}
 	var header = [sTree];
 	for(var i=0; i<constraintSet.length; i++){

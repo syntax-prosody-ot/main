@@ -95,7 +95,7 @@ function containsIds(a, b){
 /* Function that takes a prosodic tree and returns a version annotated it with the phonological tones that it would have in Japanese or Lekeitio Basque.
 Tones:
 	A -> H*L
-	left edge of phi -> LH on initial word
+	left edge of phi -> LH on initial word. NB Here if there are multiple left-aligned phis, only one LH is annotated.
 	H following H*L within a maximal phi -> !H (downstep)
 Arguments:
 	ptree = a prosodic tree
@@ -104,7 +104,7 @@ Arguments:
 */
 function addJapaneseTones(ptree){
 	
-	function addJapaneseTonesInner(ptree, parentCat, afterA){
+	function addJapaneseTonesInner(ptree, parentCat, afterA, firstInPhi){
 		//Iota: No tonal diagnostics; just call recursively on the children
 		if(ptree.cat==='i'){
 			if(ptree.children && ptree.children.length){
@@ -117,18 +117,18 @@ function addJapaneseTones(ptree){
 		//Phi: domain for downstep
 		else if(ptree.cat==='phi'){
 			//Non-maximal phi following a pitch-drop is assigned a downstepped LH
-			if(parentCat === 'phi' && afterA){
+			if(parentCat === 'phi' && afterA && !firstInPhi){
 				ptree.tones = 'L!H';
 			}
 			//Otherwise, LH is not downstepped
-			else{
+			else if(!firstInPhi){
 				ptree.tones = 'LH';
 			}
 			
 			if(ptree.children && ptree.children.length){			
 				for(var child in ptree.children)
 				{
-				outputs = addJapaneseTonesInner(ptree.children[child], ptree.cat, afterA);
+					outputs = addJapaneseTonesInner(ptree.children[child], ptree.cat, afterA, child==0);
 					child = outputs[0];
 					afterA = outputs[1];
 				}
@@ -3066,7 +3066,7 @@ if (!Element.prototype.closest)
 		};//An array of pairs to define which syntactic categories "match" which prosodic categories.
 //For theory comparison, we'll want one array for each theory.
 var categoryPairings = {
-	"clause": "i", 
+	"clause": "i",
 	"cp": "i",
 	"xp": "phi",
 	"x0": "w"
@@ -3121,6 +3121,7 @@ function nodeHasLowerCat(node1, node2){
 	}
 	else return false;
 }
+
 var lastSegmentId = 0, nextSegmentToReveal = 0;
 
 
@@ -3242,7 +3243,7 @@ function makeTableau(candidateSet, constraintSet, options){
 	//First element is empty, to correspond to the column of candidates.
 	var sTree = candidateSet[0] ? candidateSet[0][0] : '';
 	if (sTree instanceof Object) {
-		sTree = parenthesizeTree(sTree, {parens: '[]'}); //JSON.stringify(sTreeName);
+		sTree = parenthesizeTree(sTree); //JSON.stringify(sTreeName);
 	}
 	var header = [sTree];
 	for(var i=0; i<constraintSet.length; i++){
@@ -3320,10 +3321,23 @@ function tableauToHtml(tableau) {
 	htmlChunks.push('</tbody></table>');
 	return htmlChunks.join('');
 }
+/*defines brackets used in tableau for various categories*/
+var categoryBrackets = {
+	"i": "{}",
+	"cp": "{}",
+	"xp": "[]",
+	"phi": "()",
+	"x0": ["[x0 ","]"],
+	"w": ["(w ", ")"],
+	"clitic": ["",""],
+	"syll": ["",""]
+};
+
 /* Function that takes a [default=prosodic] tree and returns a string version where phi boundaries are marked with '(' ')'
-   Possible options: 
-   - invisibleCategories: by default, i does not receive a visualization
-   - parens: default () can be changed to, e.g., [] for syntactic trees
+   Possible options:
+   - invisibleCategories: by default, every category in categoryBrackets gets a bracket
+   - parens: default mappings in categoryBrackets can be overwritten with a map
+   - showNewCats: if true, annotate categories that aren't found in categoryBrackets with [cat ], where cat is the new category
    - showTones: set to true to display whatever tones are in the tree
 	 (only useful if the tree has been annotated with tones, as by the function addJapaneseTones in annotate_tones.js)
 */
@@ -3331,18 +3345,23 @@ function parenthesizeTree(tree, options){
 	var parTree = [];
 	var toneTree = [];
 	options = options || {};
-	var invisCats = options.invisibleCategories || ['i', 'cp'];
+	var showNewCats = options.showNewCats || false;
+	var invisCats = options.invisibleCategories || [];
 	var showTones = options.showTones || false;
-	var parens = options.parens || '()';
-	
+	var parens = options.parens || Object.assign({}, categoryBrackets);
+
 	function processNode(node){
 		var nonTerminal = (node.children instanceof Array) && node.children.length;
-		var visible = invisCats.indexOf(node.cat) === -1;
+		if (showNewCats && !parens.hasOwnProperty(node.cat)){
+			parens[node.cat] = ["["+node.cat+" ", "]"];
+		}
+		var visible = invisCats.indexOf(node.cat) === -1 && parens.hasOwnProperty(node.cat);
 		if (nonTerminal) {
 			if (visible) {
-				parTree.push(parens[0]);
+				parTree.push(parens[node.cat][0]);//pushes the right parens
+				//parTree.push(parens[0]);
 				if(showTones){
-					toneTree.push(parens[0]);
+					toneTree.push(parens[node.cat][0]);
 					if(node.tones){
 						toneTree.push(node.tones);
 						toneTree.push(' ');
@@ -3361,12 +3380,16 @@ function parenthesizeTree(tree, options){
 				}
 			}
 			if (visible){
-				parTree.push(parens[1]);
+				parTree.push(parens[node.cat][1]);
+				//parTree.push(parens[1]);
 				if(showTones)
 					toneTree.push(parens[1]);
 			}
 		} else if (visible) {
 			parTree.push(node.id);
+			if(node.cat!='w' && node.cat!='x0'){
+				parTree.push('.'+node.cat);
+			}
 			if(showTones && node.tones){
 				toneTree.push(node.tones);
 				var toneIdDiff = node.tones.length - node.id.length;
@@ -3378,7 +3401,7 @@ function parenthesizeTree(tree, options){
 		}
 		//	parTree.push(node.id.split('_')[0]);
 	}
-	
+
 	processNode(tree);
 	guiTree = parTree.join('');
 	if(showTones)
