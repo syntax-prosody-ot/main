@@ -79,21 +79,97 @@ function binMaxBranchesGradient(s, ptree, cat){
 
 /*TRUCKENBRODT-STYLE BINARITY*/
 
+/* Categorical BinMax (Leaves)
+*	Assign one violation for every node of the prosodic category c such that this
+* node dominates more than two nodes of the prosodic category immidately below c
+* on the prosodic hierarchy.
+*/
 function binMaxLeaves(s, ptree, c){
 	var vcount = 0;
 	//the category we are looking for:
 	var target = pCat.nextLower(c);
 	//pCat.nextLower defined in prosdic hierarchy.js
-	if (ptree.children && ptree.children.length){
+	//console.log("the target of binMaxLeaves is " + target);
+	if(ptree.children && ptree.children.length){
 		var targetDesc = getDescendentsOfCat(ptree, target);
-		if (ptree.cat === c && targetDesc.length > 2){
-			vcount++
+		//console.log("there are " + targetDesc.length + " " + target + "s");
+		if(ptree.cat === c && targetDesc.length > 2){
+			vcount ++;
 		}
 		for(var i = 0; i < ptree.children.length; i++){
 			vcount += binMaxLeaves(s, ptree.children[i], c);
+		}
 	}
 	return vcount;
 }
+
+/* Gradiant BinMax (Leaves)
+* I don't know how to define this constraint in pros, but its binMaxLeaves as
+* a gradiant constraint instead of a catigorical constraint.
+*/
+function binMaxLeavesGradient(s, ptree, c){
+	var vcount = 0;
+	//the category we are looking for:
+	var target = pCat.nextLower(c);
+	//pCat.nextLower defined in prosdic hierarchy.js
+	if(ptree.children && ptree.children.length){
+		var targetDesc = getDescendentsOfCat(ptree, target);
+		if(ptree.cat === c && targetDesc.length > 2){
+			vcount += targetDesc.length - 2; //this makes the constraint gradient
+		}
+		for(var i = 0; i < ptree.children.length; i++){
+			vcount += binMaxLeavesGradient(s, ptree.children[i], c);
+		}
+	}
+	return vcount;
+}
+
+/* BinMin (Leaves)
+*	Assign one violation for every node of the prosodic category c such that this
+* node dominates less than two nodes of the prosodic category immidately below c
+* on the prosodic hierarchy.
+*/
+
+function binMinLeaves(s, ptree, c){
+	var vcount = 0;
+	//the category we are looking for:
+	var target = pCat.nextLower(c);
+	//pCat.nextLower defined in prosdic hierarchy.js
+	if(ptree.children && ptree.children.length){
+		var targetDesc = getDescendentsOfCat(ptree, target);
+		if(ptree.cat === c && targetDesc.length < 2){
+			vcount ++;
+		}
+		for(var i = 0; i < ptree.children.length; i++){
+			vcount += binMinLeaves(s, ptree.children[i], c);
+		}
+	}
+	return vcount;
+}
+
+//Helper function: given a node x, returns all the descendents of x that have category cat.
+//Since this function is designed for use on prosodic trees, it does not take silence into account.
+function getDescendentsOfCat(x, cat){
+	var descendents = [];
+	//logreport("x.cat is "+x.cat+ ", cat is " +cat);
+	if(x.children && x.children.length)
+	//x is non-terminal
+	{
+		for(var y=0; y < x.children.length; y++){
+			var yDescendents = getDescendentsOfCat(x.children[y], cat);
+			for(var i=0; i < yDescendents.length; i++){
+				descendents.push(yDescendents[i]);
+			}
+		}
+	}
+	else if(x.cat === cat)	// x is a terminal of the right category
+	{
+		descendents.push(x);
+	}
+	return descendents;
+}
+
+/*<legacyBinarityConstraints> (for backwards compatability with old test files)*/
 
 //Parent-category-neutral version of:
 //Sandalo & Truckenbrodt 2002: "Max-Bin: P-phrases consist of maximally two prosodic words"
@@ -129,28 +205,6 @@ function binMax2WordsGradient(s, ptree, cat){
 	return vcount;
 }
 
-//Helper function: given a node x, returns all the descendents of x that have category cat.
-//Since this function is designed for use on prosodic trees, it does not take silence into account.
-function getDescendentsOfCat(x, cat){
-	var descendents = [];
-	//logreport("x.cat is "+x.cat+ ", cat is " +cat);
-	if(x.children && x.children.length)
-	//x is non-terminal
-	{
-		for(var y=0; y < x.children.length; y++){
-			var yDescendents = getDescendentsOfCat(x.children[y], cat);
-			for(var i=0; i < yDescendents.length; i++){
-				descendents.push(yDescendents[i]);
-			}
-		}
-	}
-	else if(x.cat === cat)	// x is a terminal of the right category
-	{
-		descendents.push(x);
-	}
-	return descendents;
-}
-
 function binMin2Words(s, ptree, cat){
 	var vcount = 0;
 	if(ptree.children && ptree.children.length){
@@ -180,6 +234,8 @@ function binMin2WordsGradient(s, ptree, cat){
 	}
 	return vcount;
 }
+
+/*</legacyBinarityConstraints>*/
 
 /* Binarity constraints that care about the number of leaves
 Note: relies on getLeaves.

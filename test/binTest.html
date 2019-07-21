@@ -1,0 +1,22 @@
+<!-- Max Tarlov 7/20/19 testing generalized binarity constraints -->
+<html>
+	<title>nonRecPairs Test</title>
+	<head>
+		<link rel="stylesheet" type="text/css" href="../spot.css">
+		<script src="../build/spot.js"></script>
+		<script src="../build/constraints.js"></script>
+		<script src="../candidategenerator.js"></script>
+	</head>
+	<body>
+		<pre id="results-container"></pre>
+		<script>
+				var theCandidates = GEN("sTree", 'first second third');
+				var con = ["binMaxLeaves-phi", "binMaxLeaves-i", "binMaxLeavesGradient-phi", "binMaxLeavesGradient-i", "binMinLeaves-phi", "binMinLeaves-i"];
+				window.addEventListener("load",function(){
+					writeTableau(makeTableau(theCandidates, con));
+					revealNextSegment();
+				});
+
+		</script>
+	</body>
+</html>
