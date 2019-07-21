@@ -442,16 +442,22 @@ function getDescendentsOfCat(x, cat){
 	//x is non-terminal
 	{
 		for(var y=0; y < x.children.length; y++){
+			if(x.children[y].cat === cat){
+				descendents.push(x.children[y]);
+			}
 			var yDescendents = getDescendentsOfCat(x.children[y], cat);
 			for(var i=0; i < yDescendents.length; i++){
 				descendents.push(yDescendents[i]);
 			}
 		}
 	}
+	/* this else if statement was double counting terminal nodes of category cat.
+	 * removing it causes double counting to stop, but if the input is a terminal
+	 * node, function will return 0...
 	else if(x.cat === cat)	// x is a terminal of the right category
 	{
 		descendents.push(x);
-	}
+	}*/
 	return descendents;
 }
 
