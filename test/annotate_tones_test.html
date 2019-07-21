@@ -44,8 +44,45 @@
 			}
 		]
 	};
+
+	var accentTree2 = {
+		id: "root",
+		cat: "i",
+		children: [
+			{
+				cat: "phi",
+				id: "XP_4",
+				children: [
+					{
+						id: "a",
+						cat: "w"
+					},
+					{
+						id: "phi2",
+						cat: "phi",
+						children: [{id:"b", cat:"w"}]
+					},
+					{
+						id: "c",
+						cat: "w"
+					}
+				]
+			},
+			{
+				id: "d",
+				cat: "w"
+			}
+		]
+	};
 	console.log(parenthesizeTree(accentTree1, {showTones: true}));
-	annotatedTree = addJapaneseTones(accentTree1);
+	//annotatedTree = addJapaneseTones(accentTree1);
+	//annotatedTree = addIrishTones_Elfner(accentTree1);
+	annotatedTree = addIrishTones_Kalivoda(accentTree1);
+	console.log(annotatedTree);
+	console.log(parenthesizeTree(annotatedTree, {showTones: true}));
+	console.log(parenthesizeTree(accentTree1, {showTones: false}));
+
+	annotatedTree = addIrishTones_Kalivoda(accentTree2);
 	console.log(annotatedTree);
 	console.log(parenthesizeTree(annotatedTree, {showTones: true}));
 	console.log(parenthesizeTree(accentTree1, {showTones: false}));
@@ -76,7 +113,7 @@
 
 	
 	var constraintSetAlign = ['alignLeft-xp', 'alignRight-xp', 'wrap-xp'];
-	var candidateSet = [[sTreeAlign1, addJapaneseTones(pTree3words)], [sTreeAlign1, addJapaneseTones(pTree4words)], [sTreeAlign1, addJapaneseTones(pTree4wordsRec)], [sTreeAlign1, addJapaneseTones(pTree4words2xRec)]];
+	var candidateSet = [[sTreeAlign1, addIrishTones_Kalivoda(pTree3words)], [sTreeAlign1, addIrishTones_Kalivoda(pTree4words)], [sTreeAlign1, addIrishTones_Kalivoda(pTree4wordsRec)], [sTreeAlign1, addIrishTones_Kalivoda(pTree4words2xRec)]];
 		
 	function runDemo() {
 		
