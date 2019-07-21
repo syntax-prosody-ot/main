@@ -1,7 +1,7 @@
 //An array of pairs to define which syntactic categories "match" which prosodic categories.
 //For theory comparison, we'll want one array for each theory.
 var categoryPairings = {
-	"clause": "i", 
+	"clause": "i",
 	"cp": "i",
 	"xp": "phi",
 	"x0": "w"
