@@ -79,6 +79,22 @@ function binMaxBranchesGradient(s, ptree, cat){
 
 /*TRUCKENBRODT-STYLE BINARITY*/
 
+function binMaxLeaves(s, ptree, c){
+	var vcount = 0;
+	//the category we are looking for:
+	var target = pCat.nextLower(c);
+	//pCat.nextLower defined in prosdic hierarchy.js
+	if (ptree.children && ptree.children.length){
+		var targetDesc = getDescendentsOfCat(ptree, target);
+		if (ptree.cat === c && targetDesc.length > 2){
+			vcount++
+		}
+		for(var i = 0; i < ptree.children.length; i++){
+			vcount += binMaxLeaves(s, ptree.children[i], c);
+	}
+	return vcount;
+}
+
 //Parent-category-neutral version of:
 //Sandalo & Truckenbrodt 2002: "Max-Bin: P-phrases consist of maximally two prosodic words"
 //Assigns a violation for every node in ptree that dominates more than two prosodic words.
