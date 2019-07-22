@@ -1,0 +1,81 @@
+<!-- Max Tarlov 7/1/19 testing nonRecPairs -->
+<html>
+	<title>nonRecPairs Test</title>
+	<head>
+		<link rel="stylesheet" type="text/css" href="../spot.css">
+		<script src="../build/spot.js"></script>
+		<script src="../build/constraints.js"></script>
+		<script src="../candidategenerator.js"></script>
+	</head>
+	<body>
+		<pre id="results-container"></pre>
+
+		<script>
+
+				var sTree = {
+    			"id": "xp_1",
+    			"cat": "xp",
+    			"children": [
+        		{
+		        	"cat": "xp",
+		          "id": "xp_2",
+		          "children": [
+	          		{
+	              	"id": "first",
+	                "cat": "x0"
+	              },
+	              {
+	               	"id": "second",
+	                "cat": "x0"
+	              }
+	            ]
+	        	},
+	        	{
+	            "cat": "xp",
+	            "id": "xp_3",
+	            "children": [
+	                {
+	                    "id": "third",
+	                    "cat": "x0"
+	                }
+	            	]
+	        		}
+	    			]
+					}
+
+				var moreTree = {
+					"id": "root",
+					"cat": "cp",
+					"children": sTree
+				}
+
+				var pTree = {
+    			"id": "root",
+    			"cat": "i",
+    			"children": [
+        		{
+            	"id": "first",
+            	"cat": "w"
+        		},
+        		{
+            	"id": "second",
+            	"cat": "w"
+        		},
+        		{
+            	"id": "third",
+            	"cat": "w"
+        		}
+    			]
+				}
+
+				var theCandidates = [[sTree, pTree], [moreTree, pTree]];
+				//GEN(sTree, 'first second third', {"obeysExhaustivity":false});
+				var con = ["matchMaxSP-xp"];
+				window.addEventListener("load",function(){
+					writeTableau(makeTableau(theCandidates, con));
+					revealNextSegment();
+				});
+
+		</script>
+	</body>
+</html>

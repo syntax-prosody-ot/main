@@ -30,20 +30,20 @@ function sameIds(a1, a2)
 {
 	if(a1.length !== a2.length)
 		return false;
-	
+
 	var i = 0;
 	while(i<a1.length){
 		if(a1[i].id !== a2[i].id)
 			return false;
 		i++;
 	}
-	
+
 	return true;
 }
 
 
 function matchPS(sTree, pParent, pCat)
-//Assign a violation for every prosodic node of type pCat in pParent that doesn't have a corresponding syntactic node in sTree, 
+//Assign a violation for every prosodic node of type pCat in pParent that doesn't have a corresponding syntactic node in sTree,
 //where "corresponding" is defined as: dominates all and only the same terminals, and has the corresponding syntactic category
 //Assumes no null terminals.
 {
@@ -54,32 +54,32 @@ function matchPS(sTree, pParent, pCat)
 //TODO: what about null syntactic terminals?? these need to be filtered out of the syntactic input?? write this function later.
 
 function matchSP(sParent, pTree, sCat)
-//Assign a violation for every syntactic node of type sCat in sParent that doesn't have a corresponding prosodic node in pTree, 
+//Assign a violation for every syntactic node of type sCat in sParent that doesn't have a corresponding prosodic node in pTree,
 //where "corresponding" is defined as: dominates all and only the same terminals, and has the corresponding prosodic category
 //Assumes no null syntactic terminals.
 {
 	if(sParent.cat === sCat)
 		logreport.debug("\tSeeking match for "+sParent.id + " in tree rooted in "+pTree.id);
 	var vcount = 0;
-	
+
 	if((sParent.cat === sCat) && !hasMatch(sParent, pTree)){
 		vcount++;
 		logreport.debug("\tVIOLATION: "+sParent.id+" has no match!");
-	} 
-		
-	if(sParent.children){	
+	}
+
+	if(sParent.children){
 		for(var i = 0; i < sParent.children.length; i++)
 		{
 			var sChild = sParent.children[i];
 			vcount += matchSP(sChild, pTree, sCat);
 		}
 	}
-	
+
 	return vcount;
 }
 
 function hasMatch(sNode, pTree)
-//For a syntactic node sNode and a prosodic tree pTree, search the entire pTree 
+//For a syntactic node sNode and a prosodic tree pTree, search the entire pTree
 //to see if there is a node in pTree that has the same set of terminals as sNode,
 //in the same order as sLeaves.
 //Returns true for terminals assuming that there are no null syntactic terminals...
@@ -92,12 +92,12 @@ function hasMatch(sNode, pTree)
 		logreport.debug("\tMatch found: "+pTree.id);
 		return true;
 	}
-	
+
 	// If the current prosodic node is NOT the match:
-	
+
 	else if(!pTree.children || pTree.children.length===0)
 	// current node is terminal
-		return false;	
+		return false;
 
 	else
 	//the current prosodic node is non-terminal (has children)
@@ -111,5 +111,28 @@ function hasMatch(sNode, pTree)
 		}
 		return false;
 	}
-	
+
 }
+
+/* Match Max constraints
+ * Assign a violation for every node of syntactic category s that is not
+ * dominated by another node of category s in the syntactic tree, and is not
+ * mapped to a corresponding prosodic node of category p, where p=catMap(s),
+ * such that p is not dominated by another node of category p.
+ */
+
+//Match Maximal S --> P
+function matchMaxSP(sTree, pTree, sCat){
+	 var vcount = 0;
+	 if (sTree.children && sTree.children.length){
+		 for (var i = 0; i < sTree.children.length; i ++){
+			 markMinMax(sTree.children[i], sTree.cat); //mark maximal nodes in tree
+			 vcount += matchMaxSP(sTree.children[i], pTree, sCat); //recursive function call
+		 }
+	 }
+	 if (sTree.cat === sCat && sTree.isMax && !hasMatch(sTree, pTree)){
+		 //add violation if this node has no match, is maximal and of the right cat
+		 vcount ++;
+	 }
+	 return vcount;
+ }
