@@ -1143,9 +1143,9 @@ function hasMatch(sNode, pTree)
 //Match Maximal S --> P
 function matchMaxSP(sTree, pTree, sCat){
 	 var vcount = 0;
+	 markMinMax(sTree); //mark maximal nodes in tree
 	 if (sTree.children && sTree.children.length){
 		 for (var i = 0; i < sTree.children.length; i ++){
-			 markMinMax(sTree.children[i], sTree.cat); //mark maximal nodes in tree
 			 vcount += matchMaxSP(sTree.children[i], pTree, sCat); //recursive function call
 		 }
 	 }
@@ -1155,6 +1155,13 @@ function matchMaxSP(sTree, pTree, sCat){
 	 }
 	 return vcount;
  }
+
+//Match Maximal P --> S
+//Switch inputs for PS matching:
+
+function matchMaxPS(sTree, pTree, sCat){
+	return matchMaxSP(pTree, sTree, sCat);
+}
 /****************
 * Function that implements Nonrecursivity, version 1:
 * "Assign a violation for every node of category x immediately dominated
