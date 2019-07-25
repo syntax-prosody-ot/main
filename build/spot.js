@@ -369,6 +369,10 @@ function binMaxBranchesGradient(s, ptree, cat){
 *	Assign one violation for every node of the prosodic category c such that this
 * node dominates more than two nodes of the prosodic category immidately below c
 * on the prosodic hierarchy.
+*
+* Parent-category-neutral version of:
+* Sandalo & Truckenbrodt 2002: "Max-Bin: P-phrases consist of maximally two prosodic words"
+* Assigns a violation for every node in ptree that dominates more than two prosodic words.
 */
 function binMaxLeaves(s, ptree, c){
 	var vcount = 0;
@@ -390,14 +394,14 @@ function binMaxLeaves(s, ptree, c){
 }
 
 /* Gradiant BinMax (Leaves)
-* I don't know how to define this constraint in pros, but its binMaxLeaves as
-* a gradiant constraint instead of a catigorical constraint.
+* I don't know how to define this constraint in pros, but it's binMaxLeaves as
+* a gradient constraint instead of a categorical constraint.
 */
 function binMaxLeavesGradient(s, ptree, c){
 	var vcount = 0;
 	//the category we are looking for:
 	var target = pCat.nextLower(c);
-	//pCat.nextLower defined in prosdic hierarchy.js
+	//pCat.nextLower defined in prosodicHierarchy.js
 	if(ptree.children && ptree.children.length){
 		var targetDesc = getDescendentsOfCat(ptree, target);
 		if(ptree.cat === c && targetDesc.length > 2){
@@ -452,11 +456,7 @@ function getDescendentsOfCat(x, cat){
 		}
 	}
 	/* this else if statement was double counting terminal nodes of category cat.
-	 * removing it causes double counting to stop, but if the input is a terminal
-	 * node, function will return 0.
-	 * is it necessary/sensible for this function to return 1 when given only a 
-	 * terminal node? is it possible? (i think we would need a function to get
- 	 * parent of a node, but i'm not sure that's possible)
+	 * removing it causes double counting to stop.
 	else if(x.cat === cat)	// x is a terminal of the right category
 	{
 		descendents.push(x);
