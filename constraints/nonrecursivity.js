@@ -177,3 +177,26 @@ function nonRecParent(s, p, c){ //markedness constraint, s is for consistancy
 
 	return vcount;
 }
+
+
+/*Changed name of nonRec1 to nonRecChild. copy needed for backwards compatability*/
+function nonRec1(s, parent, cat){
+
+	//Base case: if parent is a terminal, return 0 violations.
+	if (!parent.children){
+		return 0;
+	}
+
+	//Recursive case: if parent is non-terminal, find out how many violations are in each of the subtrees rooted in its children
+	var vcount = 0;
+	var child;
+
+	for (var i=0; i < parent.children.length; i++){
+		child = parent.children[i];
+		if (parent.cat===cat && child.cat===cat){
+			vcount++;
+		}
+		vcount+=nonRecChild(s, child, cat);
+	}
+	return vcount;
+}
