@@ -13,16 +13,16 @@
 		<script>
 
 				var sTree ={
-    			"id": "CP1",
+    			"id": "A",
     			"cat": "cp",
     			"children": [
         		{
             	"cat": "xp",
-            	"id": "XP_5",
+            	"id": "B",
             	"children": [
                 {
                     "cat": "xp",
-                    "id": "XP_4",
+                    "id": "C",
                     "children": [
                         {
                             "id": "first",
@@ -34,7 +34,7 @@
       			},
         		{
             	"cat": "xp",
-            	"id": "XP_6",
+            	"id": "D",
             	"children": [
                 {
                     "id": "second",
@@ -50,6 +50,7 @@
 				}
 
 				var theCandidates = GEN(sTree, 'first second third', {"obeysExhaustivity":false});
+				var suspects = [theCandidates[42]];
 
 				var con = ["matchMaxSP-xp", "matchMaxPS-phi"];
 				window.addEventListener("load",function(){
