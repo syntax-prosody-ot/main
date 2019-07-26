@@ -122,12 +122,23 @@ function hasMatch(sNode, pTree)
  */
 
 //Match Maximal S --> P
-function matchMaxSP(sTree, pTree, sCat){
+ function matchMaxSP(sTree, pTree, sCat){
+	 markMinMax(sTree); // mark maximal nodes in tree
+	 var vcount = matchMaxHelper(sTree, pTree, sCat);
+	 //clear markings so that they are not inherited by other trees created by GEN
+	 clearMinMax(sTree);
+	 return vcount;
+ }
+
+/* A helper function is needed so that clearMinMax is only run once in a
+ * function call. Helper function is recursive while matchMaxSP is not.
+ */
+
+function matchMaxHelper(sTree, pTree, sCat){
 	 var vcount = 0;
-	 markMinMax(sTree); //mark maximal nodes in tree
 	 if (sTree.children && sTree.children.length){
 		 for (var i = 0; i < sTree.children.length; i ++){
-			 vcount += matchMaxSP(sTree.children[i], pTree, sCat); //recursive function call
+			 vcount += matchMaxHelper(sTree.children[i], pTree, sCat); //recursive function call
 		 }
 	 }
 	 if (sTree.cat === sCat && sTree.isMax && !hasMatch(sTree, pTree)){
@@ -139,7 +150,6 @@ function matchMaxSP(sTree, pTree, sCat){
 
 //Match Maximal P --> S
 //Switch inputs for PS matching:
-
 function matchMaxPS(sTree, pTree, pCat){
 	return matchMaxSP(pTree, sTree, pCat);
 }
