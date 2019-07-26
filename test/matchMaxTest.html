@@ -12,56 +12,46 @@
 
 		<script>
 
-				var sTree =
-					{
-	    "id": "CP1",
-	    "cat": "cp",
-	    "children": [
-	        {
-	            "id": "first",
-	            "cat": "x0"
-	        },
-	        {
-	            "cat": "cp",
-	            "id": "CP2",
-	            "children": [
-	                {
-	                    "cat": "xp",
-	                    "id": "XP_7",
-	                    "children": [
-	                        {
-	                            "id": "second",
-	                            "cat": "x0"
-	                        }
-	                    ]
-	                },
-	                {
-	                    "cat": "xp",
-	                    "id": "XP_6",
-	                    "children": [
-	                        {
-	                            "id": "third",
-	                            "cat": "x0"
-	                        },
-	                        {
-	                            "cat": "xp",
-	                            "id": "XP_5",
-	                            "children": [
-	                                {
-	                                    "id": "fourth",
-	                                    "cat": "x0"
-	                                }
-	                            ]
-	                        }
-	                    ]
-	                }
-	            ]
-	        }
-	    ]
-	}
+				var sTree ={
+    			"id": "CP1",
+    			"cat": "cp",
+    			"children": [
+        		{
+            	"cat": "xp",
+            	"id": "XP_5",
+            	"children": [
+                {
+                    "cat": "xp",
+                    "id": "XP_4",
+                    "children": [
+                        {
+                            "id": "first",
+                            "cat": "x0"
+                        }
+                    ]
+                }
+            	]
+      			},
+        		{
+            	"cat": "xp",
+            	"id": "XP_6",
+            	"children": [
+                {
+                    "id": "second",
+                    "cat": "x0"
+                }
+            	]
+        		},
+						{
+							"cat": "x0",
+							"id": "third",
+						}
+    			]
+				}
 
-				var theCandidates = GEN(sTree, 'first second third fourth', {"obeysExhaustivity":false});
-				var con = ["matchMaxSP-xp", "matchMaxSP-cp"];
+				var theCandidates = GEN(sTree, 'first second third', {"obeysExhaustivity":false});
+
+				var con = ["matchMaxSP-xp", "matchMaxPS-phi"];
 				window.addEventListener("load",function(){
 					writeTableau(makeTableau(theCandidates, con));
 					revealNextSegment();

@@ -1229,8 +1229,8 @@ function matchMaxSP(sTree, pTree, sCat){
 //Match Maximal P --> S
 //Switch inputs for PS matching:
 
-function matchMaxPS(sTree, pTree, sCat){
-	return matchMaxSP(pTree, sTree, sCat);
+function matchMaxPS(sTree, pTree, pCat){
+	return matchMaxSP(pTree, sTree, pCat);
 }
 /****************
 * Function that implements Nonrecursivity, version 1:
