@@ -1478,19 +1478,35 @@ function isMaximal(parent, child){
 	and level ordering is assumed (a node of category level k
 	will never be dominated by a node of category < k).
 
-	Previous isMin or isMax labels are preserved.
+	When calling markMinMax in a recursive function, best call without parcat arg
+
+	**Previous isMin or isMax labels are NOT preserved as of 7/27/19 -MT**
 */
 // Move this to the prosodic hierarchy file probably?
 var sCat = ["cp", "xp", "x0"];
 
 function markMinMax(mytree, parcat){
+	//on first call, mark root node
+	if(parcat == void(0)){
+		mytree.parentCat = 'is root';
+	}
+
+	// Check if node is being reused by GEN
+	if(parcat && mytree.parentCat !== parcat){
+		console.log(mytree.id + ' is being reset');
+		//node is being reused and must be reset
+		mytree.parentCat = parcat; //correct parentCat
+		mytree.isMax = void(0); //set to undefined
+		mytree.isMin = void(0); //set to undefined
+	}
+
 	// Check for maximalitys
-	if(!mytree.hasOwnProperty('isMax')){
+	if(!mytree.hasOwnProperty('isMax') || mytree.isMax === void(0)){
 		mytree.isMax = (mytree.cat !== parcat);
 	}
 
 	// Check for minimality
-	if(!mytree.hasOwnProperty('isMin')){
+	if(!mytree.hasOwnProperty('isMin') || mytree.isMin === void(0)){
 		mytree.isMin = isMinimal(mytree);
 	}
 /* 		// Breadth-first search of the children to see if
