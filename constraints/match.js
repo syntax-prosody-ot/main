@@ -139,7 +139,6 @@ function matchMaxSP(sTree, pTree, sCat){
 
 //Match Maximal P --> S
 //Switch inputs for PS matching:
-
 function matchMaxPS(sTree, pTree, pCat){
 	return matchMaxSP(pTree, sTree, pCat);
 }

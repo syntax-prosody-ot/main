@@ -1228,7 +1228,6 @@ function matchMaxSP(sTree, pTree, sCat){
 
 //Match Maximal P --> S
 //Switch inputs for PS matching:
-
 function matchMaxPS(sTree, pTree, pCat){
 	return matchMaxSP(pTree, sTree, pCat);
 }
@@ -1478,7 +1477,7 @@ function isMaximal(parent, child){
 	and level ordering is assumed (a node of category level k
 	will never be dominated by a node of category < k).
 
-	When calling markMinMax in a recursive function, best call without parcat arg
+	When calling markMinMax in a recursive function, call without parcat arg! -MT
 
 	**Previous isMin or isMax labels are NOT preserved as of 7/27/19 -MT**
 */
@@ -1493,8 +1492,8 @@ function markMinMax(mytree, parcat){
 
 	// Check if node is being reused by GEN
 	if(parcat && mytree.parentCat !== parcat){
-		console.log(mytree.id + ' is being reset');
-		//node is being reused and must be reset
+		//console.log(mytree.id + ' is being reset');
+		//node is being reused and must be reset because it has incorrect data
 		mytree.parentCat = parcat; //correct parentCat
 		mytree.isMax = void(0); //set to undefined
 		mytree.isMin = void(0); //set to undefined
