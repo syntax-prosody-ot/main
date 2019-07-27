@@ -49,15 +49,12 @@ var sCat = ["cp", "xp", "x0"];
 
 function markMinMax(mytree, parcat){
 	// Check for maximalitys
-	// hasOwnProperty("isMax") returns true if isMax is undefined, so we need ||
-	// mytree.isMax === void(0) too. This might be the result of clearMinMax
-	if(!mytree.hasOwnProperty('isMax') || mytree.isMax === void(0)){
+	if(!mytree.hasOwnProperty('isMax')){
 		mytree.isMax = (mytree.cat !== parcat);
 	}
 
 	// Check for minimality
-	// see comments at top of function re void(0)
-	if(!mytree.hasOwnProperty('isMin') || mytree.isMin === void(0)){
+	if(!mytree.hasOwnProperty('isMin')){
 		mytree.isMin = isMinimal(mytree);
 	}
 /* 		// Breadth-first search of the children to see if
@@ -84,18 +81,3 @@ function markMinMax(mytree, parcat){
 	}
 	return mytree;
 }
-
-/* Because GEN reuses nodes of prosodic trees, certain nodes are marked as
- * minimal or maximal and then retain that property when re-used, even when this
- * property is undesired. Therefor it migh be useful to have a function that
- * clears a tree of minimal/maximal properties.
- */
- function clearMinMax(tree){
-	 tree.isMax = void(0);
-	 tree.isMin = void(0);
-	 if (tree.children && tree.children.length){
-		 for (var i = 0; i < tree.children.length; i ++ ){
-			 clearMinMax(tree.children[i]);
-		 }
-	 }
- }
