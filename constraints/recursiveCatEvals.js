@@ -50,9 +50,9 @@ function isMaximal(parent, child){
 var sCat = ["cp", "xp", "x0"];
 
 function markMinMax(mytree, parcat){
-	//on first call, mark root node
+	//on first call, initialize mytree.parentCat
 	if(parcat == void(0)){
-		mytree.parentCat = 'is root';
+		mytree.parentCat = '';
 	}
 
 	// Check if node is being reused by GEN
@@ -65,11 +65,13 @@ function markMinMax(mytree, parcat){
 	}
 
 	// Check for maximalitys
+	//mytree.isMax might be undefined (void(0)) as a result of if statement
 	if(!mytree.hasOwnProperty('isMax') || mytree.isMax === void(0)){
 		mytree.isMax = (mytree.cat !== parcat);
 	}
 
 	// Check for minimality
+	//mytree.isMin might be undefined (void(0)) as a result of if statement
 	if(!mytree.hasOwnProperty('isMin') || mytree.isMin === void(0)){
 		mytree.isMin = isMinimal(mytree);
 	}

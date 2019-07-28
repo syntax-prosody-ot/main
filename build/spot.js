@@ -1203,20 +1203,74 @@ function hasMatch(sNode, pTree)
 
 }
 
-/* Match Max constraints
- * Assign a violation for every node of syntactic category s that is not
- * dominated by another node of category s in the syntactic tree, and is not
- * mapped to a corresponding prosodic node of category p, where p=catMap(s),
- * such that p is not dominated by another node of category p.
- */
+// Match Max constraints:
 
-//Match Maximal S --> P
+/* Same as hasMatch function above, except this only returns true if the
+* matching prosodic node is maximal:
+*/
+function hasMaxMatch(sNode, pTree){
+	 var sLeaves = getLeaves(sNode);
+	 markMinMax(pTree); //mark min and max on prosodic tree
+	 if(catsMatch(sNode.cat, pTree.cat) && sameIds(getLeaves(pTree), sLeaves) && pTree.isMax)
+	 // the current prosodic node is the match, both for category and for terminals, and is maximal
+	 {
+ 		return true;
+ 		}
+
+ 		// If the current prosodic node is NOT the match:
+
+ 		else if(!pTree.children || pTree.children.length===0){
+ 		// current node is terminal
+ 			return false;
+		}
+
+ 		else
+ 		//the current prosodic node is non-terminal (has children)
+ 		{
+ 			for(var i = 0; i < pTree.children.length; i++)
+ 			//check each child to see if the match exists in the subtree rooted in that child
+ 			{
+ 				var child = pTree.children[i];
+ 				if(hasMatch(sNode, child)){
+ 					return true;
+				}
+ 			}
+ 			return false;
+ 		}
+
+ }
+
+ /* Assign a violation for every node of syntactic category s that is not
+  * dominated by another node of category s in the syntactic tree, and is not
+  * mapped to a corresponding prosodic node of category p, where p=catMap(s),
+  * such that p is not dominated by another node of category p.
+  */
+
 function matchMaxSP(sTree, pTree, sCat){
 	 var vcount = 0;
 	 markMinMax(sTree); //mark maximal nodes in tree
 	 if (sTree.children && sTree.children.length){
 		 for (var i = 0; i < sTree.children.length; i ++){
 			 vcount += matchMaxSP(sTree.children[i], pTree, sCat); //recursive function call
+		 }
+	 }
+	 if (sTree.cat === sCat && sTree.isMax && !hasMaxMatch(sTree, pTree)){
+		 //add violation if this node has no maximal match, is maximal and of the right cat
+		 vcount ++;
+	 }
+	 return vcount;
+ }
+
+/* Same as matchMaxSP, except matching prosodic node need not be maximal,
+ * only the syntactic node must be maximal to incur a violation if no match is
+ * found.
+ */
+function matchMaxSyntax(sTree, pTree, sCat){
+	 var vcount = 0;
+	 markMinMax(sTree); //mark maximal nodes in tree
+	 if (sTree.children && sTree.children.length){
+		 for (var i = 0; i < sTree.children.length; i ++){
+			 vcount += matchMaxSyntax(sTree.children[i], pTree, sCat); //recursive function call
 		 }
 	 }
 	 if (sTree.cat === sCat && sTree.isMax && !hasMatch(sTree, pTree)){
@@ -1230,6 +1284,11 @@ function matchMaxSP(sTree, pTree, sCat){
 //Switch inputs for PS matching:
 function matchMaxPS(sTree, pTree, pCat){
 	return matchMaxSP(pTree, sTree, pCat);
+}
+
+//Match P --> S version of matchMaxSyntax. See comment there for explanation
+function matchMaxProsody(sTree, pTree, pCat){
+	return matchMaxSyntax(pTree, sTree, pCat);
 }
 /****************
 * Function that implements Nonrecursivity, version 1:
@@ -1485,9 +1544,9 @@ function isMaximal(parent, child){
 var sCat = ["cp", "xp", "x0"];
 
 function markMinMax(mytree, parcat){
-	//on first call, mark root node
+	//on first call, initialize mytree.parentCat
 	if(parcat == void(0)){
-		mytree.parentCat = 'is root';
+		mytree.parentCat = '';
 	}
 
 	// Check if node is being reused by GEN
@@ -1500,11 +1559,13 @@ function markMinMax(mytree, parcat){
 	}
 
 	// Check for maximalitys
+	//mytree.isMax might be undefined (void(0)) as a result of if statement
 	if(!mytree.hasOwnProperty('isMax') || mytree.isMax === void(0)){
 		mytree.isMax = (mytree.cat !== parcat);
 	}
 
 	// Check for minimality
+	//mytree.isMin might be undefined (void(0)) as a result of if statement
 	if(!mytree.hasOwnProperty('isMin') || mytree.isMin === void(0)){
 		mytree.isMin = isMinimal(mytree);
 	}

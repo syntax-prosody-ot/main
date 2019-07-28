@@ -50,13 +50,30 @@
 				}
 
 				var theCandidates = GEN(sTree, 'first second third', {"obeysExhaustivity":false});
-				var suspects = [theCandidates[0]];
+				var suspects = [theCandidates[3]];
 
 				var con = ["matchMaxSP-xp", "matchMaxPS-phi"];
 				window.addEventListener("load",function(){
 					writeTableau(makeTableau(theCandidates, con));
 					revealNextSegment();
 				});
+
+				function compareCons(){
+					console.log("Syntax --> Prosody:");
+					for (var i = 0; i < theCandidates.length; i ++){
+						if (matchMaxSP(theCandidates[i][0], theCandidates[i][1], 'xp') != matchMaxSyntax(theCandidates[i][0], theCandidates[i][1], 'xp')){
+							var cand = i + 1;
+							console.log('Candidate ' + cand + ' is evaluated differently');
+						}
+					}
+					console.log("Prosody --> Syntax:");
+					for (var i = 0; i < theCandidates.length; i ++){
+						if (matchMaxPS(theCandidates[i][0], theCandidates[i][1], 'phi') != matchMaxProsody(theCandidates[i][0], theCandidates[i][1], 'phi')){
+							var cand = i + 1;
+							console.log('Candidate ' + cand + ' is evaluated differently');
+						}
+					}
+				}
 
 		</script>
 	</body>
