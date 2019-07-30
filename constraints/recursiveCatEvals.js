@@ -45,7 +45,13 @@ var sCat = ["cp", "xp", "x0"];
  * dominated by a node of category < k).
  *
  * This can be called in a recursive function and is compatable with GEN's
- * re-use of certain prosodic subtrees.
+ * re-use of certain prosodic subtrees, but when testing something that relies
+ * on this function and GEN, it is best to use one tree at a time since JS is a
+ * pass by reference language and subtrees will show the markings assigned from
+ * the most recent call of markMinMax, which are not always the correct markings
+ * for the current tree. As long as marMinMax is called on a subtree or its
+ * ancestors before its maximality or minimality is used, your function will be
+ * working with the correct values of isMin, isMax and parentCat.
  *
  * 7/29/19 refactor of an earlier version
  */
