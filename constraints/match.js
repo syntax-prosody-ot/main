@@ -117,15 +117,15 @@ function hasMatch(sNode, pTree)
 // Match Max constraints:
 
 /* Same as hasMatch function above, except this only returns true if the
-* matching prosodic node is maximal:
-*/
+ * matching prosodic node is maximal:
+ */
 function hasMaxMatch(sNode, pTree){
 	 var sLeaves = getLeaves(sNode);
 	 markMinMax(pTree); //mark min and max on prosodic tree
 	 if(catsMatch(sNode.cat, pTree.cat) && sameIds(getLeaves(pTree), sLeaves) && pTree.isMax)
 	 // the current prosodic node is the match, both for category and for terminals, and is maximal
-	 {
- 		return true;
+		{
+ 			return true;
  		}
 
  		// If the current prosodic node is NOT the match:
@@ -142,7 +142,7 @@ function hasMaxMatch(sNode, pTree){
  			//check each child to see if the match exists in the subtree rooted in that child
  			{
  				var child = pTree.children[i];
- 				if(hasMatch(sNode, child)){
+ 				if(hasMaxMatch(sNode, child)){
  					return true;
 				}
  			}

@@ -34,67 +34,42 @@ function isMaximal(parent, child){
 	else return true;
 }
 
-/* Function that takes a tree and the category of its root's parent node
-	and labels all the nodes in the tree as being minimal or maximal
-	instance of whatever category k they are, where:
-	minimal = does not dominate any nodes of category k
-	maximal = is not dominated by any nodes of category k
-	and level ordering is assumed (a node of category level k
-	will never be dominated by a node of category < k).
-
-	When calling markMinMax in a recursive function, call without parcat arg! -MT
-
-	**Previous isMin or isMax labels are NOT preserved as of 7/27/19 -MT**
-*/
 // Move this to the prosodic hierarchy file probably?
 var sCat = ["cp", "xp", "x0"];
 
-function markMinMax(mytree, parcat){
-	//on first call, initialize mytree.parentCat
-	if(parcat == void(0)){
-		mytree.parentCat = '';
+/* Function that takes a tree and labels all the nodes in the tree as being
+ * a minimal or maximal instance of whatever category k they are, where:
+ * minimal = does not dominate any nodes of category k
+ * maximal = is not dominated by any nodes of category k
+ * and level ordering is assumed (a node of category level k will never be
+ * dominated by a node of category < k).
+ *
+ * This can be called in a recursive function and is compatable with GEN's
+ * re-use of certain prosodic subtrees.
+ *
+ * 7/29/19 refactor of an earlier version
+ */
+
+function markMinMax(mytree){
+	/* If parentCat property is not already defined for this node, it is probably
+	 * the root node. Non-root nodes get the property parentCat when this node's
+	 * children are marked below.
+	 */
+	if (!mytree.hasOwnProperty('parentCat')){
+		mytree.parentCat = "is root"; //marks the root node
 	}
 
-	// Check if node is being reused by GEN
-	if(parcat && mytree.parentCat !== parcat){
-		//console.log(mytree.id + ' is being reset');
-		//node is being reused and must be reset because it has incorrect data
-		mytree.parentCat = parcat; //correct parentCat
-		mytree.isMax = void(0); //set to undefined
-		mytree.isMin = void(0); //set to undefined
-	}
+	//mark maximal nodes
+	mytree.isMax = (mytree.cat !== mytree.parentCat);
 
-	// Check for maximalitys
-	//mytree.isMax might be undefined (void(0)) as a result of if statement
-	if(!mytree.hasOwnProperty('isMax') || mytree.isMax === void(0)){
-		mytree.isMax = (mytree.cat !== parcat);
-	}
-
-	// Check for minimality
-	//mytree.isMin might be undefined (void(0)) as a result of if statement
-	if(!mytree.hasOwnProperty('isMin') || mytree.isMin === void(0)){
-		mytree.isMin = isMinimal(mytree);
-	}
-/* 		// Breadth-first search of the children to see if
-		// any immediate children are the same category as the current node
-		var i = 0;
-		while(mytree.isMin; i < mytree.children.length){
-			mychild = mytree.children[i];
-			if(pCat.indexOf(mychild.cat) >= 0 || sCat.indexOf(mychild.cat) >= 0){
-				childcat = mychild.cat;
-				if(mytree.cat == childcat){
-					mytree.isMin = false;
-				}
-				else{
-					i++;
-				}
-
-			} */
+	//mark minimality (relies on isMinimal above)
+	mytree.isMin = isMinimal(mytree);
 
 	if(mytree.children && mytree.children.length){
-		parcat = mytree.cat;
 		for(var i = 0; i < mytree.children.length; i++){
-			mytree.children[i] = markMinMax(mytree.children[i], parcat);
+			var child = mytree.children[i];
+			child.parentCat = mytree.cat; // set the property parentCat
+			mytree.children[i] = markMinMax(mytree.children[i]);
 		}
 	}
 	return mytree;
