@@ -1113,7 +1113,7 @@ function getLeaves(x)
 	return leaves;
 }
 
-function sameIds(a1, a2)
+function sameIdsOrdered(a1, a2)
 //helper function to compare two arrays of children
 //since there isn't a built_in array comparator.
 {
@@ -1127,6 +1127,28 @@ function sameIds(a1, a2)
 		i++;
 	}
 
+	return true;
+}
+
+/* function to compare sets of terminals {A} and {B}. returns true iff for each
+ * element in A, there is an element in B with the same value for the property
+ * "id" and A and B are of the same lenght.
+ * Order insensitive version of sameIdsOrdered.
+ */
+function sameIds(a1, a2){
+	if (a1.length !== a2.length){
+		return false;
+	}
+	for (var x = 0; x < a1.length; x ++){ // for each element in a1
+		for (var y = 0; y < a2.length; y ++){ // there is an element in a2
+			if (a1[x].id === a2[y].id){ // such that these elements have the same ids
+				y = a2.length; // break the loop once this elemnt is found
+			}
+			else if (y == (a2.length - 1)) { // if no such element exists, return false
+				return false;
+			}
+		}
+	}
 	return true;
 }
 
@@ -1539,7 +1561,13 @@ var sCat = ["cp", "xp", "x0"];
  * dominated by a node of category < k).
  *
  * This can be called in a recursive function and is compatable with GEN's
- * re-use of certain prosodic subtrees.
+ * re-use of certain prosodic subtrees, but when testing something that relies
+ * on this function and GEN, it is best to use one tree at a time since JS is a
+ * pass by reference language and subtrees will show the markings assigned from
+ * the most recent call of markMinMax, which are not always the correct markings
+ * for the current tree. As long as marMinMax is called on a subtree or its
+ * ancestors before its maximality or minimality is used, your function will be
+ * working with the correct values of isMin, isMax and parentCat.
  *
  * 7/29/19 refactor of an earlier version
  */
