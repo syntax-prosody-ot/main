@@ -1,37 +1,30 @@
-/* this file contains the trees for testing MatchPhrase-Min */
-var stree_no_violations =
+var stree_no_violations = 
 {
     "id": "CP1",
     "cat": "cp",
     "children": [
         {
             "cat": "xp",
-            "id": "XP_7",
+            "id": "XP_6",
             "children": [
                 {
-                    "cat": "xp",
-                    "id": "XP_6",
-                    "children": [
-                        {
-                            "id": "a",
-                            "cat": "x0"
-                        },
-                        {
-                            "id": "b",
-                            "cat": "x0"
-                        }
-                    ]
+                    "id": "a",
+                    "cat": "x0"
                 },
                 {
-                    "id": "c",
+                    "id": "b",
                     "cat": "x0"
                 }
             ]
         },
         {
             "cat": "xp",
-            "id": "XP_9",
+            "id": "XP_7",
             "children": [
+                {
+                    "id": "c",
+                    "cat": "x0"
+                },
                 {
                     "cat": "xp",
                     "id": "XP_8",
@@ -50,7 +43,6 @@ var stree_no_violations =
         }
     ]
 }
-
 var ptree_no_violations = 
 {
     "id": "CP1",
@@ -58,32 +50,26 @@ var ptree_no_violations =
     "children": [
         {
             "cat": "phi",
+            "id": "XP_6",
+            "children": [
+                {
+                    "id": "a",
+                    "cat": "w"
+                },
+                {
+                    "id": "b",
+                    "cat": "w"
+                }
+            ]
+        },
+        {
+            "cat": "phi",
             "id": "XP_7",
             "children": [
                 {
-                    "cat": "phi",
-                    "id": "XP_6",
-                    "children": [
-                        {
-                            "id": "a",
-                            "cat": "w"
-                        },
-                        {
-                            "id": "b",
-                            "cat": "w"
-                        }
-                    ]
-                },
-                {
                     "id": "c",
                     "cat": "w"
-                }
-            ]
-        },
-        {
-            "cat": "phi",
-            "id": "XP_9",
-            "children": [
+                },
                 {
                     "cat": "phi",
                     "id": "XP_8",
@@ -102,65 +88,6 @@ var ptree_no_violations =
         }
     ]
 }
-
-var ptree_1v =
-{
-    "id": "CP1",
-    "cat": "iota",
-    "children": [
-        {
-            "cat": "phi",
-            "id": "XP_10",
-            "children": [
-                {
-                    "cat": "phi",
-                    "id": "XP_11",
-                    "children": [
-                        {
-                            "cat": "phi",
-                            "id": "XP_12",
-                            "children": [
-                                {
-                                    "id": "a",
-                                    "cat": "w"
-                                }
-                            ]
-                        },
-                        {
-                            "id": "b",
-                            "cat": "w"
-                        }
-                    ]
-                },
-                {
-                    "id": "c",
-                    "cat": "w"
-                }
-            ]
-        },
-        {
-            "cat": "phi",
-            "id": "XP_9",
-            "children": [
-                {
-                    "cat": "phi",
-                    "id": "XP_8",
-                    "children": [
-                        {
-                            "id": "d",
-                            "cat": "w"
-                        },
-                        {
-                            "id": "e",
-                            "cat": "w"
-                        }
-                    ]
-                }
-            ]
-        }
-    ]
-}
-
 var stree_1v =
 {
     "id": "CP1",
@@ -168,40 +95,85 @@ var stree_1v =
     "children": [
         {
             "cat": "xp",
-            "id": "XP_10",
+            "id": "XP_6",
             "children": [
                 {
-                    "cat": "xp",
-                    "id": "XP_11",
-                    "children": [
-                        {
-                            "cat": "xp",
-                            "id": "XP_12",
-                            "children": [
-                                {
-                                    "id": "a",
-                                    "cat": "w"
-                                }
-                            ]
-                        },
-                        {
-                            "id": "b",
-                            "cat": "w"
-                        }
-                    ]
+                    "id": "a",
+                    "cat": "x0"
                 },
                 {
-                    "id": "c",
-                    "cat": "w"
+                    "cat": "xp",
+                    "id": "XP_9",
+                    "children": [
+                        {
+                            "id": "b",
+                            "cat": "x0"
+                        }
+                    ]
                 }
             ]
         },
         {
             "cat": "xp",
-            "id": "XP_9",
+            "id": "XP_7",
             "children": [
                 {
+                    "id": "c",
+                    "cat": "x0"
+                },
+                {
                     "cat": "xp",
+                    "id": "XP_8",
+                    "children": [
+                        {
+                            "id": "d",
+                            "cat": "x0"
+                        },
+                        {
+                            "id": "e",
+                            "cat": "x0"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+var ptree_1v =
+{
+    "id": "CP1",
+    "cat": "iota",
+    "children": [
+        {
+            "cat": "phi",
+            "id": "XP_6",
+            "children": [
+                {
+                    "id": "a",
+                    "cat": "w"
+                },
+                {
+                    "cat": "phi",
+                    "id": "XP_9",
+                    "children": [
+                        {
+                            "id": "b",
+                            "cat": "w"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "cat": "phi",
+            "id": "XP_7",
+            "children": [
+                {
+                    "id": "c",
+                    "cat": "w"
+                },
+                {
+                    "cat": "phi",
                     "id": "XP_8",
                     "children": [
                         {
@@ -218,143 +190,183 @@ var stree_1v =
         }
     ]
 }
-
-var stree_2v = 
+var stree_2v =
 {
     "id": "CP1",
     "cat": "cp",
     "children": [
         {
             "cat": "xp",
-            "id": "XP_7",
+            "id": "XP_6",
             "children": [
                 {
+                    "id": "a",
+                    "cat": "x0"
+                },
+                {
                     "cat": "xp",
-                    "id": "XP_8",
+                    "id": "XP_9",
                     "children": [
-                        {
-                            "cat": "xp",
-                            "id": "XP_9",
-                            "children": [
-                                {
-                                    "id": "a",
-                                    "cat": "x0"
-                                }
-                            ]
-                        },
                         {
                             "id": "b",
                             "cat": "x0"
                         }
                     ]
-                },
-                {
-                    "id": "c",
-                    "cat": "x0"
                 }
             ]
         },
         {
             "cat": "xp",
-            "id": "XP_10",
+            "id": "XP_7",
             "children": [
                 {
+                    "id": "c",
+                    "cat": "x0"
+                },
+                {
                     "cat": "xp",
-                    "id": "XP_11",
+                    "id": "XP_8",
                     "children": [
                         {
+                            "id": "d",
+                            "cat": "x0"
+                        },
+                        {
                             "cat": "xp",
-                            "id": "XP_12",
+                            "id": "XP_10",
                             "children": [
                                 {
-                                    "id": "d",
+                                    "id": "e",
                                     "cat": "x0"
                                 }
                             ]
-                        },
-                        {
-                            "id": "e",
-                            "cat": "x0"
                         }
                     ]
-                },
-                {
-                    "id": "f",
-                    "cat": "x0"
                 }
             ]
         }
     ]
 }
-
-ptree_2v =
+var ptree_2v =
 {
     "id": "CP1",
     "cat": "iota",
     "children": [
         {
             "cat": "phi",
-            "id": "XP_7",
+            "id": "XP_6",
             "children": [
                 {
+                    "id": "a",
+                    "cat": "w"
+                },
+                {
                     "cat": "phi",
-                    "id": "XP_8",
+                    "id": "XP_9",
                     "children": [
-                        {
-                            "cat": "phi",
-                            "id": "XP_9",
-                            "children": [
-                                {
-                                    "id": "a",
-                                    "cat": "w"
-                                }
-                            ]
-                        },
                         {
                             "id": "b",
                             "cat": "w"
                         }
                     ]
-                },
-                {
-                    "id": "c",
-                    "cat": "w"
                 }
             ]
         },
         {
             "cat": "phi",
-            "id": "XP_10",
+            "id": "XP_7",
             "children": [
                 {
+                    "id": "c",
+                    "cat": "w"
+                },
+                {
                     "cat": "phi",
-                    "id": "XP_11",
+                    "id": "XP_8",
                     "children": [
                         {
+                            "id": "d",
+                            "cat": "w"
+                        },
+                        {
                             "cat": "phi",
-                            "id": "XP_12",
+                            "id": "XP_10",
                             "children": [
                                 {
-                                    "id": "d",
+                                    "id": "e",
                                     "cat": "w"
                                 }
                             ]
-                        },
-                        {
-                            "id": "e",
-                            "cat": "w"
                         }
                     ]
-                },
-                {
-                    "id": "f",
-                    "cat": "w"
                 }
             ]
         }
     ]
 }
-
+var stree_0v =
+{
+    "id": "CP1",
+    "cat": "cp",
+    "children": [
+        {
+            "cat": "xp",
+            "id": "XP_6",
+            "children": [
+                {
+                    "id": "a",
+                    "cat": "x0"
+                },
+                {
+                    "cat": "xp",
+                    "id": "XP_9",
+                    "children": [
+                        {
+                            "cat": "xp",
+                            "id": "XP_11",
+                            "children": [
+                                {
+                                    "id": "b",
+                                    "cat": "x0"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "cat": "xp",
+            "id": "XP_7",
+            "children": [
+                {
+                    "id": "c",
+                    "cat": "x0"
+                },
+                {
+                    "cat": "xp",
+                    "id": "XP_8",
+                    "children": [
+                        {
+                            "id": "d",
+                            "cat": "x0"
+                        },
+                        {
+                            "cat": "xp",
+                            "id": "XP_10",
+                            "children": [
+                                {
+                                    "id": "e",
+                                    "cat": "x0"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
 var ptree_0v =
 {
     "id": "CP1",
@@ -362,70 +374,59 @@ var ptree_0v =
     "children": [
         {
             "cat": "phi",
-            "id": "XP_7",
+            "id": "XP_6",
             "children": [
                 {
+                    "id": "a",
+                    "cat": "w"
+                },
+                {
                     "cat": "phi",
-                    "id": "XP_8",
+                    "id": "XP_9",
                     "children": [
                         {
                             "cat": "phi",
-                            "id": "XP_9",
+                            "id": "XP_11",
                             "children": [
                                 {
-                                    "id": "a",
+                                    "id": "b",
                                     "cat": "w"
                                 }
                             ]
-                        },
-                        {
-                            "id": "b",
-                            "cat": "w"
                         }
                     ]
-                },
-                {
-                    "id": "c",
-                    "cat": "w"
                 }
             ]
         },
         {
             "cat": "phi",
-            "id": "XP_10",
+            "id": "XP_7",
             "children": [
                 {
-                    "cat": "phi",
-                    "id": "XP_11",
-                    "children": [
-                        {
-                            "cat": "phi",
-                            "id": "XP_12",
-                            "children": [
-                                {
-                                    "cat": "phi",
-                                    "id": "XP_13",
-                                    "children": [
-                                        {
-                                            "id": "d",
-                                            "cat": "w"
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            "id": "e",
-                            "cat": "w"
-                        }
-                    ]
+                    "id": "c",
+                    "cat": "w"
                 },
                 {
-                    "id": "f",
-                    "cat": "w"
+                    "cat": "phi",
+                    "id": "XP_8",
+                    "children": [
+                        {
+                            "id": "d",
+                            "cat": "w"
+                        },
+                        {
+                            "cat": "phi",
+                            "id": "XP_10",
+                            "children": [
+                                {
+                                    "id": "e",
+                                    "cat": "w"
+                                }
+                            ]
+                        }
+                    ]
                 }
             ]
         }
     ]
 }
-
