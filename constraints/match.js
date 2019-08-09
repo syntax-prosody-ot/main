@@ -51,15 +51,19 @@ function sameIds(a1, a2){
 		return false;
 	}
 	for (var x = 0; x < a1.length; x ++){ // for each element in a1
-		for (var y = 0; y < a2.length; y ++){ // there is an element in a2
-			if (a1[x].id === a2[y].id){ // such that these elements have the same ids
-				y = a2.length; // break the loop once this elemnt is found
+		var y = 0;
+		var matched = false; // keeps track of if a1[x] has a match in a2
+		while (matched == false){//there is an element in a2 ...
+			if (a2[y] && a1[x].id === a2[y].id){ // such that these elements have the same ids
+				matched = true; // set matched to true
 			}
-			else if (y == (a2.length - 1)) { // if no such element exists, return false
+			if (y == a2.length){ //matched is false for every element in a2
 				return false;
 			}
+			y ++; //increment y
 		}
 	}
+	// if nothing caused the function to return false ...
 	return true;
 }
 
