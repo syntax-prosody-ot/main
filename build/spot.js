@@ -537,6 +537,7 @@ Note: relies on getLeaves.
 In the future we might want to have structure below the level of the (terminal) word, e.g., feet
 and in that case would need a type-sensitive implementation of getLeaves
 */
+
 function isInArray(myArray, x)
 {
 	var answer = false;
