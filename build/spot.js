@@ -284,7 +284,87 @@ function addIrishTones_Kalivoda(ptree){
 	}
 	
 	return addIrishTones_Kalivoda_Inner(ptree);
-}/* Binarity that cares about the number of branches */
+}/* Assign a violation for every node of category cat 
+such that its rightmost child of category (cat-1) 
+has more than two children.
+*/
+
+function binMaxRightmostBranches(s, ptree, cat) {
+  var vcount = 0;
+  //base case: we are at leaf && there are no children
+  //make sure there is children
+  if (ptree.children && ptree.children.length) {
+    if (ptree.cat === cat) {
+      //check rightmost child
+      var rightMost = ptree.children.length - 1;
+      var rightMostChild = ptree.children[rightMost];
+      if (rightMostChild.children && rightMostChild.children.length > 2) {
+        vcount++;
+      }       
+    }
+    //check other nodes in ptree
+    for(var i = 0; i < ptree.children.length; i++) {
+      vcount += binMaxRightmostBranches(s, ptree.children[i], cat);
+    }       
+  }
+  return vcount;
+};
+
+/* Assign a violation for every rightmost node x of category cat such that x dominates (at any level) more than two children of category cat such that x dominates (at any level) more than two children of category cat-1 */
+function binMaxRightmostLeaves(s, ptree, cat) {
+  //make parent_ptree static variable to keep track of the parent ptree
+  if(typeof parent_ptree == 'undefined') {
+    parent_ptree = null;
+  }
+  var vcount = 0;
+  //if curr ptree has children
+  if(ptree.children && ptree.children.length) {
+    //and is the same cat as input cat
+    if(ptree.cat === cat) {
+      //if there is a parent and the current ptree is the rightmost child of that parent 
+      //or if there is not parent but the cat is still the same as the input cat
+      if((parent_ptree && ptree === parent_ptree.children[parent_ptree.children.length - 1]) || parent_ptree === null) {
+	//count the leaves
+        var leaves = findLeaves(ptree);
+	//if the leaves exceed 2, increment vcount
+	if(leaves > 2) {
+          vcount++;
+	}
+      }
+    }
+    //code to recursively look through tree
+    for(var i = 0; i < ptree.children.length; i++) {
+      //set parent_ptree to the current ptree
+      parent_ptree = ptree;
+      //recursively call on children of ptree
+      vcount += binMaxRightmostLeaves(s, ptree.children[i], cat);
+    }
+  }
+  //remove everything in parent_ptree aka reset var to typeof undefined
+  delete parent_ptree;
+  return vcount;
+};
+
+/*helper function I created to count the leaves of a ptree*/
+function findLeaves(ptree) {
+  var leaves = 0;
+  //if this ptree does not dominate another ptree with the same cat
+  if(isMinimal(ptree) && ptree.children) {
+    //add the number of leaves of the current ptree to the current amount of leaves
+    leaves = leaves + ptree.children.length;
+  }
+  //if there are children
+  if(ptree.children && ptree.children.length) {
+    //for every children
+    for(var i =0; i < ptree.children.length; i++){
+      //if they are the same cat as the current ptree
+      //count the leaves
+      leaves+=findLeaves(ptree.children[i]);
+    }
+  }
+  return leaves;
+}
+/* Binarity that cares about the number of branches */
 
 //sensitive to the category of the parent only (2 branches of any type is acceptable)
 function binMinBranches(s, ptree, cat){
@@ -537,7 +617,6 @@ Note: relies on getLeaves.
 In the future we might want to have structure below the level of the (terminal) word, e.g., feet
 and in that case would need a type-sensitive implementation of getLeaves
 */
-
 function isInArray(myArray, x)
 {
 	var answer = false;
@@ -849,7 +928,74 @@ function splitNMCmin(sTree,pTree)
 		}
 	}
 	return vcount;
-};/********************
+};/* Equal Strength Boundaries Constraints
+ * as proposed by Nick Kalivoda
+ * assign violations if a phonological terminal is at the left/right edge of a
+ * different number of syntactic constituents as phonological constituents
+ */
+
+function equalStrengthBase(stree, ptree, cat, edgeName){
+  var edgeIndex; //the index of the target edge for a equal strength constraint
+  var sTerminals = getLeaves(stree); //syntactic terminals
+  var pTerminals = getLeaves(ptree); //prosodic terminals
+
+  // GEN re-uses subtrees, so the property edges must be cleared out every time
+  for (var i = 0; i < sTerminals.length; i ++){
+    //clear out edges for syntactic terminals
+    sTerminals[i].edges = void(0);
+  }
+  for (var i = 0; i < pTerminals.length; i ++){
+    //clear out edges for prosodic terminals
+    pTerminals[i].edges = void(0);
+  }
+
+  if (edgeName == 'left'){edgeIndex = 0}; //left edge is children[0]
+  if (edgeName == 'right')(edgeIndex = -1); //right edge is children[-1]
+
+  equalStrengthHelper(stree, cat, edgeIndex);//call recursive helper for syntax
+  equalStrengthHelper(ptree, cat, edgeIndex);//call helper for prosody
+
+  return void(0);
+}
+
+/* equalStrengthBase is run once per call so that sTerminals and pTerminals can
+ * be cleared out once. equalStrengthHelper runs recursively, once for each node
+ * on the tree. Also, the same process needs to be run on ptree and stree, so
+ * the helper function minimizes code repitition by taking only one tree and
+ * being called for both ptree and stree.
+ */
+function equalStrengthHelper(tree, cat, edgeIndex){
+
+  //recursiveStrengthHelper only goes through the left/right branches of tree
+  //arguments given unique names to avoid scope problems
+  function recursiveStrengthHelper(partree, category, edge, boundaries){
+    // argument boundaries keeps track of the number of edges a terminal is on
+    if (!boundaries){
+      var boundaries = 0;
+    }
+    if (partree.cat === category){
+      boundaries ++; //increment boundaries when partree is of the right cat
+    }
+    //if partree is terminal and partree.edges is not already defined
+    if (!partree.children && !partree.edges){
+      partree.edges = boundaries; //assign partree.edges the value of boundaries
+    }
+    if (partree.children && partree.children.length){
+      recursiveStrengthHelper(partree.children[edge], category, edge, boundaries);
+    }
+  }
+
+  if (tree.children && tree.children.length){
+    for (var i = 0; i < tree.children.length; i ++){
+      equalStrengthHelper(tree.children[i], cat, edgeIndex); //recursive function call
+    }
+  }
+
+  return recursiveStrengthHelper(tree, cat, edgeIndex);
+
+  //return tree;
+}
+/********************
 * Some implementations of EqualSisters (Myrberg 2013)
 * Myrberg introduces this constraint but doesn't actually define 
 * how to count violations if there are more than 2 sisters.
