@@ -932,32 +932,42 @@ function splitNMCmin(sTree,pTree)
  * as proposed by Nick Kalivoda
  * assign violations if a phonological terminal is at the left/right edge of a
  * different number of syntactic constituents as phonological constituents
+ * specific functions defined below, base function counts number of left/right
+ * edges a terminal falls on.
  */
 
-function equalStrengthBase(stree, ptree, cat, edgeName){
+ //this code isn't robust for terminal order-shifting, does it need to be?
+
+function equalStrengthBase(stree, ptree, scat, edgeName){
   var sTerminals = getLeaves(stree); //syntactic terminals
   var pTerminals = getLeaves(ptree); //prosodic terminals
 
-  // GEN re-uses subtrees, so the property edges must be cleared out every time
+  /* edges refers to left or right edges, so it should be cleared out in case
+   * the edge is different from the last call */
   for (var i = 0; i < sTerminals.length; i ++){
     //clear out edges for syntactic terminals
     sTerminals[i].edges = void(0);
   }
+  // GEN also re-uses subtrees, so edges must be cleared out every time
   for (var i = 0; i < pTerminals.length; i ++){
     //clear out edges for prosodic terminals
     pTerminals[i].edges = void(0);
   }
 
-  equalStrengthHelper(stree, cat, edgeName);//call recursive helper for syntax
-  equalStrengthHelper(ptree, cat, edgeName);//call helper for prosody
+  equalStrengthHelper(stree, scat, edgeName);//call recursive helper for syntax
+  var pcat = categoryPairings[scat]; // the prosodic cat the corresponds to scat
+  equalStrengthHelper(ptree, pcat, edgeName);//call recursive helper for prosody
 
-  return [getLeaves(stree, getLeaves(ptree))];
+  //return an array of the terminals, also arrays, now with the property edges
+  return [getLeaves(stree), getLeaves(ptree)];
 }
 
+/*
 function edgeIndex(subtree, name){
   if (name == "left"){return 0;}
   if (name == "right"){return subtree.children.length - 1;}
 }
+*/
 
 /* equalStrengthBase is run once per call so that sTerminals and pTerminals can
  * be cleared out once. equalStrengthHelper runs recursively, once for each node
@@ -972,40 +982,105 @@ function equalStrengthHelper(tree, cat, edgeName){
   //arguments given unique names to avoid scope problems
   function recursiveStrengthHelper(partree, category, boundaries){
     // argument boundaries keeps track of the number of edges a terminal is on
-    var edge = edgeIndex(partree, edgeName);
+    var edgeIndex; // the index of the l/r edge
+    //left = [0]
+    if (edgeName == "left"){
+      edgeIndex = 0;
+    }
+    //right = [length -1]
+    if (edgeName == "right" && partree.children && partree.children.length){
+      edgeIndex = (partree.children.length - 1);
+    }
+    //increment boundaries when partree is of the correct category
     if (partree.cat === category){
-      boundaries ++; //increment boundaries when partree is of the right cat
+      boundaries ++;
     }
     //if partree is terminal and partree.edges is not already defined
+    //edges must not already be defined because function is called recursively
     if (!partree.children && !partree.edges){
       partree.edges = boundaries; //assign partree.edges the value of boundaries
     }
+    //recursively call inner function for the child on the l/r edge
     if (partree.children && partree.children.length){
-      recursiveStrengthHelper(partree.children[edge], category, boundaries);
+      recursiveStrengthHelper(partree.children[edgeIndex], category, boundaries);
     }
   }
+  //recursively call outer function for every node
   if (tree.children && tree.children.length){
     for (var i = 0; i < tree.children.length; i ++){
-      equalStrengthHelper(tree.children[i], cat, edgeName); //recursive function call
+      equalStrengthHelper(tree.children[i], cat, edgeName);
     }
   }
 }
 
-function equalStrengthLeftSP(stree, ptree, cat){
+/* Equal Strength Right Syntax --> Prosody:
+ * For every terminal in stree that is at the right edge of n nodes of category
+ * cat in stree, and at the right edge of m nodes of category
+ * categoryPairings(cat) in ptree, if n > m, assign n-m violations.
+ * Relies on equalStrengthBase
+ */
+function equalStrengthRightSP(stree, ptree, cat){
   var vcount = 0;
-  var terminals = equalStrengthBase(stree, ptree, cat, "left");
+  var terminals = equalStrengthBase(stree, ptree, cat, "right");
+  //base function returns [streeTerminals, ptreeTerminals]
   for (var i = 0; i < terminals[0].length; i ++){
+    //property edges refers to the number of right edges a terminal is on
     if (terminals[0][i].edges > terminals[1][i].edges){
       vcount += terminals[0][i].edges - terminals[1][i].edges;
+      //if n > m, assign n - m violations
     }
   }
   return vcount;
 }
 
+/* Equal Strength Right Prosody --> Syntax:
+ * For every terminal in ptree that is at the right edge of n nodes of category
+ * cat in ptree, and at the right edge of m nodes of category
+ * categoryPairings(cat) in stree, if n > m, assign n-m violations.
+ * Relies on equalStrengthBase and equalStrengthRightSP. SP constraints are PS
+ * constraints with stree and ptree switched
+ */
+function equalStrengthRightPS(stree, ptree, cat){
+  return equalStrengthRightSP(ptree, stree, cat);
+}
+
+// a combined version of equalStrengthrightSP and PS
+function equalStrengthRight(stree, ptree, cat){
+  return equalStrengthRightSP(stree, ptree, cat) + equalStrengthrightPS(stree, ptree, cat);
+}
+
+/* Equal Strength Left Syntax --> Prosody:
+ * For every terminal in stree that is at the left edge of n nodes of category
+ * cat in stree, and at the left edge of m nodes of category
+ * categoryPairings(cat) in ptree, if n > m, assign n-m violations.
+ * Relies on equalStrengthBase
+ */
+function equalStrengthLeftSP(stree, ptree, cat){
+  var vcount = 0;
+  var terminals = equalStrengthBase(stree, ptree, cat, "left");
+  //base function returns [streeTerminals, ptreeTerminals]
+  for (var i = 0; i < terminals[0].length; i ++){
+    //property edges refers to the number of left edges a terminal is on
+    if (terminals[0][i].edges > terminals[1][i].edges){
+      vcount += terminals[0][i].edges - terminals[1][i].edges;
+      //if n > m, assign n - m violations
+    }
+  }
+  return vcount;
+}
+
+/* Equal Strength Left Prosody --> Syntax:
+ * For every terminal in ptree that is at the left edge of n nodes of category
+ * cat in ptree, and at the left edge of m nodes of category
+ * categoryPairings(cat) in stree, if n > m, assign n-m violations.
+ * Relies on equalStrengthBase and equalStrengthLeftSP. SP constraints are PS
+ * constraints with stree and ptree switched
+ */
 function equalStrengthLeftPS(stree, ptree, cat){
   return equalStrengthLeftSP(ptree, stree, cat);
 }
 
+// a combined version of equalStrengthLeftSP and PS
 function equalStrengthLeft(stree, ptree, cat){
   return equalStrengthLeftSP(stree, ptree, cat) + equalStrengthLeftPS(stree, ptree, cat);
 }
