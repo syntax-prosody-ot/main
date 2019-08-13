@@ -1,6 +1,6 @@
 <!-- Max Tarlov 8/12/19 testing abstract match constraints (Kalivoda) -->
 <html>
-	<title>Abstract Match Test</title>
+	<title>Abstract Match Test Left</title>
 	<head>
 		<link rel="stylesheet" type="text/css" href="../spot.css">
 		<script src="../build/spot.js"></script>
@@ -16,17 +16,17 @@
       "cat": "cp",
       "children": [
         {
-            "cat": "cp",
+            "cat": "xp",
             "id": "XP_5",
             "children": [
-                {
+							{
+									"id": "first",
+									"cat": "x0"
+							},
+              {
                     "cat": "xp",
                     "id": "XP_4",
                     "children": [
-                        {
-                            "id": "first",
-                            "cat": "x0"
-                        },
                         {
                             "id": "second",
                             "cat": "x0"
@@ -42,7 +42,7 @@
           ]
     }
 				var theCandidates = GEN(sTree, 'first second third');
-				var con = ['equalStrengthLeftSP-xp', 'equalStrengthLeftPS-phi', 'equalStrengthLeft-phi'] //'equalStrengthRightSP-phi', 'equalStrengthRightPS-phi', 'equalStrengthRight-phi'];
+				var con = ['equalStrengthLeftSP-xp', 'equalStrengthLeftPS-phi', 'equalStrengthLeft-xp'] //'equalStrengthRightSP-phi', 'equalStrengthRightPS-phi', 'equalStrengthRight-phi'];
 				window.addEventListener("load",function(){
 					writeTableau(makeTableau(theCandidates, con));
 					revealNextSegment();

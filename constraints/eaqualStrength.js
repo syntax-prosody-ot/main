@@ -25,7 +25,7 @@ function equalStrengthBase(stree, ptree, scat, edgeName){
   }
 
   equalStrengthHelper(stree, scat, edgeName);//call recursive helper for syntax
-  var pcat = categoryPairings[scat]; // the prosodic cat the corresponds to scat
+  var pcat = reversableCatPairings(scat); // the prosodic cat the corresponds to scat
   equalStrengthHelper(ptree, pcat, edgeName);//call recursive helper for prosody
 
   //return an array of the terminals, also arrays, now with the property edges
@@ -76,10 +76,43 @@ function equalStrengthHelper(tree, cat, edgeName){
   }
 }
 
+/* A function to return the paired category as defined in categoryPairings.
+ * categoryPairings only returns prosodic categories given a syntactic category.
+ * reversableCatPairings also returns a syntactic category given a prosodic
+ * category.
+ * Maybe this should move to prosodicHierarchy.js?
+*/
+function reversableCatPairings(cat){
+  if (categoryPairings[cat]){
+    return categoryPairings[cat]; //just the same as calling categoryPairings
+  }
+  else {
+    //get the property names of categoryPairings
+    var props = Object.getOwnPropertyNames(categoryPairings);
+    var propFound = false; //true when the category is paired
+    for (var i = 0; i < props.length; i ++){
+      if (categoryPairings[props[i]] == cat){
+        propFound = true;
+        if (props[i] == "clause"){
+          // rn categoryPairings has a property "clause" which maps to i
+          return "cp"; // "cp" also maps to i, I think we want "cp"
+        }
+        //props[i] is the property that maps to cat
+        return props[i];
+      }
+    }
+    // if no matching category is found, return a costom error.
+    if (!propFound){
+      var err = new Error("" + cat + " is not a category defined in categoryPairings (see main/prosodicHierarchy.js)");
+      return err;
+    }
+  }
+}
+
 /* Equal Strength Right Syntax --> Prosody:
  * For every terminal in stree that is at the right edge of n nodes of category
  * cat in stree, and at the right edge of m nodes of category
- * categoryPairings(cat) in ptree, if n > m, assign n-m violations.
+ * reversableCatPairings(cat) in ptree, if n > m, assign n-m violations.
  * Relies on equalStrengthBase
  */
 function equalStrengthRightSP(stree, ptree, cat){
@@ -99,7 +132,7 @@ function equalStrengthRightSP(stree, ptree, cat){
 /* Equal Strength Right Prosody --> Syntax:
  * For every terminal in ptree that is at the right edge of n nodes of category
  * cat in ptree, and at the right edge of m nodes of category
- * categoryPairings(cat) in stree, if n > m, assign n-m violations.
+ * reversableCatPairings(cat) in stree, if n > m, assign n-m violations.
  * Relies on equalStrengthBase and equalStrengthRightSP. SP constraints are PS
  * constraints with stree and ptree switched
  */
@@ -107,15 +140,15 @@ function equalStrengthRightPS(stree, ptree, cat){
   return equalStrengthRightSP(ptree, stree, cat);
 }
 
-// a combined version of equalStrengthrightSP and PS
+// a combined version of equalStrengthrightSP and PS. Takes syntactic cat, not prosodic
 function equalStrengthRight(stree, ptree, cat){
-  return equalStrengthRightSP(stree, ptree, cat) + equalStrengthrightPS(stree, ptree, cat);
+  return equalStrengthRightSP(stree, ptree, cat) + equalStrengthRightPS(stree, ptree, reversableCatPairings(cat));
 }
 
 /* Equal Strength Left Syntax --> Prosody:
  * For every terminal in stree that is at the left edge of n nodes of category
  * cat in stree, and at the left edge of m nodes of category
- * categoryPairings(cat) in ptree, if n > m, assign n-m violations.
+ * reversableCatPairings(cat) in ptree, if n > m, assign n-m violations.
  * Relies on equalStrengthBase
  */
 function equalStrengthLeftSP(stree, ptree, cat){
@@ -135,7 +168,7 @@ function equalStrengthLeftSP(stree, ptree, cat){
 /* Equal Strength Left Prosody --> Syntax:
  * For every terminal in ptree that is at the left edge of n nodes of category
  * cat in ptree, and at the left edge of m nodes of category
- * categoryPairings(cat) in stree, if n > m, assign n-m violations.
+ * reversableCatPairings(cat) in stree, if n > m, assign n-m violations.
  * Relies on equalStrengthBase and equalStrengthLeftSP. SP constraints are PS
  * constraints with stree and ptree switched
  */
@@ -143,7 +176,7 @@ function equalStrengthLeftPS(stree, ptree, cat){
   return equalStrengthLeftSP(ptree, stree, cat);
 }
 
-// a combined version of equalStrengthLeftSP and PS
+// a combined version of equalStrengthLeftSP and PS, takes syntactic cat, not prosodic
 function equalStrengthLeft(stree, ptree, cat){
-  return equalStrengthLeftSP(stree, ptree, cat) + equalStrengthLeftPS(stree, ptree, cat);
+  return equalStrengthLeftSP(stree, ptree, cat) + equalStrengthLeftPS(stree, ptree, reversableCatPairings(cat));
 }
