@@ -177,11 +177,13 @@ function hasMaxMatch(sNode, pTree){
 
  }
 
- /* Assign a violation for every node of syntactic category s that is not
-  * dominated by another node of category s in the syntactic tree, and is not
-  * mapped to a corresponding prosodic node of category p, where p=catMap(s),
-  * such that p is not dominated by another node of category p.
-  */
+/* Match-SP(scat-max, pcat-max): Assign a violation for every node of syntactic
+ * category s that is not dominated by another node of category s in the
+ * syntactic tree, and is not mapped to a corresponding prosodic node of
+ * category p, where p=catMap(s), such that p is not dominated by another node
+ * of category p.
+ * ex. Match a maximal xp with a maximal phi.
+ */
 
 function matchMaxSP(sTree, pTree, sCat){
 	 var vcount = 0;
@@ -198,9 +200,10 @@ function matchMaxSP(sTree, pTree, sCat){
 	 return vcount;
  }
 
-/* Same as matchMaxSP, except matching prosodic node need not be maximal,
- * only the syntactic node must be maximal to incur a violation if no match is
- * found.
+/* Match-SP(scat-max, pcat). Same as matchMaxSP, except matching prosodic node
+ * need not be maximal, only the syntactic node must be maximal to incur a
+ * violation if no match is found.
+ * ex. Match a maximal xp with any phi.
  */
 function matchMaxSyntax(sTree, pTree, sCat){
 	 var vcount = 0;

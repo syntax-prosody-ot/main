@@ -1346,11 +1346,13 @@ function hasMaxMatch(sNode, pTree){
 
  }
 
- /* Assign a violation for every node of syntactic category s that is not
-  * dominated by another node of category s in the syntactic tree, and is not
-  * mapped to a corresponding prosodic node of category p, where p=catMap(s),
-  * such that p is not dominated by another node of category p.
-  */
+/* Match-SP(scat-max, pcat-max): Assign a violation for every node of syntactic
+ * category s that is not dominated by another node of category s in the
+ * syntactic tree, and is not mapped to a corresponding prosodic node of
+ * category p, where p=catMap(s), such that p is not dominated by another node
+ * of category p.
+ * ex. Match a maximal xp with a maximal phi.
+ */
 
 function matchMaxSP(sTree, pTree, sCat){
 	 var vcount = 0;
@@ -1367,9 +1369,10 @@ function matchMaxSP(sTree, pTree, sCat){
 	 return vcount;
  }
 
-/* Same as matchMaxSP, except matching prosodic node need not be maximal,
- * only the syntactic node must be maximal to incur a violation if no match is
- * found.
+/* Match-SP(scat-max, pcat). Same as matchMaxSP, except matching prosodic node
+ * need not be maximal, only the syntactic node must be maximal to incur a
+ * violation if no match is found.
+ * ex. Match a maximal xp with any phi.
  */
 function matchMaxSyntax(sTree, pTree, sCat){
 	 var vcount = 0;
@@ -1641,15 +1644,15 @@ var sCat = ["cp", "xp", "x0"];
  * a minimal or maximal instance of whatever category k they are, where:
  * minimal = does not dominate any nodes of category k
  * maximal = is not dominated by any nodes of category k
- * and level ordering is assumed (a node of category level k will never be
- * dominated by a node of category < k).
+ * and layering is assumed (a node of category level k will never be dominated
+ * by a node of category < k).
  *
  * This can be called in a recursive function and is compatable with GEN's
  * re-use of certain prosodic subtrees, but when testing something that relies
  * on this function and GEN, it is best to use one tree at a time since JS is a
  * pass by reference language and subtrees will show the markings assigned from
  * the most recent call of markMinMax, which are not always the correct markings
- * for the current tree. As long as marMinMax is called on a subtree or its
+ * for the current tree. As long as markMinMax is called on a subtree or its
  * ancestors before its maximality or minimality is used, your function will be
  * working with the correct values of isMin, isMax and parentCat.
  *
