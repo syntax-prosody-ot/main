@@ -1,8 +1,8 @@
 /* Equal Strength Boundaries Constraints
- * as proposed by Nick Kalivoda
- * assign violations if a phonological terminal is at the left/right edge of a
- * different number of syntactic constituents as phonological constituents
- * specific functions defined below, base function counts number of left/right
+ * as proposed by Nick Kalivoda, August 2019:
+ * Assign violations if a phonological terminal is at the left/right edge of a
+ * different number of syntactic constituents as phonological constituents.
+ * Specific functions defined below. Base function counts number of left/right
  * edges a terminal falls on.
  */
 
