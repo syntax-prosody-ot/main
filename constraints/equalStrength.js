@@ -6,8 +6,6 @@
  * edges a terminal falls on.
  */
 
- //this code isn't robust for terminal order-shifting, does it need to be?
-
 function equalStrengthBase(stree, ptree, scat, edgeName){
   var sTerminals = getLeaves(stree); //syntactic terminals
   var pTerminals = getLeaves(ptree); //prosodic terminals
@@ -25,17 +23,22 @@ function equalStrengthBase(stree, ptree, scat, edgeName){
   }
 
   equalStrengthHelper(stree, scat, edgeName);//call recursive helper for syntax
-  var pcat = reversableCatPairings(scat); // the prosodic cat the corresponds to scat
+  var pcat = reversibleCatPairings(scat); // the prosodic cat the corresponds to scat
   equalStrengthHelper(ptree, pcat, edgeName);//call recursive helper for prosody
 
   //return an array of the terminals, also arrays, now with the property edges
   return [getLeaves(stree), getLeaves(ptree)];
 }
 
-/* equalStrengthBase is run once per call so that sTerminals and pTerminals can
+/* equalStrengthHelper takes a tree, a category "cat", and the name of an edge
+ * (left/right) "edgeName" and counts the number of nodes of category cat that
+ * each terminal falls on the left/right edge of, as specified by edgeName.
+ * This information is recorded in a property of each terminal called "edges".
+
+ * equalStrengthBase is run once per call so that sTerminals and pTerminals can
  * be cleared out once. equalStrengthHelper runs recursively, once for each node
  * on the tree. Also, the same process needs to be run on ptree and stree, so
- * the helper function minimizes code repitition by taking only one tree and
+ * the helper function minimizes code repetition by taking only one tree and
  * being called for both ptree and stree.
  */
 function equalStrengthHelper(tree, cat, edgeName){
@@ -56,10 +59,10 @@ function equalStrengthHelper(tree, cat, edgeName){
     }
     //increment boundaries when partree is of the correct category
     if (partree.cat === category){
-      boundaries ++;
+      boundaries++;
     }
-    //if partree is terminal and partree.edges is not already defined
-    //edges must not already be defined because function is called recursively
+    /* if partree is terminal and the terminal's edges have not already been
+     * recorded in partree.edges */
     if (!partree.children && !partree.edges){
       partree.edges = boundaries; //assign partree.edges the value of boundaries
     }
@@ -76,43 +79,10 @@ function equalStrengthHelper(tree, cat, edgeName){
   }
 }
 
-/* A function to return the paired category as defined in categoryPairings.
- * categoryPairings only returns prosodic categories given a syntactic category.
- * reversableCatPairings also returns a syntactic category given a prosodic
- * category.
- * Maybe this should move to prosodicHierarchy.js?
-*/
-function reversableCatPairings(cat){
-  if (categoryPairings[cat]){
-    return categoryPairings[cat]; //just the same as calling categoryPairings
-  }
-  else {
-    //get the property names of categoryPairings
-    var props = Object.getOwnPropertyNames(categoryPairings);
-    var propFound = false; //true when the category is paired
-    for (var i = 0; i < props.length; i ++){
-      if (categoryPairings[props[i]] == cat){
-        propFound = true;
-        if (props[i] == "clause"){
-          // rn categoryPairings has a property "clause" which maps to i
-          return "cp"; // "cp" also maps to i, I think we want "cp"
-        }
-        //props[i] is the property that maps to cat
-        return props[i];
-      }
-    }
-    // if no matching category is found, return a costom error.
-    if (!propFound){
-      var err = new Error("" + cat + " is not a category defined in categoryPairings (see main/prosodicHierarchy.js)");
-      return err;
-    }
-  }
-}
-
 /* Equal Strength Right Syntax --> Prosody:
  * For every terminal in stree that is at the right edge of n nodes of category
  * cat in stree, and at the right edge of m nodes of category
- * reversableCatPairings(cat) in ptree, if n > m, assign n-m violations.
+ * reversibleCatPairings(cat) in ptree, if n > m, assign n-m violations.
  * Relies on equalStrengthBase
  */
 function equalStrengthRightSP(stree, ptree, cat){
@@ -132,7 +102,7 @@ function equalStrengthRightSP(stree, ptree, cat){
 /* Equal Strength Right Prosody --> Syntax:
  * For every terminal in ptree that is at the right edge of n nodes of category
  * cat in ptree, and at the right edge of m nodes of category
- * reversableCatPairings(cat) in stree, if n > m, assign n-m violations.
+ * reversibleCatPairings(cat) in stree, if n > m, assign n-m violations.
  * Relies on equalStrengthBase and equalStrengthRightSP. SP constraints are PS
  * constraints with stree and ptree switched
  */
@@ -142,13 +112,16 @@ function equalStrengthRightPS(stree, ptree, cat){
 
 // a combined version of equalStrengthrightSP and PS. Takes syntactic cat, not prosodic
 function equalStrengthRight(stree, ptree, cat){
-  return equalStrengthRightSP(stree, ptree, cat) + equalStrengthRightPS(stree, ptree, reversableCatPairings(cat));
+  if (!categoryPairings[cat]){
+    cat = reversibleCatPairings(cat); //makes sure that cat is a syntactic cat.
+  }
+  return equalStrengthRightSP(stree, ptree, cat) + equalStrengthRightPS(stree, ptree, reversibleCatPairings(cat));
 }
 
 /* Equal Strength Left Syntax --> Prosody:
  * For every terminal in stree that is at the left edge of n nodes of category
  * cat in stree, and at the left edge of m nodes of category
- * reversableCatPairings(cat) in ptree, if n > m, assign n-m violations.
+ * reversibleCatPairings(cat) in ptree, if n > m, assign n-m violations.
  * Relies on equalStrengthBase
  */
 function equalStrengthLeftSP(stree, ptree, cat){
@@ -168,7 +141,7 @@ function equalStrengthLeftSP(stree, ptree, cat){
 /* Equal Strength Left Prosody --> Syntax:
  * For every terminal in ptree that is at the left edge of n nodes of category
  * cat in ptree, and at the left edge of m nodes of category
- * reversableCatPairings(cat) in stree, if n > m, assign n-m violations.
+ * reversibleCatPairings(cat) in stree, if n > m, assign n-m violations.
  * Relies on equalStrengthBase and equalStrengthLeftSP. SP constraints are PS
  * constraints with stree and ptree switched
  */
@@ -178,5 +151,8 @@ function equalStrengthLeftPS(stree, ptree, cat){
 
 // a combined version of equalStrengthLeftSP and PS, takes syntactic cat, not prosodic
 function equalStrengthLeft(stree, ptree, cat){
-  return equalStrengthLeftSP(stree, ptree, cat) + equalStrengthLeftPS(stree, ptree, reversableCatPairings(cat));
+  if (!categoryPairings[cat]){
+    cat = reversibleCatPairings(cat); //makes sure that cat is a syntactic cat.
+  }
+  return equalStrengthLeftSP(stree, ptree, cat) + equalStrengthLeftPS(stree, ptree, reversibleCatPairings(cat));
 }

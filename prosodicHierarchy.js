@@ -56,3 +56,34 @@ function nodeHasLowerCat(node1, node2){
 	}
 	else return false;
 }
+
+/* A function to return the paired category as defined in categoryPairings.
+ * categoryPairings only returns prosodic categories given a syntactic category.
+ * reversibleCatPairings also returns a syntactic category given a prosodic
+ * category.
+*/
+function reversibleCatPairings(cat){
+  if (categoryPairings[cat]){
+    return categoryPairings[cat]; //just the same as calling categoryPairings
+  }
+  else {
+    //get the property names of categoryPairings
+    var props = Object.getOwnPropertyNames(categoryPairings);
+    var propFound = false; //true when the category is paired
+    for (var i = 0; i < props.length; i++){
+      if (categoryPairings[props[i]] == cat){
+        propFound = true;
+        if (props[i] === "clause"){
+          // rn categoryPairings has a property "clause" which maps to i
+          return "cp"; // "cp" also maps to i, I think we want "cp"
+        }
+        //props[i] is the property that maps to cat
+        return props[i];
+      }
+    }
+    // if no matching category is found, return a costum error.
+    if (!propFound){
+      throw(new Error("" + cat + " is not a category defined in categoryPairings (see main/prosodicHierarchy.js)"));
+    }
+  }
+}
