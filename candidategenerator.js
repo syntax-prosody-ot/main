@@ -228,3 +228,26 @@ function addPhiWrapped(candidates, options){
 }
 
 })();
+
+function generateWordOrders(wordList, clitic){
+	if(typeof wordList === 'string'){
+		wordList = wordList.split(' ');
+	}
+	//Find the clitic to move around
+	var cliticIndex = wordList.indexOf(clitic);
+	if(cliticIndex < 0)
+		throw new Error("The provided clitic"+clitic+" was not found in the word list");
+	//Slice the clitic out
+	var beforeClitic = wordList.slice(0,cliticIndex);
+	var afterClitic = wordList.slice(cliticIndex+1, wordList.length);
+	var cliticlessWords = beforeClitic.concat(afterClitic);
+
+	var orders = new Array(wordList.length);
+	for(var i = 0; i < wordList.length; i++){
+		beforeClitic = cliticlessWords.slice(0,i);
+		afterClitic = cliticlessWords.slice(i, cliticlessWords.length);
+		orders[i] = beforeClitic.concat([clitic].concat(afterClitic));
+	}
+	return orders;
+
+}
