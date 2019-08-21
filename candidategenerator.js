@@ -229,8 +229,17 @@ function addPhiWrapped(candidates, options){
 
 })();
 
+function containsClitic(x){
+	return x.indexOf("clitic")>-1;
+}
+
 function generateWordOrders(wordList, clitic){
 	if(typeof wordList === 'string'){
+		var cliticTagIndex = wordList.indexOf("-clitic");
+		if(cliticTagIndex > 0){
+			var wordListParts = wordList.split("-clitic");
+			wordList = wordListParts[0]+wordListParts[1];
+		}
 		wordList = wordList.split(' ');
 	}
 	//Find the clitic to move around
@@ -246,8 +255,53 @@ function generateWordOrders(wordList, clitic){
 	for(var i = 0; i < wordList.length; i++){
 		beforeClitic = cliticlessWords.slice(0,i);
 		afterClitic = cliticlessWords.slice(i, cliticlessWords.length);
-		orders[i] = beforeClitic.concat([clitic].concat(afterClitic));
+		orders[i] = beforeClitic.concat([clitic+"-clitic"].concat(afterClitic));
 	}
 	return orders;
+}
 
+/* Arguments: 
+	stree: a syntatic tree, with the clitic marked as cat: "clitic"
+	words: optional string or array of strings which are the desired leaves
+	options: options for GEN
+*/
+function genWithCliticMovement(stree, words, options){
+	// Identify the clitic of interest
+	var clitic = '';
+	// First try to read it off the tree
+	var leaves = getLeaves(stree);
+	if(leaves.length > 0 && leaves[0].id){
+		console.log(leaves);
+		var leaf = 0;	
+		while(clitic === '' && leaf < leaves.length){
+			if(leaves[leaf].cat==="clitic")
+				clitic = leaves[leaf].id;
+			leaf++;
+		}
+		if(clitic === '')
+			throw new Error("genWithCliticMovement was called but no node in stree has category clitic was provided in stree");
+	}
+	//Otherwise, get the clitic from words
+	else
+	{
+		// Make sure words is an array
+		if(typeof words === "string"){
+			words = words.split(' ');
+		}
+		var x = words.find(containsClitic);
+		clitic = x.split('-clitic')[0];
+		words[words.indexOf(x)] = clitic;
+	}
+
+	//Make sure words is defined before using it to generate word orders
+	if(words.length<leaves.length){
+		words = leaves;
+	}
+	var wordOrders = generateWordOrders(words, clitic);
+	var candidateSets = new Array(wordOrders.length);
+	for(var i = 0; i<wordOrders.length; i++){
+		candidateSets[i] = GEN(stree, wordOrders[i], options);
+	}
+	//candidateSets;
+	return [].concat.apply([], candidateSets);
 }
