@@ -3,9 +3,11 @@ SPOT
 
 SPOT (Syntax-Prosody in Optimality Theory) is a JavaScript-based application for linguists who are studying the syntax-prosody interface in the theoretical framework of Optimality Theory (Prince and Smolensky 1993). The goal of SPOT is to do for work on the syntax-prosody interface what OTWorkplace already does for metrical phonology -- to enable rigorous theoretical work, particularly typological investigations, theory comparison (e.g., Match vs Align), and refinements to the precise formulation of constraints. 
 
+See https://spot.sites.ucsc.edu/ for news and updates.
+
 Features
 --------
-* online access at <https://people.ucsc.edu/~jbellik/research/spot/interface1.html>
+* online access at <https://people.ucsc.edu/~jbellik/spot/interface1.html>
 * automatic violation counting: for all constraints in the SPOT system
 * automatic candidate generation: exhaustive generation of all prosodic trees with a given number of terminals
 * graphical user interface for building a JavaScript representation of the syntactic input tree(s)
@@ -19,7 +21,7 @@ Please contact the Jenny Bellik or Nick Kalivoda (UC Santa Cruz) if you would li
 
 How to cite
 -----------
-Bellik, J., O. Bellik, N. Kalivoda (2017). Syntax-Prosody for OT. JavaScript application. <https://github.com/syntax-prosody-ot>
+Bellik, J., O. Bellik, N. Kalivoda (2019). Syntax-Prosody for OT. JavaScript application. <https://github.com/syntax-prosody-ot>
 
 
 
