@@ -68,29 +68,44 @@ function sameIds(a1, a2){
 }
 
 
-function matchPS(sTree, pParent, pCat)
+function matchPS(sTree, pParent, pCat, options)
 //Assign a violation for every prosodic node of type pCat in pParent that doesn't have a corresponding syntactic node in sTree,
 //where "corresponding" is defined as: dominates all and only the same terminals, and has the corresponding syntactic category
 //Assumes no null terminals.
 {
-	return matchSP(pParent, sTree, pCat);
+	return matchSP(pParent, sTree, pCat, options);
 }
 
-//Longterm TODO: Technically, Match doesn't compare ordered sets but unordered sets, so for an implementation that wouldn't penalize prosodic scrambling we'd need to sort sParent.children and pParent.children before comparing them.
+
 //TODO: what about null syntactic terminals?? these need to be filtered out of the syntactic input?? write this function later.
 
-function matchSP(sParent, pTree, sCat)
-//Assign a violation for every syntactic node of type sCat in sParent that doesn't have a corresponding prosodic node in pTree,
-//where "corresponding" is defined as: dominates all and only the same terminals, and has the corresponding prosodic category
-//Assumes no null syntactic terminals.
+function matchSP(sParent, pTree, sCat, options)
+/*Assign a violation for every syntactic node of type sCat in sParent that 
+* doesn't have a  corresponding prosodic node in pTree, where "corresponding" 
+* is defined as: dominates all and only the same terminals, and has the 
+* corresponding prosodic category. 
+* By default, assumes no null syntactic terminals.
+* options = {requireLexical: true/false, requireOvertHead: true/false}
+* For non-lexical XPs to be ignored, they should be given an attribute func: true.
+*/
 {
+	options = options || {};
+
 	if(sParent.cat === sCat)
 		logreport.debug("\tSeeking match for "+sParent.id + " in tree rooted in "+pTree.id);
 	var vcount = 0;
 
-	if((sParent.cat === sCat) && !hasMatch(sParent, pTree)){
-		vcount++;
-		logreport.debug("\tVIOLATION: "+sParent.id+" has no match!");
+	/*sParent needs to be matched only if it fulfills the following conditions:
+	*  - it has the right category
+	*  - either it is lexical (sParent.func is false) OR requireLexical is false
+	*  - either it has an overt head (sParent.silent is false) OR requireOvertHead is false
+	*/
+	if((sParent.cat === sCat && !(options.requireLexical && sParent.func)) 
+		&& !(options.requireOvertHead && sParent.silent)){
+		if(!hasMatch(sParent, pTree)){
+			vcount++;
+			logreport.debug("\tVIOLATION: "+sParent.id+" has no match!");
+		}
 	}
 
 	if(sParent.children){
@@ -185,7 +200,8 @@ function hasMaxMatch(sNode, pTree){
  * ex. Match a maximal xp with a maximal phi.
  */
 
-function matchMaxSP(sTree, pTree, sCat){
+function matchMaxSP(sTree, pTree, sCat, options){
+	options = options || {};
 	 var vcount = 0;
 	 markMinMax(sTree); //mark maximal nodes in tree
 	 if (sTree.children && sTree.children.length){
@@ -193,8 +209,11 @@ function matchMaxSP(sTree, pTree, sCat){
 			 vcount += matchMaxSP(sTree.children[i], pTree, sCat); //recursive function call
 		 }
 	 }
-	 if (sTree.cat === sCat && sTree.isMax && !hasMaxMatch(sTree, pTree)){
+	 if (sTree.cat === sCat && !(options.requireLexical && sTree.func) 
+		 && !(options.requireOvertHead && sTree.silent) 
+		 && sTree.isMax && !hasMaxMatch(sTree, pTree)){
 		 //add violation if this node has no maximal match, is maximal and of the right cat
+		 // and satisfies any additional conditions imposed by options
 		 vcount ++;
 	 }
 	 return vcount;
@@ -213,8 +232,11 @@ function matchMaxSyntax(sTree, pTree, sCat){
 			 vcount += matchMaxSyntax(sTree.children[i], pTree, sCat); //recursive function call
 		 }
 	 }
-	 if (sTree.cat === sCat && sTree.isMax && !hasMatch(sTree, pTree)){
+	 if (sTree.cat === sCat && !(options.requireLexical && sTree.func) 
+		 && !(options.requireOvertHead && sTree.silent) 
+		 && sTree.isMax && !hasMatch(sTree, pTree)){
 		 //add violation if this node has no match, is maximal and of the right cat
+		 // and satisfies any additional requirements imposed by options.
 		 vcount ++;
 	 }
 	 return vcount;
@@ -222,11 +244,11 @@ function matchMaxSyntax(sTree, pTree, sCat){
 
 //Match Maximal P --> S
 //Switch inputs for PS matching:
-function matchMaxPS(sTree, pTree, pCat){
-	return matchMaxSP(pTree, sTree, pCat);
+function matchMaxPS(sTree, pTree, pCat, options){
+	return matchMaxSP(pTree, sTree, pCat, options);
 }
 
 //Match P --> S version of matchMaxSyntax. See comment there for explanation
-function matchMaxProsody(sTree, pTree, pCat){
-	return matchMaxSyntax(pTree, sTree, pCat);
+function matchMaxProsody(sTree, pTree, pCat, options){
+	return matchMaxSyntax(pTree, sTree, pCat, options);
 }
