@@ -87,6 +87,7 @@ function matchSP(sParent, pTree, sCat, options)
 * By default, assumes no null syntactic terminals.
 * options = {requireLexical: true/false, requireOvertHead: true/false}
 * For non-lexical XPs to be ignored, they should be given an attribute func: true.
+* For silently-headed XPs to be ignored, they should be given an attribute silentHead: true
 */
 {
 	options = options || {};
@@ -101,7 +102,7 @@ function matchSP(sParent, pTree, sCat, options)
 	*  - either it has an overt head (sParent.silent is false) OR requireOvertHead is false
 	*/
 	if((sParent.cat === sCat && !(options.requireLexical && sParent.func)) 
-		&& !(options.requireOvertHead && sParent.silent)){
+		&& !(options.requireOvertHead && sParent.silentHead)){
 		if(!hasMatch(sParent, pTree)){
 			vcount++;
 			logreport.debug("\tVIOLATION: "+sParent.id+" has no match!");
@@ -153,6 +154,20 @@ function hasMatch(sNode, pTree)
 		return false;
 	}
 
+}
+
+/*Various flavors of Match to be called more easily by makeTableau*/
+
+function matchSP_LexicalHead(stree, ptree, cat){
+	return matchSP(stree, ptree, cat, {"requireLexical":true});
+}
+
+function matchSP_OvertHead(stree, ptree, cat){
+	return matchSP(stree, ptree, cat, {"requireOvertHead":true});
+}
+
+function matchSP_OvertLexicalHead(stree, ptree, cat){
+	return matchSP(stree, ptree, cat, {"requireOvertHead": true, "requireLexical":true});
 }
 
 // Match Max constraints:
