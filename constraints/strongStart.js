@@ -110,3 +110,34 @@ function strongStart_Elfner_SubCat(s, ptree, cat){
 	
 	return vcount;
 }
+
+/* Assign a violation for every node of category cat whose leftmost daughter constituent
+*  is of category < w (a syllable or foot).
+*  (proposed by Bennett, Elfner & McCloskey 2016 on Irish clitic placement)
+*/
+function strongStartClitic(s, ptree, cat){
+
+	//base case: ptree is a leaf or only has one child
+	if(!ptree.children){
+		return 0;
+	}
+	
+	var vcount = 0;
+	
+	if(ptree.cat === cat && ptree.children.length>1){		
+		var leftmostCat = ptree.children[0].cat;
+
+		if(pCat.isLower(leftmostCat, 'w'))
+		{
+			vcount++;
+		}
+	}
+	
+	// Recurse
+	for(var i=0; i<ptree.children.length; i++){
+		child = ptree.children[i];
+		vcount += strongStartClitic(s, child, cat);
+	}
+	
+	return vcount;
+}

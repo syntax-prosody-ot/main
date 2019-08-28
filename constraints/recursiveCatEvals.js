@@ -1,7 +1,7 @@
 
 /*
 Returns true if node does not dominate any other nodes of its category
-Assumes all nodes have valid and relevant categories 
+Assumes all nodes have valid and relevant categories
 (i.e., this is designed for prosodic trees and won't give the desired results
 if run on a syntactic tree that contains, e.g., bar levels).
 */
@@ -34,49 +34,48 @@ function isMaximal(parent, child){
 	else return true;
 }
 
-/* Function that takes a tree and the category of its root's parent node
-	and labels all the nodes in the tree as being minimal or maximal 
-	instance of whatever category k they are, where:
-	minimal = does not dominate any nodes of category k
-	maximal = is not dominated by any nodes of category k
-	and level ordering is assumed (a node of category level k 
-	will never be dominated by a node of category < k).
-	
-	Previous isMin or isMax labels are preserved.
-*/
 // Move this to the prosodic hierarchy file probably?
 var sCat = ["cp", "xp", "x0"];
 
-function markMinMax(mytree, parcat){
-	// Check for maximalitys
-	if(!mytree.hasOwnProperty('isMax')){
-		mytree.isMax = (mytree.cat !== parcat)
+/* Function that takes a tree and labels all the nodes in the tree as being
+ * a minimal or maximal instance of whatever category k they are, where:
+ * minimal = does not dominate any nodes of category k
+ * maximal = is not dominated by any nodes of category k
+ * and layering is assumed (a node of category level k will never be dominated
+ * by a node of category < k).
+ *
+ * This can be called in a recursive function and is compatable with GEN's
+ * re-use of certain prosodic subtrees, but when testing something that relies
+ * on this function and GEN, it is best to use one tree at a time since JS is a
+ * pass by reference language and subtrees will show the markings assigned from
+ * the most recent call of markMinMax, which are not always the correct markings
+ * for the current tree. As long as markMinMax is called on a subtree or its
+ * ancestors before its maximality or minimality is used, your function will be
+ * working with the correct values of isMin, isMax and parentCat.
+ *
+ * 7/29/19 refactor of an earlier version
+ */
+
+function markMinMax(mytree){
+	/* If parentCat property is not already defined for this node, it is probably
+	 * the root node. Non-root nodes get the property parentCat when this node's
+	 * children are marked below.
+	 */
+	if (!mytree.hasOwnProperty('parentCat')){
+		mytree.parentCat = "is root"; //marks the root node
 	}
-	
-	// Check for minimality
-	if(!mytree.hasOwnProperty('isMin')){
-		mytree.isMin = isMinimal(mytree);
-	}
-/* 		// Breadth-first search of the children to see if 
-		// any immediate children are the same category as the current node
-		var i = 0;
-		while(mytree.isMin; i < mytree.children.length){
-			mychild = mytree.children[i];
-			if(pCat.indexOf(mychild.cat) >= 0 || sCat.indexOf(mychild.cat) >= 0){
-				childcat = mychild.cat;
-				if(mytree.cat == childcat){
-					mytree.isMin = false;
-				}
-				else{
-					i++;
-				}
-				
-			} */		
-	
+
+	//mark maximal nodes
+	mytree.isMax = (mytree.cat !== mytree.parentCat);
+
+	//mark minimality (relies on isMinimal above)
+	mytree.isMin = isMinimal(mytree);
+
 	if(mytree.children && mytree.children.length){
-		parcat = mytree.cat;
 		for(var i = 0; i < mytree.children.length; i++){
-			mytree.children[i] = markMinMax(mytree.children[i], parcat);
+			var child = mytree.children[i];
+			child.parentCat = mytree.cat; // set the property parentCat
+			mytree.children[i] = markMinMax(mytree.children[i]);
 		}
 	}
 	return mytree;

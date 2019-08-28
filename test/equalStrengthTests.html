@@ -1,0 +1,52 @@
+<!-- Max Tarlov 8/12/19 testing abstract match constraints (Kalivoda) -->
+<html>
+	<title>Abstract Match Test Left</title>
+	<head>
+		<link rel="stylesheet" type="text/css" href="../spot.css">
+		<script src="../build/spot.js"></script>
+		<script src="../build/constraints.js"></script>
+		<script src="../candidategenerator.js"></script>
+	</head>
+	<body>
+		<pre id="results-container"></pre>
+
+		<script>
+			var sTree ={
+      "id": "CP1",
+      "cat": "cp",
+      "children": [
+        {
+            "cat": "xp",
+            "id": "XP_5",
+            "children": [
+							{
+									"id": "first",
+									"cat": "x0"
+							},
+              {
+                    "cat": "xp",
+                    "id": "XP_4",
+                    "children": [
+                        {
+                            "id": "second",
+                            "cat": "x0"
+                        }
+                    ]
+                },
+                {
+                    "id": "third",
+                    "cat": "x0"
+                }
+              ]
+            }
+          ]
+    }
+				var theCandidates = GEN(sTree, 'first second third');
+				var con = ['equalStrengthLeftSP-xp', 'equalStrengthLeftPS-phi', 'equalStrengthLeft-xp', 'equalStrengthRightSP-xp', 'equalStrengthRightPS-phi', 'equalStrengthRight-xp'];
+				window.addEventListener("load",function(){
+					writeTableau(makeTableau(theCandidates, con));
+					revealNextSegment();
+				});
+		</script>
+	</body>
+</html>
