@@ -264,11 +264,16 @@ function generateWordOrders(wordList, clitic){
 	stree: a syntatic tree, with the clitic marked as cat: "clitic"
 	words: optional string or array of strings which are the desired leaves
 	options: options for GEN
+
+   Returns: GEN run on each possible order of the words, where possible orders 
+   are those where terminals other than the clitic remian in place but the clitic can occupy any position.
+
+   Caveat: If there are multiple clitics, only the first will be moved.
 */
-function genWithCliticMovement(stree, words, options){
+function GENwithCliticMovement(stree, words, options){
 	// Identify the clitic of interest
 	var clitic = '';
-	// First try to read it off the tree
+	// First try to read words and clitic off the tree
 	var leaves = getLeaves(stree);
 	if(leaves.length > 0 && leaves[0].id){
 		console.log(leaves);
@@ -279,7 +284,7 @@ function genWithCliticMovement(stree, words, options){
 			leaf++;
 		}
 		if(clitic === '')
-			throw new Error("genWithCliticMovement was called but no node in stree has category clitic was provided in stree");
+			throw new Error("GENWithCliticMovement was called but no node in stree has category clitic was provided in stree");
 	}
 	//Otherwise, get the clitic from words
 	else
@@ -295,7 +300,11 @@ function genWithCliticMovement(stree, words, options){
 
 	//Make sure words is defined before using it to generate word orders
 	if(!words || words.length<leaves.length){
-		words = leaves;
+		words = new Array(leaves.length);
+		for(var i in leaves){
+			words[i] = leaves[i].id;
+		}
+		console.log(words);
 	}
 	var wordOrders = generateWordOrders(words, clitic);
 	var candidateSets = new Array(wordOrders.length);
