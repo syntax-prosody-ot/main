@@ -24,11 +24,12 @@ function makeTableau(candidateSet, constraintSet, options){
 		var ptreeStr = options.inputTypeString ? candidate[1] : parenthesizeTree(globalNameOrDirect(candidate[1]), {showTones: options.showTones});
 		var tableauRow = [ptreeStr];
 		for(var j = 0; j < constraintSet.length; j++){
-			var constraintAndCat = constraintSet[j].split('-');
+			
+			var [constraint, cat] = constraintSet[j].split('-');
 			//var numViolations = runConstraint(constraintAndCat[0], candidate[0], candidate[1], constraintAndCat[1]); ++lastSegmentId; // show log of each constraint run
 			var oldDebugOn = logreport.debug.on;
 			logreport.debug.on = false;
-			var numViolations = globalNameOrDirect(constraintAndCat[0])(getCandidate(candidate[0]), getCandidate(candidate[1]), constraintAndCat[1]); logreport.debug.on = oldDebugOn; // don't show the log of each constraint run
+			var numViolations = globalNameOrDirect(constraint)(getCandidate(candidate[0]), getCandidate(candidate[1]), cat); logreport.debug.on = oldDebugOn; // don't show the log of each constraint run
 			tableauRow.push(numViolations);
 		}
 		tableau.push(tableauRow);
