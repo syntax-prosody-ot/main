@@ -6,6 +6,10 @@ function noShift(stree, ptree, cat){
     var sorder = new Array(sleaves.length);
     var porder = new Array(pleaves.length);
 
+    if(sleaves.length != pleaves.length){
+        throw new Error("NoShift problem: The stree and ptree have different numbers of terminals!");
+    }
+
     for(var i in sleaves){
         sorder[i] = sleaves[i].id;
         porder[i] = pleaves[i].id;
@@ -19,8 +23,10 @@ function noShift(stree, ptree, cat){
 
     while(!shiftFound && j<sorder.length){
         var x = sorder[j];
+        // establish lists of x precedes
         var y = sorder.slice(j+1, sorder.length);
-        var z = porder.slice(j+1, porder.length);
+        var px = porder.indexOf(sorder[j]);
+        var z = porder.slice(px+1, porder.length);
 
         //if y has more elements than z, y can't possibly be a subset of z
         if(y.length > z.length){
