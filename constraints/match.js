@@ -113,7 +113,7 @@ function matchSP(sParent, pTree, sCat, options)
 		for(var i = 0; i < sParent.children.length; i++)
 		{
 			var sChild = sParent.children[i];
-			vcount += matchSP(sChild, pTree, sCat);
+			vcount += matchSP(sChild, pTree, sCat, options);
 		}
 	}
 
@@ -159,15 +159,15 @@ function hasMatch(sNode, pTree)
 /*Various flavors of Match to be called more easily by makeTableau*/
 
 function matchSP_LexicalHead(stree, ptree, cat){
-	return matchSP(stree, ptree, cat, {"requireLexical":true});
+	return matchSP(stree, ptree, cat, {requireLexical:true});
 }
 
 function matchSP_OvertHead(stree, ptree, cat){
-	return matchSP(stree, ptree, cat, {"requireOvertHead":true});
+	return matchSP(stree, ptree, cat, {requireOvertHead:true});
 }
 
 function matchSP_OvertLexicalHead(stree, ptree, cat){
-	return matchSP(stree, ptree, cat, {"requireOvertHead": true, "requireLexical":true});
+	return matchSP(stree, ptree, cat, {requireOvertHead: true, requireLexical:true});
 }
 
 // Match Max constraints:
