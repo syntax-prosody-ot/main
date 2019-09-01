@@ -231,7 +231,7 @@ function matchMaxProsody(sTree, pTree, pCat){
 	return matchMaxSyntax(pTree, sTree, pCat);
 }
 
-//Match Min constraints:
+//Match Min constraints
 
 /* Match-SP(scat-min, pcat-min): Assign a violation for every node of syntactic
  * category s that does not dominate another node of category s in the
@@ -262,4 +262,22 @@ function MatchMinSP(s, ptree, cat) {
 function MatchMinPS(s, ptree, cat) {
   var vcount = MatchMinSP(ptree, s, cat);
   return vcount;
+}
+
+//helper function, similar to hasMatch, different in that it ensures that ptree is minimal
+function hasMinMatch(sNode, pTree) {
+  var leaves = getLeaves(sNode);
+  if(catsMatch(sNode.cat, pTree.cat) && sameIds(getLeaves(pTree), leaves) && isMinimal(pTree)) {
+    return true;
+  } else if(!pTree.children || pTree.children.length === 0) {
+    return false;
+  } else {
+    for(var i = 0; i < pTree.children.length; i++) {
+      var child = pTree.children[i];
+      if(hasMinMatch(sNode, child)) {
+        return true;
+      }
+    }
+  }
+  return false;
 }
