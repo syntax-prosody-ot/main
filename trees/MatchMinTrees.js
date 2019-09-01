@@ -430,3 +430,159 @@ var ptree_0v =
         }
     ]
 }
+var xtree =
+{
+    "id": "CP1",
+    "cat": "cp",
+    "children": [
+        {
+            "id": "one",
+            "cat": "x0"
+        },
+        {
+            "cat": "x0",
+            "id": "XP_4",
+            "children": [
+                {
+                    "id": "two",
+                    "cat": "clitic"
+                },
+                {
+                    "id": "three",
+                    "cat": "clitic"
+                }
+            ]
+        }
+    ]
+}
+var wtree =
+{
+    "id": "CP1",
+    "cat": "i",
+    "children": [
+        {
+            "cat": "w",
+            "id": "XP_5",
+            "children": [
+                {
+                    "id": "one",
+                    "cat": "syll"
+                },
+                {
+                    "id": "two",
+                    "cat": "syll"
+                },
+                {
+                    "id": "three",
+                    "cat": "syll"
+                }
+            ]
+        }
+    ]
+}
+var wtree1 =
+{
+    "id": "CP1",
+    "cat": "i",
+    "children": [
+        {
+            "cat": "w",
+            "id": "XP_5",
+            "children": [
+                {
+                    "id": "one",
+                    "cat": "syll"
+                },
+                {
+                  "id": "mom",
+                  "cat": "w",
+                  "children": [
+                  {
+                    "id": "two",
+                    "cat": "syll"
+                  },
+                  {
+                    "id": "three",
+                    "cat": "syll"
+                  }
+                ]
+              }
+            ]
+        }
+    ]
+}
+var cptree =
+{
+    "id": "CP1",
+    "cat": "cp",
+    "children": [
+        {
+            "cat": "cp",
+            "id": "XP_4",
+            "children": [
+                {
+                    "id": "one",
+                    "cat": "x0"
+                },
+                {
+                    "id": "two",
+                    "cat": "x0"
+                }
+            ]
+        },
+        {
+            "id": "three",
+            "cat": "x0"
+        }
+    ]
+}
+var itree =
+{
+    "id": "CP1",
+    "cat": "i",
+    "children": [
+        {
+            "id": "one",
+            "cat": "w"
+        },
+        {
+            "cat": "i",
+            "id": "XP_5",
+            "children": [
+                {
+                    "id": "two",
+                    "cat": "w"
+                },
+                {
+                    "id": "three",
+                    "cat": "w"
+                }
+            ]
+        }
+    ]
+}
+var itree1 =
+{
+    "id": "CP1",
+    "cat": "i",
+    "children": [
+        {
+            "cat": "i",
+            "id": "XP_6",
+            "children": [
+                {
+                    "id": "one",
+                    "cat": "w"
+                },
+                {
+                    "id": "two",
+                    "cat": "w"
+                }
+            ]
+        },
+        {
+            "id": "three",
+            "cat": "w"
+        }
+    ]
+}
