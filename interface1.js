@@ -373,6 +373,27 @@ window.addEventListener('load', function(){
 		document.getElementById('exhaustivityDetailRow').style.display = 'block';
 		});
 	
+	//first try: using ids
+	document.getElementById('showConstraintsButton').addEventListener('click', function(){
+			document.getElementById('constraintsBox').style.display = 'block';
+			document.getElementById('showConstraintsButton').style.display = 'none';
+			document.getElementById('hideConstraintsButton').style.display = '';
+		});
+	
+	document.getElementById('hideConstraintsButton').addEventListener('click', function(){
+		document.getElementById('constraintsBox').style.display = 'none';
+		document.getElementById('showConstraintsButton').style.display = '';
+		document.getElementById('hideConstraintsButton').style.display = 'none';
+	})
+
+	var showConstraintsButtons = document.getElementsByClassName('showConstraintsButton');
+	for(var b in showConstraintsButtons){
+		showConstraintsButtons[b].addEventListener('click', function(ev){
+			var localConstraintBox = ev.target.closest("div");
+			localConstraintBox.style.display = 'show';
+		})
+	}
+
 	//Code for generating the JS for a syntactic tree
 	var treeTableContainer = document.getElementById('treeTableContainer');
 	

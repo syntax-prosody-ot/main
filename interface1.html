@@ -122,6 +122,7 @@
 			}
 			fieldset {
 				margin-top: 10px;
+				width:65ch;
 			}
 			fieldset h2 {
 				margin: 0px;
@@ -179,7 +180,10 @@
 
 				<fieldset>
 
-					<legend><h2>Syntax-prosody mapping constraints</h2></legend>
+					<legend><h2>Syntax-prosody mapping constraints <button id="showConstraintsButton" type="button">Show constraints</button><button id="hideConstraintsButton" type="button" style="display:none">Hide constraints</button></h2></legend>
+					
+					
+					<div id="constraintsBox" style="display:none">
 
 					<h3>Align/Wrap</h3>
 					<table class="constraint-selection-table">
@@ -234,14 +238,17 @@
 						</tr>
 					</tbody>
 					</table>
-
+				</div>
 				</fieldset>
+				
 
 				<br/>
 
 				<fieldset>
 
-					<legend><h2>Binarity constraints</h2></legend>
+					<legend><h2>Binarity constraints <button class="showConstraintsButton" type="button" id="showBinarityButton">Show constraints</button><button class="hideConstraintsButton" type="button" style="display:none">Hide constraints</button></h2></legend>
+
+					<div class="constraintsBox" style="display: none">
 
 					<h3>...counting branches</h3>
 
@@ -291,6 +298,7 @@
 						</tr>
 					</tbody>
 					</table>
+				</div>
 				</fieldset>
 
 				<br/>
@@ -456,10 +464,10 @@
 				<p>Input 3: <input type="text" name="inputToGen"></p>
 
 				-->
-				<div align="center"><button class="orange-button submit-button" type="submit">Submit</button>
+				<div align="center"><button class="orange-button submit-button" type="submit">Get results</button>
 				<div align="left">
 				<ul>
-					<li>Clicking "submit" will initiate a download of a tab-separated version of the resulting tableau</li>
+					<li>Clicking "Get results" will initiate a download of a tab-separated version of the resulting tableau</li>
 					<li>The tab-separated version of the tableau will also appear in a text-area, from which it can be copy-pasted. (Use Control-A to select it if it's not already selected.) </li>
 					<li>An html version of the tableau will also display below.</li>
 				</ul>
