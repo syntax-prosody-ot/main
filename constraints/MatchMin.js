@@ -1,19 +1,18 @@
-/* Assign a violation for every node of syntactic category s in 
- * the syntactic tree, and is not mapped to a corresponding prosodic 
- * node of category p, where p = catMap(s), such that p does not 
- * dominate another node of category p. (Originally: "A minimal 
- * lexical phrase in syntactic constiturnt structure must be matched 
- * by a corresponding minimal prosodic constituent in phonological 
- * representation. */
+/* Match-SP(scat-min, pcat-min): Assign a violation for every node of syntactic
+ * category s that does not dominate another node of category s in the
+ * syntactic tree, and is not mapped to a corresponding prosodic node of
+ * category p, where p=catMap(s), such that p does not dominate another node
+ * of category p.
+ * ex. Match a minimal xp with a minimal phi.
+ */
 
-
-//match a syntax tree wuth a prosody tree
+//match a syntactic tree with a prosodic tree
 function MatchMinSP(s, ptree, cat) {
   var vcount = 0;
   //if s has children
   if(s.children && s.children.length) {
     //if stree cat is the same as input cat & stree is minimal & does not have a match on the ptree
-      if(s.cat === cat && isMinimal(s)===true && hasMinMatch(s, ptree)===false) {
+    if(s.cat === cat && isMinimal(s)===true && hasMinMatch(s, ptree)===false) {
       vcount++;
     }
     //check every node in s, check for matching Minimals
@@ -33,9 +32,7 @@ function MatchMinPS(s, ptree, cat) {
 //helper function, similar to hasMatch, different in that it ensures that ptree is minimal
 function hasMinMatch(sNode, pTree) {
   var leaves = getLeaves(sNode);
-  //sort leaves
-  leaves = leaves.sort();
-  if(catsMatch(sNode.cat, pTree.cat) && sameIds((getLeaves(pTree)).sort(), leaves) && isMinimal(pTree)) {
+  if(catsMatch(sNode.cat, pTree.cat) && sameIds(getLeaves(pTree), leaves) && isMinimal(pTree)) {
     return true;
   } else if(!pTree.children || pTree.children.length === 0) {
     return false;
@@ -49,4 +46,3 @@ function hasMinMatch(sNode, pTree) {
   }
   return false;
 }
-

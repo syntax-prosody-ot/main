@@ -1,4 +1,4 @@
-var stree_no_violations = 
+var stree_no_violations =
 {
     "id": "CP1",
     "cat": "cp",
@@ -43,7 +43,7 @@ var stree_no_violations =
         }
     ]
 }
-var ptree_no_violations = 
+var ptree_no_violations =
 {
     "id": "CP1",
     "cat": "iota",
@@ -53,11 +53,11 @@ var ptree_no_violations =
             "id": "XP_6",
             "children": [
                 {
-                    "id": "a",
+                    "id": "b",
                     "cat": "w"
                 },
                 {
-                    "id": "b",
+                    "id": "a",
                     "cat": "w"
                 }
             ]
@@ -75,11 +75,11 @@ var ptree_no_violations =
                     "id": "XP_8",
                     "children": [
                         {
-                            "id": "d",
+                            "id": "e",
                             "cat": "w"
                         },
                         {
-                            "id": "e",
+                            "id": "d",
                             "cat": "w"
                         }
                     ]
@@ -177,11 +177,11 @@ var ptree_1v =
                     "id": "XP_8",
                     "children": [
                         {
-                            "id": "d",
+                            "id": "e",
                             "cat": "w"
                         },
                         {
-                            "id": "e",
+                            "id": "d",
                             "cat": "w"
                         }
                     ]
