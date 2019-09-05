@@ -18,8 +18,8 @@
 	
 	
 	<script>
-	var constraintSet = ['balancedSistersAdj-phi','equalSistersAdj-phi', 'binMaxLeaves-phi'];
-	var candidateSet = GEN({}, "a b c d");
+	var constraintSet = ['balancedSisters','balancedSistersAdj','equalSistersAdj-phi', 'binMaxLeaves-phi'];
+	var candidateSet = GEN({}, "a b c d", {obeysExhaustivity:true});
 	
 		
 	function runDemo() {
