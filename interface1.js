@@ -531,7 +531,11 @@ window.addEventListener('load', function(){
 			var fieldset = legend.closest('fieldset');
 			if (fieldset) {
 				fieldset.classList.toggle('open');
+				return;
 			}
+		}
+		if (el.classList.contains('info')) {
+			el.classList.toggle('showing')
 		}
 	});
 });

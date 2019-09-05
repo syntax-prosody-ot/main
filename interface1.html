@@ -175,6 +175,24 @@
 				font-size: 11px;
 				width: 100%;
 			}
+			.info {
+				display: inline-block;
+				margin-left: 5px;
+				font-size: 13px;
+			}
+			.info:before {
+				content: "\1F6C8";
+				cursor: pointer;
+				color: #07C;	
+			}
+			.info .content {
+				display: none;
+				margin-left: 5px;
+				color: #555;
+			}
+			.info.showing .content {
+				display: inline-block;
+			}
 		</style>
 
 	</head>
@@ -437,7 +455,9 @@
 
 				<hr style="margin-top: 20px">
 				<h2>Gen options</h2>
-				Generate only prosodic trees that obey...<br/>
+				Generate only prosodic trees that obey... 
+				<span class="info"><span class="content">Checking a box will tell Gen not to produce certain trees, or to annotate the trees. N.B. Gen currently only creates recursion at the &phiv; level.</span></span>
+				<br/>
 				<table class="spaceytable"><tbody>
 					<tr>
 						<td><input type="checkbox" name="genOptions" value="obeysNonrecursivity">Non-recursivity (all levels)</td>
@@ -458,7 +478,6 @@
 				<table class="spaceytable"><tbody><tr>
 					<td><input type="checkbox" name="genOptions" value="addTones">Include tones</td>
 				</tr></tbody></table>
-				<small>Checking a box will tell Gen not to produce certain trees, or to annotate the trees. N.B. Gen currently only creates recursion at the &phiv; level.</small><br/>
 				<hr/>
 
 				<h2>Optional: Input string(s) for Gen (to create output candidate prosodic trees)</h2>
