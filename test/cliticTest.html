@@ -11,10 +11,11 @@
 			var di_vino = {
 							"id": "PP",
 							"cat": "xp",
+							"func":"true",
 							"children": [
 								{
 									"id": "di",
-									"cat": "func"
+									"cat": "clitic"
 								},
 								{
 									"cat": "xp",
@@ -37,7 +38,7 @@
 			var candSetExPhi = GEN(di_vino, 'di-func vino', {"obeysExhaustivity":['phi']});
 			var candSetExW = GEN(di_vino, 'di-func vino', {"obeysExhaustivity":['w']});
 			
-			var con = ['matchSP-xp','binMinBranches-phi','binMin2Words-phi'];
+			var con = ['matchSP-xp','matchSP_LexicalHead-xp','binMinBranches-phi','binMin2Words-phi'];
             
 			//Make the tableau using the makeTableau function (defined in tableauMaker.js)
 			window.addEventListener("load",function(){
