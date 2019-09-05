@@ -40,15 +40,30 @@
 			.blue-text {
 				color: #07203D;
 			}
-			/*fieldset:not(.open) > :not(legend) {
+			fieldset:not(.open) > :not(legend) {
 				display: none;
 			}
 			fieldset legend {
 				cursor: pointer;
+				padding-left: 10px;
+				padding-right: 10px;
+				border-radius: 3px;
 			}
 			fieldset legend:hover {
 				background-color: #eee;
-			}*/
+			}
+			.arrow {
+				border: solid;
+				border-width: 0 3px 3px 0;
+				display: inline-block;
+				padding: 3px;
+			}
+			fieldset:not(.open) legend .arrow {
+				transform: rotate(45deg);
+			}
+			fieldset.open legend .arrow {
+				transform: rotate(-135deg);
+			}
 			table.spaceytable td {
 				padding:10px
 			}
@@ -180,10 +195,7 @@
 
 				<fieldset>
 
-					<legend><h2>Syntax-prosody mapping constraints <button id="showConstraintsButton" type="button">Show constraints</button><button id="hideConstraintsButton" type="button" style="display:none">Hide constraints</button></h2></legend>
-					
-					
-					<div id="constraintsBox" style="display:none">
+					<legend><h2>Syntax-prosody mapping constraints <span class="arrow"></h2></legend>
 
 					<h3>Align/Wrap</h3>
 					<table class="constraint-selection-table">
@@ -238,7 +250,6 @@
 						</tr>
 					</tbody>
 					</table>
-				</div>
 				</fieldset>
 				
 
@@ -246,9 +257,7 @@
 
 				<fieldset>
 
-					<legend><h2>Binarity constraints <button class="showConstraintsButton" type="button" id="showBinarityButton">Show constraints</button><button class="hideConstraintsButton" type="button" style="display:none">Hide constraints</button></h2></legend>
-
-					<div class="constraintsBox" style="display: none">
+					<legend><h2>Binarity constraints <span class="arrow"></h2></legend>
 
 					<h3>...counting branches</h3>
 
@@ -298,14 +307,13 @@
 						</tr>
 					</tbody>
 					</table>
-				</div>
 				</fieldset>
 
 				<br/>
 
 				<fieldset>
 
-					<legend><h2>Markedness constraints on horizontal relationships</h2></legend>
+					<legend><h2>Markedness constraints on horizontal relationships <span class="arrow"></h2></legend>
 					<h3>EqualSisters</h3>
 					<table class="constraint-selection-table">
 					<tbody>
@@ -349,7 +357,7 @@
 
 				<fieldset>
 
-					<legend><h2>Markedness constraints on vertical relationships</h2></legend>
+					<legend><h2>Markedness constraints on vertical relationships <span class="arrow"></h2></legend>
 					<table class="constraint-selection-table">
 					<tbody>
 						<tr>
@@ -386,7 +394,7 @@
 				<br/>
 
 				<fieldset>
-					<legend><h2>Japanese: constraints on accentedness</h2></legend>
+					<legend><h2>Japanese: constraints on accentedness <span class="arrow"></h2></legend>
 					<p>Current evaluation of these constraints requires the id's of all words to be 'a' or 'u'.</p>
 					<div class="checkbox-set-indentation">
 						<input type="checkbox" name="constraints" value="accentAsHead"><b>AccentAsHead</b>: Assign a violation for each prosodic word that is not the head of a minimal &phiv;.<br/>
