@@ -81,7 +81,7 @@ window.GEN = function(sTree, words, options){
 			continue;
 		if (options.addTones){
 			try {
-				window[options.showTones](iota); //calls the function named in the string
+				window[options.addTones](iota); //calls the function named in the string
 			}
 			catch(err){
 				if (typeof(options.addTones) == "boolean"){
@@ -89,7 +89,7 @@ window.GEN = function(sTree, words, options){
 					console.log("The addTones option has been updated. It now takes the name of a function as its value. Next time, try {addTones: 'addJapaneseTones'}");
 				}
 				else{
-					throw new Error("Something isn't right with the addTones option. The value of addTones must be a string with the name of a tone function, no parentheses, eg. {showTones: 'addJapaneseTones'}");
+					throw new Error("Something isn't right with the addTones option. The value of addTones must be a string with the name of a tone function, no parentheses, eg. {addTones: 'addJapaneseTones'}");
 				}
 			}
 		}

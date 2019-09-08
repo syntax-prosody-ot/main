@@ -421,7 +421,7 @@
 
 				<hr style="margin-top: 20px">
 				<h2>Gen options</h2>
-				Generate only prosodic trees that obey...<br/>
+				<i>Generate only prosodic trees that obey...</i><br/>
 				<table class="spaceytable"><tbody>
 					<tr>
 						<td><input type="checkbox" name="genOptions" value="obeysNonrecursivity">Non-recursivity (all levels)</td>
@@ -438,9 +438,13 @@
 						</div></td>
 					</tr>
 				</tbody></table>
-				<i>Other Gen options:</i><br/>
+
+				<i>Annotate trees with...</i><br/>
 				<table class="spaceytable"><tbody><tr>
-					<td><input type="checkbox" name="genOptions" value="addTones">Include tones</td>
+					<td><input type="radio" name="toneOptions" value="noTones" checked="checked">no tones</td>
+					<td><input type="radio" name="toneOptions" value="addJapaneseTones">Japanese tones</td>
+					<td><input type="radio" name="toneOptions" value="addIrishTones_Elfner">Irish tones</td>
+					<!-- value="name of your tone function" -->
 				</tr></tbody></table>
 				<small>Checking a box will tell Gen not to produce certain trees, or to annotate the trees. N.B. Gen currently only creates recursion at the &phiv; level.</small><br/>
 				<hr/>
