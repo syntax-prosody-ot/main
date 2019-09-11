@@ -1,0 +1,108 @@
+<html>
+    <head>
+            <title>SPOT investigation of Binarity</title>
+
+            <link rel="stylesheet" type="text/css" href="../spot.css">
+        
+            <script src="../lib/jszip.min.js"></script>
+        
+            <!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
+            (open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
+            <script src="../build/spot.js"></script>
+            <script src="../trees/abstractMatchTrees.js"></script>
+            <script src="../trees/five_word_binary_branching_trees.js"></script>
+    </head>
+
+    <body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+        <h2>Typological implications of constraints on Binarity: investigation using SPOT</h2>
+        <pre id="results-container"></pre>
+
+        <script>
+            var sTreeList = [tree_3w_1, tree_3w_2, tree_4w_1, tree_4w_2, tree_4w_3, tree_4w_4, tree_4w_5].concat(five_word_abstract_trees, selected_six_word_trees);
+
+            //just one markedness constraint
+            var matchCon = ['matchSP-xp', 'matchPS-phi'];
+            var conLeaves = ['binMaxLeaves-phi'].concat(matchCon);
+            var conBranches = ['binMaxBranches-phi'].concat(matchCon);
+            var conBalSisCat = ['balancedSisters-phi'].concat(matchCon);
+            var conBalSisAdj = ['balancedSistersAdj-phi'].concat(matchCon);
+            
+            /* CONs with two markedness constraints. Questions:
+                1. Can balancedSisters + binBr replaces binLeaves?
+                2. Does binLeaves predict a language that ignores syntax completely? If so, in what combinations?
+                3. Do the other binarity constraints proposed here predict such a language?
+                4. Which version of balancedSisters is better: categorical or adjacent? To test this, we will need sentences with more than 4 words.
+            */
+            var match_BinBr = ['binMaxBranches-phi'].concat(matchCon);
+            var conBrLv = ['binMaxLeaves-phi'].concat(match_BinBr);
+            var conBrBalAdj = ['balancedSistersAdj-phi'].concat(match_BinBr);
+            
+            var conESLv = ['equalSistersAdj-phi'].concat(['binMaxLeaves-phi'], match_BinBr);
+
+
+            /*A list of names for constraint sets.*/
+            var conNames = ['conLeaves', 'conBranches', 'conBalSisCat', 'conBalSisAdj', 'conBrLv', 'conBrBalAdj', 'conESLv'];
+            
+            //Candidate sets are generated with the options below.
+            var gen_options = {obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: true, requirePhiStem: true};
+
+            function makeTableauCsvs(consName) {
+                var csvSegs = [];	//List to accumulate tableaux in
+                
+                //For each syntactic tree in sTreeList, make a tableau using the current constraint set
+                for(var j=0; j<sTreeList.length; j++){
+                    var currentSTree = globalNameOrDirect(sTreeList[j]); 
+                    var leaves = getLeaves(currentSTree);
+                    var wordList = [];
+                    for(var i=0; i < leaves.length; i++){
+                        wordList.push(leaves[i].id);
+                    }
+                    var wordString = wordList.join(' ');
+
+                    //Make the candidate set using the GEN function (defined in candidategenerator.js)
+                    //Leave the 2nd argument as an empty string to scrape words from the terminals of the syntactic tree.
+                    var candSet = GEN(sTreeList[j], '', gen_options);
+                    
+                    //Make the tableau using the makeTableau function (defined in tableauMaker.js)
+                    var tabl = makeTableau(candSet, window[consName], {showTones: gen_options.addTones});
+                    
+                    //Write the tableau to the screen and reveal it -- only uncomment this if you don't have too many tableaux!
+                    writeTableau(tabl)
+                    revealNextSegment();
+                    lastSegmentId++;
+                    
+                    //Add the tableau from the current stree to cumulative tableau that is being built in csvSegs.
+                    csvSegs.push(tableauToCsv(tabl, '\t', {noHeader: j}));
+                }
+                
+                //Save the tableau as a tab-separated file, named after consName
+                saveTextAs(csvSegs.join('\n'),"tableau_"+consName+".tsv");
+            }
+            
+            /*This function executes automatically when the page is reloaded. It calls all the other functions.*/
+            function runDemo() {
+            //Iterate over the different constraint sets. Make a tableau for each one.
+                for(var i = 0; i<conNames.length; i++){
+                    makeTableauCsvs(conNames[i]);
+                }
+            }
+            
+            /*Utilities for saving files.*/
+            function saveAs(blob, name) {
+                var a = document.createElement("a");
+                a.display = "none";
+                a.href = URL.createObjectURL(blob);
+                a.download = name;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            }
+        
+            function saveTextAs(text, name) {
+                saveAs(new Blob([text], {type: "text/csv", encoding: 'utf-8'}), name);
+            }
+        </script>
+
+    </body>
+    
+</html>
