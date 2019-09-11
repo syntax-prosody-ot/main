@@ -10,7 +10,13 @@ function makeTableau(candidateSet, constraintSet, options){
 	//First element is empty, to correspond to the column of candidates.
 	var sTree = candidateSet[0] ? candidateSet[0][0] : '';
 	if (sTree instanceof Object) {
-		sTree = parenthesizeTree(sTree, options); //JSON.stringify(sTreeName);
+		var sOptions = {}; //must not include tone options
+		for (var op in options){
+			if (op != "showTones" && op != "addTones"){
+				sOptions[op] = options[op]; //don't copy in tone options
+			}
+		}
+		sTree = parenthesizeTree(sTree, sOptions); //JSON.stringify(sTreeName);
 	}
 	var header = [sTree];
 	for(var i=0; i<constraintSet.length; i++){
