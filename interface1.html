@@ -40,15 +40,30 @@
 			.blue-text {
 				color: #07203D;
 			}
-			/*fieldset:not(.open) > :not(legend) {
+			fieldset:not(.open) > :not(legend) {
 				display: none;
 			}
 			fieldset legend {
 				cursor: pointer;
+				padding-left: 10px;
+				padding-right: 10px;
+				border-radius: 3px;
 			}
 			fieldset legend:hover {
 				background-color: #eee;
-			}*/
+			}
+			.arrow {
+				border: solid;
+				border-width: 0 3px 3px 0;
+				display: inline-block;
+				padding: 3px;
+			}
+			fieldset:not(.open) legend .arrow {
+				transform: rotate(45deg);
+			}
+			fieldset.open legend .arrow {
+				transform: rotate(-135deg);
+			}
 			table.spaceytable td {
 				padding:10px
 			}
@@ -122,6 +137,7 @@
 			}
 			fieldset {
 				margin-top: 10px;
+				width:65ch;
 			}
 			fieldset h2 {
 				margin: 0px;
@@ -159,6 +175,35 @@
 				font-size: 11px;
 				width: 100%;
 			}
+			.info {
+				margin-left: 5px;
+				font-size: 13px;
+			}
+			.info:before {
+				display: inline-block;
+				content: "i";
+				font-family: "Segoe UI";
+				font-weight: bold;
+				border: 1px solid;
+				border-radius: 1em;
+				padding-right: 0.4em;
+				padding-left: 0.4em;
+				cursor: pointer;
+				color: #07C;	
+			}
+			.info .content {
+				display: none;
+				margin-left: 5px;
+				color: #555;
+			}
+			.info.showing .content {
+				display: block;
+			}
+			.treeUI-tree {
+				display: inline-block;
+				margin-right: 25px;
+				margin-bottom: 15px;
+			}
 		</style>
 
 	</head>
@@ -166,20 +211,24 @@
 	<div style="padding-bottom:40px">
 		<div class="header">
 			<span class="title">SPOT</span>
-			<span class="subtitle">An application for Syntax Prosody in Optimality Theory</span>
+			<span class="subtitle">A webapp for Syntax Prosody in Optimality Theory, with automated Gen, Con and Eval. <a href="https://spot.sites.ucsc.edu/">spot.sites.ucsc.edu/</a></span>
 		</div>
 		<div class="below-header">
-			<p>Please select all the constraints you would like to use by checking the associated checkbox for each constraint. Hover over a constraint name to see its definition. <span class="blue-text">Hover-text is not available for all constraints.</span></p>
-			<ul>
-				<li>By default, XP and &phiv; are selected as the cateogories to assess violations over. Use the checkbox buttons next to each constraint to change the desired category.</li>
-				<li>SPOT is a JavaScript application. Make sure you have JavaScript enabled. We have tested SPOT in Firefox and Chrome, but not in Edge or Internet Explorer.</li>
-				<li>The current implementation of Gen only produces recursion at the &phiv;-level, so candidates with recursive &iota;s or &omega;s will not be generated.</li>
-			</ul>
+			<br/>
+			Select constraints, build syntactic trees, generate prosodic candidates, and download a violation tableau.
+			<span class="info"><span class="content"> Click on the downward carets to see constraints and add constraints to your constraint set using the associated checkboxes.
+				<ul>
+					<li>By default, XP and &phiv; are selected as the cateogories to assess violations over. Use the checkbox buttons next to each constraint to change the desired category.</li>
+					<li>SPOT is a JavaScript application. Make sure you have JavaScript enabled. We have tested SPOT in Firefox and Chrome, but not in Edge or Internet Explorer.</li>
+					<li>The current implementation of Gen only produces recursion at the &phiv;-level, so candidates with recursive &iota;s or &omega;s will not be generated.</li>
+				</ul>
+			</span></span>
+
 			<form id="spotForm">
 
 				<fieldset>
 
-					<legend><h2>Syntax-prosody mapping constraints</h2></legend>
+					<legend><h2>Syntax-prosody mapping constraints <span class="arrow"></h2></legend>
 
 					<h3>Align/Wrap</h3>
 					<table class="constraint-selection-table">
@@ -234,14 +283,14 @@
 						</tr>
 					</tbody>
 					</table>
-
 				</fieldset>
+				
 
 				<br/>
 
 				<fieldset>
 
-					<legend><h2>Binarity constraints</h2></legend>
+					<legend><h2>Binarity constraints <span class="arrow"></h2></legend>
 
 					<h3>...counting branches</h3>
 
@@ -297,7 +346,7 @@
 
 				<fieldset>
 
-					<legend><h2>Markedness constraints on horizontal relationships</h2></legend>
+					<legend><h2>Markedness constraints on horizontal relationships <span class="arrow"></h2></legend>
 					<h3>EqualSisters</h3>
 					<table class="constraint-selection-table">
 					<tbody>
@@ -341,7 +390,7 @@
 
 				<fieldset>
 
-					<legend><h2>Markedness constraints on vertical relationships</h2></legend>
+					<legend><h2>Markedness constraints on vertical relationships <span class="arrow"></h2></legend>
 					<table class="constraint-selection-table">
 					<tbody>
 						<tr>
@@ -378,22 +427,19 @@
 				<br/>
 
 				<fieldset>
-					<legend><h2>Japanese: constraints on accentedness</h2></legend>
-					<p>Current evaluation of these constraints requires the id's of all words to be 'a' or 'u'.</p>
+					<legend><h2>Constraints on accentedness <span class="arrow"></h2></legend>
+					<span class="info"><span class="content">Constraints proposed for analysis of lexical accent systems (Japanese, Basque). Accents must be indicated either by using 'a'/'u' or 'A'/'U' for the ids of words, or by adding accent attributes in the syntactic tree.</span></span>
 					<div class="checkbox-set-indentation">
-						<input type="checkbox" name="constraints" value="accentAsHead"><b>AccentAsHead</b>: Assign a violation for each prosodic word that is not the head of a minimal &phiv;.<br/>
-						<input type="checkbox" name="constraints" value="noLapseL"><b>NoLapse-L</b>: No accentual lapse. Assign a violation for every fully L-toned &omega;.<br/>
+						<input type="checkbox" name="constraints" value="accentAsHead">AccentAsHead <span class="info"><span class="content">Assign a violation for each prosodic word that is not the head of a minimal &phiv;.</span></span><br/>
+						<input type="checkbox" name="constraints" value="noLapseL">NoLapse-L <span class="info"><span class="content">No accentual lapse. Assign a violation for every fully L-toned &omega;.</span></span><br/>
 					</div>
 				</fieldset>
 
 				<br/>
 				<br/>
 				<hr/>
-				<h2>Input syntactic tree</h2>
-				<p>
-					Create a JavaScript representation of your syntactic tree.
-				</p>
-	            <button id="startTreeUIButton" class="orange-button" type="button">Generate JS for a tree</button>
+				<h2>Build input syntactic trees</h2>
+	            <button id="startTreeUIButton" class="orange-button" type="button">Open tree-builder</button>
 	            <div id="treeUI" style="display:none">
 	                <p>String of terminals: <input type="text" name="sTreeTerminals"> <button id="goButton" type="button">Go!</button></p>
 	              	<div id="treeUIinner" style="display: none">
@@ -415,26 +461,28 @@
 	            	<hr/>
 					<div style="display:none"><button id="danishJsonTreesButton" type="button">Danish Trees: generate s-tree code</button></div>
 
-					<p><small><b>For manual tree entry:</b> Select a tree from your JavaScript tree file (pre-made trees are in the directory <i>main/trees</i>, and end with .js). Paste in the contents of JS file of your input syntactic tree (from the opening brace to the closing brace, removing any comments and excluding the final semi-colon). Note that if you're only using Markedness constraints, you can just keep the default value of an empty tree (like so: {}) as the syntactic input.</small></p>
+					<p>To enter trees manually... <span class="info"><span class="content">To use a tree you previously made and saved, select a tree or trees from your JavaScript tree file (some pre-made trees are in the directory <i>main/trees</i>, and end with .js). Paste in the contents of JS file of your input syntactic tree(s) (from the opening brace to the closing brace, removing any comments and excluding the final semi-colon). Separate trees with a comma and surround the whole thing with square brackets ("[]") to make it an array. Note that if you're only using Markedness constraints, you can just keep the default value of an empty tree (like so: {}) as the syntactic input.</span></span></p>
 					<textarea class="stree-textarea" name="sTree" rows="15">{}</textarea>
 	            </div>
 
 				<hr style="margin-top: 20px">
-				<h2>Gen options</h2>
-				<i>Generate only prosodic trees that obey...</i><br/>
+
+				<h2>Prosodic constituents must be... </h2>
+				<span class="info"><span class="content">Checking a box will tell Gen not to produce certain types of prosodic trees, or to annotate the trees. Gen currently only creates recursion at the &phiv; level.</span></span>
+
 				<table class="spaceytable"><tbody>
 					<tr>
-						<td><input type="checkbox" name="genOptions" value="obeysNonrecursivity">Non-recursivity (all levels)</td>
-						<td><input type="checkbox" name="genOptions" value="obeysHeadedness">Headedness (all levels)</td>
-						<td><input type="checkbox" name="genOptions" value="requirePhiStem">Require &phiv; Stem</td>
-						<td><input type="checkbox" name="genOptions" id="exhaustivityBox" value="obeysExhaustivity">Exhaustivity</td>
+						<td><input type="checkbox" name="genOptions" id="exhaustivityBox" value="obeysExhaustivity">exhaustively parsed</td>
+						<td><input type="checkbox" name="genOptions" value="obeysNonrecursivity">non-recursive</td>
+						<td><input type="checkbox" name="genOptions" value="obeysHeadedness"> headed</td>
+						<td><input type="checkbox" name="genOptions" value="requirePhiStem">wrapped into a &phiv;</td>
 					</tr>
 					<tr id="exhaustivityDetailRow" style="display: none">
-						<td><div id="exhaustivityLabelContainer">Enforce Exhaustivity at...</div></td>
+						<td><div id="exhaustivityLabelContainer"></div></td>
 						<td><div id="exhaustivityCatContainer">
-							<input type="checkbox" name="exhaustivityCats" value="i" checked="checked">&iota;&nbsp;&nbsp;
-							<input type="checkbox" name="exhaustivityCats" value="phi" checked="checked">&phiv;&nbsp;&nbsp;
-							<input type="checkbox" name="exhaustivityCats" value="w" checked="checked">&omega;
+							<input type="checkbox" name="exhaustivityCats" value="i" checked="checked">Every child of &iota; is a &phiv;&nbsp;&nbsp;
+							<input type="checkbox" name="exhaustivityCats" value="phi" checked="checked">Every child of &phiv; is a &omega;&nbsp;&nbsp;
+							<!--<input type="checkbox" name="exhaustivityCats" value="w" checked="checked">&omega;-->
 						</div></td>
 					</tr>
 				</tbody></table>
@@ -446,13 +494,16 @@
 					<td><input type="radio" name="toneOptions" value="addIrishTones_Elfner">Irish</td>
 					<!-- value="name of your tone function" -->
 				</tr></tbody></table>
-				<small>Checking a box will tell Gen not to produce certain trees, or to annotate the trees. N.B. Gen currently only creates recursion at the &phiv; level.</small><br/>
 				<hr/>
 
-				<h2>Optional: Input string(s) for Gen (to create output candidate prosodic trees)</h2>
-				<p><i>Leave blank to get from syntatic tree(s)</i></p>
-				<p>Type the words that you want to be included in the output prosodic trees, separating them with spaces. Suffix a word with "-clitic" to map it to a syllable instead of &omega; in all prosodic trees.</p>
-				<p><b>N.B.</b> Input strings longer than 6 words may be very slow, and risk freezing your system.</p>
+				<h2>Optional: Input string(s) for Gen
+				<span class="info">
+					<span class="content">
+						To get prosodic candidate without building a syntactic tree, type the words that you want to be included in the output prosodic trees, separating them with spaces. Suffix a word with "-clitic" to map it to a syllable instead of &omega; in all prosodic trees. <b>N.B.</b> Input strings longer than 6 words may be very slow, and risk freezing your system.
+					<br/>Leave this blank to get the words from your syntatic tree(s).
+					</span>
+				</span>
+			</h2>
 
 				<p>String of terminals: <input type="text" name="inputToGen"></p>
 				<!--
@@ -460,15 +511,18 @@
 				<p>Input 3: <input type="text" name="inputToGen"></p>
 
 				-->
-				<div align="center"><button class="orange-button submit-button" type="submit">Submit</button>
-				<div align="left">
-				<ul>
-					<li>Clicking "submit" will initiate a download of a tab-separated version of the resulting tableau</li>
-					<li>The tab-separated version of the tableau will also appear in a text-area, from which it can be copy-pasted. (Use Control-A to select it if it's not already selected.) </li>
-					<li>An html version of the tableau will also display below.</li>
-				</ul>
+				<div align="center"><button class="orange-button submit-button" type="submit">Get results</button>
+				
+					<h2>Scroll down for results!
+						<span class="info">
+							<span class="content">
+								Clicking "Get results" will initiate a download of a tab-separated version of the resulting tableau.
+								The tab-separated version of the tableau will also appear in a text-area, from which it can be copy-pasted. (Use Control-A to select it if it's not already selected.)
+								An html version of the tableau will also display below.
+							</span>
+						</span>
+					</h2>
 				</div>
-				<h2>Scroll down to see your results!</h2></div>
 
 			</form>
 

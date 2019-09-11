@@ -534,11 +534,16 @@ window.addEventListener('load', function(){
 
 	document.body.addEventListener('click', function(event) {
 		var el = event.target;
-		if (el.tagName === 'LEGEND') {
-			var fieldset = el.closest('fieldset');
+		var legend = el.closest('legend');
+		if (legend) {
+			var fieldset = legend.closest('fieldset');
 			if (fieldset) {
 				fieldset.classList.toggle('open');
+				return;
 			}
+		}
+		if (el.classList.contains('info')) {
+			el.classList.toggle('showing')
 		}
 	});
 });
