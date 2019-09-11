@@ -7,7 +7,7 @@ function UTree(root) {
 	this.root = root;
 	this.treeIndex = uTreeCounter++;
 	treeUIsTreeMap[this.treeIndex] = this;
-	
+
 	this.nodeNum = 0;
 	this.nodeMap = {};
 	this.addMeta = function(node, parent) {
@@ -21,7 +21,7 @@ function UTree(root) {
 	};
 	this.addMeta(this.root);
 	this.root.m.isRoot = true;
-	
+
 	function assignDims(node) {
 		var height = 0, width = 0;
 		if (node.children && node.children.length) {
@@ -38,7 +38,7 @@ function UTree(root) {
 		node.m.width = width;
 		return node.m;
 	}
-	
+
 	this.toTable = function() {
 		assignDims(this.root);
 		var table = [];
@@ -50,7 +50,7 @@ function UTree(root) {
 			table[height].push({node: node, width: node.m.width, hasStem: parentHeight > height, stemOnly: false});
 			for (var h = height+1; h < parentHeight; h++) {
 				table[h].push({width: node.m.width, stemOnly: true});
-			}				
+			}
 			if (node.children && node.children.length) {
 				for (var i = 0; i < node.children.length; i++) {
 					processNode(node.children[i], height);
@@ -64,7 +64,7 @@ function UTree(root) {
 	function makeElementId(elType, node) {
 		return [elType, node.m.nodeId, self.treeIndex].join('-');
 	}
-	
+
 	function toInnerHtmlFrags(frags) {
 		if (!frags) frags = [];
 		var table = self.toTable();
@@ -112,13 +112,13 @@ function UTree(root) {
 	this.refreshHtml = function() {
 		document.getElementById('treeUI-'+self.treeIndex).innerHTML = self.toInnerHtml();
 	}
-	
+
 	this.toJSON = function() {
 		return JSON.stringify(this.root, function(k, v) {
 			if (k !== 'm') return v;
 		}, 4);
 	};
-	
+
 	this.addParent = function(nodes) {
 		var indices = [], parent = nodes[0].m.parent;
 		if (!parent) {
@@ -136,37 +136,37 @@ function UTree(root) {
 		for (var i = 1; i < indices.length; i++) {
 			if (indices[i] !== indices[i-1]+1) throw new Error('Nodes must be adjacent sisters.');
 		}
-	
+
 		// create new node, connect it to parent
 		var newNode = {cat: 'xp'};
 		this.addMeta(newNode, parent);
 		newNode.id = 'XP_' + newNode.m.nodeId; // this does not guarantee uniqueness, but probably close enough for now
-		
+
 		// connect new node to children
 		var firstChildIndex = indices[0], lastChildIndex = indices[indices.length-1];
 		newNode.children = parent.children.slice(firstChildIndex, lastChildIndex+1);
-		
+
 		// connect children to new node
 		for (var i = 0; i < newNode.children.length; i++) {
 			newNode.children[i].m.parent = newNode;
 		}
-		
+
 		// connect parent to new node
 		parent.children = parent.children.slice(0, firstChildIndex).concat([newNode], parent.children.slice(lastChildIndex+1));
 	};
-	
+
 	this.deleteNode = function(node) {
 		// connect children to parent
 		var parent = node.m.parent, children = node.children || [];
 		for (var i = 0; i < children.length; i++) {
 			children[i].m.parent = parent;
 		}
-		
+
 		// connect parent to children
 		if (node.m.parent) {
 			var index = node.m.parent.children.indexOf(node);
 			node.m.parent.children = node.m.parent.children.slice(0, index).concat(children, node.m.parent.children.slice(index+1));
-		
+
 			// remove from node map
 			delete this.nodeMap[node.m.nodeId];
 		} else { // delete UTree and associated element if root
@@ -179,7 +179,7 @@ function UTree(root) {
 
 UTree.fromTerminals = function(terminalList) {
 	var dedupedTerminals = deduplicateTerminals(terminalList);
-	
+
 	//Make the js tree (a dummy tree only containing the root CP)
 	var root = {
 		"id":"CP1",
@@ -198,7 +198,7 @@ UTree.fromTerminals = function(terminalList) {
 
 function getSTrees() {
 	var spotForm = document.getElementById('spotForm');
-	var sTrees; 
+	var sTrees;
 	sTrees = JSON.parse(spotForm.sTree.value);
 	if (!(sTrees instanceof Array)) {
 		sTrees = [sTrees];
@@ -263,12 +263,12 @@ function danishTrees() {
 window.addEventListener('load', function(){
 
 	var spotForm = document.getElementById('spotForm');
-	
+
 	if (!spotForm) {
 		console.error('no spot form');
 		return;
 	}
-	
+
 	spotForm.addEventListener('change', function(ev) {
 		var target = ev.target;
 		if (target.name === 'constraints') {
@@ -284,7 +284,7 @@ window.addEventListener('load', function(){
 
 	spotForm.onsubmit=function(e){
 		if (e.preventDefault) e.preventDefault();
-		
+
 		//Build a list of checked constraints.
 		var constraintSet = [];
 		for(var i=0; i<spotForm.constraints.length; i++){
@@ -294,7 +294,7 @@ window.addEventListener('load', function(){
 				//Figure out all the categories selected for the constraint
 				if(spotForm['category-'+constraint]){
 					var constraintCatSet = spotForm['category-'+constraint];
-					for(var j=0; j<constraintCatSet.length; j++){	
+					for(var j=0; j<constraintCatSet.length; j++){
 						var categoryBox = constraintCatSet[j];
 						if(categoryBox.checked){
 							var category = categoryBox.value;
@@ -306,9 +306,9 @@ window.addEventListener('load', function(){
 					constraintSet.push(constraint);
 			}
 		}
-		
+
 		//Get the input syntactic tree.
-		var sTrees; 
+		var sTrees;
 		try{
 			sTrees = getSTrees();
 		}
@@ -317,10 +317,10 @@ window.addEventListener('load', function(){
 			alert(e.message);
 			return;
 		}
-		
+
 		//Get input to GEN.
 		var pString = spotForm.inputToGen.value;
-		
+
 		//Build a list of checked GEN options.
 		var genOptions = {};
 		for(var i=0; i<spotForm.genOptions.length; i++){
@@ -336,22 +336,30 @@ window.addEventListener('load', function(){
 			}
 			genOptions['obeysExhaustivity'] = exCats;
 		}
-		
+
+		var genTones = false; //true if tones are selected
+
+		if(spotForm.toneOptions.value != "noTones"){
+			//from radio group near the bottom of spotForm
+			genOptions.addTones = spotForm.toneOptions.value;
+			genTones = true;
+			console.log(genOptions);
+		}
 
 		var csvSegs = [];
 		for (var i = 0; i < sTrees.length; i++) {
 			var sTree = sTrees[i];
 			var candidateSet = GEN(sTree, pString, genOptions);
-			
+
 			//Make the violation tableau with the info we just got.
-			var tabl = makeTableau(candidateSet, constraintSet, {showTones: genOptions.addTones});
+			var tabl = makeTableau(candidateSet, constraintSet, {showTones: genTones});
 			csvSegs.push(tableauToCsv(tabl, ',', {noHeader: i}));
 			writeTableau(tabl);
 			revealNextSegment();
 		}
-		
+
 		saveTextAs(csvSegs.join('\n'), 'SPOT_Results.csv');
-		
+
 		function saveAs(blob, name) {
 			var a = document.createElement("a");
 			a.display = "none";
@@ -365,22 +373,22 @@ window.addEventListener('load', function(){
 		function saveTextAs(text, name) {
 			saveAs(new Blob([text], {type: "text/csv", encoding: 'utf-8'}), name);
 		}
-		
+
 		return false;
 	};
-	
+
 	document.getElementById('exhaustivityBox').addEventListener('click', function(){
 		document.getElementById('exhaustivityDetailRow').style.display = 'block';
-	});
+		});
 
 	//Code for generating the JS for a syntactic tree
 	var treeTableContainer = document.getElementById('treeTableContainer');
-	
-	//Open the tree making GUI 
+
+	//Open the tree making GUI
 	document.getElementById('startTreeUIButton').addEventListener('click', function(){
 		document.getElementById('treeUI').style.display = 'block';
 	});
-	
+
 	function refreshHtmlTree(treeIndex) {
 		if (treeIndex === undefined) {
 			for (index of Object.keys(treeUIsTreeMap)) {
@@ -388,27 +396,27 @@ window.addEventListener('load', function(){
 			}
 			return;
 		}
-		
+
 		if (treeIndex in treeUIsTreeMap) {
 			treeUIsTreeMap[treeIndex].refreshHtml();
 		}
 		refreshNodeEditingButtons();
 	}
-	
+
 	//Set up the table...
 	document.getElementById('goButton').addEventListener('click', function(){
 		// Get the string of terminals
 		var terminalString = spotForm.sTreeTerminals.value;
 		var terminalList = terminalString.trim().split(/\s+/);
-		
+
 		//Make the js tree (a dummy tree only containing the root CP)
 		var tree = UTree.fromTerminals(terminalList);
 		treeTableContainer.innerHTML += tree.toHtml();
 		refreshNodeEditingButtons();
-		
+
 		document.getElementById('treeUIinner').style.display = 'block';
 	});
-	
+
 	// For testing only
 	/*
 	new UTree({
@@ -426,7 +434,7 @@ window.addEventListener('load', function(){
 	refreshHtmlTree();
 	document.getElementById('treeUIinner').style.display = 'block';
 	*/
-	
+
 	//Look at the html tree and turn it into a JSON tree. Put the JSON in the following textarea.
 	document.getElementById('htmlToJsonTreeButton').addEventListener('click', function(){
 		spotForm.sTree.value = JSON.stringify(Object.values(treeUIsTreeMap).map(function(tree) {
@@ -437,7 +445,7 @@ window.addEventListener('load', function(){
 	document.getElementById('danishJsonTreesButton').addEventListener('click', function() {
 		spotForm.sTree.value = JSON.stringify(danishTrees(), null, 4);
 	});
-	
+
 	treeTableContainer.addEventListener('input', function(e) {
 		var target = e.target;
 		var idPieces = target.id.split('-');
@@ -446,7 +454,7 @@ window.addEventListener('load', function(){
 		var isCat = idPieces[0] === 'catInput';
 		treeUIsTreeMap[treeIndex].nodeMap[nodeId][isCat ? 'cat' : 'id'] = target.value;
 	});
-	
+
 	function refreshNodeEditingButtons() {
 		var hasSelection = treeTableContainer.getElementsByClassName('selected').length > 0;
 		var buttons = document.getElementsByClassName('nodeEditingButton');
@@ -454,7 +462,7 @@ window.addEventListener('load', function(){
 			buttons[i].disabled = !hasSelection;
 		}
 	}
-	
+
 	treeTableContainer.addEventListener('click', function(e) {
 		var node = e.target;
 		if (e.target.classList.contains('stemSide') || e.target.classList.contains('inputContainer')) {
@@ -467,14 +475,14 @@ window.addEventListener('load', function(){
 			refreshNodeEditingButtons();
 		}
 	});
-	
+
 	function elementToNode(el) {
 		var idFrags = el.id.split('-');
 		if (idFrags[0] !== 'treeNode') return null;
 		var nodeId = idFrags[1];
 		return treeUIsTreeMap[idFrags[2]].nodeMap[nodeId];
 	}
-	
+
 	function getSelectedNodes() {
 		var elements = treeTableContainer.getElementsByClassName('selected');
 		var nodes = [];
@@ -486,7 +494,7 @@ window.addEventListener('load', function(){
 		}
 		return nodes;
 	}
-	
+
 	document.getElementById('treeUImakeParent').addEventListener('click', function() {
 		var nodes = getSelectedNodes();
 		try {
@@ -497,7 +505,7 @@ window.addEventListener('load', function(){
 			alert('Error, unable to add daughter: ' + err.message);
 		}
 	});
-	
+
 	document.getElementById('treeUIdeleteNodes').addEventListener('click', function() {
 		var nodes = getSelectedNodes();
 		if (nodes) {
@@ -515,7 +523,7 @@ window.addEventListener('load', function(){
 		}
 		refreshHtmlTree(treeIndex);
 	});
-	
+
 	document.getElementById('treeUIclearSelection').addEventListener('click', function() {
 		var elements = treeTableContainer.getElementsByClassName('selected');
 		for (var i = elements.length-1; i >= 0; i--) {
@@ -523,7 +531,7 @@ window.addEventListener('load', function(){
 		}
 		refreshNodeEditingButtons();
 	});
-	
+
 	document.body.addEventListener('click', function(event) {
 		var el = event.target;
 		var legend = el.closest('legend');

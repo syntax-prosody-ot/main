@@ -466,8 +466,10 @@
 	            </div>
 
 				<hr style="margin-top: 20px">
+
 				<h2>Prosodic constituents must be... </h2>
 				<span class="info"><span class="content">Checking a box will tell Gen not to produce certain types of prosodic trees, or to annotate the trees. Gen currently only creates recursion at the &phiv; level.</span></span>
+
 				<table class="spaceytable"><tbody>
 					<tr>
 						<td><input type="checkbox" name="genOptions" id="exhaustivityBox" value="obeysExhaustivity">exhaustively parsed</td>
@@ -484,9 +486,13 @@
 						</div></td>
 					</tr>
 				</tbody></table>
-				<i>Other Gen options:</i><br/>
+
+				<i>Annotate trees with tones for...</i><br/>
 				<table class="spaceytable"><tbody><tr>
-					<td><input type="checkbox" name="genOptions" value="addTones">Include tones</td>
+					<td><input type="radio" name="toneOptions" value="noTones" checked="checked">None</td>
+					<td><input type="radio" name="toneOptions" value="addJapaneseTones">Japanese</td>
+					<td><input type="radio" name="toneOptions" value="addIrishTones_Elfner">Irish</td>
+					<!-- value="name of your tone function" -->
 				</tr></tbody></table>
 				<hr/>
 
