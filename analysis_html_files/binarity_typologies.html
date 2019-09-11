@@ -10,6 +10,7 @@
             (open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
             <script src="../build/spot.js"></script>
             <script src="../trees/abstractMatchTrees.js"></script>
+            <script src="../trees/five_word_binary_branching_trees.js"></script>
     </head>
 
     <body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
@@ -17,11 +18,11 @@
         <pre id="results-container"></pre>
 
         <script>
-            var sTreeList = [tree_3w_1, tree_3w_2, tree_4w_1, tree_4w_2, tree_4w_3, tree_4w_4, tree_4w_5];
+            var sTreeList = [tree_3w_1, tree_3w_2, tree_4w_1, tree_4w_2, tree_4w_3, tree_4w_4, tree_4w_5].concat(five_word_abstract_trees, selected_six_word_trees);
 
             //just one markedness constraint
             var matchCon = ['matchSP-xp', 'matchPS-phi'];
-            var conLeaves = ['binMax2Words-phi'].concat(matchCon);
+            var conLeaves = ['binMaxLeaves-phi'].concat(matchCon);
             var conBranches = ['binMaxBranches-phi'].concat(matchCon);
             var conBalSisCat = ['balancedSisters-phi'].concat(matchCon);
             var conBalSisAdj = ['balancedSistersAdj-phi'].concat(matchCon);
@@ -32,13 +33,15 @@
                 3. Do the other binarity constraints proposed here predict such a language?
                 4. Which version of balancedSisters is better: categorical or adjacent? To test this, we will need sentences with more than 4 words.
             */
-            var conBinBal = ['binMaxBranches-phi', 'balancedSisters-phi'].concat(matchCon);
-            var conESleaves = ['equalSistersAdj-phi'].concat(conLeaves);
-            var conESbranches = ['equalSistersAdj-phi'].concat(conBranches);
+            var match_BinBr = ['binMaxBranches-phi'].concat(matchCon);
+            var conBrLv = ['binMaxLeaves-phi'].concat(match_BinBr);
+            var conBrBalAdj = ['balancedSistersAdj-phi'].concat(match_BinBr);
+            
+            var conESLv = ['equalSistersAdj-phi'].concat(['binMaxLeaves-phi'], match_BinBr);
 
 
             /*A list of names for constraint sets.*/
-            var conNames = ['conLeaves', 'conBranches', 'conBalSisCat', 'conBalSisAdj'];
+            var conNames = ['conLeaves', 'conBranches', 'conBalSisCat', 'conBalSisAdj', 'conBrLv', 'conBrBalAdj', 'conESLv'];
             
             //Candidate sets are generated with the options below.
             var gen_options = {obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: true, requirePhiStem: true};
