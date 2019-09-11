@@ -230,8 +230,96 @@ var tree_4w_5 = {
     ]
 };
 
-
-
+var five_w_trees = [
+    {
+        "id": "CP1",
+        "cat": "cp",
+        "children": [
+            {
+                "cat": "xp",
+                "id": "XP_8",
+                "children": [
+                    {
+                        "cat": "xp",
+                        "id": "XP_7",
+                        "children": [
+                            {
+                                "cat": "xp",
+                                "id": "XP_6",
+                                "children": [
+                                    {
+                                        "id": "a",
+                                        "cat": "x0"
+                                    },
+                                    {
+                                        "id": "b",
+                                        "cat": "x0"
+                                    }
+                                ]
+                            },
+                            {
+                                "id": "c",
+                                "cat": "x0"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "d",
+                        "cat": "x0"
+                    }
+                ]
+            },
+            {
+                "id": "e",
+                "cat": "x0"
+            }
+        ]
+    },
+    {
+        "id": "CP1",
+        "cat": "cp",
+        "children": [
+            {
+                "cat": "xp",
+                "id": "XP_6",
+                "children": [
+                    {
+                        "cat": "xp",
+                        "id": "XP_8",
+                        "children": [
+                            {
+                                "id": "a",
+                                "cat": "x0"
+                            },
+                            {
+                                "id": "b",
+                                "cat": "x0"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "c",
+                        "cat": "x0"
+                    }
+                ]
+            },
+            {
+                "cat": "xp",
+                "id": "XP_7",
+                "children": [
+                    {
+                        "id": "d",
+                        "cat": "x0"
+                    },
+                    {
+                        "id": "e",
+                        "cat": "x0"
+                    }
+                ]
+            }
+        ]
+    }
+];
 
 
 
