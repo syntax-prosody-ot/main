@@ -2,29 +2,37 @@
 //Produces an array of arrays representing a tableau
 
 function makeTableau(candidateSet, constraintSet, options){
+	//all options passed to makeTableau are passed into parenthesizeTree, so make
+	//sure your options in dependant functions have unique names from other funcs
 	options = options || {};
 	var tableau = [];
 	//Make a header for the tableau, containing all the constraint names.
 	//First element is empty, to correspond to the column of candidates.
 	var sTree = candidateSet[0] ? candidateSet[0][0] : '';
 	if (sTree instanceof Object) {
-		sTree = parenthesizeTree(sTree); //JSON.stringify(sTreeName);
+		var sOptions = {}; //must not include tone options
+		for (var op in options){
+			if (op != "showTones" && op != "addTones"){
+				sOptions[op] = options[op]; //don't copy in tone options
+			}
+		}
+		sTree = parenthesizeTree(sTree, sOptions); //JSON.stringify(sTreeName);
 	}
 	var header = [sTree];
 	for(var i=0; i<constraintSet.length; i++){
 		header.push(constraintSet[i]);
 	}
 	tableau.push(header);
-	
+
 	var getCandidate = options.inputTypeString ? function(candidate) {return candidate;} : globalNameOrDirect;
-	
+
 	//Assess violations for each candidate.
 	for(var i = 0; i < candidateSet.length; i++){
 		var candidate = candidateSet[i];
-		var ptreeStr = options.inputTypeString ? candidate[1] : parenthesizeTree(globalNameOrDirect(candidate[1]), {showTones: options.showTones});
+		var ptreeStr = options.inputTypeString ? candidate[1] : parenthesizeTree(globalNameOrDirect(candidate[1]), options);
 		var tableauRow = [ptreeStr];
 		for(var j = 0; j < constraintSet.length; j++){
-			
+
 			var [constraint, cat] = constraintSet[j].split('-');
 			//var numViolations = runConstraint(constraintAndCat[0], candidate[0], candidate[1], constraintAndCat[1]); ++lastSegmentId; // show log of each constraint run
 			var oldDebugOn = logreport.debug.on;
@@ -56,7 +64,7 @@ function tableauToCsv(tableau, separator, options) {
 				row[j] = '"' + row[j] + '"';
 			}
 		}
-		// TODO: handle special characters (i.e.: cell values containing either double quotes or separator characters) 
+		// TODO: handle special characters (i.e.: cell values containing either double quotes or separator characters)
 		lines.push(row.join(separator));
 	}
 	return lines.join('\n');

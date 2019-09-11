@@ -78,6 +78,9 @@ function parenthesizeTree(tree, options){
 				if(toneIdDiff < 0)
 					toneTree.push(' '.repeat(-toneIdDiff));
 			}
+			if(showTones && !node.tones){
+				toneTree.push(' '.repeat(node.id.length))
+			}
 		}
 		//	parTree.push(node.id.split('_')[0]);
 	}
