@@ -176,12 +176,18 @@
 				width: 100%;
 			}
 			.info {
-				display: inline-block;
 				margin-left: 5px;
 				font-size: 13px;
 			}
 			.info:before {
-				content: "\1F6C8";
+				display: inline-block;
+				content: "i";
+				font-family: "Segoe UI";
+				font-weight: bold;
+				border: 1px solid;
+				border-radius: 1em;
+				padding-right: 0.4em;
+				padding-left: 0.4em;
 				cursor: pointer;
 				color: #07C;	
 			}
@@ -191,7 +197,7 @@
 				color: #555;
 			}
 			.info.showing .content {
-				display: inline-block;
+				display: block;
 			}
 			.treeUI-tree {
 				display: inline-block;
@@ -425,7 +431,7 @@
 					<span class="info"><span class="content">Constraints proposed for analysis of lexical accent systems (Japanese, Basque). Accents must be indicated either by using 'a'/'u' or 'A'/'U' for the ids of words, or by adding accent attributes in the syntactic tree.</span></span>
 					<div class="checkbox-set-indentation">
 						<input type="checkbox" name="constraints" value="accentAsHead">AccentAsHead <span class="info"><span class="content">Assign a violation for each prosodic word that is not the head of a minimal &phiv;.</span></span><br/>
-						<input type="checkbox" name="constraints" value="noLapseL">NoLapse-L: <span class="info"><span class="content">No accentual lapse. Assign a violation for every fully L-toned &omega;.</span></span><br/>
+						<input type="checkbox" name="constraints" value="noLapseL">NoLapse-L <span class="info"><span class="content">No accentual lapse. Assign a violation for every fully L-toned &omega;.</span></span><br/>
 					</div>
 				</fieldset>
 
@@ -460,21 +466,21 @@
 	            </div>
 
 				<hr style="margin-top: 20px">
-				<h2>Generate prosodic trees that obey... 
-				<span class="info"><span class="content">Checking a box will tell Gen not to produce certain types of prosodic trees, or to annotate the trees. Gen currently only creates recursion at the &phiv; level.</span></span></h2>
+				<h2>Prosodic constituents must be... </h2>
+				<span class="info"><span class="content">Checking a box will tell Gen not to produce certain types of prosodic trees, or to annotate the trees. Gen currently only creates recursion at the &phiv; level.</span></span>
 				<table class="spaceytable"><tbody>
 					<tr>
-						<td><input type="checkbox" name="genOptions" value="obeysNonrecursivity">Non-recursivity (all levels)</td>
-						<td><input type="checkbox" name="genOptions" value="obeysHeadedness">Headedness (all levels)</td>
-						<td><input type="checkbox" name="genOptions" value="requirePhiStem">Require &phiv; Stem</td>
-						<td><input type="checkbox" name="genOptions" id="exhaustivityBox" value="obeysExhaustivity">Exhaustivity</td>
+						<td><input type="checkbox" name="genOptions" id="exhaustivityBox" value="obeysExhaustivity">exhaustively parsed</td>
+						<td><input type="checkbox" name="genOptions" value="obeysNonrecursivity">non-recursive</td>
+						<td><input type="checkbox" name="genOptions" value="obeysHeadedness"> headed</td>
+						<td><input type="checkbox" name="genOptions" value="requirePhiStem">wrapped into a &phiv;</td>
 					</tr>
 					<tr id="exhaustivityDetailRow" style="display: none">
-						<td><div id="exhaustivityLabelContainer">Enforce Exhaustivity at...</div></td>
+						<td><div id="exhaustivityLabelContainer"></div></td>
 						<td><div id="exhaustivityCatContainer">
-							<input type="checkbox" name="exhaustivityCats" value="i" checked="checked">&iota;&nbsp;&nbsp;
-							<input type="checkbox" name="exhaustivityCats" value="phi" checked="checked">&phiv;&nbsp;&nbsp;
-							<input type="checkbox" name="exhaustivityCats" value="w" checked="checked">&omega;
+							<input type="checkbox" name="exhaustivityCats" value="i" checked="checked">Every child of &iota; is a &phiv;&nbsp;&nbsp;
+							<input type="checkbox" name="exhaustivityCats" value="phi" checked="checked">Every child of &phiv; is a &omega;&nbsp;&nbsp;
+							<!--<input type="checkbox" name="exhaustivityCats" value="w" checked="checked">&omega;-->
 						</div></td>
 					</tr>
 				</tbody></table>
