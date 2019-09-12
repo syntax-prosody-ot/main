@@ -3,6 +3,7 @@
 		<title>SPOT Interface</title>
 
 		<script src="build/spot.js"></script>
+		<script src=trees/irish_trees.js></script>
 		<link rel="stylesheet" type="text/css" href="spot.css">
 
 		<style>
@@ -227,9 +228,8 @@
 			<form id="spotForm">
 
 				<h3>Default Analysis</h3>
-				<button onclick="href = https://people.ucsc.edu/~jbellik/spot/built-in_Irish.html">Irish Phrasing</button>
-				<button onClick="href = https://people.ucsc.edu/~jbellik/spot/interface1.html">Clear</button>
-				<a href=https://people.ucsc.edu/~jbellik/spot/interface1.html>Link</a>
+				<button onclick="window.location.href = https://people.ucsc.edu/~jbellik/spot/built-in_Irish.html">Irish Phrasing</button>
+				<button onClick="window.location.href = https://people.ucsc.edu/~jbellik/spot/interface1.html">Clear</button>
 
 				<fieldset>
 
@@ -239,13 +239,13 @@
 					<table class="constraint-selection-table">
 					<tbody>
 						<tr>
-							<td><input type="checkbox" name="constraints" value="alignLeft">Align-Left</td>
+							<td><input type="checkbox" name="constraints" value="alignLeft" checked="checked">Align-Left</td>
 							<td><input type="checkbox" name="category-alignLeft" value="cp">CP</td>
 							<td><input type="checkbox" name="category-alignLeft" value="xp" checked="checked">XP</td>
 							<td><input type="checkbox" name="category-alignLeft" value="x0">X<sup>0</sup></td>
 						</tr>
 						<tr>
-							<td><input type="checkbox" name="constraints" value="alignRight">Align-Right</td>
+							<td><input type="checkbox" name="constraints" value="alignRight" checked="checked">Align-Right</td>
 							<td><input type="checkbox" name="category-alignRight" value="cp">CP</td>
 							<td><input type="checkbox" name="category-alignRight" value="xp" checked="checked">XP</td>
 							<td><input type="checkbox" name="category-alignRight" value="x0">X<sup>0</sup></td>
@@ -263,19 +263,19 @@
 					<table class="constraint-selection-table">
 					<tbody>
 						<tr>
-							<td><input type="checkbox" name="constraints" value="matchSP">MatchSP</td>
+							<td><input type="checkbox" name="constraints" value="matchSP" checked="checked">MatchSP</td>
 							<td><input type="checkbox" name="category-matchSP" value="cp">CP</td>
 							<td><input type="checkbox" name="category-matchSP" value="xp" checked="checked">XP</td>
 							<td><input type="checkbox" name="category-matchSP" value="x0">X<sup>0</sup></td>
 						</tr>
 						<tr>
-							<td><input type="checkbox" name="constraints" value="matchPS">MatchPS</td>
+							<td><input type="checkbox" name="constraints" value="matchPS" checked="checked">MatchPS</td>
 							<td><input type="checkbox" name="category-matchPS" value="i">&iota;</td>
 							<td><input type="checkbox" name="category-matchPS" value="phi" checked="checked">&phiv;</td>
 							<td><input type="checkbox" name="category-matchPS" value="w">&omega;</td>
 						</tr>
 						<tr>
-							<td title="Assign a violation for every node of syntactic category s that is not dominated by another node of category s in the syntactic tree, and is not mapped to a corresponding prosodic node of category p, where p=catMap(s), such that p is not dominated by another node of category p."><input type="checkbox" name="constraints" value="matchMaxSP">MatchMaxSP</td>
+							<td title="Assign a violation for every node of syntactic category s that is not dominated by another node of category s in the syntactic tree, and is not mapped to a corresponding prosodic node of category p, where p=catMap(s), such that p is not dominated by another node of category p."><input type="checkbox" name="constraints" value="matchMaxSP" checked="checked">MatchMaxSP</td>
 							<td><input type="checkbox" name="category-matchMaxSP" value="cp">CP</td>
 							<td><input type="checkbox" name="category-matchMaxSP" value="xp" checked="checked">XP</td>
 							<td><input type="checkbox" name="category-matchMaxSP" value="x0">X<sup>0</sup></td>
@@ -302,13 +302,13 @@
 					<table class="constraint-selection-table">
 					<tbody>
 						<tr>
-							<td title="Assign a violation for every pTree-node of category K that has less than two children."><input type="checkbox" name="constraints" value="binMinBranches">BinMin(branches)</td>
+							<td title="Assign a violation for every pTree-node of category K that has less than two children."><input type="checkbox" name="constraints" value="binMinBranches" checked="checked">BinMin(branches)</td>
 							<td><input type="checkbox" name="category-binMinBranches" value="i">&iota;</td>
 							<td><input type="checkbox" name="category-binMinBranches" value="phi" checked="checked">&phiv;</td>
 							<td><input type="checkbox" name="category-binMinBranches" value="w">&omega;</td>
 						</tr>
 						<tr>
-							<td title="Assign a violation for every pTree-node of category K that has more than two children."><input type="checkbox" name="constraints" value="binMaxBranches">BinMax(branches) - <i>categorical</i></td>
+							<td title="Assign a violation for every pTree-node of category K that has more than two children."><input type="checkbox" name="constraints" value="binMaxBranches" checked="checked">BinMax(branches) - <i>categorical</i></td>
 							<td><input type="checkbox" name="category-binMaxBranches" value="i">&iota;</td>
 							<td><input type="checkbox" name="category-binMaxBranches" value="phi" checked="checked">&phiv;</td>
 							<td><input type="checkbox" name="category-binMaxBranches" value="w">&omega;</td>
@@ -356,7 +356,7 @@
 					<table class="constraint-selection-table">
 					<tbody>
 						<tr>
-							<td title="Assign a violation for every pair of adjacent sister nodes that are not of the same prosodic category."><input type="checkbox" name="constraints" value="equalSistersAdj">EqualSisters (adjacent)</td>
+							<td title="Assign a violation for every pair of adjacent sister nodes that are not of the same prosodic category."><input type="checkbox" name="constraints" value="equalSistersAdj" checked="checked">EqualSisters (adjacent)</td>
 							<td><input type="checkbox" name="category-equalSistersAdj" value="i">&iota;</td>
 							<td><input type="checkbox" name="category-equalSistersAdj" value="phi" checked="checked">&phiv;</td>
 							<td><input type="checkbox" name="category-equalSistersAdj" value="w">&omega;</td>
@@ -380,7 +380,7 @@
 					<table class="constraint-selection-table">
 					<tbody>
 						<tr>
-							<td title="Assign a violation for every node whose leftmost daughter constituent is of type k and is lower in the prosodic hierarchy than its sister constituent immediately to its right: *(Kn Kn-1). (Elfner's StrongStart)"><input type="checkbox" name="constraints" value="strongStart_Elfner">StrongStart</td>
+							<td title="Assign a violation for every node whose leftmost daughter constituent is of type k and is lower in the prosodic hierarchy than its sister constituent immediately to its right: *(Kn Kn-1). (Elfner's StrongStart)"><input type="checkbox" name="constraints" value="strongStart_Elfner" checked="checked">StrongStart</td>
 							<td><input type="checkbox" name="category-strongStart_Elfner" value="i">&iota;</td>
 							<td><input type="checkbox" name="category-strongStart_Elfner" value="phi">&phiv;</td>
 							<td><input type="checkbox" name="category-strongStart_Elfner" value="w" checked="checked">&omega;</td>
@@ -467,7 +467,276 @@
 					<div style="display:none"><button id="danishJsonTreesButton" type="button">Danish Trees: generate s-tree code</button></div>
 
 					<p>To enter trees manually... <span class="info"><span class="content">To use a tree you previously made and saved, select a tree or trees from your JavaScript tree file (some pre-made trees are in the directory <i>main/trees</i>, and end with .js). Paste in the contents of JS file of your input syntactic tree(s) (from the opening brace to the closing brace, removing any comments and excluding the final semi-colon). Separate trees with a comma and surround the whole thing with square brackets ("[]") to make it an array. Note that if you're only using Markedness constraints, you can just keep the default value of an empty tree (like so: {}) as the syntactic input.</span></span></p>
-					<textarea class="stree-textarea" name="sTree" rows="15">{}</textarea>
+					<textarea class="stree-textarea" name="sTree" rows="15">[
+						{
+						    "id": "SigmaP",
+						    "cat": "xp",
+						    "children": [
+						        {
+						            "id": "V",
+						            "cat": "x0"
+						        },
+						        {
+						            "cat": "xp",
+						            "id": "DPs",
+						            "children": [
+						                {
+						                    "id": "Ns",
+						                    "cat": "x0"
+						                }
+						            ]
+						        }
+						    ]
+						},
+						{
+						    "id": "SigmaP",
+						    "cat": "xp",
+						    "children": [
+						        {
+						            "id": "V",
+						            "cat": "x0"
+						        },
+						        {
+						            "cat": "xp",
+						            "id": "DPs",
+						            "children": [
+						                {
+						                    "id": "N",
+						                    "cat": "x0"
+						                },
+						                {
+						                    "cat": "xp",
+						                    "id": "AP",
+						                    "children": [
+						                        {
+						                            "id": "A",
+						                            "cat": "x0"
+						                        }
+						                    ]
+						                }
+						            ]
+						        }
+						    ]
+						},
+						{
+						    "id": "SigmaP",
+						    "cat": "xp",
+						    "children": [
+						        {
+						            "id": "V",
+						            "cat": "x0"
+						        },
+						        {
+						            "cat": "xp",
+						            "id": "TP",
+						            "children": [
+						                {
+						                    "cat": "xp",
+						                    "id": "DPs",
+						                    "children": [
+						                        {
+						                            "id": "Ns",
+						                            "cat": "x0"
+						                        }
+						                    ]
+						                },
+						                {
+						                    "cat": "xp",
+						                    "id": "DPo",
+						                    "children": [
+						                        {
+						                            "id": "No",
+						                            "cat": "x0"
+						                        }
+						                    ]
+						                }
+						            ]
+						        }
+						    ]
+						},
+						{
+						    "id": "SigmaP",
+						    "cat": "xp",
+						    "children": [
+						        {
+						            "id": "V",
+						            "cat": "x0"
+						        },
+						        {
+						            "cat": "xp",
+						            "id": "TP",
+						            "children": [
+						                {
+						                    "cat": "xp",
+						                    "id": "DPs",
+						                    "children": [
+						                        {
+						                            "id": "Ns",
+						                            "cat": "x0"
+						                        },
+						                        {
+						                            "cat": "xp",
+						                            "id": "AP",
+						                            "children": [
+						                                {
+						                                    "id": "As",
+						                                    "cat": "x0"
+						                                }
+						                            ]
+						                        }
+						                    ]
+						                },
+						                {
+						                    "cat": "xp",
+						                    "id": "DPo",
+						                    "children": [
+						                        {
+						                            "id": "No",
+						                            "cat": "x0"
+						                        }
+						                    ]
+						                }
+						            ]
+						        }
+						    ]
+						},
+						{
+						    "id": "SigmaP",
+						    "cat": "xp",
+						    "children": [
+						        {
+						            "id": "V",
+						            "cat": "x0"
+						        },
+						        {
+						            "cat": "xp",
+						            "id": "TP",
+						            "children": [
+						                {
+						                    "cat": "xp",
+						                    "id": "DPs",
+						                    "children": [
+						                        {
+						                            "id": "Ns",
+						                            "cat": "x0"
+						                        }
+						                    ]
+						                },
+						                {
+						                    "cat": "xp",
+						                    "id": "DPo",
+						                    "children": [
+						                        {
+						                            "id": "No",
+						                            "cat": "x0"
+						                        },
+						                        {
+						                            "cat": "xp",
+						                            "id": "AP",
+						                            "children": [
+						                                {
+						                                    "id": "Ao",
+						                                    "cat": "x0"
+						                                }
+						                            ]
+						                        }
+						                    ]
+						                }
+						            ]
+						        }
+						    ]
+						},
+						{
+						    "id": "FP",
+						    "cat": "xp",
+						    "children": [
+						        {
+						            "id": "V",
+						            "cat": "x0"
+						        },
+						        {
+						            "cat": "xp",
+						            "id": "TP",
+						            "children": [
+						                {
+						                    "id": "Ns",
+						                    "cat": "x0"
+						                },
+						                {
+						                    "cat": "xp",
+						                    "id": "DPo",
+						                    "children": [
+						                        {
+						                            "id": "No",
+						                            "cat": "x0"
+						                        },
+						                        {
+						                            "id": "Ao",
+						                            "cat": "x0"
+						                        }
+						                    ]
+						                }
+						            ]
+						        }
+						    ]
+						},
+						{
+						    "id": "SigmaP",
+						    "cat": "cp",
+						    "children": [
+						        {
+						            "id": "V",
+						            "cat": "x0"
+						        },
+						        {
+						            "cat": "xp",
+						            "id": "TP",
+						            "children": [
+						                {
+						                    "cat": "xp",
+						                    "id": "DPs",
+						                    "children": [
+						                        {
+						                            "id": "Ns",
+						                            "cat": "x0"
+						                        },
+						                        {
+						                            "cat": "xp",
+						                            "id": "APs",
+						                            "children": [
+						                                {
+						                                    "id": "As",
+						                                    "cat": "x0"
+						                                }
+						                            ]
+						                        }
+						                    ]
+						                },
+						                {
+						                    "cat": "xp",
+						                    "id": "DPo",
+						                    "children": [
+						                        {
+						                            "id": "No",
+						                            "cat": "x0"
+						                        },
+						                        {
+						                            "cat": "xp",
+						                            "id": "APo",
+						                            "children": [
+						                                {
+						                                    "id": "Ao",
+						                                    "cat": "x0"
+						                                }
+						                            ]
+						                        }
+						                    ]
+						                }
+						            ]
+						        }
+						    ]
+						}
+					]</textarea>
 	            </div>
 
 				<hr style="margin-top: 20px">
@@ -479,7 +748,7 @@
 					<tr>
 						<td><input type="checkbox" name="genOptions" id="exhaustivityBox" value="obeysExhaustivity">exhaustively parsed</td>
 						<td><input type="checkbox" name="genOptions" value="obeysNonrecursivity">non-recursive</td>
-						<td><input type="checkbox" name="genOptions" value="obeysHeadedness"> headed</td>
+						<td><input type="checkbox" name="genOptions" value="obeysHeadedness" checked="checked"> headed</td>
 						<td><input type="checkbox" name="genOptions" value="requirePhiStem">wrapped into a &phiv;</td>
 					</tr>
 					<tr id="exhaustivityDetailRow" style="display: none">
