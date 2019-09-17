@@ -45,4 +45,18 @@ function built_in_con(input){
 //Irish, as analysed in Elfner (2012), with some useful trees
 function built_in_Irish(){
   built_in_con([{name: "matchSP", cat:"xp"}, {name: "strongStart_Elfner", cat: "phi"}, {name: "binMinBranches", cat: "phi"}, {name: "binMaxBranches", cat: "phi"}]);
+  document.getElementById("mapping_constraints").attributes.class.value = "open";
+  document.getElementById("binarity_constraints").attributes.class.value = "open";
+  document.getElementById("horizantal_constraints").attributes.class.value = "open";
+  document.getElementById("treeUI").style.display = "block";
+  document.getElementById("stree-textarea").value = JSON.stringify(irish_trees);
+  var toneButtons = document.getElementsByName("toneOptions");
+  for(var x = 0; x < toneButtons.length; x++){
+    if(toneButtons[x].value="addIrishTones_Elfner"){
+      toneButtons[x].setAttribute("checked", true);
+    }
+    else{
+      toneButtons[x].setAttribute("checked", false);
+    }
+  }
 }

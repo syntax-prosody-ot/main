@@ -3,6 +3,7 @@
 		<title>SPOT Interface</title>
 
 		<script src="build/spot.js"></script>
+		<script src="./trees/built-in_trees.js"></script>
 		<link rel="stylesheet" type="text/css" href="spot.css">
 
 		<style>
@@ -231,7 +232,7 @@
 				<button onClick="href = https://people.ucsc.edu/~jbellik/spot/interface1.html">Clear</button>
 				<a href=https://people.ucsc.edu/~jbellik/spot/interface1.html>Link</a>
 
-				<fieldset>
+				<fieldset id="mapping_constraints" class="">
 
 					<legend><h2>Syntax-prosody mapping constraints <span class="arrow"></h2></legend>
 
@@ -293,7 +294,7 @@
 
 				<br/>
 
-				<fieldset>
+				<fieldset id="binarity_constraints" class="">
 
 					<legend><h2>Binarity constraints <span class="arrow"></h2></legend>
 
@@ -349,7 +350,7 @@
 
 				<br/>
 
-				<fieldset>
+				<fieldset id="horizantal_constraints" class="">
 
 					<legend><h2>Markedness constraints on horizontal relationships <span class="arrow"></h2></legend>
 					<h3>EqualSisters</h3>
@@ -393,7 +394,7 @@
 
 				<br/>
 
-				<fieldset>
+				<fieldset id="vertical_constraints" class="">
 
 					<legend><h2>Markedness constraints on vertical relationships <span class="arrow"></h2></legend>
 					<table class="constraint-selection-table">
@@ -431,7 +432,7 @@
 				</fieldset>
 				<br/>
 
-				<fieldset>
+				<fieldset id="accent_constraints" class="">
 					<legend><h2>Constraints on accentedness <span class="arrow"></h2></legend>
 					<span class="info"><span class="content">Constraints proposed for analysis of lexical accent systems (Japanese, Basque). Accents must be indicated either by using 'a'/'u' or 'A'/'U' for the ids of words, or by adding accent attributes in the syntactic tree.</span></span>
 					<div class="checkbox-set-indentation">
@@ -445,7 +446,7 @@
 				<hr/>
 				<h2>Build input syntactic trees</h2>
 	            <button id="startTreeUIButton" class="orange-button" type="button">Open tree-builder</button>
-	            <div id="treeUI" style="display:none">
+	            <div id="treeUI" style="display: none">
 	                <p>String of terminals: <input type="text" name="sTreeTerminals"> <button id="goButton" type="button">Go!</button></p>
 	              	<div id="treeUIinner" style="display: none">
 	              		<hr/>
@@ -467,7 +468,7 @@
 					<div style="display:none"><button id="danishJsonTreesButton" type="button">Danish Trees: generate s-tree code</button></div>
 
 					<p>To enter trees manually... <span class="info"><span class="content">To use a tree you previously made and saved, select a tree or trees from your JavaScript tree file (some pre-made trees are in the directory <i>main/trees</i>, and end with .js). Paste in the contents of JS file of your input syntactic tree(s) (from the opening brace to the closing brace, removing any comments and excluding the final semi-colon). Separate trees with a comma and surround the whole thing with square brackets ("[]") to make it an array. Note that if you're only using Markedness constraints, you can just keep the default value of an empty tree (like so: {}) as the syntactic input.</span></span></p>
-					<textarea class="stree-textarea" name="sTree" rows="15">{}</textarea>
+					<textarea id="stree-textarea" class="stree-textarea" name="sTree" rows="15">{}</textarea>
 	            </div>
 
 				<hr style="margin-top: 20px">
