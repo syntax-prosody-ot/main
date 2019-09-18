@@ -1,0 +1,33 @@
+<html>
+    <head>
+            <title>SPOT investigation of Binarity</title>
+
+            <link rel="stylesheet" type="text/css" href="../spot.css">
+        
+            <script src="../lib/jszip.min.js"></script>
+        
+            <!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
+            (open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
+            <script src="../build/spot.js"></script>
+            <script src="../trees/abstractMatchTrees.js"></script>
+    </head>
+
+    <body>
+        <div id="toneResults"></div>
+        <script>
+            var cand_set = GEN(tree_3w_1,'', {requirePhiStem:true});
+            
+            for(var pair in cand_set){
+                var ptree = cand_set[pair][1];
+                var para = document.createElement("pre");
+                var node = document.createTextNode(parenthesizeTree(addIrishTones_Elfner(ptree), {showTones: true, invisibleCategories:['i']}));
+                para.append(node);
+                document.getElementById("toneResults").appendChild(para);
+            }
+
+            
+        </script>
+
+    </body>
+
+</html>
