@@ -1,3 +1,11 @@
+/* File for built-in analysis syntax tree inputs
+ *
+ * This file gets loaded directly into interface1.html so make sure your
+ * variable names don't conflict with other global variables.
+ *
+ * Define one variable per analysis as a single object or as an array of objects
+ * just like you would input into the manual tree entry in the interface.
+ */
 var irish_trees = [{
     "id": "SigmaP",
     "cat": "xp",
@@ -27,8 +35,8 @@ var irish_trees = [{
             ]
         }
     ]
-},
-{
+  },
+  {
     "id": "SigmaP",
     "cat": "xp",
     "children": [
@@ -73,8 +81,8 @@ var irish_trees = [{
             ]
         }
     ]
-},
-{
+  },
+  {
     "id": "SigmaP",
     "cat": "xp",
     "children": [
@@ -119,8 +127,8 @@ var irish_trees = [{
             ]
         }
     ]
-},
-{
+  },
+  {
     "id": "SigmaP",
     "cat": "cp",
     "children": [
