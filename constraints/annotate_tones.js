@@ -86,8 +86,7 @@ Arguments:
 */
 function addIrishTones_Elfner(ptree){
 	
-	function addIrishTones_Elfner_Inner(ptree, getsRise, getsFall, riseMarked){
-		console.log(getsRise);
+	function addIrishTones_Elfner_Inner(ptree, getsRise, getsFall){
 		//Iota: No tonal diagnostics; just call recursively on the children
 		if(ptree.cat==='i'){
 			if(ptree.children && ptree.children.length){
