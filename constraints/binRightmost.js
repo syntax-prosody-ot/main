@@ -94,7 +94,10 @@ function binMinRightmostBranches(s, ptree, cat) {
       //check rightmost child
       var rightMost = ptree.children.length - 1;
       var rightMostChild = ptree.children[rightMost];
-      if (rightMostChild.children && rightMostChild.children.length < 2) {
+      if (!rightMostChild.children) {
+	rightMostChild.children = [];
+      }
+      if (rightMostChild.children.length < 2) {
         vcount++;
       }       
     }
