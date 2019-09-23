@@ -3,6 +3,7 @@
 		<title>SPOT Interface</title>
 
 		<script src="build/spot.js"></script>
+		<script src="./trees/built-in_trees.js"></script>
 		<link rel="stylesheet" type="text/css" href="spot.css">
 
 		<style>
@@ -223,6 +224,13 @@
 					<li>The current implementation of Gen only produces recursion at the &phiv;-level, so candidates with recursive &iota;s or &omega;s will not be generated.</li>
 				</ul>
 			</span></span>
+
+			<div style="margin-bottom: 1cm">
+				<h3 style="color: #07203D">Try a Built-in Analysis:</h3>
+				<p>Once you have selected an analysis, scroll to the bottom and hit "Get results"</p>
+				<button onclick=built_in_Irish()>Irish Phrasing (Elfner 2012)</button>
+				<button onClick=location.reload(true)>Clear All</button>
+			</div>
 
 			<form id="spotForm">
 
@@ -448,7 +456,7 @@
 				<hr/>
 				<h2>Build input syntactic trees</h2>
 	            <button id="startTreeUIButton" class="orange-button" type="button">Open tree-builder</button>
-	            <div id="treeUI" style="display:none">
+	            <div id="treeUI" style="display: none">
 	                <p>String of terminals: <input type="text" name="sTreeTerminals"> <button id="goButton" type="button">Go!</button></p>
 	              	<div id="treeUIinner" style="display: none">
 	              		<hr/>
@@ -470,7 +478,7 @@
 					<div style="display:none"><button id="danishJsonTreesButton" type="button">Danish Trees: generate s-tree code</button></div>
 
 					<p>To enter trees manually... <span class="info"><span class="content">To use a tree you previously made and saved, select a tree or trees from your JavaScript tree file (some pre-made trees are in the directory <i>main/trees</i>, and end with .js). Paste in the contents of JS file of your input syntactic tree(s) (from the opening brace to the closing brace, removing any comments and excluding the final semi-colon). Separate trees with a comma and surround the whole thing with square brackets ("[]") to make it an array. Note that if you're only using Markedness constraints, you can just keep the default value of an empty tree (like so: {}) as the syntactic input.</span></span></p>
-					<textarea class="stree-textarea" name="sTree" rows="15">{}</textarea>
+					<textarea id="stree-textarea" class="stree-textarea" name="sTree" rows="15">{}</textarea>
 	            </div>
 
 				<hr style="margin-top: 20px">
