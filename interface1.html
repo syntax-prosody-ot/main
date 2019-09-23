@@ -437,10 +437,18 @@
 				<fieldset>
 					<legend><h2>Constraints on accentedness <span class="arrow"></h2></legend>
 					<span class="info"><span class="content">Constraints proposed for analysis of lexical accent systems (Japanese, Basque). Accents must be indicated either by using 'a'/'u' or 'A'/'U' for the ids of words, or by adding accent attributes in the syntactic tree.</span></span>
-					<div class="checkbox-set-indentation">
-						<input type="checkbox" name="constraints" value="accentAsHead">AccentAsHead <span class="info"><span class="content">Assign a violation for each prosodic word that is not the head of a minimal &phiv;.</span></span><br/>
-						<input type="checkbox" name="constraints" value="noLapseL">NoLapse-L <span class="info"><span class="content">No accentual lapse. Assign a violation for every fully L-toned &omega;.</span></span><br/>
-					</div>
+					<table class="constraint-selection-table">
+						<tbody>
+							<tr>
+								<td title="Assign a violation for each prosodic word that is not the head of a minimal &phiv;.">
+									<input type="checkbox" name="constraints" value="accentAsHead">AccentAsHead
+							</td></tr>
+							<tr>
+								<td title="No accentual lapse. Assign a violation for every fully L-toned &omega;.">
+									<input type="checkbox" name="constraints" value="noLapseL">NoLapse-L
+							</td></tr>
+						</tbody>
+					</table>
 				</fieldset>
 
 				<br/>
