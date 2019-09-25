@@ -10,10 +10,10 @@
 	<body>
 		<pre id="results-container"></pre>
 		<script>
-			var theCandidates = GEN({}, 'first second third fourth', {requirePhiStem:false, noUnary: false});
+			var theCandidates = GEN({}, 'first second third fourth', {requirePhiStem:false, obeysExhaustivity: true, noUnary: false});
 			var con = ["binMaxBrCatSensitive-phi", "binMaxLeaves-phi", "binMaxLeaves-i", "binMaxLeavesGradient-phi", "binMaxLeavesGradient-i", "binMinLeaves-phi", "binMinLeaves-i"];
 
-			var theCandidates2 = GEN({}, 'first second third fourth', {requirePhiStem:false, noUnary: true});
+			var theCandidates2 = GEN({}, 'first second third fourth', {requirePhiStem:false, obeysExhaustivity: true, noUnary: true});
 			var con2 = ["binMinBranches-phi"]
 			window.addEventListener("load",function(){
 				writeTableau(makeTableau(theCandidates2, con2));
