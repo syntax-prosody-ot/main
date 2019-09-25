@@ -28,7 +28,9 @@ var wNum = 0;
    - obeysExhaustivity (boolean or array of categories at which to require conformity to exhaustivity)
    - obeysHeadedness (boolean)
    - obeysNonrecursivity (boolean)
+	 - rootCategory (string)
 	 - recursiveCategory (string)
+	 - terminalCategory (string)
    - addTones (string). Possible values include:
 	 		- "addJapaneseTones"
 			- "addIrishTones_Elfner"
@@ -36,7 +38,57 @@ var wNum = 0;
 */
 window.GEN = function(sTree, words, options){
 	options = options || {}; // if options is undefined, set it to an empty object (so you can query its properties without crashing things)
+
 	options.recursiveCategory = options.recursiveCategory || "phi"; //sets the default of recursiveCategory option to "phi"
+
+	//set default root root category based on options passed
+	if(!options.rootCategory){ //root category is unspecifed
+		//recursiveCategory is specified as "w"
+		if(options.recursiveCategory === "w"){
+			options.rootCategory = "phi";
+		}
+		else{
+			options.rootCategory = "i";
+		}
+	}
+
+	//set default terminal category based on options passed
+	if(!options.terminalCategory){ //terminalCategory is unspecified
+		//terminalCategory unspecified, recursiveCategory specified as "i"
+		if(options.recursiveCategory === "i"){
+			options.terminalCategory = "phi";
+		}
+		//terminalCategory unspecified, recursiveCategory specified as "w"
+		else if(options.recursiveCategory === "w"){
+			options.terminalCategory = "Ft";
+		}
+		//neither terminalCategory nor recursiveCategory is specified, default to "w"
+		else{
+			options.terminalCategory = "w";
+		}
+	}
+
+	/* the prosodic hierarchy should include the categories specified in
+	 * options.rootCategory, options.recursiveCategory and options.terminalCategory
+	 */
+	if(options.rootCategory || options.recursiveCategory || options.terminalCategory){
+		//the specified root category should probably be highest
+		if(pCat.indexOf(options.rootCategory)<0)
+			pCat.unshift(options.rootCategory);
+		if(pCat.indexOf(options.recursiveCategory)<0 && options.rootCategory !== options.recursiveCategory){
+			//the specified recursive category should be after iota
+			try{
+				var afterI = pCat.indexOf("i") + 1;
+				pCat.splice(afterI, 0, options.recursiveCategory);
+			}
+			catch(err){
+				console.error("make sure pCat contains your recursive category.");
+			}
+		}
+		//the specified terminal category should be right above "syll"
+		if(pCat.indexOf(options.terminalCategory)<0 && options.terminalCategory !== options.recursiveCategory && options.rootCategory !== options.terminalCategory)
+			pCat.splice(-1, 0, options.terminalCategory);
+	 }
 
 	if(typeof words === "string") { // words can be a space-separated string of words or an array of words; if string, split up into an array
 		if (!words) { // if empty, scrape words from sTree
@@ -63,7 +115,7 @@ window.GEN = function(sTree, words, options){
 	var leaves = [];
 	phiNum = wNum = 0;
 	for(var i=0; i<words.length; i++){
-		leaves.push(omegafy(words[i]));
+		leaves.push(omegafy(words[i], options.terminalCategory));
 	}
 
 	var recursiveOptions = {};
@@ -72,7 +124,13 @@ window.GEN = function(sTree, words, options){
 			recursiveOptions[k] = options[k];
 	}
 
-	var rootlessCand = addPhiWrapped(gen(leaves, recursiveOptions), options);
+	/* if rootCategory and recursiveCategory are the same, we don't want to call
+	 * addPhiWrapped becasue half of the candidates will have a root node with
+	 * only one child, which will be of the same category, ie. {i {i (...) (...)}}
+	 */
+	var rootlessCand = gen(leaves, recursiveOptions)
+	if(options.rootCategory !== options.recursiveCategory)
+	 rootlessCand = addPhiWrapped(gen(leaves, recursiveOptions), options);
 
 	var candidates = [];
 	for(var i=0; i<rootlessCand.length; i++){
@@ -119,19 +177,19 @@ function obeysExhaustivity(cat, children) {
 
 function iotafy(candidate, options){
 	if (options && options.obeysExhaustivity){ // check that options.obeysExhaustivity is defined
-		if(typeof options.obeysExhaustivity ==="boolean" && options.obeysExhaustivity && !obeysExhaustivity('i', candidate)){
+		if(typeof options.obeysExhaustivity ==="boolean" && options.obeysExhaustivity && !obeysExhaustivity(options.rootCategory, candidate)){
 			return null;
 		}
-		else if (options.obeysExhaustivity instanceof Array && options.obeysExhaustivity.indexOf('i')>=0 && !obeysExhaustivity('i', candidate)){
+		else if (options.obeysExhaustivity instanceof Array && options.obeysExhaustivity.indexOf(options.rootCategory)>=0 && !obeysExhaustivity(options.rootCategory, candidate)){
 			return null;
 		}
 	}
 	//if we get here, there aren't any relevant exhaustivity violations
-	return {id: 'iota', cat: 'i', children: candidate};
+	return {id: 'root', cat: options.rootCategory, children: candidate};
 }
 
-function omegafy(word){
-	var myCat = 'w';
+function omegafy(word, cat){
+	var myCat = cat || 'w';
 	var wordId = word;
 	var isClitic = word.indexOf('-clitic')>=0;
 	if (isClitic){

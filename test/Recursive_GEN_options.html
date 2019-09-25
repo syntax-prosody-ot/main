@@ -1,98 +1,28 @@
 <html>
 <!--Max Tarlov 9/23/19 testing different recursive categories in GEN -->
-<p>Just open the console</p>
-<script>
+<title>GEN Category Options</title>
+<head>
+	<link rel="stylesheet" type="text/css" href="../spot.css">
+	<script src="../build/spot.js"></script>
+	<script src="../build/constraints.js"></script>
+	<script src="../candidategenerator.js"></script>
+	<script src="../trees/irish_trees.js"></script>
+</head>
+<body>
+	<pre id="results-container"></pre>
+	<script>
+	var con = ['nonRecPairs-p', 'nonRecPairs-w', 'nonRecPairs-i'];
+	window.addEventListener("load",function(){
+		writeTableau(makeTableau(GEN({}, "first second third", {rootCategory:"u", recursiveCategory:"p", terminalCategory:"word"}), con, {showNewCats:true}));
+		revealNextSegment();
+		writeTableau(makeTableau(GEN({}, 'first second third', {recursiveCategory:"w"}), con, {showNewCats:true}));
+		revealNextSegment();
+		writeTableau(makeTableau(GEN({}, 'first second third', {recursiveCategory:"i"}), con, {showNewCats:true}));
+		revealNextSegment();
+		writeTableau(makeTableau(GEN({}, "first second third", {rootCategory:"mip", recursiveCategory:"mip", terminalCategory:"word", obeysNonrecursivity:true}), con, {showNewCats:true}));
+		revealNextSegment();
+	});
+	</script>
+</body>
 
-var phiNum = 0;
-var wNum = 0;
-
-function gen(leaves, options){
-	var candidates = [];	//each candidate will be an array of siblings
-	if(!(leaves instanceof Array))
-		throw new Error(leaves+" is not a list of leaves.");
-
-	//Base case: 0 leaves
-	if(leaves.length === 0){
-		candidates.push([]);
-		return candidates;
-	}
-
-
-
-	//Recursive case: at least 1 word. Consider all candidates where the first i words are grouped together
-	for(var i = 1; i <= leaves.length; i++){
-
-		var rightsides = addPhiWrapped(gen(leaves.slice(i, leaves.length), options), options);
-
-		//Case 1: the first i leaves attach directly to parent (no phi wrapping)
-
-		var leftside = leaves.slice(0,i);
-
-		// for case 1, we don't need to check the left side for nonrecursivity, because it's all leaves
-
-		//Combine the all-leaf leftside with all the possible rightsides that have a phi at their left edge (or are empty)
-		for(var j = 0; j<rightsides.length; j++){
-			if(!rightsides[j].length || rightsides[j][0].cat === options.recursiveCategory)
-			{
-				var cand = leftside.concat(rightsides[j]);
-				candidates.push(cand);
-			}
-		}
-
-
-
-		//Case 2: the first i words are wrapped in a phi
-		if(i<leaves.length){
-			var phiLeftsides = gen(leaves.slice(0,i), options);
-			for(var k = 0; k<phiLeftsides.length; k++)
-			{
-				var phiNode = phiify(phiLeftsides[k], options);
-				if (!phiNode)
-					continue;
-				var leftside = [phiNode];
-
-				for(var j = 0; j<rightsides.length; j++)
-				{
-					cand = leftside.concat(rightsides[j]);
-					candidates.push(cand);
-				}
-			}
-		}
-
-	}
-
-	return candidates;
-}
-
-function phiify(candidate, options){
-	// Check for Exhaustivity violations below the phi, if phi is listed as one of the exhaustivity levels to check
-	if (options && options.obeysExhaustivity){
-		if ((typeof options.obeysExhaustivity === "boolean" || options.obeysExhaustivity.indexOf(options.recursiveCategory)>=0) && !obeysExhaustivity(options.recursiveCategory, candidate))
-			return null;
-	}
-	if (options && options.obeysNonrecursivity)
-		for (var i = 0; i < candidate.length; i++)
-			if (candidate[i].cat === options.recursiveCategory)
-				return null;
-	return {id: options.recursiveCategory+(phiNum++), cat: options.recursiveCategory, children: candidate};
-}
-
-//Takes a list of candidates and doubles it to root each of them in a phi
-function addPhiWrapped(candidates, options){
-	var origLen = candidates.length;
-	var result = [];
-	if (!options.requirePhiStem) {
-		result = candidates;
-	}
-	for(var i=0; i<origLen; i++){
-		if(candidates[i].length) {
-			var phiNode = phiify(candidates[i], options);
-			if (phiNode)
-				result.push([phiNode]);
-		}
-	}
-	return result;
-}
-
-</script>
 </html>
