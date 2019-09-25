@@ -28,6 +28,7 @@ var wNum = 0;
    - obeysExhaustivity (boolean or array of categories at which to require conformity to exhaustivity)
    - obeysHeadedness (boolean)
    - obeysNonrecursivity (boolean)
+	 - recursiveCategory (string)
    - addTones (string). Possible values include:
 	 		- "addJapaneseTones"
 			- "addIrishTones_Elfner"
@@ -35,6 +36,7 @@ var wNum = 0;
 */
 window.GEN = function(sTree, words, options){
 	options = options || {}; // if options is undefined, set it to an empty object (so you can query its properties without crashing things)
+	options.recursiveCategory = options.recursiveCategory || "phi"; //sets the default of recursiveCategory option to "phi"
 
 	if(typeof words === "string") { // words can be a space-separated string of words or an array of words; if string, split up into an array
 		if (!words) { // if empty, scrape words from sTree
@@ -180,7 +182,7 @@ function gen(leaves, options){
 
 		//Combine the all-leaf leftside with all the possible rightsides that have a phi at their left edge (or are empty)
 		for(var j = 0; j<rightsides.length; j++){
-			if(!rightsides[j].length || rightsides[j][0].cat === 'phi')
+			if(!rightsides[j].length || rightsides[j][0].cat === options.recursiveCategory)
 			{
 				var cand = leftside.concat(rightsides[j]);
 				candidates.push(cand);
@@ -215,14 +217,14 @@ function gen(leaves, options){
 function phiify(candidate, options){
 	// Check for Exhaustivity violations below the phi, if phi is listed as one of the exhaustivity levels to check
 	if (options && options.obeysExhaustivity){
-		if ((typeof options.obeysExhaustivity === "boolean" || options.obeysExhaustivity.indexOf('phi')>=0) && !obeysExhaustivity('phi', candidate))
+		if ((typeof options.obeysExhaustivity === "boolean" || options.obeysExhaustivity.indexOf(options.recursiveCategory)>=0) && !obeysExhaustivity(options.recursiveCategory, candidate))
 			return null;
 	}
 	if (options && options.obeysNonrecursivity)
 		for (var i = 0; i < candidate.length; i++)
-			if (candidate[i].cat === 'phi')
+			if (candidate[i].cat === options.recursiveCategory)
 				return null;
-	return {id: 'phi'+(phiNum++), cat: 'phi', children: candidate};
+	return {id: options.recursiveCategory+(phiNum++), cat: options.recursiveCategory, children: candidate};
 }
 
 //Takes a list of candidates and doubles it to root each of them in a phi
