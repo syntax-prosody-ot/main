@@ -35,6 +35,7 @@ var wNum = 0;
 	 		- "addJapaneseTones"
 			- "addIrishTones_Elfner"
 			- "addIrishTones_Kalivoda"
+	- noUnary (boolean): if true, don't create any nodes that immediately dominate only a single terminal. 
 */
 window.GEN = function(sTree, words, options){
 	options = options || {}; // if options is undefined, set it to an empty object (so you can query its properties without crashing things)
@@ -211,9 +212,13 @@ function omegafy(word, cat){
 	return wordObj;
 }
 
-// conceptually, returns all possible parenthesizations of leaves that don't have a set of parentheses enclosing all of the leaves
-// format: returns an array of parenthesizations, where each parenthesization is an array of children, where each child is
-// either a phi node (with descendant nodes attached) or a leaf
+/*Conceptually, returns all possible parenthesizations of leaves that don't 
+*	have a set of parentheses enclosing all of the leaves
+* Format: returns an array of parenthesizations, where each parenthesization 
+*	is an array of children, where each child is
+*	either a phi node (with descendant nodes attached) or a leaf
+* Options: 	
+*/
 function gen(leaves, options){
 	var candidates = [];	//each candidate will be an array of siblings
 	if(!(leaves instanceof Array))
@@ -229,7 +234,7 @@ function gen(leaves, options){
 
 	//Recursive case: at least 1 word. Consider all candidates where the first i words are grouped together
 	for(var i = 1; i <= leaves.length; i++){
-
+		
 		var rightsides = addPhiWrapped(gen(leaves.slice(i, leaves.length), options), options);
 
 		//Case 1: the first i leaves attach directly to parent (no phi wrapping)
@@ -251,6 +256,10 @@ function gen(leaves, options){
 
 		//Case 2: the first i words are wrapped in a phi
 		if(i<leaves.length){
+			if(options.noUnary && i<2){
+				continue;
+				//Don't generate any candidates where the first terminal is in a phi by itself.
+			}
 			var phiLeftsides = gen(leaves.slice(0,i), options);
 			for(var k = 0; k<phiLeftsides.length; k++)
 			{
@@ -286,6 +295,7 @@ function phiify(candidate, options){
 }
 
 //Takes a list of candidates and doubles it to root each of them in a phi
+//If options.noUnary, skip phiifying candidates that are only 1 terminal long
 function addPhiWrapped(candidates, options){
 	var origLen = candidates.length;
 	var result = [];
@@ -293,7 +303,11 @@ function addPhiWrapped(candidates, options){
 		result = candidates;
 	}
 	for(var i=0; i<origLen; i++){
-		if(candidates[i].length) {
+		var candLen = candidates[i].length;
+		if(candLen) {
+			if(options.noUnary && candLen == 1){
+				continue;
+			}
 			var phiNode = phiify(candidates[i], options);
 			if (phiNode)
 				result.push([phiNode]);
