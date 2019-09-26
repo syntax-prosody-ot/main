@@ -3,7 +3,7 @@
 
 function makeTableau(candidateSet, constraintSet, options){
 	//all options passed to makeTableau are passed into parenthesizeTree, so make
-	//sure your options in dependant functions have unique names from other funcs
+	//sure your options in dependent functions have unique names from other funcs
 	options = options || {};
 	var tableau = [];
 	//Make a header for the tableau, containing all the constraint names.

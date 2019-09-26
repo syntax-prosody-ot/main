@@ -15,12 +15,12 @@
     <body>
         <div id="toneResults"></div>
         <script>
-            // This works just fine 
+            // Call addIrishTones_Elfner from outside of GEN: This works just fine
             var cand_set = GEN(tree_3w_1,'', {requirePhiStem:true, obeysExhaustivity:true});
             for(var pair = 0; pair < 10; pair++){
                 var ptree = cand_set[pair][1];
                 var para = document.createElement("pre");
-                var node = document.createTextNode(parenthesizeTree(addIrishTones_Elfner(ptree), {showTones:true}));
+                var node = document.createTextNode(parenthesizeTree(addIrishTones_Elfner(ptree), {showTones:'addIrishTones_Elfner'}));
                 //var node = document.createTextNode(parenthesizeTree(addIrishTones_Elfner(ptree), {showTones: true, invisibleCategories:[]}));
                 para.append(node);
                 document.getElementById("toneResults").appendChild(para);
@@ -30,17 +30,34 @@
             document.getElementById("toneResults").appendChild(line);
 
 
-            //this doesn't work right
+            //Call it from GEN: this doesn't work right. Tones are getting overwritten?
             var cand_set = GEN(tree_3w_1,'', {requirePhiStem:true, obeysExhaustivity:true, addTones: 'addIrishTones_Elfner'});
             
             for(var pair = 0; pair < 10; pair++){
                 var ptree = cand_set[pair][1];
                 var para = document.createElement("pre");
-                var node = document.createTextNode(parenthesizeTree(ptree, {showTones:true}));
+                var node = document.createTextNode(parenthesizeTree(ptree, {showTones:'addIrishTones_Elfner'}));
                 //var node = document.createTextNode(parenthesizeTree(addIrishTones_Elfner(ptree), {showTones: true, invisibleCategories:[]}));
                 para.append(node);
                 document.getElementById("toneResults").appendChild(para);
             }
+
+            var line = document.createElement("hr");
+            document.getElementById("toneResults").appendChild(line);
+
+
+            //Call it from both places
+            var cand_set = GEN(tree_3w_1,'', {requirePhiStem:true, obeysExhaustivity:true, addTones: 'addIrishTones_Elfner'});
+            
+            for(var pair = 0; pair < 10; pair++){
+                var ptree = cand_set[pair][1];
+                var para = document.createElement("pre");
+                var node = document.createTextNode(parenthesizeTree(addIrishTones_Elfner(ptree), {showTones:'addIrishTones_Elfner'}));
+                //var node = document.createTextNode(parenthesizeTree(addIrishTones_Elfner(ptree), {showTones: true, invisibleCategories:[]}));
+                para.append(node);
+                document.getElementById("toneResults").appendChild(para);
+            }
+
 
             
         </script>
