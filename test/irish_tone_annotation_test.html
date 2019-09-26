@@ -20,7 +20,7 @@
             for(var pair = 0; pair < 10; pair++){
                 var ptree = cand_set[pair][1];
                 var para = document.createElement("pre");
-                var node = document.createTextNode(parenthesizeTree(addIrishTones_Elfner(ptree), {showTones:'addIrishTones_Elfner'}));
+                var node = document.createTextNode(parenthesizeTree(ptree, {showTones:'addIrishTones_Elfner'}));
                 //var node = document.createTextNode(parenthesizeTree(addIrishTones_Elfner(ptree), {showTones: true, invisibleCategories:[]}));
                 para.append(node);
                 document.getElementById("toneResults").appendChild(para);

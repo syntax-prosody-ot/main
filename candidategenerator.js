@@ -28,10 +28,6 @@ var wNum = 0;
    - obeysExhaustivity (boolean or array of categories at which to require conformity to exhaustivity)
    - obeysHeadedness (boolean)
    - obeysNonrecursivity (boolean)
-   - addTones (string). Possible values include:
-	 		- "addJapaneseTones"
-			- "addIrishTones_Elfner"
-			- "addIrishTones_Kalivoda"
 */
 window.GEN = function(sTree, words, options){
 	options = options || {}; // if options is undefined, set it to an empty object (so you can query its properties without crashing things)

@@ -1,5 +1,6 @@
 
-//Produces an array of arrays representing a tableau
+// Produces an array of arrays representing a tableau
+// Options: GEN options and options for parenthesize trees
 
 function makeTableau(candidateSet, constraintSet, options){
 	//all options passed to makeTableau are passed into parenthesizeTree, so make
