@@ -13,13 +13,23 @@
 	<script>
 	var con = ['nonRecPairs-p', 'nonRecPairs-w', 'nonRecPairs-i'];
 	window.addEventListener("load",function(){
-		writeTableau(makeTableau(GEN({}, "first second third", {rootCategory:"u", recursiveCategory:"p", terminalCategory:"word"}), con, {showNewCats:true}));
+		writeTableau(makeTableau(GEN({id:"Works with undefined categories", cat:"x0"}, "first second third", {rootCategory:"u", recursiveCategory:"p", terminalCategory:"word"}), con, {showNewCats:true}));
 		revealNextSegment();
-		writeTableau(makeTableau(GEN({}, 'first second third', {recursiveCategory:"w"}), con, {showNewCats:true}));
+		writeTableau(makeTableau(GEN({id:"Works with recursive w", cat:"x0"}, 'first second third', {recursiveCategory:"w"}), con, {showNewCats:true}));
 		revealNextSegment();
-		writeTableau(makeTableau(GEN({}, 'first second third', {recursiveCategory:"i"}), con, {showNewCats:true}));
+		writeTableau(makeTableau(GEN({id:"Works with recursive i", cat:"x0"}, 'first second third', {recursiveCategory:"i"}), con));
 		revealNextSegment();
-		writeTableau(makeTableau(GEN({}, "first second third", {rootCategory:"mip", recursiveCategory:"mip", terminalCategory:"word", obeysNonrecursivity:true}), con, {showNewCats:true}));
+		writeTableau(makeTableau(GEN({id:"Works with exhaustivity", cat:"x0"}, 'first second third', {recursiveCategory:"i", rootCategory:"u", obeysExhaustivity:["u"]}), con, {showNewCats:true}));
+		revealNextSegment();
+		writeTableau(makeTableau(GEN({id:'Works with phi stem (now called "requireRecWrapper")', cat:"x0"}, 'first second third', {recursiveCategory:"w", requireRecWrapper:true}), con, {showNewCats:true}));
+		revealNextSegment();
+		writeTableau(makeTableau(GEN({id:"Works with headedness", cat:"x0"}, 'first second third', {recursiveCategory:"w", obeysHeadedness:true}), con, {showNewCats:true}));
+		revealNextSegment();
+		writeTableau(makeTableau(GEN({id:"Non-recursivity works sometimes, sorta", cat:"x0"}, "first second third", {rootCategory:"mip", recursiveCategory:"word", terminalCategory:"word", obeysNonrecursivity:true}), con, {showNewCats:true}));
+		revealNextSegment();
+		writeTableau(makeTableau(GEN({id:"Shows warning when non-recursivity fails", cat:"x0"}, "first second third", {rootCategory:"mip", recursiveCategory:"mip", terminalCategory:"word", obeysNonrecursivity:true}), con, {showNewCats:true}));
+		revealNextSegment();
+		writeTableau(makeTableau(GEN({id:"Non-recursivity works sometimes, sorta", cat:"x0"}, "first second third", {rootCategory:"word", recursiveCategory:"mip", terminalCategory:"word", obeysNonrecursivity:true}), con, {showNewCats:true}));
 		revealNextSegment();
 	});
 	</script>
