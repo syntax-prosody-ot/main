@@ -10,8 +10,8 @@
 	<body>
 		<pre id="results-container"></pre>
 		<script>
-				var theCandidates = GEN("sTree", 'first second third');
-				var con = ["binMaxLeaves-phi", "binMaxLeaves-i", "binMaxLeavesGradient-phi", "binMaxLeavesGradient-i", "binMinLeaves-phi", "binMinLeaves-i"];
+				var theCandidates = GEN({}, 'first second third fourth', {requirePhiStem:true});
+				var con = ["binMaxBrCatSensitive-phi", "binMaxLeaves-phi", "binMaxLeaves-i", "binMaxLeavesGradient-phi", "binMaxLeavesGradient-i", "binMinLeaves-phi", "binMinLeaves-i"];
 				window.addEventListener("load",function(){
 					writeTableau(makeTableau(theCandidates, con));
 					revealNextSegment();

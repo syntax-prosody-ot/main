@@ -42,10 +42,12 @@
 
 
             /*A list of names for constraint sets.*/
-            var conNames = ['conLeaves', 'conBranches', 'conBalSisCat', 'conBalSisAdj', 'conBrLv', 'conBrBalCat', 'conBrBalAdj', 'conESLv'];
+            var conNames = ['conLeaves'];
+            //['conLeaves', 'conBranches', 'conBalSisCat', 'conBalSisAdj', 'conBrLv', 'conBrBalCat', 'conBrBalAdj', 'conESLv'];
             
             //Candidate sets are generated with the options below.
-            var gen_options = {obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: true, requirePhiStem: true};
+            var gen_options = {obeysExhaustivity: true};
+            //Original options: {obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: true, requirePhiStem: true};
 
             function makeTableauCsvs(consName) {
                 var csvSegs = [];	//List to accumulate tableaux in
