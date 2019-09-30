@@ -13,6 +13,11 @@
 	<script>
 	var con = ['nonRecPairs-p', 'nonRecPairs-w', 'nonRecPairs-i'];
 	window.addEventListener("load",function(){
+		writeTableau(makeTableau(GEN({id:"same root and terminal cats", cat:"x0"}, "a b c", {rootCategory:"i", terminalCategory: 'i', noUnary:true, obeysExhaustivity:true}), con));
+		revealNextSegment();
+		writeTableau(makeTableau(GEN({id:"skip 2 levels", cat:"x0"}, "a b c", {rootCategory:"i", recursiveCategory:"w"}), con, {showNewCats:true}));
+		revealNextSegment();
+		/*
 		writeTableau(makeTableau(GEN({id:"Works with undefined categories", cat:"x0"}, "first second third", {rootCategory:"u", recursiveCategory:"p", terminalCategory:"word"}), con, {showNewCats:true}));
 		revealNextSegment();
 		writeTableau(makeTableau(GEN({id:"Works with recursive w", cat:"x0"}, 'first second third', {recursiveCategory:"w"}), con, {showNewCats:true}));
@@ -31,6 +36,7 @@
 		revealNextSegment();
 		writeTableau(makeTableau(GEN({id:"Non-recursivity works sometimes, sorta", cat:"x0"}, "first second third", {rootCategory:"word", recursiveCategory:"mip", terminalCategory:"word", obeysNonrecursivity:true}), con, {showNewCats:true}));
 		revealNextSegment();
+		*/
 	});
 	</script>
 </body>
