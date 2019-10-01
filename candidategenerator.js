@@ -41,67 +41,49 @@ var wNum = 0;
 window.GEN = function(sTree, words, options){
 	options = options || {}; // if options is undefined, set it to an empty object (so you can query its properties without crashing things)
 
-	options.recursiveCategory = options.recursiveCategory || "phi"; //sets the default of recursiveCategory option to "phi"
-
-	//set default root root category based on options passed
-	if(!options.rootCategory){ //root category is unspecifed
-		//recursiveCategory is specified as "w"
-		if(options.recursiveCategory === "w"){
-			options.rootCategory = "phi";
-		}
-		else{
-			options.rootCategory = "i";
-		}
-	}
-
-	//set default terminal category based on options passed
-	if(!options.terminalCategory){ //terminalCategory is unspecified
-		//terminalCategory unspecified, recursiveCategory specified as "i"
-		if(options.recursiveCategory === "i"){
-			options.terminalCategory = "phi";
-		}
-		//terminalCategory unspecified, recursiveCategory specified as "w"
-		else if(options.recursiveCategory === "w"){
-			options.terminalCategory = "Ft";
-		}
-		//neither terminalCategory nor recursiveCategory is specified, default to "w"
-		else{
-			options.terminalCategory = "w";
-		}
-	}
+	//sets the default of recursiveCategory option to "phi"
+	options.recursiveCategory = options.recursiveCategory || "phi";
+	//sets the default of rootCategory based on recursiveCategory
+	options.rootCategory = options.rootCategory || pCat.nextHigher(options.recursiveCategory);
+	//sets the default of terminalCategory based on recursiveCategory
+	options.terminalCategory = options.terminalCategory|| pCat.nextLower(options.recursiveCategory);
 
 	/* the prosodic hierarchy should include the categories specified in
 	 * options.rootCategory, options.recursiveCategory and options.terminalCategory
+	 * If not, warn the user and throw an error
 	 */
-	if(options.rootCategory || options.recursiveCategory || options.terminalCategory){
-		//the specified root category should probably be highest
-		if(pCat.indexOf(options.rootCategory)<0)
-			pCat.unshift(options.rootCategory);
-		if(pCat.indexOf(options.recursiveCategory)<0 && options.rootCategory !== options.recursiveCategory){
-			//the specified recursive category should be after iota
-			try{
-				var afterI = pCat.indexOf("i") + 1;
-				pCat.splice(afterI, 0, options.recursiveCategory);
-			}
-			catch(err){
-				console.error("make sure pCat contains your recursive category.");
-			}
-		}
-		//the specified terminal category should be right above "syll"
-		if(pCat.indexOf(options.terminalCategory)<0 && options.terminalCategory !== options.recursiveCategory && options.rootCategory !== options.terminalCategory)
-			pCat.splice(-1, 0, options.terminalCategory);
+	if(pCat.indexOf(options.rootCategory)<0){
+		alert("Warning:\n"+options.rootCategory+" is not in SPOT's pre-defined prosodic hierarchy (see pCat in prosodicHierarch.js)");
+		throw new Error(options.rootCategory+" is not in SPOT's pre-defined prosodic hierarchy (see pCat in prosodicHierarch.js)");
+	}
+	if(pCat.indexOf(options.recursiveCategory)<0){
+		alert("Warning:\n"+options.recursiveCategory+" is not in SPOT's pre-defined prosodic hierarchy (see pCat in prosodicHierarch.js)");
+		throw new Error(options.recursiveCategory+" is not in SPOT's pre-defined prosodic hierarchy (see pCat in prosodicHierarch.js)");
+	}
+	if(pCat.indexOf(options.terminalCategory<0)){
+		alert("Warning:\n"+options.terminalCategory+" is not in SPOT's pre-defined prosodic hierarchy (see pCat in prosodicHierarch.js)");
+		throw new Error(options.rootCategory+" is not in SPOT's pre-defined prosodic hierarchy (see pCat in prosodicHierarch.js)");
 	}
 
+	//Warnings for adverse GEN options combinations:
 	if(options.rootCategory === options.recursiveCategory && options.obeysNonrecursivity){
-		alert("Warning:\nYou have instructed GEN to produce non-recursive trees and to produce trees where the root node and\nintermediate nodes are of the same category. Some of the trees GEN produces will be recursive.")
+		alert("Warning:\nYou have instructed GEN to produce non-recursive trees and to produce trees where the root node and\nintermediate nodes are of the same category. Some of the trees GEN produces will be recursive.");
 	}
-
-	if(options.rootCategory === options.recursiveCategory && options.obeysNonrecursivity){
-		alert("Warning:\nYou have instructed GEN to produce non-recursive trees and to produce trees where the root node and\nterminal nodes are of the same category. Some of the trees GEN produces will be recursive.")
+	if(options.rootCategory === options.terminalCategory && options.obeysNonrecursivity){
+		alert("Warning:\nYou have instructed GEN to produce non-recursive trees and to produce trees where the root node and\nterminal nodes are of the same category. All of the trees GEN produces will be recursive.");
 	}
-
 	if(options.recursiveCategory === options.terminalCategory && options.obeysNonrecursivity){
-		alert("Warning:\nYou have instructed GEN to produce non-recursive trees and to produce trees where the intermediate\nnodes and the terminal nodes are of the same category. You will only get one bracketing.")
+		alert("Warning:\nYou have instructed GEN to produce non-recursive trees and to produce trees where the intermediate\nnodes and the terminal nodes are of the same category. You will only get one bracketing.");
+	}
+	if(!pCat.isLower(options.recursiveCategory, options.rootCategory) || !pCat.isLower(options.terminalCategory, options.recursiveCategory) || !pCat.isLower(options.terminalCategory, options.rootCategory)){
+		//I have used !pCat.isLower because otherwise the warning would show if, eg. root and recursive categories are the same. See prosodicHierarchy.js
+		alert("Warning:\nYou have instructed GEN to produce trees that do not obey layering. See pCat in prosodicHierarchy.js");
+	}
+	if(options.recursiveCategory !== pCat.nextLower(options.rootCategory)){
+		alert("Warning:\n"+options.recursiveCategory+" is not directly below "+options.rootCategory+" in the prosodic hierarchy\nNone of the resulting trees will be exhaustive because GEN will not generate any "+pCat.nextLower(options.rootCategory)+"s. See pCat in prosodicHierarchy.js");
+	}
+	if(options.terminalCategory !== pCat.nextLower(options.recursiveCategory)){
+		alert("Warning:\n"+options.terminalCategory+" is not directly below "+options.recursiveCategory+" in the prosodic hierarchy\nNone of the resulting trees will be exhaustive because GEN will not generate any "+pCat.nextLower(options.recursiveCategory)+"s. See pCat in prosodicHierarchy.js");
 	}
 
 	if(typeof words === "string") { // words can be a space-separated string of words or an array of words; if string, split up into an array
@@ -148,18 +130,18 @@ window.GEN = function(sTree, words, options){
 
 	var candidates = [];
 	for(var i=0; i<rootlessCand.length; i++){
-		var iota = wrapInRootCat(rootlessCand[i], options);
-		if (!iota)
+		var pRoot = wrapInRootCat(rootlessCand[i], options);
+		if (!pRoot)
 			continue;
-		if (options.obeysHeadedness && !rootIsHeaded(iota, options.recursiveCategory))
+		if (options.obeysHeadedness && !rootIsHeaded(pRoot, options.recursiveCategory))
 			continue;
 		if (options.addTones){
 			try {
-				window[options.addTones](iota); //calls the function named in the string
+				window[options.addTones](pRoot); //calls the function named in the string
 			}
 			catch(err){
 				if (typeof(options.addTones) == "boolean"){
-					addJapaneseTones(iota); //backwards compatibility
+					addJapaneseTones(pRoot); //backwards compatibility
 					console.log("The addTones option has been updated. It now takes the name of a function as its value. Next time, try {addTones: 'addJapaneseTones'}");
 				}
 				else{
@@ -167,15 +149,15 @@ window.GEN = function(sTree, words, options){
 				}
 			}
 		}
-		candidates.push([sTree, iota]);
+		candidates.push([sTree, pRoot]);
 	}
 	return candidates;
 }
 
-function rootIsHeaded(iota, recCat) {
-	var children = iota.children || [];
+function rootIsHeaded(pRoot, recCat) {
+	var children = pRoot.children || [];
 	for (var i = 0; i < children.length; i++)
-		if (children[i].cat === recCat)
+		if (children[i].cat === pCat.nextLower(pRoot.cat))
 			return true;
 	return false;
 }
