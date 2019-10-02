@@ -327,6 +327,7 @@ window.addEventListener('load', function(){
 			var optionBox = spotForm.genOptions[i];
 			genOptions[optionBox.value]=optionBox.checked;
 		}
+		//record exhaustivity options if selected
 		if(genOptions['obeysExhaustivity']){
 			var exCats = [];
 			for(var i=0; i<spotForm.exhaustivityCats.length; i++){
@@ -376,11 +377,26 @@ window.addEventListener('load', function(){
 
 		return false;
 	};
-
+	//show extra boxes for exhaustivity on click
 	document.getElementById('exhaustivityBox').addEventListener('click', function(){
-		document.getElementById('exhaustivityDetailRow').style.display = 'block';
-		});
-
+		if (document.getElementById('exhaustivityDetailRow').style.display === 'none'){
+			document.getElementById('exhaustivityDetailRow').style.display = 'block';	
+		}
+		else{
+			document.getElementById('exhaustivityDetailRow').style.display = 'none';
+			genOptions['obeysExhaustivity'] = false;
+		}	
+	});
+	//show extra boxes for annotated with tones on click
+	document.getElementById('annotatedWithTones').addEventListener('click', function(){
+		if (document.getElementById('tones').style.display === 'none'){
+			document.getElementById('tones').style.display = 'block';
+		}
+		else{
+			document.getElementById('tones').style.display = 'none';
+			genOptions['usesTones'] = 'false'
+		}	
+	});
 	//Code for generating the JS for a syntactic tree
 	var treeTableContainer = document.getElementById('treeTableContainer');
 
