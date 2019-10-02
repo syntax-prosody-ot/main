@@ -135,9 +135,10 @@ window.GEN = function(sTree, words, options){
 			continue;
 		if (options.obeysHeadedness && !rootIsHeaded(pRoot, options.recursiveCategory))
 			continue;
-		if (options.addTones){
+		/* if (options.addTones){
 			try {
 				window[options.addTones](pRoot); //calls the function named in the string
+				//console.log(parenthesizeTree(pRoot, {showTones: options.addTones}));
 			}
 			catch(err){
 				if (typeof(options.addTones) == "boolean"){
@@ -145,10 +146,10 @@ window.GEN = function(sTree, words, options){
 					console.log("The addTones option has been updated. It now takes the name of a function as its value. Next time, try {addTones: 'addJapaneseTones'}");
 				}
 				else{
-					throw new Error("Something isn't right with the addTones option. The value of addTones must be a string with the name of a tone function, no parentheses, eg. {addTones: 'addJapaneseTones'}");
+					throw new Error("Something isn't right with the addTones option. The value of addTones must be a string with the name of a tone function, no parentheses, eg. {addTones: 'addJapaneseTones'}. You used: "+options.addTones);
 				}
 			}
-		}
+		} */
 		candidates.push([sTree, pRoot]);
 	}
 	return candidates;
