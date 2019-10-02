@@ -343,8 +343,8 @@ window.addEventListener('load', function(){
 		if(spotForm.toneOptions.value != "noTones"){
 			//from radio group near the bottom of spotForm
 			genOptions.addTones = spotForm.toneOptions.value;
-			genTones = true;
-			console.log(genOptions);
+			genTones = spotForm.toneOptions.value;
+			//console.log(genOptions);
 		}
 
 		var csvSegs = [];

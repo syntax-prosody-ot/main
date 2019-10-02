@@ -92,19 +92,21 @@ function addIrishTones_Elfner(ptree){
 			if(ptree.children && ptree.children.length){
 				for(var child in ptree.children)
 				{
-					child = addIrishTones_Elfner_Inner(ptree.children[child], false, false);
+					addIrishTones_Elfner_Inner(ptree.children[child], false, false);
 				}
 			}
 		}
 		//Phi: domain for downstep
-		else if(ptree.cat==='phi'){
-			
-			if(ptree.children && ptree.children.length){			
-				for(var child in ptree.children)
+		else if(ptree.cat==='phi'){		
+			if(ptree.children && ptree.children.length){
+				
+				for(var child = 0; child < ptree.children.length; child++)
 				{
-					var firstInNonMinPhi = (child==0 && !isMinimal(ptree));
+					var firstInNonMinPhi = (child === 0 && !isMinimal(ptree));
 					var lastInPhi = (child == (ptree.children.length-1));
-					child = addIrishTones_Elfner_Inner(ptree.children[child], firstInNonMinPhi, lastInPhi);
+					//console.log(firstInNonMinPhi);
+					addIrishTones_Elfner_Inner(ptree.children[child], (child===0 && (getsRise || firstInNonMinPhi)), lastInPhi);
+
 				}
 			}
 		}
@@ -117,7 +119,7 @@ function addIrishTones_Elfner(ptree){
 			if(getsFall){
 				ptree.tones += 'HL';
 			}
-			if(!getsRise && !getsFall){
+			else if(!getsRise && !getsFall){
 				ptree.tones = '-';
 			}
 		}

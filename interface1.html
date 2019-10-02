@@ -3,6 +3,7 @@
 		<title>SPOT Interface</title>
 
 		<script src="build/spot.js"></script>
+		<script src="./trees/built-in_trees.js"></script>
 		<link rel="stylesheet" type="text/css" href="spot.css">
 
 		<style>
@@ -189,7 +190,7 @@
 				padding-right: 0.4em;
 				padding-left: 0.4em;
 				cursor: pointer;
-				color: #07C;	
+				color: #07C;
 			}
 			.info .content {
 				display: none;
@@ -223,6 +224,13 @@
 					<li>The current implementation of Gen only produces recursion at the &phiv;-level, so candidates with recursive &iota;s or &omega;s will not be generated.</li>
 				</ul>
 			</span></span>
+
+			<div style="margin-bottom: 1cm">
+				<h3 style="color: #07203D">Try a Built-in Analysis:</h3>
+				<p>Once you have selected an analysis, scroll to the bottom and hit "Get results"</p>
+				<button onclick=built_in_Irish()>Irish Phrasing (Elfner 2012)</button>
+				<button onClick=location.reload(true)>Clear All</button>
+			</div>
 
 			<form id="spotForm">
 
@@ -284,7 +292,7 @@
 					</tbody>
 					</table>
 				</fieldset>
-				
+
 
 				<br/>
 
@@ -429,10 +437,18 @@
 				<fieldset>
 					<legend><h2>Constraints on accentedness <span class="arrow"></h2></legend>
 					<span class="info"><span class="content">Constraints proposed for analysis of lexical accent systems (Japanese, Basque). Accents must be indicated either by using 'a'/'u' or 'A'/'U' for the ids of words, or by adding accent attributes in the syntactic tree.</span></span>
-					<div class="checkbox-set-indentation">
-						<input type="checkbox" name="constraints" value="accentAsHead">AccentAsHead <span class="info"><span class="content">Assign a violation for each prosodic word that is not the head of a minimal &phiv;.</span></span><br/>
-						<input type="checkbox" name="constraints" value="noLapseL">NoLapse-L <span class="info"><span class="content">No accentual lapse. Assign a violation for every fully L-toned &omega;.</span></span><br/>
-					</div>
+					<table class="constraint-selection-table">
+						<tbody>
+							<tr>
+								<td title="Assign a violation for each prosodic word that is not the head of a minimal &phiv;.">
+									<input type="checkbox" name="constraints" value="accentAsHead">AccentAsHead
+							</td></tr>
+							<tr>
+								<td title="No accentual lapse. Assign a violation for every fully L-toned &omega;.">
+									<input type="checkbox" name="constraints" value="noLapseL">NoLapse-L
+							</td></tr>
+						</tbody>
+					</table>
 				</fieldset>
 
 				<br/>
@@ -440,7 +456,7 @@
 				<hr/>
 				<h2>Build input syntactic trees</h2>
 	            <button id="startTreeUIButton" class="orange-button" type="button">Open tree-builder</button>
-	            <div id="treeUI" style="display:none">
+	            <div id="treeUI" style="display: none">
 	                <p>String of terminals: <input type="text" name="sTreeTerminals"> <button id="goButton" type="button">Go!</button></p>
 	              	<div id="treeUIinner" style="display: none">
 	              		<hr/>
@@ -462,7 +478,7 @@
 					<div style="display:none"><button id="danishJsonTreesButton" type="button">Danish Trees: generate s-tree code</button></div>
 
 					<p>To enter trees manually... <span class="info"><span class="content">To use a tree you previously made and saved, select a tree or trees from your JavaScript tree file (some pre-made trees are in the directory <i>main/trees</i>, and end with .js). Paste in the contents of JS file of your input syntactic tree(s) (from the opening brace to the closing brace, removing any comments and excluding the final semi-colon). Separate trees with a comma and surround the whole thing with square brackets ("[]") to make it an array. Note that if you're only using Markedness constraints, you can just keep the default value of an empty tree (like so: {}) as the syntactic input.</span></span></p>
-					<textarea class="stree-textarea" name="sTree" rows="15">{}</textarea>
+					<textarea id="stree-textarea" class="stree-textarea" name="sTree" rows="15">{}</textarea>
 	            </div>
 
 				<hr style="margin-top: 20px">
@@ -481,8 +497,8 @@
 					<tr id="exhaustivityDetailRow" style="display: none">
 						<td><div id="exhaustivityLabelContainer"></div></td>
 						<td><div id="exhaustivityCatContainer">
-							<input type="checkbox" name="exhaustivityCats" value="i" checked="checked">Every child of &iota; is a &phiv;&nbsp;&nbsp;
-							<input type="checkbox" name="exhaustivityCats" value="phi" checked="checked">Every child of &phiv; is a &omega;&nbsp;&nbsp;
+							<input type="checkbox" name="exhaustivityCats" value="i" checked="checked">&iota;'s children are &ge;&phiv;s&nbsp;&nbsp;
+							<input type="checkbox" name="exhaustivityCats" value="phi" checked="checked">&phiv;'s children are &ge;&omega;s&nbsp;&nbsp;
 							<!--<input type="checkbox" name="exhaustivityCats" value="w" checked="checked">&omega;-->
 						</div></td>
 					</tr>
@@ -520,7 +536,7 @@
 
 				-->
 				<div align="center"><button class="orange-button submit-button" type="submit">Get results</button>
-				
+
 					<h2>Scroll down for results!
 						<span class="info">
 							<span class="content">
