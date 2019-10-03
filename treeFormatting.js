@@ -29,6 +29,10 @@ function parenthesizeTree(tree, options){
 	var showTones = options.showTones || false;
 	var parens = options.parens || Object.assign({}, categoryBrackets);
 
+	if(options.showTones){
+		tree = window[options.showTones](tree);
+	}
+
 	function processNode(node){
 		var nonTerminal = (node.children instanceof Array) && node.children.length;
 		if (showNewCats && !parens.hasOwnProperty(node.cat)){
