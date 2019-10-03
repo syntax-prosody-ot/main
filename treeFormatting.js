@@ -7,7 +7,9 @@ var categoryBrackets = {
 	"x0": ["[x0 ","]"],
 	"w": ["(w ", ")"],
 	"clitic": ["",""],
-	"syll": ["",""]
+	"syll": ["",""],
+	"Ft": ["", ""],
+	"u": ["{u ", "}"]
 };
 
 /* Function that takes a [default=prosodic] tree and returns a string version where phi boundaries are marked with '(' ')'
