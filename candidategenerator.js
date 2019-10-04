@@ -374,7 +374,8 @@ function GENwithCliticMovement(stree, words, options){
 			leaf++;
 		}
 		if(clitic === '')
-			throw new Error("GENWithCliticMovement was called but no node in stree has category clitic was provided in stree");
+			return GEN(stree, words, options);
+			//throw new Error("GENWithCliticMovement was called but no node in stree has category clitic was provided in stree");
 	}
 	//Otherwise, get the clitic from words
 	else
@@ -384,6 +385,9 @@ function GENwithCliticMovement(stree, words, options){
 			words = words.split(' ');
 		}
 		var x = words.find(containsClitic);
+		if(!x){ //x is undefined if no word in "words" contains "clitic"
+			return GEN(stree, words, options);
+		}
 		clitic = x.split('-clitic')[0];
 		words[words.indexOf(x)] = clitic;
 	}
