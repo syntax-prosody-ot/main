@@ -41,6 +41,13 @@ var terminalNum = 0;
 window.GEN = function(sTree, words, options){
 	options = options || {}; // if options is undefined, set it to an empty object (so you can query its properties without crashing things)
 
+	/* First, warn the user if they have specified terminalCategory and/or
+	 * rootCategory without specifying recursiveCategory
+	 */
+	 if(!options.recursive && (options.rootCategory || options.terminalCategory)){
+		if(!window.confirm("You have not specified the recursive category for GEN, it will default to 'phi'.\nClick OK if you wish to continue."))
+			throw new Error("GEN was canceled by user.");
+	}
 	/* the prosodic hierarchy should include the categories specified in
 	 * options.rootCategory, options.recursiveCategory and options.terminalCategory
 	 * But if they are not, the default setting code throws unhelpful errors.
@@ -71,23 +78,23 @@ window.GEN = function(sTree, words, options){
 
 	//Warnings for adverse GEN options combinations:
 	if(options.rootCategory === options.recursiveCategory && options.obeysNonrecursivity){
-		alert("Warning:\nYou have instructed GEN to produce non-recursive trees and to produce trees where the root node and\nintermediate nodes are of the same category. Some of the trees GEN produces will be recursive.");
+		console.warn("You have instructed GEN to produce non-recursive trees and to produce trees where the root node and intermediate nodes are of the same category. Some of the trees GEN produces will be recursive.");
 	}
 	if(options.rootCategory === options.terminalCategory && options.obeysNonrecursivity){
-		alert("Warning:\nYou have instructed GEN to produce non-recursive trees and to produce trees where the root node and\nterminal nodes are of the same category. All of the trees GEN produces will be recursive.");
+		console.warn("You have instructed GEN to produce non-recursive trees and to produce trees where the root node and terminal nodes are of the same category. All of the trees GEN produces will be recursive.");
 	}
 	if(options.recursiveCategory === options.terminalCategory && options.obeysNonrecursivity){
-		alert("Warning:\nYou have instructed GEN to produce non-recursive trees and to produce trees where the intermediate\nnodes and the terminal nodes are of the same category. You will only get one bracketing.");
+		console.warn("You have instructed GEN to produce non-recursive trees and to produce trees where the intermediate nodes and the terminal nodes are of the same category. You will only get one bracketing.");
 	}
 	if(pCat.isHigher(options.recursiveCategory, options.rootCategory) || pCat.isHigher(options.terminalCategory, options.recursiveCategory)){
-		alert("Warning:\nYou have instructed GEN to produce trees that do not obey layering. See pCat in prosodicHierarchy.js");
+		console.warn("You have instructed GEN to produce trees that do not obey layering. See pCat in prosodicHierarchy.js");
 	}
 	else{
 		if(options.recursiveCategory !== pCat.nextLower(options.rootCategory) && options.recursiveCategory !== options.rootCategory){
-			alert("Warning:\n"+options.recursiveCategory+" is not directly below "+options.rootCategory+" in the prosodic hierarchy. None of the resulting trees\nwill be exhaustive because GEN will not generate any "+pCat.nextLower(options.rootCategory)+"s. See pCat in prosodicHierarchy.js");
+			console.warn(""+options.recursiveCategory+" is not directly below "+options.rootCategory+" in the prosodic hierarchy. None of the resulting trees will be exhaustive because GEN will not generate any "+pCat.nextLower(options.rootCategory)+"s. See pCat in prosodicHierarchy.js");
 		}
 		if(options.terminalCategory !== pCat.nextLower(options.recursiveCategory) && options.terminalCategory !== options.recursiveCategory){
-			alert("Warning:\n"+options.terminalCategory+" is not directly below "+options.recursiveCategory+" in the prosodic hierarchy. None of the resulting\ntrees will be exhaustive because GEN will not generate any "+pCat.nextLower(options.recursiveCategory)+"s. See pCat in prosodicHierarchy.js");
+			console.warn(""+options.terminalCategory+" is not directly below "+options.recursiveCategory+" in the prosodic hierarchy. None of the resulting trees will be exhaustive because GEN will not generate any "+pCat.nextLower(options.recursiveCategory)+"s. See pCat in prosodicHierarchy.js");
 		}
 	}
 
