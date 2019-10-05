@@ -377,25 +377,38 @@ window.addEventListener('load', function(){
 
 		return false;
 	};
-	//show extra boxes for exhaustivity on click
+	
+	
 	document.getElementById('exhaustivityBox').addEventListener('click', function(){
-		if (document.getElementById('exhaustivityDetailRow').style.display === 'none'){
-			document.getElementById('exhaustivityDetailRow').style.display = 'block';	
+		if (document.getElementById('exhaustivityDetailOption1').style.display === 'none'){
+			document.getElementById('exhaustivityDetailOption1').style.display = 'table-cell';
+			document.getElementById('exhaustivityDetailOption2').style.display = 'table-cell';	
 		}
 		else{
-			document.getElementById('exhaustivityDetailRow').style.display = 'none';
-			genOptions['obeysExhaustivity'] = false;
+			document.getElementById('exhaustivityDetailOption1').style.display = 'none';
+			document.getElementById('exhaustivityDetailOption2').style.display = 'none';
+			//if (genOptions['obeysExhaustivity']){
+			//	genOptions['obeysExhaustivity'] = false;
+			//}
+			
 		}	
 	});
+	
 	//show extra boxes for annotated with tones on click
+	//console.log(document.getElementById('annotatedWithTones'))
 	document.getElementById('annotatedWithTones').addEventListener('click', function(){
-		if (document.getElementById('tones').style.display === 'none'){
-			document.getElementById('tones').style.display = 'block';
+		if (document.getElementById('japaneseTones').style.display === 'none'){
+			document.getElementById('japaneseTones').style.display = 'table-cell';
+			document.getElementById('irishTones').style.display = 'table-cell';
 		}
 		else{
-			document.getElementById('tones').style.display = 'none';
-			genOptions['usesTones'] = 'false'
-		}	
+			document.getElementById('japaneseTones').style.display = 'none';
+			document.getElementById('irishTones').style.display = 'none';
+			//if (genOptions['usesTones']){
+			//	genOptions['usesTones'] = false;
+			//}	
+		}
+			
 	});
 	//Code for generating the JS for a syntactic tree
 	var treeTableContainer = document.getElementById('treeTableContainer');
