@@ -35,20 +35,24 @@
 	
 	/*Constraint sets are defined below. You can change these or add your own. A constraint set is a list of constraint function names (refer to the files in constraints.js for names) + category arguments (separated from constraint names with -; refer to prosodicHierarchy.js for a list of defined categories).*/
 	var conES2 = ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj-phi', 'equalSistersAdj_2-phi',
-						'binMaxBranches-phi', 'binMinBranches-phi', 'binMax2Words-phi',
-						'accentAsHead', 'noLapseL', 
-						'matchPS_nmin-phi','matchSP_nmin-xp', 'matchXPmax-xp'];
+					'binMaxBranches-phi', 'binMinBranches-phi', 'binMax2Words-phi',
+					'accentAsHead', 'noLapseL'];
 	var conNoPostAcc = ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj-phi',
 						'binMaxBranches-phi', 'binMinBranches-phi', 'binMax2Words-phi',
-						'accentAsHead', 'noPostAccW',
-						'matchPS_nmin-phi','matchSP_nmin-xp', 'matchXPmax-xp'];
+						'accentAsHead', 'noPostAccW'];
+	var conBalSis1 = ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj-phi',
+						'binMaxBranches-phi', 'binMinBranches-phi', 'balancedSisters-phi',
+						'accentAsHead', 'noPostAccW'];
+	var conBalSis2 = ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj-phi',
+						'binMaxBranches-phi', 'binMinBranches-phi', 'balSisChildCat-phi',
+						'accentAsHead', 'noPostAccW'];
 	//var conOther = ['constraint1-xp','constraint2-phi', 'constraint3-w', 'etc-i'];
 	
 	/*A list of names for constraint sets.*/
-    var conNames = ['conES2','conNoPostAcc'];
+    var conNames = ['conES2','conNoPostAcc', 'conBalSis1'];
 	
 	//Candidate sets are generated with the options below.
-	var gen_options = {obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: true, addTones: true, requirePhiStem: true};
+	var gen_options = {obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: true, addTones: 'addJapaneseTones', requireRecWrapper: true};
 
 	
 	
