@@ -21,7 +21,8 @@ function makeTableau(candidateSet, constraintSet, options){
 	}
 	var header = [sTree];
 	for(var i=0; i<constraintSet.length; i++){
-		header.push(constraintSet[i]);
+		var conParts = constraintSet[i].split('-');
+		header.push(conParts[0]+'('+conParts[1]+')');
 	}
 	tableau.push(header);
 
@@ -34,11 +35,14 @@ function makeTableau(candidateSet, constraintSet, options){
 		var tableauRow = [ptreeStr];
 		for(var j = 0; j < constraintSet.length; j++){
 
-			var [constraint, cat] = constraintSet[j].split('-');
+			var [constraint, cat, conOptions] = constraintSet[j].split('-');
+			if(!conOptions){
+				conOptions = "{}";
+			}
 			//var numViolations = runConstraint(constraintAndCat[0], candidate[0], candidate[1], constraintAndCat[1]); ++lastSegmentId; // show log of each constraint run
 			var oldDebugOn = logreport.debug.on;
 			logreport.debug.on = false;
-			var numViolations = globalNameOrDirect(constraint)(getCandidate(candidate[0]), getCandidate(candidate[1]), cat); logreport.debug.on = oldDebugOn; // don't show the log of each constraint run
+			var numViolations = globalNameOrDirect(constraint)(getCandidate(candidate[0]), getCandidate(candidate[1]), cat, JSON.parse(conOptions)); logreport.debug.on = oldDebugOn; // don't show the log of each constraint run
 			tableauRow.push(numViolations);
 		}
 		tableau.push(tableauRow);
