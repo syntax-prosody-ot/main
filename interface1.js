@@ -327,6 +327,7 @@ window.addEventListener('load', function(){
 			var optionBox = spotForm.genOptions[i];
 			genOptions[optionBox.value]=optionBox.checked;
 		}
+		//record exhaustivity options if selected
 		if(genOptions['obeysExhaustivity']){
 			var exCats = [];
 			for(var i=0; i<spotForm.exhaustivityCats.length; i++){
@@ -376,11 +377,39 @@ window.addEventListener('load', function(){
 
 		return false;
 	};
-
+	
+	
 	document.getElementById('exhaustivityBox').addEventListener('click', function(){
-		document.getElementById('exhaustivityDetailRow').style.display = 'block';
-		});
-
+		if (document.getElementById('exhaustivityDetailOption1').style.display === 'none'){
+			document.getElementById('exhaustivityDetailOption1').style.display = 'table-cell';
+			document.getElementById('exhaustivityDetailOption2').style.display = 'table-cell';	
+		}
+		else{
+			document.getElementById('exhaustivityDetailOption1').style.display = 'none';
+			document.getElementById('exhaustivityDetailOption2').style.display = 'none';
+			//if (genOptions['obeysExhaustivity']){
+			//	genOptions['obeysExhaustivity'] = false;
+			//}
+			
+		}	
+	});
+	
+	//show extra boxes for annotated with tones on click
+	//console.log(document.getElementById('annotatedWithTones'))
+	document.getElementById('annotatedWithTones').addEventListener('click', function(){
+		if (document.getElementById('japaneseTones').style.display === 'none'){
+			document.getElementById('japaneseTones').style.display = 'table-cell';
+			document.getElementById('irishTones').style.display = 'table-cell';
+		}
+		else{
+			document.getElementById('japaneseTones').style.display = 'none';
+			document.getElementById('irishTones').style.display = 'none';
+			//if (genOptions['usesTones']){
+			//	genOptions['usesTones'] = false;
+			//}	
+		}
+			
+	});
 	//Code for generating the JS for a syntactic tree
 	var treeTableContainer = document.getElementById('treeTableContainer');
 
