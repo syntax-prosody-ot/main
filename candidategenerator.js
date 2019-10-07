@@ -44,7 +44,7 @@ window.GEN = function(sTree, words, options){
 	/* First, warn the user if they have specified terminalCategory and/or
 	 * rootCategory without specifying recursiveCategory
 	 */
-	 if(!options.recursive && (options.rootCategory || options.terminalCategory)){
+	 if(!options.recursiveCategory && (options.rootCategory || options.terminalCategory)){
 		if(!window.confirm("You have not specified the recursive category for GEN, it will default to 'phi'.\nClick OK if you wish to continue."))
 			throw new Error("GEN was canceled by user.");
 	}
@@ -380,9 +380,13 @@ function GENwithCliticMovement(stree, words, options){
 				clitic = leaves[leaf].id;
 			leaf++;
 		}
-		if(clitic === '')
+		if(clitic === ''){
+			console.warn("GENWithCliticMovement was called but no node in stree has category clitic was provided in stree");
+			console.log(stree);
 			return GEN(stree, words, options);
 			//throw new Error("GENWithCliticMovement was called but no node in stree has category clitic was provided in stree");
+	
+		}
 	}
 	//Otherwise, get the clitic from words
 	else
@@ -393,6 +397,8 @@ function GENwithCliticMovement(stree, words, options){
 		}
 		var x = words.find(containsClitic);
 		if(!x){ //x is undefined if no word in "words" contains "clitic"
+			console.warn("GENWithCliticMovement was called but no node in stree has category clitic was provided in stree");
+			console.log(stree);
 			return GEN(stree, words, options);
 		}
 		clitic = x.split('-clitic')[0];
@@ -405,7 +411,7 @@ function GENwithCliticMovement(stree, words, options){
 		for(var i in leaves){
 			words[i] = leaves[i].id;
 		}
-		console.log(words);
+		//console.log(words);
 	}
 	var wordOrders = generateWordOrders(words, clitic);
 	var candidateSets = new Array(wordOrders.length);
