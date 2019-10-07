@@ -488,30 +488,42 @@
 
 				<table class="spaceytable"><tbody>
 					<tr>
-						<td><input type="checkbox" name="genOptions" id="exhaustivityBox" value="obeysExhaustivity">exhaustively parsed</td>
 						<td><input type="checkbox" name="genOptions" value="obeysNonrecursivity">non-recursive</td>
 						<td><input type="checkbox" name="genOptions" value="obeysHeadedness"> headed</td>
 						<td><input type="checkbox" name="genOptions" value="requireRecWrapper">wrapped into a &phiv;</td>
 					</tr>
-					<tr id="exhaustivityDetailRow" style="display: none">
-						<td><div id="exhaustivityLabelContainer"></div></td>
-						<td><div id="exhaustivityCatContainer">
-							<input type="checkbox" name="exhaustivityCats" value="i" checked="checked">&iota;'s children are &ge;&phiv;s&nbsp;&nbsp;
-							<input type="checkbox" name="exhaustivityCats" value="phi" checked="checked">&phiv;'s children are &ge;&omega;s&nbsp;&nbsp;
-							<!--<input type="checkbox" name="exhaustivityCats" value="w" checked="checked">&omega;-->
-						</div></td>
+				</tbody></table>
+				<table class="spaceytable"><tbody>
+					<tr>
+						<td><input type="checkbox" name="genOptions" id="exhaustivityBox" value="obeysExhaustivity">exhaustively parsed</td>
+						<td id="exhaustivityDetailOption1" style="display: none"><input type="checkbox" name="exhaustivityCats" value="i" checked="checked">&iota;'s children are &ge;&phiv;s&nbsp;&nbsp;</td>
+						<td id="exhaustivityDetailOption2" style="display: none"><input type="checkbox" name="exhaustivityCats" value="phi" checked="checked">&phiv;'s children are &ge;&omega;s&nbsp;&nbsp;</td>
+					</tr>
+					
+				</tbody></table>
+				<table class="spaceytable"><tbody>
+					<tr>
+						<td><input type="checkbox" name="genOptions" value="usesTones" id="annotatedWithTones">annotated with tones</td>
+						<td id="japaneseTones" style="display:none"><input type="radio" name="toneOptions" value="addJapaneseTones">Japanese</td>
+						<td id="irishTones" style="display:none"><input type="radio" name="toneOptions" value="addIrishTones_Elfner">Irish</td>
+					</tr>
+					<tr id="tones" style="display: none">
+						<td>
+							<input type="radio" name="toneOptions" value="addJapaneseTones">Japanese
+							<input type="radio" name="toneOptions" value="addIrishTones_Elfner">Irish
+						</td>
 					</tr>
 				</tbody></table>
-
+				<!--
 				<i>Annotate trees with tones for...</i><br/>
 				<table class="spaceytable"><tbody><tr>
 					<td><input type="radio" name="toneOptions" value="noTones" checked="checked">None</td>
 					<td><input type="radio" name="toneOptions" value="addJapaneseTones">Japanese</td>
 					<td><input type="radio" name="toneOptions" value="addIrishTones_Elfner">Irish</td>
-					<!-- value="name of your tone function" -->
+					
 				</tr></tbody></table>
 				<hr/>
-
+				-->
 				<h2>Optional: Input string(s) for Gen
 				<span class="info">
 					<span class="content">
