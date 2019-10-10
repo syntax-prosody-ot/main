@@ -15,14 +15,18 @@ function my_built_in_analysis(){
   /* Step 4: (optional) If you want to annotate your tableaux with tones,
    * uncomment this block: */
   /*
-  var toneButtons = document.getElementsByName("toneOptions");
+  var toneCheckbox = document.getElementById("annotatedWithTones");
+  toneCheckbox.setAttribute("checked", "checked");
+  var toneButtons = toneCheckbox.parentNode.parentNode.getElementsByTagName("input");
   for(var x = 0; x < toneButtons.length; x++){
+    toneButtons[x].parentNode.setAttribute("style", "display: table-cell");
     if(toneButtons[x].value="addIrishTones_Elfner"){
-      toneButtons[x].setAttribute("checked", true);
+      toneButtons[x].setAttribute("checked", "checked");
     }
     else{
       //we don't want multiple radio buttons to be checked, it gets confusing
-      toneButtons[x].setAttribute("checked", false);
+      //this isn't doing what it is supposed to, I don't know why -Max 10/10/19
+      toneButtons[x].removeAttribute("checked");
     }
   }
   */
@@ -37,17 +41,27 @@ function built_in_Irish(){
   //insert specified input to tree UI
   document.getElementById("stree-textarea").value = JSON.stringify(irish_trees);
   //exhaustivity options
-  document.getElementById("exhaustivityBox").setAttribute("checked", "checked");
-  document.getElementById("exhaustivityDetailRow").style.display = "block";
+  var exhaustivityBox = document.getElementById("exhaustivityBox")
+  exhaustivityBox.setAttribute("checked", "checked");
+  var exhaustivityDetail = exhaustivityBox.parentNode.parentNode.getElementsByTagName("td");
+  for (var x = 0; x < exhaustivityDetail.length; x++){
+    exhaustivityDetail[x].setAttribute("style", "display: table-cell");
+  }
+
+  //document.getElementById("exhaustivityDetailRow").style.display = "block";
   //some stuff for tones
-  var toneButtons = document.getElementsByName("toneOptions");
+  var toneCheckbox = document.getElementById("annotatedWithTones");
+  toneCheckbox.setAttribute("checked", "checked");
+  var toneButtons = toneCheckbox.parentNode.parentNode.getElementsByTagName("input");
   for(var x = 0; x < toneButtons.length; x++){
+    toneButtons[x].parentNode.setAttribute("style", "display: table-cell");
     if(toneButtons[x].value="addIrishTones_Elfner"){
-      toneButtons[x].setAttribute("checked", true);
+      toneButtons[x].setAttribute("checked", "checked");
     }
     else{
       //we don't want multiple radio buttons to be checked, it gets confusing
-      toneButtons[x].setAttribute("checked", false);
+      //this isn't doing what it is supposed to, I don't know why -Max 10/10/19
+      toneButtons[x].removeAttribute("checked");
     }
   }
 }
