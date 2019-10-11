@@ -340,7 +340,7 @@ window.addEventListener('load', function(){
 
 		var genTones = false; //true if tones are selected
 
-		if(spotForm.toneOptions.value != "noTones"){
+		if(document.getElementById("annotatedWithTones").checked){
 			//from radio group near the bottom of spotForm
 			genOptions.addTones = spotForm.toneOptions.value;
 			genTones = spotForm.toneOptions.value;
@@ -377,12 +377,12 @@ window.addEventListener('load', function(){
 
 		return false;
 	};
-	
-	
+
+
 	document.getElementById('exhaustivityBox').addEventListener('click', function(){
-		if (document.getElementById('exhaustivityDetailOption1').style.display === 'none'){
+		if (document.getElementById('exhaustivityDetailOption1').style.display === 'none' && document.getElementById('exhaustivityBox').checked){
 			document.getElementById('exhaustivityDetailOption1').style.display = 'table-cell';
-			document.getElementById('exhaustivityDetailOption2').style.display = 'table-cell';	
+			document.getElementById('exhaustivityDetailOption2').style.display = 'table-cell';
 		}
 		else{
 			document.getElementById('exhaustivityDetailOption1').style.display = 'none';
@@ -390,14 +390,14 @@ window.addEventListener('load', function(){
 			//if (genOptions['obeysExhaustivity']){
 			//	genOptions['obeysExhaustivity'] = false;
 			//}
-			
-		}	
+
+		}
 	});
-	
+
 	//show extra boxes for annotated with tones on click
 	//console.log(document.getElementById('annotatedWithTones'))
 	document.getElementById('annotatedWithTones').addEventListener('click', function(){
-		if (document.getElementById('japaneseTones').style.display === 'none'){
+		if (document.getElementById('japaneseTones').style.display === 'none' && document.getElementById('annotatedWithTones').checked){
 			document.getElementById('japaneseTones').style.display = 'table-cell';
 			document.getElementById('irishTones').style.display = 'table-cell';
 		}
@@ -406,9 +406,9 @@ window.addEventListener('load', function(){
 			document.getElementById('irishTones').style.display = 'none';
 			//if (genOptions['usesTones']){
 			//	genOptions['usesTones'] = false;
-			//}	
+			//}
 		}
-			
+
 	});
 	//Code for generating the JS for a syntactic tree
 	var treeTableContainer = document.getElementById('treeTableContainer');
