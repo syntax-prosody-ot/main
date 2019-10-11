@@ -161,14 +161,12 @@
 			.constraint-selection-table tr:not(.constraint-checked) td:not(:first-child) {
 				visibility: hidden;
 			}
-
 			.constraint-selection-table td:first-child {
 				font-variant: small-caps;
 				font-family: "Palatino Linotype", Garamond, serif;
 				letter-spacing: 0.07em;
 				font-size: 110%;
 			}
-
 			.checkbox-set-indentation {
 				margin-left: 30px;
 			}
@@ -237,7 +235,13 @@
 				<fieldset>
 
 					<legend><h2>Syntax-prosody mapping constraints <span class="arrow"></h2></legend>
-
+					<table class="constraint-selection-table">
+						<tbody>
+						<tr>
+							<td><input type="checkbox" name="constraints" value="noShift">No Shift</td>
+						</tr>
+					</tbody>
+					</table>
 					<h3>Align/Wrap</h3>
 					<table class="constraint-selection-table">
 					<tbody>
@@ -483,14 +487,15 @@
 
 				<hr style="margin-top: 20px">
 
-				<h2>Prosodic constituents must be... </h2>
-				<span class="info"><span class="content">Checking a box will tell Gen not to produce certain types of prosodic trees, or to annotate the trees. Gen currently only creates recursion at the &phiv; level.</span></span>
+				<h2>Options for prosodic tree generation (GEN function)</h2>
+				<p>Prosodic constituents must be...
+				<span class="info"><span class="content">Checking a box will tell Gen not to produce certain types of prosodic trees, or to annotate the trees. By default, Gen only creates recursion at the &phiv; level.</span></span></p>
 
 				<table class="spaceytable"><tbody>
 					<tr>
 						<td><input type="checkbox" name="genOptions" value="obeysNonrecursivity">non-recursive</td>
 						<td><input type="checkbox" name="genOptions" value="obeysHeadedness"> headed</td>
-						<td><input type="checkbox" name="genOptions" value="requirePhiStem">wrapped into a &phiv;</td>
+						<td><input type="checkbox" name="genOptions" value="requireRecWrapper">wrapped into a &phiv;</td>
 					</tr>
 				</tbody></table>
 				<table class="spaceytable"><tbody>
@@ -498,6 +503,12 @@
 						<td><input type="checkbox" name="genOptions" id="exhaustivityBox" value="obeysExhaustivity">exhaustively parsed</td>
 						<td id="exhaustivityDetailOption1" style="display: none"><input type="checkbox" name="exhaustivityCats" value="i" checked="checked">&iota;'s children are &ge;&phiv;s&nbsp;&nbsp;</td>
 						<td id="exhaustivityDetailOption2" style="display: none"><input type="checkbox" name="exhaustivityCats" value="phi" checked="checked">&phiv;'s children are &ge;&omega;s&nbsp;&nbsp;</td>
+					</tr>
+					
+				</tbody></table>
+				<table class="spaceytable"><tbody>
+					<tr>
+						<td><input type="checkbox" name="genOptions" id="branchingBox" value="noUnary">branching</td>
 					</tr>
 					
 				</tbody></table>
@@ -514,6 +525,16 @@
 						</td>
 					</tr>
 				</tbody></table>
+				<table class="spaceytable"><tbody>
+					<tr>
+						<td><input type="checkbox" name="genOptions" id="cliticMovementBox" value="cliticMovement">Allow clitics to move</td>
+						<td class="info"><div class="content">
+							GEN will permute the first node in the syntactic tree with category 'clitic' through the sentence. Ex.: a b c-clitic -> a b c-clitic, a c-clitic b, c-clitic a b. Only use this if your sentences are short, because for a sentence with n words, this will multiply the number of prosodic trees by n.
+						</td>
+					</tr>
+
+				</tbody></table>
+				
 				<!--
 				<i>Annotate trees with tones for...</i><br/>
 				<table class="spaceytable"><tbody><tr>
@@ -537,7 +558,6 @@
 				<!--
 				<p>Input 2: <input type="text" name="inputToGen"></p>
 				<p>Input 3: <input type="text" name="inputToGen"></p>
-
 				-->
 				<div align="center"><button class="orange-button submit-button" type="submit">Get results</button>
 
@@ -561,3 +581,4 @@
 
 	</body>
 </html>
+

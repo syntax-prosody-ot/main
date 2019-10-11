@@ -306,7 +306,7 @@ window.addEventListener('load', function(){
 					constraintSet.push(constraint);
 			}
 		}
-
+		//console.log(constraintSet);
 		//Get the input syntactic tree.
 		var sTrees;
 		try{
@@ -350,7 +350,13 @@ window.addEventListener('load', function(){
 		var csvSegs = [];
 		for (var i = 0; i < sTrees.length; i++) {
 			var sTree = sTrees[i];
-			var candidateSet = GEN(sTree, pString, genOptions);
+			if (genOptions['cliticMovement']){
+				var candidateSet = GENwithCliticMovement(sTree, pString, genOptions);
+			}
+			else{
+				var candidateSet = GEN(sTree, pString, genOptions);
+			}
+			
 
 			//Make the violation tableau with the info we just got.
 			var tabl = makeTableau(candidateSet, constraintSet, {showTones: genTones});
