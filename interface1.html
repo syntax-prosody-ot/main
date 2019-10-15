@@ -185,6 +185,7 @@
 				content: "i";
 				font-family: "Segoe UI";
 				font-weight: bold;
+				font-variant: normal;
 				border: 1px solid;
 				border-radius: 1em;
 				padding-right: 0.4em;
@@ -199,6 +200,8 @@
 			}
 			.info.showing .content {
 				display: block;
+				font-family: Arial, Helvetica, sans-serif;
+				font-variant: normal;
 			}
 			.treeUI-tree {
 				display: inline-block;
@@ -219,7 +222,7 @@
 			Select constraints, build syntactic trees, generate prosodic candidates, and download a violation tableau.
 			<span class="info"><span class="content"> Click on the downward carets to see constraints and add constraints to your constraint set using the associated checkboxes.
 				<ul>
-					<li>By default, XP and &phiv; are selected as the cateogories to assess violations over. Use the checkbox buttons next to each constraint to change the desired category.</li>
+					<li>By default, XP and &phiv; are selected as the categories to assess violations over. Use the checkbox buttons next to each constraint to change the desired category.</li>
 					<li>SPOT is a JavaScript application. Make sure you have JavaScript enabled. We have tested SPOT in Firefox and Chrome, but not in Edge or Internet Explorer.</li>
 					<li>The current implementation of Gen only produces recursion at the &phiv;-level, so candidates with recursive &iota;s or &omega;s will not be generated.</li>
 				</ul>
@@ -278,25 +281,25 @@
 							<td><input type="checkbox" name="category-matchPS" value="w">&omega;</td>
 						</tr>
 						<tr>
-							<td title="Assign a violation for every node of syntactic category s that is not dominated by another node of category s in the syntactic tree, and is not mapped to a corresponding prosodic node of category p, where p=catMap(s), such that p is not dominated by another node of category p."><input type="checkbox" name="constraints" value="matchMaxSP">MatchMaxSP</td>
+							<td><input type="checkbox" name="constraints" value="matchMaxSP">MatchMaxSP<span class="info"><span class="content">Assign a violation for every node of syntactic category s that is not dominated by another node of category s in the syntactic tree, and is not mapped to a corresponding prosodic node of category p, where p=catMap(s), such that p is not dominated by another node of category p (Ishihara 2014). SPOT function: matchMaxSP()</span></span></td>
 							<td><input type="checkbox" name="category-matchMaxSP" value="cp">CP</td>
 							<td><input type="checkbox" name="category-matchMaxSP" value="xp" checked="checked">XP</td>
 							<td><input type="checkbox" name="category-matchMaxSP" value="x0">X<sup>0</sup></td>
 						</tr>
 						<tr>
-							<td><input type="checkbox" name="constraints" value="matchMaxPS">MatchMaxPS</td>
+							<td><input type="checkbox" name="constraints" value="matchMaxPS">MatchMaxPS<span class="info"><span class="content">Assign a violation for every node of prosodic category p that is not dominated by another node of category p in the prosodic tree, and was not mapped from a corresponding syntactic node of category s, where p=catMap(s), such that s is not dominated by another node of category s. SPOT function: matchMaxPS()</span></span></td>
 							<td><input type="checkbox" name="category-matchMaxPS" value="i">&iota;</td>
 							<td><input type="checkbox" name="category-matchMaxPS" value="phi" checked="checked">&phiv;</td>
 							<td><input type="checkbox" name="category-matchMaxPS" value="w">&omega;</td>
 						</tr>
 						<tr>
-							<td title="Assign a violation for every node of syntactic category s that does not dominate any another node of category s in the syntactic tree, and is not mapped to a corresponding prosodic node of category p, where p=catMap(s), such that p does not dominat any another node of category p."><input type="checkbox" name="constraints" value="matchMinSP">MatchMinSP</td>
+							<td><input type="checkbox" name="constraints" value="matchMinSP">MatchMinSP<span class="info"><span class="content">Assign a violation for every node of syntactic category s that does not dominate any another node of category s in the syntactic tree, and is not mapped to a corresponding prosodic node of category p, where p=catMap(s), such that p does not dominat any another node of category p. SPOT function: matchMinSP()</span></span></td>
 							<td><input type="checkbox" name="category-matchMinSP" value="cp">CP</td>
 							<td><input type="checkbox" name="category-matchMinSP" value="xp" checked="checked">XP</td>
 							<td><input type="checkbox" name="category-matchMinSP" value="x0">X<sup>0</sup></td>
 						</tr>
 						<tr>
-							<td><input type="checkbox" name="constraints" value="matchMinPS">MatchMinPS</td>
+							<td><input type="checkbox" name="constraints" value="matchMinPS">MatchMinPS<span class="info"><span class="content">Assign a violation for every node of prosodic category p that does not dominate any another node of category p in the prosodic tree, and was not mapped from a corresponding syntactic node of category s, where p=catMap(s), such that s does not dominat any another node of category s. SPOT function: matchMinPS()</span></span></td>
 							<td><input type="checkbox" name="category-matchMinPS" value="i">&iota;</td>
 							<td><input type="checkbox" name="category-matchMinPS" value="phi" checked="checked">&phiv;</td>
 							<td><input type="checkbox" name="category-matchMinPS" value="w">&omega;</td>
@@ -317,19 +320,19 @@
 					<table class="constraint-selection-table">
 					<tbody>
 						<tr>
-							<td title="Assign a violation for every pTree-node of category K that has less than two children."><input type="checkbox" name="constraints" value="binMinBranches">BinMin(branches)</td>
+							<td><input type="checkbox" name="constraints" value="binMinBranches">BinMin(branches)<span class="info"><span class="content">Assign a violation for every pTree-node of category K that has less than two children. SPOT function: binMinBranches()</span></span></td>
 							<td><input type="checkbox" name="category-binMinBranches" value="i">&iota;</td>
 							<td><input type="checkbox" name="category-binMinBranches" value="phi" checked="checked">&phiv;</td>
 							<td><input type="checkbox" name="category-binMinBranches" value="w">&omega;</td>
 						</tr>
 						<tr>
-							<td title="Assign a violation for every pTree-node of category K that has more than two children."><input type="checkbox" name="constraints" value="binMaxBranches">BinMax(branches) - <i>categorical</i></td>
+							<td><input type="checkbox" name="constraints" value="binMaxBranches">BinMax(branches) - <i>categorical</i><span class="info"><span class="content">Assign a violation for every pTree-node of category K that has more than two children. SPOT function: binMaxBranches()</span></span></td>
 							<td><input type="checkbox" name="category-binMaxBranches" value="i">&iota;</td>
 							<td><input type="checkbox" name="category-binMaxBranches" value="phi" checked="checked">&phiv;</td>
 							<td><input type="checkbox" name="category-binMaxBranches" value="w">&omega;</td>
 						</tr>
 						<tr>
-							<td title="For every pTree-node N of category K, assign a violation for every child of N that is not initial or pen-initial in N."><input type="checkbox" name="constraints" value="binMaxBranchesGradient">BinMax(branches) - <i>gradient</i></td>
+							<td><input type="checkbox" name="constraints" value="binMaxBranchesGradient">BinMax(branches) - <i>gradient</i><span class="info"><span class="content">For every pTree-node N of category K, assign a violation for every child of N that is not initial or pen-initial in N. SPOT function: binMaxBranchesGradient()</span></span></td>
 							<td><input type="checkbox" name="category-binMaxBranchesGradient" value="i">&iota;</td>
 							<td><input type="checkbox" name="category-binMaxBranchesGradient" value="phi" checked="checked">&phiv;</td>
 							<td><input type="checkbox" name="category-binMaxBranchesGradient" value="w">&omega;</td>
@@ -371,7 +374,7 @@
 					<table class="constraint-selection-table">
 					<tbody>
 						<tr>
-							<td title="Assign a violation for every pair of adjacent sister nodes that are not of the same prosodic category."><input type="checkbox" name="constraints" value="equalSistersAdj">EqualSisters (adjacent)</td>
+							<td><input type="checkbox" name="constraints" value="equalSistersAdj">EqualSisters (adjacent)<span class="info"><span class="content">Assign a violation for every pair of adjacent sister nodes that are not of the same prosodic category. SPOT function: equalSistersAdj()</span></span></td>
 							<!--
 							<td><input type="checkbox" name="category-equalSistersAdj" value="i">&iota;</td>
 							<td><input type="checkbox" name="category-equalSistersAdj" value="phi" checked="checked">&phiv;</td>
@@ -379,7 +382,7 @@
 							-->
 						</tr>
 						<tr>
-							<td title="Assign a violation for every (unordered) pair of sisters nodes that are not of the same prosodic category."><input type="checkbox" name="constraints" value="equalSistersPairwise">EqualSisters (pairwise)</td>
+							<td><input type="checkbox" name="constraints" value="equalSistersPairwise">EqualSisters (pairwise)<span class="info"><span class="content">Assign a violation for every (unordered) pair of sisters nodes that are not of the same prosodic category. SPOT function: equalSistersPairwise()</span></span></td>
 							<!--
 							<td><input type="checkbox" name="category-equalSistersPairwise" value="i">&iota;</td>
 							<td><input type="checkbox" name="category-equalSistersPairwise" value="phi" checked="checked">&phiv;</td>
@@ -387,7 +390,7 @@
 							-->
 						</tr>
 						<tr>
-							<td title="For each set of sisters, assign a violation for every child that has a different prosodic category from the first (leftmost) sister in the set."><input type="checkbox" name="constraints" value="equalSistersFirstPrivilege">EqualSisters (first privilege)</td>
+							<td><input type="checkbox" name="constraints" value="equalSistersFirstPrivilege">EqualSisters (first privilege)<span class="info"><span class="content">For each set of sisters, assign a violation for every child that has a different prosodic category from the first (leftmost) sister in the set. SPOT function: equalSistersFirstPrivilege()</span></span></td>
 							<!--
 							<td><input type="checkbox" name="category-equalSistersFirstPrivilege" value="i">&iota;</td>
 							<td><input type="checkbox" name="category-equalSistersFirstPrivilege" value="phi" checked="checked">&phiv;</td>
@@ -401,7 +404,7 @@
 					<table class="constraint-selection-table">
 					<tbody>
 						<tr>
-							<td title="Assign a violation for every node whose leftmost daughter constituent is of type k and is lower in the prosodic hierarchy than its sister constituent immediately to its right: *(Kn Kn-1). (Elfner's StrongStart)"><input type="checkbox" name="constraints" value="strongStart_Elfner">StrongStart</td>
+							<td><input type="checkbox" name="constraints" value="strongStart_Elfner">StrongStart<span class="info"><span class="content">Assign a violation for every node whose leftmost daughter constituent is of type k and is lower in the prosodic hierarchy than its sister constituent immediately to its right: *(Kn Kn-1). (Elfner's StrongStart) SPOT function: strongStart_Elfner()</span></span></td>
 							<td><input type="checkbox" name="category-strongStart_Elfner" value="i">&iota;</td>
 							<td><input type="checkbox" name="category-strongStart_Elfner" value="phi">&phiv;</td>
 							<td><input type="checkbox" name="category-strongStart_Elfner" value="w" checked="checked">&omega;</td>
@@ -420,28 +423,28 @@
 					<table class="constraint-selection-table">
 					<tbody>
 						<tr>
-							<td title="Assign a violation for every parent-child pair (x,y) such that x is of PH-level n and y is of PH-level n-m, m >= 2."><input type="checkbox" name="constraints" value="exhaust1">Exhaustivity</td>
+							<td><input type="checkbox" name="constraints" value="exhaust1">Exhaustivity<span class="info"><span class="content">Assign a violation for every parent-child pair (x,y) such that x is of PH-level n and y is of PH-level n-m, m >= 2. SPOT function: exhaust1()</span></span></td>
 						</tr>
 						<tr>
-							<td title="Assign a violation for every node of category x immediately dominated by another node of category x."><input type="checkbox" name="constraints" value="nonRecChild">Non-recursivity, assessed by dominated node (nonRecChild)</td>
+							<td><input type="checkbox" name="constraints" value="nonRecChild">Non-recursivity, assessed by dominated node<span class="info"><span class="content">Assign a violation for every node of category x immediately dominated by another node of category x. SPOT function: nonRecChild()</span></span></td>
 							<td><input type="checkbox" name="category-nonRecChild" value="i">&iota;</td>
 							<td><input type="checkbox" name="category-nonRecChild" value="phi" checked="checked">&phiv;</td>
 							<td><input type="checkbox" name="category-nonRecChild" value="w">&omega;</td>
 						</tr>
 						<tr>
-							<td title="Assign a violation for every node of category x that immediately dominates a node of category x."><input type="checkbox" name="constraints" value="nonRecParent">Non-recursivity, assessed by dominating node (nonRecParent)</td>
+							<td><input type="checkbox" name="constraints" value="nonRecParent">Non-recursivity, assessed by dominating node<span class="info"><span class="content">Assign a violation for every node of category x that immediately dominates a node of category x. SPOT function: nonRecParent()</span></span></td>
 							<td><input type="checkbox" name="category-nonRecParent" value="i">&iota;</td>
 							<td><input type="checkbox" name="category-nonRecParent" value="phi" checked="checked">&phiv;</td>
 							<td><input type="checkbox" name="category-nonRecParent" value="w">&omega;</td>
 						</tr>
 						<tr>
-							<td title="&quot;Any two p-phrases that are not disjoint in extension are identical in extension.&quot; For every node x of category p dominated by another node y of category p, assign a violation for every leaf dominated by y that is not also dominated by x."><input type="checkbox" name="constraints" value="nonRecTruckenbrodt">Non-recursivity, assessed by non-overlapping leaves (nonRecTruckenbrodt)</td>
+							<td><input type="checkbox" name="constraints" value="nonRecTruckenbrodt">Non-recursivity, assessed by non-overlapping leaves<span class="info"><span class="content">"Any two p-phrases that are not disjoint in extension are identical in extension." For every node x of category p dominated by another node y of category p, assign a violation for every leaf dominated by y that is not also dominated by x. SPOT function: nonRecTruckenbrodt()</span></span></td>
 							<td><input type="checkbox" name="category-nonRecTruckenbrodt" value="i">&iota;</td>
 							<td><input type="checkbox" name="category-nonRecTruckenbrodt" value="phi" checked="checked">&phiv;</td>
 							<td><input type="checkbox" name="category-nonRecTruckenbrodt" value="w">&omega;</td>
 						</tr>
 						<tr>
-							<td title="Assign a violation for every pair of nodes a and b such that a and b are both of category p and a dominates b."><input type="checkbox" name=constraints value="nonRecPairs">Non-recursivity, pairwise</td>
+							<td><input type="checkbox" name=constraints value="nonRecPairs">Non-recursivity, pairwise<span class="info"><span class="content">Assign a violation for every pair of nodes a and b such that a and b are both of category p and a dominates b. SPOT function: nonRecPairs()</span></span></td>
 							<td><input type="checkbox" name="category-nonRecPairs" value="i">&iota;</td>
 							<td><input type="checkbox" name="category-nonRecPairs" value="phi" checked="checked">&phiv;</td>
 							<td><input type="checkbox" name="category-nonRecPairs" value="w">&omega;</td>
