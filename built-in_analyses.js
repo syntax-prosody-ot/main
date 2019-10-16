@@ -55,7 +55,7 @@ function built_in_Irish(){
   var toneButtons = toneCheckbox.parentNode.parentNode.getElementsByTagName("input");
   for(var x = 0; x < toneButtons.length; x++){
     toneButtons[x].parentNode.setAttribute("style", "display: table-cell");
-    if(toneButtons[x].value="addIrishTones_Elfner"){
+    if(toneButtons[x].value==="addIrishTones_Elfner"){
       toneButtons[x].setAttribute("checked", "checked");
     }
     else{
