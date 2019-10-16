@@ -22,7 +22,17 @@ function makeTableau(candidateSet, constraintSet, options){
 	var header = [sTree];
 	for(var i=0; i<constraintSet.length; i++){
 		var conParts = constraintSet[i].split('-');
-		header.push(conParts[0]+'('+conParts[1]+')');
+		var optionString = '';
+		if(conParts[2] && conParts[2].length){
+			var optionObj = JSON.parse(conParts[2]);
+			var options = Object.getOwnPropertyNames(optionObj); 
+			for(var j in options){
+				if(optionObj[options[j]]==true){
+					optionString += '-'+options[j];
+				}
+			}
+		} 
+		header.push(conParts[0]+optionString+'('+conParts[1]+')');
 	}
 	tableau.push(header);
 
