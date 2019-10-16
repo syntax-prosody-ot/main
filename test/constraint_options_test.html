@@ -64,7 +64,8 @@
     /*Constraint sets are defined below. You can change these or add your own. A constraint set is a list of constraint function names (refer to the files in constraints.js for names) + category arguments (separated from constraint names with -; refer to prosodicHierarchy.js for a list of defined categories).*/
     var matchOptionsLexical = JSON.stringify({requireLexical:true});
     var matchOptionsOvertHead = JSON.stringify({requireOvertHead:true});
-	var conMatch = ['matchSP-xp-'+matchOptionsLexical, 'matchSP-xp-'+matchOptionsOvertHead, 'matchSP-xp'];
+    var matchOptionsBoth = JSON.stringify({requireLexical:true, requireOvertHead:true});
+	var conMatch = ['matchSP-xp-'+matchOptionsLexical, 'matchSP-xp-'+matchOptionsOvertHead, 'matchSP-xp-'+matchOptionsBoth, 'matchSP-xp'];
 	//var conOther = ['constraint1-xp','constraint2-phi', 'constraint3-w', 'etc-i'];
 	
 	/*A list of names for your constraint sets. These are used for naming the tableau csv files and finding the lists of constraint names. They need to match the variable names above.*/
