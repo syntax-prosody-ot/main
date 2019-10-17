@@ -185,8 +185,9 @@ function obeysHeadedness(tree){
 		if (!children)
 			return true;
 		for (var i = 0; i < children.length; i++)
-			if (children[i].cat === pCat.nextLower(node.cat))
+			if (children[i].cat === pCat.nextLower(node.cat)){
 				return true;
+			}
 			return false;
 	}
 
@@ -197,7 +198,7 @@ function obeysHeadedness(tree){
 	//return false if one of the children does not obey headedness
 	if (tree.children){
 		for (var x = 0; x<tree.children.length; x++){
-			if (!obeysHeadedness(tree.children[x])) //recursivce function call
+			if (!obeysHeadedness(tree.children[x])) //recursive function call
 				return false;
 		}
 	}

@@ -12,23 +12,24 @@ function my_built_in_analysis(){
   document.getElementById("treeUI").style.display = "block";
   //Step 3: replace "myTreeHere" with your syntax tree(s). See also built-in_trees.js
   document.getElementById("stree-textarea").value = JSON.stringify(myTreeHere);
-  /* Step 4: (optional) If you want to annotate your tableaux with tones,
-   * uncomment this block: */
+  // Step 4: (optional) If you want to annotate your tableaux with tones,
+  //uncomment this block:
   /*
   var toneCheckbox = document.getElementById("annotatedWithTones");
-  toneCheckbox.setAttribute("checked", "checked");
+  toneCheckbox.checked = true;
+  console.log(toneCheckbox.checked);
   var toneButtons = toneCheckbox.parentNode.parentNode.getElementsByTagName("input");
   for(var x = 0; x < toneButtons.length; x++){
     toneButtons[x].parentNode.setAttribute("style", "display: table-cell");
-    if(toneButtons[x].value="addIrishTones_Elfner"){
-      toneButtons[x].setAttribute("checked", "checked");
+    if(toneButtons[x].value==="addIrishTones_Elfner"){
+      toneButtons[x].checked =  "checked";
     }
-    else{
+    else if (toneButtons[x] !== toneCheckbox){
       //we don't want multiple radio buttons to be checked, it gets confusing
       //this isn't doing what it is supposed to, I don't know why -Max 10/10/19
-      toneButtons[x].removeAttribute("checked");
+      toneButtons[x].checked = false;
+      //toneButtons[x].removeAttribute("checked");
     }
-  }
   */
 }
 
@@ -41,8 +42,8 @@ function built_in_Irish(){
   //insert specified input to tree UI
   document.getElementById("stree-textarea").value = JSON.stringify(irish_trees);
   //exhaustivity options
-  var exhaustivityBox = document.getElementById("exhaustivityBox")
-  exhaustivityBox.setAttribute("checked", "checked");
+  var exhaustivityBox = document.getElementById("exhaustivityBox");
+  exhaustivityBox.checked = "checked";
   var exhaustivityDetail = exhaustivityBox.parentNode.parentNode.getElementsByTagName("td");
   for (var x = 0; x < exhaustivityDetail.length; x++){
     exhaustivityDetail[x].setAttribute("style", "display: table-cell");
@@ -51,17 +52,19 @@ function built_in_Irish(){
   //document.getElementById("exhaustivityDetailRow").style.display = "block";
   //some stuff for tones
   var toneCheckbox = document.getElementById("annotatedWithTones");
-  toneCheckbox.setAttribute("checked", "checked");
+  toneCheckbox.checked = true;
+  console.log(toneCheckbox.checked);
   var toneButtons = toneCheckbox.parentNode.parentNode.getElementsByTagName("input");
   for(var x = 0; x < toneButtons.length; x++){
     toneButtons[x].parentNode.setAttribute("style", "display: table-cell");
     if(toneButtons[x].value==="addIrishTones_Elfner"){
-      toneButtons[x].setAttribute("checked", "checked");
+      toneButtons[x].checked =  "checked";
     }
-    else{
+    else if (toneButtons[x] !== toneCheckbox){
       //we don't want multiple radio buttons to be checked, it gets confusing
       //this isn't doing what it is supposed to, I don't know why -Max 10/10/19
-      toneButtons[x].removeAttribute("checked");
+      toneButtons[x].checked = false;
+      //toneButtons[x].removeAttribute("checked");
     }
   }
 }
@@ -93,7 +96,7 @@ function built_in_con(input){
         //assumes that constraint is the first checkbox
         if(con_boxes[0].value === input[i].name){
           //select the constraint
-          con_boxes[0].setAttribute("checked", "checked");
+          con_boxes[0].checked =  "checked";
           //open the fieldset
           conFields[x].setAttribute("class", "open")
           //reveal the categories
@@ -104,11 +107,11 @@ function built_in_con(input){
             // select the category if the input calls for it
             if(con_boxes[z].value === input[i].cat){
               // see below comment re "checked" == "built_in"
-              con_boxes[z].setAttribute("checked", "built_in");
+              con_boxes[z].checked =  "built_in";
             }
             // deselect category unless already selected by built-in system
             else if(con_boxes[z].checked !== "built_in"){
-              con_boxes[z].removeAttribute("checked");
+              con_boxes[z].checked = false;;
               /* re "checked" == "built_in"
                * categories that have already been selected (eg. default
                * category for constraint) should be deselected, unless that
