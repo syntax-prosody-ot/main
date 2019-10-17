@@ -145,7 +145,7 @@ window.GEN = function(sTree, words, options){
 		var pRoot = wrapInRootCat(rootlessCand[i], options);
 		if (!pRoot)
 			continue;
-		if (options.obeysHeadedness && !rootIsHeaded(pRoot, options.recursiveCategory))
+		if (options.obeysHeadedness && !obeysHeadedness(pRoot))
 			continue;
 		/* if (options.addTones){
 			try {
@@ -167,12 +167,43 @@ window.GEN = function(sTree, words, options){
 	return candidates;
 }
 
-function rootIsHeaded(pRoot, recCat) {
-	var children = pRoot.children || [];
-	for (var i = 0; i < children.length; i++)
-		if (children[i].cat === pCat.nextLower(pRoot.cat))
+/* Function to check if a tree obeys headedness. Each node must either be be
+ * terminal or have at least one child of the category immidately below its own
+ * on the prosodic hierarch. Otherwise, return false. Written as a recursive
+ * function, basically a constraint.
+ */
+function obeysHeadedness(tree){
+	//inner function
+	function nodeIsHeaded(node) {
+		/* Function to check if a node is headed. Relies on the prosodic hierarchy being
+		 * properly defined. Returns true iff one of the node's children is of the
+		 * category directly below its own category on the prosodic hierarchy or the
+		 * node is terminal.
+		 */
+		var children = node.children;
+		//vacuously true if node is terminal
+		if (!children)
 			return true;
-	return false;
+		for (var i = 0; i < children.length; i++)
+			if (children[i].cat === pCat.nextLower(node.cat)){
+				return true;
+			}
+			return false;
+	}
+
+	//outer function
+	//first, check the parent node
+	if (!nodeIsHeaded(tree))
+		return false;
+	//return false if one of the children does not obey headedness
+	if (tree.children){
+		for (var x = 0; x<tree.children.length; x++){
+			if (!obeysHeadedness(tree.children[x])) //recursive function call
+				return false;
+		}
+	}
+	//if we get this far, the tree obeys headedness
+	return true;
 }
 
 function obeysExhaustivity(cat, children) {
@@ -237,8 +268,6 @@ function gen(leaves, options){
 		candidates.push([]);
 		return candidates;
 	}
-
-
 
 	//Recursive case: at least 1 word. Consider all candidates where the first i words are grouped together
 	for(var i = 1; i <= leaves.length; i++){
@@ -385,7 +414,7 @@ function GENwithCliticMovement(stree, words, options){
 			console.log(stree);
 			return GEN(stree, words, options);
 			//throw new Error("GENWithCliticMovement was called but no node in stree has category clitic was provided in stree");
-	
+
 		}
 	}
 	//Otherwise, get the clitic from words
