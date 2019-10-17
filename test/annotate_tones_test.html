@@ -74,7 +74,7 @@
 			}
 		]
 	};
-	console.log(parenthesizeTree(accentTree1, {showTones: true}));
+	/* console.log(parenthesizeTree(accentTree1, {showTones: 'addIrishTones_Elfner'}));
 	//annotatedTree = addJapaneseTones(accentTree1);
 	//annotatedTree = addIrishTones_Elfner(accentTree1);
 	annotatedTree = addIrishTones_Kalivoda(accentTree1);
@@ -85,7 +85,7 @@
 	annotatedTree = addIrishTones_Kalivoda(accentTree2);
 	console.log(annotatedTree);
 	console.log(parenthesizeTree(annotatedTree, {showTones: true}));
-	console.log(parenthesizeTree(accentTree1, {showTones: false}));
+	console.log(parenthesizeTree(accentTree1, {showTones: false})); */
 	
 	var sTreeAlign2 = { 
 		"id":"xp0",
@@ -117,7 +117,7 @@
 		
 	function runDemo() {
 		
-		writeTableau(makeTableau(candidateSet, constraintSetAlign, {showTones: true}));
+		writeTableau(makeTableau(candidateSet, constraintSetAlign, {showTones: 'addIrishTones_Elfner'}));
 		revealNextSegment();
 		lastSegmentId++;
 	}
