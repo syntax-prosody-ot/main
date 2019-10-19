@@ -103,7 +103,7 @@ function matchSP(sParent, pTree, sCat, options)
 	*/
 	if((sParent.cat === sCat && !(options.requireLexical && sParent.func)) 
 		&& !(options.requireOvertHead && sParent.silentHead)){
-		if(!hasMatch(sParent, pTree)){
+		if(!hasMatch(sParent, pTree, options)){
 			vcount++;
 			logreport.debug("\tVIOLATION: "+sParent.id+" has no match!");
 		}
@@ -120,15 +120,41 @@ function matchSP(sParent, pTree, sCat, options)
 	return vcount;
 }
 
-function hasMatch(sNode, pTree)
+function hasMatch(sNode, pTree, options)
 //For a syntactic node sNode and a prosodic tree pTree, search the entire pTree
 //to see if there is a node in pTree that has the same set of terminals as sNode,
 //in the same order as sLeaves.
 //Returns true for terminals assuming that there are no null syntactic terminals...
 //Relies on sameIds for leaf comparisons and catMatches for category comparisons.
+
+//options {maxProsody, minProsody, nonMaxProsody, nonMinProsody}
 {
+
 	var sLeaves = getLeaves(sNode);
-	if(catsMatch(sNode.cat, pTree.cat) && sameIds(getLeaves(pTree), sLeaves))
+	//max prosody
+	if(catsMatch(sNode.cat, pTree.cat) && sameIds(getLeaves(pTree), sLeaves) && option.maxProsody && markMinMax(pTree))
+	{
+		return true;
+
+	}
+	//min prosody
+	else if(catsMatch(sNode.cat, pTree.cat) && sameIds(getLeaves(pTree), sLeaves) && option.minProsody && isMinimal(pTree))
+	{
+		return true;
+	}
+	//non maximal prosody
+	else if(catsMatch(sNode.cat, pTree.cat) && sameIds(getLeaves(pTree), sLeaves) && option.nonMaxProsody && !markMinMax(pTree))
+	{
+		return true;
+	}
+	//non minimal prosody
+	else if(catsMatch(sNode.cat, pTree.cat) && sameIds(getLeaves(pTree), sLeaves) && option.nonMinProsody && !isMinimal(pTree))
+	{
+
+		return true;
+	}
+	//don't care about min/max in prosody tree
+	else if(catsMatch(sNode.cat, pTree.cat) && sameIds(getLeaves(pTree), sLeaves))
 	// the current prosodic node is the match, both for category and for terminals
 	{
 		logreport.debug("\tMatch found: "+pTree.id);
@@ -148,33 +174,13 @@ function hasMatch(sNode, pTree)
 		//check each child to see if the match exists in the subtree rooted in that child
 		{
 			var child = pTree.children[i];
-			if(hasMatch(sNode, child))
+			if(hasMatch(sNode, child,options))
 				return true;
 		}
 		return false;
 	}
 
 }
-
-/*Various flavors of Match to be called more easily by makeTableau*/
-
-function matchSP_LexicalHead(stree, ptree, cat){
-	return matchSP(stree, ptree, cat, {requireLexical:true});
-}
-
-function matchSP_OvertHead(stree, ptree, cat){
-	return matchSP(stree, ptree, cat, {requireOvertHead:true});
-}
-
-function matchSP_OvertLexicalHead(stree, ptree, cat){
-	return matchSP(stree, ptree, cat, {requireOvertHead: true, requireLexical:true});
-}
-
-// Match Max constraints:
-
-/* Same as hasMatch function above, except this only returns true if the
- * matching prosodic node is maximal:
- */
 function hasMaxMatch(sNode, pTree){
 	 var sLeaves = getLeaves(sNode);
 	 markMinMax(pTree); //mark min and max on prosodic tree
@@ -205,7 +211,45 @@ function hasMaxMatch(sNode, pTree){
  			return false;
  		}
 
- }
+}
+
+//helper function, similar to hasMatch, different in that it ensures that ptree is minimal
+function hasMinMatch(sNode, pTree) {
+  var leaves = getLeaves(sNode);
+  if(catsMatch(sNode.cat, pTree.cat) && sameIds(getLeaves(pTree), leaves) && isMinimal(pTree)) {
+    return true;
+  } else if(!pTree.children || pTree.children.length === 0) {
+    return false;
+  } else {
+    for(var i = 0; i < pTree.children.length; i++) {
+      var child = pTree.children[i];
+      if(hasMinMatch(sNode, child)) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+/*Various flavors of Match to be called more easily by makeTableau*/
+
+function matchSP_LexicalHead(stree, ptree, cat){
+	return matchSP(stree, ptree, cat, {requireLexical:true});
+}
+
+function matchSP_OvertHead(stree, ptree, cat){
+	return matchSP(stree, ptree, cat, {requireOvertHead:true});
+}
+
+function matchSP_OvertLexicalHead(stree, ptree, cat){
+	return matchSP(stree, ptree, cat, {requireOvertHead: true, requireLexical:true});
+}
+
+// Match Max constraints:
+
+/* Same as hasMatch function above, except this only returns true if the
+ * matching prosodic node is maximal:
+ */
+
 
 /* Match-SP(scat-max, pcat-max): Assign a violation for every node of syntactic
  * category s that is not dominated by another node of category s in the
@@ -301,20 +345,4 @@ function MatchMinPS(s, ptree, cat) {
   return vcount;
 }
 
-//helper function, similar to hasMatch, different in that it ensures that ptree is minimal
-function hasMinMatch(sNode, pTree) {
-  var leaves = getLeaves(sNode);
-  if(catsMatch(sNode.cat, pTree.cat) && sameIds(getLeaves(pTree), leaves) && isMinimal(pTree)) {
-    return true;
-  } else if(!pTree.children || pTree.children.length === 0) {
-    return false;
-  } else {
-    for(var i = 0; i < pTree.children.length; i++) {
-      var child = pTree.children[i];
-      if(hasMinMatch(sNode, child)) {
-        return true;
-      }
-    }
-  }
-  return false;
-}
+
