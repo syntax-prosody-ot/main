@@ -1,0 +1,80 @@
+<!-- Max Tarlov 10/19/19 testing match constraint options -->
+<html>
+	<title>matchMax Constraints Test</title>
+	<head>
+		<link rel="stylesheet" type="text/css" href="../spot.css">
+		<script src="../build/spot.js"></script>
+		<script src="../build/constraints.js"></script>
+		<script src="../candidategenerator.js"></script>
+	</head>
+	<body>
+		<pre id="results-container"></pre>
+
+		<script>
+			var sTree = {
+				cat: "cp",
+				id: "root",
+				children: [
+					{
+						cat: "xp",
+						id:"xp1",
+						children: [
+							{
+								cat:"x0",
+								id: "one"
+							}
+						]
+					},
+					{
+						cat: "xp",
+						id: "xp2",
+						children: [
+							{
+								cat: "xp",
+								id:"xp3",
+								func: true,
+								children:[
+									{
+										cat: "x0",
+										id: "two-func"
+									}
+								]
+							},
+							{
+								cat: "xp",
+								id: "xp4",
+								silentHead: true,
+								children: [
+									{
+										cat:"x0",
+										id: "(three)"
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+			/*
+			function maxMax(stree, ptree, cat){
+				return matchSP(stree, ptree, cat, {maxSyntax: true, maxProsody: true});
+			}
+			function maxMin(stree, ptree, cat){
+				return matchSP(stree, ptree, cat, {maxSyntax: true, minProsody: true});
+			}
+			function minMin(stree, ptree, cat){
+				return matchSP(stree, ptree, cat, {minSyntax: true, minProsody: true});
+			}
+			function minMax(stree, ptree, cat){
+				return matchSP(stree, ptree, cat, {minSyntax: true, maxProsody: true});
+			}
+			*/
+
+			var con = ["maxMax-xp", "maxAny-xp", "minMin-xp", "minAny-xp"];
+			window.addEventListener("load",function(){
+				writeTableau(makeTableau(GEN(sTree, "one, two-func, (three)"), con));
+				revealNextSegment();
+			});
+		</script>
+	</body>
+</html>

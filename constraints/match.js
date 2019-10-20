@@ -80,10 +80,10 @@ function matchPS(sTree, pParent, pCat, options)
 //TODO: what about null syntactic terminals?? these need to be filtered out of the syntactic input?? write this function later.
 
 function matchSP(sParent, pTree, sCat, options)
-/*Assign a violation for every syntactic node of type sCat in sParent that 
-* doesn't have a  corresponding prosodic node in pTree, where "corresponding" 
-* is defined as: dominates all and only the same terminals, and has the 
-* corresponding prosodic category. 
+/*Assign a violation for every syntactic node of type sCat in sParent that
+* doesn't have a  corresponding prosodic node in pTree, where "corresponding"
+* is defined as: dominates all and only the same terminals, and has the
+* corresponding prosodic category.
 * By default, assumes no null syntactic terminals.
 * options = {requireLexical: true/false, requireOvertHead: true/false}
 * For non-lexical XPs to be ignored, they should be given an attribute func: true.
@@ -91,6 +91,7 @@ function matchSP(sParent, pTree, sCat, options)
 */
 {
 	options = options || {};
+	markMinMax(sParent);
 
 	if(sParent.cat === sCat)
 		logreport.debug("\tSeeking match for "+sParent.id + " in tree rooted in "+pTree.id);
@@ -101,8 +102,14 @@ function matchSP(sParent, pTree, sCat, options)
 	*  - either it is lexical (sParent.func is false) OR requireLexical is false
 	*  - either it has an overt head (sParent.silent is false) OR requireOvertHead is false
 	*/
-	if((sParent.cat === sCat && !(options.requireLexical && sParent.func)) 
-		&& !(options.requireOvertHead && sParent.silentHead)){
+	if(sParent.cat === sCat
+	&& !(options.requireLexical && sParent.func)
+	&& !(options.requireOvertHead && sParent.silentHead)
+	&& !(options.maxSyntax && !sParent.isMaximal)
+	&& !(options.minSyntax && !isMinimal(sParent))
+	&& !(options.nonMaxSyntax && sParent.isMaximal)
+	&& !(options.nonMinSyntax && isMinimal(sParent)))
+	{
 		if(!hasMatch(sParent, pTree, options)){
 			vcount++;
 			logreport.debug("\tVIOLATION: "+sParent.id+" has no match!");
@@ -131,41 +138,25 @@ function hasMatch(sNode, pTree, options)
 {
 
 	var sLeaves = getLeaves(sNode);
-	//max prosody
-	if(catsMatch(sNode.cat, pTree.cat) && sameIds(getLeaves(pTree), sLeaves) && option.maxProsody && markMinMax(pTree))
-	{
-		return true;
-
-	}
-	//min prosody
-	else if(catsMatch(sNode.cat, pTree.cat) && sameIds(getLeaves(pTree), sLeaves) && option.minProsody && isMinimal(pTree))
-	{
-		return true;
-	}
-	//non maximal prosody
-	else if(catsMatch(sNode.cat, pTree.cat) && sameIds(getLeaves(pTree), sLeaves) && option.nonMaxProsody && !markMinMax(pTree))
-	{
-		return true;
-	}
-	//non minimal prosody
-	else if(catsMatch(sNode.cat, pTree.cat) && sameIds(getLeaves(pTree), sLeaves) && option.nonMinProsody && !isMinimal(pTree))
-	{
-
-		return true;
-	}
-	//don't care about min/max in prosody tree
-	else if(catsMatch(sNode.cat, pTree.cat) && sameIds(getLeaves(pTree), sLeaves))
-	// the current prosodic node is the match, both for category and for terminals
+	markMinMax(pTree);
+	if(catsMatch(sNode.cat, pTree.cat)
+	&& !(options.requireLexical && pTree.func)
+	&& !(options.requireOvertHead && pTree.silentHead)
+	&& !(options.maxProsody && !pTree.isMaximal)
+	&& !(options.minProsody && !isMinimal(pTree))
+	&& !(options.nonMaxProsody && pTree.isMaximal)
+	&& !(options.nonMinProsody && isMinimal(pTree)))
 	{
 		logreport.debug("\tMatch found: "+pTree.id);
 		return true;
 	}
 
 	// If the current prosodic node is NOT the match:
-
 	else if(!pTree.children || pTree.children.length===0)
 	// current node is terminal
+	{
 		return false;
+	}
 
 	else
 	//the current prosodic node is non-terminal (has children)
@@ -174,13 +165,14 @@ function hasMatch(sNode, pTree, options)
 		//check each child to see if the match exists in the subtree rooted in that child
 		{
 			var child = pTree.children[i];
-			if(hasMatch(sNode, child,options))
+			if(hasMatch(sNode, child, options))
 				return true;
 		}
 		return false;
 	}
-
 }
+
+
 function hasMaxMatch(sNode, pTree){
 	 var sLeaves = getLeaves(sNode);
 	 markMinMax(pTree); //mark min and max on prosodic tree
@@ -230,6 +222,7 @@ function hasMinMatch(sNode, pTree) {
   }
   return false;
 }
+
 /*Various flavors of Match to be called more easily by makeTableau*/
 
 function matchSP_LexicalHead(stree, ptree, cat){
@@ -268,8 +261,8 @@ function matchMaxSP(sTree, pTree, sCat, options){
 			 vcount += matchMaxSP(sTree.children[i], pTree, sCat); //recursive function call
 		 }
 	 }
-	 if (sTree.cat === sCat && !(options.requireLexical && sTree.func) 
-		 && !(options.requireOvertHead && sTree.silent) 
+	 if (sTree.cat === sCat && !(options.requireLexical && sTree.func)
+		 && !(options.requireOvertHead && sTree.silent)
 		 && sTree.isMax && !hasMaxMatch(sTree, pTree)){
 		 //add violation if this node has no maximal match, is maximal and of the right cat
 		 // and satisfies any additional conditions imposed by options
@@ -291,8 +284,8 @@ function matchMaxSyntax(sTree, pTree, sCat){
 			 vcount += matchMaxSyntax(sTree.children[i], pTree, sCat); //recursive function call
 		 }
 	 }
-	 if (sTree.cat === sCat && !(options.requireLexical && sTree.func) 
-		 && !(options.requireOvertHead && sTree.silent) 
+	 if (sTree.cat === sCat && !(options.requireLexical && sTree.func)
+		 && !(options.requireOvertHead && sTree.silent)
 		 && sTree.isMax && !hasMatch(sTree, pTree)){
 		 //add violation if this node has no match, is maximal and of the right cat
 		 // and satisfies any additional requirements imposed by options.
@@ -344,5 +337,3 @@ function MatchMinPS(s, ptree, cat) {
   var vcount = MatchMinSP(ptree, s, cat);
   return vcount;
 }
-
-
