@@ -47,7 +47,7 @@
 								children: [
 									{
 										cat:"x0",
-										id: "(three)"
+										id: "three-silent"
 									}
 								]
 							}
@@ -70,11 +70,15 @@
 			}
 			*/
 
-			var con = ["maxMax-xp", "maxAny-xp", "minMin-xp", "minAny-xp"];
+
+			//'matchPS-phi-{"maxProsody":true}'
+			var con = ['matchSP-xp', 'matchSP-xp-{"maxSyntax":true}', 'matchSP-xp-{"maxProsody":true}', 'matchSP-xp-{"requireOvertHead":true}', 'matchPS-phi-{"requireLexical":true}'];
 			window.addEventListener("load",function(){
-				writeTableau(makeTableau(GEN(sTree, "one, two-func, (three)"), con));
+				//throw new Error(matchSP(GEN(sTree, "one two-func (three)")[0][0], GEN(sTree, "one two-func (three)")[0][1], "xp", {maxSyntax:true}));
+				writeTableau(makeTableau(GEN(sTree, "one two-func three-silent"), con));
 				revealNextSegment();
 			});
+
 		</script>
 	</body>
 </html>

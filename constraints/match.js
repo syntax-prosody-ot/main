@@ -105,9 +105,9 @@ function matchSP(sParent, pTree, sCat, options)
 	if(sParent.cat === sCat
 	&& !(options.requireLexical && sParent.func)
 	&& !(options.requireOvertHead && sParent.silentHead)
-	&& !(options.maxSyntax && !sParent.isMaximal)
+	&& !(options.maxSyntax && !sParent.isMax)
 	&& !(options.minSyntax && !isMinimal(sParent))
-	&& !(options.nonMaxSyntax && sParent.isMaximal)
+	&& !(options.nonMaxSyntax && sParent.isMax)
 	&& !(options.nonMinSyntax && isMinimal(sParent)))
 	{
 		if(!hasMatch(sParent, pTree, options)){
@@ -140,11 +140,12 @@ function hasMatch(sNode, pTree, options)
 	var sLeaves = getLeaves(sNode);
 	markMinMax(pTree);
 	if(catsMatch(sNode.cat, pTree.cat)
+	&& sameIds(getLeaves(pTree), sLeaves)
 	&& !(options.requireLexical && pTree.func)
 	&& !(options.requireOvertHead && pTree.silentHead)
-	&& !(options.maxProsody && !pTree.isMaximal)
+	&& !(options.maxProsody && !pTree.isMax)
 	&& !(options.minProsody && !isMinimal(pTree))
-	&& !(options.nonMaxProsody && pTree.isMaximal)
+	&& !(options.nonMaxProsody && pTree.isMax)
 	&& !(options.nonMinProsody && isMinimal(pTree)))
 	{
 		logreport.debug("\tMatch found: "+pTree.id);
