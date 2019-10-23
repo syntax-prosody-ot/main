@@ -19,9 +19,30 @@ function makeTableau(candidateSet, constraintSet, options){
 		}
 		sTree = parenthesizeTree(sTree, sOptions); //JSON.stringify(sTreeName);
 	}
+	//Build a header for the tableau
 	var header = [sTree];
 	for(var i=0; i<constraintSet.length; i++){
-		header.push(constraintSet[i]);
+		/* Split the constraint up into the function name, category, and 
+		*  any options, in that order. They should be separated by '-'.
+		*/
+		var conParts = constraintSet[i].split('-');
+		var optionString = '';
+		//If there are options, truncate their attribute names and append them to the constraint name.
+		if(conParts[2] && conParts[2].length){
+			var optionObj = JSON.parse(conParts[2]);
+			var options = Object.getOwnPropertyNames(optionObj); 
+			for(var j in options){
+				if(optionObj[options[j]]==true){
+					var temp = options[j];
+					if(temp.indexOf('require')>=0){
+						temp = temp.slice('require'.length);
+					}
+					optionString += '-'+temp;
+				}
+			}
+		} 
+		var constraintOptionsCat = conParts[0]+optionString+'('+conParts[1]+')';
+		header.push(constraintOptionsCat);
 	}
 	tableau.push(header);
 
@@ -34,11 +55,14 @@ function makeTableau(candidateSet, constraintSet, options){
 		var tableauRow = [ptreeStr];
 		for(var j = 0; j < constraintSet.length; j++){
 
-			var [constraint, cat] = constraintSet[j].split('-');
+			var [constraint, cat, conOptions] = constraintSet[j].split('-');
+			if(!conOptions){
+				conOptions = "{}";
+			}
 			//var numViolations = runConstraint(constraintAndCat[0], candidate[0], candidate[1], constraintAndCat[1]); ++lastSegmentId; // show log of each constraint run
 			var oldDebugOn = logreport.debug.on;
 			logreport.debug.on = false;
-			var numViolations = globalNameOrDirect(constraint)(getCandidate(candidate[0]), getCandidate(candidate[1]), cat); logreport.debug.on = oldDebugOn; // don't show the log of each constraint run
+			var numViolations = globalNameOrDirect(constraint)(getCandidate(candidate[0]), getCandidate(candidate[1]), cat, JSON.parse(conOptions)); logreport.debug.on = oldDebugOn; // don't show the log of each constraint run
 			tableauRow.push(numViolations);
 		}
 		tableau.push(tableauRow);

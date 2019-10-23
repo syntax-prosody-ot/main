@@ -200,6 +200,11 @@
 			.info.showing .content {
 				display: block;
 			}
+			.tonesInfo {
+				font-size: 13px;
+				color: #555;
+				margin-left: 25px;
+			}
 			.treeUI-tree {
 				display: inline-block;
 				margin-right: 25px;
@@ -518,31 +523,15 @@
 						<td id="exhaustivityDetailOption1" style="display: none"><input type="checkbox" name="exhaustivityCats" value="i" checked="checked">&iota;'s children are &ge;&phiv;s&nbsp;&nbsp;</td>
 						<td id="exhaustivityDetailOption2" style="display: none"><input type="checkbox" name="exhaustivityCats" value="phi" checked="checked">&phiv;'s children are &ge;&omega;s&nbsp;&nbsp;</td>
 					</tr>
-
 				</tbody></table>
 				<table class="spaceytable"><tbody>
 					<tr>
 						<td><input type="checkbox" name="genOptions" value="usesTones" id="annotatedWithTones">annotated with tones</td>
-						<td id="japaneseTones" style="display:none"><input type="radio" name="toneOptions" value="addJapaneseTones">Japanese</td>
-						<td id="irishTones" style="display:none"><input type="radio" name="toneOptions" value="addIrishTones_Elfner">Irish</td>
-					</tr>
-					<tr id="tones" style="display: none">
-						<td>
-							<input type="radio" name="toneOptions" value="addJapaneseTones">Japanese
-							<input type="radio" name="toneOptions" value="addIrishTones_Elfner">Irish
-						</td>
+						<td id="japaneseTones" style="display:none"><input type="radio" name="toneOptions" value="addJapaneseTones">Japanese<span class="info" onclick="toneInfoBlock('japanese')"></span></td>
+						<td id="irishTones" style="display:none"><input type="radio" name="toneOptions" value="addIrishTones_Elfner">Irish<span class="info" onclick="toneInfoBlock('irish')"></span></td>
 					</tr>
 				</tbody></table>
-				<!--
-				<i>Annotate trees with tones for...</i><br/>
-				<table class="spaceytable"><tbody><tr>
-					<td><input type="radio" name="toneOptions" value="noTones" checked="checked">None</td>
-					<td><input type="radio" name="toneOptions" value="addJapaneseTones">Japanese</td>
-					<td><input type="radio" name="toneOptions" value="addIrishTones_Elfner">Irish</td>
-
-				</tr></tbody></table>
-				<hr/>
-				-->
+				<span id="tonesInfoContent" class="tonesInfo"></span>
 				<h2>Optional: Input string(s) for Gen
 				<span class="info">
 					<span class="content">
