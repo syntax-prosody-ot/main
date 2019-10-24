@@ -239,7 +239,8 @@ function matchMaxSP(sTree, pTree, sCat, options){
  * violation if no match is found.
  * ex. Match a maximal xp with any phi.
  */
-function matchMaxSyntax(sTree, pTree, sCat){
+function matchMaxSyntax(sTree, pTree, sCat, options){
+	options = options || {};
 	 var vcount = 0;
 	 markMinMax(sTree); //mark maximal nodes in tree
 	 if (sTree.children && sTree.children.length){
