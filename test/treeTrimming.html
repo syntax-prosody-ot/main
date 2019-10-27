@@ -1,0 +1,59 @@
+<!--Max Tarlov testing tree trimming 10/23/19-->
+<html>
+  <head>
+    <title>SPOT tree trimming test</title>
+    <script src="../build/spot.js"></script>
+  </head>
+  <body>
+    Open the console to see the tests of tree trimming functions trimSilentTerminals() and trimRedundantNodes().
+    <script>
+      var test1 = {
+         id: "root",
+         cat: "xp",
+         children: [
+          {
+            id: "xp1",
+            cat: "xp",
+            children: [
+              {
+                id: "xp2",
+                cat: "xp",
+                children: [
+                  {
+                    id: "terminal1",
+                    cat: "x0",
+                    silent: true
+                  },
+                  {
+                    id: "terminal2",
+                    cat: "x0"
+                  }
+                ]
+              },
+              {
+                id: "terminal3",
+                cat: "xp",
+                silent: true
+              }
+            ]
+          },
+          {
+            id: "terminal4",
+            cat: "x0"
+          }
+         ]
+      }
+      window.addEventListener("load", function(){
+        console.log("Commencing test of tree trimming functions...");
+        console.log("Un-trimmed tree is "+parenthesizeTree(test1));
+        console.log(test1);
+        console.log("Trimmed tree is "+parenthesizeTree(trimRedundantNodes(test1)));
+        console.log(trimRedundantNodes(test1));
+        console.log("The original tree is also preserved:");
+        console.log(test1);
+        console.log("We can also just remove the silent terminals:"+parenthesizeTree(trimSilentTerminals(test1)));
+        console.log(trimSilentTerminals(test1));
+      });
+    </script>
+  </body>
+</html>
