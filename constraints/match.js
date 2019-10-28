@@ -219,8 +219,10 @@ function matchMaxSP(sTree, pTree, sCat){
  * violation if no match is found.
  * ex. Match a maximal xp with any phi.
  */
-function matchMaxSyntax(sTree, pTree, sCat){
-	 return matchSP(sTree, pTree, sCat, {maxSyntax: true});
+function matchMaxSyntax(sTree, pTree, sCat, options){
+   options = options || {};
+   options.maxSyntax = true;
+	 return matchSP(sTree, pTree, sCat, options);
  }
 
 //Match Maximal P --> S
