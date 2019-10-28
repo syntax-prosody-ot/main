@@ -247,11 +247,17 @@ function matchMaxProsody(sTree, pTree, pCat){
  */
 
 //match a syntactic tree with a prosodic tree
-function MatchMinSP(s, ptree, cat) {
-  return matchSP(s, ptree, cat, {minSyntax:true, minProsody: true});
+function matchMinSP(s, ptree, cat, options) {
+	options = options || {};
+	options.minSyntax = true;
+	options.minProsody = true;
+  return matchSP(s, ptree, cat, options);
 }
 
 //match prosody tree with a syntax tree
-function MatchMinPS(s, ptree, cat) {
-  return matchPS(s, ptree, cat, {minSyntax:true, minProsody: true});
+function matchMinPS(s, ptree, cat, options) {
+	options = options || {};
+	options.minSyntax = true;
+	options.minProsody = true;
+  return matchPS(s, ptree, cat, options);
 }

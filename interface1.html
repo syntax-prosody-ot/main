@@ -294,6 +294,18 @@
 							<td><input type="checkbox" name="category-matchMaxPS" value="phi" checked="checked">&phiv;</td>
 							<td><input type="checkbox" name="category-matchMaxPS" value="w">&omega;</td>
 						</tr>
+						<tr>
+							<td title="Assign a violation for every node of syntactic category s that does not dominate any another node of category s in the syntactic tree, and is not mapped to a corresponding prosodic node of category p, where p=catMap(s), such that p does not dominat any another node of category p."><input type="checkbox" name="constraints" value="matchMinSP">MatchMinSP</td>
+							<td><input type="checkbox" name="category-matchMinSP" value="cp">CP</td>
+							<td><input type="checkbox" name="category-matchMinSP" value="xp" checked="checked">XP</td>
+							<td><input type="checkbox" name="category-matchMinSP" value="x0">X<sup>0</sup></td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" name="constraints" value="matchMinPS">MatchMinPS</td>
+							<td><input type="checkbox" name="category-matchMinPS" value="i">&iota;</td>
+							<td><input type="checkbox" name="category-matchMinPS" value="phi" checked="checked">&phiv;</td>
+							<td><input type="checkbox" name="category-matchMinPS" value="w">&omega;</td>
+						</tr>
 					</tbody>
 					</table>
 				</fieldset>
@@ -365,21 +377,27 @@
 					<tbody>
 						<tr>
 							<td title="Assign a violation for every pair of adjacent sister nodes that are not of the same prosodic category."><input type="checkbox" name="constraints" value="equalSistersAdj">EqualSisters (adjacent)</td>
+							<!--
 							<td><input type="checkbox" name="category-equalSistersAdj" value="i">&iota;</td>
 							<td><input type="checkbox" name="category-equalSistersAdj" value="phi" checked="checked">&phiv;</td>
 							<td><input type="checkbox" name="category-equalSistersAdj" value="w">&omega;</td>
+							-->
 						</tr>
 						<tr>
 							<td title="Assign a violation for every (unordered) pair of sisters nodes that are not of the same prosodic category."><input type="checkbox" name="constraints" value="equalSistersPairwise">EqualSisters (pairwise)</td>
+							<!--
 							<td><input type="checkbox" name="category-equalSistersPairwise" value="i">&iota;</td>
 							<td><input type="checkbox" name="category-equalSistersPairwise" value="phi" checked="checked">&phiv;</td>
 							<td><input type="checkbox" name="category-equalSistersPairwise" value="w">&omega;</td>
+							-->
 						</tr>
 						<tr>
 							<td title="For each set of sisters, assign a violation for every child that has a different prosodic category from the first (leftmost) sister in the set."><input type="checkbox" name="constraints" value="equalSistersFirstPrivilege">EqualSisters (first privilege)</td>
+							<!--
 							<td><input type="checkbox" name="category-equalSistersFirstPrivilege" value="i">&iota;</td>
 							<td><input type="checkbox" name="category-equalSistersFirstPrivilege" value="phi" checked="checked">&phiv;</td>
 							<td><input type="checkbox" name="category-equalSistersFirstPrivilege" value="w">&omega;</td>
+							-->
 						</tr>
 					</tbody>
 					</table>
