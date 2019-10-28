@@ -187,57 +187,6 @@ function hasMatch(sNode, pTree, options)
 	}
 }
 
-
-function hasMaxMatch(sNode, pTree){
-	 var sLeaves = getLeaves(sNode);
-	 markMinMax(pTree); //mark min and max on prosodic tree
-	 if(catsMatch(sNode.cat, pTree.cat) && sameIds(getLeaves(pTree), sLeaves) && pTree.isMax)
-	 // the current prosodic node is the match, both for category and for terminals, and is maximal
-		{
- 			return true;
- 		}
-
- 		// If the current prosodic node is NOT the match:
-
- 		else if(!pTree.children || pTree.children.length===0){
- 		// current node is terminal
- 			return false;
-		}
-
- 		else
- 		//the current prosodic node is non-terminal (has children)
- 		{
- 			for(var i = 0; i < pTree.children.length; i++)
- 			//check each child to see if the match exists in the subtree rooted in that child
- 			{
- 				var child = pTree.children[i];
- 				if(hasMaxMatch(sNode, child)){
- 					return true;
-				}
- 			}
- 			return false;
- 		}
-
-}
-
-//helper function, similar to hasMatch, different in that it ensures that ptree is minimal
-function hasMinMatch(sNode, pTree) {
-  var leaves = getLeaves(sNode);
-  if(catsMatch(sNode.cat, pTree.cat) && sameIds(getLeaves(pTree), leaves) && isMinimal(pTree)) {
-    return true;
-  } else if(!pTree.children || pTree.children.length === 0) {
-    return false;
-  } else {
-    for(var i = 0; i < pTree.children.length; i++) {
-      var child = pTree.children[i];
-      if(hasMinMatch(sNode, child)) {
-        return true;
-      }
-    }
-  }
-  return false;
-}
-
 /*Various flavors of Match to be called more easily by makeTableau*/
 
 function matchSP_LexicalHead(stree, ptree, cat){
@@ -252,12 +201,6 @@ function matchSP_OvertLexicalHead(stree, ptree, cat){
 	return matchSP(stree, ptree, cat, {requireOvertHead: true, requireLexical:true});
 }
 
-// Match Max constraints:
-
-/* Same as hasMatch function above, except this only returns true if the
- * matching prosodic node is maximal:
- */
-
 
 /* Match-SP(scat-max, pcat-max): Assign a violation for every node of syntactic
  * category s that is not dominated by another node of category s in the
@@ -267,24 +210,9 @@ function matchSP_OvertLexicalHead(stree, ptree, cat){
  * ex. Match a maximal xp with a maximal phi.
  */
 
-function matchMaxSP(sTree, pTree, sCat, options){
-	options = options || {};
-	 var vcount = 0;
-	 markMinMax(sTree); //mark maximal nodes in tree
-	 if (sTree.children && sTree.children.length){
-		 for (var i = 0; i < sTree.children.length; i ++){
-			 vcount += matchMaxSP(sTree.children[i], pTree, sCat); //recursive function call
-		 }
-	 }
-	 if (sTree.cat === sCat && !(options.requireLexical && sTree.func)
-		 && !(options.requireOvertHead && sTree.silent)
-		 && sTree.isMax && !hasMaxMatch(sTree, pTree)){
-		 //add violation if this node has no maximal match, is maximal and of the right cat
-		 // and satisfies any additional conditions imposed by options
-		 vcount ++;
-	 }
-	 return vcount;
- }
+function matchMaxSP(sTree, pTree, sCat){
+	return matchSP(sTree, pTree, sCat, {maxSyntax: true, maxProsody: true});
+}
 
 /* Match-SP(scat-max, pcat). Same as matchMaxSP, except matching prosodic node
  * need not be maximal, only the syntactic node must be maximal to incur a
@@ -292,32 +220,18 @@ function matchMaxSP(sTree, pTree, sCat, options){
  * ex. Match a maximal xp with any phi.
  */
 function matchMaxSyntax(sTree, pTree, sCat){
-	 var vcount = 0;
-	 markMinMax(sTree); //mark maximal nodes in tree
-	 if (sTree.children && sTree.children.length){
-		 for (var i = 0; i < sTree.children.length; i ++){
-			 vcount += matchMaxSyntax(sTree.children[i], pTree, sCat); //recursive function call
-		 }
-	 }
-	 if (sTree.cat === sCat && !(options.requireLexical && sTree.func)
-		 && !(options.requireOvertHead && sTree.silent)
-		 && sTree.isMax && !hasMatch(sTree, pTree)){
-		 //add violation if this node has no match, is maximal and of the right cat
-		 // and satisfies any additional requirements imposed by options.
-		 vcount ++;
-	 }
-	 return vcount;
+	 return matchSP(sTree, pTree, sCat, {maxSyntax: true});
  }
 
 //Match Maximal P --> S
 //Switch inputs for PS matching:
-function matchMaxPS(sTree, pTree, pCat, options){
-	return matchMaxSP(pTree, sTree, pCat, options);
+function matchMaxPS(sTree, pTree, pCat){
+	return matchPS(pTree, sTree, pCat, {maxSyntax: true, maxProsody: true});
 }
 
 //Match P --> S version of matchMaxSyntax. See comment there for explanation
-function matchMaxProsody(sTree, pTree, pCat, options){
-	return matchMaxSyntax(pTree, sTree, pCat, options);
+function matchMaxProsody(sTree, pTree, pCat){
+	return matchMaxSyntax(pTree, sTree, pCat, {maxSyntax: true});
 }
 
 //Match Min constraints
@@ -332,23 +246,10 @@ function matchMaxProsody(sTree, pTree, pCat, options){
 
 //match a syntactic tree with a prosodic tree
 function MatchMinSP(s, ptree, cat) {
-  var vcount = 0;
-  //if s has children
-  if(s.children && s.children.length) {
-    //if stree cat is the same as input cat & stree is minimal & does not have a match on the ptree
-    if(s.cat === cat && isMinimal(s)===true && hasMinMatch(s, ptree)===false) {
-      vcount++;
-    }
-    //check every node in s, check for matching Minimals
-    for(var i = 0; i < s.children.length; i++) {
-      vcount += MatchMinSP(s.children[i], ptree, cat);
-    }
-  }
-  return vcount;
+  return matchSP(s, ptree, cat, {minSyntax:true, minProsody: true});
 }
 
 //match prosody tree with a syntax tree
 function MatchMinPS(s, ptree, cat) {
-  var vcount = MatchMinSP(ptree, s, cat);
-  return vcount;
+  return matchPS(s, ptree, cat, {minSyntax:true, minProsody: true});
 }
