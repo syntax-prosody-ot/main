@@ -72,8 +72,22 @@ function matchPS(sTree, pParent, pCat, options)
 //Assign a violation for every prosodic node of type pCat in pParent that doesn't have a corresponding syntactic node in sTree,
 //where "corresponding" is defined as: dominates all and only the same terminals, and has the corresponding syntactic category
 //Assumes no null terminals.
+//flipped options is necessary because otherwise the prosodic trees will be checked for maximality/minimality when maxSyntax, eg,
+//is set to true. The same goes for the syntactic trees
 {
-	return matchSP(pParent, sTree, pCat, options);
+	options = options || {};
+	var flippedOptions = {};
+	flippedOptions.maxSyntax = options.maxProsody || false;
+	flippedOptions.nonMaxSyntax = options.nonMaxProsody || false;
+	flippedOptions.minSyntax = options.minProsody || false;
+	flippedOptions.nonMinSyntax = options.nonMinProsody || false;
+	flippedOptions.maxProsody = options.maxSyntax || false;
+	flippedOptions.nonMaxProsody = options.nonMaxSyntax || false;
+	flippedOptions.minProsody = options.minSyntax || false;
+	flippedOptions.nonMinProsody = options.nonMinSyntax || false;
+	flippedOptions.requireLexical = options.requireLexical || false;
+	flippedOptions.requireOvertHead = options.requireOvertHead || false;
+	return matchSP(pParent, sTree, pCat, flippedOptions);
 }
 
 
