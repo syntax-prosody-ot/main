@@ -578,6 +578,8 @@ window.addEventListener('load', function(){
 				return;
 			}
 		}
+		
+
 		if (el.classList.contains('info')) {
 			el.classList.toggle('showing')
 		}
