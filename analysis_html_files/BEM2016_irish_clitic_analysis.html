@@ -13,6 +13,7 @@
 
    <!--Change "YOUR_TREES_HERE" to the name of your tree file on the following line. Make sure your file is in main/trees-->
    <script src="../trees/BEM2016_irish_clitic_trees_short.js"></script>
+   <script src="../trees/BEM2016_irish_clitic_trees_long.js"></script>
    
          
 </head>
@@ -27,14 +28,22 @@
    /*sTreeList is an array of variable names of syntactic trees, either from your tree file (trees/YOUR_TREES_HERE.js) or defined in this document.*/
    var sTreeList = irish_clitic_trees;
    var sTreeListMoving = irish_clitic_trees_moving;
+   var sTreeListAll = irish_clitic_trees.concat(irish_clitic_trees_moving);
    
    /*Constraint sets are defined below. You can change these or add your own. A constraint set is a list of constraint function names (refer to the files in constraints.js for names) + category arguments (separated from constraint names with -; refer to prosodicHierarchy.js for a list of defined categories).*/
-   var conMatch = ['matchSP-xp', 'noShift', 'strongStartClitic-phi', 'equalSistersAdj-phi', 'binMaxBranches-phi', 'strongStart_Elfner-syll'];
-   //var conAlign = ['alignRight-xp', 'alignLeft-xp', 'wrap-xp', 'equalSistersAdj-phi'];
-   //var conOther = ['constraint1-xp','constraint2-phi', 'constraint3-w', 'etc-i'];
+   var conBEM = ['matchSP-xp-{"requireOvertHead":true}', 
+                  'noShift', 'strongStartClitic-phi', 'equalSistersAdj-phi', 'binMaxBranches-phi'];
+   var conKIM = ['matchSP-xp-{"nonMinSyntax":true, "requireOvertHead":true}',
+                            'matchSP-xp-{"requireOvertHead":true}', 'matchPS-phi',
+                            'binMaxBranches-phi', 'noShift', 
+                            'strongStartClitic-phi', 'equalSistersAdj-phi'];
+   var conKIM_noPS = ['matchSP-xp-{"nonMinSyntax":true, "requireOvertHead":true}',
+                            'matchSP-xp-{"requireOvertHead":true}', 
+                            'binMaxBranches-phi', 'noShift', 
+                            'strongStartClitic-phi', 'equalSistersAdj-phi'];
    
    /*A list of names for your constraint sets. These are used for naming the tableau csv files and finding the lists of constraint names. They need to match the variable names above.*/
-    var conNames = ['conMatch'];
+    var conNames = ['conBEM', 'conKIM', 'conKIM_noPS'];
    
    //Candidate sets are generated with the options below.
    var gen_options = {obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: ['i'], noUnary: true};
@@ -67,7 +76,7 @@
             csvSegs.push(tableauToCsv(tabl, '\t', {noHeader: j}));
         }
 
-        for(var j=0; j<sTreeListMoving.length; j++){
+        for(var j=0; j<sTreeList.length; j++){
             var currentSTree = globalNameOrDirect(sTreeListMoving[j]); 
 
             //Make the candidate set using the GEN function (defined in candidategenerator.js)
