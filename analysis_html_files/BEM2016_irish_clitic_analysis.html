@@ -12,8 +12,8 @@
    
 
    <!--Change "YOUR_TREES_HERE" to the name of your tree file on the following line. Make sure your file is in main/trees-->
-   <script src="../trees/BEM2016_irish_clitic_trees_short.js"></script>
-   <script src="../trees/BEM2016_irish_clitic_trees_long.js"></script>
+   <script src="../trees/BEM2016_irish_clitic_trees_revised.js"></script>
+   <!--<script src="../trees/BEM2016_irish_clitic_trees_long.js"></script>-->
    
          
 </head>
@@ -26,9 +26,9 @@
    // ---- Variables that need to be customized ----
    
    /*sTreeList is an array of variable names of syntactic trees, either from your tree file (trees/YOUR_TREES_HERE.js) or defined in this document.*/
-   var sTreeList = irish_clitic_trees;
-   var sTreeListMoving = irish_clitic_trees_moving;
-   var sTreeListAll = irish_clitic_trees.concat(irish_clitic_trees_moving);
+   var sTreeList = irish_clitic_trees_revised;
+   var sTreeListMoving = irish_clitic_trees_revised_moving;
+   var sTreeListAll = irish_clitic_trees_revised.concat(irish_clitic_trees_revised_moving);
    
    /*Constraint sets are defined below. You can change these or add your own. A constraint set is a list of constraint function names (refer to the files in constraints.js for names) + category arguments (separated from constraint names with -; refer to prosodicHierarchy.js for a list of defined categories).*/
    var conBEM = ['matchSP-xp-{"requireOvertHead":true}', 
