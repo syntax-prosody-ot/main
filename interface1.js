@@ -340,7 +340,7 @@ window.addEventListener('load', function(){
 
 		var genTones = false; //true if tones are selected
 
-		if(spotForm.toneOptions.value != "noTones"){
+		if(document.getElementById("annotatedWithTones").checked){
 			//from radio group near the bottom of spotForm
 			genOptions.addTones = spotForm.toneOptions.value;
 			genTones = spotForm.toneOptions.value;
@@ -384,12 +384,12 @@ window.addEventListener('load', function(){
 
 		return false;
 	};
-	
-	
+
+
 	document.getElementById('exhaustivityBox').addEventListener('click', function(){
-		if (document.getElementById('exhaustivityDetailOption1').style.display === 'none'){
+		if (document.getElementById('exhaustivityDetailOption1').style.display === 'none' && document.getElementById('exhaustivityBox').checked){
 			document.getElementById('exhaustivityDetailOption1').style.display = 'table-cell';
-			document.getElementById('exhaustivityDetailOption2').style.display = 'table-cell';	
+			document.getElementById('exhaustivityDetailOption2').style.display = 'table-cell';
 		}
 		else{
 			document.getElementById('exhaustivityDetailOption1').style.display = 'none';
@@ -397,14 +397,14 @@ window.addEventListener('load', function(){
 			//if (genOptions['obeysExhaustivity']){
 			//	genOptions['obeysExhaustivity'] = false;
 			//}
-			
-		}	
+
+		}
 	});
-	
+
 	//show extra boxes for annotated with tones on click
 	//console.log(document.getElementById('annotatedWithTones'))
 	document.getElementById('annotatedWithTones').addEventListener('click', function(){
-		if (document.getElementById('japaneseTones').style.display === 'none'){
+		if (document.getElementById('japaneseTones').style.display === 'none' && document.getElementById('annotatedWithTones').checked){
 			document.getElementById('japaneseTones').style.display = 'table-cell';
 			document.getElementById('irishTones').style.display = 'table-cell';
 		}
@@ -413,10 +413,17 @@ window.addEventListener('load', function(){
 			document.getElementById('irishTones').style.display = 'none';
 			//if (genOptions['usesTones']){
 			//	genOptions['usesTones'] = false;
-			//}	
+			//}
 		}
-			
+
 	});
+
+
+	/*
+	document.getElementById("japaneseTonesInfo").addEventListener("click", toneInfoBlock("japanese"));
+	document.getElementById("irishTonesInfo").addEventListener("click", toneInfoBlock("irish"));
+	*/
+
 	//Code for generating the JS for a syntactic tree
 	var treeTableContainer = document.getElementById('treeTableContainer');
 
@@ -583,3 +590,25 @@ window.addEventListener('load', function(){
 		}
 	});
 });
+
+function toneInfoBlock(language){
+	var content = document.getElementById("tonesInfoContent");
+	var japaneseContent = "Tokyo Japanese: the left edge of phi is marked with a rising boundary tone (LH), accented words receive an HL on the accented syllable, and H tones that follow a pitch drop (HL) within the maximal phi are downstepped (!H). (See: Pierrehumbert and Beckman 1988; Gussenhoven 2004; Ito and Mester 2007) Accents, boundary tones, and downstep in Lekeitio Basque are realized with the same tones as in Tokyo Japanese.";
+	var irishContent = "Conamara Irish (Elfner 2012): The left edge of the non-minimal phi is marked with a rising boundary tone (LH), and the right edge of every phi is marked with a falling boundary tone (HL).";
+	if (language == "japanese"){
+		if (content.innerHTML == japaneseContent){
+			content.innerHTML = '';
+		}
+		else{
+			content.innerHTML = japaneseContent;
+		}
+	}
+	if (language === "irish"){
+		if (content.innerHTML == irishContent){
+			content.innerHTML = '';
+		}
+		else {
+			content.innerHTML = irishContent;
+		}
+	}
+}
