@@ -57,14 +57,14 @@
         var csvSegs = [];  //List to accumulate tableaux in
       
         //For each syntactic tree in sTreeList, make a tableau using the current constraint set
-        for(var j=0; j<sTreeList.length; j++){
-            var currentSTree = globalNameOrDirect(sTreeList[j]); 
-
+        for(var j=0; j<sTreeListAll.length; j++){
+            var currentSTree = globalNameOrDirect(sTreeListAll[j]); 
+            console.log(currentSTree);
             //Make the candidate set using the GEN function (defined in candidategenerator.js)
-         //Leave the 2nd argument as an empty string to scrape words from the terminals of the syntactic tree.
-            var candSet = GEN(sTreeList[j], '', gen_options);
+            //Leave the 2nd argument as an empty string to scrape words from the terminals of the syntactic tree.
+            var candSet = GENwithCliticMovement(currentSTree, '', gen_options);
             
-         //Make the tableau using the makeTableau function (defined in tableauMaker.js)
+            //Make the tableau using the makeTableau function (defined in tableauMaker.js)
             var tabl = makeTableau(candSet, window[consName]);
          
          //Write the tableau to the screen and reveal it -- only uncomment this if you don't have too many tableaux!
@@ -75,20 +75,6 @@
          //Add the tableau from the current stree to cumulative tableau that is being built in csvSegs.
             csvSegs.push(tableauToCsv(tabl, '\t', {noHeader: j}));
         }
-
-        for(var j=0; j<sTreeList.length; j++){
-            var currentSTree = globalNameOrDirect(sTreeListMoving[j]); 
-
-            //Make the candidate set using the GEN function (defined in candidategenerator.js)
-         //Leave the 2nd argument as an empty string to scrape words from the terminals of the syntactic tree.
-            var candSet = GENwithCliticMovement(sTreeListMoving[j], '', gen_options);
-            
-         //Make the tableau using the makeTableau function (defined in tableauMaker.js)
-            var tabl = makeTableau(candSet, window[consName]);
-         
-         //Add the tableau from the current stree to cumulative tableau that is being built in csvSegs.
-            csvSegs.push(tableauToCsv(tabl, '\t', {noHeader: true}));
-        } 
       
       //Save the tableau as a tab-separated file, named after consName
         saveTextAs(csvSegs.join('\n'),"tableau_"+consName+".tsv");
