@@ -161,14 +161,12 @@
 			.constraint-selection-table tr:not(.constraint-checked) td:not(:first-child) {
 				visibility: hidden;
 			}
-
 			.constraint-selection-table td:first-child {
 				font-variant: small-caps;
 				font-family: "Palatino Linotype", Garamond, serif;
 				letter-spacing: 0.07em;
 				font-size: 110%;
 			}
-
 			.checkbox-set-indentation {
 				margin-left: 30px;
 			}
@@ -242,7 +240,7 @@
 				<fieldset>
 
 					<legend><h2>Syntax-prosody mapping constraints <span class="arrow"></h2></legend>
-
+					
 					<h3>Align/Wrap</h3>
 					<table class="constraint-selection-table">
 					<tbody>
@@ -365,6 +363,7 @@
 						</tr>
 					</tbody>
 					</table>
+					
 				</fieldset>
 
 				<br/>
@@ -372,9 +371,18 @@
 				<fieldset>
 
 					<legend><h2>Markedness constraints on horizontal relationships <span class="arrow"></h2></legend>
+					
+					<table class="constraint-selection-table">
+					<tbody>
+						<tr>
+							<td><input type="checkbox" name="constraints" value="noShift">No Shift</td>
+						</tr>
+					</tbody>
+					</table>
 					<h3>EqualSisters</h3>
 					<table class="constraint-selection-table">
 					<tbody>
+
 						<tr>
 							<td title="Assign a violation for every pair of adjacent sister nodes that are not of the same prosodic category."><input type="checkbox" name="constraints" value="equalSistersAdj">EqualSisters (adjacent)</td>
 							<!--
@@ -526,12 +534,40 @@
 				</tbody></table>
 				<table class="spaceytable"><tbody>
 					<tr>
+						<td><input type="checkbox" name="genOptions" id="branchingBox" value="noUnary">branching</td>
+					</tr>
+					
+				</tbody></table>
+				<table class="spaceytable"><tbody>
+					<tr>
 						<td><input type="checkbox" name="genOptions" value="usesTones" id="annotatedWithTones">annotated with tones</td>
 						<td id="japaneseTones" style="display:none"><input type="radio" name="toneOptions" value="addJapaneseTones">Japanese<span class="info" onclick="toneInfoBlock('japanese')"></span></td>
 						<td id="irishTones" style="display:none"><input type="radio" name="toneOptions" value="addIrishTones_Elfner">Irish<span class="info" onclick="toneInfoBlock('irish')"></span></td>
 					</tr>
 				</tbody></table>
 				<span id="tonesInfoContent" class="tonesInfo"></span>
+
+				<table class="spaceytable"><tbody>
+					<tr>
+						<td><input type="checkbox" name="genOptions" id="cliticMovementBox" value="cliticMovement">Allow clitics to move</td>
+						<td class="info"><div class="content">
+							GEN will permute the first node in the syntactic tree with category 'clitic' through the sentence. Ex.: a b c-clitic -> a b c-clitic, a c-clitic b, c-clitic a b. Only use this if your sentences are short, because for a sentence with n words, this will multiply the number of prosodic trees by n.
+						</td>
+					</tr>
+
+				</tbody></table>
+				
+				<!--
+				<i>Annotate trees with tones for...</i><br/>
+				<table class="spaceytable"><tbody><tr>
+					<td><input type="radio" name="toneOptions" value="noTones" checked="checked">None</td>
+					<td><input type="radio" name="toneOptions" value="addJapaneseTones">Japanese</td>
+					<td><input type="radio" name="toneOptions" value="addIrishTones_Elfner">Irish</td>
+					
+				</tr></tbody></table>
+				<hr/>
+				-->
+
 				<h2>Optional: Input string(s) for Gen
 				<span class="info">
 					<span class="content">
@@ -545,7 +581,6 @@
 				<!--
 				<p>Input 2: <input type="text" name="inputToGen"></p>
 				<p>Input 3: <input type="text" name="inputToGen"></p>
-
 				-->
 				<div align="center"><button class="orange-button submit-button" type="submit">Get results</button>
 
@@ -569,3 +604,4 @@
 
 	</body>
 </html>
+
