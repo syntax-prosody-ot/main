@@ -235,13 +235,7 @@
 				<fieldset>
 
 					<legend><h2>Syntax-prosody mapping constraints <span class="arrow"></h2></legend>
-					<table class="constraint-selection-table">
-						<tbody>
-						<tr>
-							<td><input type="checkbox" name="constraints" value="noShift">No Shift</td>
-						</tr>
-					</tbody>
-					</table>
+					
 					<h3>Align/Wrap</h3>
 					<table class="constraint-selection-table">
 					<tbody>
@@ -352,6 +346,7 @@
 						</tr>
 					</tbody>
 					</table>
+					
 				</fieldset>
 
 				<br/>
@@ -359,9 +354,18 @@
 				<fieldset>
 
 					<legend><h2>Markedness constraints on horizontal relationships <span class="arrow"></h2></legend>
+					
+					<table class="constraint-selection-table">
+					<tbody>
+						<tr>
+							<td><input type="checkbox" name="constraints" value="noShift">No Shift</td>
+						</tr>
+					</tbody>
+					</table>
 					<h3>EqualSisters</h3>
 					<table class="constraint-selection-table">
 					<tbody>
+
 						<tr>
 							<td title="Assign a violation for every pair of adjacent sister nodes that are not of the same prosodic category."><input type="checkbox" name="constraints" value="equalSistersAdj">EqualSisters (adjacent)</td>
 							<td><input type="checkbox" name="category-equalSistersAdj" value="i">&iota;</td>

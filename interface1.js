@@ -346,7 +346,8 @@ window.addEventListener('load', function(){
 			genTones = spotForm.toneOptions.value;
 			//console.log(genOptions);
 		}
-
+		console.log(genOptions);
+		console.log(GEN({},'a b',{'noUnary':true}));
 		var csvSegs = [];
 		for (var i = 0; i < sTrees.length; i++) {
 			var sTree = sTrees[i];
