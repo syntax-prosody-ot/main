@@ -421,7 +421,7 @@ window.addEventListener('load', function(){
 	var treeTableContainer = document.getElementById('treeTableContainer');
 
 	//Open the tree making GUI
-	document.getElementById('startTreeUIButton').addEventListener('click', function(){
+	document.getElementById('goButton').addEventListener('click', function(){
 		document.getElementById('treeUI').style.display = 'block';
 	});
 

@@ -301,31 +301,31 @@
 				</span>
 			</h2>
 			<p>String of terminals: <input type="text" name="inputToGen"> <button id="goButton" type="button">Generate tree</button></p>
-			<button id="startTreeUIButton" class="orange-button" type="button">Open tree-builder</button>
-	            <div id="treeUI" style="display: none">
-	                
-	              	<div id="treeUIinner" style="display: none">
-	              		<hr/>
-	              		<div>
-	              			<button class="nodeEditingButton" id="treeUImakeParent" type="button" disabled>Add Mother</button>
-	              			<button class="nodeEditingButton" id="treeUIdeleteNodes" type="button" disabled style="margin-right: 50px">Delete</button>
-	              			<button class="nodeEditingButton" id="treeUIclearSelection" type="button" disabled>Clear Selection</button>
-	              		</div>
+			
+            <div id="treeUI" style="display: none">
+                
+              	<div id="treeUIinner" style="display: none">
+              		<hr/>
+              		<div>
+              			<button class="nodeEditingButton" id="treeUImakeParent" type="button" disabled>Add Mother</button>
+              			<button class="nodeEditingButton" id="treeUIdeleteNodes" type="button" disabled style="margin-right: 50px">Delete</button>
+              			<button class="nodeEditingButton" id="treeUIclearSelection" type="button" disabled>Clear Selection</button>
+              		</div>
 
-	              		<br/>
-	                	<div id="treeTableContainer"></div>
-	                	<i><small>
-			            	<p>To add a node, select one or more adjacent sisters and click "Add Mother." To remove nodes, select them and click "Delete." </p>
-			            	<p>All labels are editable. The small labels with grey backgrounds represent node categories, and must be "cp", "xp", or "x0" for a node to be visible to the syntax-prosody mapping constraints. Use "clitic" as the category for a node that should be treated as prosodically dependent and not receive a corresponding &omega;. The larger labels with white backgrounds represent node ids, and can be any unique alphanumeric string.</p>
-			            </small></i>
-	                	<button id="htmlToJsonTreeButton" type="button">Done! Convert tree to code</button>
-	            	</div>
-	            	<hr/>
-					<div style="display:none"><button id="danishJsonTreesButton" type="button">Danish Trees: generate s-tree code</button></div>
+              		<br/>
+                	<div id="treeTableContainer"></div>
+                	<i><small>
+		            	<p>To add a node, select one or more adjacent sisters and click "Add Mother." To remove nodes, select them and click "Delete." </p>
+		            	<p>All labels are editable. The small labels with grey backgrounds represent node categories, and must be "cp", "xp", or "x0" for a node to be visible to the syntax-prosody mapping constraints. Use "clitic" as the category for a node that should be treated as prosodically dependent and not receive a corresponding &omega;. The larger labels with white backgrounds represent node ids, and can be any unique alphanumeric string.</p>
+		            </small></i>
+                	<button id="htmlToJsonTreeButton" type="button">Done! Convert tree to code</button>
+            	</div>
+            	<hr/>
+				<div style="display:none"><button id="danishJsonTreesButton" type="button">Danish Trees: generate s-tree code</button></div>
 
-					<p>To enter trees manually... <span class="info"><span class="content">To use a tree you previously made and saved, select a tree or trees from your JavaScript tree file (some pre-made trees are in the directory <i>main/trees</i>, and end with .js). Paste in the contents of JS file of your input syntactic tree(s) (from the opening brace to the closing brace, removing any comments and excluding the final semi-colon). Separate trees with a comma and surround the whole thing with square brackets ("[]") to make it an array. Note that if you're only using Markedness constraints, you can just keep the default value of an empty tree (like so: {}) as the syntactic input.</span></span></p>
-					<textarea id="stree-textarea" class="stree-textarea" name="sTree" rows="15">{}</textarea>
-	            </div>
+				<p>To enter trees manually... <span class="info"><span class="content">To use a tree you previously made and saved, select a tree or trees from your JavaScript tree file (some pre-made trees are in the directory <i>main/trees</i>, and end with .js). Paste in the contents of JS file of your input syntactic tree(s) (from the opening brace to the closing brace, removing any comments and excluding the final semi-colon). Separate trees with a comma and surround the whole thing with square brackets ("[]") to make it an array. Note that if you're only using Markedness constraints, you can just keep the default value of an empty tree (like so: {}) as the syntactic input.</span></span></p>
+				<textarea id="stree-textarea" class="stree-textarea" name="sTree" rows="15">{}</textarea>
+            </div>
 	            <hr style="margin-top: 20px;margin-bottom: 20px"/>
 				<!--CONSTRAINTS-->
 				<fieldset>
