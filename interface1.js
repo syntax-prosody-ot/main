@@ -442,7 +442,7 @@ window.addEventListener('load', function(){
 	//Set up the table...
 	document.getElementById('goButton').addEventListener('click', function(){
 		// Get the string of terminals
-		var terminalString = spotForm.sTreeTerminals.value;
+		var terminalString = spotForm.inputToGen.value;
 		var terminalList = terminalString.trim().split(/\s+/);
 
 		//Make the js tree (a dummy tree only containing the root CP)
