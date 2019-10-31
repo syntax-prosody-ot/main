@@ -161,14 +161,12 @@
 			.constraint-selection-table tr:not(.constraint-checked) td:not(:first-child) {
 				visibility: hidden;
 			}
-
 			.constraint-selection-table td:first-child {
 				font-variant: small-caps;
 				font-family: "Palatino Linotype", Garamond, serif;
 				letter-spacing: 0.07em;
 				font-size: 110%;
 			}
-
 			.checkbox-set-indentation {
 				margin-left: 30px;
 			}
@@ -331,7 +329,7 @@
 				<fieldset>
 
 					<legend><h2>Syntax-prosody mapping constraints <span class="arrow"></h2></legend>
-
+					
 					<h3>Align/Wrap</h3>
 					<table class="constraint-selection-table">
 					<tbody>
@@ -454,6 +452,7 @@
 						</tr>
 					</tbody>
 					</table>
+					
 				</fieldset>
 
 				<br/>
@@ -461,9 +460,18 @@
 				<fieldset>
 
 					<legend><h2>Markedness constraints on horizontal relationships <span class="arrow"></h2></legend>
+					
+					<table class="constraint-selection-table">
+					<tbody>
+						<tr>
+							<td><input type="checkbox" name="constraints" value="noShift">No Shift</td>
+						</tr>
+					</tbody>
+					</table>
 					<h3>EqualSisters</h3>
 					<table class="constraint-selection-table">
 					<tbody>
+
 						<tr>
 							<td title="Assign a violation for every pair of adjacent sister nodes that are not of the same prosodic category."><input type="checkbox" name="constraints" value="equalSistersAdj">EqualSisters (adjacent)</td>
 							<!--
@@ -566,6 +574,7 @@
 				<br/>
 				<br/>
 				<hr style="margin-bottom: 20px"/>
+
 				<div align="center"><button class="orange-button submit-button" type="submit">Get results</button>
 
 					<h2>Scroll down for results!
@@ -586,3 +595,4 @@
 
 	</body>
 </html>
+
