@@ -198,6 +198,10 @@
 			.info.showing .content {
 				display: block;
 			}
+			/*
+			.info.showing-inline .content {
+				display: inline;
+			}*/
 			.tonesInfo {
 				font-size: 13px;
 				color: #555;
@@ -236,7 +240,92 @@
 			</div>
 
 			<form id="spotForm">
+				<!--GEN OPTIONS-->
+				<h2>Options for prosodic tree generation (GEN function)</h2>
+				<p>Prosodic constituents must be...
+				<span class="info"><span class="content">Checking a box will tell Gen not to produce certain types of prosodic trees, or to annotate the trees. By default, Gen only creates recursion at the &phiv; level.</span></span></p>
 
+				<table class="spaceytable"><tbody>
+					<tr>
+						<td><input type="checkbox" name="genOptions" value="obeysNonrecursivity">non-recursive</td>
+						<td><input type="checkbox" name="genOptions" value="obeysHeadedness"> headed</td>
+						<td><input type="checkbox" name="genOptions" value="requireRecWrapper">wrapped into a &phiv;</td>
+					</tr>
+				</tbody></table>
+				<table class="spaceytable"><tbody>
+					<tr>
+						<td><input type="checkbox" name="genOptions" id="exhaustivityBox" value="obeysExhaustivity">exhaustively parsed</td>
+						<td id="exhaustivityDetailOption1" style="display: none"><input type="checkbox" name="exhaustivityCats" value="i" checked="checked">&iota;'s children are &ge;&phiv;s&nbsp;&nbsp;</td>
+						<td id="exhaustivityDetailOption2" style="display: none"><input type="checkbox" name="exhaustivityCats" value="phi" checked="checked">&phiv;'s children are &ge;&omega;s&nbsp;&nbsp;</td>
+					</tr>
+					
+				</tbody></table>
+				<table class="spaceytable"><tbody>
+					<tr>
+						<td><input type="checkbox" name="genOptions" id="branchingBox" value="noUnary">branching</td>
+					</tr>
+					
+				</tbody></table>
+				<table class="spaceytable"><tbody>
+					<tr>
+						<td><input type="checkbox" name="genOptions" value="usesTones" id="annotatedWithTones">annotated with tones</td>
+						<td id="japaneseTones" style="display:none"><input type="radio" name="toneOptions" value="addJapaneseTones">Japanese</td>
+						<td id="irishTones" style="display:none"><input type="radio" name="toneOptions" value="addIrishTones_Elfner">Irish</td>
+					</tr>
+					<tr id="tones" style="display: none">
+						<td>
+							<input type="radio" name="toneOptions" value="addJapaneseTones">Japanese
+							<input type="radio" name="toneOptions" value="addIrishTones_Elfner">Irish
+						</td>
+					</tr>
+				</tbody></table>
+				<table class="spaceytable"><tbody>
+					<tr>
+						<td><input type="checkbox" name="genOptions" id="cliticMovementBox" value="cliticMovement">Allow clitics to move</td>
+						<td class="info"><div class="content">
+							GEN will permute the first node in the syntactic tree with category 'clitic' through the sentence. Ex.: a b c-clitic -> a b c-clitic, a c-clitic b, c-clitic a b. Only use this if your sentences are short, because for a sentence with n words, this will multiply the number of prosodic trees by n.
+						</td>
+					</tr>
+
+				</tbody></table>
+				<hr/>
+			<!--INPUT-->
+			<h2>Inputs
+				<span class="info">
+					<span class="content">
+						To get prosodic candidate without building a syntactic tree, type the words that you want to be included in the output prosodic trees, separating them with spaces. Suffix a word with "-clitic" to map it to a syllable instead of &omega; in all prosodic trees. <b>N.B.</b> Input strings longer than 6 words may be very slow, and risk freezing your system.
+					<br/>Leave this blank to get the words from your syntatic tree(s).
+					</span>
+				</span>
+			</h2>
+			<p>String of terminals: <input type="text" name="inputToGen"> <button id="goButton" type="button">Build syntax</button><button class="orange-button" type="submit" style='margin-left: 5px'>Run GEN</button></p>
+			
+            <div id="treeUI" style="display: none">
+                
+              	<div id="treeUIinner" style="display: none">
+              		<hr/>
+              		<div>
+              			<button class="nodeEditingButton" id="treeUImakeParent" type="button" disabled>Add Mother</button>
+              			<button class="nodeEditingButton" id="treeUIdeleteNodes" type="button" disabled style="margin-right: 50px">Delete</button>
+              			<button class="nodeEditingButton" id="treeUIclearSelection" type="button" disabled>Clear Selection</button>
+              		</div>
+
+              		<br/>
+                	<div id="treeTableContainer"></div>
+                	<i><small>
+		            	<p>To add a node, select one or more adjacent sisters and click "Add Mother." To remove nodes, select them and click "Delete." </p>
+		            	<p>All labels are editable. The small labels with grey backgrounds represent node categories, and must be "cp", "xp", or "x0" for a node to be visible to the syntax-prosody mapping constraints. Use "clitic" as the category for a node that should be treated as prosodically dependent and not receive a corresponding &omega;. The larger labels with white backgrounds represent node ids, and can be any unique alphanumeric string.</p>
+		            </small></i>
+                	<button id="htmlToJsonTreeButton" type="button">Done! Convert tree to code</button>
+            	</div>
+            	<hr/>
+				<div style="display:none"><button id="danishJsonTreesButton" type="button">Danish Trees: generate s-tree code</button></div>
+
+				<p>To enter trees manually... <span class="info"><span class="content">To use a tree you previously made and saved, select a tree or trees from your JavaScript tree file (some pre-made trees are in the directory <i>main/trees</i>, and end with .js). Paste in the contents of JS file of your input syntactic tree(s) (from the opening brace to the closing brace, removing any comments and excluding the final semi-colon). Separate trees with a comma and surround the whole thing with square brackets ("[]") to make it an array. Note that if you're only using Markedness constraints, you can just keep the default value of an empty tree (like so: {}) as the syntactic input.</span></span></p>
+				<textarea id="stree-textarea" class="stree-textarea" name="sTree" rows="15">{}</textarea>
+            </div>
+	            <hr style="margin-top: 20px;margin-bottom: 20px"/>
+				<!--CONSTRAINTS-->
 				<fieldset>
 
 					<legend><h2>Syntax-prosody mapping constraints <span class="arrow"></h2></legend>
@@ -484,104 +573,8 @@
 
 				<br/>
 				<br/>
-				<hr/>
-				<h2>Build input syntactic trees</h2>
-	            <button id="startTreeUIButton" class="orange-button" type="button">Open tree-builder</button>
-	            <div id="treeUI" style="display: none">
-	                <p>String of terminals: <input type="text" name="sTreeTerminals"> <button id="goButton" type="button">Go!</button></p>
-	              	<div id="treeUIinner" style="display: none">
-	              		<hr/>
-	              		<div>
-	              			<button class="nodeEditingButton" id="treeUImakeParent" type="button" disabled>Add Mother</button>
-	              			<button class="nodeEditingButton" id="treeUIdeleteNodes" type="button" disabled style="margin-right: 50px">Delete</button>
-	              			<button class="nodeEditingButton" id="treeUIclearSelection" type="button" disabled>Clear Selection</button>
-	              		</div>
+				<hr style="margin-bottom: 20px"/>
 
-	              		<br/>
-	                	<div id="treeTableContainer"></div>
-	                	<i><small>
-			            	<p>To add a node, select one or more adjacent sisters and click "Add Mother." To remove nodes, select them and click "Delete." </p>
-			            	<p>All labels are editable. The small labels with grey backgrounds represent node categories, and must be "cp", "xp", or "x0" for a node to be visible to the syntax-prosody mapping constraints. Use "clitic" as the category for a node that should be treated as prosodically dependent and not receive a corresponding &omega;. The larger labels with white backgrounds represent node ids, and can be any unique alphanumeric string.</p>
-			            </small></i>
-	                	<button id="htmlToJsonTreeButton" type="button">Done! Convert tree to code</button>
-	            	</div>
-	            	<hr/>
-					<div style="display:none"><button id="danishJsonTreesButton" type="button">Danish Trees: generate s-tree code</button></div>
-
-					<p>To enter trees manually... <span class="info"><span class="content">To use a tree you previously made and saved, select a tree or trees from your JavaScript tree file (some pre-made trees are in the directory <i>main/trees</i>, and end with .js). Paste in the contents of JS file of your input syntactic tree(s) (from the opening brace to the closing brace, removing any comments and excluding the final semi-colon). Separate trees with a comma and surround the whole thing with square brackets ("[]") to make it an array. Note that if you're only using Markedness constraints, you can just keep the default value of an empty tree (like so: {}) as the syntactic input.</span></span></p>
-					<textarea id="stree-textarea" class="stree-textarea" name="sTree" rows="15">{}</textarea>
-	            </div>
-
-				<hr style="margin-top: 20px">
-
-				<h2>Options for prosodic tree generation (GEN function)</h2>
-				<p>Prosodic constituents must be...
-				<span class="info"><span class="content">Checking a box will tell Gen not to produce certain types of prosodic trees, or to annotate the trees. By default, Gen only creates recursion at the &phiv; level.</span></span></p>
-
-				<table class="spaceytable"><tbody>
-					<tr>
-						<td><input type="checkbox" name="genOptions" value="obeysNonrecursivity">non-recursive</td>
-						<td><input type="checkbox" name="genOptions" value="obeysHeadedness"> headed</td>
-						<td><input type="checkbox" name="genOptions" value="requireRecWrapper">wrapped into a &phiv;</td>
-					</tr>
-				</tbody></table>
-				<table class="spaceytable"><tbody>
-					<tr>
-						<td><input type="checkbox" name="genOptions" id="exhaustivityBox" value="obeysExhaustivity">exhaustively parsed</td>
-						<td id="exhaustivityDetailOption1" style="display: none"><input type="checkbox" name="exhaustivityCats" value="i" checked="checked">&iota;'s children are &ge;&phiv;s&nbsp;&nbsp;</td>
-						<td id="exhaustivityDetailOption2" style="display: none"><input type="checkbox" name="exhaustivityCats" value="phi" checked="checked">&phiv;'s children are &ge;&omega;s&nbsp;&nbsp;</td>
-					</tr>
-				</tbody></table>
-				<table class="spaceytable"><tbody>
-					<tr>
-						<td><input type="checkbox" name="genOptions" id="branchingBox" value="noUnary">branching</td>
-					</tr>
-					
-				</tbody></table>
-				<table class="spaceytable"><tbody>
-					<tr>
-						<td><input type="checkbox" name="genOptions" value="usesTones" id="annotatedWithTones">annotated with tones</td>
-						<td id="japaneseTones" style="display:none"><input type="radio" name="toneOptions" value="addJapaneseTones">Japanese<span class="info" onclick="toneInfoBlock('japanese')"></span></td>
-						<td id="irishTones" style="display:none"><input type="radio" name="toneOptions" value="addIrishTones_Elfner">Irish<span class="info" onclick="toneInfoBlock('irish')"></span></td>
-					</tr>
-				</tbody></table>
-				<span id="tonesInfoContent" class="tonesInfo"></span>
-
-				<table class="spaceytable"><tbody>
-					<tr>
-						<td><input type="checkbox" name="genOptions" id="cliticMovementBox" value="cliticMovement">Allow clitics to move</td>
-						<td class="info"><div class="content">
-							GEN will permute the first node in the syntactic tree with category 'clitic' through the sentence. Ex.: a b c-clitic -> a b c-clitic, a c-clitic b, c-clitic a b. Only use this if your sentences are short, because for a sentence with n words, this will multiply the number of prosodic trees by n.
-						</td>
-					</tr>
-
-				</tbody></table>
-				
-				<!--
-				<i>Annotate trees with tones for...</i><br/>
-				<table class="spaceytable"><tbody><tr>
-					<td><input type="radio" name="toneOptions" value="noTones" checked="checked">None</td>
-					<td><input type="radio" name="toneOptions" value="addJapaneseTones">Japanese</td>
-					<td><input type="radio" name="toneOptions" value="addIrishTones_Elfner">Irish</td>
-					
-				</tr></tbody></table>
-				<hr/>
-				-->
-
-				<h2>Optional: Input string(s) for Gen
-				<span class="info">
-					<span class="content">
-						To get prosodic candidate without building a syntactic tree, type the words that you want to be included in the output prosodic trees, separating them with spaces. Suffix a word with "-clitic" to map it to a syllable instead of &omega; in all prosodic trees. <b>N.B.</b> Input strings longer than 6 words may be very slow, and risk freezing your system.
-					<br/>Leave this blank to get the words from your syntatic tree(s).
-					</span>
-				</span>
-			</h2>
-
-				<p>String of terminals: <input type="text" name="inputToGen"></p>
-				<!--
-				<p>Input 2: <input type="text" name="inputToGen"></p>
-				<p>Input 3: <input type="text" name="inputToGen"></p>
-				-->
 				<div align="center"><button class="orange-button submit-button" type="submit">Get results</button>
 
 					<h2>Scroll down for results!
@@ -594,9 +587,7 @@
 						</span>
 					</h2>
 				</div>
-
 			</form>
-
 			<pre id="results-container"></pre>
 
 		</div>

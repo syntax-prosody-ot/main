@@ -428,7 +428,7 @@ window.addEventListener('load', function(){
 	var treeTableContainer = document.getElementById('treeTableContainer');
 
 	//Open the tree making GUI
-	document.getElementById('startTreeUIButton').addEventListener('click', function(){
+	document.getElementById('goButton').addEventListener('click', function(){
 		document.getElementById('treeUI').style.display = 'block';
 	});
 
@@ -449,7 +449,7 @@ window.addEventListener('load', function(){
 	//Set up the table...
 	document.getElementById('goButton').addEventListener('click', function(){
 		// Get the string of terminals
-		var terminalString = spotForm.sTreeTerminals.value;
+		var terminalString = spotForm.inputToGen.value;
 		var terminalList = terminalString.trim().split(/\s+/);
 
 		//Make the js tree (a dummy tree only containing the root CP)
@@ -585,6 +585,8 @@ window.addEventListener('load', function(){
 				return;
 			}
 		}
+		
+
 		if (el.classList.contains('info')) {
 			el.classList.toggle('showing')
 		}
