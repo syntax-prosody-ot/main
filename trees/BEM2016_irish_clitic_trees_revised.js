@@ -522,40 +522,6 @@ var irish_clitic_trees_revised = [
     ]
 },
 {
-    "id": "FP",
-    "cat": "xp",
-    "children": [
-        {
-            "id": "V",
-            "cat": "x0"
-        },
-        {
-            "cat": "xp",
-            "id": "TP",
-            "children": [
-                {
-                    "id": "Ns",
-                    "cat": "x0"
-                },
-                {
-                    "cat": "xp",
-                    "id": "DPo",
-                    "children": [
-                        {
-                            "id": "No",
-                            "cat": "x0"
-                        },
-                        {
-                            "id": "Ao",
-                            "cat": "x0"
-                        }
-                    ]
-                }
-            ]
-        }
-    ]
-},
-{
     "id": "SigmaP",
     "cat": "cp",
     "children": [
