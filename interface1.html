@@ -258,13 +258,13 @@
 						<td id="exhaustivityDetailOption1" style="display: none"><input type="checkbox" name="exhaustivityCats" value="i" checked="checked">&iota;'s children are &ge;&phiv;s&nbsp;&nbsp;</td>
 						<td id="exhaustivityDetailOption2" style="display: none"><input type="checkbox" name="exhaustivityCats" value="phi" checked="checked">&phiv;'s children are &ge;&omega;s&nbsp;&nbsp;</td>
 					</tr>
-					
+
 				</tbody></table>
 				<table class="spaceytable"><tbody>
 					<tr>
 						<td><input type="checkbox" name="genOptions" id="branchingBox" value="noUnary">branching</td>
 					</tr>
-					
+
 				</tbody></table>
 				<table class="spaceytable"><tbody>
 					<tr>
@@ -286,7 +286,26 @@
 							GEN will permute the first node in the syntactic tree with category 'clitic' through the sentence. Ex.: a b c-clitic -> a b c-clitic, a c-clitic b, c-clitic a b. Only use this if your sentences are short, because for a sentence with n words, this will multiply the number of prosodic trees by n.
 						</td>
 					</tr>
-
+				</tbody></table>
+				<table class="constraint-selection-table"><tbody>
+					<tr>
+						<td><input type="checkbox" name="genOptions" value="rootCategory">Root Category</td>
+						<td><input type="checkbox" name="category-rootCategory" value="i" checked="checked">&iota;</td>
+						<td><input type="checkbox" name="category-rootCategory" value="phi">&phiv;</td>
+						<td><input type="checkbox" name="category-rootCategory" value="w">&omega;</td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" name="genOptions" value="recursiveCategory">Root Category</td>
+						<td><input type="checkbox" name="category-recursiveCategory" value="i">&iota;</td>
+						<td><input type="checkbox" name="category-recursiveCategory" value="phi" checked="checked">&phiv;</td>
+						<td><input type="checkbox" name="category-recursiveCategory" value="w">&omega;</td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" name="genOptions" value="terminalCategory">Root Category</td>
+						<td><input type="checkbox" name="category-terminalCategory" value="i" disabled="disabled">&iota</td>
+						<td><input type="checkbox" name="category-terminalCategory" value="phi">&phiv</td>
+						<td><input type="checkbox" name="category-terminalCategory" value="w" checked="checked">&omega</td>
+					</tr>
 				</tbody></table>
 				<hr/>
 			<!--INPUT-->
@@ -299,9 +318,9 @@
 				</span>
 			</h2>
 			<p>String of terminals: <input type="text" name="inputToGen"> <button id="goButton" type="button">Build syntax</button><button class="orange-button" type="submit" style='margin-left: 5px'>Run GEN</button></p>
-			
+
             <div id="treeUI" style="display: none">
-                
+
               	<div id="treeUIinner" style="display: none">
               		<hr/>
               		<div>
@@ -329,7 +348,7 @@
 				<fieldset>
 
 					<legend><h2>Syntax-prosody mapping constraints <span class="arrow"></h2></legend>
-					
+
 					<h3>Align/Wrap</h3>
 					<table class="constraint-selection-table">
 					<tbody>
@@ -452,7 +471,7 @@
 						</tr>
 					</tbody>
 					</table>
-					
+
 				</fieldset>
 
 				<br/>
@@ -460,7 +479,7 @@
 				<fieldset>
 
 					<legend><h2>Markedness constraints on horizontal relationships <span class="arrow"></h2></legend>
-					
+
 					<table class="constraint-selection-table">
 					<tbody>
 						<tr>
@@ -595,4 +614,3 @@
 
 	</body>
 </html>
-
