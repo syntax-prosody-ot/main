@@ -384,8 +384,15 @@ window.addEventListener('load', function(){
 
 		return false;
 	};
-
-
+	//show/hide the tree code area
+	document.getElementById('tree-code-box').addEventListener('click', function(){
+		if (document.getElementById('tree-code-area').style.display === 'none' && document.getElementById('tree-code-box').checked){
+			document.getElementById('tree-code-area').style.display = 'block';
+		}
+		else{
+			document.getElementById('tree-code-area').style.display = 'none';
+		}
+	});
 	document.getElementById('exhaustivityBox').addEventListener('click', function(){
 		if (document.getElementById('exhaustivityDetailOption1').style.display === 'none' && document.getElementById('exhaustivityBox').checked){
 			document.getElementById('exhaustivityDetailOption1').style.display = 'table-cell';
