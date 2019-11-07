@@ -67,8 +67,17 @@ function my_built_in_analysis(myGEN, showTones, myTrees, myCon){
 
 }
 
-//Irish, as analysed in Elfner (2012), with some useful trees
 function built_in_Irish(){
+  var myGEN = {obeysExhaustivity:['i','phi']};
+  var myCON = [{name: "matchSP", cat:"xp"}, {name: "strongStart_Elfner", cat: "w"}, {name: "binMinBranches", cat: "phi"}, {name: "binMaxBranches", cat: "phi"}];
+  var myTrees = irish_trees;
+  var showTones = "addIrishTones_Elfner";
+
+  my_built_in_analysis(myGEN, showTones, myTrees, myCON);
+}
+
+//Irish, as analysed in Elfner (2012), with some useful trees
+function built_in_Irish_original(){
   //constraint set for built-in analysis
   built_in_con([{name: "matchSP", cat:"xp"}, {name: "strongStart_Elfner", cat: "w"}, {name: "binMinBranches", cat: "phi"}, {name: "binMaxBranches", cat: "phi"}]);
   //show the tree UI
