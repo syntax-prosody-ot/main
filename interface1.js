@@ -337,6 +337,16 @@ window.addEventListener('load', function(){
 			}
 			genOptions['obeysExhaustivity'] = exCats;
 		}
+		//plug correct value into category options
+		if(genOptions.rootCategory){
+			genOptions.rootCategory = spotForm['category-rootCategory'].value;
+		}
+		if(genOptions.recursiveCategory){
+			genOptions.recursiveCategory = spotForm['category-recursiveCategory'].value;
+		}
+		if(genOptions.terminalCategory){
+			genOptions.terminalCategory = spotForm['category-terminalCategory'].value;
+		}
 
 		var genTones = false; //true if tones are selected
 
@@ -357,7 +367,7 @@ window.addEventListener('load', function(){
 			else{
 				var candidateSet = GEN(sTree, pString, genOptions);
 			}
-			
+
 
 			//Make the violation tableau with the info we just got.
 			var tabl = makeTableau(candidateSet, constraintSet, {showTones: genTones});
@@ -592,7 +602,7 @@ window.addEventListener('load', function(){
 				return;
 			}
 		}
-		
+
 
 		if (el.classList.contains('info')) {
 			el.classList.toggle('showing')

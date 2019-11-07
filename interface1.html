@@ -1,4 +1,4 @@
-<html>
+radio<html>
 	<head>
 		<title>SPOT Interface</title>
 
@@ -350,24 +350,25 @@
 						</td>
 					</tr>
 				</tbody></table>
-				<table class="constraint-selection-table"><tbody>
+				<table><tbody>
 					<tr>
 						<td><input type="checkbox" name="genOptions" value="rootCategory">Root Category</td>
-						<td><input type="checkbox" name="category-rootCategory" value="i" checked="checked">&iota;</td>
-						<td><input type="checkbox" name="category-rootCategory" value="phi">&phiv;</td>
-						<td><input type="checkbox" name="category-rootCategory" value="w">&omega;</td>
+						<td><input type="radio" name="category-rootCategory" value="i" checked="checked">&iota;</td>
+						<td><input type="radio" name="category-rootCategory" value="phi">&phiv;</td>
+						<td><input type="radio" name="category-rootCategory" value="w">&omega;</td>
 					</tr>
 					<tr>
 						<td><input type="checkbox" name="genOptions" value="recursiveCategory">Root Category</td>
-						<td><input type="checkbox" name="category-recursiveCategory" value="i">&iota;</td>
-						<td><input type="checkbox" name="category-recursiveCategory" value="phi" checked="checked">&phiv;</td>
-						<td><input type="checkbox" name="category-recursiveCategory" value="w">&omega;</td>
+						<td><input type="radio" name="category-recursiveCategory" value="i">&iota;</td>
+						<td><input type="radio" name="category-recursiveCategory" value="phi" checked="checked">&phiv;</td>
+						<td><input type="radio" name="category-recursiveCategory" value="w">&omega;</td>
 					</tr>
 					<tr>
 						<td><input type="checkbox" name="genOptions" value="terminalCategory">Root Category</td>
-						<td><input type="checkbox" name="category-terminalCategory" value="i" disabled="disabled">&iota</td>
-						<td><input type="checkbox" name="category-terminalCategory" value="phi">&phiv</td>
-						<td><input type="checkbox" name="category-terminalCategory" value="w" checked="checked">&omega</td>
+						<td style="color: #555"><input type="radio" name="category-terminalCategory" value="i" disabled="disabled">&iota;</td>
+						<td><input type="radio" name="category-terminalCategory" value="phi">&phiv;</td>
+						<td><input type="radio" name="category-terminalCategory" value="w" checked="checked">&omega;</td>
+						<td><input type="radio" name="category-terminalCategory" value="Ft">Ft</td>
 					</tr>
 				</tbody></table>
 				<hr/>
