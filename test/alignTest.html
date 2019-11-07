@@ -36,12 +36,15 @@
 			},
 			{
 				"id":"word2",
-				"cat":"w"
+				"cat":"x0"
 			}
 		]
 	};
 	
-	var constraintSetAlign = ['alignLeft-xp', 'alignRight-xp', 'wrap-xp'];
+	var constraintSetAlign = ['alignLeftPS-phi', 'alignRightPS-phi','alignLeft-xp', 'alignRight-xp', 'wrap-xp'];
+
+	var candGen = GEN(sTreeAlign2, '', {});
+
 	var candidateSet = [[sTreeAlign1, pTree3words], [sTreeAlign1, pTree4words], [sTreeAlign1, pTree4wordsRec], [sTreeAlign1, pTree4words2xRec]];
 
 
@@ -51,7 +54,7 @@
 		
 	function runDemo() {
 		
-		writeTableau(makeTableau(candidateSet2, constraintSetAlign));
+		writeTableau(makeTableau(candGen, constraintSetAlign));
 		revealNextSegment();
 		lastSegmentId++;
 	}
