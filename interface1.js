@@ -306,7 +306,7 @@ window.addEventListener('load', function(){
 					constraintSet.push(constraint);
 			}
 		}
-
+		//console.log(constraintSet);
 		//Get the input syntactic tree.
 		var sTrees;
 		try{
@@ -327,6 +327,7 @@ window.addEventListener('load', function(){
 			var optionBox = spotForm.genOptions[i];
 			genOptions[optionBox.value]=optionBox.checked;
 		}
+		//record exhaustivity options if selected
 		if(genOptions['obeysExhaustivity']){
 			var exCats = [];
 			for(var i=0; i<spotForm.exhaustivityCats.length; i++){
@@ -339,17 +340,24 @@ window.addEventListener('load', function(){
 
 		var genTones = false; //true if tones are selected
 
-		if(spotForm.toneOptions.value != "noTones"){
+		if(document.getElementById("annotatedWithTones").checked){
 			//from radio group near the bottom of spotForm
 			genOptions.addTones = spotForm.toneOptions.value;
 			genTones = spotForm.toneOptions.value;
 			//console.log(genOptions);
 		}
-
+		console.log(genOptions);
+		console.log(GEN({},'a b',{'noUnary':true}));
 		var csvSegs = [];
 		for (var i = 0; i < sTrees.length; i++) {
 			var sTree = sTrees[i];
-			var candidateSet = GEN(sTree, pString, genOptions);
+			if (genOptions['cliticMovement']){
+				var candidateSet = GENwithCliticMovement(sTree, pString, genOptions);
+			}
+			else{
+				var candidateSet = GEN(sTree, pString, genOptions);
+			}
+			
 
 			//Make the violation tableau with the info we just got.
 			var tabl = makeTableau(candidateSet, constraintSet, {showTones: genTones});
@@ -376,16 +384,58 @@ window.addEventListener('load', function(){
 
 		return false;
 	};
-
+	//show/hide the tree code area
+	document.getElementById('tree-code-box').addEventListener('click', function(){
+		if (document.getElementById('tree-code-area').style.display === 'none' && document.getElementById('tree-code-box').checked){
+			document.getElementById('tree-code-area').style.display = 'block';
+		}
+		else{
+			document.getElementById('tree-code-area').style.display = 'none';
+		}
+	});
 	document.getElementById('exhaustivityBox').addEventListener('click', function(){
-		document.getElementById('exhaustivityDetailRow').style.display = 'block';
-		});
+		if (document.getElementById('exhaustivityDetailOption1').style.display === 'none' && document.getElementById('exhaustivityBox').checked){
+			document.getElementById('exhaustivityDetailOption1').style.display = 'table-cell';
+			document.getElementById('exhaustivityDetailOption2').style.display = 'table-cell';
+		}
+		else{
+			document.getElementById('exhaustivityDetailOption1').style.display = 'none';
+			document.getElementById('exhaustivityDetailOption2').style.display = 'none';
+			//if (genOptions['obeysExhaustivity']){
+			//	genOptions['obeysExhaustivity'] = false;
+			//}
+
+		}
+	});
+
+	//show extra boxes for annotated with tones on click
+	//console.log(document.getElementById('annotatedWithTones'))
+	document.getElementById('annotatedWithTones').addEventListener('click', function(){
+		if (document.getElementById('japaneseTones').style.display === 'none' && document.getElementById('annotatedWithTones').checked){
+			document.getElementById('japaneseTones').style.display = 'table-cell';
+			document.getElementById('irishTones').style.display = 'table-cell';
+		}
+		else{
+			document.getElementById('japaneseTones').style.display = 'none';
+			document.getElementById('irishTones').style.display = 'none';
+			//if (genOptions['usesTones']){
+			//	genOptions['usesTones'] = false;
+			//}
+		}
+
+	});
+
+
+	/*
+	document.getElementById("japaneseTonesInfo").addEventListener("click", toneInfoBlock("japanese"));
+	document.getElementById("irishTonesInfo").addEventListener("click", toneInfoBlock("irish"));
+	*/
 
 	//Code for generating the JS for a syntactic tree
 	var treeTableContainer = document.getElementById('treeTableContainer');
 
 	//Open the tree making GUI
-	document.getElementById('startTreeUIButton').addEventListener('click', function(){
+	document.getElementById('goButton').addEventListener('click', function(){
 		document.getElementById('treeUI').style.display = 'block';
 	});
 
@@ -406,7 +456,7 @@ window.addEventListener('load', function(){
 	//Set up the table...
 	document.getElementById('goButton').addEventListener('click', function(){
 		// Get the string of terminals
-		var terminalString = spotForm.sTreeTerminals.value;
+		var terminalString = spotForm.inputToGen.value;
 		var terminalList = terminalString.trim().split(/\s+/);
 
 		//Make the js tree (a dummy tree only containing the root CP)
@@ -542,8 +592,32 @@ window.addEventListener('load', function(){
 				return;
 			}
 		}
+		
+
 		if (el.classList.contains('info')) {
 			el.classList.toggle('showing')
 		}
 	});
 });
+
+function toneInfoBlock(language){
+	var content = document.getElementById("tonesInfoContent");
+	var japaneseContent = "Tokyo Japanese: the left edge of phi is marked with a rising boundary tone (LH), accented words receive an HL on the accented syllable, and H tones that follow a pitch drop (HL) within the maximal phi are downstepped (!H). (See: Pierrehumbert and Beckman 1988; Gussenhoven 2004; Ito and Mester 2007) Accents, boundary tones, and downstep in Lekeitio Basque are realized with the same tones as in Tokyo Japanese.";
+	var irishContent = "Conamara Irish (Elfner 2012): The left edge of the non-minimal phi is marked with a rising boundary tone (LH), and the right edge of every phi is marked with a falling boundary tone (HL).";
+	if (language == "japanese"){
+		if (content.innerHTML == japaneseContent){
+			content.innerHTML = '';
+		}
+		else{
+			content.innerHTML = japaneseContent;
+		}
+	}
+	if (language === "irish"){
+		if (content.innerHTML == irishContent){
+			content.innerHTML = '';
+		}
+		else {
+			content.innerHTML = irishContent;
+		}
+	}
+}
