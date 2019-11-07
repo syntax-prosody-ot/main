@@ -1,4 +1,4 @@
-// Revised BEM2016 trees, as of Oct. 29th, 2019
+// Revised BEM2016 trees, as of Nov. 6th, 2019
 
 var irish_clitic_trees_revised = [
     {
@@ -11,6 +11,7 @@ var irish_clitic_trees_revised = [
             },
             {
                 "cat": "xp",
+                "silentHead": true,
                 "id": "XP_7",
                 "children": [
                     {
@@ -439,6 +440,7 @@ var irish_clitic_trees_revised = [
         },
         {
             "cat": "xp",
+            "silentHead": true,
             "id": "TP",
             "children": [
                 {
@@ -485,6 +487,7 @@ var irish_clitic_trees_revised = [
         },
         {
             "cat": "xp",
+            "silentHead": true,
             "id": "TP",
             "children": [
                 {
