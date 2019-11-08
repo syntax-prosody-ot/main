@@ -95,7 +95,7 @@ function my_built_in_analysis(myGEN, showTones, myTrees, myCon){
     }
   }
 
-  //Step 2: CON. Call a helper function to select the appropriate constraints & categories. 
+  //Step 2: CON. Call a helper function to select the appropriate constraints & categories.
   built_in_con(myCon);
 
   //Step 3: Trees
@@ -142,4 +142,13 @@ function built_in_Kinyambo(){
   var ktrees = kinyambo_trees;
   var kcon = [{name:'matchSP', cat:'xp'}, {name:'matchPS', cat:'phi'}, {name:'binMinBranches',cat:'phi'}, {name:'binMaxBranches', cat:'phi'}];
   my_built_in_analysis(kGEN, false, ktrees, kcon);
+}
+
+function built_in(analysis) {
+  if(analysis === "irish") {
+    built_in_Irish();
+  }
+  if(analysis === "kinyambo") {
+    built_in_Kinyambo();
+  }
 }
