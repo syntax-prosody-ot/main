@@ -476,8 +476,8 @@ window.addEventListener('load', function(){
 
 		document.getElementById('treeUIinner').style.display = 'block';
 
-		var objDiv = document.getElementById("treeTableContainer");
-		objDiv.scrollTop = objDiv.scrollHeight;
+		var treeContainer = document.getElementById("treeTableContainer");
+		treeContainer.scrollTop = treeContainer.scrollHeight;
 	});
 
 	// For testing only
