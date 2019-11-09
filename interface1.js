@@ -478,6 +478,8 @@ window.addEventListener('load', function(){
 
 		var treeContainer = document.getElementById("treeTableContainer");
 		treeContainer.scrollTop = treeContainer.scrollHeight;
+
+		document.getElementById('doneMessage').style.display = 'none';
 	});
 
 	// For testing only
@@ -503,6 +505,8 @@ window.addEventListener('load', function(){
 		spotForm.sTree.value = JSON.stringify(Object.values(treeUIsTreeMap).map(function(tree) {
 			return JSON.parse(tree.toJSON()); // bit of a hack to get around replacer not being called recursively
 		}), null, 4);
+
+		document.getElementById('doneMessage').style.display = 'inline-block';
 	});
 
 	document.getElementById('danishJsonTreesButton').addEventListener('click', function() {

@@ -282,6 +282,13 @@ radio<html>
 			.slider.round:before {
 				border-radius: 50%;
 			}
+
+			#doneMessage {
+				display: none;
+				color: #555;
+				font-size: 13px;
+				margin-left: 10px;
+			}
 		</style>
 
 	</head>
@@ -407,6 +414,7 @@ radio<html>
 		            	<p>All labels are editable. The small labels with grey backgrounds represent node categories, and must be "cp", "xp", or "x0" for a node to be visible to the syntax-prosody mapping constraints. Use "clitic" as the category for a node that should be treated as prosodically dependent and not receive a corresponding &omega;. The larger labels with white backgrounds represent node ids, and can be any unique alphanumeric string.</p>
 		            </small></i>
                 	<button id="htmlToJsonTreeButton" type="button">Done! Convert tree to code</button>
+									<div id="doneMessage">The trees in the analysis are up-to-date</div>
 
                 	<p style="font-size: 15; line-height: 24px"><label class="switch" style="margin-right: 10px"><input type="checkbox" id="tree-code-box" value="show-tree-code"><span class="slider round"></span>></label>Show code</p>
             	</div>
