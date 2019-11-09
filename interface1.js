@@ -571,6 +571,7 @@ window.addEventListener('load', function(){
 			console.error(err);
 			alert('Error, unable to add daughter: ' + err.message);
 		}
+		document.getElementById('doneMessage').style.display = 'none';
 	});
 
 	document.getElementById('treeUIdeleteNodes').addEventListener('click', function() {
@@ -589,6 +590,7 @@ window.addEventListener('load', function(){
 			tree.deleteNode(nodes[i]);
 		}
 		refreshHtmlTree(treeIndex);
+		document.getElementById('doneMessage').style.display = 'none';
 	});
 
 	document.getElementById('treeUIclearSelection').addEventListener('click', function() {
