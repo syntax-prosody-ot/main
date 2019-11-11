@@ -93,16 +93,26 @@ function matchPS(sTree, pParent, pCat, options)
 
 //TODO: what about null syntactic terminals?? these need to be filtered out of the syntactic input?? write this function later.
 
-function matchSP(sParent, pTree, sCat, options)
-/*Assign a violation for every syntactic node of type sCat in sParent that
+/* matchSP = Match(Syntax, Prosody): 
+* Assign a violation for every syntactic node of type sCat in sParent that
 * doesn't have a  corresponding prosodic node in pTree, where "corresponding"
 * is defined as: dominates all and only the same terminals, and has the
 * corresponding prosodic category.
 * By default, assumes no null syntactic terminals.
-* options = {requireLexical: true/false, requireOvertHead: true/false}
-* For non-lexical XPs to be ignored, they should be given an attribute func: true.
-* For silently-headed XPs to be ignored, they should be given an attribute silentHead: true
+* Options (all boolean):
+* 	requireLexical: To ignore non-lexical XPs give them an attribute func: true.
+*	requireOvertHead: To ignore silently-headed XPs, give them an attribute silentHead: true
+*	maxSyntax: If true, ignore non-maximal syntactic nodes (nodes of category c that are 
+*			   dominated by another node of category c)
+*	minSyntax: If true, ignore non-minimal syntactic nodes (nodes of category c that dominate *				another node of category c)
+*	nonMaxSyntax: If true, only look at non-maximal syntactic nodes
+*	nonMinSyntax: If true, only look at non-minimal syntactic nodes
+*	maxProsody: If true, the prosodic match needs to be maximal. Passed to hasMatch.
+*	minProsody: If true, the prosodic match needs to be minimal. Passed to hasMatch.
+*	nonMaxProsody: If true, the prosodic match must be non-maximal. Passed to hasMatch.
+*	nonMinProsody: If true, the prosodic match must be non-minimal. Passed to hasMatch.
 */
+function matchSP(sParent, pTree, sCat, options)
 {
 	options = options || {};
 	markMinMax(sParent);
