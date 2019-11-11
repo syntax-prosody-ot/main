@@ -288,7 +288,15 @@ radio<html>
 				color: #555;
 				font-size: 13px;
 				margin-left: 10px;
+      }
+      
+			/* built in analysis dropdown */
+			.dropdown {
+				border: 0.1rem solid #6d86a3;
+				font-size: 14px;
+				height: 1.75rem;
 			}
+	
 		</style>
 
 	</head>
@@ -312,8 +320,12 @@ radio<html>
 			<div style="margin-bottom: 1cm">
 				<h3 style="color: #07203D">Try a Built-in Analysis:</h3>
 				<p>Once you have selected an analysis, scroll to the bottom and hit "Get results"</p>
-				<button onclick=built_in_Irish()>Irish Phrasing (Elfner 2012)</button>
-				<button onClick=location.reload(true)>Clear All</button>
+				<select class="dropdown" name="analysis" onchange=built_in(this.value)>
+					<option value="select">Select</option>
+					<option value="irish">Irish Phrasing (Elfner 2012)</option>
+					<option value="kinyambo">Kinyambo (Bellik & Kalivoda 2016)</option>
+				</select>
+				<button onclick=location.reload(true)>Clear All</button>
 			</div>
 
 			<form id="spotForm">
