@@ -475,6 +475,11 @@ window.addEventListener('load', function(){
 		refreshNodeEditingButtons();
 
 		document.getElementById('treeUIinner').style.display = 'block';
+
+		var treeContainer = document.getElementById("treeTableContainer");
+		treeContainer.scrollTop = treeContainer.scrollHeight;
+
+		document.getElementById('doneMessage').style.display = 'none';
 	});
 
 	// For testing only
@@ -500,6 +505,8 @@ window.addEventListener('load', function(){
 		spotForm.sTree.value = JSON.stringify(Object.values(treeUIsTreeMap).map(function(tree) {
 			return JSON.parse(tree.toJSON()); // bit of a hack to get around replacer not being called recursively
 		}), null, 4);
+
+		document.getElementById('doneMessage').style.display = 'inline-block';
 	});
 
 	document.getElementById('danishJsonTreesButton').addEventListener('click', function() {
@@ -564,6 +571,7 @@ window.addEventListener('load', function(){
 			console.error(err);
 			alert('Error, unable to add daughter: ' + err.message);
 		}
+		document.getElementById('doneMessage').style.display = 'none';
 	});
 
 	document.getElementById('treeUIdeleteNodes').addEventListener('click', function() {
@@ -582,6 +590,7 @@ window.addEventListener('load', function(){
 			tree.deleteNode(nodes[i]);
 		}
 		refreshHtmlTree(treeIndex);
+		document.getElementById('doneMessage').style.display = 'none';
 	});
 
 	document.getElementById('treeUIclearSelection').addEventListener('click', function() {
