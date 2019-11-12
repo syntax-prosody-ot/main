@@ -337,6 +337,7 @@ window.addEventListener('load', function(){
 			}
 			genOptions['obeysExhaustivity'] = exCats;
 		}
+
 		//plug correct value into category options
 		if(genOptions.rootCategory){
 			genOptions.rootCategory = spotForm['category-rootCategory'].value;
@@ -348,6 +349,20 @@ window.addEventListener('load', function(){
 			genOptions.terminalCategory = spotForm['category-terminalCategory'].value;
 		}
 
+		//warn user if they do something weird with the category options
+		var rootCategoryError = new Error("The specified root category is lower on the prosodic hierarchy\nthan the specified recursive category.");
+		var terminalCategoryError = new Error("The specified recursive category is not higher on the prosodic hierarchy\nthan the specified terminal category.");
+		if(pCat.isHigher(genOptions.recursiveCategory, genOptions.rootCategory)){
+			if(!confirm(rootCategoryError.message + " Are you sure you want to continue?\nIf you are confused, change Root Category and Recursive Category\nin \"Options for prosodic tree generation (GEN function)\"")){
+				throw rootCategoryError;
+			}
+		}
+		if(!pCat.isHigher(genOptions.recursiveCategory, genOptions.terminalCategory)){
+			if(!confirm(terminalCategoryError.message + " Are you sure you want to continue?\nIf you are confused, change Terminal Category and Recursive Category\nin \"Options for prosodic tree generation (GEN function)\"")){
+				throw terminalCategoryError;
+			}
+		}
+
 		var genTones = false; //true if tones are selected
 
 		if(document.getElementById("annotatedWithTones").checked){
@@ -356,8 +371,6 @@ window.addEventListener('load', function(){
 			genTones = spotForm.toneOptions.value;
 			//console.log(genOptions);
 		}
-		console.log(genOptions);
-		console.log(GEN({},'a b',{'noUnary':true}));
 		var csvSegs = [];
 		for (var i = 0; i < sTrees.length; i++) {
 			var sTree = sTrees[i];
