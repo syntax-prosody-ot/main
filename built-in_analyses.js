@@ -1,5 +1,16 @@
 /* Built-in Analyses */
 
+/*function to clear out any previous interaction with the interface, either from
+ * the user or from another built-in alalysis. */
+function clearAnalysis(){
+  var inputs = document.getElementsByTagName("input");
+  for(var i = 0; i<inputs.length; i++){
+    if(inputs[i].type === "checkbox"){
+      inputs[i].checked = false;
+    }
+  }
+}
+
 /* Function to check all of the boxes for a built-in constaint set in the UI
  * takes an array of objects with the properties "name" and "cat"
  * "name" is the name of a constraint as it is called in SPOT (ie "alignLeft")
@@ -71,6 +82,8 @@ function built_in_con(input){
 *   ex. "addJapaneseTones", "addIrishTones_Elfner"
 */
 function my_built_in_analysis(myGEN, showTones, myTrees, myCon){
+  //Step 0: clear the webpage
+  clearAnalysis();
   //Step 1: GEN options
   var genBoxes = document.getElementsByName("genOptions");
   for(var box in genBoxes){
@@ -124,7 +137,6 @@ function my_built_in_analysis(myGEN, showTones, myTrees, myCon){
       }
     }
   }
-
 }
 
 //Irish, as analysed in Elfner (2012), with some useful trees
