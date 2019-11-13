@@ -379,18 +379,21 @@ radio<html>
 				<table><tbody>
 					<tr>
 						<td><input type="checkbox" name="genOptions" value="rootCategory">Root Category</td>
+						<td class="info"><div class="content">Specify the category of the root node for all the trees created by GEN.</div></td>
 						<td><input type="radio" name="category-rootCategory" value="i" checked="checked">&iota;</td>
 						<td><input type="radio" name="category-rootCategory" value="phi">&phiv;</td>
 						<td><input type="radio" name="category-rootCategory" value="w">&omega;</td>
 					</tr>
 					<tr>
 						<td><input type="checkbox" name="genOptions" value="recursiveCategory">Recursive Category</td>
+						<td class="info"><div class="content">Specify the category of the nodes below the root and above the terminals. This is the category where GEN will create recursion.</div></td>
 						<td><input type="radio" name="category-recursiveCategory" value="i">&iota;</td>
 						<td><input type="radio" name="category-recursiveCategory" value="phi" checked="checked">&phiv;</td>
 						<td><input type="radio" name="category-recursiveCategory" value="w">&omega;</td>
 					</tr>
 					<tr>
 						<td><input type="checkbox" name="genOptions" value="terminalCategory">Terminal Category</td>
+						<td class="info"><div class="content">Specify the category of the terminal nodes for the trees GEN will create. N.B. GEN will always map terminals marked with "-clitic" to syllables.</div></td>
 						<td style="color: #555"><input type="radio" name="category-terminalCategory" value="i">&iota;</td>
 						<td><input type="radio" name="category-terminalCategory" value="phi">&phiv;</td>
 						<td><input type="radio" name="category-terminalCategory" value="w" checked="checked">&omega;</td>
