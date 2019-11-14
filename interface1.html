@@ -325,7 +325,7 @@ radio<html>
 					<option value="irish">Irish Phrasing (Elfner 2012)</option>
 					<option value="kinyambo">Kinyambo (Bellik & Kalivoda 2016)</option>
 				</select>
-				<button onclick=location.reload(true)>Clear All</button>
+				<button onclick="clearAnalysis()">Clear All</button>
 			</div>
 
 			<form id="spotForm">
@@ -406,7 +406,6 @@ radio<html>
 				<span class="info">
 					<span class="content">
 						To get prosodic candidate without building a syntactic tree, type the words that you want to be included in the output prosodic trees, separating them with spaces. Suffix a word with "-clitic" to map it to a syllable instead of &omega; in all prosodic trees. <b>N.B.</b> Input strings longer than 6 words may be very slow, and risk freezing your system.
-					<br/>Leave this blank to get the words from your syntatic tree(s).
 					</span>
 				</span>
 			</h2>

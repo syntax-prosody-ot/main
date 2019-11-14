@@ -3,11 +3,13 @@
 /*function to clear out any previous interaction with the interface, either from
  * the user or from another built-in alalysis. */
 function clearAnalysis(){
-  var inputs = document.getElementsByTagName("input");
-  for(var i = 0; i<inputs.length; i++){
-    if(inputs[i].type === "checkbox"){
-      inputs[i].checked = false;
-    }
+  var genOptions = document.getElementsByName("genOptions");
+  var constraints = document.getElementsByName("constraints");
+  for(var i = 0; i<genOptions.length; i++){
+    genOptions[i].checked = false;
+  }
+  for(var i = 0; i<constraints.length; i++){
+    constraints[i].checked = false;
   }
 }
 
@@ -114,10 +116,14 @@ function my_built_in_analysis(myGEN, showTones, myTrees, myCon){
   //Step 3: Trees
   //First, shows the tree UI & the code view
   document.getElementById("treeUI").style.display = "block";
-  document.getElementById('treeUIinner').style.display = 'block';
-  document.getElementById("tree-code-box").click();
+  for(var i = 0; i < myTrees.length; i++){
+	  var myUTree = new UTree(myTrees[i]);
+	  window.showUTree(myUTree);
+  }
+  document.getElementById("htmlToJsonTreeButton").click();
+  //document.getElementById("tree-code-box").click();
   //Then paste trees in
-  document.getElementById("stree-textarea").value = JSON.stringify(myTrees);
+  //document.getElementById("stree-textarea").value = JSON.stringify(myTrees);
 
   // Step 4: If showTones is not false, the tableaux will be annotated with tones.
   if(showTones){
