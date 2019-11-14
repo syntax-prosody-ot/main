@@ -365,25 +365,27 @@ radio<html>
 				<h3>Categories</h3>
 				<table class="spaceytable"><tbody>
 					<tr>
-						<td><input type="checkbox" name="genOptions" value="rootCategory">Root Category</td>
+						<td><input type="checkbox" name="genOptions" value="rootCategory">Root is</td>
 						<td class="info"><div class="content">Specify the category of the root node for all the trees created by GEN.</div></td>
 					</tr>
 					<tr>
+						<td></td>
 						<td><input type="radio" name="category-rootCategory" value="i" checked="checked">&iota;</td>
 						<td><input type="radio" name="category-rootCategory" value="phi">&phiv;</td>
 						<td><input type="radio" name="category-rootCategory" value="w">&omega;</td>
 					</tr>
 					<tr>
-						<td><input type="checkbox" name="genOptions" value="recursiveCategory">Recursive Category</td>
+						<td><input type="checkbox" name="genOptions" value="recursiveCategory">Intermediate nodes are</td>
 						<td class="info"><div class="content">Specify the category of the nodes below the root and above the terminals. This is the category where GEN will create recursion.</div></td>
 					</tr>
 					<tr>
+						<td></td>
 						<td><input type="radio" name="category-recursiveCategory" value="i">&iota;</td>
 						<td><input type="radio" name="category-recursiveCategory" value="phi" checked="checked">&phiv;</td>
 						<td><input type="radio" name="category-recursiveCategory" value="w">&omega;</td>
 					</tr>
 					<tr>
-						<td><input type="checkbox" name="genOptions" value="terminalCategory">Terminal Category</td>
+						<td><input type="checkbox" name="genOptions" value="terminalCategory">Prosodic terminals are</td>
 						<td class="info"><div class="content">Specify the category of the terminal nodes for the trees GEN will create. N.B. GEN will always map terminals marked with "-clitic" to syllables.</div></td>
 					</tr>
 					<tr>
@@ -437,10 +439,11 @@ radio<html>
 		            	<p>To add a node, select one or more adjacent sisters and click "Add Mother." To remove nodes, select them and click "Delete." </p>
 		            	<p>All labels are editable. The small labels with grey backgrounds represent node categories, and must be "cp", "xp", or "x0" for a node to be visible to the syntax-prosody mapping constraints. Use "clitic" as the category for a node that should be treated as prosodically dependent and not receive a corresponding &omega;. The larger labels with white backgrounds represent node ids, and can be any unique alphanumeric string.</p>
 		            </small></i>
-                	<button id="htmlToJsonTreeButton" type="button">Done! Convert tree to code</button>
+                	<button id="htmlToJsonTreeButton" type="button">Done! Convert tree to code
+					</button>
 									<div id="doneMessage">The trees in the analysis are up-to-date</div>
 
-                	<p style="font-size: 15; line-height: 24px"><label class="switch" style="margin-right: 10px"><input type="checkbox" id="tree-code-box" value="show-tree-code"><span class="slider round"></span>></label>Show code</p>
+                	<p style="font-size: 15; line-height: 24px"><label class="switch" style="margin-right: 10px"><input type="checkbox" id="tree-code-box" value="show-tree-code"><span class="slider round"></span></label>Show code</p>
             	</div>
 
 				<div style="display:none">
@@ -705,7 +708,13 @@ radio<html>
 				<hr style="margin-bottom: 20px"/>
 
 				<div align="center">
-					<button onclick="clearAnalysis()">Clear All</button><br/>
+					<button onclick="clearAnalysis()" type="button" style="margin:5px">Clear All
+					</button>
+					<button onclick="record_analysis()" type="button" style="margin:5px">Save
+					</button>
+					<button type="button" style="margin:5px">Load
+					</button>
+					<br/>
 					<button class="orange-button submit-button" type="submit">Get results</button>
 
 					<h2>Scroll down for results!
