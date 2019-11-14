@@ -164,3 +164,61 @@ function built_in(analysis) {
     built_in_Kinyambo();
   }
 }
+
+/* Save Analysis:
+ * functionality to save the options, constraints and inputs of an analysis to
+ * be loaded later by the existing built-in analysis functionality
+ */
+
+/* Record Analysis:
+ * function to gather all of the options, constraints and inputs currently in
+ * the window
+ */
+function record_analysis(){
+  var analysis = {
+    myGEN: {},
+    showTones: false,
+    myTrees: "",
+    myCON: []
+  };
+  /* analysis has attributes corresponding to inputs to
+   * my_built_in_analysis(): myGEN, showTones, myTrees, myCON
+   */
+  var spotForm = document.getElementById("spotForm");
+
+  //myGEN
+  for(var i = 0; i<spotForm.genOptions.length; i++){
+    var option = spotForm.genOptions[i];
+    //make sure "obeys exhaustivity has an array value"
+    if(option.value === "obeysExhaustivity" && option.checked){
+      var exCats = [];
+			for(var x=0; x<spotForm.exhaustivityCats.length; x++){
+				var exCatBox = spotForm.exhaustivityCats[x];
+				if(exCatBox.checked)
+					exCats = exCats.concat(exCatBox.value);
+			}
+      analysis.myGEN.obeysExhaustivity = exCats;
+    }
+    else if(option.value === "usesTones" && option.checked){
+      analysis.showTones = spotForm.toneOptions.value;
+    }
+    else if(option.value === "rootCategory" && option.checked){
+      analysis.myGEN.rootCategory = spotForm['category-rootCategory'].value;
+    }
+    else if(option.value === "recursiveCategory" && option.checked){
+      analysis.myGEN.recursiveCategory = spotForm['category-recursiveCategory'].value;
+    }
+    else if(option.value === "terminalCategory" && option.checked){
+      analysis.myGEN.terminalCategory = spotForm['category-terminalCategory'].value;
+    }
+    else if(option.checked){
+      analysis.myGEN[option.value] = true;
+    }
+  }
+
+  //myTrees
+  analysis.myTrees = JSON.parse(document.getElementById("stree-textarea").value);
+
+
+  return JSON.stringify(analysis);
+}
