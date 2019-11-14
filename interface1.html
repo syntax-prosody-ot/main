@@ -363,33 +363,29 @@ radio<html>
 					</tr>
 				</tbody></table>
 				<h3>Categories</h3>
+				<input type="checkbox" name="genOptions" value="rootCategory">Root prosodic tree in
+						<span class="info"><div class="content">Specify the category of the root node for all the trees created by GEN.</div></span>
 				<table class="spaceytable"><tbody>
 					<tr>
-						<td><input type="checkbox" name="genOptions" value="rootCategory">Root is</td>
-						<td class="info"><div class="content">Specify the category of the root node for all the trees created by GEN.</div></td>
-					</tr>
-					<tr>
-						<td></td>
 						<td><input type="radio" name="category-rootCategory" value="i" checked="checked">&iota;</td>
 						<td><input type="radio" name="category-rootCategory" value="phi">&phiv;</td>
 						<td><input type="radio" name="category-rootCategory" value="w">&omega;</td>
 					</tr>
+					</tbody>
+				</table>
+				<input type="checkbox" name="genOptions" value="recursiveCategory">Intermediate nodes are
+				<span class="info"><div class="content">Specify the category of the nodes below the root and above the terminals. This is the category where GEN will create recursion.</div></span>
+				<table class="spaceytable"><tbody>
 					<tr>
-						<td><input type="checkbox" name="genOptions" value="recursiveCategory">Intermediate nodes are</td>
-						<td class="info"><div class="content">Specify the category of the nodes below the root and above the terminals. This is the category where GEN will create recursion.</div></td>
-					</tr>
-					<tr>
-						<td></td>
 						<td><input type="radio" name="category-recursiveCategory" value="i">&iota;</td>
 						<td><input type="radio" name="category-recursiveCategory" value="phi" checked="checked">&phiv;</td>
 						<td><input type="radio" name="category-recursiveCategory" value="w">&omega;</td>
 					</tr>
-					<tr>
-						<td><input type="checkbox" name="genOptions" value="terminalCategory">Prosodic terminals are</td>
-						<td class="info"><div class="content">Specify the category of the terminal nodes for the trees GEN will create. N.B. GEN will always map terminals marked with "-clitic" to syllables.</div></td>
-					</tr>
-					<tr>
-						<td style="color: #555"><input type="radio" name="category-terminalCategory" value="i">&iota;</td>
+				</tbody></table>
+				<input type="checkbox" name="genOptions" value="terminalCategory">Prosodic terminals are
+					<span class="info"><div class="content">Specify the category of the terminal nodes for the trees GEN will create. N.B. GEN will always map terminals marked with "-clitic" to syllables.</div></span>
+				<table class="spaceytable"><tbody>
+					<tr>						
 						<td><input type="radio" name="category-terminalCategory" value="phi">&phiv;</td>
 						<td><input type="radio" name="category-terminalCategory" value="w" checked="checked">&omega;</td>
 						<td><input type="radio" name="category-terminalCategory" value="Ft">Ft</td>
