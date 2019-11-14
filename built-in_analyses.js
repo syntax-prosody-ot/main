@@ -3,11 +3,13 @@
 /*function to clear out any previous interaction with the interface, either from
  * the user or from another built-in alalysis. */
 function clearAnalysis(){
-  var inputs = document.getElementsByTagName("input");
-  for(var i = 0; i<inputs.length; i++){
-    if(inputs[i].type === "checkbox"){
-      inputs[i].checked = false;
-    }
+  var genOptions = document.getElementsByName("genOptions");
+  var constraints = document.getElementsByName("constraints");
+  for(var i = 0; i<genOptions.length; i++){
+    genOptions[i].checked = false;
+  }
+  for(var i = 0; i<constraints.length; i++){
+    constraints[i].checked = false;
   }
 }
 
