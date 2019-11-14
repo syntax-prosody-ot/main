@@ -196,6 +196,26 @@ UTree.fromTerminals = function(terminalList) {
 	return new UTree(root);
 };
 
+function showUTree(tree){
+	treeTableContainer.innerHTML += tree.toHtml();
+	refreshNodeEditingButtons();
+
+	document.getElementById('treeUIinner').style.display = 'block';
+
+	var treeContainer = document.getElementById("treeTableContainer");
+	treeContainer.scrollTop = treeContainer.scrollHeight;
+
+}
+	
+function refreshNodeEditingButtons() {
+	var treeTableContainer = document.getElementById('treeTableContainer');
+	var hasSelection = treeTableContainer.getElementsByClassName('selected').length > 0;
+	var buttons = document.getElementsByClassName('nodeEditingButton');
+	for (var i = 0; i < buttons.length; i++) {
+		buttons[i].disabled = !hasSelection;
+	}
+}
+
 function getSTrees() {
 	var spotForm = document.getElementById('spotForm');
 	var sTrees;
@@ -475,6 +495,8 @@ window.addEventListener('load', function(){
 		}
 		refreshNodeEditingButtons();
 	}
+	
+	
 
 	//Set up the table...
 	document.getElementById('goButton').addEventListener('click', function(){
@@ -484,16 +506,10 @@ window.addEventListener('load', function(){
 
 		//Make the js tree (a dummy tree only containing the root CP)
 		var tree = UTree.fromTerminals(terminalList);
-		treeTableContainer.innerHTML += tree.toHtml();
-		refreshNodeEditingButtons();
-
-		document.getElementById('treeUIinner').style.display = 'block';
-
-		var treeContainer = document.getElementById("treeTableContainer");
-		treeContainer.scrollTop = treeContainer.scrollHeight;
-
-		document.getElementById('doneMessage').style.display = 'none';
+		showUTree(tree);
+		document.getElementById('doneMessage').style.display = 'none';		
 	});
+	
 
 	// For testing only
 	/*
@@ -535,13 +551,7 @@ window.addEventListener('load', function(){
 		treeUIsTreeMap[treeIndex].nodeMap[nodeId][isCat ? 'cat' : 'id'] = target.value;
 	});
 
-	function refreshNodeEditingButtons() {
-		var hasSelection = treeTableContainer.getElementsByClassName('selected').length > 0;
-		var buttons = document.getElementsByClassName('nodeEditingButton');
-		for (var i = 0; i < buttons.length; i++) {
-			buttons[i].disabled = !hasSelection;
-		}
-	}
+	
 
 	treeTableContainer.addEventListener('click', function(e) {
 		var node = e.target;
@@ -630,6 +640,7 @@ window.addEventListener('load', function(){
 			el.classList.toggle('showing')
 		}
 	});
+
 });
 
 function toneInfoBlock(language){
