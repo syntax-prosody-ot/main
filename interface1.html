@@ -339,12 +339,12 @@ radio<html>
 			<div style="margin-bottom: 1cm">
 				<h3 style="color: #07203D">Try a Built-in Analysis:</h3>
 				<p>Once you have selected an analysis, scroll to the bottom and hit "Get results"</p>
-				<select class="dropdown" name="analysis" onchange=built_in(this.value)>
+				<select class="dropdown" name="analysis" id="built-in-dropdown" onchange=built_in(this.value)>
 					<option value="select">Select</option>
 					<option value="irish">Irish Phrasing (Elfner 2012)</option>
 					<option value="kinyambo">Kinyambo (Bellik & Kalivoda 2016)</option>
 				</select>
-				
+
 			</div>
 
 			<form id="spotForm">
@@ -382,33 +382,33 @@ radio<html>
 						</td>
 					</tr>
 				</tbody></table>
-				<h3>Categories</h3>
-				<input type="checkbox" name="genOptions" value="rootCategory">Root prosodic tree in
+				<h3>Prosodic Categories</h3>
+				Root prosodic tree in
 						<span class="info"><div class="content">Specify the category of the root node for all the trees created by GEN.</div></span>
 				<table class="spaceytable"><tbody>
 					<tr>
-						<td><input type="radio" name="category-rootCategory" value="i" checked="checked">&iota;</td>
-						<td><input type="radio" name="category-rootCategory" value="phi">&phiv;</td>
-						<td><input type="radio" name="category-rootCategory" value="w">&omega;</td>
+						<td style="width: 50px"><input type="radio" name="genOptions-rootCategory" value="i" checked="checked">&iota;</td>
+						<td style="width: 50px"><input type="radio" name="genOptions-rootCategory" value="phi">&phiv;</td>
+						<td style="width: 50px"><input type="radio" name="genOptions-rootCategory" value="w">&omega;</td>
 					</tr>
 					</tbody>
 				</table>
-				<input type="checkbox" name="genOptions" value="recursiveCategory">Intermediate nodes are
+				Intermediate nodes are
 				<span class="info"><div class="content">Specify the category of the nodes below the root and above the terminals. This is the category where GEN will create recursion.</div></span>
 				<table class="spaceytable"><tbody>
 					<tr>
-						<td><input type="radio" name="category-recursiveCategory" value="i">&iota;</td>
-						<td><input type="radio" name="category-recursiveCategory" value="phi" checked="checked">&phiv;</td>
-						<td><input type="radio" name="category-recursiveCategory" value="w">&omega;</td>
+						<td style="width: 50px"><input type="radio" name="genOptions-recursiveCategory" value="i">&iota;</td>
+						<td style="width: 50px"><input type="radio" name="genOptions-recursiveCategory" value="phi" checked="checked">&phiv;</td>
+						<td style="width: 50px"><input type="radio" name="genOptions-recursiveCategory" value="w">&omega;</td>
 					</tr>
 				</tbody></table>
-				<input type="checkbox" name="genOptions" value="terminalCategory">Prosodic terminals are
+				Prosodic terminals are
 					<span class="info"><div class="content">Specify the category of the terminal nodes for the trees GEN will create. N.B. GEN will always map terminals marked with "-clitic" to syllables.</div></span>
 				<table class="spaceytable"><tbody>
-					<tr>						
-						<td><input type="radio" name="category-terminalCategory" value="phi">&phiv;</td>
-						<td><input type="radio" name="category-terminalCategory" value="w" checked="checked">&omega;</td>
-						<td><input type="radio" name="category-terminalCategory" value="Ft">Ft</td>
+					<tr>
+						<td style="width: 50px"><input type="radio" name="genOptions-terminalCategory" value="phi">&phiv;</td>
+						<td style="width: 50px"><input type="radio" name="genOptions-terminalCategory" value="w" checked="checked">&omega;</td>
+						<td style="width: 50px"><input type="radio" name="genOptions-terminalCategory" value="Ft">Ft</td>
 					</tr>
 				</tbody></table>
 
@@ -760,7 +760,7 @@ radio<html>
 				<hr style="margin-bottom: 20px"/>
 				</div><!-- end of under not-results-->
 				<div align="center">
-					<button onclick="clearAnalysis()" type="button" style="margin:5px">Clear All
+					<button onclick="clearAnalysis(); document.getElementById('built-in-dropdown').value = 'select'" type="button" style="margin:5px">Clear All
 					</button>
 					<button onclick="record_analysis()" type="button" style="margin:5px">Save
 					</button>

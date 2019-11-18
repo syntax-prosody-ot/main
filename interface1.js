@@ -206,7 +206,7 @@ function showUTree(tree){
 	treeContainer.scrollTop = treeContainer.scrollHeight;
 
 }
-	
+
 function refreshNodeEditingButtons() {
 	var treeTableContainer = document.getElementById('treeTableContainer');
 	var hasSelection = treeTableContainer.getElementsByClassName('selected').length > 0;
@@ -365,15 +365,9 @@ window.addEventListener('load', function(){
 		}
 
 		//plug correct value into category options
-		if(genOptions.rootCategory){
-			genOptions.rootCategory = spotForm['category-rootCategory'].value;
-		}
-		if(genOptions.recursiveCategory){
-			genOptions.recursiveCategory = spotForm['category-recursiveCategory'].value;
-		}
-		if(genOptions.terminalCategory){
-			genOptions.terminalCategory = spotForm['category-terminalCategory'].value;
-		}
+		genOptions.rootCategory = spotForm['genOptions-rootCategory'].value;
+		genOptions.recursiveCategory = spotForm['genOptions-recursiveCategory'].value;
+		genOptions.terminalCategory = spotForm['genOptions-terminalCategory'].value;
 
 		//warn user if they do something weird with the category options
 		var rootCategoryError = new Error("The specified root category is lower on the prosodic hierarchy\nthan the specified recursive category.");
@@ -501,8 +495,8 @@ window.addEventListener('load', function(){
 		}
 		refreshNodeEditingButtons();
 	}
-	
-	
+
+
 
 	//Set up the table...
 	document.getElementById('goButton').addEventListener('click', function(){
@@ -513,9 +507,9 @@ window.addEventListener('load', function(){
 		//Make the js tree (a dummy tree only containing the root CP)
 		var tree = UTree.fromTerminals(terminalList);
 		showUTree(tree);
-		document.getElementById('doneMessage').style.display = 'none';		
+		document.getElementById('doneMessage').style.display = 'none';
 	});
-	
+
 
 	// For testing only
 	/*
@@ -557,7 +551,7 @@ window.addEventListener('load', function(){
 		treeUIsTreeMap[treeIndex].nodeMap[nodeId][isCat ? 'cat' : 'id'] = target.value;
 	});
 
-	
+
 
 	treeTableContainer.addEventListener('click', function(e) {
 		var node = e.target;
