@@ -160,16 +160,15 @@ radio<html>
 				font-weight: normal;
 			}
 			.constraint-selection-table {
+				padding-left: 20px;
 				margin-left: 30px;
 				width:70%;
 				table-layout: fixed;
 			}
-			.constraint-selection-table td {
+			/* .constraint-selection-table tr {
 				padding-right:20px;
-			}
-			.constraint-selection-table tr:not(.constraint-checked) td:not(:first-child) {
-				/*visibility: hidden;*/
-			}
+			} */
+			
 			.constraint-selection-table tr:first-child td:first-child {
 				font-variant: small-caps;
 				font-family: "Palatino Linotype", Garamond, serif;
@@ -180,17 +179,28 @@ radio<html>
 				text-align:left;
 			}
 
-			.constraint-selection-table tr:not(:first-child):not(.constraint-checked) td{
-				display:none;
-			}
 			.constraint-selection-table tr:not(:first-child) td{
 				margin-left:60px;
 				width:50px;
 			}
-			/*tr:not(.constraint-checked)*/
-			.constraint-selection-table tr:not(:first-child) td:first-child){
-				padding-left:60px;
+
+			.category-row{
+				margin-left: 80px;
 			}
+
+			.category-row :not(.constraint-checked){
+				display:none;
+			}
+
+			.category-row .constraint-checked{
+				display:block;
+			}
+			
+			.category-selection-div{
+				display: inline-block;
+				width: 50px
+			}
+
 			.checkbox-set-indentation {
 				margin-left: 30px;
 			}
@@ -485,13 +495,14 @@ radio<html>
 								<td><input type="checkbox" name="constraints" value="alignLeft">Align-Left</td>
 								<td style="text-align: right"><span class="info"><span class="content">Align-Left info.</span></span></td>
 							</tr>
-							<tr>
-								<td><input type="checkbox" name="category-alignLeft" value="cp">CP</td>
-								<td><input type="checkbox" name="category-alignLeft" value="xp" checked="checked">XP</td>
-								<td><input type="checkbox" name="category-alignLeft" value="x0">X<sup>0</sup></td>
-							</tr>
 						</tbody>
 					</table>
+					<div class="category-row">
+						<div class="category-selection-div"><input type="checkbox" name="category-alignLeft" value="cp">CP</div>
+						<div class="category-selection-div"><input type="checkbox" name="category-alignLeft" value="xp" checked="checked">XP</div>
+						<div class="category-selection-div"><input type="checkbox" name="category-alignLeft" value="x0">X<sup>0</sup></div>
+					</div>
+
 					<table class="constraint-selection-table">
 						<tbody>
 							<tr>

@@ -292,11 +292,12 @@ window.addEventListener('load', function(){
 	spotForm.addEventListener('change', function(ev) {
 		var target = ev.target;
 		if (target.name === 'constraints') {
-			var trClassList = target.closest('tr').nextElementSibling.classList;
-			//console.log(target);
-			//console.log(target.closest('tr').nextSibling);
-			//console.log(target.closest('tr').nextElementSibling);
-			//console.log(trClassList);
+			var trClassList = target.closest('table').nextElementSibling.classList;
+			console.log(target);
+			console.log(target.closest('table').nextSibling);
+			console.log(target.closest('table').nextElementSibling);
+			// console.log(target.closest('tr').nextElementSibling);
+			console.log(trClassList);
 			if (target.checked) {
 				trClassList.add('constraint-checked');
 			}
