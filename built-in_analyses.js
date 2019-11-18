@@ -6,10 +6,17 @@ function clearAnalysis(){
   var genOptions = document.getElementsByName("genOptions");
   var constraints = document.getElementsByName("constraints");
   for(var i = 0; i<genOptions.length; i++){
-    genOptions[i].checked = false;
+    if(genOptions[i].checked){
+      genOptions[i].click();
+    }
   }
+  document.getElementById("spotForm")["genOptions-rootCategory"].value = "i";
+  document.getElementById("spotForm")["genOptions-recursiveCategory"].value = "phi";
+  document.getElementById("spotForm")["genOptions-terminalCategory"].value = "w";
   for(var i = 0; i<constraints.length; i++){
-    constraints[i].checked = false;
+    if(constraints[i].checked){
+      constraints[i].click();
+    }
   }
 }
 
@@ -109,6 +116,16 @@ function my_built_in_analysis(myGEN, showTones, myTrees, myCon){
       }
     }
   }
+  if(myGEN.rootCategory){
+    document.getElementById("spotForm")["genOptions-rootCategory"].value = myGEN.rootCategory;
+  }
+  if(myGEN.recursiveCategory){
+    document.getElementById("spotForm")["genOptions-recursiveCategory"].value = myGEN.recursiveCategory;
+  }
+  if(myGEN.terminalCategory){
+    document.getElementById("spotForm")["genOptions-terminalCategory"].value = myGEN.terminalCategory;
+  }
+
 
   //Step 2: CON. Call a helper function to select the appropriate constraints & categories.
   built_in_con(myCon);

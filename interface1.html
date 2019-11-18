@@ -66,7 +66,7 @@ radio<html>
 				transform: rotate(-135deg);
 			}
 			table.spaceytable td {
-				padding:10px
+				padding:5px
 			}
 			#treeTableContainer div > * {
 				vertical-align: middle;
@@ -313,92 +313,100 @@ radio<html>
 				<ul>
 					<li>By default, XP and &phiv; are selected as the cateogories to assess violations over. Use the checkbox buttons next to each constraint to change the desired category.</li>
 					<li>SPOT is a JavaScript application. Make sure you have JavaScript enabled. We have tested SPOT in Firefox and Chrome, but not in Edge or Internet Explorer.</li>
-					<li>The current implementation of Gen only produces recursion at the &phiv;-level, so candidates with recursive &iota;s or &omega;s will not be generated.</li>
 				</ul>
 			</span></span>
 
 			<div style="margin-bottom: 1cm">
 				<h3 style="color: #07203D">Try a Built-in Analysis:</h3>
 				<p>Once you have selected an analysis, scroll to the bottom and hit "Get results"</p>
-				<select class="dropdown" name="analysis" onchange=built_in(this.value)>
+				<select class="dropdown" name="analysis" id="built-in-dropdown" onchange=built_in(this.value)>
 					<option value="select">Select</option>
 					<option value="irish">Irish Phrasing (Elfner 2012)</option>
 					<option value="kinyambo">Kinyambo (Bellik & Kalivoda 2016)</option>
 				</select>
-				<button onclick="clearAnalysis()">Clear All</button>
+
 			</div>
 
 			<form id="spotForm">
 				<!--GEN OPTIONS-->
-				<h2>Options for prosodic tree generation (GEN function)</h2>
+				<h2>GEN Options</h2>
 				<p>Prosodic constituents must be...
 				<span class="info"><span class="content">Checking a box will tell Gen not to produce certain types of prosodic trees, or to annotate the trees. By default, Gen only creates recursion at the &phiv; level.</span></span></p>
 
 				<table class="spaceytable"><tbody>
 					<tr>
 						<td><input type="checkbox" name="genOptions" value="obeysNonrecursivity">non-recursive</td>
+					</tr>
+					<tr>
 						<td><input type="checkbox" name="genOptions" value="obeysHeadedness"> headed</td>
+					</tr>
+					<tr>
 						<td><input type="checkbox" name="genOptions" value="requireRecWrapper">wrapped into a &phiv;</td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" name="genOptions" id="branchingBox" value="noUnary">branching</td>
 					</tr>
 				</tbody></table>
 				<table class="spaceytable"><tbody>
 					<tr>
 						<td><input type="checkbox" name="genOptions" id="exhaustivityBox" value="obeysExhaustivity">exhaustively parsed</td>
-						<td id="exhaustivityDetailOption1" style="display: none"><input type="checkbox" name="exhaustivityCats" value="i" checked="checked">&iota;'s children are &ge;&phiv;s&nbsp;&nbsp;</td>
+					</tr>
+					<tr>
+						<td id="exhaustivityDetailOption1" style="display: none" ><input type="checkbox" name="exhaustivityCats" value="i" checked="checked">&iota;'s children are &ge;&phiv;s&nbsp;&nbsp;</td>
 						<td id="exhaustivityDetailOption2" style="display: none"><input type="checkbox" name="exhaustivityCats" value="phi" checked="checked">&phiv;'s children are &ge;&omega;s&nbsp;&nbsp;</td>
 					</tr>
-
+					<tr>
+						<td><input type="checkbox" name="genOptions" id="cliticMovementBox" value="cliticMovement">Allow clitics to move</td>
+						<td class="info" width="300char"><div class="content">
+								GEN will permute the first node in the syntactic tree with category 'clitic' through the sentence. Ex.: a b c-clitic -> a b c-clitic, a c-clitic b, c-clitic a b. Only use this if your sentences are short, or in conjunction with non-recursivity or the branching requirement.</div>
+						</td>
+					</tr>
 				</tbody></table>
+				<h3>Prosodic Categories</h3>
+				Root prosodic tree in
+						<span class="info"><div class="content">Specify the category of the root node for all the trees created by GEN.</div></span>
 				<table class="spaceytable"><tbody>
 					<tr>
-						<td><input type="checkbox" name="genOptions" id="branchingBox" value="noUnary">branching</td>
+						<td style="width: 50px"><input type="radio" name="genOptions-rootCategory" value="i" checked="checked">&iota;</td>
+						<td style="width: 50px"><input type="radio" name="genOptions-rootCategory" value="phi">&phiv;</td>
+						<td style="width: 50px"><input type="radio" name="genOptions-rootCategory" value="w">&omega;</td>
 					</tr>
-
+					</tbody>
+				</table>
+				Intermediate nodes are
+				<span class="info"><div class="content">Specify the category of the nodes below the root and above the terminals. This is the category where GEN will create recursion.</div></span>
+				<table class="spaceytable"><tbody>
+					<tr>
+						<td style="width: 50px"><input type="radio" name="genOptions-recursiveCategory" value="i">&iota;</td>
+						<td style="width: 50px"><input type="radio" name="genOptions-recursiveCategory" value="phi" checked="checked">&phiv;</td>
+						<td style="width: 50px"><input type="radio" name="genOptions-recursiveCategory" value="w">&omega;</td>
+					</tr>
 				</tbody></table>
+				Prosodic terminals are
+					<span class="info"><div class="content">Specify the category of the terminal nodes for the trees GEN will create. N.B. GEN will always map terminals marked with "-clitic" to syllables.</div></span>
+				<table class="spaceytable"><tbody>
+					<tr>
+						<td style="width: 50px"><input type="radio" name="genOptions-terminalCategory" value="phi">&phiv;</td>
+						<td style="width: 50px"><input type="radio" name="genOptions-terminalCategory" value="w" checked="checked">&omega;</td>
+						<td style="width: 50px"><input type="radio" name="genOptions-terminalCategory" value="Ft">Ft</td>
+					</tr>
+				</tbody></table>
+
+				<h3>Tree annotation options</h3>
 				<table class="spaceytable"><tbody>
 					<tr>
 						<td><input type="checkbox" name="genOptions" value="usesTones" id="annotatedWithTones">annotated with tones</td>
-						<td id="japaneseTones" style="display:none"><input type="radio" name="toneOptions" value="addJapaneseTones">Japanese</td>
+					</tr>
+					<tr>
+						<td id="japaneseTones" style="display:none"><input type="radio" name="toneOptions" value="addJapaneseTones" checked="checked">Japanese</td>
 						<td id="irishTones" style="display:none"><input type="radio" name="toneOptions" value="addIrishTones_Elfner">Irish</td>
 					</tr>
-					<tr id="tones" style="display: none">
+					<!---<tr id="tones" style="display: none">
 						<td>
-							<input type="radio" name="toneOptions" value="addJapaneseTones">Japanese
+							<input type="radio" name="toneOptions" value="addJapaneseTones" checked="checked">Japanese
 							<input type="radio" name="toneOptions" value="addIrishTones_Elfner">Irish
 						</td>
-					</tr>
-				</tbody></table>
-				<table class="spaceytable"><tbody>
-					<tr>
-						<td><input type="checkbox" name="genOptions" id="cliticMovementBox" value="cliticMovement">Allow clitics to move</td>
-						<td class="info"><div class="content">
-							GEN will permute the first node in the syntactic tree with category 'clitic' through the sentence. Ex.: a b c-clitic -> a b c-clitic, a c-clitic b, c-clitic a b. Only use this if your sentences are short, because for a sentence with n words, this will multiply the number of prosodic trees by n.
-						</td>
-					</tr>
-				</tbody></table>
-				<table><tbody>
-					<tr>
-						<td><input type="checkbox" name="genOptions" value="rootCategory">Root Category</td>
-						<td class="info"><div class="content">Specify the category of the root node for all the trees created by GEN.</div></td>
-						<td><input type="radio" name="category-rootCategory" value="i" checked="checked">&iota;</td>
-						<td><input type="radio" name="category-rootCategory" value="phi">&phiv;</td>
-						<td><input type="radio" name="category-rootCategory" value="w">&omega;</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox" name="genOptions" value="recursiveCategory">Recursive Category</td>
-						<td class="info"><div class="content">Specify the category of the nodes below the root and above the terminals. This is the category where GEN will create recursion.</div></td>
-						<td><input type="radio" name="category-recursiveCategory" value="i">&iota;</td>
-						<td><input type="radio" name="category-recursiveCategory" value="phi" checked="checked">&phiv;</td>
-						<td><input type="radio" name="category-recursiveCategory" value="w">&omega;</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox" name="genOptions" value="terminalCategory">Terminal Category</td>
-						<td class="info"><div class="content">Specify the category of the terminal nodes for the trees GEN will create. N.B. GEN will always map terminals marked with "-clitic" to syllables.</div></td>
-						<td style="color: #555"><input type="radio" name="category-terminalCategory" value="i">&iota;</td>
-						<td><input type="radio" name="category-terminalCategory" value="phi">&phiv;</td>
-						<td><input type="radio" name="category-terminalCategory" value="w" checked="checked">&omega;</td>
-						<td><input type="radio" name="category-terminalCategory" value="Ft">Ft</td>
-					</tr>
+					</tr> !--->
 				</tbody></table>
 				<hr/>
 			<!--INPUT-->
@@ -427,10 +435,11 @@ radio<html>
 		            	<p>To add a node, select one or more adjacent sisters and click "Add Mother." To remove nodes, select them and click "Delete." </p>
 		            	<p>All labels are editable. The small labels with grey backgrounds represent node categories, and must be "cp", "xp", or "x0" for a node to be visible to the syntax-prosody mapping constraints. Use "clitic" as the category for a node that should be treated as prosodically dependent and not receive a corresponding &omega;. The larger labels with white backgrounds represent node ids, and can be any unique alphanumeric string.</p>
 		            </small></i>
-                	<button id="htmlToJsonTreeButton" type="button">Done! Convert tree to code</button>
+                	<button id="htmlToJsonTreeButton" type="button">Done! Convert tree to code
+					</button>
 									<div id="doneMessage">The trees in the analysis are up-to-date</div>
 
-                	<p style="font-size: 15; line-height: 24px"><label class="switch" style="margin-right: 10px"><input type="checkbox" id="tree-code-box" value="show-tree-code"><span class="slider round"></span>></label>Show code</p>
+                	<p style="font-size: 15; line-height: 24px"><label class="switch" style="margin-right: 10px"><input type="checkbox" id="tree-code-box" value="show-tree-code"><span class="slider round"></span></label>Show code</p>
             	</div>
 
 				<div style="display:none">
@@ -444,9 +453,10 @@ radio<html>
             </div>
 	            <hr style="margin-top: 20px;margin-bottom: 20px"/>
 				<!--CONSTRAINTS-->
+				<h2>Constraints</h2>
 				<fieldset>
 
-					<legend><h2>Syntax-prosody mapping constraints <span class="arrow"></h2></legend>
+					<legend><h2>Syntax-prosody mapping<span class="arrow"></h2></legend>
 
 					<h3>Align/Wrap</h3>
 					<table class="constraint-selection-table">
@@ -520,7 +530,7 @@ radio<html>
 
 				<fieldset>
 
-					<legend><h2>Binarity constraints <span class="arrow"></h2></legend>
+					<legend><h2>Binarity<span class="arrow"></h2></legend>
 
 					<h3>...counting branches</h3>
 
@@ -577,7 +587,7 @@ radio<html>
 
 				<fieldset>
 
-					<legend><h2>Markedness constraints on horizontal relationships <span class="arrow"></h2></legend>
+					<legend><h2>Sisterhood and ordering<span class="arrow"></h2></legend>
 
 					<table class="constraint-selection-table">
 					<tbody>
@@ -636,7 +646,7 @@ radio<html>
 
 				<fieldset>
 
-					<legend><h2>Markedness constraints on vertical relationships <span class="arrow"></h2></legend>
+					<legend><h2>Layering<span class="arrow"></h2></legend>
 					<table class="constraint-selection-table">
 					<tbody>
 						<tr>
@@ -693,7 +703,15 @@ radio<html>
 				<br/>
 				<hr style="margin-bottom: 20px"/>
 
-				<div align="center"><button class="orange-button submit-button" type="submit">Get results</button>
+				<div align="center">
+					<button onclick="clearAnalysis(); document.getElementById('built-in-dropdown').value = 'select'" type="button" style="margin:5px">Clear All
+					</button>
+					<button onclick="record_analysis()" type="button" style="margin:5px">Save
+					</button>
+					<button type="button" style="margin:5px">Load
+					</button>
+					<br/>
+					<button class="orange-button submit-button" type="submit">Get results</button>
 
 					<h2>Scroll down for results!
 						<span class="info">
