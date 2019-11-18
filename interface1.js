@@ -292,18 +292,19 @@ window.addEventListener('load', function(){
 	spotForm.addEventListener('change', function(ev) {
 		var target = ev.target;
 		if (target.name === 'constraints') {
-			var trClassList = target.closest('table').nextElementSibling.classList;
-			console.log(target);
-			console.log(target.closest('table').nextSibling);
-			console.log(target.closest('table').nextElementSibling);
+			var catRow = target.closest('table').nextElementSibling.classList;
+			// console.log(target);
+			// console.log(target.closest('table').nextSibling);
+			// console.log(target.closest('table').nextElementSibling);
 			// console.log(target.closest('tr').nextElementSibling);
-			console.log(trClassList);
+			console.log(catRow);
 			if (target.checked) {
-				trClassList.add('constraint-checked');
+				catRow.add('constraint-checked');
 			}
 			else {
-				trClassList.remove('constraint-checked');
+				catRow.remove('constraint.checked');
 			}
+			console.log(catRow);
 		}
 		
 	});
