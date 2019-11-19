@@ -201,8 +201,8 @@ function record_analysis(){
   var analysis = {
     myGEN: {},
     showTones: false,
-    myTrees: "",
-    myCON: []
+    myTrees: [],
+    myCon: []
   };
   /* analysis has attributes corresponding to inputs to
    * my_built_in_analysis(): myGEN, showTones, myTrees, myCON
@@ -242,6 +242,41 @@ function record_analysis(){
   //myTrees
   analysis.myTrees = JSON.parse(document.getElementById("stree-textarea").value);
 
+  //myCon
+  var uCon = spotForm.constraints;
+  for(var i = 0; i<uCon.length; i++){
+    var cName = uCon[i].value;
+    var uCategories;
+    if(uCon[i].checked){
+      uCategories = spotForm['category-'+cName];
+      for(var x = 0; x<uCategories.length; x++){
+        var cat = uCategories[x];
+        if(cat.checked){
+          analysis.myCon.push({name: cName, cat: cat.value});
+        }
+      }
+    }
+  }
 
   return JSON.stringify(analysis);
+}
+
+/* funtion to create the elements necessary to download an analysis in JSON
+ * string form.
+ * Takes two arguments, both strings, the analysis in JSON string form and the
+ * file name. This function will append ".SPOT" to the filename
+ * fileName is an argument for this function in case we want to make the user
+ * choose the file name instead of calling the file myAnalysis automatically
+ */
+function saveAnalysis(analysis, fileName){
+  var spotAnalysis = new Blob(["//SPOT analysis file https://people.ucsc.edu/~jbellik/spot/interface1.html\n"+"'"+analysis+"'"+"\n"], {type: "text/plain;charset=utf-8"});
+  fileName = fileName+".SPOT";
+  saveAs(spotAnalysis, fileName);
+  document.getElementById("save/load-dialog").innerHTML = "File saved as "+fileName+" Press \"Load\" and choose "+fileName+" to load this analysis in the future."
+}
+
+// function to show file upload button and instructions for loading an analysis
+function loadAnalysis(){
+  var dialog = document.getElementById("save/load-dialog");
+  dialog.innerHTML = "Analysis loaded. Choose another file to change analysis."
 }

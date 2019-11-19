@@ -703,13 +703,23 @@ radio<html>
 				<br/>
 				<hr style="margin-bottom: 20px"/>
 
-				<div align="center">
+				<div align="center" id="save-load-section">
 					<button onclick="clearAnalysis(); document.getElementById('built-in-dropdown').value = 'select'" type="button" style="margin:5px">Clear All
 					</button>
-					<button onclick="record_analysis()" type="button" style="margin:5px">Save
+					<button onclick="saveAnalysis(record_analysis(), 'myAnalysis')" type="button" style="margin:5px">Save
 					</button>
-					<button type="button" style="margin:5px">Load
+					<button onclick="document.getElementById('chooseFile').style='display: block'" type="button" style="margin:5px">Load
 					</button>
+					<br/>
+					<div id="chooseFile" style="display: none">
+						<p style="font-size: 13px; color: #555">
+							Upload an analysis that you previously downloaded from SPOT:
+						</p>
+						<input type="file" id="fileUpload" onchange="loadAnalysis()">
+					</div>
+					<br/>
+					<p id="save/load-dialog" style="font-size: 13px; color: #555">
+					</p>
 					<br/>
 					<button class="orange-button submit-button" type="submit">Get results</button>
 

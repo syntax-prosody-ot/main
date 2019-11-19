@@ -405,15 +405,7 @@ window.addEventListener('load', function(){
 
 		saveTextAs(csvSegs.join('\n'), 'SPOT_Results.csv');
 
-		function saveAs(blob, name) {
-			var a = document.createElement("a");
-			a.display = "none";
-			a.href = URL.createObjectURL(blob);
-			a.download = name;
-			document.body.appendChild(a);
-			a.click();
-			document.body.removeChild(a);
-		}
+		// the function saveAs() has been moved to the end of this file to make it global
 
 		function saveTextAs(text, name) {
 			saveAs(new Blob([text], {type: "text/csv", encoding: 'utf-8'}), name);
@@ -657,4 +649,15 @@ function toneInfoBlock(language){
 			content.innerHTML = irishContent;
 		}
 	}
+}
+
+//downloads an element to the user's computer. Originally defined up by saveTextAs()
+function saveAs(blob, name) {
+	var a = document.createElement("a");
+	a.display = "none";
+	a.href = URL.createObjectURL(blob);
+	a.download = name;
+	document.body.appendChild(a);
+	a.click();
+	document.body.removeChild(a);
 }
