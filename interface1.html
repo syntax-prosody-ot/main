@@ -154,6 +154,10 @@ radio<html>
 				font-size: 20px;
 				color: #07203D;
 			}
+			h3 {
+				color: #07203D;
+				margin-top: 5px;
+			}
 			fieldset h3, fieldset p {
 				margin: 5px;
 				color: #07203D;
@@ -334,6 +338,10 @@ radio<html>
 				height: 1.75rem;
 			}
 
+			.not-results{
+				max-width: 30em;
+			}
+
 		</style>
 
 	</head>
@@ -355,7 +363,7 @@ radio<html>
 			</span></span>
 
 			<div style="margin-bottom: 1cm">
-				<h3 style="color: #07203D">Try a Built-in Analysis:</h3>
+				<h3>Try a Built-in Analysis:</h3>
 				<p>Once you have selected an analysis, scroll to the bottom and hit "Get results"</p>
 				<select class="dropdown" name="analysis" id="built-in-dropdown" onchange=built_in(this.value)>
 					<option value="select">Select</option>
