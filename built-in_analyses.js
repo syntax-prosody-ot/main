@@ -28,10 +28,10 @@ function clearAnalysis(){
 function built_in_con(input){
   //all of the fieldsets, which contain the constraint inputs
   var conFields = document.getElementsByTagName("fieldset");
-  //for the constraint table rows which hide the category options
-  var con_trs;
   //for the constraint and category checkboxes
   var con_boxes;
+  //for the categories of a constraint
+  var cat_boxes;
   //string of all the constraints used so far
   var usedCons = "";
 
@@ -39,37 +39,31 @@ function built_in_con(input){
   for(var i = 0; i < input.length; i++){
     //iterate over the fieldsets
     for(var x = 0; x < conFields.length; x++){
-      //get all of the table rows in this fieldset
-      con_trs = conFields[x].getElementsByTagName("tr");
-      //iterate over the table rows in this fieldset
-      for(var y = 0; y < con_trs.length; y++){
-        //get checkboxes in this table row
-        con_boxes = con_trs[y].getElementsByTagName("input");
-        //check if constraint is in the current slot if the input
-        //assumes that constraint is the first checkbox
-        if(con_boxes[0].value === input[i].name){
-          //select the constraint
-          con_boxes[0].checked =  "checked";
+      //get the checkboxes in the fieldset
+      con_boxes = conFields[x].getElementsByTagName("input");
+      //iterate over the checkboxes in this fieldset
+      for(var y = 0; y < con_boxes.length; y++){
+        if(con_boxes[y].value === input[i].name && con_boxes[y].name === "constraints"){
+          //click on the constraint if it is not already checked
+          if(!con_boxes[y].checked){
+            con_boxes[y].click();
+          }
           //open the fieldset
           conFields[x].setAttribute("class", "open");
-          //reveal the categories
-          con_trs[y].setAttribute("class", "constraint-checked");
-          //iterate over the check boxes for cateogories
-          //assumes that the constraint is the first check box
-          for(var z = 1; z < con_boxes.length; z++){
+          console.log(x);
+          cat_boxes = document.getElementsByName("category-"+input[i].name);
+          for(var z = 1; z < cat_boxes.length; z++){
             //used to test if constraint has been used before:
             var regex = RegExp(input[i].name);
             // select the category if the input calls for it
-            if(con_boxes[z].value === input[i].cat){
-              con_boxes[z].checked =  true;
+            if(cat_boxes[z].value === input[i].cat){
+              cat_boxes[z].checked =  true;
             }
             // otherwise clear out category if this constraint has not been used before
             else if(!regex.test(usedCons)){
-              con_boxes[z].checked = false;
+              cat_boxes[z].checked = false;
             }
           }
-          //record that this constraint has been used so we don't write over the categories we have selected for it
-          usedCons = usedCons.concat(input[i].name);
         }
       }
     }
