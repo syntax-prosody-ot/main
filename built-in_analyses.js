@@ -210,9 +210,9 @@ function record_analysis(){
   var spotForm = document.getElementById("spotForm");
 
   //myGEN
-  for(var i = 0; i<spotForm.genOptions.length; i++){
+  for(var i = 0; i<spotForm.genOptions.length; i++){ //iterate over gen options
     var option = spotForm.genOptions[i];
-    //make sure "obeys exhaustivity has an array value"
+    //make sure "obeys exhaustivity" has an array value
     if(option.value === "obeysExhaustivity" && option.checked){
       var exCats = [];
 			for(var x=0; x<spotForm.exhaustivityCats.length; x++){
@@ -222,38 +222,39 @@ function record_analysis(){
 			}
       analysis.myGEN.obeysExhaustivity = exCats;
     }
+    //make sure "showTones" has a string value
     else if(option.value === "usesTones" && option.checked){
       analysis.showTones = spotForm.toneOptions.value;
-    }
-    else if(option.value === "rootCategory" && option.checked){
-      analysis.myGEN.rootCategory = spotForm['category-rootCategory'].value;
-    }
-    else if(option.value === "recursiveCategory" && option.checked){
-      analysis.myGEN.recursiveCategory = spotForm['category-recursiveCategory'].value;
-    }
-    else if(option.value === "terminalCategory" && option.checked){
-      analysis.myGEN.terminalCategory = spotForm['category-terminalCategory'].value;
     }
     else if(option.checked){
       analysis.myGEN[option.value] = true;
     }
   }
+  //gen categories:
+  analysis.myGEN.rootCategory = spotForm['genOptions-rootCategory'].value;
+  analysis.myGEN.recursiveCategory = spotForm['genOptions-recursiveCategory'].value;
+  analysis.myGEN.terminalCategory = spotForm['genOptions-terminalCategory'].value;
 
   //myTrees
   analysis.myTrees = JSON.parse(document.getElementById("stree-textarea").value);
 
   //myCon
   var uCon = spotForm.constraints;
-  for(var i = 0; i<uCon.length; i++){
-    var cName = uCon[i].value;
-    var uCategories;
+  for(var i = 0; i<uCon.length; i++){ //iterate over constraints in interface
+    var cName = uCon[i].value; //constraint name for myCON array
     if(uCon[i].checked){
-      uCategories = spotForm['category-'+cName];
-      for(var x = 0; x<uCategories.length; x++){
-        var cat = uCategories[x];
-        if(cat.checked){
-          analysis.myCon.push({name: cName, cat: cat.value});
+      if(spotForm['category-'+cName]){
+        var uCategories = spotForm['category-'+cName]; //categories for this constraint
+        for(var x = 0; x<uCategories.length; x++){ //iterate over categories
+          var cat = uCategories[x];
+          if(cat.checked){
+            analysis.myCon.push({name: cName, cat: cat.value}); //add to con
+          }
         }
+      }
+      else{
+        //if the constraint does not have category specifications (accent constraints)
+        analysis.myCon.push({name: cName}); //add to con without category specification
       }
     }
   }
@@ -269,14 +270,40 @@ function record_analysis(){
  * choose the file name instead of calling the file myAnalysis automatically
  */
 function saveAnalysis(analysis, fileName){
-  var spotAnalysis = new Blob(["//SPOT analysis file https://people.ucsc.edu/~jbellik/spot/interface1.html\n"+"'"+analysis+"'"+"\n"], {type: "text/plain;charset=utf-8"});
+  //Blob object becomees downloadable text file
+  var spotAnalysis = new Blob(["//SPOT analysis file usable at https://people.ucsc.edu/~jbellik/spot/interface1.html\n"+"'"+analysis+"'"+"\n"], {type: "text/plain;charset=utf-8"});
   fileName = fileName+".SPOT";
+  //saveAs is defined at the bottom of interface1.js
   saveAs(spotAnalysis, fileName);
+  //confirmation:
   document.getElementById("save/load-dialog").innerHTML = "File saved as "+fileName+" Press \"Load\" and choose "+fileName+" to load this analysis in the future."
 }
 
 // function to show file upload button and instructions for loading an analysis
-function loadAnalysis(){
-  var dialog = document.getElementById("save/load-dialog");
-  dialog.innerHTML = "Analysis loaded. Choose another file to change analysis."
+function loadAnalysis(file){
+  //only run if the file has the extention ".SPOT"
+  if(file.name.slice(-5)===".SPOT"){
+    var contents; //file contentes
+    read = new FileReader();
+    read.readAsText(file);
+    read.onload = function(){
+      contents = read.result;
+      try{
+        /* JSON string begins on the second line of the SPOT file
+         * (indexOf("\n")+2) and ends right before a newline character (-2)
+        */
+        var analysis = JSON.parse(contents.slice(contents.indexOf("\n")+2, -2));
+        //load the built-in analysis using the parameters set in file
+        my_built_in_analysis(analysis.myGEN, analysis.showTones, analysis.myTrees, analysis.myCon);
+        var dialog = document.getElementById("save/load-dialog");
+        dialog.innerHTML = "Analysis loaded. Choose another file to change analysis.";
+      }
+      catch(err){
+        //error handeling:
+        console.error("File does not follow SPOT format:");
+        console.error(err);
+        return;
+      }
+    }
+  }
 }

@@ -715,7 +715,7 @@ radio<html>
 						<p style="font-size: 13px; color: #555">
 							Upload an analysis that you previously downloaded from SPOT:
 						</p>
-						<input type="file" id="fileUpload" onchange="loadAnalysis()">
+						<input type="file" accept=".SPOT" id="fileUpload" onchange="loadAnalysis(this.files[this.files.length-1])">
 					</div>
 					<br/>
 					<p id="save/load-dialog" style="font-size: 13px; color: #555">
