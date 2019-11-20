@@ -188,9 +188,8 @@ radio<html>
 				display:none;
 			}
 
-			.constraint-selection-table .constraint-row span:not(.content){
+			.constraint-row span:not(.content){
 				text-align:left;
-				font-size: 110%;
 				display:inline-block;
 				/*font-variant: small-caps;
 				font-family: "Palatino Linotype", Garamond, serif;
@@ -339,7 +338,7 @@ radio<html>
 			}
 
 			.not-results{
-				max-width: 30em;
+				max-width: 40em;
 			}
 
 		</style>
@@ -377,31 +376,25 @@ radio<html>
 				<!--GEN OPTIONS-->
 				<fieldset class="open">
 				<legend><h2>GEN Options <span class="arrow"></span></h2></legend>
-				<p>Prosodic constituents must be...
-				<span class="info"><span class="content">Checking a box will tell Gen not to produce certain types of prosodic trees, or to annotate the trees. By default, Gen only creates recursion at the &phiv; level.</span></span></p>
 
 				<table class="spaceytable"><tbody>
 					<tr>
-						<td><input type="checkbox" name="genOptions" value="obeysNonrecursivity">non-recursive</td>
+						<td><input type="checkbox" name="genOptions" value="obeysNonrecursivity">No prosodic recursion.</td>
 					</tr>
 					<tr>
-						<td><input type="checkbox" name="genOptions" value="obeysHeadedness"> headed</td>
+						<td><input type="checkbox" name="genOptions" value="obeysHeadedness">Enforce headedness.</td>
 					</tr>
 					<tr>
-						<td><input type="checkbox" name="genOptions" value="requireRecWrapper">wrapped into a &phiv;</td>
-					</tr>
+							<td><input type="checkbox" name="genOptions" id="exhaustivityBox" value="obeysExhaustivity">No level skipping.</td>
+						</tr>
 					<tr>
-						<td><input type="checkbox" name="genOptions" id="branchingBox" value="noUnary">branching</td>
-					</tr>
-				</tbody></table>
-				<table class="spaceytable"><tbody>
-					<tr>
-						<td><input type="checkbox" name="genOptions" id="exhaustivityBox" value="obeysExhaustivity">exhaustively parsed</td>
-					</tr>
-					<tr>
-						<td id="exhaustivityDetailOption1" style="display: none" ><input type="checkbox" name="exhaustivityCats" value="i" checked="checked">&iota;'s children are &ge;&phiv;s&nbsp;&nbsp;</td>
+						<td id="exhaustivityDetailOption1" style="display: none; padding-left: 3em" ><input type="checkbox" name="exhaustivityCats" value="i" checked="checked">&iota;'s children are &ge;&phiv;s&nbsp;&nbsp;</td>
 						<td id="exhaustivityDetailOption2" style="display: none"><input type="checkbox" name="exhaustivityCats" value="phi" checked="checked">&phiv;'s children are &ge;&omega;s&nbsp;&nbsp;</td>
 					</tr>
+					<tr>
+						<td><input type="checkbox" name="genOptions" id="branchingBox" value="noUnary">Only generate branching constituents.</td>
+					</tr>
+					
 					<tr>
 						<td><input type="checkbox" name="genOptions" id="cliticMovementBox" value="cliticMovement">Allow clitics to move</td>
 						<td class="info" width="300char"><div class="content">
@@ -410,27 +403,28 @@ radio<html>
 					</tr>
 				</tbody></table>
 				<h3>Prosodic Categories</h3>
-					<p>Root prosodic tree in
-						<span class="info">
+					<div class="constraint-row"><span>Root prosodic tree in</span>
+						<div class="info">
 							<span class="content">Specify the category of the root node for all the trees created by GEN.</span>
-						</span>
-					</p>
-				<div class="category-row">
-					<div class="category-selection-div"><input type="radio" name="genOptions-rootCategory" value="i" checked="checked">&iota;</div>
-					<div class="category-selection-div"><input type="radio" name="genOptions-rootCategory" value="phi">&phiv;</div>
-					<div class="category-selection-div"><input type="radio" name="genOptions-rootCategory" value="w">&omega;</div>
+						</div>
+					</div>
+					<div class="category-row">
+						<div class="category-selection-div"><input type="radio" name="genOptions-rootCategory" value="i" checked="checked">&iota;</div>
+						<div class="category-selection-div"><input type="radio" name="genOptions-rootCategory" value="phi">&phiv;</div>
+						<div class="category-selection-div"><input type="radio" name="genOptions-rootCategory" value="w">&omega;</div>
+					</div>
+				<div class="constraint-row"><span>Intermediate nodes are</span>
+					<div class="info"><span class="content">Specify the category of the nodes below the root and above the terminals. This is the category where GEN will create recursion.</span></div>
 				</div>
-				<p>Intermediate nodes are
-				<span class="info"><span class="content">Specify the category of the nodes below the root and above the terminals. This is the category where GEN will create recursion.</span></span></p>
 				<div class="category-row">
 						<div class="category-selection-div"><input type="radio" name="genOptions-recursiveCategory" value="i">&iota;</div>
 						<div class="category-selection-div"><input type="radio" name="genOptions-recursiveCategory" value="phi" checked="checked">&phiv;</div>
 						<div class="category-selection-div"><input type="radio" name="genOptions-recursiveCategory" value="w">&omega;</div>
 				</div>
-				<p>Prosodic terminals are
-					<span class="info">
-						<span class="content">Specify the category of the terminal nodes for the trees GEN will create. N.B. GEN will always map terminals marked with "-clitic" to syllables.</span></span>
-				</p>
+				<div class="constraint-row"><span>Prosodic terminals are</span>
+					<div class="info">
+						<span class="content">Specify the category of the terminal nodes for the trees GEN will create. N.B. GEN will always map terminals marked with "-clitic" to syllables.</span></div>
+					</div>
 				<div class="category-row">
 						<div class="category-selection-div"><input type="radio" name="genOptions-terminalCategory" value="phi">&phiv;</div>
 						<div class="category-selection-div"><input type="radio" name="genOptions-terminalCategory" value="w" checked="checked">&omega;</div>
