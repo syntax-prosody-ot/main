@@ -163,38 +163,56 @@ radio<html>
 				padding-left: 20px;
 				margin-left: 30px;
 				width:70%;
-				table-layout: fixed;
-			}
-			/* .constraint-selection-table tr {
-				padding-right:20px;
-			} */
-			
-			.constraint-selection-table tr:first-child td:first-child {
-				font-variant: small-caps;
-				font-family: "Palatino Linotype", Garamond, serif;
-				letter-spacing: 0.07em;
-				font-size: 110%;
-			}
-			.constraint-selection-table td:not(:first-child){
-				text-align:left;
+				/*table-layout: fixed;*/
+				margin-bottom: 8px;
 			}
 
-			.constraint-selection-table tr:not(:first-child) td{
+			.constraint-selection-table .constraint-row span:first-child{
+				text-align:left;
+				font-size: 110%;
+				display:inline-block;
+				/*font-variant: small-caps;
+				font-family: "Palatino Linotype", Garamond, serif;
+				letter-spacing: 0.07em;*/
+				width: 15em;
+			}
+
+			.constraint-row{
+				padding-bottom: 3px;
+				position: relative;
+			}
+
+			.constraint-checked .constraint-row:after{
+				position: absolute;
+				content: '';
+				border-bottom:3px solid #546D8A;
+				width: 70%;
+				transform: translateX(-50%);
+				/*bottom: -15px;*/
+				left: 39%;
+			}
+
+			div:not(.constraint-checked) .constraint-row  .constraint-row:after{
+				display:none;
+			}
+
+			/* .constraint-selection-table tr:not(:first-child) td{
 				margin-left:60px;
 				width:50px;
-			}
+			} */
 
 			.category-row{
-				margin-left: 80px;
+				margin-left: 2em;
+				display:block;
 			}
 
-			.category-row :not(.constraint-checked){
+			.constraint-selection-table:not(.constraint-checked) .category-row{
 				display:none;
 			}
 			
 			.category-selection-div{
 				display: inline-block;
-				width: 50px
+				width: 4em;
 			}
 
 			.checkbox-set-indentation {
@@ -221,6 +239,7 @@ radio<html>
 				padding-left: 0.4em;
 				cursor: pointer;
 				color: #07C;
+				align-content: right;
 			}
 			.info .content {
 				display: none;
@@ -230,10 +249,16 @@ radio<html>
 			.info.showing .content {
 				display: block;
 			}
+
+			/* .constraint-row .info.showing{
+				text-align: right;
+			} */
 			/*
 			.info.showing-inline .content {
 				display: inline;
 			}*/
+
+
 			.tonesInfo {
 				font-size: 13px;
 				color: #555;
@@ -480,38 +505,40 @@ radio<html>
 	            <hr style="margin-top: 20px;margin-bottom: 20px"/>
 				<!--CONSTRAINTS-->
 				<h2>Constraints</h2>
-				<fieldset>
+				<fieldset class="open">
 
 					<legend><h2>Syntax-prosody mapping <span class="arrow"></h2></legend>
 
 					<h3>Align/Wrap</h3>
-					<table class="constraint-selection-table">
-						<tbody>
-							<tr>
-								<td><input type="checkbox" name="constraints" value="alignLeft">Align-Left</td>
-								<td style="text-align: right"><span class="info"><span class="content">Align-Left info.</span></span></td>
-							</tr>
-						</tbody>
-					</table>
-					<div class="category-row">
-						<div class="category-selection-div"><input type="checkbox" name="category-alignLeft" value="cp">CP</div>
-						<div class="category-selection-div"><input type="checkbox" name="category-alignLeft" value="xp" checked="checked">XP</div>
-						<div class="category-selection-div"><input type="checkbox" name="category-alignLeft" value="x0">X<sup>0</sup></div>
+					
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="alignLeft">Align-Left</span>
+							<span class="info">
+								<span class="content">Align-Left info.</span>
+							</span>
+						</div>
+
+						<div class="category-row">
+							<div class="category-selection-div"><input type="checkbox" name="category-alignLeft" value="cp">CP</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-alignLeft" value="xp" checked="checked">XP</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-alignLeft" value="x0">X<sup>0</sup></div>
+						</div>
 					</div>
 
-					<table class="constraint-selection-table">
-						<tbody>
-							<tr>
-								<td><input type="checkbox" name="constraints" value="alignRight">Align-Right</td>
-								<td style="text-align: right"><span class="info"><span class="content">Align-Left info.</span></span></td>
-							</tr>
-							<tr>
-								<td><input type="checkbox" name="category-alignRight" value="cp">CP</td>
-								<td><input type="checkbox" name="category-alignRight" value="xp" checked="checked">XP</td>
-								<td><input type="checkbox" name="category-alignRight" value="x0">X<sup>0</sup></td>
-							</tr>
-						</tbody>
-					</table>
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="alignRight">Align-Right</span>
+								<span class="info">
+									<span class="content">Align-Right info.</span>
+								</span>
+						</div>
+						<div class="category-row">
+							<div class="category-selection-div"><input type="checkbox" name="category-alignRight" value="cp">CP</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-alignRight" value="xp" checked="checked">XP</div>
+							<div><input type="checkbox" name="category-alignRight" value="x0">X<sup>0</sup></div>
+						</div>
+					</div>
 					<table class="constraint-selection-table">
 						<tbody>
 							<tr>

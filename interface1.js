@@ -292,17 +292,16 @@ window.addEventListener('load', function(){
 	spotForm.addEventListener('change', function(ev) {
 		var target = ev.target;
 		if (target.name === 'constraints') {
-			var catRow = target.closest('table').nextElementSibling.classList;
+			var catRow = target.closest('div .constraint-selection-table').classList;
 			// console.log(target);
 			// console.log(target.closest('table').nextSibling);
 			// console.log(target.closest('table').nextElementSibling);
 			// console.log(target.closest('tr').nextElementSibling);
-			console.log(catRow);
 			if (target.checked) {
 				catRow.add('constraint-checked');
 			}
 			else {
-				catRow.remove('constraint.checked');
+				catRow.remove('constraint-checked');
 			}
 			console.log(catRow);
 		}
