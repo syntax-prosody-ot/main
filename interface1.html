@@ -167,39 +167,36 @@ radio<html>
 				margin-bottom: 8px;
 			}
 
-			.constraint-selection-table .constraint-row span:first-child{
-				text-align:left;
-				font-size: 110%;
-				display:inline-block;
-				/*font-variant: small-caps;
-				font-family: "Palatino Linotype", Garamond, serif;
-				letter-spacing: 0.07em;*/
-				width: 15em;
-			}
 
 			.constraint-row{
+				margin-top: 1em;
 				padding-bottom: 3px;
-				position: relative;
 			}
 
 			.constraint-checked .constraint-row:after{
-				position: absolute;
+				display:block;
 				content: '';
 				border-bottom:3px solid #546D8A;
-				width: 70%;
-				transform: translateX(-50%);
-				/*bottom: -15px;*/
-				left: 39%;
+				width: 60%;
 			}
 
 			div:not(.constraint-checked) .constraint-row  .constraint-row:after{
 				display:none;
 			}
 
-			/* .constraint-selection-table tr:not(:first-child) td{
-				margin-left:60px;
-				width:50px;
-			} */
+			.constraint-selection-table .constraint-row span:not(.content){
+				text-align:left;
+				font-size: 110%;
+				display:inline-block;
+				/*font-variant: small-caps;
+				font-family: "Palatino Linotype", Garamond, serif;
+				letter-spacing: 0.07em;*/
+				width: 50%;
+			}
+
+			.constraint-row .info .content{
+				display: none;
+			}
 
 			.category-row{
 				margin-left: 2em;
@@ -212,7 +209,7 @@ radio<html>
 			
 			.category-selection-div{
 				display: inline-block;
-				width: 4em;
+				width: 20%;
 			}
 
 			.checkbox-set-indentation {
@@ -227,6 +224,7 @@ radio<html>
 			.info {
 				margin-left: 5px;
 				font-size: 13px;
+				display:inline;
 			}
 			.info:before {
 				display: inline-block;
@@ -249,14 +247,6 @@ radio<html>
 			.info.showing .content {
 				display: block;
 			}
-
-			/* .constraint-row .info.showing{
-				text-align: right;
-			} */
-			/*
-			.info.showing-inline .content {
-				display: inline;
-			}*/
 
 
 			.tonesInfo {
@@ -514,9 +504,9 @@ radio<html>
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="alignLeft">Align-Left</span>
-							<span class="info">
+							<div class="info">
 								<span class="content">Align-Left info.</span>
-							</span>
+							</div>
 						</div>
 
 						<div class="category-row">
@@ -529,29 +519,29 @@ radio<html>
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="alignRight">Align-Right</span>
-								<span class="info">
+								<div class="info">
 									<span class="content">Align-Right info.</span>
-								</span>
+								</div>
 						</div>
 						<div class="category-row">
 							<div class="category-selection-div"><input type="checkbox" name="category-alignRight" value="cp">CP</div>
 							<div class="category-selection-div"><input type="checkbox" name="category-alignRight" value="xp" checked="checked">XP</div>
-							<div><input type="checkbox" name="category-alignRight" value="x0">X<sup>0</sup></div>
+							<div class="category-selection-div"><input type="checkbox" name="category-alignRight" value="x0">X<sup>0</sup></div>
 						</div>
 					</div>
-					<table class="constraint-selection-table">
-						<tbody>
-							<tr>
-								<td><input type="checkbox" name="constraints" value="wrap">Wrap</td>
-								<td style="text-align: right"><span class="info"><span class="content">Align-Left info.</span></span></td>
-							</tr>
-							<tr>
-								<td><input type="checkbox" name="category-wrap" value="cp">CP</td>
-								<td><input type="checkbox" name="category-wrap" value="xp" checked="checked">XP</td>
-								<td><input type="checkbox" name="category-wrap" value="x0">X<sup>0</sup></td>
-							</tr>
-						</tbody>
-					</table>
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="wrap">Wrap</span>
+							<div class="info">
+								<span class="content">Align-Left info.</span>
+							</div>
+						</div>
+						<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-wrap" value="cp">CP</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-wrap" value="xp" checked="checked">XP</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-wrap" value="x0">X<sup>0</sup></div>
+							</div>
+						</div>
 
 					
 
