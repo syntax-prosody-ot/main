@@ -32,6 +32,8 @@ function built_in_con(input){
   var con_trs;
   //for the constraint and category checkboxes
   var con_boxes;
+  //string of all the constraints used so far
+  var usedCons = "";
 
   //iterate over the inputs
   for(var i = 0; i < input.length; i++){
@@ -49,29 +51,25 @@ function built_in_con(input){
           //select the constraint
           con_boxes[0].checked =  "checked";
           //open the fieldset
-          conFields[x].setAttribute("class", "open")
+          conFields[x].setAttribute("class", "open");
           //reveal the categories
-          con_trs[y].setAttribute("class", "constraint-checked")
+          con_trs[y].setAttribute("class", "constraint-checked");
           //iterate over the check boxes for cateogories
           //assumes that the constraint is the first check box
           for(var z = 1; z < con_boxes.length; z++){
+            //used to test if constraint has been used before:
+            var regex = RegExp(input[i].name);
             // select the category if the input calls for it
             if(con_boxes[z].value === input[i].cat){
-              // see below comment re "checked" == "built_in"
-              con_boxes[z].checked =  "built_in";
+              con_boxes[z].checked =  true;
             }
-            // deselect category unless already selected by built-in system
-            else if(con_boxes[z].checked !== "built_in"){
-              con_boxes[z].checked = false;;
-              /* re "checked" == "built_in"
-               * categories that have already been selected (eg. default
-               * category for constraint) should be deselected, unless that
-               * category has already been selected by the built-in system (ie.
-               * both matchSP-xp and matchSP-x0 are desired). By setting
-               * "checked" to "built_in", we can keep track of when this happens
-               */
+            // otherwise clear out category if this constraint has not been used before
+            else if(!regex.test(usedCons)){
+              con_boxes[z].checked = false;
             }
           }
+          //record that this constraint has been used so we don't write over the categories we have selected for it
+          usedCons = usedCons.concat(input[i].name);
         }
       }
     }
