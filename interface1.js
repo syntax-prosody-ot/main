@@ -318,13 +318,13 @@ window.addEventListener('load', function(){
 			else {
 				catRow.remove('constraint-checked');
 			}
-			console.log(catRow);
+			//console.log(catRow);
 		}
-		
+
 	});
 
 	spotForm.onsubmit=function(e){
-		
+
 		console.log("submit");
 		if (e.preventDefault) e.preventDefault();
 

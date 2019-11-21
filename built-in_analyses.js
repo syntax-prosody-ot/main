@@ -53,7 +53,7 @@ function built_in_con(input){
           //open the fieldset
           conFields[x].setAttribute("class", "open");
           cat_boxes = document.getElementsByName("category-"+input[i].name);
-          for(var z = 1; z < cat_boxes.length; z++){
+          for(var z = 0; z < cat_boxes.length; z++){
             //used to test if constraint has been used before:
             var regex = RegExp(input[i].name);
             // select the category if the input calls for it
