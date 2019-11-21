@@ -414,7 +414,8 @@ radio<html>
 						</td>
 					</tr>
 				</tbody></table>
-				<h3>Prosodic Categories</h3>
+				<fieldset>
+					<legend><h2>Prosodic Categories <span class="arrow"></span></h2></legend>
 					<div class="constraint-row"><span>Root prosodic tree in</span>
 						<div class="info">
 							<span class="content">Specify the category of the root node for all the trees created by GEN.</span>
@@ -437,13 +438,15 @@ radio<html>
 					<div class="info">
 						<span class="content">Specify the category of the terminal nodes for the trees GEN will create. N.B. GEN will always map terminals marked with "-clitic" to syllables.</span></div>
 					</div>
-				<div class="category-row">
+					<div class="category-row">
 						<div class="category-selection-div"><input type="radio" name="genOptions-terminalCategory" value="phi">&phiv;</div>
 						<div class="category-selection-div"><input type="radio" name="genOptions-terminalCategory" value="w" checked="checked">&omega;</div>
 						<div class="category-selection-div"><input type="radio" name="genOptions-terminalCategory" value="Ft">Ft</div>
 					</div>
-
-				<h3>Tree annotation options</h3>
+				</fieldset>
+				
+				<fieldset>
+				<legend><h2>Tree annotation options <span class="arrow"></span></h2></legend>
 				<table class="spaceytable"><tbody>
 					<tr>
 						<td><input type="checkbox" name="genOptions" value="usesTones" id="annotatedWithTones">annotated with tones</td>
@@ -459,6 +462,7 @@ radio<html>
 						</td>
 					</tr> !--->
 				</tbody></table>
+				</fieldset>
 			</div>
 
 			<!--INPUT-->
