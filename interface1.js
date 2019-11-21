@@ -627,6 +627,19 @@ window.addEventListener('load', function(){
 		}
 	});
 
+	document.getElementById("clearAllButton").addEventListener("click", function(){
+		clearAnalysis();
+		document.getElementById('built-in-dropdown').value = 'select';
+		document.getElementById('fileUpload').value = '';
+		document.getElementById('chooseFilePrompt').style = "font-size: 13px; color: #555";
+		document.getElementById('chooseFile').style = "display: none";
+		document.getElementById('save/load-dialog').innerHTML = '';
+	});
+
+	document.getElementById('spotForm').addEventListener("change", function(){
+		document.getElementById("save/load-dialog").innerHTML = '';
+	});
+
 });
 
 function toneInfoBlock(language){

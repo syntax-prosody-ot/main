@@ -704,17 +704,18 @@ radio<html>
 				<hr style="margin-bottom: 20px"/>
 
 				<div align="center" id="save-load-section">
-					<button onclick="clearAnalysis(); document.getElementById('built-in-dropdown').value = 'select'; document.getElementById('fileUpload').value = ''" type="button" style="margin:5px">Clear All
+					<button id="clearAllButton" type="button" style="margin:5px">Clear All
 					</button>
-					<button onclick="saveAnalysis(record_analysis(), 'myAnalysis')" type="button" style="margin:5px">Save
+					<button onclick='saveAnalysis(record_analysis(), (window.prompt("Save analysis as...\n(the analysis will be saved as a file with the extension .SPOT)", "myAnalysis") || "myAnalysis"))' type="button" style="margin:5px">Save
 					</button>
-					<button onclick="document.getElementById('chooseFile').style='display: block'" type="button" style="margin:5px">Load
+					<button onclick="document.getElementById('chooseFile').style='display: block'; document.getElementById('save/load-dialog').innerHTML = ''" type="button" style="margin:5px">Load
 					</button>
 					<br/>
 					<div id="chooseFile" style="display: none">
-						<p style="font-size: 13px; color: #555">
+						<div style="font-size: 13px; color: #555" id="chooseFilePrompt">
 							Upload an analysis that you previously downloaded from SPOT:
-						</p>
+						</div>
+						<br/>
 						<input type="file" accept=".SPOT" id="fileUpload" onchange="loadAnalysis(this.files[this.files.length-1])">
 					</div>
 					<br/>

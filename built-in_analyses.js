@@ -50,7 +50,6 @@ function built_in_con(input){
           }
           //open the fieldset
           conFields[x].setAttribute("class", "open");
-          console.log(x);
           cat_boxes = document.getElementsByName("category-"+input[i].name);
           for(var z = 1; z < cat_boxes.length; z++){
             //used to test if constraint has been used before:
@@ -268,7 +267,7 @@ function saveAnalysis(analysis, fileName){
   //saveAs is defined at the bottom of interface1.js
   saveAs(spotAnalysis, fileName);
   //confirmation:
-  document.getElementById("save/load-dialog").innerHTML = "File saved as "+fileName+" Press \"Load\" and choose "+fileName+" to load this analysis in the future."
+  document.getElementById("save/load-dialog").innerHTML = "File saved as "+fileName+" <br/>Press \"Load\" and choose "+fileName+" to load this analysis in the future."
 }
 
 // function to show file upload button and instructions for loading an analysis
@@ -289,6 +288,7 @@ function loadAnalysis(file){
         my_built_in_analysis(analysis.myGEN, analysis.showTones, analysis.myTrees, analysis.myCon);
         var dialog = document.getElementById("save/load-dialog");
         dialog.innerHTML = "Analysis loaded. Choose another file to change analysis.";
+        document.getElementById("chooseFilePrompt").style = "display: none";
       }
       catch(err){
         //error handeling:
