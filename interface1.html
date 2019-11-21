@@ -41,6 +41,18 @@ radio<html>
 			.blue-text {
 				color: #07203D;
 			}
+
+			.body{
+				background-color: #d0d8e0;
+			}
+
+			div.spotBlock{
+				background-color:white;
+				padding: 2em;
+				padding-top: 1em;
+				margin: 2em;
+			}
+
 			fieldset:not(.open) > :not(legend) {
 				display: none;
 			}
@@ -350,9 +362,9 @@ radio<html>
 			<img src="images/logo.png" alt="SPOT">
 			<span class="subtitle">A webapp for Syntax Prosody in Optimality Theory, with automated Gen, Con and Eval. <a href="https://spot.sites.ucsc.edu/">spot.sites.ucsc.edu/</a></span>
 		</div>
-		<div class="below-header">
+		<div class="below-header" style="background-color: #d0d8e0;">
 		<div class="not-results">
-			<br/>
+		<br/>
 			Select constraints, build syntactic trees, generate prosodic candidates, and download a violation tableau.
 			<span class="info"><span class="content"> Click on the downward carets to see constraints and add constraints to your constraint set using the associated checkboxes.
 				<ul>
@@ -361,7 +373,7 @@ radio<html>
 				</ul>
 			</span></span>
 
-			<div style="margin-bottom: 1cm">
+			<div class="spotBlock">
 				<h3>Try a Built-in Analysis:</h3>
 				<p>Once you have selected an analysis, scroll to the bottom and hit "Get results"</p>
 				<select class="dropdown" name="analysis" id="built-in-dropdown" onchange=built_in(this.value)>
@@ -374,8 +386,8 @@ radio<html>
 
 			<form id="spotForm">
 				<!--GEN OPTIONS-->
-				<fieldset class="open">
-				<legend><h2>GEN Options <span class="arrow"></span></h2></legend>
+				<div class="spotBlock">
+				<legend><h2>GEN Options</h2></legend>
 
 				<table class="spaceytable"><tbody>
 					<tr>
@@ -447,9 +459,10 @@ radio<html>
 						</td>
 					</tr> !--->
 				</tbody></table>
-			</fieldset>
-				<hr/>
+			</div>
+
 			<!--INPUT-->
+			<div class="spotBlock">
 			<h2>Inputs
 				<span class="info">
 					<span class="content">
@@ -490,9 +503,11 @@ radio<html>
 					<p>To enter trees manually... <span class="info"><span class="content">To use a tree you previously made and saved, select a tree or trees from your JavaScript tree file (some pre-made trees are in the directory <i>main/trees</i>, and end with .js). Paste in the contents of JS file of your input syntactic tree(s) (from the opening brace to the closing brace, removing any comments and excluding the final semi-colon). Separate trees with a comma and surround the whole thing with square brackets ("[]") to make it an array. Note that if you're only using Markedness constraints, you can just keep the default value of an empty tree (like so: {}) as the syntactic input.</span></span></p>
 					<textarea id="stree-textarea" class="stree-textarea" name="sTree" rows="15">{}</textarea>
 				</div>
-            </div>
-	            <hr style="margin-top: 20px;margin-bottom: 20px"/>
+			</div>
+		</div>
+
 				<!--CONSTRAINTS-->
+				<div class="spotBlock">
 				<h2>Constraints</h2>
 				<fieldset class="open">
 
@@ -777,6 +792,7 @@ radio<html>
 						</tbody>
 					</table>
 				</fieldset>
+			</div>
 
 				<br/>
 				<br/>
@@ -803,7 +819,7 @@ radio<html>
 					</h2>
 				</div>
 			</form>
-			<pre id="results-container"></pre>
+			<pre id="results-container" style="background-color: white; padding:2em; margin:2em"></pre>
 
 		</div>
 	</div>
