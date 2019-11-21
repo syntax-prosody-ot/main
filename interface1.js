@@ -207,6 +207,25 @@ function showUTree(tree){
 
 }
 
+function clearUTrees(){
+	treeTableContainer.innerHTML = '';
+}
+
+function addOrRemoveUTrees(addTree){
+	if(addTree){
+		treeTableContainer.innerHTML += addTree.toHtml();
+	}
+	else{
+		treeTableContainer.innerHTML = '';
+	}
+	refreshNodeEditingButtons();
+
+	document.getElementById('treeUIinner').style.display = 'block';
+
+	var treeContainer = document.getElementById("treeTableContainer");
+	treeContainer.scrollTop = treeContainer.scrollHeight;
+}
+
 function refreshNodeEditingButtons() {
 	var treeTableContainer = document.getElementById('treeTableContainer');
 	var hasSelection = treeTableContainer.getElementsByClassName('selected').length > 0;
