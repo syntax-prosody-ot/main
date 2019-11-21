@@ -221,7 +221,7 @@
 			.constraint-selection-table:not(.constraint-checked) .category-row{
 				display:none;
 			}
-			
+
 			.category-selection-div{
 				display: inline-block;
 				width: 5em;
@@ -355,7 +355,7 @@
 			}
 
 			#results-container{
-				background-color: white; 
+				background-color: white;
 				padding:2em; margin:2em;
 			}
 
@@ -373,7 +373,7 @@
 			<span class="subtitle"><span style="display: inline-block; width:50%; font-size:larger;">Syntax Prosody in Optimality Theory </span><span style="display:inline-block; text-align:right;"><a href="https://spot.sites.ucsc.edu/">spot.sites.ucsc.edu/</a></span></span>
 		</div>
 		<div class="below-header" style="background-color: #d0d8e0;">
-		
+
 		<br/>
 		<div style="margin-top: 10px"> Generate and evaluate prosodic and syntactic trees. View and download violation tableaux.
 			<span class="info"><span class="content">
@@ -418,7 +418,7 @@
 					<tr>
 						<td><input type="checkbox" name="genOptions" id="branchingBox" value="noUnary">Only generate branching constituents.</td>
 					</tr>
-					
+
 					<tr>
 						<td><input type="checkbox" name="genOptions" id="cliticMovementBox" value="cliticMovement">Allow clitics to move</td>
 						<td class="info" width="300char"><div class="content">
@@ -456,7 +456,7 @@
 						<div class="category-selection-div"><input type="radio" name="genOptions-terminalCategory" value="Ft">Ft</div>
 					</div>
 				</fieldset>
-				
+
 				<fieldset>
 				<legend><h2>Tree display options <span class="arrow"></span></h2></legend>
 				<table class="spaceytable"><tbody>
@@ -530,7 +530,7 @@
 					<legend><h2>Syntax-prosody mapping <span class="arrow"></h2></legend>
 
 					<h3>Align/Wrap</h3>
-					
+
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="alignLeft">Align-Left</span>
@@ -573,7 +573,7 @@
 							</div>
 						</div>
 
-					
+
 
 					<!--
 							</tr>
@@ -811,7 +811,7 @@
 			</div>
 
 				<div align="center">
-					<button onclick="clearAnalysis(); document.getElementById('built-in-dropdown').value = 'select'" type="button">Clear All
+					<button onclick="clearAnalysis(); document.getElementById('built-in-dropdown').value = 'select'; document.getElementById('fileUpload').value = ''" type="button">Clear All
 					</button>
 					<button onclick="record_analysis()" type="button">Save
 					</button>
