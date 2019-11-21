@@ -1,10 +1,11 @@
-<html>
+radio<html>
 	<head>
 		<title>SPOT Interface</title>
 
 		<script src="build/spot.js"></script>
 		<script src="./trees/built-in_trees.js"></script>
 		<link rel="stylesheet" type="text/css" href="spot.css">
+		<link rel="icon" type="image/x-icon" href="images/favicon.ico">
 
 		<style>
 			body {
@@ -17,21 +18,20 @@
 				/*border-bottom: 1px solid gray;*/
 				position: fixed;
 				top: 0;
-				padding: 13px 80px;
+				padding: 5px 80px;
 				z-index: 1;
 				width: 100%;
 			}
-			.header .title {
-				background-color: #3A5370;
-				color: #f0ad4e;
-				border-radius: 10px;
-				padding: 6px 10px;
-				font-weight: bold;
-				font-size: 24px;
-				margin-right: 30px;
+			.header img {
+				float: left;
+				width: 44px;
+				height: 44px;
+				margin-right: 20px;
 			}
 			.header .subtitle {
 				/*color: #3A5370;*/
+				position: relative;
+				top: 12px;
 			}
 			.below-header {
 				padding: 0px 130px;
@@ -66,10 +66,17 @@
 				transform: rotate(-135deg);
 			}
 			table.spaceytable td {
-				padding:10px
+				padding:5px
 			}
 			#treeTableContainer div > * {
 				vertical-align: middle;
+			}
+			#treeTableContainer {
+				width: fit-content;
+				height: 250px;
+				overflow: scroll;
+				resize: both;
+				border: 1px solid #a9a9a9;
 			}
 			.inline-block {
 				display:inline-block
@@ -138,7 +145,6 @@
 			}
 			fieldset {
 				margin-top: 10px;
-				width:70%;
 			}
 			fieldset h2 {
 				margin: 0px;
@@ -154,22 +160,41 @@
 			}
 			.constraint-selection-table {
 				margin-left: 30px;
+				width:70%;
+				table-layout: fixed;
 			}
 			.constraint-selection-table td {
 				padding-right:20px;
 			}
 			.constraint-selection-table tr:not(.constraint-checked) td:not(:first-child) {
-				visibility: hidden;
+				/*visibility: hidden;*/
 			}
-			.constraint-selection-table td:first-child {
+			.constraint-selection-table tr:first-child td:first-child {
 				font-variant: small-caps;
 				font-family: "Palatino Linotype", Garamond, serif;
 				letter-spacing: 0.07em;
 				font-size: 110%;
 			}
+			.constraint-selection-table td:not(:first-child){
+				text-align:left;
+			}
+
+			.constraint-selection-table tr:not(:first-child):not(.constraint-checked) td{
+				display:none;
+			}
+			.constraint-selection-table tr:not(:first-child) td{
+				margin-left:60px;
+				width:50px;
+			}
+			/*tr:not(.constraint-checked)*/
+			.constraint-selection-table tr:not(:first-child) td:first-child){
+				padding-left:60px;
+			}
 			.checkbox-set-indentation {
 				margin-left: 30px;
 			}
+			
+
 			.stree-textarea {
 				font-size: 11px;
 				width: 100%;
@@ -208,11 +233,11 @@
 				margin-left: 25px;
 			}
 			.treeUI-tree {
-				display: inline-block;
+				/*display: inline-block;*/
 				margin-right: 25px;
 				margin-bottom: 15px;
 			}
-			/* The switch - the box around the slider 
+			/* The switch - the box around the slider
 			Copy-Pasted from https://www.w3schools.com/howto/howto_css_switch.asp*/
 			.switch {
 				position: relative;
@@ -275,81 +300,132 @@
 			.slider.round:before {
 				border-radius: 50%;
 			}
+
+			#doneMessage {
+				display: none;
+				color: #555;
+				font-size: 13px;
+				margin-left: 10px;
+      }
+
+			/* built in analysis dropdown */
+			.dropdown {
+				border: 0.1rem solid #6d86a3;
+				font-size: 14px;
+				height: 1.75rem;
+			}
+
 		</style>
 
 	</head>
 	<body>
 	<div style="padding-bottom:40px">
 		<div class="header">
-			<span class="title">SPOT</span>
+			<img src="images/logo.png" alt="SPOT">
 			<span class="subtitle">A webapp for Syntax Prosody in Optimality Theory, with automated Gen, Con and Eval. <a href="https://spot.sites.ucsc.edu/">spot.sites.ucsc.edu/</a></span>
 		</div>
 		<div class="below-header">
+		<div class="not-results">
 			<br/>
 			Select constraints, build syntactic trees, generate prosodic candidates, and download a violation tableau.
 			<span class="info"><span class="content"> Click on the downward carets to see constraints and add constraints to your constraint set using the associated checkboxes.
 				<ul>
 					<li>By default, XP and &phiv; are selected as the cateogories to assess violations over. Use the checkbox buttons next to each constraint to change the desired category.</li>
 					<li>SPOT is a JavaScript application. Make sure you have JavaScript enabled. We have tested SPOT in Firefox and Chrome, but not in Edge or Internet Explorer.</li>
-					<li>The current implementation of Gen only produces recursion at the &phiv;-level, so candidates with recursive &iota;s or &omega;s will not be generated.</li>
 				</ul>
 			</span></span>
 
 			<div style="margin-bottom: 1cm">
 				<h3 style="color: #07203D">Try a Built-in Analysis:</h3>
 				<p>Once you have selected an analysis, scroll to the bottom and hit "Get results"</p>
-				<button onclick=built_in_Irish()>Irish Phrasing (Elfner 2012)</button>
-				<button onClick=location.reload(true)>Clear All</button>
+				<select class="dropdown" name="analysis" id="built-in-dropdown" onchange=built_in(this.value)>
+					<option value="select">Select</option>
+					<option value="irish">Irish Phrasing (Elfner 2012)</option>
+					<option value="kinyambo">Kinyambo (Bellik & Kalivoda 2016)</option>
+				</select>
+
 			</div>
 
 			<form id="spotForm">
 				<!--GEN OPTIONS-->
-				<h2>Options for prosodic tree generation (GEN function)</h2>
+				<h2>GEN Options</h2>
 				<p>Prosodic constituents must be...
 				<span class="info"><span class="content">Checking a box will tell Gen not to produce certain types of prosodic trees, or to annotate the trees. By default, Gen only creates recursion at the &phiv; level.</span></span></p>
 
 				<table class="spaceytable"><tbody>
 					<tr>
 						<td><input type="checkbox" name="genOptions" value="obeysNonrecursivity">non-recursive</td>
+					</tr>
+					<tr>
 						<td><input type="checkbox" name="genOptions" value="obeysHeadedness"> headed</td>
+					</tr>
+					<tr>
 						<td><input type="checkbox" name="genOptions" value="requireRecWrapper">wrapped into a &phiv;</td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" name="genOptions" id="branchingBox" value="noUnary">branching</td>
 					</tr>
 				</tbody></table>
 				<table class="spaceytable"><tbody>
 					<tr>
 						<td><input type="checkbox" name="genOptions" id="exhaustivityBox" value="obeysExhaustivity">exhaustively parsed</td>
-						<td id="exhaustivityDetailOption1" style="display: none"><input type="checkbox" name="exhaustivityCats" value="i" checked="checked">&iota;'s children are &ge;&phiv;s&nbsp;&nbsp;</td>
+					</tr>
+					<tr>
+						<td id="exhaustivityDetailOption1" style="display: none" ><input type="checkbox" name="exhaustivityCats" value="i" checked="checked">&iota;'s children are &ge;&phiv;s&nbsp;&nbsp;</td>
 						<td id="exhaustivityDetailOption2" style="display: none"><input type="checkbox" name="exhaustivityCats" value="phi" checked="checked">&phiv;'s children are &ge;&omega;s&nbsp;&nbsp;</td>
 					</tr>
-					
+					<tr>
+						<td><input type="checkbox" name="genOptions" id="cliticMovementBox" value="cliticMovement">Allow clitics to move</td>
+						<td class="info" width="300char"><div class="content">
+								GEN will permute the first node in the syntactic tree with category 'clitic' through the sentence. Ex.: a b c-clitic -> a b c-clitic, a c-clitic b, c-clitic a b. Only use this if your sentences are short, or in conjunction with non-recursivity or the branching requirement.</div>
+						</td>
+					</tr>
 				</tbody></table>
+				<h3>Prosodic Categories</h3>
+				Root prosodic tree in
+						<span class="info"><div class="content">Specify the category of the root node for all the trees created by GEN.</div></span>
 				<table class="spaceytable"><tbody>
 					<tr>
-						<td><input type="checkbox" name="genOptions" id="branchingBox" value="noUnary">branching</td>
+						<td style="width: 50px"><input type="radio" name="genOptions-rootCategory" value="i" checked="checked">&iota;</td>
+						<td style="width: 50px"><input type="radio" name="genOptions-rootCategory" value="phi">&phiv;</td>
+						<td style="width: 50px"><input type="radio" name="genOptions-rootCategory" value="w">&omega;</td>
 					</tr>
-					
+					</tbody>
+				</table>
+				Intermediate nodes are
+				<span class="info"><div class="content">Specify the category of the nodes below the root and above the terminals. This is the category where GEN will create recursion.</div></span>
+				<table class="spaceytable"><tbody>
+					<tr>
+						<td style="width: 50px"><input type="radio" name="genOptions-recursiveCategory" value="i">&iota;</td>
+						<td style="width: 50px"><input type="radio" name="genOptions-recursiveCategory" value="phi" checked="checked">&phiv;</td>
+						<td style="width: 50px"><input type="radio" name="genOptions-recursiveCategory" value="w">&omega;</td>
+					</tr>
 				</tbody></table>
+				Prosodic terminals are
+					<span class="info"><div class="content">Specify the category of the terminal nodes for the trees GEN will create. N.B. GEN will always map terminals marked with "-clitic" to syllables.</div></span>
+				<table class="spaceytable"><tbody>
+					<tr>
+						<td style="width: 50px"><input type="radio" name="genOptions-terminalCategory" value="phi">&phiv;</td>
+						<td style="width: 50px"><input type="radio" name="genOptions-terminalCategory" value="w" checked="checked">&omega;</td>
+						<td style="width: 50px"><input type="radio" name="genOptions-terminalCategory" value="Ft">Ft</td>
+					</tr>
+				</tbody></table>
+
+				<h3>Tree annotation options</h3>
 				<table class="spaceytable"><tbody>
 					<tr>
 						<td><input type="checkbox" name="genOptions" value="usesTones" id="annotatedWithTones">annotated with tones</td>
-						<td id="japaneseTones" style="display:none"><input type="radio" name="toneOptions" value="addJapaneseTones">Japanese</td>
+					</tr>
+					<tr>
+						<td id="japaneseTones" style="display:none"><input type="radio" name="toneOptions" value="addJapaneseTones" checked="checked">Japanese</td>
 						<td id="irishTones" style="display:none"><input type="radio" name="toneOptions" value="addIrishTones_Elfner">Irish</td>
 					</tr>
-					<tr id="tones" style="display: none">
+					<!---<tr id="tones" style="display: none">
 						<td>
-							<input type="radio" name="toneOptions" value="addJapaneseTones">Japanese
+							<input type="radio" name="toneOptions" value="addJapaneseTones" checked="checked">Japanese
 							<input type="radio" name="toneOptions" value="addIrishTones_Elfner">Irish
 						</td>
-					</tr>
-				</tbody></table>
-				<table class="spaceytable"><tbody>
-					<tr>
-						<td><input type="checkbox" name="genOptions" id="cliticMovementBox" value="cliticMovement">Allow clitics to move</td>
-						<td class="info"><div class="content">
-							GEN will permute the first node in the syntactic tree with category 'clitic' through the sentence. Ex.: a b c-clitic -> a b c-clitic, a c-clitic b, c-clitic a b. Only use this if your sentences are short, because for a sentence with n words, this will multiply the number of prosodic trees by n.
-						</td>
-					</tr>
-
+					</tr> !--->
 				</tbody></table>
 				<hr/>
 			<!--INPUT-->
@@ -357,14 +433,13 @@
 				<span class="info">
 					<span class="content">
 						To get prosodic candidate without building a syntactic tree, type the words that you want to be included in the output prosodic trees, separating them with spaces. Suffix a word with "-clitic" to map it to a syllable instead of &omega; in all prosodic trees. <b>N.B.</b> Input strings longer than 6 words may be very slow, and risk freezing your system.
-					<br/>Leave this blank to get the words from your syntatic tree(s).
 					</span>
 				</span>
 			</h2>
 			<p>String of terminals: <input type="text" name="inputToGen"> <button id="goButton" type="button">Build syntax</button><button class="orange-button" type="submit" style='margin-left: 5px'>Run GEN</button></p>
-			
+
             <div id="treeUI" style="display: none">
-                
+
               	<div id="treeUIinner" style="display: none">
               		<hr/>
               		<div>
@@ -380,11 +455,16 @@
 						<p>All labels are editable. The small labels with grey backgrounds represent node categories, and must be "cp", "xp", or "x0" for a node to be visible to the syntax-prosody mapping constraints. Use "clitic" as the category for a node that should be mapped to a syllable instead of a &omega;. The larger labels with white backgrounds represent node ids, and can be any unique alphanumeric string.</p>
 						<p>To create a new tree, click "Build syntax" again.</p>
 		            </small></i>
+
                 	<button id="htmlToJsonTreeButton" type="button">Done!<br><small></small>Add trees to analysis</small></button>
 
-                	<p style="font-size: 15; line-height: 24px"><label class="switch" style="margin-right: 10px"><input type="checkbox" id="tree-code-box" value="show-tree-code"><span class="slider round"></span>></label>Show code</p>
+					</button>
+									<div id="doneMessage">The trees in the analysis are up-to-date</div>
+
+
+                	<p style="font-size: 15; vertical-align: middle"><label class="switch" style="margin-right: 10px;vertical-align: middle"><input type="checkbox" id="tree-code-box" value="show-tree-code"><span class="slider round"></span></label>Show code</p>
             	</div>
-            	
+
 				<div style="display:none">
 					<button id="danishJsonTreesButton" type="button">Danish Trees: generate s-tree code</button>
 				</div>
@@ -396,34 +476,71 @@
             </div>
 	            <hr style="margin-top: 20px;margin-bottom: 20px"/>
 				<!--CONSTRAINTS-->
+				<h2>Constraints</h2>
 				<fieldset>
 
-					<legend><h2>Syntax-prosody mapping constraints <span class="arrow"></h2></legend>
-					
+					<legend><h2>Syntax-prosody mapping <span class="arrow"></h2></legend>
+
 					<h3>Align/Wrap</h3>
 					<table class="constraint-selection-table">
-					<tbody>
-						<tr>
-							<td><input type="checkbox" name="constraints" value="alignLeft">Align-Left</td>
-							<td><input type="checkbox" name="category-alignLeft" value="cp">CP</td>
-							<td><input type="checkbox" name="category-alignLeft" value="xp" checked="checked">XP</td>
-							<td><input type="checkbox" name="category-alignLeft" value="x0">X<sup>0</sup></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox" name="constraints" value="alignRight">Align-Right</td>
-							<td><input type="checkbox" name="category-alignRight" value="cp">CP</td>
-							<td><input type="checkbox" name="category-alignRight" value="xp" checked="checked">XP</td>
-							<td><input type="checkbox" name="category-alignRight" value="x0">X<sup>0</sup></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox" name="constraints" value="wrap">Wrap</td>
-							<td><input type="checkbox" name="category-wrap" value="cp">CP</td>
-							<td><input type="checkbox" name="category-wrap" value="xp" checked="checked">XP</td>
-							<td><input type="checkbox" name="category-wrap" value="x0">X<sup>0</sup></td>
-						</tr>
-					</tbody>
+						<tbody>
+							<tr>
+								<td><input type="checkbox" name="constraints" value="alignLeft">Align-Left</td>
+								<td style="text-align: right"><span class="info"><span class="content">Align-Left info.</span></span></td>
+							</tr>
+							<tr>
+								<td><input type="checkbox" name="category-alignLeft" value="cp">CP</td>
+								<td><input type="checkbox" name="category-alignLeft" value="xp" checked="checked">XP</td>
+								<td><input type="checkbox" name="category-alignLeft" value="x0">X<sup>0</sup></td>
+							</tr>
+						</tbody>
+					</table>
+					<table class="constraint-selection-table">
+						<tbody>
+							<tr>
+								<td><input type="checkbox" name="constraints" value="alignRight">Align-Right</td>
+								<td style="text-align: right"><span class="info"><span class="content">Align-Left info.</span></span></td>
+							</tr>
+							<tr>
+								<td><input type="checkbox" name="category-alignRight" value="cp">CP</td>
+								<td><input type="checkbox" name="category-alignRight" value="xp" checked="checked">XP</td>
+								<td><input type="checkbox" name="category-alignRight" value="x0">X<sup>0</sup></td>
+							</tr>
+						</tbody>
+					</table>
+					<table class="constraint-selection-table">
+						<tbody>
+							<tr>
+								<td><input type="checkbox" name="constraints" value="wrap">Wrap</td>
+								<td style="text-align: right"><span class="info"><span class="content">Align-Left info.</span></span></td>
+							</tr>
+							<tr>
+								<td><input type="checkbox" name="category-wrap" value="cp">CP</td>
+								<td><input type="checkbox" name="category-wrap" value="xp" checked="checked">XP</td>
+								<td><input type="checkbox" name="category-wrap" value="x0">X<sup>0</sup></td>
+							</tr>
+						</tbody>
 					</table>
 
+					
+
+					<!--
+							</tr>
+							<tr>
+								<td><input type="checkbox" name="constraints" value="alignRight">Align-Right</td>
+								<td><input type="checkbox" name="category-alignRight" value="cp">CP</td>
+								<td><input type="checkbox" name="category-alignRight" value="xp" checked="checked">XP</td>
+								<td><input type="checkbox" name="category-alignRight" value="x0">X<sup>0</sup></td>
+							</tr>
+							<tr>
+								<td><input type="checkbox" name="constraints" value="wrap">Wrap</td>
+								<td><input type="checkbox" name="category-wrap" value="cp">CP</td>
+								<td><input type="checkbox" name="category-wrap" value="xp" checked="checked">XP</td>
+								<td><input type="checkbox" name="category-wrap" value="x0">X<sup>0</sup></td>
+							</tr>
+						</tbody>
+					</table>
+					-->
 					<h3>Match Theory</h3>
 					<table class="constraint-selection-table">
 					<tbody>
@@ -472,7 +589,7 @@
 
 				<fieldset>
 
-					<legend><h2>Binarity constraints <span class="arrow"></h2></legend>
+					<legend><h2>Binarity <span class="arrow"></h2></legend>
 
 					<h3>...counting branches</h3>
 
@@ -522,15 +639,15 @@
 						</tr>
 					</tbody>
 					</table>
-					
+
 				</fieldset>
 
 				<br/>
 
 				<fieldset>
 
-					<legend><h2>Markedness constraints on horizontal relationships <span class="arrow"></h2></legend>
-					
+					<legend><h2>Sisterhood and ordering <span class="arrow"></h2></legend>
+
 					<table class="constraint-selection-table">
 					<tbody>
 						<tr>
@@ -588,7 +705,7 @@
 
 				<fieldset>
 
-					<legend><h2>Markedness constraints on vertical relationships <span class="arrow"></h2></legend>
+					<legend><h2>Layering <span class="arrow"></h2></legend>
 					<table class="constraint-selection-table">
 					<tbody>
 						<tr>
@@ -644,8 +761,16 @@
 				<br/>
 				<br/>
 				<hr style="margin-bottom: 20px"/>
-
-				<div align="center"><button class="orange-button submit-button" type="submit">Get results</button>
+				</div><!-- end of under not-results-->
+				<div align="center">
+					<button onclick="clearAnalysis(); document.getElementById('built-in-dropdown').value = 'select'" type="button" style="margin:5px">Clear All
+					</button>
+					<button onclick="record_analysis()" type="button" style="margin:5px">Save
+					</button>
+					<button type="button" style="margin:5px">Load
+					</button>
+					<br/>
+					<button class="orange-button submit-button" type="submit">Get results</button>
 
 					<h2>Scroll down for results!
 						<span class="info">
@@ -665,4 +790,3 @@
 
 	</body>
 </html>
-

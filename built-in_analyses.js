@@ -1,75 +1,27 @@
 /* Built-in Analyses */
 
-//Template for built in analyses
-function my_built_in_analysis(){
-  //Set up a built-in analysis in just a few easy steps
-  /* Step 1: copy and rename this function, create a button that calls your
-   * function in interface1.html
-   */
-  //Step 2: Define the constraint set. Use the following as an example
-  built_in_con([{name: "matchSP", cat:"xp"}, {name: "strongStart_Elfner", cat: "w"}, {name: "binMinBranches", cat: "phi"}, {name: "binMaxBranches", cat: "phi"}]);
-  //shows the tree UI
-  document.getElementById("treeUI").style.display = "block";
-  //Step 3: replace "myTreeHere" with your syntax tree(s). See also built-in_trees.js
-  document.getElementById("stree-textarea").value = JSON.stringify(myTreeHere);
-  // Step 4: (optional) If you want to annotate your tableaux with tones,
-  //uncomment this block:
-  /*
-  var toneCheckbox = document.getElementById("annotatedWithTones");
-  toneCheckbox.checked = true;
-  console.log(toneCheckbox.checked);
-  var toneButtons = toneCheckbox.parentNode.parentNode.getElementsByTagName("input");
-  for(var x = 0; x < toneButtons.length; x++){
-    toneButtons[x].parentNode.setAttribute("style", "display: table-cell");
-    if(toneButtons[x].value==="addIrishTones_Elfner"){
-      toneButtons[x].checked =  "checked";
-    }
-    else if (toneButtons[x] !== toneCheckbox){
-      //we don't want multiple radio buttons to be checked, it gets confusing
-      //this isn't doing what it is supposed to, I don't know why -Max 10/10/19
-      toneButtons[x].checked = false;
-      //toneButtons[x].removeAttribute("checked");
-    }
-  */
-}
-
-//Irish, as analysed in Elfner (2012), with some useful trees
-function built_in_Irish(){
-  //constraint set for built-in analysis
-  built_in_con([{name: "matchSP", cat:"xp"}, {name: "strongStart_Elfner", cat: "w"}, {name: "binMinBranches", cat: "phi"}, {name: "binMaxBranches", cat: "phi"}]);
-  //show the tree UI
-  document.getElementById("treeUI").style.display = "block";
-  //insert specified input to tree UI
-  document.getElementById("stree-textarea").value = JSON.stringify(irish_trees);
-  //exhaustivity options
-  var exhaustivityBox = document.getElementById("exhaustivityBox");
-  exhaustivityBox.checked = "checked";
-  var exhaustivityDetail = exhaustivityBox.parentNode.parentNode.getElementsByTagName("td");
-  for (var x = 0; x < exhaustivityDetail.length; x++){
-    exhaustivityDetail[x].setAttribute("style", "display: table-cell");
-  }
-
-  //document.getElementById("exhaustivityDetailRow").style.display = "block";
-  //some stuff for tones
-  var toneCheckbox = document.getElementById("annotatedWithTones");
-  toneCheckbox.checked = true;
-  console.log(toneCheckbox.checked);
-  var toneButtons = toneCheckbox.parentNode.parentNode.getElementsByTagName("input");
-  for(var x = 0; x < toneButtons.length; x++){
-    toneButtons[x].parentNode.setAttribute("style", "display: table-cell");
-    if(toneButtons[x].value==="addIrishTones_Elfner"){
-      toneButtons[x].checked =  "checked";
-    }
-    else if (toneButtons[x] !== toneCheckbox){
-      //we don't want multiple radio buttons to be checked, it gets confusing
-      //this isn't doing what it is supposed to, I don't know why -Max 10/10/19
-      toneButtons[x].checked = false;
-      //toneButtons[x].removeAttribute("checked");
+/*function to clear out any previous interaction with the interface, either from
+ * the user or from another built-in alalysis. */
+function clearAnalysis(){
+  var genOptions = document.getElementsByName("genOptions");
+  var constraints = document.getElementsByName("constraints");
+  for(var i = 0; i<genOptions.length; i++){
+    if(genOptions[i].checked){
+      genOptions[i].click();
     }
   }
+  document.getElementById("spotForm")["genOptions-rootCategory"].value = "i";
+  document.getElementById("spotForm")["genOptions-recursiveCategory"].value = "phi";
+  document.getElementById("spotForm")["genOptions-terminalCategory"].value = "w";
+  for(var i = 0; i<constraints.length; i++){
+    if(constraints[i].checked){
+      constraints[i].click();
+    }
+  }
+  window.clearUTrees();
 }
 
-/* Function to check all of the boxes for a buil-in constaint set in the UI
+/* Function to check all of the boxes for a built-in constaint set in the UI
  * takes an array of objects with the properties "name" and "cat"
  * "name" is the name of a constraint as it is called in SPOT (ie "alignLeft")
  * "cat" is the category which that constraint should be called on (ie "xp")
@@ -124,5 +76,115 @@ function built_in_con(input){
         }
       }
     }
+  }
+}
+
+
+
+/*Template for built-in analyses
+* Arguments:
+* myGEN: a GEN options object
+*   ex. {obeysExhaustivity: true, obeysNonRecursivity: false, noUnary: true}
+* myCon: a list of constraints in form [{name: "constraint", cat: "name"}]
+*   ex. [{name: "matchSP", cat:"xp"}, {name: "strongStart_Elfner", cat: "w"}, {name: "binMinBranches", cat: "phi"}, {name: "binMaxBranches", cat: "phi"}]
+* myTrees: a list of trees
+* showTones: either false or a string indicating the name of a tone annotation function to call
+*   ex. "addJapaneseTones", "addIrishTones_Elfner"
+*/
+function my_built_in_analysis(myGEN, showTones, myTrees, myCon){
+  //Step 0: clear the webpage
+  clearAnalysis();
+  //Step 1: GEN options
+  var genBoxes = document.getElementsByName("genOptions");
+  for(var box in genBoxes){
+    var optVal = myGEN[genBoxes[box].value];
+    if(optVal===true){
+      genBoxes[box].checked = true;
+    }
+    if(optVal instanceof Array && genBoxes[box].value==='obeysExhaustivity'){
+      var exhaustivityBox = document.getElementById("exhaustivityBox");
+      //exhaustivityBox.click();
+      exhaustivityBox.checked = "checked";
+      var exhaustivityCats = document.getElementsByName("exhaustivityCats");
+      for (var x = 0; x < exhaustivityCats.length; x++){
+        exhaustivityCats[x].parentNode.style.display = "table-cell";
+        if(optVal.indexOf(exhaustivityCats[x].value)>=0){
+          exhaustivityCats[x].checked=true;
+        }
+        else{
+          exhaustivityCats[x].checked=false;
+        }
+      }
+    }
+  }
+  if(myGEN.rootCategory){
+    document.getElementById("spotForm")["genOptions-rootCategory"].value = myGEN.rootCategory;
+  }
+  if(myGEN.recursiveCategory){
+    document.getElementById("spotForm")["genOptions-recursiveCategory"].value = myGEN.recursiveCategory;
+  }
+  if(myGEN.terminalCategory){
+    document.getElementById("spotForm")["genOptions-terminalCategory"].value = myGEN.terminalCategory;
+  }
+
+
+  //Step 2: CON. Call a helper function to select the appropriate constraints & categories.
+  built_in_con(myCon);
+
+  //Step 3: Trees
+  //First, shows the tree UI & the code view
+  document.getElementById("treeUI").style.display = "block";
+  for(var i = 0; i < myTrees.length; i++){
+	  var myUTree = new UTree(myTrees[i]);
+	  window.showUTree(myUTree);
+  }
+  document.getElementById("htmlToJsonTreeButton").click();
+  //document.getElementById("tree-code-box").click();
+  //Then paste trees in
+  //document.getElementById("stree-textarea").value = JSON.stringify(myTrees);
+
+  // Step 4: If showTones is not false, the tableaux will be annotated with tones.
+  if(showTones){
+    var toneCheckbox = document.getElementById("annotatedWithTones");
+    toneCheckbox.checked = true;
+    //console.log(toneCheckbox.checked);
+    var toneButtons = toneCheckbox.parentNode.parentNode.getElementsByTagName("input");
+    for(var x = 0; x < toneButtons.length; x++){
+      toneButtons[x].parentNode.setAttribute("style", "display: table-cell");
+      if(toneButtons[x].value===showTones){
+        toneButtons[x].checked =  "checked";
+      }
+      else if (toneButtons[x] !== toneCheckbox){
+        //we don't want multiple radio buttons to be checked, it gets confusing
+        toneButtons[x].checked = false;
+        //toneButtons[x].removeAttribute("checked");
+      }
+    }
+  }
+}
+
+//Irish, as analysed in Elfner (2012), with some useful trees
+function built_in_Irish(){
+  var myGEN = {obeysExhaustivity:['i','phi']};
+  var myCON = [{name: "matchSP", cat:"xp"}, {name: "strongStart_Elfner", cat: "w"}, {name: "binMinBranches", cat: "phi"}, {name: "binMaxBranches", cat: "phi"}];
+  var myTrees = irish_trees;
+  var showTones = "addIrishTones_Elfner";
+
+  my_built_in_analysis(myGEN, showTones, myTrees, myCON);
+}
+
+function built_in_Kinyambo(){
+  var kGEN = {obeysHeadedness: true, obeysNonrecursivity: true, obeysExhaustivity: true};
+  var ktrees = kinyambo_trees;
+  var kcon = [{name:'matchSP', cat:'xp'}, {name:'matchPS', cat:'phi'}, {name:'binMinBranches',cat:'phi'}, {name:'binMaxBranches', cat:'phi'}];
+  my_built_in_analysis(kGEN, false, ktrees, kcon);
+}
+
+function built_in(analysis) {
+  if(analysis === "irish") {
+    built_in_Irish();
+  }
+  if(analysis === "kinyambo") {
+    built_in_Kinyambo();
   }
 }
