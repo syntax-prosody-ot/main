@@ -13,7 +13,7 @@ radio<html>
 				font-family: Arial, Helvetica, sans-serif;
 			}
 			.header {
-				background-color: #d0d8e0;
+				background-color: #6d86a3;
 				/*border-top: 8px solid white;*/
 				/*border-bottom: 1px solid gray;*/
 				position: fixed;
@@ -21,6 +21,7 @@ radio<html>
 				padding: 5px 80px;
 				z-index: 1;
 				width: 100%;
+				color: #ffffff;
 			}
 			.header img {
 				float: left;
@@ -42,7 +43,7 @@ radio<html>
 				color: #07203D;
 			}
 
-			.body{
+			body{
 				background-color: #d0d8e0;
 			}
 
@@ -138,6 +139,7 @@ radio<html>
 				cursor: pointer;
 				font-size: 14px;
 				padding: 4px 8px;
+				margin: 5px;
 			}
 			button:hover {
 				background-color: #546D8A;
@@ -158,6 +160,7 @@ radio<html>
 			fieldset {
 				margin-top: 10px;
 				/*width:70%;*/
+				border-width: 1px;
 			}
 			fieldset h2 {
 				margin: 0px;
@@ -186,14 +189,14 @@ radio<html>
 
 			.constraint-row{
 				margin-top: 1em;
-				padding-bottom: 3px;
+				padding-bottom: 8px;
 			}
 
 			.constraint-checked .constraint-row:after{
 				display:block;
 				content: '';
-				border-bottom:3px solid #546D8A;
-				width: 60%;
+				border-bottom:2px solid #546D8A;
+				/* width: 90%; */
 			}
 
 			div:not(.constraint-checked) .constraint-row  .constraint-row:after{
@@ -206,7 +209,7 @@ radio<html>
 				/*font-variant: small-caps;
 				font-family: "Palatino Linotype", Garamond, serif;
 				letter-spacing: 0.07em;*/
-				width: 50%;
+				width: 90%;
 			}
 
 
@@ -221,13 +224,9 @@ radio<html>
 			
 			.category-selection-div{
 				display: inline-block;
-				width: 20%;
+				width: 5em;
 			}
 
-			.checkbox-set-indentation {
-				margin-left: 30px;
-			}
-			
 
 			.stree-textarea {
 				font-size: 11px;
@@ -365,17 +364,19 @@ radio<html>
 		<div class="below-header" style="background-color: #d0d8e0;">
 		<div class="not-results">
 		<br/>
-			Select constraints, build syntactic trees, generate prosodic candidates, and download a violation tableau.
-			<span class="info"><span class="content"> Click on the downward carets to see constraints and add constraints to your constraint set using the associated checkboxes.
+		<div style="margin-top: 10px"> Generate prosodic candidates. Build syntactic trees. Select constraints. View and download a violation tableau.
+			<span class="info"><span class="content">
 				<ul>
-					<li>By default, XP and &phiv; are selected as the cateogories to assess violations over. Use the checkbox buttons next to each constraint to change the desired category.</li>
+					<li>Click on the downward carets to see constraints and add constraints to your constraint set using the associated checkboxes.</li>
+					<li>By default, XP and &phiv; are selected as the cateogories to assess violations over. Use the checkboxes below each constraint to change the desired category.</li>
 					<li>SPOT is a JavaScript application. Make sure you have JavaScript enabled. We have tested SPOT in Firefox and Chrome, but not in Edge or Internet Explorer.</li>
 				</ul>
 			</span></span>
+		</div>
 
 			<div class="spotBlock">
-				<h3>Try a Built-in Analysis:</h3>
-				<p>Once you have selected an analysis, scroll to the bottom and hit "Get results"</p>
+				<h3>Built-in Systems
+				<span class="info"><span class="content" style="font-weight: normal;">To try an analysis from the syntax-prosody literature, select a built-in analysis from the menu, then scroll to the bottom and hit "Get results"</span></span></h3>
 				<select class="dropdown" name="analysis" id="built-in-dropdown" onchange=built_in(this.value)>
 					<option value="select">Select</option>
 					<option value="irish">Irish Phrasing (Elfner 2012)</option>
@@ -798,16 +799,14 @@ radio<html>
 				</fieldset>
 			</div>
 
-				<br/>
-				<br/>
-				<hr style="margin-bottom: 20px"/>
+				
 				</div><!-- end of under not-results-->
 				<div align="center">
-					<button onclick="clearAnalysis(); document.getElementById('built-in-dropdown').value = 'select'" type="button" style="margin:5px">Clear All
+					<button onclick="clearAnalysis(); document.getElementById('built-in-dropdown').value = 'select'" type="button">Clear All
 					</button>
-					<button onclick="record_analysis()" type="button" style="margin:5px">Save
+					<button onclick="record_analysis()" type="button">Save
 					</button>
-					<button type="button" style="margin:5px">Load
+					<button type="button">Load
 					</button>
 					<br/>
 					<button class="orange-button submit-button" type="submit">Get results</button>
