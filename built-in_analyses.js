@@ -19,6 +19,7 @@ function clearAnalysis(){
     }
   }
   window.clearUTrees();
+  document.getElementById("stree-textarea").value = '{}';
 }
 
 /* Function to check all of the boxes for a built-in constaint set in the UI
