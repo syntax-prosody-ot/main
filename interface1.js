@@ -293,10 +293,6 @@ window.addEventListener('load', function(){
 		var target = ev.target;
 		if (target.name === 'constraints') {
 			var catRow = target.closest('div .constraint-selection-table').classList;
-			// console.log(target);
-			// console.log(target.closest('table').nextSibling);
-			// console.log(target.closest('table').nextElementSibling);
-			// console.log(target.closest('tr').nextElementSibling);
 			if (target.checked) {
 				catRow.add('constraint-checked');
 			}
