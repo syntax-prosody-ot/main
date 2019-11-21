@@ -207,6 +207,25 @@ function showUTree(tree){
 
 }
 
+function clearUTrees(){
+	treeTableContainer.innerHTML = '';
+}
+
+function addOrRemoveUTrees(addTree){
+	if(addTree){
+		treeTableContainer.innerHTML += addTree.toHtml();
+	}
+	else{
+		treeTableContainer.innerHTML = '';
+	}
+	refreshNodeEditingButtons();
+
+	document.getElementById('treeUIinner').style.display = 'block';
+
+	var treeContainer = document.getElementById("treeTableContainer");
+	treeContainer.scrollTop = treeContainer.scrollHeight;
+}
+
 function refreshNodeEditingButtons() {
 	var treeTableContainer = document.getElementById('treeTableContainer');
 	var hasSelection = treeTableContainer.getElementsByClassName('selected').length > 0;
@@ -292,17 +311,21 @@ window.addEventListener('load', function(){
 	spotForm.addEventListener('change', function(ev) {
 		var target = ev.target;
 		if (target.name === 'constraints') {
-			var trClassList = target.closest('tr').classList;
+			var catRow = target.closest('div .constraint-selection-table').classList;
 			if (target.checked) {
-				trClassList.add('constraint-checked');
+				catRow.add('constraint-checked');
 			}
 			else {
-				trClassList.remove('constraint-checked');
+				catRow.remove('constraint-checked');
 			}
+			console.log(catRow);
 		}
+		
 	});
 
 	spotForm.onsubmit=function(e){
+		
+		console.log("submit");
 		if (e.preventDefault) e.preventDefault();
 
 		//Build a list of checked constraints.
@@ -385,6 +408,10 @@ window.addEventListener('load', function(){
 			genTones = spotForm.toneOptions.value;
 			//console.log(genOptions);
 		}
+
+		var resultsConCl = document.getElementById("results-container").classList;
+		resultsConCl.add('show-tableau');
+
 		var csvSegs = [];
 		for (var i = 0; i < sTrees.length; i++) {
 			var sTree = sTrees[i];
