@@ -254,6 +254,8 @@ radio<html>
 				display: none;
 				margin-left: 5px;
 				color: #555;
+				font-weight: normal;
+				text-align: left;
 			}
 			.info.showing .content {
 				display: block;
@@ -350,6 +352,15 @@ radio<html>
 
 			.not-results{
 				max-width: 40em;
+			}
+
+			#results-container{
+				background-color: white; 
+				padding:2em; margin:2em;
+			}
+
+			#results-container:not(.show-tableau){
+				display: none;
 			}
 
 		</style>
@@ -799,8 +810,6 @@ radio<html>
 				</fieldset>
 			</div>
 
-				
-				</div><!-- end of under not-results-->
 				<div align="center">
 					<button onclick="clearAnalysis(); document.getElementById('built-in-dropdown').value = 'select'" type="button">Clear All
 					</button>
@@ -822,7 +831,8 @@ radio<html>
 					</h2>
 				</div>
 			</form>
-			<pre id="results-container" style="background-color: white; padding:2em; margin:2em"></pre>
+		</div><!-- end of under not-results-->
+			<pre id="results-container"></pre>
 
 		</div>
 	</div>
