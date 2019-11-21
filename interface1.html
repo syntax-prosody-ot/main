@@ -699,40 +699,38 @@
 
 					<legend><h2>Sisterhood and ordering <span class="arrow"></h2></legend>
 
-					<table class="constraint-selection-table">
-					<tbody>
-						<tr>
-							<td><input type="checkbox" name="constraints" value="noShift">No Shift</td>
-						</tr>
-					</tbody>
-					</table>
+					<div class="constraint-selection-table">
+					<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="noShift">NoShift</span>
+					</div>
+					</div>
+
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="balancedSistersAdj">BalancedSisters (Uniformity)</span><div class="info"><span class="content">BalancedSisters info</span></div>
+						</div>
+						<div class="category-row">
+							<div class="category-selection-div"><input type="checkbox" value=i name="category-balancedSistersAdj">&iota;</div>
+							<div class="category-selection-div"><input type="checkbox" value=phi name="category-balancedSistersAdj">&phi;</div>
+							<div class="category-selection-div"><input type="checkbox" value=w name="category-balancedSistersAdj">&omega;</div>
+						</div>
+					</div>
+					
 					<h3>EqualSisters</h3>
 					<table class="constraint-selection-table">
 					<tbody>
 
 						<tr>
 							<td title="Assign a violation for every pair of adjacent sister nodes that are not of the same prosodic category."><input type="checkbox" name="constraints" value="equalSistersAdj">EqualSisters (adjacent)</td>
-							<!--
-							<td><input type="checkbox" name="category-equalSistersAdj" value="i">&iota;</td>
-							<td><input type="checkbox" name="category-equalSistersAdj" value="phi" checked="checked">&phiv;</td>
-							<td><input type="checkbox" name="category-equalSistersAdj" value="w">&omega;</td>
-							-->
+							
 						</tr>
 						<tr>
 							<td title="Assign a violation for every (unordered) pair of sisters nodes that are not of the same prosodic category."><input type="checkbox" name="constraints" value="equalSistersPairwise">EqualSisters (pairwise)</td>
-							<!--
-							<td><input type="checkbox" name="category-equalSistersPairwise" value="i">&iota;</td>
-							<td><input type="checkbox" name="category-equalSistersPairwise" value="phi" checked="checked">&phiv;</td>
-							<td><input type="checkbox" name="category-equalSistersPairwise" value="w">&omega;</td>
-							-->
+							
 						</tr>
 						<tr>
 							<td title="For each set of sisters, assign a violation for every child that has a different prosodic category from the first (leftmost) sister in the set."><input type="checkbox" name="constraints" value="equalSistersFirstPrivilege">EqualSisters (first privilege)</td>
-							<!--
-							<td><input type="checkbox" name="category-equalSistersFirstPrivilege" value="i">&iota;</td>
-							<td><input type="checkbox" name="category-equalSistersFirstPrivilege" value="phi" checked="checked">&phiv;</td>
-							<td><input type="checkbox" name="category-equalSistersFirstPrivilege" value="w">&omega;</td>
-							-->
+							
 						</tr>
 					</tbody>
 					</table>
