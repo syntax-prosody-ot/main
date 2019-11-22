@@ -318,13 +318,13 @@ window.addEventListener('load', function(){
 			else {
 				catRow.remove('constraint-checked');
 			}
-			console.log(catRow);
+			//console.log(catRow);
 		}
-		
+
 	});
 
 	spotForm.onsubmit=function(e){
-		
+
 		console.log("submit");
 		if (e.preventDefault) e.preventDefault();
 
@@ -332,15 +332,20 @@ window.addEventListener('load', function(){
 		var constraintSet = [];
 		for(var i=0; i<spotForm.constraints.length; i++){
 			var constraintBox = spotForm.constraints[i];
+			//console.log(constraintBox);
 			if(constraintBox.checked){
 				var constraint = constraintBox.value;
+				//console.log(constraint);
 				//Figure out all the categories selected for the constraint
 				if(spotForm['category-'+constraint]){
 					var constraintCatSet = spotForm['category-'+constraint];
+					//console.log(constraintCatSet);
 					for(var j=0; j<constraintCatSet.length; j++){
 						var categoryBox = constraintCatSet[j];
+						//console.log(categoryBox);
 						if(categoryBox.checked){
 							var category = categoryBox.value;
+							//console.log(category);
 							constraintSet.push(constraint+'-'+category);
 						}
 					}
@@ -350,6 +355,16 @@ window.addEventListener('load', function(){
 			}
 		}
 		//console.log(constraintSet);
+
+		// build list of match options
+		var matchOptions = {};
+		for(var i=0; i<spotForm.matchOptions.length; i++){
+			var optionBox = spotForm.matchOptions[i];
+			console.log(optionBox);
+			matchOptions[optionBox.value]=optionBox.checked;
+		}
+		console.log(matchOptions);
+
 		//Get the input syntactic tree.
 		var sTrees;
 		try{
@@ -368,8 +383,11 @@ window.addEventListener('load', function(){
 		var genOptions = {};
 		for(var i=0; i<spotForm.genOptions.length; i++){
 			var optionBox = spotForm.genOptions[i];
+			//console.log(optionBox);
 			genOptions[optionBox.value]=optionBox.checked;
 		}
+		//console.log(genOptions);
+
 		//record exhaustivity options if selected
 		if(genOptions['obeysExhaustivity']){
 			var exCats = [];
