@@ -227,6 +227,10 @@
 				width: 5em;
 			}
 
+			.option-selection-div{
+				display: inline-block;
+				width: 10em;
+			}
 
 			.stree-textarea {
 				font-size: 11px;
@@ -582,13 +586,19 @@
 									<span class="content">all syntactic nodes info.</span>
 								</div>
 							</div>
-
 							<div class="category-row">
-								<div class="category-selection-div"><input type="checkbox" name="category-alignLeft" value="cp">CP</div>
-								<div class="category-selection-div"><input type="checkbox" name="category-alignLeft" value="xp" checked="checked">XP</div>
-								<div class="category-selection-div"><input type="checkbox" name="category-alignLeft" value="x0">X<sup>0</sup></div>
+								<div class="category-selection-div"><input type="checkbox" name="" value="cp">CP</div>
+								<div class="category-selection-div"><input type="checkbox" name="" value="xp" checked="checked">XP</div>
+								<div class="category-selection-div"><input type="checkbox" name="" value="x0">X<sup>0</sup></div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div"><input type="checkbox" name="" value="">lexical</div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div"><input type="checkbox" name="" value="">overtly headed</div>
 							</div>
 						</div>
+
 
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
@@ -598,11 +608,19 @@
 									</div>
 							</div>
 							<div class="category-row">
-								<div class="category-selection-div"><input type="checkbox" name="category-alignRight" value="cp">CP</div>
-								<div class="category-selection-div"><input type="checkbox" name="category-alignRight" value="xp" checked="checked">XP</div>
-								<div class="category-selection-div"><input type="checkbox" name="category-alignRight" value="x0">X<sup>0</sup></div>
+								<div class="category-selection-div"><input type="checkbox" name="" value="cp">CP</div>
+								<div class="category-selection-div"><input type="checkbox" name="" value="xp" checked="checked">XP</div>
+								<div class="category-selection-div"><input type="checkbox" name="" value="x0">X<sup>0</sup></div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div"><input type="checkbox" name="" value="">lexical</div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div"><input type="checkbox" name="" value="">overtly headed</div>
 							</div>
 						</div>
+
+
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="wrap">all non-minimal syntactic nodes</span>
@@ -611,41 +629,93 @@
 								</div>
 							</div>
 							<div class="category-row">
-									<div class="category-selection-div"><input type="checkbox" name="category-wrap" value="cp">CP</div>
-									<div class="category-selection-div"><input type="checkbox" name="category-wrap" value="xp" checked="checked">XP</div>
-									<div class="category-selection-div"><input type="checkbox" name="category-wrap" value="x0">X<sup>0</sup></div>
+									<div class="category-selection-div"><input type="checkbox" name="" value="cp">CP</div>
+									<div class="category-selection-div"><input type="checkbox" name="" value="xp" checked="checked">XP</div>
+									<div class="category-selection-div"><input type="checkbox" name="" value="x0">X<sup>0</sup></div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div"><input type="checkbox" name="" value="">lexical</div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div"><input type="checkbox" name="" value="">overtly headed</div>
+							</div>
+						</div>
+
+
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="wrap">custom</span>
+								<div class="info">
+									<span class="content">custom info.</span>
 								</div>
 							</div>
-							<div class="constraint-selection-table">
-								<div class="constraint-row">
-									<span><input type="checkbox" name="constraints" value="wrap">custom</span>
-									<div class="info">
-										<span class="content">custom info.</span>
-									</div>
-								</div>
-								<div class="category-row">
-										<div class="category-selection-div"><input type="checkbox" name="category-wrap" value="cp">CP</div>
-										<div class="category-selection-div"><input type="checkbox" name="category-wrap" value="xp" checked="checked">XP</div>
-										<div class="category-selection-div"><input type="checkbox" name="category-wrap" value="x0">X<sup>0</sup></div>
-									</div>
-								</div>
-
-							<h3>Match(Prosody)</h3>
-
-							<div class="constraint-selection-table">
-								<div class="constraint-row">
-									<span><input type="checkbox" name="constraints" value="alignLeft">all prosodic nodes</span>
-									<div class="info">
-										<span class="content">all prosodic nodes info.</span>
-									</div>
-								</div>
-
-								<div class="category-row">
-									<div class="category-selection-div"><input type="checkbox" name="category-alignLeft" value="cp">CP</div>
-									<div class="category-selection-div"><input type="checkbox" name="category-alignLeft" value="xp" checked="checked">XP</div>
-									<div class="category-selection-div"><input type="checkbox" name="category-alignLeft" value="x0">X<sup>0</sup></div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="" value="cp">CP</div>
+								<div class="category-selection-div"><input type="checkbox" name="" value="xp" checked="checked">XP</div>
+								<div class="category-selection-div"><input type="checkbox" name="" value="x0">X<sup>0</sup></div>
+							</div>
+							<div class="category-row">
+								<p>Enforce Match only for XPs that are...</p>
+								<div class="option-selection-div"><input type="checkbox" name="" value="">lexical</div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div"><input type="checkbox" name="" value="">overtly headed</div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div">
+									<select name="">
+										<option value="any">Any</option>
+										<option value="maximal">+</option>
+										<option value="non-maximal">-</option>
+									</select> maximal
 								</div>
 							</div>
+							<div class="category-row">
+								<div class="option-selection-div">
+									<select name="">
+										<option value="any">Any</option>
+										<option value="maximal">+</option>
+										<option value="non-maximal">-</option>
+									</select> minimal
+								</div>
+							</div>
+							<div class="category-row">
+								<p>Phis must be...</p>
+								<div class="option-selection-div">
+									<select name="">
+										<option value="any">Any</option>
+										<option value="maximal">+</option>
+										<option value="non-maximal">-</option>
+									</select> maximal
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div">
+									<select name="">
+										<option value="any">Any</option>
+										<option value="maximal">+</option>
+										<option value="non-maximal">-</option>
+									</select> minimal
+								</div>
+							</div>
+						</div>
+						
+
+						<h3>Match(Prosody)</h3>
+
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="alignLeft">all prosodic nodes</span>
+								<div class="info">
+									<span class="content">all prosodic nodes info.</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="" value="i">&iota;</div>
+								<div class="category-selection-div"><input type="checkbox" name="" value="phi" checked="checked">&phiv;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-binMinBranches" value="w">&omega;</div>
+							</div>
+						</div>
 
 					<!--
 							</tr>
