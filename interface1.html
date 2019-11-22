@@ -573,7 +573,79 @@
 							</div>
 						</div>
 
+						<h3>Match(Syntax)</h3>
 
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="alignLeft">all syntactic nodes</span>
+								<div class="info">
+									<span class="content">all syntactic nodes info.</span>
+								</div>
+							</div>
+
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-alignLeft" value="cp">CP</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-alignLeft" value="xp" checked="checked">XP</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-alignLeft" value="x0">X<sup>0</sup></div>
+							</div>
+						</div>
+
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+									<span><input type="checkbox" name="constraints" value="alignRight">all maximal syntactic nodes</span>
+									<div class="info">
+										<span class="content">all maximal syntactic nodes info.</span>
+									</div>
+							</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-alignRight" value="cp">CP</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-alignRight" value="xp" checked="checked">XP</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-alignRight" value="x0">X<sup>0</sup></div>
+							</div>
+						</div>
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="wrap">all non-minimal syntactic nodes</span>
+								<div class="info">
+									<span class="content">all non-minimal syntactic nodes info.</span>
+								</div>
+							</div>
+							<div class="category-row">
+									<div class="category-selection-div"><input type="checkbox" name="category-wrap" value="cp">CP</div>
+									<div class="category-selection-div"><input type="checkbox" name="category-wrap" value="xp" checked="checked">XP</div>
+									<div class="category-selection-div"><input type="checkbox" name="category-wrap" value="x0">X<sup>0</sup></div>
+								</div>
+							</div>
+							<div class="constraint-selection-table">
+								<div class="constraint-row">
+									<span><input type="checkbox" name="constraints" value="wrap">custom</span>
+									<div class="info">
+										<span class="content">custom info.</span>
+									</div>
+								</div>
+								<div class="category-row">
+										<div class="category-selection-div"><input type="checkbox" name="category-wrap" value="cp">CP</div>
+										<div class="category-selection-div"><input type="checkbox" name="category-wrap" value="xp" checked="checked">XP</div>
+										<div class="category-selection-div"><input type="checkbox" name="category-wrap" value="x0">X<sup>0</sup></div>
+									</div>
+								</div>
+
+							<h3>Match(Prosody)</h3>
+
+							<div class="constraint-selection-table">
+								<div class="constraint-row">
+									<span><input type="checkbox" name="constraints" value="alignLeft">all prosodic nodes</span>
+									<div class="info">
+										<span class="content">all prosodic nodes info.</span>
+									</div>
+								</div>
+
+								<div class="category-row">
+									<div class="category-selection-div"><input type="checkbox" name="category-alignLeft" value="cp">CP</div>
+									<div class="category-selection-div"><input type="checkbox" name="category-alignLeft" value="xp" checked="checked">XP</div>
+									<div class="category-selection-div"><input type="checkbox" name="category-alignLeft" value="x0">X<sup>0</sup></div>
+								</div>
+							</div>
 
 					<!--
 							</tr>
@@ -592,6 +664,8 @@
 						</tbody>
 					</table>
 					-->
+
+					<!--
 					<h3>Match Theory</h3>
 					<table class="constraint-selection-table">
 					<tbody>
@@ -633,8 +707,8 @@
 						</tr>
 					</tbody>
 					</table>
-				</fieldset>
-
+			-->
+			</fieldset>
 
 				<br/>
 
@@ -715,22 +789,22 @@
 							<div class="category-selection-div"><input type="checkbox" value=w name="category-balancedSistersAdj">&omega;</div>
 						</div>
 					</div>
-					
+
 					<h3>EqualSisters</h3>
 					<table class="constraint-selection-table">
 					<tbody>
 
 						<tr>
 							<td title="Assign a violation for every pair of adjacent sister nodes that are not of the same prosodic category."><input type="checkbox" name="constraints" value="equalSistersAdj">EqualSisters (adjacent)</td>
-							
+
 						</tr>
 						<tr>
 							<td title="Assign a violation for every (unordered) pair of sisters nodes that are not of the same prosodic category."><input type="checkbox" name="constraints" value="equalSistersPairwise">EqualSisters (pairwise)</td>
-							
+
 						</tr>
 						<tr>
 							<td title="For each set of sisters, assign a violation for every child that has a different prosodic category from the first (leftmost) sister in the set."><input type="checkbox" name="constraints" value="equalSistersFirstPrivilege">EqualSisters (first privilege)</td>
-							
+
 						</tr>
 					</tbody>
 					</table>
