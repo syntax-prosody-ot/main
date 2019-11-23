@@ -402,8 +402,10 @@ window.addEventListener('load', function(){
 								constraintSet.push(constraint+'-'+category+'-'+parseOptions);
 							}
 							else {
-								//var option = JSON.stringify({requireOvertHead:true});
+								//var option = JSON.stringify({requireOvertHead:true, maxSyntax:true});
 								//constraintSet.push(constraint+'-'+category+'-'+option);
+								//var con = 'matchMaxSyntax'
+								//constraintSet.push(con+'-'+category);
 								constraintSet.push(constraint+'-'+category);
 							}
 						}
