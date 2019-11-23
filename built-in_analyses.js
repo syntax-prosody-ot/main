@@ -5,6 +5,8 @@
 function clearAnalysis(){
   var genOptions = document.getElementsByName("genOptions");
   var constraints = document.getElementsByName("constraints");
+  var fieldsets = document.getElementsByTagName("fieldset");
+  console.log(fieldsets);
   for(var i = 0; i<genOptions.length; i++){
     if(genOptions[i].checked){
       genOptions[i].click();
@@ -17,6 +19,22 @@ function clearAnalysis(){
     if(constraints[i].checked){
       constraints[i].click();
     }
+  }
+
+  for(var i = 0; i<fieldsets.length; i++){
+    console.log(fieldsets[i].classList);
+    //console.log(fieldsets[i].children);
+    //var fieldsetChildren = fieldsets[i].children;
+    //for (var j = 0; j < fieldsetChildren.length; j++){
+    //  if(children[j].classList.contains('div .constraint-selection-table') != -1){
+    //    children[j].classList.remove("constraint-checked");
+    //  }
+
+    //}
+    // if(fieldsets[i].classList.contains('div .constraint-selection-table') != -1){
+    fieldsets[i].classList.remove("open");
+    // }
+    
   }
   window.clearUTrees();
   document.getElementById("stree-textarea").value = '{}';
