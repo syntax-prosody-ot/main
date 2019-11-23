@@ -467,13 +467,16 @@
 						<td id="japaneseTones" style="display:none"><input type="radio" name="toneOptions" value="addJapaneseTones" checked="checked">Japanese</td>
 						<td id="irishTones" style="display:none"><input type="radio" name="toneOptions" value="addIrishTones_Elfner">Irish</td>
 					</tr>
-					<!---<tr id="tones" style="display: none">
-						<td>
-							<input type="radio" name="toneOptions" value="addJapaneseTones" checked="checked">Japanese
-							<input type="radio" name="toneOptions" value="addIrishTones_Elfner">Irish
-						</td>
-					</tr> !--->
 				</tbody></table>
+				<div class="constraint-row">Dont' show nodes of category...</div>
+				<br/>
+				<div class="category-row" style"display: block">
+					<div class="category-selection-div"><input type="checkbox" name="hideCategory" value="i">&iota;</div>
+					<div class="category-selection-div"><input type="checkbox" name="hideCategory" value="phi">&phi;</div>
+					<div class="category-selection-div"><input type="checkbox" name="hideCategory" value="w">&omega;</div>
+					<div class="category-selection-div"><input type="checkbox" name="hideCategory" value="Ft">Ft</div>
+					<div class="category-selection-div"><input type="checkbox" name="hideCategory" value="syll">&sigma;</div>
+				</div>
 				</fieldset>
 			</div>
 
@@ -715,22 +718,22 @@
 							<div class="category-selection-div"><input type="checkbox" value=w name="category-balancedSistersAdj">&omega;</div>
 						</div>
 					</div>
-					
+
 					<h3>EqualSisters</h3>
 					<table class="constraint-selection-table">
 					<tbody>
 
 						<tr>
 							<td title="Assign a violation for every pair of adjacent sister nodes that are not of the same prosodic category."><input type="checkbox" name="constraints" value="equalSistersAdj">EqualSisters (adjacent)</td>
-							
+
 						</tr>
 						<tr>
 							<td title="Assign a violation for every (unordered) pair of sisters nodes that are not of the same prosodic category."><input type="checkbox" name="constraints" value="equalSistersPairwise">EqualSisters (pairwise)</td>
-							
+
 						</tr>
 						<tr>
 							<td title="For each set of sisters, assign a violation for every child that has a different prosodic category from the first (leftmost) sister in the set."><input type="checkbox" name="constraints" value="equalSistersFirstPrivilege">EqualSisters (first privilege)</td>
-							
+
 						</tr>
 					</tbody>
 					</table>

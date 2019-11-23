@@ -400,13 +400,23 @@ window.addEventListener('load', function(){
 			}
 		}
 
-		var genTones = false; //true if tones are selected
+		var tableauOptions = {
+			showTones: false,  //true iff tones are selected
+			invisibleCategories: []
+		};
 
 		if(document.getElementById("annotatedWithTones").checked){
 			//from radio group near the bottom of spotForm
 			genOptions.addTones = spotForm.toneOptions.value;
-			genTones = spotForm.toneOptions.value;
+		 	tableauOptions.showTones = spotForm.toneOptions.value;
 			//console.log(genOptions);
+		}
+
+		for(var i = 0; i < spotForm.hideCategory.length; i++){
+			var hiddenCat = spotForm.hideCategory[i];
+			if(hiddenCat.checked){
+				tableauOptions.invisibleCategories.push(hiddenCat.value);
+			}
 		}
 
 		var resultsConCl = document.getElementById("results-container").classList;
@@ -424,7 +434,7 @@ window.addEventListener('load', function(){
 
 
 			//Make the violation tableau with the info we just got.
-			var tabl = makeTableau(candidateSet, constraintSet, {showTones: genTones});
+			var tabl = makeTableau(candidateSet, constraintSet, tableauOptions);
 			csvSegs.push(tableauToCsv(tabl, ',', {noHeader: i}));
 			writeTableau(tabl);
 			revealNextSegment();
