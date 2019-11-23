@@ -93,7 +93,7 @@ function matchPS(sTree, pParent, pCat, options)
 
 //TODO: what about null syntactic terminals?? these need to be filtered out of the syntactic input?? write this function later.
 
-/* matchSP = Match(Syntax, Prosody): 
+/* matchSP = Match(Syntax, Prosody):
 * Assign a violation for every syntactic node of type sCat in sParent that
 * doesn't have a  corresponding prosodic node in pTree, where "corresponding"
 * is defined as: dominates all and only the same terminals, and has the
@@ -102,7 +102,7 @@ function matchPS(sTree, pParent, pCat, options)
 * Options (all boolean):
 * 	requireLexical: To ignore non-lexical XPs give them an attribute func: true.
 *	requireOvertHead: To ignore silently-headed XPs, give them an attribute silentHead: true
-*	maxSyntax: If true, ignore non-maximal syntactic nodes (nodes of category c that are 
+*	maxSyntax: If true, ignore non-maximal syntactic nodes (nodes of category c that are
 *			   dominated by another node of category c)
 *	minSyntax: If true, ignore non-minimal syntactic nodes (nodes of category c that dominate *				another node of category c)
 *	nonMaxSyntax: If true, only look at non-maximal syntactic nodes
@@ -116,7 +116,8 @@ function matchSP(sParent, pTree, sCat, options)
 {
 	options = options || {};
 	markMinMax(sParent);
-
+	console.log("options in matchSP");
+	console.log(options);
 	if(sParent.cat === sCat)
 		logreport.debug("\tSeeking match for "+sParent.id + " in tree rooted in "+pTree.id);
 	var vcount = 0;
@@ -147,7 +148,7 @@ function matchSP(sParent, pTree, sCat, options)
 			vcount += matchSP(sChild, pTree, sCat, options);
 		}
 	}
-
+	//console.log("in matchSP");
 	return vcount;
 }
 
@@ -232,8 +233,19 @@ function matchMaxSP(sTree, pTree, sCat){
 function matchMaxSyntax(sTree, pTree, sCat, options){
    options = options || {};
    options.maxSyntax = true;
+	 console.log("options in matchMaxSyntax");
+	 console.log(options);
 	 return matchSP(sTree, pTree, sCat, options);
  }
+
+ // Match all non-minimal syntactic nodes
+ function matchNonMinSyntax(sTree, pTree, sCat, options){
+	 options = options || {};
+	 options.nonMinSyntax = true;
+ 	 console.log("options in matchNonMinSyntax");
+ 	 console.log(options);
+ 	 return matchSP(sTree, pTree, sCat, options);
+  }
 
 //Match Maximal P --> S
 //Switch inputs for PS matching:
