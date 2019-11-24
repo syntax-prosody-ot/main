@@ -683,28 +683,6 @@ window.addEventListener('load', function(){
 		}
 	});
 
-	// attempt to update header text in custom match to show which categories are checked
-	// document.getElementById('cp').addEventListener('change', function(e) {
-	// 	if(e.target.checked) {
-	// 		document.getElementById('syntactic-category').innerHTML = "CP";
-	// 		document.getElementById('prosodic-category').innerHTML = "&iota;";
-	// 	}
-	// });
-  //
-	// document.getElementById('xp').addEventListener('change', function(e) {
-	// 	if(e.target.checked) {
-	// 		document.getElementById('syntactic-category').innerHTML = "XP";
-	// 		document.getElementById('prosodic-category').innerHTML = "&phiv;";
-	// 	}
-	// });
-  //
-	// document.getElementById('x0').addEventListener('change', function(e) {
-	// 	if(e.target.checked) {
-	// 		document.getElementById('syntactic-category').innerHTML = "X<sup>0</sup>";
-	// 		document.getElementById('prosodic-category').innerHTML = "&omega;";
-	// 	}
-	// });
-
 });
 
 function toneInfoBlock(language){
