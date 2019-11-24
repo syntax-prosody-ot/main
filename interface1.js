@@ -329,83 +329,40 @@ window.addEventListener('load', function(){
 		if (e.preventDefault) e.preventDefault();
 
 		//Build a list of checked constraints.
-		/*
 		var constraintSet = [];
 		for(var i=0; i<spotForm.constraints.length; i++){
 			var constraintBox = spotForm.constraints[i];
-			//console.log(constraintBox);
 			if(constraintBox.checked){
 				var constraint = constraintBox.value;
-				//console.log(constraint);
 				//Figure out all the categories selected for the constraint
 				if(spotForm['category-'+constraint]){
 					var constraintCatSet = spotForm['category-'+constraint];
-					//console.log(constraintCatSet);
 					for(var j=0; j<constraintCatSet.length; j++){
 						var categoryBox = constraintCatSet[j];
-						//console.log(categoryBox);
 						if(categoryBox.checked){
 							var category = categoryBox.value;
-							//console.log(category);
-							constraintSet.push(constraint+'-'+category);
-						}
-					}
-				}
-				else
-					constraintSet.push(constraint);
-			}
-		}
-		console.log("built list of checked constraints: ");
-		console.log(constraintSet);
-		*/
 
-		//Build a list of checked constraints.
-		var constraintSet = [];
-		for(var i=0; i<spotForm.constraints.length; i++){
-			var constraintBox = spotForm.constraints[i];
-			//console.log(constraintBox);
-			if(constraintBox.checked){
-				var constraint = constraintBox.value;
-				//console.log(constraint);
-				//Figure out all the categories selected for the constraint
-				if(spotForm['category-'+constraint]){
-					var constraintCatSet = spotForm['category-'+constraint];
-					//console.log(constraintCatSet);
-					for(var j=0; j<constraintCatSet.length; j++){
-						var categoryBox = constraintCatSet[j];
-						//console.log(categoryBox);
-						if(categoryBox.checked){
-							var category = categoryBox.value;
-							//console.log(category);
-
-							// get match options
+							//Figure out selected match options for the constraint
 							if(spotForm['option-'+constraint]){
 								var constraintOptionSet = spotForm['option-'+constraint];
-								//console.log("constraintOptionSet");
-								//console.log(constraintOptionSet);
 								var options = {};
 								for(var k=0; k<constraintOptionSet.length; k++){
 									var optionBox = constraintOptionSet[k];
-									// if(optionBox.checked){
-									// 	var option = optionBox.value;
-									// 	console.log("checked option");
-									// 	console.log(option);
-									// 	//constraintSet.push(constraint+'-'+category+'-'+option);
-									// }
-									options[optionBox.value]=optionBox.checked;
+									//If lexical or overtly headed is checked then the option is true
+									if(optionBox.checked) {
+										options[optionBox.value] = true;
+									}
+									//If option is in a select, not a checkbox, and the option is not "any"
+									if(optionBox.checked === undefined && optionBox.value !== 'any') {
+										options[optionBox.value] = true;
+									}
 								}
 								console.log("options");
 								console.log(options);
-								var parseOptions = JSON.stringify(options);
-								console.log("parse options");
-								console.log(parseOptions);
-								constraintSet.push(constraint+'-'+category+'-'+parseOptions);
+								var strOptions = JSON.stringify(options);
+								constraintSet.push(constraint+'-'+category+'-'+strOptions);
 							}
 							else {
-								//var option = JSON.stringify({requireOvertHead:true, maxSyntax:true});
-								//constraintSet.push(constraint+'-'+category+'-'+option);
-								//var con = 'matchMaxSyntax'
-								//constraintSet.push(con+'-'+category);
 								constraintSet.push(constraint+'-'+category);
 							}
 						}
@@ -415,22 +372,6 @@ window.addEventListener('load', function(){
 					constraintSet.push(constraint);
 			}
 		}
-		console.log("built list of checked constraints: ");
-		console.log(constraintSet);
-
-		// build list of match options
-		// var matchOptions = {};
-		// for(var i=0; i<spotForm.matchOptions.length; i++){
-		// 	var optionBox = spotForm.matchOptions[i];
-		// 	// console.log("option box: ");
-		// 	// console.log(optionBox);
-		// 	matchOptions[optionBox.value]=optionBox.checked;
-		// }
-		// console.log("match options:");
-		// console.log(matchOptions);
-		// var matchOptionsBoth = JSON.stringify(matchOptions);
-		// console.log("match options both JSON:");
-		// console.log(matchOptionsBoth);
 
 		//Get the input syntactic tree.
 		var sTrees;
@@ -450,10 +391,8 @@ window.addEventListener('load', function(){
 		var genOptions = {};
 		for(var i=0; i<spotForm.genOptions.length; i++){
 			var optionBox = spotForm.genOptions[i];
-			//console.log(optionBox);
 			genOptions[optionBox.value]=optionBox.checked;
 		}
-		//console.log(genOptions);
 
 		//record exhaustivity options if selected
 		if(genOptions['obeysExhaustivity']){
@@ -509,10 +448,6 @@ window.addEventListener('load', function(){
 
 
 			//Make the violation tableau with the info we just got.
-			// console.log("constraint set passed to makeTableau: ");
-			// console.log(constraintSet);
-			// console.log("candidate set passed to makeTableau: ");
-			// console.log(candidateSet);
 			var tabl = makeTableau(candidateSet, constraintSet, {showTones: genTones});
 			csvSegs.push(tableauToCsv(tabl, ',', {noHeader: i}));
 			writeTableau(tabl);

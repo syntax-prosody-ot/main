@@ -230,22 +230,27 @@ function matchMaxSP(sTree, pTree, sCat){
  * violation if no match is found.
  * ex. Match a maximal xp with any phi.
  */
+
 function matchMaxSyntax(sTree, pTree, sCat, options){
-   options = options || {};
-   options.maxSyntax = true;
-	 console.log("options in matchMaxSyntax");
-	 console.log(options);
-	 return matchSP(sTree, pTree, sCat, options);
+	options = options || {};
+	options.maxSyntax = true;
+	return matchSP(sTree, pTree, sCat, options);
  }
 
- // Match all non-minimal syntactic nodes
- function matchNonMinSyntax(sTree, pTree, sCat, options){
-	 options = options || {};
-	 options.nonMinSyntax = true;
- 	 console.log("options in matchNonMinSyntax");
- 	 console.log(options);
- 	 return matchSP(sTree, pTree, sCat, options);
-  }
+ //Match all non-minimal syntactic nodes
+function matchNonMinSyntax(sTree, pTree, sCat, options){
+	options = options || {};
+	options.nonMinSyntax = true;
+	return matchSP(sTree, pTree, sCat, options);
+}
+
+//Match for custom match options
+function matchCustom(sTree, pTree, sCat, options){
+	options = options || {};
+	console.log("options in matchCustom");
+	console.log(options);
+	return matchSP(sTree, pTree, sCat, options);
+}
 
 //Match Maximal P --> S
 //Switch inputs for PS matching:
