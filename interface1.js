@@ -341,24 +341,21 @@ window.addEventListener('load', function(){
 						var categoryBox = constraintCatSet[j];
 						if(categoryBox.checked){
 							var category = categoryBox.value;
-
 							//Figure out selected match options for the constraint
 							if(spotForm['option-'+constraint]){
 								var constraintOptionSet = spotForm['option-'+constraint];
 								var options = {};
 								for(var k=0; k<constraintOptionSet.length; k++){
 									var optionBox = constraintOptionSet[k];
-									//If lexical or overtly headed is checked then the option is true
+									//If lexical or overtly headed is checked, then option is true
 									if(optionBox.checked) {
 										options[optionBox.value] = true;
 									}
-									//If option is in a select, not a checkbox, and the option is not "any"
+									//If option is in a select, not a checkbox, and the option is not "any", then option is true
 									if(optionBox.checked === undefined && optionBox.value !== 'any') {
 										options[optionBox.value] = true;
 									}
 								}
-								console.log("options");
-								console.log(options);
 								var strOptions = JSON.stringify(options);
 								constraintSet.push(constraint+'-'+category+'-'+strOptions);
 							}
@@ -683,6 +680,27 @@ window.addEventListener('load', function(){
 
 		if (el.classList.contains('info')) {
 			el.classList.toggle('showing')
+		}
+	});
+
+	document.getElementById('cp').addEventListener('change', function(e) {
+		if(e.target.checked) {
+			document.getElementById('syntactic-category').innerHTML = "CP";
+			document.getElementById('prosodic-category').innerHTML = "&iota;";
+		}
+	});
+
+	document.getElementById('xp').addEventListener('change', function(e) {
+		if(e.target.checked) {
+			document.getElementById('syntactic-category').innerHTML = "XP";
+			document.getElementById('prosodic-category').innerHTML = "&phiv;";
+		}
+	});
+
+	document.getElementById('x0').addEventListener('change', function(e) {
+		if(e.target.checked) {
+			document.getElementById('syntactic-category').innerHTML = "X<sup>0</sup>";
+			document.getElementById('prosodic-category').innerHTML = "&omega;";
 		}
 	});
 

@@ -186,7 +186,6 @@
 				margin-bottom: 8px;
 			}
 
-
 			.constraint-row{
 				margin-top: 1em;
 				padding-bottom: 8px;
@@ -216,6 +215,7 @@
 			.category-row{
 				margin-left: 2em;
 				display:block;
+				padding-bottom: 0.25em;
 			}
 
 			.constraint-selection-table:not(.constraint-checked) .category-row{
@@ -230,6 +230,21 @@
 			.option-selection-div{
 				display: inline-block;
 				width: 10em;
+			}
+
+			.custom-option-div {
+				margin-left: 1em;
+			}
+
+			.custom-text {
+				margin-top: 5px;
+				margin-bottom: 5px;
+			}
+
+			.custom-text p {
+				display: inline;
+				margin-left: 0px;
+				margin-right: 0px;
 			}
 
 			.stree-textarea {
@@ -647,19 +662,21 @@
 								</div>
 							</div>
 							<div class="category-row">
-								<div class="category-selection-div"><input type="checkbox" name="category-matchCustom" value="cp">CP</div>
-								<div class="category-selection-div"><input type="checkbox" name="category-matchCustom" value="xp" checked="checked">XP</div>
-								<div class="category-selection-div"><input type="checkbox" name="category-matchCustom" value="x0">X<sup>0</sup></div>
+								<div class="category-selection-div"><input id="cp" type="checkbox" name="category-matchCustom" value="cp">CP</div>
+								<div class="category-selection-div"><input id="xp" type="checkbox" name="category-matchCustom" value="xp" checked="checked">XP</div>
+								<div class="category-selection-div"><input id="x0" type="checkbox" name="category-matchCustom" value="x0">X<sup>0</sup></div>
 							</div>
 							<div class="category-row">
-								<p>Enforce Match only for XPs that are...</p>
-								<div class="option-selection-div"><input type="checkbox" name="option-matchCustom" value="requireLexical">lexical</div>
+								<div class="custom-text">
+									<p>Enforce Match only for </p><p id="syntactic-category">XP</p><p>s that are...</p>
+								</div>
+								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchCustom" value="requireLexical">lexical</div>
 							</div>
 							<div class="category-row">
-								<div class="option-selection-div"><input type="checkbox" name="option-matchCustom" value="requireOvertHead">overtly headed</div>
+								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchCustom" value="requireOvertHead">overtly headed</div>
 							</div>
 							<div class="category-row">
-								<div class="option-selection-div">
+								<div class="option-selection-div custom-option-div">
 									<select name="option-matchCustom">
 										<option value="any">Any</option>
 										<option value="maxSyntax">+</option>
@@ -668,7 +685,7 @@
 								</div>
 							</div>
 							<div class="category-row">
-								<div class="option-selection-div">
+								<div class="option-selection-div custom-option-div">
 									<select name="option-matchCustom">
 										<option value="any">Any</option>
 										<option value="minSyntax">+</option>
@@ -677,8 +694,10 @@
 								</div>
 							</div>
 							<div class="category-row">
-								<p>Phis must be...</p>
-								<div class="option-selection-div">
+								<div class="custom-text">
+									<p id="prosodic-category">&phiv;</p><p>s must be...</p>
+								</div>
+								<div class="option-selection-div custom-option-div">
 									<select name="option-matchCustom">
 										<option value="any">Any</option>
 										<option value="maxProsody">+</option>
@@ -687,7 +706,7 @@
 								</div>
 							</div>
 							<div class="category-row">
-								<div class="option-selection-div">
+								<div class="option-selection-div custom-option-div">
 									<select name="option-matchCustom">
 										<option value="any">Any</option>
 										<option value="minProsody">+</option>

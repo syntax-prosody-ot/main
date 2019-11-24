@@ -116,8 +116,6 @@ function matchSP(sParent, pTree, sCat, options)
 {
 	options = options || {};
 	markMinMax(sParent);
-	console.log("options in matchSP");
-	console.log(options);
 	if(sParent.cat === sCat)
 		logreport.debug("\tSeeking match for "+sParent.id + " in tree rooted in "+pTree.id);
 	var vcount = 0;
@@ -247,8 +245,6 @@ function matchNonMinSyntax(sTree, pTree, sCat, options){
 //Match for custom match options
 function matchCustom(sTree, pTree, sCat, options){
 	options = options || {};
-	console.log("options in matchCustom");
-	console.log(options);
 	return matchSP(sTree, pTree, sCat, options);
 }
 
