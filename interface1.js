@@ -477,13 +477,11 @@ window.addEventListener('load', function(){
 	//show extra boxes for annotated with tones on click
 	//console.log(document.getElementById('annotatedWithTones'))
 	document.getElementById('annotatedWithTones').addEventListener('click', function(){
-		if (document.getElementById('japaneseTones').style.display === 'none' && document.getElementById('annotatedWithTones').checked){
-			document.getElementById('japaneseTones').style.display = 'table-cell';
-			document.getElementById('irishTones').style.display = 'table-cell';
+		if (document.getElementById('tonesSelectionRow').style.display === 'none' && document.getElementById('annotatedWithTones').checked){
+			document.getElementById('tonesSelectionRow').style.display = 'inline-block';
 		}
 		else{
-			document.getElementById('japaneseTones').style.display = 'none';
-			document.getElementById('irishTones').style.display = 'none';
+			document.getElementById('tonesSelectionRow').style.display = 'none';
 			//if (genOptions['usesTones']){
 			//	genOptions['usesTones'] = false;
 			//}
@@ -683,19 +681,24 @@ function toneInfoBlock(language){
 	var content = document.getElementById("tonesInfoContent");
 	var japaneseContent = "Tokyo Japanese: the left edge of phi is marked with a rising boundary tone (LH), accented words receive an HL on the accented syllable, and H tones that follow a pitch drop (HL) within the maximal phi are downstepped (!H). (See: Pierrehumbert and Beckman 1988; Gussenhoven 2004; Ito and Mester 2007) Accents, boundary tones, and downstep in Lekeitio Basque are realized with the same tones as in Tokyo Japanese.";
 	var irishContent = "Conamara Irish (Elfner 2012): The left edge of the non-minimal phi is marked with a rising boundary tone (LH), and the right edge of every phi is marked with a falling boundary tone (HL).";
+	var format = "font-size: 13px; color: #555; margin-left: 25px; display: table-cell";
 	if (language == "japanese"){
 		if (content.innerHTML == japaneseContent){
+			content.style = "display: none";
 			content.innerHTML = '';
 		}
 		else{
+			content.style = format;
 			content.innerHTML = japaneseContent;
 		}
 	}
 	if (language === "irish"){
 		if (content.innerHTML == irishContent){
+			content.style = "display: none";
 			content.innerHTML = '';
 		}
 		else {
+			content.style = format;
 			content.innerHTML = irishContent;
 		}
 	}
