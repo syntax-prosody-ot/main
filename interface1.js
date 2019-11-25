@@ -476,7 +476,7 @@ window.addEventListener('load', function(){
 	//console.log(document.getElementById('annotatedWithTones'))
 	document.getElementById('annotatedWithTones').addEventListener('click', function(){
 		if (document.getElementById('tonesSelectionRow').style.display === 'none' && document.getElementById('annotatedWithTones').checked){
-			document.getElementById('tonesSelectionRow').style.display = 'inline-block';
+			document.getElementById('tonesSelectionRow').style.display = '';
 		}
 		else{
 			document.getElementById('tonesSelectionRow').style.display = 'none';
