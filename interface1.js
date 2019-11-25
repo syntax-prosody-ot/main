@@ -475,13 +475,11 @@ window.addEventListener('load', function(){
 	//show extra boxes for annotated with tones on click
 	//console.log(document.getElementById('annotatedWithTones'))
 	document.getElementById('annotatedWithTones').addEventListener('click', function(){
-		if (document.getElementById('japaneseTones').style.display === 'none' && document.getElementById('annotatedWithTones').checked){
-			document.getElementById('japaneseTones').style.display = 'table-cell';
-			document.getElementById('irishTones').style.display = 'table-cell';
+		if (document.getElementById('tonesSelectionRow').style.display === 'none' && document.getElementById('annotatedWithTones').checked){
+			document.getElementById('tonesSelectionRow').style.display = 'inline-block';
 		}
 		else{
-			document.getElementById('japaneseTones').style.display = 'none';
-			document.getElementById('irishTones').style.display = 'none';
+			document.getElementById('tonesSelectionRow').style.display = 'none';
 			//if (genOptions['usesTones']){
 			//	genOptions['usesTones'] = false;
 			//}

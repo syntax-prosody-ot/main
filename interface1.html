@@ -452,22 +452,21 @@
 
 				<fieldset>
 				<legend><h2>Tree display options <span class="arrow"></span></h2></legend>
-				<table class="spaceytable"><tbody>
-					<tr>
-						<td><input type="checkbox" name="genOptions" value="usesTones" id="annotatedWithTones">annotated with tones</td>
-					</tr>
-					<tr>
-						<td id="japaneseTones" style="display:none"><input type="radio" name="toneOptions" value="addJapaneseTones" checked="checked">Japanese <div class="info" onclick="toneInfoBlock('japanese')"></div></td>
-						<td id="irishTones" style="display:none"><input type="radio" name="toneOptions" value="addIrishTones_Elfner">Irish <div class="info" onclick="toneInfoBlock('irish')"></div></td>
-					</tr>
-					<tr><td id="tonesInfoContent" class="closedTonesInfo"></td></tr>
-					<!---<tr id="tones" style="display: none">
-						<td>
-							<input type="radio" name="toneOptions" value="addJapaneseTones" checked="checked">Japanese
-							<input type="radio" name="toneOptions" value="addIrishTones_Elfner">Irish
-						</td>
-					</tr> !--->
-				</tbody></table>
+				<div class="constraint-row"><input type="checkbox" name="genOptions" value="usesTones" id="annotatedWithTones">annotated with tones</div>
+				<br/>
+				<div class="category-row" style="display: none" id="tonesSelectionRow">
+					<div class="category-selection-div" style="width: 150px"><input type="radio" name="toneOptions" value="addJapaneseTones" checked="checked">Japanese <div class="info" onclick="toneInfoBlock('japanese')"></div></div>
+					<div class="category-selection-div" style="width: 150px"><input type="radio" name="toneOptions" value="addIrishTones_Elfner">Irish <div class="info" onclick="toneInfoBlock('irish')"></div></div>
+					<br/>
+					<div id="tonesInfoContent"></div>
+				</div>
+				<div class="constraint-row">Dont' show nodes of category...</div>
+				<br/>
+				<div class="category-row">
+					<div class="category-selection-div"><input type="checkbox" name="hideCategory" value="i">&iota;</div>
+					<div class="category-selection-div"><input type="checkbox" name="hideCategory" value="phi">&phi;</div>
+					<div class="category-selection-div"><input type="checkbox" name="hideCategory" value="w">&omega;</div>
+				</div>
 				</fieldset>
 			</div>
 
