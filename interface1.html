@@ -592,11 +592,11 @@
 							</div>
 						</div>
 
-						<h3>Match(Syntax)</h3>
+						<h3>Match Syntax to Prosody</h3>
 
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
-								<span><input type="checkbox" name="constraints" value="matchSP">all syntactic nodes</span>
+								<span><input type="checkbox" name="constraints" value="matchSP">all syntactic nodes of category...</span>
 								<div class="info">
 									<span class="content">all syntactic nodes info.</span>
 								</div>
@@ -608,15 +608,21 @@
 							</div>
 							<div class="category-row">
 								<div class="option-selection-div"><input type="checkbox" name="option-matchSP" value="requireLexical">lexical</div>
+								<div class="info">
+									<span class="content">Match only syntactic nodes that are not labeled as functional.</span>
+								</div>
 							</div>
 							<div class="category-row">
 								<div class="option-selection-div"><input type="checkbox" name="option-matchSP" value="requireOvertHead">overtly headed</div>
+								<div class="info">
+									<span class="content">Match only syntactic nodes that have a non-silent head.</span>
+								</div>
 							</div>
 						</div>
 
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
-									<span><input type="checkbox" name="constraints" value="matchMaxSyntax">all maximal syntactic nodes</span>
+									<span><input type="checkbox" name="constraints" value="matchMaxSyntax">only maximal syntactic nodes</span>
 									<div class="info">
 										<span class="content">all maximal syntactic nodes info.</span>
 									</div>
@@ -627,16 +633,22 @@
 								<div class="category-selection-div"><input type="checkbox" name="category-matchMaxSyntax" value="x0">X<sup>0</sup></div>
 							</div>
 							<div class="category-row">
-								<div class="option-selection-div"><input type="checkbox" name="option-matchMaxSyntax" value="requireLexical">lexical</div>
+								<div class="option-selection-div"><input type="checkbox" name="option-matchMaxSyntax" value="requireLexical">only lexical nodes</div>
+								<div class="info">
+									<span class="content">Match only maximal syntactic nodes that are not labeled as functional.</span>
+								</div>
 							</div>
 							<div class="category-row">
-								<div class="option-selection-div"><input type="checkbox" name="option-matchMaxSyntax" value="requireOvertHead">overtly headed</div>
+								<div class="option-selection-div"><input type="checkbox" name="option-matchMaxSyntax" value="requireOvertHead">only overtly headed</div>
+								<div class="info">
+									<span class="content">Match only maximal syntactic nodes that have a non-silent head.</span>
+								</div>
 							</div>
 						</div>
 
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
-								<span><input type="checkbox" name="constraints" value="matchNonMinSyntax">all non-minimal syntactic nodes</span>
+								<span><input type="checkbox" name="constraints" value="matchNonMinSyntax">only non-minimal syntactic nodes</span>
 								<div class="info">
 									<span class="content">all non-minimal syntactic nodes info.</span>
 								</div>
@@ -648,9 +660,15 @@
 							</div>
 							<div class="category-row">
 								<div class="option-selection-div"><input type="checkbox" name="option-matchNonMinSyntax" value="requireLexical">lexical</div>
+								<div class="info">
+									<span class="content">Match only non-minimal syntactic nodes that are not labeled as functional.</span>
+								</div>
 							</div>
 							<div class="category-row">
 								<div class="option-selection-div"><input type="checkbox" name="option-matchNonMinSyntax" value="requireOvertHead">overtly headed</div>
+								<div class="info">
+									<span class="content">Match only non-minimal syntactic nodes that have a non-silent head.</span>
+								</div>
 							</div>
 						</div>
 
@@ -671,9 +689,15 @@
 									<p>Enforce Match only for syntactic categories that are...</p>
 								</div>
 								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchCustom" value="requireLexical">lexical</div>
+								<div class="info">
+									<span class="content">Match only syntactic nodes that are not labeled as functional.</span>
+								</div>
 							</div>
 							<div class="category-row">
 								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchCustom" value="requireOvertHead">overtly headed</div>
+								<div class="info">
+									<span class="content">Match only syntactic nodes that have a non-silent head.</span>
+								</div>
 							</div>
 							<div class="category-row">
 								<div class="option-selection-div custom-option-div">
@@ -683,6 +707,9 @@
 										<option value="nonMaxSyntax">-</option>
 									</select> maximal
 								</div>
+								<div class="info">
+									<span class="content">A node is maximal if it does not dominate any nodes of its own category.</span>
+								</div>
 							</div>
 							<div class="category-row">
 								<div class="option-selection-div custom-option-div">
@@ -691,6 +718,9 @@
 										<option value="minSyntax">+</option>
 										<option value="nonMinSyntax">-</option>
 									</select> minimal
+								</div>
+								<div class="info">
+									<span class="content">A node is minimal if it is not dominated by any nodes of its own category.</span>
 								</div>
 							</div>
 							<div class="category-row">
@@ -704,6 +734,9 @@
 										<option value="nonMaxProsody">-</option>
 									</select> maximal
 								</div>
+								<div class="info">
+									<span class="content">A node is maximal if it does not dominate any nodes of its own category.</span>
+								</div>
 							</div>
 							<div class="category-row">
 								<div class="option-selection-div custom-option-div">
@@ -713,15 +746,18 @@
 										<option value="nonMinProsody">-</option>
 									</select> minimal
 								</div>
+								<div class="info">
+									<span class="content">A node is minimal if it is not dominated by any nodes of its own category.</span>
+								</div>
 							</div>
 						</div>
 
 
-						<h3>Match(Prosody)</h3>
+						<h3>Match Prosody to Syntax</h3>
 
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
-								<span><input type="checkbox" name="constraints" value="matchPS">all prosodic nodes</span>
+								<span><input type="checkbox" name="constraints" value="matchPS">all prosodic nodes of category...</span>
 								<div class="info">
 									<span class="content">all prosodic nodes info.</span>
 								</div>

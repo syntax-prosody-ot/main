@@ -100,11 +100,12 @@ function matchPS(sTree, pParent, pCat, options)
 * corresponding prosodic category.
 * By default, assumes no null syntactic terminals.
 * Options (all boolean):
-* 	requireLexical: To ignore non-lexical XPs give them an attribute func: true.
+* requireLexical: To ignore non-lexical XPs give them an attribute func: true.
 *	requireOvertHead: To ignore silently-headed XPs, give them an attribute silentHead: true
 *	maxSyntax: If true, ignore non-maximal syntactic nodes (nodes of category c that are
-*			   dominated by another node of category c)
-*	minSyntax: If true, ignore non-minimal syntactic nodes (nodes of category c that dominate *				another node of category c)
+*				dominated by another node of category c)
+*	minSyntax: If true, ignore non-minimal syntactic nodes (nodes of category c that dominate
+*				another node of category c)
 *	nonMaxSyntax: If true, only look at non-maximal syntactic nodes
 *	nonMinSyntax: If true, only look at non-minimal syntactic nodes
 *	maxProsody: If true, the prosodic match needs to be maximal. Passed to hasMatch.
