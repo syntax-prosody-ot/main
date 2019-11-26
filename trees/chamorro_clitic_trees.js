@@ -423,9 +423,6 @@ var chamorro_clitic_trees =
                 ]
             }
         ]
-<<<<<<< Updated upstream
-    }
-=======
     },
                     {
                         "cat": "cp",
@@ -515,5 +512,4 @@ var chamorro_clitic_trees =
             }
         ]
     }*/
->>>>>>> Stashed changes
 ];
