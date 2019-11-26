@@ -423,5 +423,93 @@ var chamorro_clitic_trees =
                 ]
             }
         ]
-    }
+    },
+                    {
+                        "cat": "cp",
+                        "id": "TP",
+                        "children": [
+                            {
+                                "cat": "xp",
+                                "id": "DP_silent",
+                                "silentHead": true,
+                                "children": [
+                                    {
+                                        "cat": "xp",
+                                        "id": "NP",
+                                        "children": [
+                                            {
+                                                "id": "patgon-na",
+                                                "cat": "x0"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "cat": "xp",
+                                "id": "DP",
+                                "children": [
+                                    {
+                                        "id": "clitic",
+                                        "cat": "clitic"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+    /*{
+        "id": "CP1",
+        "cat": "cp",
+        "children": [
+            {
+                "cat": "xp",
+                "id": "TP",
+                "children": [
+                    {
+                        "cat": "xp",
+                        "id": "TopP",
+                        "children": [
+                            {
+                                "id": "si_Miguel",
+                                "cat": "x0"
+                            }
+                        ]
+                    },
+                    {
+                        "cat": "xp",
+                        "id": "TP",
+                        "children": [
+                            {
+                                "cat": "xp",
+                                "id": "DP_silent",
+                                "silentHead": true,
+                                "children": [
+                                    {
+                                        "cat": "xp",
+                                        "id": "NP",
+                                        "children": [
+                                            {
+                                                "id": "patgon-na",
+                                                "cat": "x0"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "cat": "xp",
+                                "id": "DP",
+                                "children": [
+                                    {
+                                        "id": "clitic",
+                                        "cat": "clitic"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }*/
 ];
