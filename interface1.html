@@ -787,7 +787,7 @@
 					<h3>...counting branches</h3>
 					
 					<div class="constraint-selection-table">
-						<div class="constraint-row" title="Assign a violation for every pTree-node of category K that has less than two children.">
+						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="binMinBranches">BinMin(branches)</span>
 							<div class="info">
 								<span class="content">BinMin(branches) info.</span>
@@ -801,7 +801,7 @@
 					</div>
 
 					<div class="constraint-selection-table">
-						<div class="constraint-row" title="Assign a violation for every pTree-node of category K that has more than two children.">
+						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="binMaxBranches">BinMax(branches) - <i>categorical</i></span>
 							<div class="info">
 								<span class="content">BinMax(branches) categorical info.</span>
@@ -815,7 +815,7 @@
 					</div>
 
 					<div class="constraint-selection-table">
-						<div class="constraint-row" title="For every pTree-node N of category K, assign a violation for every child of N that is not initial or pen-initial in N.">
+						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="binMaxBranchesGradient">BinMax(branches) - <i>gradient</i></span>
 							<div class="info">
 								<span class="content">BinMax(branches) gradient info.</span>
@@ -901,7 +901,7 @@
 					<h3>EqualSisters</h3>
 
 						<div class="constraint-selection-table">
-							<div class="constraint-row" title="Assign a violation for every pair of adjacent sister nodes that are not of the same prosodic category.">
+							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="equalSistersAdj">EqualSisters (adjacent)</span>
 								<div class="info">
 									<span class="content">EqualSisters (adjacent) info.</span>
@@ -910,7 +910,7 @@
 						</div>
 
 						<div class="constraint-selection-table">
-							<div class="constraint-row" title="Assign a violation for every (unordered) pair of sisters nodes that are not of the same prosodic category.">
+							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="equalSistersPairwise">EqualSisters (pairwise)</span>
 								<div class="info">
 									<span class="content">EqualSisters (pairwise) info.</span>
@@ -919,7 +919,7 @@
 						</div>
 
 						<div class="constraint-selection-table">
-							<div class="constraint-row" title="For each set of sisters, assign a violation for every child that has a different prosodic category from the first (leftmost) sister in the set.">
+							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="equalSistersFirstPrivilege">EqualSisters (first privilege)</span>
 								<div class="info">
 									<span class="content">EqualSisters (first privilege) info.</span>
@@ -931,7 +931,7 @@
 					<h3>StrongStart</h3>
 					
 					<div class="constraint-selection-table">
-						<div class="constraint-row" title="Assign a violation for every node whose leftmost daughter constituent is of type k and is lower in the prosodic hierarchy than its sister constituent immediately to its right: *(Kn Kn-1). (Elfner's StrongStart)">
+						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="strongStart_Elfner">StrongStart</span>
 							<div class="info">
 								<span class="content">strong start info.</span>
@@ -955,7 +955,7 @@
 					
 
 					<div class="constraint-selection-table">
-						<div class="constraint-row" title="Assign a violation for every parent-child pair (x,y) such that x is of PH-level n and y is of PH-level n-m, m >= 2.">
+						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="exhaust1">Exhaustivity</span>
 							<div class="info">
 								<span class="content">Exhaustivity info.</span>
@@ -964,7 +964,7 @@
 					</div>
 
 					<div class="constraint-selection-table">
-						<div class="constraint-row" title="Assign a violation for every node of category x immediately dominated by another node of category x.">
+						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="nonRecChild">Non-recursivity, assessed by dominated node (nonRecChild)</span>
 							<div class="info">
 								<span class="content">non recursivity child info.</span>
@@ -978,7 +978,7 @@
 					</div>
 
 					<div class="constraint-selection-table">
-						<div class="constraint-row" title="Assign a violation for every node of category x that immediately dominates a node of category x.">
+						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="nonRecParent">Non-recursivity, assessed by dominating node (nonRecParent)</span>
 							<div class="info">
 								<span class="content">non recursivity parent info.</span>
@@ -992,7 +992,7 @@
 					</div>
 
 					<div class="constraint-selection-table">
-						<div class="constraint-row" title="&quot;Any two p-phrases that are not disjoint in extension are identical in extension.&quot; For every node x of category p dominated by another node y of category p, assign a violation for every leaf dominated by y that is not also dominated by x.">
+						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="nonRecTruckenbrodt">Non-recursivity, assessed by non-overlapping leaves (nonRecTruckenbrodt)</span>
 							<div class="info">
 								<span class="content">non recursivity truckenbrodt info.</span>
@@ -1006,7 +1006,7 @@
 					</div>
 
 					<div class="constraint-selection-table">
-						<div class="constraint-row" title="Assign a violation for every pair of nodes a and b such that a and b are both of category p and a dominates b.">
+						<div class="constraint-row">
 							<span><input type="checkbox" name=constraints value="nonRecPairs">Non-recursivity, pairwise</span>
 							<div class="info">
 								<span class="content">non recursivity pairwise info.</span>
@@ -1026,7 +1026,7 @@
 					<legend><h2>Constraints on accentedness <span class="arrow"></h2></legend>
 					<span class="info"><span class="content">Constraints proposed for analysis of lexical accent systems (Japanese, Basque). Accents must be indicated either by using 'a'/'u' or 'A'/'U' for the ids of words, or by adding accent attributes in the syntactic tree.</span></span>
 					<div class="constraint-selection-table">
-						<div class="constraint-row" title="Assign a violation for each prosodic word that is not the head of a minimal &phiv;.">
+						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="accentAsHead">AccentAsHead</span>
 							<div class="info">
 								<span class="content">accend as head info.</span>
@@ -1034,7 +1034,7 @@
 						</div>
 					</div>
 					<div class="constraint-selection-table">
-						<div class="constraint-row" title="No accentual lapse. Assign a violation for every fully L-toned &omega;.">
+						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="noLapseL">NoLapse-L</span>
 							<div class="info">
 								<span class="content">NoLapse-L info.</span>
