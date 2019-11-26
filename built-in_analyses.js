@@ -5,6 +5,8 @@
 function clearAnalysis(){
   var genOptions = document.getElementsByName("genOptions");
   var constraints = document.getElementsByName("constraints");
+  var fieldsets = document.getElementsByTagName("fieldset");
+  
   for(var i = 0; i<genOptions.length; i++){
     if(genOptions[i].checked){
       genOptions[i].click();
@@ -17,6 +19,13 @@ function clearAnalysis(){
     if(constraints[i].checked){
       constraints[i].click();
     }
+  }
+
+  for(var i = 0; i<fieldsets.length; i++){
+
+    fieldsets[i].classList.remove("open");
+
+    
   }
   window.clearUTrees();
   document.getElementById("stree-textarea").value = '{}';
