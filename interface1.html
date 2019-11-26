@@ -264,13 +264,6 @@
 			.info.showing .content {
 				display: block;
 			}
-
-
-			.tonesInfo {
-				font-size: 13px;
-				color: #555;
-				margin-left: 25px;
-			}
 			.treeUI-tree {
 				/*display: inline-block;*/
 				margin-right: 25px;
@@ -463,21 +456,21 @@
 
 				<fieldset>
 				<legend><h2>Tree display options <span class="arrow"></span></h2></legend>
-				<table class="spaceytable"><tbody>
-					<tr>
-						<td><input type="checkbox" name="genOptions" value="usesTones" id="annotatedWithTones">annotated with tones</td>
-					</tr>
-					<tr>
-						<td id="japaneseTones" style="display:none"><input type="radio" name="toneOptions" value="addJapaneseTones" checked="checked">Japanese</td>
-						<td id="irishTones" style="display:none"><input type="radio" name="toneOptions" value="addIrishTones_Elfner">Irish</td>
-					</tr>
-					<!---<tr id="tones" style="display: none">
-						<td>
-							<input type="radio" name="toneOptions" value="addJapaneseTones" checked="checked">Japanese
-							<input type="radio" name="toneOptions" value="addIrishTones_Elfner">Irish
-						</td>
-					</tr> !--->
-				</tbody></table>
+				<div class="constraint-row"><input type="checkbox" name="genOptions" value="usesTones" id="annotatedWithTones">annotated with tones</div>
+				<br/>
+				<div class="category-row" style="display: none" id="tonesSelectionRow">
+					<div class="category-selection-div" style="width: 150px"><input type="radio" name="toneOptions" value="addJapaneseTones" checked="checked">Japanese <div class="info" onclick="toneInfoBlock('japanese')"></div></div>
+					<div class="category-selection-div" style="width: 150px"><input type="radio" name="toneOptions" value="addIrishTones_Elfner">Irish <div class="info" onclick="toneInfoBlock('irish')"></div></div>
+					<br/>
+					<div id="tonesInfoContent"></div>
+				</div>
+				<div class="constraint-row">Dont' show nodes of category...</div>
+				<br/>
+				<div class="category-row">
+					<div class="category-selection-div"><input type="checkbox" name="hideCategory" value="i">&iota;</div>
+					<div class="category-selection-div"><input type="checkbox" name="hideCategory" value="phi">&phi;</div>
+					<div class="category-selection-div"><input type="checkbox" name="hideCategory" value="w">&omega;</div>
+				</div>
 				</fieldset>
 			</div>
 
@@ -927,7 +920,6 @@
 							</div>
 						</div>
 
-
 					<h3>StrongStart</h3>
 					
 					<div class="constraint-selection-table">
@@ -1044,13 +1036,24 @@
 				</fieldset>
 			</div>
 
-				<div align="center">
-					<button onclick="clearAnalysis(); document.getElementById('built-in-dropdown').value = 'select'; document.getElementById('fileUpload').value = ''" type="button">Clear All
+				<div align="center" id="save-load-section">
+					<button id="clearAllButton" type="button" style="margin:5px">Clear All
 					</button>
-					<button onclick="record_analysis()" type="button">Save
+					<button onclick='saveAnalysis(record_analysis(), (window.prompt("Save analysis as...\n(the analysis will be saved as a file with the extension .SPOT)", "myAnalysis") || "myAnalysis"))' type="button" style="margin:5px">Save
 					</button>
-					<button type="button">Load
+					<button onclick="document.getElementById('chooseFile').style='display: block'; document.getElementById('save/load-dialog').innerHTML = ''" type="button" style="margin:5px">Load
 					</button>
+					<br/>
+					<div id="chooseFile" style="display: none">
+						<div style="font-size: 13px; color: #555" id="chooseFilePrompt">
+							Upload an analysis that you previously downloaded from SPOT:
+						</div>
+						<br/>
+						<input type="file" accept=".SPOT" id="fileUpload" onchange="loadAnalysis(this.files[this.files.length-1])">
+					</div>
+					<br/>
+					<p id="save/load-dialog" style="font-size: 13px; color: #555">
+					</p>
 					<br/>
 					<button class="orange-button submit-button" type="submit">Get results</button>
 

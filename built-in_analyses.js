@@ -39,48 +39,39 @@ function clearAnalysis(){
 function built_in_con(input){
   //all of the fieldsets, which contain the constraint inputs
   var conFields = document.getElementsByTagName("fieldset");
-  //for the constraint table rows which hide the category options
-  var con_trs;
   //for the constraint and category checkboxes
   var con_boxes;
+  //for the categories of a constraint
+  var cat_boxes;
+  //string of all the constraints used so far
+  var usedCons = "";
 
   //iterate over the inputs
   for(var i = 0; i < input.length; i++){
     //iterate over the fieldsets
     for(var x = 0; x < conFields.length; x++){
-      //get all of the table rows in this fieldset
-      con_trs = conFields[x].getElementsByTagName("tr");
-      //iterate over the table rows in this fieldset
-      for(var y = 0; y < con_trs.length; y++){
-        //get checkboxes in this table row
-        con_boxes = con_trs[y].getElementsByTagName("input");
-        //check if constraint is in the current slot if the input
-        //assumes that constraint is the first checkbox
-        if(con_boxes[0].value === input[i].name){
-          //select the constraint
-          con_boxes[0].checked =  "checked";
+      //get the checkboxes in the fieldset
+      con_boxes = conFields[x].getElementsByTagName("input");
+      //iterate over the checkboxes in this fieldset
+      for(var y = 0; y < con_boxes.length; y++){
+        if(con_boxes[y].value === input[i].name && con_boxes[y].name === "constraints"){
+          //click on the constraint if it is not already checked
+          if(!con_boxes[y].checked){
+            con_boxes[y].click();
+          }
           //open the fieldset
-          conFields[x].setAttribute("class", "open")
-          //reveal the categories
-          con_trs[y].setAttribute("class", "constraint-checked")
-          //iterate over the check boxes for cateogories
-          //assumes that the constraint is the first check box
-          for(var z = 1; z < con_boxes.length; z++){
+          conFields[x].setAttribute("class", "open");
+          cat_boxes = document.getElementsByName("category-"+input[i].name);
+          for(var z = 0; z < cat_boxes.length; z++){
+            //used to test if constraint has been used before:
+            var regex = RegExp(input[i].name);
             // select the category if the input calls for it
-            if(con_boxes[z].value === input[i].cat){
-              // see below comment re "checked" == "built_in"
-              con_boxes[z].checked =  "built_in";
+            if(cat_boxes[z].value === input[i].cat){
+              cat_boxes[z].checked =  true;
             }
-            // deselect category unless already selected by built-in system
-            else if(con_boxes[z].checked !== "built_in"){
-              con_boxes[z].checked = false;;
-              /* re "checked" == "built_in"
-               * categories that have already been selected (eg. default
-               * category for constraint) should be deselected, unless that
-               * category has already been selected by the built-in system (ie.
-               * both matchSP-xp and matchSP-x0 are desired). By setting
-               * "checked" to "built_in", we can keep track of when this happens
-               */
+            // otherwise clear out category if this constraint has not been used before
+            else if(!regex.test(usedCons)){
+              cat_boxes[z].checked = false;
             }
           }
         }
@@ -196,5 +187,126 @@ function built_in(analysis) {
   }
   if(analysis === "kinyambo") {
     built_in_Kinyambo();
+  }
+}
+
+/* Save Analysis:
+ * functionality to save the options, constraints and inputs of an analysis to
+ * be loaded later by the existing built-in analysis functionality
+ */
+
+/* Record Analysis:
+ * function to gather all of the options, constraints and inputs currently in
+ * the window
+ */
+function record_analysis(){
+  var analysis = {
+    myGEN: {},
+    showTones: false,
+    myTrees: [],
+    myCon: []
+  };
+  /* analysis has attributes corresponding to inputs to
+   * my_built_in_analysis(): myGEN, showTones, myTrees, myCON
+   */
+  var spotForm = document.getElementById("spotForm");
+
+  //myGEN
+  for(var i = 0; i<spotForm.genOptions.length; i++){ //iterate over gen options
+    var option = spotForm.genOptions[i];
+    //make sure "obeys exhaustivity" has an array value
+    if(option.value === "obeysExhaustivity" && option.checked){
+      var exCats = [];
+			for(var x=0; x<spotForm.exhaustivityCats.length; x++){
+				var exCatBox = spotForm.exhaustivityCats[x];
+				if(exCatBox.checked)
+					exCats = exCats.concat(exCatBox.value);
+			}
+      analysis.myGEN.obeysExhaustivity = exCats;
+    }
+    //make sure "showTones" has a string value
+    else if(option.value === "usesTones" && option.checked){
+      analysis.showTones = spotForm.toneOptions.value;
+    }
+    else if(option.checked){
+      analysis.myGEN[option.value] = true;
+    }
+  }
+  //gen categories:
+  analysis.myGEN.rootCategory = spotForm['genOptions-rootCategory'].value;
+  analysis.myGEN.recursiveCategory = spotForm['genOptions-recursiveCategory'].value;
+  analysis.myGEN.terminalCategory = spotForm['genOptions-terminalCategory'].value;
+
+  //myTrees
+  analysis.myTrees = JSON.parse(document.getElementById("stree-textarea").value);
+
+  //myCon
+  var uCon = spotForm.constraints;
+  for(var i = 0; i<uCon.length; i++){ //iterate over constraints in interface
+    var cName = uCon[i].value; //constraint name for myCON array
+    if(uCon[i].checked){
+      if(spotForm['category-'+cName]){
+        var uCategories = spotForm['category-'+cName]; //categories for this constraint
+        for(var x = 0; x<uCategories.length; x++){ //iterate over categories
+          var cat = uCategories[x];
+          if(cat.checked){
+            analysis.myCon.push({name: cName, cat: cat.value}); //add to con
+          }
+        }
+      }
+      else{
+        //if the constraint does not have category specifications (accent constraints)
+        analysis.myCon.push({name: cName}); //add to con without category specification
+      }
+    }
+  }
+
+  return JSON.stringify(analysis);
+}
+
+/* funtion to create the elements necessary to download an analysis in JSON
+ * string form.
+ * Takes two arguments, both strings, the analysis in JSON string form and the
+ * file name. This function will append ".SPOT" to the filename
+ * fileName is an argument for this function in case we want to make the user
+ * choose the file name instead of calling the file myAnalysis automatically
+ */
+function saveAnalysis(analysis, fileName){
+  //Blob object becomees downloadable text file
+  var spotAnalysis = new Blob(["//SPOT analysis file usable at https://people.ucsc.edu/~jbellik/spot/interface1.html\n"+"'"+analysis+"'"+"\n"], {type: "text/plain;charset=utf-8"});
+  fileName = fileName+".SPOT";
+  //saveAs is defined at the bottom of interface1.js
+  saveAs(spotAnalysis, fileName);
+  //confirmation:
+  document.getElementById("save/load-dialog").innerHTML = "File saved as "+fileName+" <br/>Press \"Load\" and choose "+fileName+" to load this analysis in the future."
+}
+
+// function to show file upload button and instructions for loading an analysis
+function loadAnalysis(file){
+  //only run if the file has the extention ".SPOT"
+  if(file.name.slice(-5)===".SPOT"){
+    var contents; //file contentes
+    read = new FileReader();
+    read.readAsText(file);
+    read.onload = function(){
+      contents = read.result;
+      try{
+        /* JSON string begins on the second line of the SPOT file
+         * (indexOf("\n")+2) and ends right before a newline character (-2)
+        */
+        var analysis = JSON.parse(contents.slice(contents.indexOf("\n")+2, -2));
+        //load the built-in analysis using the parameters set in file
+        my_built_in_analysis(analysis.myGEN, analysis.showTones, analysis.myTrees, analysis.myCon);
+        var dialog = document.getElementById("save/load-dialog");
+        dialog.innerHTML = "Analysis loaded. Choose another file to change analysis.";
+        document.getElementById("chooseFilePrompt").style = "display: none";
+      }
+      catch(err){
+        //error handeling:
+        console.error("File does not follow SPOT format:");
+        console.error(err);
+        return;
+      }
+    }
   }
 }
