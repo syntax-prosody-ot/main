@@ -318,7 +318,7 @@ window.addEventListener('load', function(){
 			else {
 				catRow.remove('constraint-checked');
 			}
-			console.log(catRow);
+			//console.log(catRow);
 		}
 
 	});
@@ -329,18 +329,24 @@ window.addEventListener('load', function(){
 		if (e.preventDefault) e.preventDefault();
 
 		//Build a list of checked constraints.
+		/*
 		var constraintSet = [];
 		for(var i=0; i<spotForm.constraints.length; i++){
 			var constraintBox = spotForm.constraints[i];
+			//console.log(constraintBox);
 			if(constraintBox.checked){
 				var constraint = constraintBox.value;
+				//console.log(constraint);
 				//Figure out all the categories selected for the constraint
 				if(spotForm['category-'+constraint]){
 					var constraintCatSet = spotForm['category-'+constraint];
+					//console.log(constraintCatSet);
 					for(var j=0; j<constraintCatSet.length; j++){
 						var categoryBox = constraintCatSet[j];
+						//console.log(categoryBox);
 						if(categoryBox.checked){
 							var category = categoryBox.value;
+							//console.log(category);
 							constraintSet.push(constraint+'-'+category);
 						}
 					}
@@ -349,7 +355,83 @@ window.addEventListener('load', function(){
 					constraintSet.push(constraint);
 			}
 		}
-		//console.log(constraintSet);
+		console.log("built list of checked constraints: ");
+		console.log(constraintSet);
+		*/
+
+		//Build a list of checked constraints.
+		var constraintSet = [];
+		for(var i=0; i<spotForm.constraints.length; i++){
+			var constraintBox = spotForm.constraints[i];
+			//console.log(constraintBox);
+			if(constraintBox.checked){
+				var constraint = constraintBox.value;
+				//console.log(constraint);
+				//Figure out all the categories selected for the constraint
+				if(spotForm['category-'+constraint]){
+					var constraintCatSet = spotForm['category-'+constraint];
+					//console.log(constraintCatSet);
+					for(var j=0; j<constraintCatSet.length; j++){
+						var categoryBox = constraintCatSet[j];
+						//console.log(categoryBox);
+						if(categoryBox.checked){
+							var category = categoryBox.value;
+							//console.log(category);
+
+							// get match options
+							if(spotForm['option-'+constraint]){
+								var constraintOptionSet = spotForm['option-'+constraint];
+								//console.log("constraintOptionSet");
+								//console.log(constraintOptionSet);
+								var options = {};
+								for(var k=0; k<constraintOptionSet.length; k++){
+									var optionBox = constraintOptionSet[k];
+									// if(optionBox.checked){
+									// 	var option = optionBox.value;
+									// 	console.log("checked option");
+									// 	console.log(option);
+									// 	//constraintSet.push(constraint+'-'+category+'-'+option);
+									// }
+									options[optionBox.value]=optionBox.checked;
+								}
+								console.log("options");
+								console.log(options);
+								var parseOptions = JSON.stringify(options);
+								console.log("parse options");
+								console.log(parseOptions);
+								constraintSet.push(constraint+'-'+category+'-'+parseOptions);
+							}
+							else {
+								//var option = JSON.stringify({requireOvertHead:true, maxSyntax:true});
+								//constraintSet.push(constraint+'-'+category+'-'+option);
+								//var con = 'matchMaxSyntax'
+								//constraintSet.push(con+'-'+category);
+								constraintSet.push(constraint+'-'+category);
+							}
+						}
+					}
+				}
+				else
+					constraintSet.push(constraint);
+			}
+		}
+		console.log("built list of checked constraints: ");
+		console.log(constraintSet);
+
+		// build list of match options
+		// var matchOptions = {};
+		// for(var i=0; i<spotForm.matchOptions.length; i++){
+		// 	var optionBox = spotForm.matchOptions[i];
+		// 	// console.log("option box: ");
+		// 	// console.log(optionBox);
+		// 	matchOptions[optionBox.value]=optionBox.checked;
+		// }
+		// console.log("match options:");
+		// console.log(matchOptions);
+		// var matchOptionsBoth = JSON.stringify(matchOptions);
+		// console.log("match options both JSON:");
+		// console.log(matchOptionsBoth);
+
 		//Get the input syntactic tree.
 		var sTrees;
 		try{
@@ -368,8 +450,11 @@ window.addEventListener('load', function(){
 		var genOptions = {};
 		for(var i=0; i<spotForm.genOptions.length; i++){
 			var optionBox = spotForm.genOptions[i];
+			//console.log(optionBox);
 			genOptions[optionBox.value]=optionBox.checked;
 		}
+		//console.log(genOptions);
+
 		//record exhaustivity options if selected
 		if(genOptions['obeysExhaustivity']){
 			var exCats = [];
@@ -400,13 +485,23 @@ window.addEventListener('load', function(){
 			}
 		}
 
-		var genTones = false; //true if tones are selected
+		var tableauOptions = {
+			showTones: false,  //true iff tones are selected
+			invisibleCategories: []
+		};
 
 		if(document.getElementById("annotatedWithTones").checked){
 			//from radio group near the bottom of spotForm
 			genOptions.addTones = spotForm.toneOptions.value;
-			genTones = spotForm.toneOptions.value;
+		 	tableauOptions.showTones = spotForm.toneOptions.value;
 			//console.log(genOptions);
+		}
+
+		for(var i = 0; i < spotForm.hideCategory.length; i++){
+			var hiddenCat = spotForm.hideCategory[i];
+			if(hiddenCat.checked){
+				tableauOptions.invisibleCategories.push(hiddenCat.value);
+			}
 		}
 
 		var resultsConCl = document.getElementById("results-container").classList;
@@ -424,7 +519,8 @@ window.addEventListener('load', function(){
 
 
 			//Make the violation tableau with the info we just got.
-			var tabl = makeTableau(candidateSet, constraintSet, {showTones: genTones});
+
+			var tabl = makeTableau(candidateSet, constraintSet, tableauOptions);
 			csvSegs.push(tableauToCsv(tabl, ',', {noHeader: i}));
 			writeTableau(tabl);
 			revealNextSegment();
@@ -432,15 +528,7 @@ window.addEventListener('load', function(){
 
 		saveTextAs(csvSegs.join('\n'), 'SPOT_Results.csv');
 
-		function saveAs(blob, name) {
-			var a = document.createElement("a");
-			a.display = "none";
-			a.href = URL.createObjectURL(blob);
-			a.download = name;
-			document.body.appendChild(a);
-			a.click();
-			document.body.removeChild(a);
-		}
+		// the function saveAs() has been moved to the end of this file to make it global
 
 		function saveTextAs(text, name) {
 			saveAs(new Blob([text], {type: "text/csv", encoding: 'utf-8'}), name);
@@ -660,6 +748,19 @@ window.addEventListener('load', function(){
 		}
 	});
 
+	document.getElementById("clearAllButton").addEventListener("click", function(){
+		clearAnalysis();
+		document.getElementById('built-in-dropdown').value = 'select';
+		document.getElementById('fileUpload').value = '';
+		document.getElementById('chooseFilePrompt').style = "font-size: 13px; color: #555";
+		document.getElementById('chooseFile').style = "display: none";
+		document.getElementById('save/load-dialog').innerHTML = '';
+	});
+
+	document.getElementById('spotForm').addEventListener("change", function(){
+		document.getElementById("save/load-dialog").innerHTML = '';
+	});
+
 });
 
 function toneInfoBlock(language){
@@ -687,4 +788,15 @@ function toneInfoBlock(language){
 			content.innerHTML = irishContent;
 		}
 	}
+}
+
+//downloads an element to the user's computer. Originally defined up by saveTextAs()
+function saveAs(blob, name) {
+	var a = document.createElement("a");
+	a.display = "none";
+	a.href = URL.createObjectURL(blob);
+	a.download = name;
+	document.body.appendChild(a);
+	a.click();
+	document.body.removeChild(a);
 }
