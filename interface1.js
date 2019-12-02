@@ -311,22 +311,20 @@ window.addEventListener('load', function(){
 	spotForm.addEventListener('change', function(ev) {
 		var target = ev.target;
 		if (target.name === 'constraints') {
-			var trClassList = target.closest('tr').nextElementSibling.classList;
-			//console.log(target);
-			//console.log(target.closest('tr').nextSibling);
-			//console.log(target.closest('tr').nextElementSibling);
-			//console.log(trClassList);
+			var catRow = target.closest('div .constraint-selection-table').classList;
 			if (target.checked) {
-				trClassList.add('constraint-checked');
+				catRow.add('constraint-checked');
 			}
 			else {
-				trClassList.remove('constraint-checked');
+				catRow.remove('constraint-checked');
 			}
+			//console.log(catRow);
 		}
-		
+
 	});
 
 	spotForm.onsubmit=function(e){
+
 		console.log("submit");
 		if (e.preventDefault) e.preventDefault();
 
@@ -343,7 +341,27 @@ window.addEventListener('load', function(){
 						var categoryBox = constraintCatSet[j];
 						if(categoryBox.checked){
 							var category = categoryBox.value;
-							constraintSet.push(constraint+'-'+category);
+							//Figure out selected match options for the constraint
+							if(spotForm['option-'+constraint]){
+								var constraintOptionSet = spotForm['option-'+constraint];
+								var options = {};
+								for(var k=0; k<constraintOptionSet.length; k++){
+									var optionBox = constraintOptionSet[k];
+									//If lexical or overtly headed is checked, then option is true
+									if(optionBox.checked) {
+										options[optionBox.value] = true;
+									}
+									//If option is in a select, not a checkbox, and the option is not "any", then option is true
+									if(optionBox.checked === undefined && optionBox.value !== 'any') {
+										options[optionBox.value] = true;
+									}
+								}
+								var strOptions = JSON.stringify(options);
+								constraintSet.push(constraint+'-'+category+'-'+strOptions);
+							}
+							else {
+								constraintSet.push(constraint+'-'+category);
+							}
 						}
 					}
 				}
@@ -351,7 +369,7 @@ window.addEventListener('load', function(){
 					constraintSet.push(constraint);
 			}
 		}
-		//console.log(constraintSet);
+
 		//Get the input syntactic tree.
 		var sTrees;
 		try{
@@ -372,6 +390,7 @@ window.addEventListener('load', function(){
 			var optionBox = spotForm.genOptions[i];
 			genOptions[optionBox.value]=optionBox.checked;
 		}
+
 		//record exhaustivity options if selected
 		if(genOptions['obeysExhaustivity']){
 			var exCats = [];
@@ -403,15 +422,28 @@ window.addEventListener('load', function(){
 		}
 		
 
-		var genTones = false; //true if tones are selected
+		var tableauOptions = {
+			showTones: false,  //true iff tones are selected
+			invisibleCategories: []
+		};
 
 		if(document.getElementById("annotatedWithTones").checked){
 			//from radio group near the bottom of spotForm
 			genOptions.addTones = spotForm.toneOptions.value;
-			genTones = spotForm.toneOptions.value;
+		 	tableauOptions.showTones = spotForm.toneOptions.value;
 			//console.log(genOptions);
 		}
-		console.log(genOptions);
+
+		for(var i = 0; i < spotForm.hideCategory.length; i++){
+			var hiddenCat = spotForm.hideCategory[i];
+			if(hiddenCat.checked){
+				tableauOptions.invisibleCategories.push(hiddenCat.value);
+			}
+		}
+
+		var resultsConCl = document.getElementById("results-container").classList;
+		resultsConCl.add('show-tableau');
+
 		var csvSegs = [];
 		for (var i = 0; i < sTrees.length; i++) {
 			var sTree = sTrees[i];
@@ -439,7 +471,7 @@ window.addEventListener('load', function(){
 
 
 			//Make the violation tableau with the info we just got.
-			var tabl = makeTableau(candidateSet, constraintSet, {showTones: genTones});
+			var tabl = makeTableau(candidateSet, constraintSet, tableauOptions);
 			csvSegs.push(tableauToCsv(tabl, ',', {noHeader: i}));
 			writeTableau(tabl);
 			revealNextSegment();
@@ -447,15 +479,7 @@ window.addEventListener('load', function(){
 
 		saveTextAs(csvSegs.join('\n'), 'SPOT_Results.csv');
 
-		function saveAs(blob, name) {
-			var a = document.createElement("a");
-			a.display = "none";
-			a.href = URL.createObjectURL(blob);
-			a.download = name;
-			document.body.appendChild(a);
-			a.click();
-			document.body.removeChild(a);
-		}
+		// the function saveAs() has been moved to the end of this file to make it global
 
 		function saveTextAs(text, name) {
 			saveAs(new Blob([text], {type: "text/csv", encoding: 'utf-8'}), name);
@@ -490,13 +514,11 @@ window.addEventListener('load', function(){
 	//show extra boxes for annotated with tones on click
 	//console.log(document.getElementById('annotatedWithTones'))
 	document.getElementById('annotatedWithTones').addEventListener('click', function(){
-		if (document.getElementById('japaneseTones').style.display === 'none' && document.getElementById('annotatedWithTones').checked){
-			document.getElementById('japaneseTones').style.display = 'table-cell';
-			document.getElementById('irishTones').style.display = 'table-cell';
+		if (document.getElementById('tonesSelectionRow').style.display === 'none' && document.getElementById('annotatedWithTones').checked){
+			document.getElementById('tonesSelectionRow').style.display = '';
 		}
 		else{
-			document.getElementById('japaneseTones').style.display = 'none';
-			document.getElementById('irishTones').style.display = 'none';
+			document.getElementById('tonesSelectionRow').style.display = 'none';
 			//if (genOptions['usesTones']){
 			//	genOptions['usesTones'] = false;
 			//}
@@ -677,26 +699,55 @@ window.addEventListener('load', function(){
 		}
 	});
 
+	document.getElementById("clearAllButton").addEventListener("click", function(){
+		clearAnalysis();
+		document.getElementById('built-in-dropdown').value = 'select';
+		document.getElementById('fileUpload').value = '';
+		document.getElementById('chooseFilePrompt').style = "font-size: 13px; color: #555";
+		document.getElementById('chooseFile').style = "display: none";
+		document.getElementById('save/load-dialog').innerHTML = '';
+	});
+
+	document.getElementById('spotForm').addEventListener("change", function(){
+		document.getElementById("save/load-dialog").innerHTML = '';
+	});
+
 });
 
 function toneInfoBlock(language){
 	var content = document.getElementById("tonesInfoContent");
 	var japaneseContent = "Tokyo Japanese: the left edge of phi is marked with a rising boundary tone (LH), accented words receive an HL on the accented syllable, and H tones that follow a pitch drop (HL) within the maximal phi are downstepped (!H). (See: Pierrehumbert and Beckman 1988; Gussenhoven 2004; Ito and Mester 2007) Accents, boundary tones, and downstep in Lekeitio Basque are realized with the same tones as in Tokyo Japanese.";
 	var irishContent = "Conamara Irish (Elfner 2012): The left edge of the non-minimal phi is marked with a rising boundary tone (LH), and the right edge of every phi is marked with a falling boundary tone (HL).";
+	var format = "font-size: 13px; color: #555; margin-left: 25px; display: table-cell";
 	if (language == "japanese"){
 		if (content.innerHTML == japaneseContent){
+			content.style = "display: none";
 			content.innerHTML = '';
 		}
 		else{
+			content.style = format;
 			content.innerHTML = japaneseContent;
 		}
 	}
 	if (language === "irish"){
 		if (content.innerHTML == irishContent){
+			content.style = "display: none";
 			content.innerHTML = '';
 		}
 		else {
+			content.style = format;
 			content.innerHTML = irishContent;
 		}
 	}
+}
+
+//downloads an element to the user's computer. Originally defined up by saveTextAs()
+function saveAs(blob, name) {
+	var a = document.createElement("a");
+	a.display = "none";
+	a.href = URL.createObjectURL(blob);
+	a.download = name;
+	document.body.appendChild(a);
+	a.click();
+	document.body.removeChild(a);
 }
