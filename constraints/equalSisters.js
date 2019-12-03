@@ -84,3 +84,30 @@ function equalSistersAdj(s, parent, c){
 	}
 	return vCount;
 }
+
+// After Ito & Mester 2017
+// Assign a violation for adjacent sisters whose categories don't match
+function equalSisters2(s, parent, c){
+	var vCount = 0;
+	if(parent.children && parent.children.length)
+	//pTree is non-terminal
+	{
+		logreport.debug("\tchecking equality of children of "+parent.id);
+		for(var i=0; i < parent.children.length; i++){
+			var child = parent.children[i];
+			if(i<parent.children.length-1)
+			{
+				var sister = parent.children[i+1];
+				if(pCat.isLower(child.cat, sister.cat) && !isMinimal(sister))
+				{
+					vCount++;
+				}
+				else if(pCat.isLower(sister.cat, child.cat) && !isMinimal(child)){
+					vCount++;
+				}
+			}
+			vCount += equalSisters2(s, child, c);
+		}
+	}
+	return vCount;
+}

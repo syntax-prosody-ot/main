@@ -181,12 +181,26 @@ function built_in_Kinyambo(){
   my_built_in_analysis(kGEN, false, ktrees, kcon);
 }
 
+function built_in_Japanese_IM2017(){
+  var gen = {obeysHeadedness: true, obeysExhaustivity: true};
+
+  var con = [{name: 'matchMaxSyntax', cat:'xp'}, {name:'matchPS', cat:'phi'}, {name: 'matchSP', cat:'xp'}, {name: 'binMinBranches', cat:'phi'}, {name:'binMaxBranches', cat:'phi'}, {name:'binMaxLeaves', cat:'phi'}, {name:'equalSistersAdj', cat:'phi'}, {name: 'equalSisters2', cat:'phi'}, {name: 'accentAsHead', cat: ''}, {name: 'noLapseL', cat: ''}];
+
+  var jtrees = getAccentTrees();
+
+  my_built_in_analysis(gen, 'addJapaneseTones', jtrees, con);
+
+}
+
 function built_in(analysis) {
   if(analysis === "irish") {
     built_in_Irish();
   }
   if(analysis === "kinyambo") {
     built_in_Kinyambo();
+  }
+  if(analysis === "ito&mester2017"){
+    built_in_Japanese_IM2017();
   }
 }
 
