@@ -4,6 +4,7 @@
 
 		<script src="build/spot.js"></script>
 		<script src="./trees/built-in_trees.js"></script>
+		<script src="./trees/left_branching_accent_trees_2_3_4_words.js"></script>
 		<link rel="stylesheet" type="text/css" href="spot.css">
 		<link rel="icon" type="image/x-icon" href="images/favicon.ico">
 
@@ -408,6 +409,7 @@
 					<option value="select">Select</option>
 					<option value="irish">Irish Phrasing (Elfner 2012)</option>
 					<option value="kinyambo">Kinyambo (Bellik & Kalivoda 2016)</option>
+					<option value="ito&mester2017">Japanese (Ito & Mester 2017)</option>
 				</select>
 
 			</div>
@@ -914,6 +916,15 @@
 								<span><input type="checkbox" name="constraints" value="equalSistersFirstPrivilege">EqualSisters (first privilege)</span>
 								<div class="info">
 									<span class="content">For each set of sisters, assign one violation for every child that has a different prosodic category from the first (leftmost) sister in the set. SPOT function: equalSistersFirstPrivilege(). (c.f. Myrberg 2010). Concept: Myrberg 2010. Specific formulation: SPOT. See Bellik & Kalivoda 2017 (SPOT1 Workshop slides) for discussion of implications.</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="equalSisters2">EqualSisters2</span>
+								<div class="info">
+									<span class="content">For each set of sisters, assign one violation for every child whose prosodic category is lower than that of a non-minimal sister. E.g., assign a violation for &omega; that is adjacent to a non-minimal &phi;, but don't assign a violation for &omega; that is adjecent to a minimal &phi;. SPOT function: equalSisters2. Ito & Mester 2017.</span>
 								</div>
 							</div>
 						</div>
