@@ -192,6 +192,24 @@ function built_in_Japanese_IM2017(){
 
 }
 
+/* Nick VH, please fill in your system's info here
+*/
+function built_in_Italian_NVH(){
+  var gen = {};
+  var con = [];
+  var trees = [];
+  my_built_in_analysis(gen, false, trees, con);
+}
+
+/* Richard, please fill in your system's info here
+*/
+function built_in_Chamorro_RB(){
+  var gen = {};
+  var con = [];
+  var trees = [];
+  my_built_in_analysis(gen, false, trees, con);
+}
+
 function built_in(analysis) {
   if(analysis === "irish") {
     built_in_Irish();
@@ -201,6 +219,12 @@ function built_in(analysis) {
   }
   if(analysis === "ito&mester2017"){
     built_in_Japanese_IM2017();
+  }
+  if(analysis=== "italian"){
+    built_in_Italian_NVH();
+  }
+  if(analysis=== "chamorro"){
+    built_in_Chamorro_RB();
   }
 }
 
