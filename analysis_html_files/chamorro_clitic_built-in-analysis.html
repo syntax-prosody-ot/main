@@ -30,24 +30,11 @@
    var sTreeList = chamorro_clitic_trees;
    
    /*Constraint sets are defined below. You can change these or add your own. A constraint set is a list of constraint function names (refer to the files in constraints.js for names) + category arguments (separated from constraint names with -; refer to prosodicHierarchy.js for a list of defined categories).*/
-   var conMatch = ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj-phi', 'noShift', 'binMinBranches-phi', 'binMaxBranches-phi', 'binMaxBranches-i', 'strongStart_Elfner-syll', 'alignLeftClitic-clitic'];
-   var conNoAlignClitic = ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj-phi', 'noShift', 'binMinBranches-phi', 'binMaxBranches-phi', 'binMaxBranches-i', 'strongStart_Elfner-syll'];
-   var conBESTNoBinMAX = ['matchSP-xp-{"requireOvertHead":true}', 'matchPS-phi', 'equalSistersAdj-phi', 'strongStart_Elfner-syll', 'alignLeftClitic-clitic', 'binMinBranches-phi'];
-   var conNoEqualSisters = ['matchSP-xp-{"requireOvertHead":true}', 'matchPS-phi', 'noShift', 'binMinBranches-phi', 'binMaxBranches-phi', 'binMaxBranches-i', 'strongStart_Elfner-syll', 'alignLeftClitic-clitic'];
-   var conAlign = ['alignLeft-xp', 'alignRight-xp', 'noShift', 'equalSistersAdj-phi', 'binMinBranches-phi', 'binMaxBranches-phi', 'binMaxBranches-i', 'strongStart_Elfner-syll', 'alignLeftClitic-clitic'];
-   var conAlignNoClitic = ['alignLeft-xp', 'alignRight-xp', 'noShift', 'equalSistersAdj-phi', 'binMinBranches-phi', 'binMaxBranches-phi', 'binMaxBranches-i', 'strongStart_Elfner-syll'];
-   var conOvertHead = ['matchSP-xp-{"requireOvertHead":true}', 'matchPS-phi', 'equalSistersAdj-phi', 'noShift', 'binMinBranches-phi', 'binMaxBranches-phi', 'binMaxBranches-i', 'strongStart_Elfner-syll', 'alignLeftClitic-clitic'];
-   var conNoPS = ['matchSP-xp-{"requireOvertHead":true}', 'equalSistersAdj-phi', 'noShift', 'binMinBranches-phi', 'binMaxBranches-phi', 'binMaxBranches-i', 'strongStart_Elfner-syll', 'alignLeftClitic-clitic'];
-   var conNoNS = ['matchSP-xp-{"requireOvertHead":true}', 'matchPS-phi', 'equalSistersAdj-phi', 'binMinBranches-phi', 'binMaxBranches-phi', 'binMaxBranches-i', 'strongStart_Elfner-syll', 'alignLeftClitic-clitic'];
-   var conNoNSorPS = ['matchSP-xp-{"requireOvertHead":true}', 'equalSistersAdj-phi', 'binMinBranches-phi', 'binMaxBranches-phi', 'binMaxBranches-i', 'strongStart_Elfner-syll', 'alignLeftClitic-clitic'];
    var conNoNSNoBinMaxPhi = ['matchSP-xp-{"requireOvertHead":true}', 'matchPS-phi', 'equalSistersAdj-phi', 'binMinBranches-phi', 'binMaxBranches-i', 'strongStart_Elfner-syll', 'alignLeftClitic-clitic'];
-   var conAlignMatchPS = ['alignLeft-xp', 'alignRight-xp', 'matchPS-phi', 'equalSistersAdj-phi', 'binMinBranches-phi', 'binMaxBranches-phi', 'binMaxBranches-i', 'strongStart_Elfner-syll', 'alignLeftClitic-clitic'];
-   var conBestMatchMax = ['matchSP-xp-{"maxSyntax": true, "requireOvertHead":true}', 'matchPS-phi', 'equalSistersAdj-phi', 'binMinBranches-phi', 'binMaxBranches-i', 'strongStart_Elfner-syll', 'alignLeftClitic-clitic'];
-   var conAlign2 = ['alignLeft-xp', 'alignRight-xp', 'alignLeftPS-phi', 'alignRightPS-phi', 'equalSistersAdj-phi', 'binMinBranches-phi', 'binMaxBranches-phi', 'binMaxBranches-i', 'strongStart_Elfner-syll', 'alignLeftClitic-clitic'];
 
    
    /*A list of names for your constraint sets. These are used for naming the tableau csv files and finding the lists of constraint names. They need to match the variable names above.*/
-    var conNames = ['conAlign2'];
+    var conNames = ['conNoNSNoBinMaxPhi'];
    
    //Candidate sets are generated with the options below.
    var gen_options = {obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: ['i']};

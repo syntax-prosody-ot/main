@@ -369,6 +369,76 @@ var chamorro_clitic_trees =
             }
         ]
     },
+        /*{
+        "id": "TP",
+        "cat": "cp",
+        "children": [
+            {
+                "cat": "xp",
+                "id": "DP_silent",
+                "silentHead": true,
+                "children": [
+                    {
+                        "cat": "xp",
+                        "id": "XP_11",
+                        "children": [
+                            {
+                                "cat": "xp",
+                                "id": "XP_6",
+                                "silentHead": true,
+                                "children": [
+                                    {
+                                        "id": "i_mas",
+                                        "cat": "x0"
+                                    },
+                                    {
+                                        "id": "amku'",
+                                        "cat": "x0"
+                                    }
+                                ]
+                            },
+                            {
+                                "cat": "xp",
+                                "id": "XP_10",
+                                "children": [
+                                    {
+                                        "cat": "xp",
+                                        "id": "XP_8",
+                                        "children": [
+                                            {
+                                                "id": "na_chi'lu-hu",
+                                                "cat": "x0"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "cat": "xp",
+                                        "id": "XP_9",
+                                        "children": [
+                                            {
+                                                "id": "palao'an",
+                                                "cat": "x0"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "cat": "xp",
+                "id": "XP_7",
+                "children": [
+                    {
+                        "id": "clitic",
+                        "cat": "clitic"
+                    }
+                ]
+            }
+        ]
+    },*/
     {
         "id": "TP",
         "cat": "cp",
@@ -456,7 +526,69 @@ var chamorro_clitic_trees =
                                 ]
                             }
                         ]
+                    },
+    {
+        "id": "TP",
+        "cat": "cp",
+        "children": [
+            {
+                "cat": "xp",
+                "id": "NP",
+                "children": [
+                    {
+                        "cat": "xp",
+                        "id": "NP",
+                        "children": [
+                            {
+                                "id": "famalao'an",
+                                "cat": "x0"
+                            }
+                        ]
+                    },
+                    {
+                        "cat": "xp",
+                        "id": "PP",
+                        "children": [
+                            {
+                                "cat": "xp",
+                                "id": "DP",
+                                "children": [
+                                    {
+                                        "id": "ginin_todus",
+                                        "cat": "x0"
+                                    },
+                                    {
+                                        "cat": "xp",
+                                        "id": "DP",
+                                        "children": [
+                                            {
+                                                "id": "i_islas",
+                                                "cat": "x0"
+                                            },
+                                            {
+                                                "id": "gi_Pasifika",
+                                                "cat": "x0"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
                     }
+                ]
+            },
+            {
+                "cat": "xp",
+                "id": "DP",
+                "children": [
+                    {
+                        "id": "clitic",
+                        "cat": "clitic"
+                    }
+                ]
+            }
+        ]
+    }
     /*{
         "id": "CP1",
         "cat": "cp",
