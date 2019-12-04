@@ -194,19 +194,21 @@ function my_built_in_analysis(myGEN, showTones, myTrees, myCon){
   // Step 4: If showTones is not false, the tableaux will be annotated with tones.
   if(showTones){
     var toneCheckbox = document.getElementById("annotatedWithTones");
-    toneCheckbox.checked = true;
+    //open the tree display options fieldset
     document.getElementById("treeDisplayOptions").setAttribute("class", "open");
-    //console.log(toneCheckbox.checked);
-    var toneButtons = toneCheckbox.parentNode.parentNode.getElementsByTagName("input");
+    //make sure the annotated with tones checkbox is checked and its options are open
+    if(!toneCheckbox.checked){
+      toneCheckbox.click();
+    }
+    //the tone annotation options:
+    var toneButtons = document.getElementsByName("toneOptions");
     for(var x = 0; x < toneButtons.length; x++){
-      toneButtons[x].parentNode.setAttribute("style", "display: table-cell");
       if(toneButtons[x].value===showTones){
         toneButtons[x].checked =  "checked";
       }
       else if (toneButtons[x] !== toneCheckbox){
         //we don't want multiple radio buttons to be checked, it gets confusing
         toneButtons[x].checked = false;
-        //toneButtons[x].removeAttribute("checked");
       }
     }
   }
