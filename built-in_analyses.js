@@ -4,17 +4,28 @@
  * the user or from another built-in alalysis. */
 function clearAnalysis(){
   var genOptions = document.getElementsByName("genOptions");
+  var hideCategories = document.getElementsByName('hideCategory');
   var constraints = document.getElementsByName("constraints");
   var fieldsets = document.getElementsByTagName("fieldset");
-  
+
+  //reset gen options
   for(var i = 0; i<genOptions.length; i++){
     if(genOptions[i].checked){
       genOptions[i].click();
     }
   }
+
+  //reset prosodic categories
   document.getElementById("spotForm")["genOptions-rootCategory"].value = "i";
   document.getElementById("spotForm")["genOptions-recursiveCategory"].value = "phi";
   document.getElementById("spotForm")["genOptions-terminalCategory"].value = "w";
+
+  //reset tree parenthesization options
+  for(var i = 0; i<hideCategories.length; i++){
+    hideCategories[i].checked = false;
+  }
+
+  //reset constraints
   for(var i = 0; i<constraints.length; i++){
     if(constraints[i].checked){
       constraints[i].click();
@@ -25,7 +36,7 @@ function clearAnalysis(){
 
     fieldsets[i].classList.remove("open");
 
-    
+
   }
   window.clearUTrees();
   document.getElementById("stree-textarea").value = '{}';
@@ -64,7 +75,7 @@ function built_in_con(input){
           cat_boxes = document.getElementsByName("category-"+input[i].name);
           for(var z = 0; z < cat_boxes.length; z++){
             //used to test if constraint has been used before:
-            var regex = RegExp(input[i].name);
+            var regex = new RegExp(input[i].name);
             // select the category if the input calls for it
             if(cat_boxes[z].value === input[i].cat){
               cat_boxes[z].checked =  true;
@@ -77,6 +88,23 @@ function built_in_con(input){
         }
       }
     }
+    //handeling constraint options, uses last constraint options object specified
+    /* we only need to do this once per input and we should probably run it after
+     * all of the constraints and categories have been checked */
+    if(input[i].options && document.getElementsByName("option-"+input[i].name) && document.getElementsByName("option-"+input[i].name).length){
+      var optionBoxes = document.getElementsByName("option-"+input[i].name);
+      //iterate over option checkboxes corresponding to this input
+      for(var x in optionBoxes){
+        if(input[i].options[optionBoxes[x].value]){
+          optionBoxes[x].checked = true;
+        }
+        else{
+          optionBoxes[x].checked = false;
+        }
+      }
+    }
+    //record that this constraint has already been used so other inputs don't overwrite it
+    usedCons = usedCons+input[i].name;
   }
 }
 
@@ -118,14 +146,33 @@ function my_built_in_analysis(myGEN, showTones, myTrees, myCon){
       }
     }
   }
-  if(myGEN.rootCategory){
+  if(myGEN.rootCategory && (myGEN.rootCategory !== "i")){
+    document.getElementById("prosodicCategories").setAttribute("class", "open");
     document.getElementById("spotForm")["genOptions-rootCategory"].value = myGEN.rootCategory;
   }
-  if(myGEN.recursiveCategory){
+  if(myGEN.recursiveCategory && (myGEN.recursiveCategory !== "phi")){
+    document.getElementById("prosodicCategories").setAttribute("class", "open");
     document.getElementById("spotForm")["genOptions-recursiveCategory"].value = myGEN.recursiveCategory;
   }
-  if(myGEN.terminalCategory){
+  if(myGEN.terminalCategory && (myGEN.terminalCategory !== "w")){
+    document.getElementById("prosodicCategories").setAttribute("class", "open");
     document.getElementById("spotForm")["genOptions-terminalCategory"].value = myGEN.terminalCategory;
+  }
+  //hide boundaries for nodes of category...
+  //myGEN.invisibleCategories should be an array
+  if(myGEN.invisibleCategories && myGEN.invisibleCategories.length){
+    var hideCategories = document.getElementsByName('hideCategory');
+    //open the fieldset:
+    document.getElementById("treeDisplayOptions").setAttribute("class", "open");
+    //iterate over specified invisible categories
+    for(var x = 0; x<myGEN.invisibleCategories.length; x++){
+      //iterate over hideCategory checkboxes
+      for(var y = 0; y<hideCategories.length; y++){
+        if(hideCategories[y].value === myGEN.invisibleCategories[x]){
+          hideCategories[y].checked = true;
+        }
+      }
+    }
   }
 
 
@@ -148,6 +195,7 @@ function my_built_in_analysis(myGEN, showTones, myTrees, myCon){
   if(showTones){
     var toneCheckbox = document.getElementById("annotatedWithTones");
     toneCheckbox.checked = true;
+    document.getElementById("treeDisplayOptions").setAttribute("class", "open");
     //console.log(toneCheckbox.checked);
     var toneButtons = toneCheckbox.parentNode.parentNode.getElementsByTagName("input");
     for(var x = 0; x < toneButtons.length; x++){
@@ -275,6 +323,15 @@ function record_analysis(){
   analysis.myGEN.recursiveCategory = spotForm['genOptions-recursiveCategory'].value;
   analysis.myGEN.terminalCategory = spotForm['genOptions-terminalCategory'].value;
 
+  //gen hide categories
+  analysis.myGEN.invisibleCategories = [];
+  for(var i = 0; i < spotForm.hideCategory.length; i++){
+    var hiddenCat = spotForm.hideCategory[i];
+    if(hiddenCat.checked){
+      analysis.myGEN.invisibleCategories.push(hiddenCat.value);
+    }
+  }
+
   //myTrees
   analysis.myTrees = JSON.parse(document.getElementById("stree-textarea").value);
 
@@ -295,6 +352,21 @@ function record_analysis(){
       else{
         //if the constraint does not have category specifications (accent constraints)
         analysis.myCon.push({name: cName}); //add to con without category specification
+      }
+    }
+  }
+  //matchOptions
+  var matchReg = /match/;
+  //iterate over all the selected constraints
+  for(var i = 0; i<analysis.myCon.length; i++){
+    var matchCon = analysis.myCon[i];
+    //if the constraint name has "match" in it
+    if(matchReg.test(matchCon.name)){
+      matchCon.options = {};
+      var matchOptions = spotForm["option-"+matchCon.name];
+      //iterate over the options for this match constraint
+      for(var x = 0; x<matchOptions.length; x++){
+        matchCon.options[matchOptions[x].value] = matchOptions[x].checked;
       }
     }
   }
