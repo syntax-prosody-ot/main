@@ -80,6 +80,11 @@ function built_in_con(input){
             if(cat_boxes[z].value === input[i].cat){
               cat_boxes[z].checked =  true;
             }
+            //for dealing with text input (currently only from alignLeftMorpheme)
+            else if(cat_boxes[z].type==="text"){
+              cat_boxes[z].checked =  true;
+              cat_boxes[z].value = input[i].cat;
+            }
             // otherwise clear out category if this constraint has not been used before
             else if(!regex.test(usedCons)){
               cat_boxes[z].checked = false;
