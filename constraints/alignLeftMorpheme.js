@@ -3,14 +3,15 @@
 *  and the lexical item. 
 */
 
-function alignLeftClitic(stree, ptree, clitic){
+function alignLeftMorpheme(stree, ptree, clitic){
     if(ptree.cat !== "i" && ptree.cat !== 'iota'){
         console.warn("You are calling alignLeftClitic on a tree that is not rooted in i");
     }
+    clitic = clitic.split(' ');
     var leaves = getLeaves(ptree);
-    var cliticPos = leaves.findIndex(function(element){return element.id===clitic;});
+    var cliticPos = leaves.findIndex(function(element){return clitic.indexOf(element.id) >= 0;});
     if(cliticPos < 0){
-        console.warn("The specificed clitic "+clitic+" was not found in this tree");
+        console.warn("The specified clitic "+clitic+" was not found in this tree");
         cliticPos = 0;
     }
     return cliticPos;

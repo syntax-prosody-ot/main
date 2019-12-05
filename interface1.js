@@ -338,10 +338,14 @@ window.addEventListener('load', function(){
 				//Figure out all the categories selected for the constraint
 				if(spotForm['category-'+constraint]){
 					var constraintCatSet = spotForm['category-'+constraint];
+					if (constraintCatSet.length === undefined) {
+						constraintCatSet = [constraintCatSet];
+					}
 					for(var j=0; j<constraintCatSet.length; j++){
 						var categoryBox = constraintCatSet[j];
 						if(categoryBox.checked){
 							var category = categoryBox.value;
+
 							//Figure out selected match options for the constraint
 							if(spotForm['option-'+constraint]){
 								var constraintOptionSet = spotForm['option-'+constraint];
