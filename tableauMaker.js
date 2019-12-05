@@ -22,7 +22,7 @@ function makeTableau(candidateSet, constraintSet, options){
 	//Build a header for the tableau
 	var header = [sTree];
 	for(var i=0; i<constraintSet.length; i++){
-		/* Split the constraint up into the function name, category, and 
+		/* Split the constraint up into the function name, category, and
 		*  any options, in that order. They should be separated by '-'.
 		*/
 		var conParts = constraintSet[i].split('-');
@@ -30,7 +30,7 @@ function makeTableau(candidateSet, constraintSet, options){
 		//If there are options, truncate their attribute names and append them to the constraint name.
 		if(conParts[2] && conParts[2].length){
 			var optionObj = JSON.parse(conParts[2]);
-			var options = Object.getOwnPropertyNames(optionObj); 
+			var options = Object.getOwnPropertyNames(optionObj);
 			for(var j in options){
 				if(optionObj[options[j]]==true){
 					var temp = options[j];
@@ -40,8 +40,9 @@ function makeTableau(candidateSet, constraintSet, options){
 					optionString += '-'+temp;
 				}
 			}
-		} 
-		var constraintOptionsCat = conParts[0]+optionString+'('+conParts[1]+')';
+		}
+		var cat = conParts[1] ? '('+conParts[1]+')' : ''
+		var constraintOptionsCat = conParts[0]+optionString+cat;
 		header.push(constraintOptionsCat);
 	}
 	tableau.push(header);

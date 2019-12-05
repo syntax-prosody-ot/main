@@ -1,13 +1,19 @@
 function noShift(stree, ptree, cat){
     //Get lists of terminals
-    
+
     var sleaves = getLeaves(stree);
     var pleaves = getLeaves(ptree);
     var sorder = new Array(sleaves.length);
     var porder = new Array(pleaves.length);
 
-    if(sleaves.length != pleaves.length){
+    try {
+      if(sleaves.length != pleaves.length) {
         throw new Error("NoShift problem: The stree and ptree have different numbers of terminals!");
+      }
+    }
+    catch(err) {
+      // Display error message in alert if error is thrown
+      console.warn(err);
     }
 
     for(var i in sleaves){
