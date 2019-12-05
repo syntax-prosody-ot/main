@@ -124,6 +124,7 @@ function my_built_in_analysis(myGEN, showTones, myTrees, myCon){
   //Step 0: clear the webpage
   clearAnalysis();
   //Step 1: GEN options
+  // To move clitics: value should be "cliticMovement"
   var genBoxes = document.getElementsByName("genOptions");
   for(var box in genBoxes){
     var optVal = myGEN[genBoxes[box].value];
