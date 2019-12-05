@@ -209,6 +209,7 @@ function showUTree(tree){
 
 function clearUTrees(){
 	treeTableContainer.innerHTML = '';
+	treeUIsTreeMap = {};
 }
 
 function addOrRemoveUTrees(addTree){
@@ -216,7 +217,7 @@ function addOrRemoveUTrees(addTree){
 		treeTableContainer.innerHTML += addTree.toHtml();
 	}
 	else{
-		treeTableContainer.innerHTML = '';
+		clearUTrees();
 	}
 	refreshNodeEditingButtons();
 
