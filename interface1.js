@@ -350,15 +350,22 @@ window.addEventListener('load', function(){
 							if(spotForm['option-'+constraint]){
 								var constraintOptionSet = spotForm['option-'+constraint];
 								var options = {};
-								for(var k=0; k<constraintOptionSet.length; k++){
-									var optionBox = constraintOptionSet[k];
-									//If lexical or overtly headed is checked, then option is true
-									if(optionBox.checked) {
-										options[optionBox.value] = true;
+								if(constraintOptionSet.length){
+									for(var k=0; k<constraintOptionSet.length; k++){
+										var optionBox = constraintOptionSet[k];
+										//If lexical or overtly headed is checked, then option is true
+										if(optionBox.checked) {
+											options[optionBox.value] = true;
+										}
+										//If option is in a select, not a checkbox, and the option is not "any", then option is true
+										if(optionBox.checked === undefined && optionBox.value !== 'any') {
+											options[optionBox.value] = true;
+										}
 									}
-									//If option is in a select, not a checkbox, and the option is not "any", then option is true
-									if(optionBox.checked === undefined && optionBox.value !== 'any') {
-										options[optionBox.value] = true;
+								}
+								else{ //constraint only has one possible option:
+									if(constraintOptionSet.checked){
+										options[constraintOptionSet.value] = true;
 									}
 								}
 								var strOptions = JSON.stringify(options);
@@ -425,7 +432,7 @@ window.addEventListener('load', function(){
 				throw terminalCategoryError;
 			}
 		}
-		
+
 
 		var tableauOptions = {
 			showTones: false,  //true iff tones are selected
@@ -460,13 +467,13 @@ window.addEventListener('load', function(){
 			}
 
 			//warn user about clitic movement
-			if (genOptions['cliticMovement'] && (!genOptions['noUnary'] && getLeaves(sTree).length >= 5) 
+			if (genOptions['cliticMovement'] && (!genOptions['noUnary'] && getLeaves(sTree).length >= 5)
 											 || (genOptions['noUnary'] && getLeaves(sTree).length >= 7)){
 				if(!confirm("You have selected GEN settings that allow clitic reordering, and included a sentence of (X) terminals. This GEN may yield more than 10K candidates. To reduce the number of candidates, consider enforcing non-recursivity, exhaustivity, and/or branchingness for intermediate prosodic nodes. Do you wish to proceed with these settings?")){
 					throw new Error("");
 				}
-			} 
-			
+			}
+
 			if (genOptions['cliticMovement']){
 				var candidateSet = GENwithCliticMovement(sTree, pString, genOptions);
 			}

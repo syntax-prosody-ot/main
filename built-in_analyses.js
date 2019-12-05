@@ -93,14 +93,20 @@ function built_in_con(input){
      * all of the constraints and categories have been checked */
     if(input[i].options && document.getElementsByName("option-"+input[i].name) && document.getElementsByName("option-"+input[i].name).length){
       var optionBoxes = document.getElementsByName("option-"+input[i].name);
-      //iterate over option checkboxes corresponding to this input
-      for(var x in optionBoxes){
-        if(input[i].options[optionBoxes[x].value]){
-          optionBoxes[x].checked = true;
+      if(optionBoxes.length){
+        //iterate over option checkboxes corresponding to this input
+        for(var x in optionBoxes){
+          if(input[i].options[optionBoxes[x].value]){
+            optionBoxes[x].checked = true;
+          }
+          else{
+            optionBoxes[x].checked = false;
+          }
         }
-        else{
-          optionBoxes[x].checked = false;
-        }
+      }
+      //if there is only one option for this constraint:
+      else{
+        optionBoxes.checked = true;
       }
     }
     //record that this constraint has already been used so other inputs don't overwrite it
@@ -345,7 +351,7 @@ function record_analysis(){
       if(spotForm['category-'+cName]){
         var uCategories = spotForm['category-'+cName]; //categories for this constraint
         //handeling alignLeftMorpheme: (category is actually a user defined string)
-        if(typeof uCategories !== Array){
+        if(!uCategories.length){
           analysis.myCon.push({name: cName, cat: uCategories.value});
         }
         //basically every other case: (category is actually a category)
@@ -364,18 +370,23 @@ function record_analysis(){
       }
     }
   }
-  //matchOptions
-  var matchReg = /match/;
+  //optionable constraints:
   //iterate over all the selected constraints
   for(var i = 0; i<analysis.myCon.length; i++){
-    var matchCon = analysis.myCon[i];
-    //if the constraint name has "match" in it
-    if(matchReg.test(matchCon.name)){
-      matchCon.options = {};
-      var matchOptions = spotForm["option-"+matchCon.name];
-      //iterate over the options for this match constraint
-      for(var x = 0; x<matchOptions.length; x++){
-        matchCon.options[matchOptions[x].value] = matchOptions[x].checked;
+    var optionableCon = analysis.myCon[i];
+    //if the constraint has options
+    if(spotForm["option-"+optionableCon.name]){
+      optionableCon.options = {};
+      var conOptions = spotForm["option-"+optionableCon.name];
+      if(conOptions.length){
+        //iterate over the options for this match constraint
+        for(var x = 0; x<conOptions.length; x++){
+          optionableCon.options[conOptions[x].value] = conOptions[x].checked;
+        }
+      }
+      else{
+        //when there is only one option
+        optionableCon.options[conOptions.value] = conOptions.checked;
       }
     }
   }
