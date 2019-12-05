@@ -160,7 +160,6 @@
 			}
 			fieldset {
 				margin-top: 10px;
-				/*width:70%;*/
 				border-width: 1px;
 			}
 			fieldset h2 {
@@ -530,11 +529,15 @@
                 	<div id="treeTableContainer"></div>
                 	<i><small>
 		            	<p>To add a node, select one or more adjacent sisters and click "Add Mother." To remove nodes, select them and click "Delete." </p>
-		            	<p>All labels are editable. The small labels with grey backgrounds represent node categories, and must be "cp", "xp", or "x0" for a node to be visible to the syntax-prosody mapping constraints. Use "clitic" as the category for a node that should be treated as prosodically dependent and not receive a corresponding &omega;. The larger labels with white backgrounds represent node ids, and can be any unique alphanumeric string.</p>
+						<p>All labels are editable. The small labels with grey backgrounds represent node categories, and must be "cp", "xp", or "x0" for a node to be visible to the syntax-prosody mapping constraints. Use "clitic" as the category for a node that should be mapped to a syllable instead of a &omega;. The larger labels with white backgrounds represent node ids, and can be any unique alphanumeric string.</p>
+						<p>To create a new tree, click "Build syntax" again.</p>
 		            </small></i>
-                	<button id="htmlToJsonTreeButton" type="button">Done! Convert tree to code
+
+                	<button id="htmlToJsonTreeButton" type="button">Done!<br><small></small>Add trees to analysis</small></button>
+
 					</button>
 									<div id="doneMessage">The trees in the analysis are up-to-date</div>
+
 
                 	<p style="font-size: 15; vertical-align: middle"><label class="switch" style="margin-right: 10px;vertical-align: middle"><input type="checkbox" id="tree-code-box" value="show-tree-code"><span class="slider round"></span></label>Show code</p>
             	</div>

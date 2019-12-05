@@ -425,6 +425,7 @@ window.addEventListener('load', function(){
 				throw terminalCategoryError;
 			}
 		}
+		
 
 		var tableauOptions = {
 			showTones: false,  //true iff tones are selected
@@ -451,6 +452,21 @@ window.addEventListener('load', function(){
 		var csvSegs = [];
 		for (var i = 0; i < sTrees.length; i++) {
 			var sTree = sTrees[i];
+			//warn user about using more than six terminals
+			if(getLeaves(sTree).length >= 6){
+				if(!confirm("Inputs of more than six terminals may run slowly and even freeze your browser, depending on the selected GEN options. Do you wish to continue?")){
+					throw new Error("Tried to run gen with more than six terminals");
+				}
+			}
+
+			//warn user about clitic movement
+			if (genOptions['cliticMovement'] && (!genOptions['noUnary'] && getLeaves(sTree).length >= 5) 
+											 || (genOptions['noUnary'] && getLeaves(sTree).length >= 7)){
+				if(!confirm("You have selected GEN settings that allow clitic reordering, and included a sentence of (X) terminals. This GEN may yield more than 10K candidates. To reduce the number of candidates, consider enforcing non-recursivity, exhaustivity, and/or branchingness for intermediate prosodic nodes. Do you wish to proceed with these settings?")){
+					throw new Error("");
+				}
+			} 
+			
 			if (genOptions['cliticMovement']){
 				var candidateSet = GENwithCliticMovement(sTree, pString, genOptions);
 			}

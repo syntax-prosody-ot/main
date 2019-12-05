@@ -1,4 +1,4 @@
-// Revised BEM2016 trees, as of Oct. 29th, 2019
+// Revised BEM2016 trees, as of Nov. 6th, 2019
 
 var irish_clitic_trees_revised = [
     {
@@ -11,6 +11,7 @@ var irish_clitic_trees_revised = [
             },
             {
                 "cat": "xp",
+                "silentHead": true,
                 "id": "XP_7",
                 "children": [
                     {
@@ -439,6 +440,7 @@ var irish_clitic_trees_revised = [
         },
         {
             "cat": "xp",
+            "silentHead": true,
             "id": "TP",
             "children": [
                 {
@@ -485,6 +487,7 @@ var irish_clitic_trees_revised = [
         },
         {
             "cat": "xp",
+            "silentHead": true,
             "id": "TP",
             "children": [
                 {
@@ -514,40 +517,6 @@ var irish_clitic_trees_revised = [
                                     "cat": "x0"
                                 }
                             ]
-                        }
-                    ]
-                }
-            ]
-        }
-    ]
-},
-{
-    "id": "FP",
-    "cat": "xp",
-    "children": [
-        {
-            "id": "V",
-            "cat": "x0"
-        },
-        {
-            "cat": "xp",
-            "id": "TP",
-            "children": [
-                {
-                    "id": "Ns",
-                    "cat": "x0"
-                },
-                {
-                    "cat": "xp",
-                    "id": "DPo",
-                    "children": [
-                        {
-                            "id": "No",
-                            "cat": "x0"
-                        },
-                        {
-                            "id": "Ao",
-                            "cat": "x0"
                         }
                     ]
                 }
