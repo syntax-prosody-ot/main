@@ -260,10 +260,10 @@ function built_in_Italian_NVH(){
 /* Richard, please fill in your system's info here
 */
 function built_in_Chamorro_RB(){
-  var gen = {};
-  var con = [];
-  var trees = [];
-  my_built_in_analysis(gen, false, trees, con);
+  var gen = {obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: ['i'], cliticMovement: true};
+  var con = [{name: 'matchSP', cat:'xp'}, {name: 'matchPS', cat:'phi'}, {name: 'equalSistersAdj', cat:'phi'}, {name: 'binMinBranches', cat:'phi'}, {name: 'binMaxBranches', cat:'i'}, {name: 'strongStart_Elfner', cat:'syll'}, {name: 'alignLeftMorpheme', cat:"clitic"}];
+  var chamorrotrees = chamorro_clitic_trees;
+  my_built_in_analysis(gen, false, chamorrotrees, con);
 }
 
 function built_in(analysis) {
