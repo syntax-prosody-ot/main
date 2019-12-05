@@ -344,10 +344,17 @@ function record_analysis(){
     if(uCon[i].checked){
       if(spotForm['category-'+cName]){
         var uCategories = spotForm['category-'+cName]; //categories for this constraint
-        for(var x = 0; x<uCategories.length; x++){ //iterate over categories
-          var cat = uCategories[x];
-          if(cat.checked){
-            analysis.myCon.push({name: cName, cat: cat.value}); //add to con
+        //handeling alignLeftMorpheme: (category is actually a user defined string)
+        if(typeof uCategories !== Array){
+          analysis.myCon.push({name: cName, cat: uCategories.value});
+        }
+        //basically every other case: (category is actually a category)
+        else{
+          for(var x = 0; x<uCategories.length; x++){ //iterate over categories
+            var cat = uCategories[x];
+            if(cat.checked){
+              analysis.myCon.push({name: cName, cat: cat.value}); //add to con
+            }
           }
         }
       }
