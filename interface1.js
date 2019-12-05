@@ -686,6 +686,7 @@ window.addEventListener('load', function(){
 
 	document.getElementById("clearAllButton").addEventListener("click", function(){
 		clearAnalysis();
+		document.getElementById('treeUI').style.display = 'none';
 		document.getElementById('built-in-dropdown').value = 'select';
 		document.getElementById('fileUpload').value = '';
 		document.getElementById('chooseFilePrompt').style = "font-size: 13px; color: #555";
