@@ -402,6 +402,7 @@ var kinyambo_trees = [
             ]
     }
 ];
+// Chamorro clitic analysis trees
 
 var chamorro_clitic_trees = 
    [
@@ -447,7 +448,7 @@ var chamorro_clitic_trees =
                 "id": "XP_6",
                 "children": [
                     {
-                        "id": "clitic",
+                        "id": "gui'",
                         "cat": "clitic"
                     }
                 ]

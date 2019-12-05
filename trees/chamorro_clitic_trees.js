@@ -44,7 +44,7 @@ var chamorro_clitic_trees =
                 "id": "XP_6",
                 "children": [
                     {
-                        "id": "clitic",
+                        "id": "gui'",
                         "cat": "clitic"
                     }
                 ]
