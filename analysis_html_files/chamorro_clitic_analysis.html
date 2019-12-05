@@ -44,10 +44,11 @@
    var conAlignMatchPS = ['alignLeft-xp', 'alignRight-xp', 'matchPS-phi', 'equalSistersAdj-phi', 'binMinBranches-phi', 'binMaxBranches-phi', 'binMaxBranches-i', 'strongStart_Elfner-syll', 'alignLeftClitic-clitic'];
    var conBestMatchMax = ['matchSP-xp-{"maxSyntax": true, "requireOvertHead":true}', 'matchPS-phi', 'equalSistersAdj-phi', 'binMinBranches-phi', 'binMaxBranches-i', 'strongStart_Elfner-syll', 'alignLeftClitic-clitic'];
    var conAlign2 = ['alignLeft-xp', 'alignRight-xp', 'alignLeftPS-phi', 'alignRightPS-phi', 'equalSistersAdj-phi', 'binMinBranches-phi', 'binMaxBranches-phi', 'binMaxBranches-i', 'strongStart_Elfner-syll', 'alignLeftClitic-clitic'];
+   var conNoNSNoBinPhi = ['matchSP-xp-{"requireOvertHead":true}', 'matchPS-phi', 'equalSistersAdj-phi', 'binMaxBranches-i', 'strongStart_Elfner-syll', "alignLeftMorpheme-clitic gui'"];
 
    
    /*A list of names for your constraint sets. These are used for naming the tableau csv files and finding the lists of constraint names. They need to match the variable names above.*/
-    var conNames = ['conAlign2'];
+    var conNames = ['conNoNSNoBinPhi'];
    
    //Candidate sets are generated with the options below.
    var gen_options = {obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: ['i']};

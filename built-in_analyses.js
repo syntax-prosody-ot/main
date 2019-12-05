@@ -80,6 +80,11 @@ function built_in_con(input){
             if(cat_boxes[z].value === input[i].cat){
               cat_boxes[z].checked =  true;
             }
+            //for dealing with text input (currently only from alignLeftMorpheme)
+            else if(cat_boxes[z].type==="text"){
+              cat_boxes[z].checked =  true;
+              cat_boxes[z].value = input[i].cat;
+            }
             // otherwise clear out category if this constraint has not been used before
             else if(!regex.test(usedCons)){
               cat_boxes[z].checked = false;
@@ -130,6 +135,7 @@ function my_built_in_analysis(myGEN, showTones, myTrees, myCon){
   //Step 0: clear the webpage
   clearAnalysis();
   //Step 1: GEN options
+  // To move clitics: value should be "cliticMovement"
   var genBoxes = document.getElementsByName("genOptions");
   for(var box in genBoxes){
     var optVal = myGEN[genBoxes[box].value];
@@ -260,10 +266,10 @@ function built_in_Italian_NVH(){
 /* Richard, please fill in your system's info here
 */
 function built_in_Chamorro_RB(){
-  var gen = {};
-  var con = [];
-  var trees = [];
-  my_built_in_analysis(gen, false, trees, con);
+  var gen = {obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: ['i'], cliticMovement: true};
+  var con = [{name: 'matchSP', cat:'xp'}, {name: 'matchPS', cat:'phi'}, {name: 'equalSistersAdj', cat:'phi'}, {name: 'binMaxBranches', cat:'i'}, {name: 'strongStart_Elfner', cat:'syll'}, {name: 'alignLeftMorpheme', cat:"clitic gui'"}];
+  var chamorrotrees = chamorro_clitic_trees;
+  my_built_in_analysis(gen, false, chamorrotrees, con);
 }
 
 function built_in(analysis) {
