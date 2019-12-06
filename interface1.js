@@ -425,7 +425,7 @@ window.addEventListener('load', function(){
 				throw terminalCategoryError;
 			}
 		}
-		
+
 
 		var tableauOptions = {
 			showTones: false,  //true iff tones are selected
@@ -460,13 +460,13 @@ window.addEventListener('load', function(){
 			}
 
 			//warn user about clitic movement
-			if (genOptions['cliticMovement'] && (!genOptions['noUnary'] && getLeaves(sTree).length >= 5) 
+			if (genOptions['cliticMovement'] && (!genOptions['noUnary'] && getLeaves(sTree).length >= 5)
 											 || (genOptions['noUnary'] && getLeaves(sTree).length >= 7)){
 				if(!confirm("You have selected GEN settings that allow clitic reordering, and included a sentence of (X) terminals. This GEN may yield more than 10K candidates. To reduce the number of candidates, consider enforcing non-recursivity, exhaustivity, and/or branchingness for intermediate prosodic nodes. Do you wish to proceed with these settings?")){
 					throw new Error("");
 				}
-			} 
-			
+			}
+
 			if (genOptions['cliticMovement']){
 				var candidateSet = GENwithCliticMovement(sTree, pString, genOptions);
 			}
@@ -612,6 +612,7 @@ window.addEventListener('load', function(){
 		var nodeId = idPieces[1];
 		var isCat = idPieces[0] === 'catInput';
 		treeUIsTreeMap[treeIndex].nodeMap[nodeId][isCat ? 'cat' : 'id'] = target.value;
+		document.getElementById('doneMessage').style.display = 'none';
 	});
 
 
