@@ -83,7 +83,7 @@ var chamorro_clitic_trees =
                 "id": "XP_6",
                 "children": [
                     {
-                        "id": "clitic",
+                        "id": "hit",
                         "cat": "clitic"
                     }
                 ]
@@ -142,7 +142,7 @@ var chamorro_clitic_trees =
                 "id": "XP_7",
                 "children": [
                     {
-                        "id": "clitic",
+                        "id": "gui'",
                         "cat": "clitic"
                     }
                 ]
@@ -185,7 +185,7 @@ var chamorro_clitic_trees =
                 "id": "XP_7",
                 "children": [
                     {
-                        "id": "clitic",
+                        "id": "yu'",
                         "cat": "clitic"
                     }
                 ]
@@ -228,7 +228,7 @@ var chamorro_clitic_trees =
                 "id": "XP_6",
                 "children": [
                     {
-                        "id": "clitic",
+                        "id": "gui'",
                         "cat": "clitic"
                     }
                 ]
@@ -293,7 +293,7 @@ var chamorro_clitic_trees =
                 "id": "XP_11",
                 "children": [
                     {
-                        "id": "clitic",
+                        "id": "hao",
                         "cat": "clitic"
                     }
                 ]
@@ -362,7 +362,7 @@ var chamorro_clitic_trees =
                 "id": "XP_7",
                 "children": [
                     {
-                        "id": "clitic",
+                        "id": "gui'",
                         "cat": "clitic"
                     }
                 ]
@@ -487,7 +487,7 @@ var chamorro_clitic_trees =
                 "id": "XP_10",
                 "children": [
                     {
-                        "id": "clitic",
+                        "id": "yu'",
                         "cat": "clitic"
                     }
                 ]
@@ -520,7 +520,7 @@ var chamorro_clitic_trees =
                                 "id": "DP",
                                 "children": [
                                     {
-                                        "id": "clitic",
+                                        "id": "yu'",
                                         "cat": "clitic"
                                     }
                                 ]
@@ -582,7 +582,7 @@ var chamorro_clitic_trees =
                 "id": "DP",
                 "children": [
                     {
-                        "id": "clitic",
+                        "id": "hit",
                         "cat": "clitic"
                     }
                 ]
