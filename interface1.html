@@ -1,4 +1,4 @@
-radio<html>
+<html>
 	<head>
 		<title>SPOT Interface</title>
 
@@ -13,7 +13,7 @@ radio<html>
 				font-family: Arial, Helvetica, sans-serif;
 			}
 			.header {
-				background-color: #d0d8e0;
+				background-color: #6d86a3;
 				/*border-top: 8px solid white;*/
 				/*border-bottom: 1px solid gray;*/
 				position: fixed;
@@ -21,6 +21,7 @@ radio<html>
 				padding: 5px 80px;
 				z-index: 1;
 				width: 100%;
+				color: #ffffff;
 			}
 			.header img {
 				float: left;
@@ -41,6 +42,18 @@ radio<html>
 			.blue-text {
 				color: #07203D;
 			}
+
+			body{
+				background-color: #d0d8e0;
+			}
+
+			div.spotBlock{
+				background-color:white;
+				padding: 2em;
+				padding-top: 1em;
+				margin: 2em;
+			}
+
 			fieldset:not(.open) > :not(legend) {
 				display: none;
 			}
@@ -126,6 +139,7 @@ radio<html>
 				cursor: pointer;
 				font-size: 14px;
 				padding: 4px 8px;
+				margin: 5px;
 			}
 			button:hover {
 				background-color: #546D8A;
@@ -145,6 +159,7 @@ radio<html>
 			}
 			fieldset {
 				margin-top: 10px;
+				border-width: 1px;
 			}
 			fieldset h2 {
 				margin: 0px;
@@ -153,47 +168,87 @@ radio<html>
 				font-size: 20px;
 				color: #07203D;
 			}
+			h3 {
+				color: #07203D;
+				margin-top: 5px;
+			}
 			fieldset h3, fieldset p {
 				margin: 5px;
 				color: #07203D;
 				font-weight: normal;
 			}
 			.constraint-selection-table {
+				padding-left: 20px;
 				margin-left: 30px;
 				width:70%;
-				table-layout: fixed;
-			}
-			.constraint-selection-table td {
-				padding-right:20px;
-			}
-			.constraint-selection-table tr:not(.constraint-checked) td:not(:first-child) {
-				/*visibility: hidden;*/
-			}
-			.constraint-selection-table tr:first-child td:first-child {
-				font-variant: small-caps;
-				font-family: "Palatino Linotype", Garamond, serif;
-				letter-spacing: 0.07em;
-				font-size: 110%;
-			}
-			.constraint-selection-table td:not(:first-child){
-				text-align:left;
+				/*table-layout: fixed;*/
+				margin-bottom: 8px;
 			}
 
-			.constraint-selection-table tr:not(:first-child):not(.constraint-checked) td{
+			.constraint-row{
+				margin-top: 1em;
+				padding-bottom: 8px;
+			}
+
+			.constraint-checked .constraint-row:after{
+				display:block;
+				content: '';
+				border-bottom:2px solid #546D8A;
+				/* width: 90%; */
+			}
+
+			div:not(.constraint-checked) .constraint-row  .constraint-row:after{
 				display:none;
 			}
-			.constraint-selection-table tr:not(:first-child) td{
-				margin-left:60px;
-				width:50px;
+
+			.constraint-row span:not(.content){
+				text-align:left;
+				display:inline-block;
+				/*font-variant: small-caps;
+				font-family: "Palatino Linotype", Garamond, serif;
+				letter-spacing: 0.07em;*/
+				width: 90%;
 			}
-			/*tr:not(.constraint-checked)*/
-			.constraint-selection-table tr:not(:first-child) td:first-child){
-				padding-left:60px;
+
+
+			.category-row{
+				margin-left: 2em;
+				display:block;
+				padding-bottom: 0.25em;
 			}
-			.checkbox-set-indentation {
-				margin-left: 30px;
+
+			.constraint-selection-table:not(.constraint-checked) .category-row{
+				display:none;
 			}
-			
+
+			.category-selection-div{
+				display: inline-block;
+				width: 5em;
+			}
+
+			.option-selection-div{
+				display: inline-block;
+				width: 10em;
+			}
+
+			.custom-option-div {
+				margin-left: 1em;
+			}
+
+			.info .content.custom-option-div {
+				margin-left: 1.5em;
+			}
+
+			.custom-text {
+				margin-top: 5px;
+				margin-bottom: 5px;
+			}
+
+			.custom-text p {
+				display: inline;
+				margin-left: 0px;
+				margin-right: 0px;
+			}
 
 			.stree-textarea {
 				font-size: 11px;
@@ -202,6 +257,7 @@ radio<html>
 			.info {
 				margin-left: 5px;
 				font-size: 13px;
+				display:inline;
 			}
 			.info:before {
 				display: inline-block;
@@ -214,23 +270,17 @@ radio<html>
 				padding-left: 0.4em;
 				cursor: pointer;
 				color: #07C;
+				text-align: right;
 			}
 			.info .content {
 				display: none;
 				margin-left: 5px;
 				color: #555;
+				font-weight: normal;
+				text-align: left;
 			}
 			.info.showing .content {
 				display: block;
-			}
-			/*
-			.info.showing-inline .content {
-				display: inline;
-			}*/
-			.tonesInfo {
-				font-size: 13px;
-				color: #555;
-				margin-left: 25px;
 			}
 			.treeUI-tree {
 				/*display: inline-block;*/
@@ -315,6 +365,19 @@ radio<html>
 				height: 1.75rem;
 			}
 
+			.not-results{
+				max-width: 40em;
+			}
+
+			#results-container{
+				background-color: white;
+				padding:2em; margin:2em;
+			}
+
+			#results-container:not(.show-tableau){
+				display: none;
+			}
+
 		</style>
 
 	</head>
@@ -322,22 +385,24 @@ radio<html>
 	<div style="padding-bottom:40px">
 		<div class="header">
 			<img src="images/logo.png" alt="SPOT">
-			<span class="subtitle">A webapp for Syntax Prosody in Optimality Theory, with automated Gen, Con and Eval. <a href="https://spot.sites.ucsc.edu/">spot.sites.ucsc.edu/</a></span>
+			<span class="subtitle"><span style="display: inline-block; width:50%; font-size:larger;">Syntax Prosody in Optimality Theory </span><span style="display:inline-block; text-align:right;"><a href="https://spot.sites.ucsc.edu/">spot.sites.ucsc.edu/</a></span></span>
 		</div>
-		<div class="below-header">
-		<div class="not-results">
-			<br/>
-			Select constraints, build syntactic trees, generate prosodic candidates, and download a violation tableau.
-			<span class="info"><span class="content"> Click on the downward carets to see constraints and add constraints to your constraint set using the associated checkboxes.
+		<div class="below-header" style="background-color: #d0d8e0;">
+
+		<br/>
+		<div style="margin-top: 10px"> Generate and evaluate prosodic and syntactic trees. View and download violation tableaux.
+			<span class="info"><span class="content">
 				<ul>
-					<li>By default, XP and &phiv; are selected as the cateogories to assess violations over. Use the checkbox buttons next to each constraint to change the desired category.</li>
+					<li>Click on the downward carets to see constraints and add constraints to your constraint set using the associated checkboxes.</li>
+					<li>By default, XP and &phiv; are selected as the cateogories to assess violations over. Use the checkboxes below each constraint to change the desired category.</li>
 					<li>SPOT is a JavaScript application. Make sure you have JavaScript enabled. We have tested SPOT in Firefox and Chrome, but not in Edge or Internet Explorer.</li>
 				</ul>
 			</span></span>
-
-			<div style="margin-bottom: 1cm">
-				<h3 style="color: #07203D">Try a Built-in Analysis:</h3>
-				<p>Once you have selected an analysis, scroll to the bottom and hit "Get results"</p>
+		</div>
+		<div class="not-results">
+			<div class="spotBlock">
+				<h3>Built-in systems
+				<span class="info"><span class="content" style="font-weight: normal;">To try an analysis from the syntax-prosody literature, select a built-in analysis from the menu, then scroll to the bottom and hit "Get results"</span></span></h3>
 				<select class="dropdown" name="analysis" id="built-in-dropdown" onchange=built_in(this.value)>
 					<option value="select">Select</option>
 					<option value="irish">Irish Phrasing (Elfner 2012)</option>
@@ -348,32 +413,27 @@ radio<html>
 
 			<form id="spotForm">
 				<!--GEN OPTIONS-->
-				<h2>GEN Options</h2>
-				<p>Prosodic constituents must be...
-				<span class="info"><span class="content">Checking a box will tell Gen not to produce certain types of prosodic trees, or to annotate the trees. By default, Gen only creates recursion at the &phiv; level.</span></span></p>
+				<div class="spotBlock">
+				<legend><h2>GEN options</h2></legend>
 
 				<table class="spaceytable"><tbody>
 					<tr>
-						<td><input type="checkbox" name="genOptions" value="obeysNonrecursivity">non-recursive</td>
+						<td><input type="checkbox" name="genOptions" value="obeysNonrecursivity">No prosodic recursion.</td>
 					</tr>
 					<tr>
-						<td><input type="checkbox" name="genOptions" value="obeysHeadedness"> headed</td>
+						<td><input type="checkbox" name="genOptions" value="obeysHeadedness">Enforce headedness.</td>
 					</tr>
 					<tr>
-						<td><input type="checkbox" name="genOptions" value="requireRecWrapper">wrapped into a &phiv;</td>
-					</tr>
+							<td><input type="checkbox" name="genOptions" id="exhaustivityBox" value="obeysExhaustivity">No level skipping.</td>
+						</tr>
 					<tr>
-						<td><input type="checkbox" name="genOptions" id="branchingBox" value="noUnary">branching</td>
-					</tr>
-				</tbody></table>
-				<table class="spaceytable"><tbody>
-					<tr>
-						<td><input type="checkbox" name="genOptions" id="exhaustivityBox" value="obeysExhaustivity">exhaustively parsed</td>
-					</tr>
-					<tr>
-						<td id="exhaustivityDetailOption1" style="display: none" ><input type="checkbox" name="exhaustivityCats" value="i" checked="checked">&iota;'s children are &ge;&phiv;s&nbsp;&nbsp;</td>
+						<td id="exhaustivityDetailOption1" style="display: none; padding-left: 3em" ><input type="checkbox" name="exhaustivityCats" value="i" checked="checked">&iota;'s children are &ge;&phiv;s&nbsp;&nbsp;</td>
 						<td id="exhaustivityDetailOption2" style="display: none"><input type="checkbox" name="exhaustivityCats" value="phi" checked="checked">&phiv;'s children are &ge;&omega;s&nbsp;&nbsp;</td>
 					</tr>
+					<tr>
+						<td><input type="checkbox" name="genOptions" id="branchingBox" value="noUnary">Only generate branching constituents.</td>
+					</tr>
+
 					<tr>
 						<td><input type="checkbox" name="genOptions" id="cliticMovementBox" value="cliticMovement">Allow clitics to move</td>
 						<td class="info" width="300char"><div class="content">
@@ -381,54 +441,59 @@ radio<html>
 						</td>
 					</tr>
 				</tbody></table>
-				<h3>Prosodic Categories</h3>
-				Root prosodic tree in
-						<span class="info"><div class="content">Specify the category of the root node for all the trees created by GEN.</div></span>
-				<table class="spaceytable"><tbody>
-					<tr>
-						<td style="width: 50px"><input type="radio" name="genOptions-rootCategory" value="i" checked="checked">&iota;</td>
-						<td style="width: 50px"><input type="radio" name="genOptions-rootCategory" value="phi">&phiv;</td>
-						<td style="width: 50px"><input type="radio" name="genOptions-rootCategory" value="w">&omega;</td>
-					</tr>
-					</tbody>
-				</table>
-				Intermediate nodes are
-				<span class="info"><div class="content">Specify the category of the nodes below the root and above the terminals. This is the category where GEN will create recursion.</div></span>
-				<table class="spaceytable"><tbody>
-					<tr>
-						<td style="width: 50px"><input type="radio" name="genOptions-recursiveCategory" value="i">&iota;</td>
-						<td style="width: 50px"><input type="radio" name="genOptions-recursiveCategory" value="phi" checked="checked">&phiv;</td>
-						<td style="width: 50px"><input type="radio" name="genOptions-recursiveCategory" value="w">&omega;</td>
-					</tr>
-				</tbody></table>
-				Prosodic terminals are
-					<span class="info"><div class="content">Specify the category of the terminal nodes for the trees GEN will create. N.B. GEN will always map terminals marked with "-clitic" to syllables.</div></span>
-				<table class="spaceytable"><tbody>
-					<tr>
-						<td style="width: 50px"><input type="radio" name="genOptions-terminalCategory" value="phi">&phiv;</td>
-						<td style="width: 50px"><input type="radio" name="genOptions-terminalCategory" value="w" checked="checked">&omega;</td>
-						<td style="width: 50px"><input type="radio" name="genOptions-terminalCategory" value="Ft">Ft</td>
-					</tr>
-				</tbody></table>
+				<fieldset>
+					<legend><h2>Prosodic categories <span class="arrow"></span></h2></legend>
+					<div class="constraint-row"><span>Root prosodic tree in</span>
+						<div class="info">
+							<span class="content">Specify the category of the root node for all the trees created by GEN.</span>
+						</div>
+					</div>
+					<div class="category-row">
+						<div class="category-selection-div"><input type="radio" name="genOptions-rootCategory" value="i" checked="checked">&iota;</div>
+						<div class="category-selection-div"><input type="radio" name="genOptions-rootCategory" value="phi">&phiv;</div>
+						<div class="category-selection-div"><input type="radio" name="genOptions-rootCategory" value="w">&omega;</div>
+					</div>
+				<div class="constraint-row"><span>Intermediate nodes are</span>
+					<div class="info"><span class="content">Specify the category of the nodes below the root and above the terminals. This is the category where GEN will create recursion.</span></div>
+				</div>
+				<div class="category-row">
+						<div class="category-selection-div"><input type="radio" name="genOptions-recursiveCategory" value="i">&iota;</div>
+						<div class="category-selection-div"><input type="radio" name="genOptions-recursiveCategory" value="phi" checked="checked">&phiv;</div>
+						<div class="category-selection-div"><input type="radio" name="genOptions-recursiveCategory" value="w">&omega;</div>
+				</div>
+				<div class="constraint-row"><span>Prosodic terminals are</span>
+					<div class="info">
+						<span class="content">Specify the category of the terminal nodes for the trees GEN will create. N.B. GEN will always map terminals marked with "-clitic" to syllables.</span></div>
+					</div>
+					<div class="category-row">
+						<div class="category-selection-div"><input type="radio" name="genOptions-terminalCategory" value="phi">&phiv;</div>
+						<div class="category-selection-div"><input type="radio" name="genOptions-terminalCategory" value="w" checked="checked">&omega;</div>
+						<div class="category-selection-div"><input type="radio" name="genOptions-terminalCategory" value="Ft">Ft</div>
+					</div>
+				</fieldset>
 
-				<h3>Tree annotation options</h3>
-				<table class="spaceytable"><tbody>
-					<tr>
-						<td><input type="checkbox" name="genOptions" value="usesTones" id="annotatedWithTones">annotated with tones</td>
-					</tr>
-					<tr>
-						<td id="japaneseTones" style="display:none"><input type="radio" name="toneOptions" value="addJapaneseTones" checked="checked">Japanese</td>
-						<td id="irishTones" style="display:none"><input type="radio" name="toneOptions" value="addIrishTones_Elfner">Irish</td>
-					</tr>
-					<!---<tr id="tones" style="display: none">
-						<td>
-							<input type="radio" name="toneOptions" value="addJapaneseTones" checked="checked">Japanese
-							<input type="radio" name="toneOptions" value="addIrishTones_Elfner">Irish
-						</td>
-					</tr> !--->
-				</tbody></table>
-				<hr/>
+				<fieldset>
+				<legend><h2>Tree display options <span class="arrow"></span></h2></legend>
+				<div class="constraint-row"><input type="checkbox" name="genOptions" value="usesTones" id="annotatedWithTones">annotated with tones</div>
+				<br/>
+				<div class="category-row" style="display: none" id="tonesSelectionRow">
+					<div class="category-selection-div" style="width: 150px"><input type="radio" name="toneOptions" value="addJapaneseTones" checked="checked">Japanese <div class="info" onclick="toneInfoBlock('japanese')"></div></div>
+					<div class="category-selection-div" style="width: 150px"><input type="radio" name="toneOptions" value="addIrishTones_Elfner">Irish <div class="info" onclick="toneInfoBlock('irish')"></div></div>
+					<br/>
+					<div id="tonesInfoContent"></div>
+				</div>
+				<div class="constraint-row">Dont' show nodes of category...</div>
+				<br/>
+				<div class="category-row">
+					<div class="category-selection-div"><input type="checkbox" name="hideCategory" value="i">&iota;</div>
+					<div class="category-selection-div"><input type="checkbox" name="hideCategory" value="phi">&phi;</div>
+					<div class="category-selection-div"><input type="checkbox" name="hideCategory" value="w">&omega;</div>
+				</div>
+				</fieldset>
+			</div>
+
 			<!--INPUT-->
+			<div class="spotBlock">
 			<h2>Inputs
 				<span class="info">
 					<span class="content">
@@ -473,56 +538,236 @@ radio<html>
 					<p>To enter trees manually... <span class="info"><span class="content">To use a tree you previously made and saved, select a tree or trees from your JavaScript tree file (some pre-made trees are in the directory <i>main/trees</i>, and end with .js). Paste in the contents of JS file of your input syntactic tree(s) (from the opening brace to the closing brace, removing any comments and excluding the final semi-colon). Separate trees with a comma and surround the whole thing with square brackets ("[]") to make it an array. Note that if you're only using Markedness constraints, you can just keep the default value of an empty tree (like so: {}) as the syntactic input.</span></span></p>
 					<textarea id="stree-textarea" class="stree-textarea" name="sTree" rows="15">{}</textarea>
 				</div>
-            </div>
-	            <hr style="margin-top: 20px;margin-bottom: 20px"/>
+			</div>
+		</div>
+
 				<!--CONSTRAINTS-->
+				<div class="spotBlock">
 				<h2>Constraints</h2>
 				<fieldset>
 
 					<legend><h2>Syntax-prosody mapping <span class="arrow"></h2></legend>
 
 					<h3>Align/Wrap</h3>
-					<table class="constraint-selection-table">
-						<tbody>
-							<tr>
-								<td><input type="checkbox" name="constraints" value="alignLeft">Align-Left</td>
-								<td style="text-align: right"><span class="info"><span class="content">Align-Left info.</span></span></td>
-							</tr>
-							<tr>
-								<td><input type="checkbox" name="category-alignLeft" value="cp">CP</td>
-								<td><input type="checkbox" name="category-alignLeft" value="xp" checked="checked">XP</td>
-								<td><input type="checkbox" name="category-alignLeft" value="x0">X<sup>0</sup></td>
-							</tr>
-						</tbody>
-					</table>
-					<table class="constraint-selection-table">
-						<tbody>
-							<tr>
-								<td><input type="checkbox" name="constraints" value="alignRight">Align-Right</td>
-								<td style="text-align: right"><span class="info"><span class="content">Align-Left info.</span></span></td>
-							</tr>
-							<tr>
-								<td><input type="checkbox" name="category-alignRight" value="cp">CP</td>
-								<td><input type="checkbox" name="category-alignRight" value="xp" checked="checked">XP</td>
-								<td><input type="checkbox" name="category-alignRight" value="x0">X<sup>0</sup></td>
-							</tr>
-						</tbody>
-					</table>
-					<table class="constraint-selection-table">
-						<tbody>
-							<tr>
-								<td><input type="checkbox" name="constraints" value="wrap">Wrap</td>
-								<td style="text-align: right"><span class="info"><span class="content">Align-Left info.</span></span></td>
-							</tr>
-							<tr>
-								<td><input type="checkbox" name="category-wrap" value="cp">CP</td>
-								<td><input type="checkbox" name="category-wrap" value="xp" checked="checked">XP</td>
-								<td><input type="checkbox" name="category-wrap" value="x0">X<sup>0</sup></td>
-							</tr>
-						</tbody>
-					</table>
 
-					
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="alignLeft">Align-Left</span>
+							<div class="info">
+								<span class="content">Align-Left info.</span>
+							</div>
+						</div>
+
+						<div class="category-row">
+							<div class="category-selection-div"><input type="checkbox" name="category-alignLeft" value="cp">CP</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-alignLeft" value="xp" checked="checked">XP</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-alignLeft" value="x0">X<sup>0</sup></div>
+						</div>
+					</div>
+
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="alignRight">Align-Right</span>
+								<div class="info">
+									<span class="content">Align-Right info.</span>
+								</div>
+						</div>
+						<div class="category-row">
+							<div class="category-selection-div"><input type="checkbox" name="category-alignRight" value="cp">CP</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-alignRight" value="xp" checked="checked">XP</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-alignRight" value="x0">X<sup>0</sup></div>
+						</div>
+					</div>
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="wrap">Wrap</span>
+							<div class="info">
+								<span class="content">Align-Left info.</span>
+							</div>
+						</div>
+						<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-wrap" value="cp">CP</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-wrap" value="xp" checked="checked">XP</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-wrap" value="x0">X<sup>0</sup></div>
+							</div>
+						</div>
+
+						<h3>Match Syntax to Prosody</h3>
+
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="matchSP">all syntactic nodes of category...</span>
+								<div class="info">
+									<span class="content">all syntactic nodes info.</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-matchSP" value="cp">CP</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-matchSP" value="xp" checked="checked">XP</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-matchSP" value="x0">X<sup>0</sup></div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div"><input type="checkbox" name="option-matchSP" value="requireLexical">lexical</div>
+								<div class="info">
+									<span class="content">Match only syntactic nodes that are not labeled as functional.</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div"><input type="checkbox" name="option-matchSP" value="requireOvertHead">overtly headed</div>
+								<div class="info">
+									<span class="content">Match only syntactic nodes that have a non-silent head.</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+									<span><input type="checkbox" name="constraints" value="matchMaxSyntax">only maximal syntactic nodes</span>
+									<div class="info">
+										<span class="content">all maximal syntactic nodes info.</span>
+									</div>
+							</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-matchMaxSyntax" value="cp">CP</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-matchMaxSyntax" value="xp" checked="checked">XP</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-matchMaxSyntax" value="x0">X<sup>0</sup></div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div"><input type="checkbox" name="option-matchMaxSyntax" value="requireLexical">only lexical nodes</div>
+								<div class="info">
+									<span class="content">Match only maximal syntactic nodes that are not labeled as functional.</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div"><input type="checkbox" name="option-matchMaxSyntax" value="requireOvertHead">only overtly headed</div>
+								<div class="info">
+									<span class="content">Match only maximal syntactic nodes that have a non-silent head.</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="matchNonMinSyntax">only non-minimal syntactic nodes</span>
+								<div class="info">
+									<span class="content">all non-minimal syntactic nodes info.</span>
+								</div>
+							</div>
+							<div class="category-row">
+									<div class="category-selection-div"><input type="checkbox" name="category-matchNonMinSyntax" value="cp">CP</div>
+									<div class="category-selection-div"><input type="checkbox" name="category-matchNonMinSyntax" value="xp" checked="checked">XP</div>
+									<div class="category-selection-div"><input type="checkbox" name="category-matchNonMinSyntax" value="x0">X<sup>0</sup></div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div"><input type="checkbox" name="option-matchNonMinSyntax" value="requireLexical">lexical</div>
+								<div class="info">
+									<span class="content">Match only non-minimal syntactic nodes that are not labeled as functional.</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div"><input type="checkbox" name="option-matchNonMinSyntax" value="requireOvertHead">overtly headed</div>
+								<div class="info">
+									<span class="content">Match only non-minimal syntactic nodes that have a non-silent head.</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="matchCustom">custom</span>
+								<div class="info">
+									<span class="content">custom info.</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-matchCustom" value="cp">CP</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-matchCustom" value="xp" checked="checked">XP</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-matchCustom" value="x0">X<sup>0</sup></div>
+							</div>
+							<div class="category-row">
+								<div class="custom-text">
+									<p>Enforce Match only for syntactic nodes that are...</p>
+								</div>
+								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchCustom" value="requireLexical">lexical</div>
+								<div class="info">
+									<span class="content custom-option-div">Match only syntactic nodes that are not labeled as functional.</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchCustom" value="requireOvertHead">overtly headed</div>
+								<div class="info">
+									<span class="content custom-option-div">Match only syntactic nodes that have a non-silent head.</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div custom-option-div">
+									<select name="option-matchCustom">
+										<option value="any">Any</option>
+										<option value="maxSyntax">+</option>
+										<option value="nonMaxSyntax">-</option>
+									</select> maximal
+								</div>
+								<div class="info">
+									<span class="content custom-option-div">A node is maximal if it does not dominate any nodes of its own category.</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div custom-option-div">
+									<select name="option-matchCustom">
+										<option value="any">Any</option>
+										<option value="minSyntax">+</option>
+										<option value="nonMinSyntax">-</option>
+									</select> minimal
+								</div>
+								<div class="info">
+									<span class="content custom-option-div">A node is minimal if it is not dominated by any nodes of its own category.</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="custom-text">
+									<p>Prosodic categories must be...</p>
+								</div>
+								<div class="option-selection-div custom-option-div">
+									<select name="option-matchCustom">
+										<option value="any">Any</option>
+										<option value="maxProsody">+</option>
+										<option value="nonMaxProsody">-</option>
+									</select> maximal
+								</div>
+								<div class="info">
+									<span class="content custom-option-div">A node is maximal if it does not dominate any nodes of its own category.</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div custom-option-div">
+									<select name="option-matchCustom">
+										<option value="any">Any</option>
+										<option value="minProsody">+</option>
+										<option value="nonMinProsody">-</option>
+									</select> minimal
+								</div>
+								<div class="info">
+									<span class="content custom-option-div">A node is minimal if it is not dominated by any nodes of its own category.</span>
+								</div>
+							</div>
+						</div>
+
+
+						<h3>Match Prosody to Syntax</h3>
+
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="matchPS">all prosodic nodes of category...</span>
+								<div class="info">
+									<span class="content">all prosodic nodes info.</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-matchPS" value="i">&iota;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-matchPS" value="phi" checked="checked">&phiv;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-matchPS" value="w">&omega;</div>
+							</div>
+						</div>
 
 					<!--
 							</tr>
@@ -541,6 +786,8 @@ radio<html>
 						</tbody>
 					</table>
 					-->
+
+					<!--
 					<h3>Match Theory</h3>
 					<table class="constraint-selection-table">
 					<tbody>
@@ -582,8 +829,8 @@ radio<html>
 						</tr>
 					</tbody>
 					</table>
-				</fieldset>
-
+			-->
+			</fieldset>
 
 				<br/>
 
@@ -592,53 +839,93 @@ radio<html>
 					<legend><h2>Binarity <span class="arrow"></h2></legend>
 
 					<h3>...counting branches</h3>
+					
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="binMinBranches">BinMin(branches)</span>
+							<div class="info">
+								<span class="content">BinMin(branches) info.</span>
+							</div>
+						</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-binMinBranches" value="i">&iota;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-binMinBranches" value="phi" checked="checked">&phiv;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-binMinBranches" value="w">&omega;</div>
+							</div>	
+					</div>
 
-					<table class="constraint-selection-table">
-					<tbody>
-						<tr>
-							<td title="Assign a violation for every pTree-node of category K that has less than two children."><input type="checkbox" name="constraints" value="binMinBranches">BinMin(branches)</td>
-							<td><input type="checkbox" name="category-binMinBranches" value="i">&iota;</td>
-							<td><input type="checkbox" name="category-binMinBranches" value="phi" checked="checked">&phiv;</td>
-							<td><input type="checkbox" name="category-binMinBranches" value="w">&omega;</td>
-						</tr>
-						<tr>
-							<td title="Assign a violation for every pTree-node of category K that has more than two children."><input type="checkbox" name="constraints" value="binMaxBranches">BinMax(branches) - <i>categorical</i></td>
-							<td><input type="checkbox" name="category-binMaxBranches" value="i">&iota;</td>
-							<td><input type="checkbox" name="category-binMaxBranches" value="phi" checked="checked">&phiv;</td>
-							<td><input type="checkbox" name="category-binMaxBranches" value="w">&omega;</td>
-						</tr>
-						<tr>
-							<td title="For every pTree-node N of category K, assign a violation for every child of N that is not initial or pen-initial in N."><input type="checkbox" name="constraints" value="binMaxBranchesGradient">BinMax(branches) - <i>gradient</i></td>
-							<td><input type="checkbox" name="category-binMaxBranchesGradient" value="i">&iota;</td>
-							<td><input type="checkbox" name="category-binMaxBranchesGradient" value="phi" checked="checked">&phiv;</td>
-							<td><input type="checkbox" name="category-binMaxBranchesGradient" value="w">&omega;</td>
-						</tr>
-					</tbody>
-					</table>
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="binMaxBranches">BinMax(branches) - <i>categorical</i></span>
+							<div class="info">
+								<span class="content">BinMax(branches) categorical info.</span>
+							</div>
+						</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-binMaxBranches" value="i">&iota;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-binMaxBranches" value="phi" checked="checked">&phiv;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-binMaxBranches" value="w">&omega;</div>
+							</div>	
+					</div>
 
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="binMaxBranchesGradient">BinMax(branches) - <i>gradient</i></span>
+							<div class="info">
+								<span class="content">BinMax(branches) gradient info.</span>
+							</div>
+						</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-binMaxBranchesGradient" value="i">&iota;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-binMaxBranchesGradient" value="phi" checked="checked">&phiv;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-binMaxBranchesGradient" value="w">&omega;</div>
+							</div>	
+					</div>
+					
 					<h3>...counting leaves</h3>
-					<table class="constraint-selection-table">
-					<tbody>
-						<tr>
-							<td><input type="checkbox" name="constraints" value="binMinLeaves">BinMin(leaves)</td>
-							<td><input type="checkbox" name="category-binMin" value="i">&iota;</td>
-							<td><input type="checkbox" name="category-binMinLeaves" value="phi" checked="checked">&phiv;</td>
-							<td><input type="checkbox" name="category-binMinLeaves" value="w">&omega;</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox" name="constraints" value="binMaxLeaves">BinMax(leaves) - <i>categorical</i></td>
-							<td><input type="checkbox" name="category-binMaxLeaves" value="i">&iota;</td>
-							<td><input type="checkbox" name="category-binMaxLeaves" value="phi" checked="checked">&phiv;</td>
-							<td><input type="checkbox" name="category-binMaxLeaves" value="w">&omega;</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox" name="constraints" value="binMaxLeavesGradient">BinMax(leaves) - <i>gradient</i></td>
-							<td><input type="checkbox" name="category-binMaxLeavesGradient" value="i">&iota;</td>
-							<td><input type="checkbox" name="category-binMaxLeavesGradient" value="phi" checked="checked">&phiv;</td>
-							<td><input type="checkbox" name="category-binMaxLeavesGradient" value="w">&omega;</td>
-						</tr>
-					</tbody>
-					</table>
+
+					
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="binMinLeaves">BinMin(leaves)</span>
+							<div class="info">
+								<span class="content">BinMin(leaves) info.</span>
+							</div>
+						</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-binMin" value="i">&iota;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-binMinLeaves" value="phi" checked="checked">&phiv;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-binMinLeaves" value="w">&omega;</div>
+							</div>	
+					</div>
+						
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="binMaxLeaves">BinMax(leaves) - <i>categorical</i></span>
+							<div class="info">
+								<span class="content">BinMax(leaves) info.</span>
+							</div>
+						</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-binMaxLeaves" value="i">&iota;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-binMaxLeaves" value="phi" checked="checked">&phiv;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-binMaxLeaves" value="w">&omega;</div>
+							</div>	
+					</div>
+						
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="binMaxLeavesGradient">BinMax(leaves) - <i>gradient</i></span>
+							<div class="info">
+								<span class="content">BinMax(leaves) info.</span>
+							</div>
+						</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-binMaxLeavesGradient" value="i">&iota;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-binMaxLeavesGradient" value="phi" checked="checked">&phiv;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-binMaxLeavesGradient" value="w">&omega;</div>
+							</div>	
+					</div>
 
 				</fieldset>
 
@@ -648,56 +935,68 @@ radio<html>
 
 					<legend><h2>Sisterhood and ordering <span class="arrow"></h2></legend>
 
-					<table class="constraint-selection-table">
-					<tbody>
-						<tr>
-							<td><input type="checkbox" name="constraints" value="noShift">No Shift</td>
-						</tr>
-					</tbody>
-					</table>
-					<h3>EqualSisters</h3>
-					<table class="constraint-selection-table">
-					<tbody>
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="noShift">NoShift</span>
+						</div>
+					</div>
 
-						<tr>
-							<td title="Assign a violation for every pair of adjacent sister nodes that are not of the same prosodic category."><input type="checkbox" name="constraints" value="equalSistersAdj">EqualSisters (adjacent)</td>
-							<!--
-							<td><input type="checkbox" name="category-equalSistersAdj" value="i">&iota;</td>
-							<td><input type="checkbox" name="category-equalSistersAdj" value="phi" checked="checked">&phiv;</td>
-							<td><input type="checkbox" name="category-equalSistersAdj" value="w">&omega;</td>
-							-->
-						</tr>
-						<tr>
-							<td title="Assign a violation for every (unordered) pair of sisters nodes that are not of the same prosodic category."><input type="checkbox" name="constraints" value="equalSistersPairwise">EqualSisters (pairwise)</td>
-							<!--
-							<td><input type="checkbox" name="category-equalSistersPairwise" value="i">&iota;</td>
-							<td><input type="checkbox" name="category-equalSistersPairwise" value="phi" checked="checked">&phiv;</td>
-							<td><input type="checkbox" name="category-equalSistersPairwise" value="w">&omega;</td>
-							-->
-						</tr>
-						<tr>
-							<td title="For each set of sisters, assign a violation for every child that has a different prosodic category from the first (leftmost) sister in the set."><input type="checkbox" name="constraints" value="equalSistersFirstPrivilege">EqualSisters (first privilege)</td>
-							<!--
-							<td><input type="checkbox" name="category-equalSistersFirstPrivilege" value="i">&iota;</td>
-							<td><input type="checkbox" name="category-equalSistersFirstPrivilege" value="phi" checked="checked">&phiv;</td>
-							<td><input type="checkbox" name="category-equalSistersFirstPrivilege" value="w">&omega;</td>
-							-->
-						</tr>
-					</tbody>
-					</table>
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="balancedSistersAdj">BalancedSisters (Uniformity)</span><div class="info"><span class="content">BalancedSisters info</span></div>
+						</div>
+						<div class="category-row">
+							<div class="category-selection-div"><input type="checkbox" value=i name="category-balancedSistersAdj">&iota;</div>
+							<div class="category-selection-div"><input type="checkbox" value=phi name="category-balancedSistersAdj">&phi;</div>
+							<div class="category-selection-div"><input type="checkbox" value=w name="category-balancedSistersAdj">&omega;</div>
+						</div>
+					</div>
+
+					<h3>EqualSisters</h3>
+
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="equalSistersAdj">EqualSisters (adjacent)</span>
+								<div class="info">
+									<span class="content">EqualSisters (adjacent) info.</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="equalSistersPairwise">EqualSisters (pairwise)</span>
+								<div class="info">
+									<span class="content">EqualSisters (pairwise) info.</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="equalSistersFirstPrivilege">EqualSisters (first privilege)</span>
+								<div class="info">
+									<span class="content">EqualSisters (first privilege) info.</span>
+								</div>
+							</div>
+						</div>
 
 					<h3>StrongStart</h3>
-					<table class="constraint-selection-table">
-					<tbody>
-						<tr>
-							<td title="Assign a violation for every node whose leftmost daughter constituent is of type k and is lower in the prosodic hierarchy than its sister constituent immediately to its right: *(Kn Kn-1). (Elfner's StrongStart)"><input type="checkbox" name="constraints" value="strongStart_Elfner">StrongStart</td>
-							<td><input type="checkbox" name="category-strongStart_Elfner" value="i">&iota;</td>
-							<td><input type="checkbox" name="category-strongStart_Elfner" value="phi">&phiv;</td>
-							<td><input type="checkbox" name="category-strongStart_Elfner" value="w" checked="checked">&omega;</td>
-							<td><input type="checkbox" name="category-strongStart_Elfner" value="syll">&sigma;</td>
-						</tr>
-					</tbody>
-					</table>
+					
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="strongStart_Elfner">StrongStart</span>
+							<div class="info">
+								<span class="content">strong start info.</span>
+							</div>
+						</div>
+						<div class="category-row">
+							<div class="category-selection-div"><input type="checkbox" name="category-strongStart_Elfner" value="i">&iota;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-strongStart_Elfner" value="phi">&phiv;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-strongStart_Elfner" value="w" checked="checked">&omega;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-strongStart_Elfner" value="syll">&sigma;</div>
+						</div>
+					</div>
 
 				</fieldset>
 
@@ -706,37 +1005,72 @@ radio<html>
 				<fieldset>
 
 					<legend><h2>Layering <span class="arrow"></h2></legend>
-					<table class="constraint-selection-table">
-					<tbody>
-						<tr>
-							<td title="Assign a violation for every parent-child pair (x,y) such that x is of PH-level n and y is of PH-level n-m, m >= 2."><input type="checkbox" name="constraints" value="exhaust1">Exhaustivity</td>
-						</tr>
-						<tr>
-							<td title="Assign a violation for every node of category x immediately dominated by another node of category x."><input type="checkbox" name="constraints" value="nonRecChild">Non-recursivity, assessed by dominated node (nonRecChild)</td>
-							<td><input type="checkbox" name="category-nonRecChild" value="i">&iota;</td>
-							<td><input type="checkbox" name="category-nonRecChild" value="phi" checked="checked">&phiv;</td>
-							<td><input type="checkbox" name="category-nonRecChild" value="w">&omega;</td>
-						</tr>
-						<tr>
-							<td title="Assign a violation for every node of category x that immediately dominates a node of category x."><input type="checkbox" name="constraints" value="nonRecParent">Non-recursivity, assessed by dominating node (nonRecParent)</td>
-							<td><input type="checkbox" name="category-nonRecParent" value="i">&iota;</td>
-							<td><input type="checkbox" name="category-nonRecParent" value="phi" checked="checked">&phiv;</td>
-							<td><input type="checkbox" name="category-nonRecParent" value="w">&omega;</td>
-						</tr>
-						<tr>
-							<td title="&quot;Any two p-phrases that are not disjoint in extension are identical in extension.&quot; For every node x of category p dominated by another node y of category p, assign a violation for every leaf dominated by y that is not also dominated by x."><input type="checkbox" name="constraints" value="nonRecTruckenbrodt">Non-recursivity, assessed by non-overlapping leaves (nonRecTruckenbrodt)</td>
-							<td><input type="checkbox" name="category-nonRecTruckenbrodt" value="i">&iota;</td>
-							<td><input type="checkbox" name="category-nonRecTruckenbrodt" value="phi" checked="checked">&phiv;</td>
-							<td><input type="checkbox" name="category-nonRecTruckenbrodt" value="w">&omega;</td>
-						</tr>
-						<tr>
-							<td title="Assign a violation for every pair of nodes a and b such that a and b are both of category p and a dominates b."><input type="checkbox" name=constraints value="nonRecPairs">Non-recursivity, pairwise</td>
-							<td><input type="checkbox" name="category-nonRecPairs" value="i">&iota;</td>
-							<td><input type="checkbox" name="category-nonRecPairs" value="phi" checked="checked">&phiv;</td>
-							<td><input type="checkbox" name="category-nonRecPairs" value="w">&omega;</td>
-						</tr>
-					</tbody>
-					</table>
+					
+
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="exhaust1">Exhaustivity</span>
+							<div class="info">
+								<span class="content">Exhaustivity info.</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="nonRecChild">Non-recursivity, assessed by dominated node (nonRecChild)</span>
+							<div class="info">
+								<span class="content">non recursivity child info.</span>
+							</div>
+						</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-nonRecChild" value="i">&iota;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-nonRecChild" value="phi" checked="checked">&phiv;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-nonRecChild" value="w">&omega;</div>
+							</div>	
+					</div>
+
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="nonRecParent">Non-recursivity, assessed by dominating node (nonRecParent)</span>
+							<div class="info">
+								<span class="content">non recursivity parent info.</span>
+							</div>
+						</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-nonRecParent" value="i">&iota;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-nonRecParent" value="phi" checked="checked">&phiv;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-nonRecParent" value="w">&omega;</div>
+							</div>	
+					</div>
+
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="nonRecTruckenbrodt">Non-recursivity, assessed by non-overlapping leaves (nonRecTruckenbrodt)</span>
+							<div class="info">
+								<span class="content">non recursivity truckenbrodt info.</span>
+							</div>
+						</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-nonRecTruckenbrodt" value="i">&iota;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-nonRecTruckenbrodt" value="phi" checked="checked">&phiv;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-nonRecTruckenbrodt" value="w">&omega;</div>
+							</div>	
+					</div>
+
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name=constraints value="nonRecPairs">Non-recursivity, pairwise</span>
+							<div class="info">
+								<span class="content">non recursivity pairwise info.</span>
+							</div>
+						</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-nonRecPairs" value="i">&iota;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-nonRecPairs" value="phi" checked="checked">&phiv;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-nonRecPairs" value="w">&omega;</div>
+							</div>	
+					</div>
 
 				</fieldset>
 				<br/>
@@ -744,31 +1078,43 @@ radio<html>
 				<fieldset>
 					<legend><h2>Constraints on accentedness <span class="arrow"></h2></legend>
 					<span class="info"><span class="content">Constraints proposed for analysis of lexical accent systems (Japanese, Basque). Accents must be indicated either by using 'a'/'u' or 'A'/'U' for the ids of words, or by adding accent attributes in the syntactic tree.</span></span>
-					<table class="constraint-selection-table">
-						<tbody>
-							<tr>
-								<td title="Assign a violation for each prosodic word that is not the head of a minimal &phiv;.">
-									<input type="checkbox" name="constraints" value="accentAsHead">AccentAsHead
-							</td></tr>
-							<tr>
-								<td title="No accentual lapse. Assign a violation for every fully L-toned &omega;.">
-									<input type="checkbox" name="constraints" value="noLapseL">NoLapse-L
-							</td></tr>
-						</tbody>
-					</table>
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="accentAsHead">AccentAsHead</span>
+							<div class="info">
+								<span class="content">accend as head info.</span>
+							</div>
+						</div>
+					</div>
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="noLapseL">NoLapse-L</span>
+							<div class="info">
+								<span class="content">NoLapse-L info.</span>
+							</div>
+						</div>
+					</div>
 				</fieldset>
+			</div>
 
-				<br/>
-				<br/>
-				<hr style="margin-bottom: 20px"/>
-				</div><!-- end of under not-results-->
-				<div align="center">
-					<button onclick="clearAnalysis(); document.getElementById('built-in-dropdown').value = 'select'" type="button" style="margin:5px">Clear All
+				<div align="center" id="save-load-section">
+					<button id="clearAllButton" type="button" style="margin:5px">Clear All
 					</button>
-					<button onclick="record_analysis()" type="button" style="margin:5px">Save
+					<button onclick='saveAnalysis(record_analysis(), (window.prompt("Save analysis as...\n(the analysis will be saved as a file with the extension .SPOT)", "myAnalysis") || "myAnalysis"))' type="button" style="margin:5px">Save
 					</button>
-					<button type="button" style="margin:5px">Load
+					<button onclick="document.getElementById('chooseFile').style='display: block'; document.getElementById('save/load-dialog').innerHTML = ''" type="button" style="margin:5px">Load
 					</button>
+					<br/>
+					<div id="chooseFile" style="display: none">
+						<div style="font-size: 13px; color: #555" id="chooseFilePrompt">
+							Upload an analysis that you previously downloaded from SPOT:
+						</div>
+						<br/>
+						<input type="file" accept=".SPOT" id="fileUpload" onchange="loadAnalysis(this.files[this.files.length-1])">
+					</div>
+					<br/>
+					<p id="save/load-dialog" style="font-size: 13px; color: #555">
+					</p>
 					<br/>
 					<button class="orange-button submit-button" type="submit">Get results</button>
 
@@ -783,6 +1129,7 @@ radio<html>
 					</h2>
 				</div>
 			</form>
+		</div><!-- end of under not-results-->
 			<pre id="results-container"></pre>
 
 		</div>
