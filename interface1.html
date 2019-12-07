@@ -981,6 +981,28 @@
 							<div class="category-selection-div"><input type="checkbox" name="category-strongStart_Elfner" value="syll">&sigma;</div>
 						</div>
 					</div>
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="strongStartClitic">StrongStartClitic</span>
+							<div class="info">
+								<span class="content">Assign a violation for every node of category cat whose leftmost daughter constituent is of category < w (a syllable or foot). (Bennett, Elfner & McCloskey 2016)</span>
+							</div>
+						</div>
+						<div class="category-row">
+							<div class="category-selection-div"><input type="checkbox" name="category-strongStartClitic" value="i">&iota;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-strongStartClitic" value="phi">&phiv;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-strongStartClitic" value="w" checked="checked">&omega;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-strongStartClitic" value="syll">&sigma;</div>
+						</div>
+					</div>
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="strongStart_SubCat">StrongStart_SubCat</span>
+							<div class="info">
+								<span class="content">Assign a violation for every node whose leftmost daughter constituent is lower in the prosodic hierarchy than its sister constituent immediately to its right. Sensitive to whether nodes are (non)minimal: phi min is lower than phi non-min. Not sensitive to the category of the parent. (Van Handel's strongStart from SPOT2 2019)</span>
+							</div>
+						</div>
+					</div>
 
 				</fieldset>
 
