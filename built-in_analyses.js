@@ -257,9 +257,9 @@ function built_in_Japanese_IM2017(){
 /* Nick VH, please fill in your system's info here
 */
 function built_in_Italian_NVH(){
-  var gen = {};
-  var con = [];
-  var trees = [];
+  var gen = {obeysHeadedness: true, obeysExhaustivity: true};
+  var con = [{name: "matchSP", cat: "xp", options: {requireOvertHead: true}}, {name: "matchMaxSP", cat: "xp", options: {requireOvertHead: true}}, {name: "binMinLeaves", cat: "phi"}, {name: "binMaxLeaves", cat: "phi"}, {name: "binMinLeaves_requireMaximal", cat: "phi"}, {name: "strongStart_SubCat"}];
+  var trees = [italian_adj_noun, italian_noun_adj, italian_noun_adv_adj, italian_ditrans, italian_subj_verb, italian_noun_pp, italian_verb_do_1, italian_verb_do_2, italian_verb_do_3];
   my_built_in_analysis(gen, false, trees, con);
 }
 
