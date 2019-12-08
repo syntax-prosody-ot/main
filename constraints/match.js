@@ -220,8 +220,11 @@ function matchSP_OvertLexicalHead(stree, ptree, cat){
  * ex. Match a maximal xp with a maximal phi.
  */
 
-function matchMaxSP(sTree, pTree, sCat){
-	return matchSP(sTree, pTree, sCat, {maxSyntax: true, maxProsody: true});
+function matchMaxSP(sTree, pTree, sCat, options){
+	options = options || {};
+	options.maxSyntax = true;
+	options.maxProsody = true;
+	return matchSP(sTree, pTree, sCat, options);
 }
 
 /* Match-SP(scat-max, pcat). Same as matchMaxSP, except matching prosodic node
