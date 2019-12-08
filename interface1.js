@@ -619,6 +619,7 @@ window.addEventListener('load', function(){
 		var nodeId = idPieces[1];
 		var isCat = idPieces[0] === 'catInput';
 		treeUIsTreeMap[treeIndex].nodeMap[nodeId][isCat ? 'cat' : 'id'] = target.value;
+		document.getElementById('doneMessage').style.display = 'none';
 	});
 
 
