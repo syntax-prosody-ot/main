@@ -275,17 +275,15 @@ function built_in_Japanese_rebracketing(n){
 }
 
 
-/* function built_in_Japanese_rebracketing_1(){
+function built_in_Japanese_balSis(){
   var gen = {obeysExhaustivity: true, requireRecWrapper: true};
 
-  var con = [{name:'matchPS', cat:'phi'}, {name: 'matchSP', cat:'xp'}, {name: 'binMinBranches', cat:'phi'}, {name:'binMaxBranches', cat:'phi'}, {name:'binMaxLeaves', cat:'phi'}];
-  //defined in abstractMatchTrees.js
-  var jtrees = [tree_3w_1, tree_3w_2, tree_4w_1, tree_4w_2, tree_4w_3, tree_4w_4, tree_4w_5];
+  var con = [{name:'matchPS', cat:'phi'}, {name: 'matchSP', cat:'xp'}, {name: 'binMinBranches', cat:'phi'}, {name:'binMaxBranches', cat:'phi'}, {name:'balancedSistersAdj', cat:'phi'}, {name: 'equalSisters2', cat:'phi'}, {name: 'accentAsHead', cat: ''}, {name: 'noLapseL', cat: ''}];
+  var jtrees = getAccentTrees();
 
-  my_built_in_analysis(gen, false, jtrees, con);
+  my_built_in_analysis(gen, 'addJapaneseTones', jtrees, con);
 
 }
- */
 
 
 /* Nick Van Handel's Italian analysis as presented at ICPP2019
@@ -334,6 +332,10 @@ function built_in(analysis) {
   }
   if(analysis === "japanese_rebracketing_6"){
     built_in_Japanese_rebracketing(6);
+  }
+
+  if(analysis === "japanese_BK_2019"){
+    built_in_Japanese_balSis();
   }
 
   if(analysis=== "italian"){
