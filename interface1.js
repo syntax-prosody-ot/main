@@ -325,8 +325,6 @@ window.addEventListener('load', function(){
 	});
 
 	spotForm.onsubmit=function(e){
-
-		console.log("submit");
 		if (e.preventDefault) e.preventDefault();
 
 		//Build a list of checked constraints.
@@ -439,6 +437,7 @@ window.addEventListener('load', function(){
 			//console.log(genOptions);
 		}
 
+
 		for(var i = 0; i < spotForm.hideCategory.length; i++){
 			var hiddenCat = spotForm.hideCategory[i];
 			if(hiddenCat.checked){
@@ -449,24 +448,27 @@ window.addEventListener('load', function(){
 		var resultsConCl = document.getElementById("results-container").classList;
 		resultsConCl.add('show-tableau');
 
+
 		var csvSegs = [];
 		for (var i = 0; i < sTrees.length; i++) {
 			var sTree = sTrees[i];
+			//console.log(pString.split(" ").length >= 6)
 			//warn user about using more than six terminals
-			if(getLeaves(sTree).length >= 6){
+			
+
+			//warn user about possibly excessive numbers of candidates
+			if (genOptions['cliticMovement'] && (!genOptions['noUnary'] && (getLeaves(sTree).length >= 5 || pString.split(" ").length >= 5))
+											 || (genOptions['noUnary'] && (getLeaves(sTree).length >= 7 || pString.split(" ").length >= 7))){
+				if(!confirm("You have selected GEN settings that allow clitic reordering, and included a sentence of ".concat( pString.split(" ").length.toString()," terminals. This GEN may yield more than 10K candidates. To reduce the number of candidates, consider enforcing non-recursivity, exhaustivity, and/or branchingness for intermediate prosodic nodes. Do you wish to proceed with these settings?"))){
+					throw new Error("clitic movement with too many terminals");
+				}
+			} 
+			else if(getLeaves(sTree).length >= 6 || pString.split(" ").length >= 6){
 				if(!confirm("Inputs of more than six terminals may run slowly and even freeze your browser, depending on the selected GEN options. Do you wish to continue?")){
 					throw new Error("Tried to run gen with more than six terminals");
 				}
 			}
-
-			//warn user about clitic movement
-			if (genOptions['cliticMovement'] && (!genOptions['noUnary'] && getLeaves(sTree).length >= 5)
-											 || (genOptions['noUnary'] && getLeaves(sTree).length >= 7)){
-				if(!confirm("You have selected GEN settings that allow clitic reordering, and included a sentence of (X) terminals. This GEN may yield more than 10K candidates. To reduce the number of candidates, consider enforcing non-recursivity, exhaustivity, and/or branchingness for intermediate prosodic nodes. Do you wish to proceed with these settings?")){
-					throw new Error("");
-				}
-			}
-
+			
 			if (genOptions['cliticMovement']){
 				var candidateSet = GENwithCliticMovement(sTree, pString, genOptions);
 			}
