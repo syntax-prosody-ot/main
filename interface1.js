@@ -348,15 +348,22 @@ window.addEventListener('load', function(){
 							if(spotForm['option-'+constraint]){
 								var constraintOptionSet = spotForm['option-'+constraint];
 								var options = {};
-								for(var k=0; k<constraintOptionSet.length; k++){
-									var optionBox = constraintOptionSet[k];
-									//If lexical or overtly headed is checked, then option is true
-									if(optionBox.checked) {
-										options[optionBox.value] = true;
+								if(constraintOptionSet.length){
+									for(var k=0; k<constraintOptionSet.length; k++){
+										var optionBox = constraintOptionSet[k];
+										//If lexical or overtly headed is checked, then option is true
+										if(optionBox.checked) {
+											options[optionBox.value] = true;
+										}
+										//If option is in a select, not a checkbox, and the option is not "any", then option is true
+										if(optionBox.checked === undefined && optionBox.value !== 'any') {
+											options[optionBox.value] = true;
+										}
 									}
-									//If option is in a select, not a checkbox, and the option is not "any", then option is true
-									if(optionBox.checked === undefined && optionBox.value !== 'any') {
-										options[optionBox.value] = true;
+								}
+								else{ //constraint only has one possible option:
+									if(constraintOptionSet.checked){
+										options[constraintOptionSet.value] = true;
 									}
 								}
 								var strOptions = JSON.stringify(options);

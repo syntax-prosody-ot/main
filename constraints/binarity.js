@@ -59,9 +59,9 @@ function binMaxBranches(s, ptree, cat){
 	return vcount;
 }
 
-/* Category-sensitive branch-counting constraint 
+/* Category-sensitive branch-counting constraint
 * (first proposed by Kalivoda 2019 in "New Analysis of Irish Syntax-Prosody", ms.)
-* Assign a violation for every node of category cat that immediately dominates 
+* Assign a violation for every node of category cat that immediately dominates
 * more than 2 children of category cat-1
 */
 function binMaxBrCatSensitive(s, ptree, cat){
@@ -267,6 +267,24 @@ function binMin2WordsGradient(s, ptree, cat){
 		}
 		for(var i = 0; i<ptree.children.length; i++){
 			vcount += binMin2WordsGradient(s, ptree.children[i], cat);
+		}
+	}
+	return vcount;
+}
+
+function binMinLeaves_requireMaximal(s, ptree, c){
+	markMinMax(ptree);
+	var vcount = 0;
+	//the category we are looking for:
+	var target = pCat.nextLower(c);
+	//pCat.nextLower defined in prosdic hierarchy.js
+	if(ptree.children && ptree.children.length){
+		var targetDesc = getDescendentsOfCat(ptree, target);
+		if(ptree.cat === c && targetDesc.length < 2 && ptree.isMax){
+			vcount ++;
+		}
+		for(var i = 0; i < ptree.children.length; i++){
+			vcount += binMinLeaves_requireMaximal(s, ptree.children[i], c);
 		}
 	}
 	return vcount;

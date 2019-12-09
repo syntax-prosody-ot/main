@@ -6,6 +6,7 @@
 		<script src="./trees/built-in_trees.js"></script>
 		<script src="./trees/left_branching_accent_trees_2_3_4_words.js"></script>
 		<script src="./trees/chamorro_clitic_trees.js"></script>
+		<script src='./trees/Italian_BuiltIn_Trees.js'></script>
 		<link rel="stylesheet" type="text/css" href="spot.css">
 		<link rel="icon" type="image/x-icon" href="images/favicon.ico">
 
@@ -670,27 +671,28 @@
 
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
-									<span><input type="checkbox" name="constraints" value="matchMaxSyntax">MatchMax(Syntax&rarr;Prosody)</span>
+									<span><input type="checkbox" name="constraints" value="matchMaxSP">MatchMax(Syntax&rarr;Prosody)</span>
 									<div class="info">
 										<span class="content">Assign one violation for every maximal node of category K in the syntactic tree such that there is no maximal node of the category corresponding to K that dominates all and only the same terminal nodes in the prosodic tree. A node of category K is maximal iff it is not dominated by any other node of category K. SPOT function: matchMaxSP(). (Ito & Mester 2009, Ishihara 2014)</span>
 									</div>
 							</div>
 							<div class="category-row">
-								<div class="category-selection-div"><input type="checkbox" name="category-matchMaxSyntax" value="cp">CP</div>
-								<div class="category-selection-div"><input type="checkbox" name="category-matchMaxSyntax" value="xp" checked="checked">XP</div>
-								<div class="category-selection-div"><input type="checkbox" name="category-matchMaxSyntax" value="x0">X<sup>0</sup></div>
+								<div class="category-selection-div"><input type="checkbox" name="category-matchMaxSP" value="cp">CP</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-matchMaxSP" value="xp" checked="checked">XP</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-matchMaxSP" value="x0">X<sup>0</sup></div>
 							</div>
 							<div class="category-row">
+
 								<div class="custom-text">
 									<p>Enforce Match only for syntactic nodes that are...</p>
 								</div>
-								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchMaxSyntax" value="requireLexical">lexical</div>
+								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchMaxSP" value="requireLexical">lexical</div>
 								<div class="info">
 									<span class="content custom-option-div">Match only maximal syntactic nodes that are not labeled as functional.</span>
 								</div>
 							</div>
 							<div class="category-row">
-								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchMaxSyntax" value="requireOvertHead">overtly headed</div>
+								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchMaxSP" value="requireOvertHead">overtly headed</div>
 								<div class="info">
 									<span class="content custom-option-div">Match only maximal syntactic nodes that have a non-silent head.</span>
 								</div>
@@ -879,11 +881,11 @@
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="binMinLeaves">BinMin(leaves)</span>
 							<div class="info">
-								<span class="content">Assign one violation for every node P of the prosodic category K in the prosodic tree such that P dominates less than two nodes of the prosodic category immediately below K on the prosodic hierarchy. SPOT function: binMinLeaves. SPOT function: binMaxLeaves(). (Selkirk 2000)</span>
+								<span class="content">Assign one violation for every node P of the prosodic category K in the prosodic tree such that P dominates less than two nodes of the prosodic category immediately below K on the prosodic hierarchy. SPOT function: binMinLeaves. (Selkirk 2000)</span>
 							</div>
 						</div>
 							<div class="category-row">
-								<div class="category-selection-div"><input type="checkbox" name="category-binMin" value="i">&iota;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-binMinLeaves" value="i">&iota;</div>
 								<div class="category-selection-div"><input type="checkbox" name="category-binMinLeaves" value="phi" checked="checked">&phiv;</div>
 								<div class="category-selection-div"><input type="checkbox" name="category-binMinLeaves" value="w">&omega;</div>
 							</div>
@@ -891,9 +893,23 @@
 
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="binMinLeaves_requireMaximal">BinMin(leaves) <i>maximal nodes only</i></span>
+							<div class="info">
+								<span class="content">Assign one violation for every node P of the prosodic category K in the prosodic tree such that P is maximal and P dominates less than two nodes of the prosodic category immediately below K on the prosodic hierarchy. A node of category K is maximal if it is not dominated by any other nodes of category K. SPOT function: binMinLeaves_requireMaximal. (Van Handel 2019)</span>
+							</div>
+						</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-binMinLeaves_requireMaximal" value="i">&iota;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-binMinLeaves_requireMaximal" value="phi" checked="checked">&phiv;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-binMinLeaves_requireMaximal" value="w">&omega;</div>
+							</div>
+					</div>
+
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="binMaxLeaves">BinMax(leaves) - <i>categorical</i></span>
 							<div class="info">
-								<span class="content">Assign one violation for every node of category K in the prosodic tree that dominates more than two nodes of the category immediately below K on the prosodic hierarchy. SPOT function: binMaxLeaves(). Assign a violation for every node of category P in the prosodic tree that contains more than two nodes of category P-1 at any level. For example, the prosodic tree ((a b)(c d)), where a, b, c, d are all prosodic words, would incur one violation for the top-level phi, which contains four prosodic words, even though it has only two immediate children. Concept: see, Selkirk 2000, Sandalo & Truckenbrodt 2002</span>
+								<span class="content">Assign one violation for every node of category K in the prosodic tree that dominates more than two nodes of the category immediately below K on the prosodic hierarchy. SPOT function: binMaxLeaves(). Concept: see, Selkirk 2000, Sandalo & Truckenbrodt 2002</span>
 							</div>
 						</div>
 							<div class="category-row">

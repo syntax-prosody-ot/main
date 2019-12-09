@@ -98,14 +98,20 @@ function built_in_con(input){
      * all of the constraints and categories have been checked */
     if(input[i].options && document.getElementsByName("option-"+input[i].name) && document.getElementsByName("option-"+input[i].name).length){
       var optionBoxes = document.getElementsByName("option-"+input[i].name);
-      //iterate over option checkboxes corresponding to this input
-      for(var x in optionBoxes){
-        if(input[i].options[optionBoxes[x].value]){
-          optionBoxes[x].checked = true;
+      if(optionBoxes.length){
+        //iterate over option checkboxes corresponding to this input
+        for(var x in optionBoxes){
+          if(input[i].options[optionBoxes[x].value]){
+            optionBoxes[x].checked = true;
+          }
+          else{
+            optionBoxes[x].checked = false;
+          }
         }
-        else{
-          optionBoxes[x].checked = false;
-        }
+      }
+      //if there is only one option for this constraint:
+      else{
+        optionBoxes.checked = true;
       }
     }
     //record that this constraint has already been used so other inputs don't overwrite it
@@ -251,9 +257,9 @@ function built_in_Japanese_IM2017(){
 /* Nick VH, please fill in your system's info here
 */
 function built_in_Italian_NVH(){
-  var gen = {};
-  var con = [];
-  var trees = [];
+  var gen = {obeysHeadedness: true, obeysExhaustivity: true};
+  var con = [{name: "matchSP", cat: "xp", options: {requireOvertHead: true}}, {name: "matchMaxSP", cat: "xp", options: {requireOvertHead: true}}, {name: "binMinLeaves", cat: "phi"}, {name: "binMaxLeaves", cat: "phi"}, {name: "binMinLeaves_requireMaximal", cat: "phi"}, {name: "strongStart_SubCat"}];
+  var trees = [italian_adj_noun, italian_noun_adj, italian_noun_adv_adj, italian_ditrans, italian_subj_verb, italian_noun_pp, italian_verb_do_1, italian_verb_do_2, italian_verb_do_3];
   my_built_in_analysis(gen, false, trees, con);
 }
 
@@ -350,10 +356,17 @@ function record_analysis(){
     if(uCon[i].checked){
       if(spotForm['category-'+cName]){
         var uCategories = spotForm['category-'+cName]; //categories for this constraint
-        for(var x = 0; x<uCategories.length; x++){ //iterate over categories
-          var cat = uCategories[x];
-          if(cat.checked){
-            analysis.myCon.push({name: cName, cat: cat.value}); //add to con
+        //handeling alignLeftMorpheme: (category is actually a user defined string)
+        if(!uCategories.length){
+          analysis.myCon.push({name: cName, cat: uCategories.value});
+        }
+        //basically every other case: (category is actually a category)
+        else{
+          for(var x = 0; x<uCategories.length; x++){ //iterate over categories
+            var cat = uCategories[x];
+            if(cat.checked){
+              analysis.myCon.push({name: cName, cat: cat.value}); //add to con
+            }
           }
         }
       }
@@ -363,18 +376,23 @@ function record_analysis(){
       }
     }
   }
-  //matchOptions
-  var matchReg = /match/;
+  //optionable constraints:
   //iterate over all the selected constraints
   for(var i = 0; i<analysis.myCon.length; i++){
-    var matchCon = analysis.myCon[i];
-    //if the constraint name has "match" in it
-    if(matchReg.test(matchCon.name)){
-      matchCon.options = {};
-      var matchOptions = spotForm["option-"+matchCon.name];
-      //iterate over the options for this match constraint
-      for(var x = 0; x<matchOptions.length; x++){
-        matchCon.options[matchOptions[x].value] = matchOptions[x].checked;
+    var optionableCon = analysis.myCon[i];
+    //if the constraint has options
+    if(spotForm["option-"+optionableCon.name]){
+      optionableCon.options = {};
+      var conOptions = spotForm["option-"+optionableCon.name];
+      if(conOptions.length){
+        //iterate over the options for this match constraint
+        for(var x = 0; x<conOptions.length; x++){
+          optionableCon.options[conOptions[x].value] = conOptions[x].checked;
+        }
+      }
+      else{
+        //when there is only one option
+        optionableCon.options[conOptions.value] = conOptions.checked;
       }
     }
   }
