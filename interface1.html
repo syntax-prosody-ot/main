@@ -569,7 +569,7 @@
 
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
-							<span><input type="checkbox" name="constraints" value="alignLeft">Align-Left</span>
+							<span><input type="checkbox" name="constraints" value="alignLeft">Align-Left(Syntax&rarr;Prosody)</span>
 							<div class="info">
 								<span class="content">Assign one violation for every node of category K in the syntactic tree whose left edge is not aligned with the left edge of a node of the prosodic category corresponding to K in the prosodic tree. SPOT function: alignLeft(). (Selkirk 1986, 1996)</span>
 							</div>
@@ -584,15 +584,43 @@
 
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
-								<span><input type="checkbox" name="constraints" value="alignRight">Align-Right</span>
+								<span><input type="checkbox" name="constraints" value="alignRight">Align-Right(Syntax&rarr;Prosody)</span>
 								<div class="info">
-									<span class="content">Assign one violation for every node of category K in the syntactic tree whose right edge is not aligned with the left edge of a node of the prosodic category corresponding to K in the prosodic tree. SPOT function: alignRight(). (Selkirk 1986, 1996)</span>
+									<span class="content">Assign one violation for every node of category K in the syntactic tree whose right edge is not aligned with the right edge of a node of the prosodic category corresponding to K in the prosodic tree. SPOT function: alignRight(). (Selkirk 1986, 1996)</span>
 								</div>
 						</div>
 						<div class="category-row">
 							<div class="category-selection-div"><input type="checkbox" name="category-alignRight" value="cp">CP</div>
 							<div class="category-selection-div"><input type="checkbox" name="category-alignRight" value="xp" checked="checked">XP</div>
 							<div class="category-selection-div"><input type="checkbox" name="category-alignRight" value="x0">X<sup>0</sup></div>
+						</div>
+					</div>
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="alignLeftPS">Align-Left(Prosody&rarr;Syntax)</span>
+							<div class="info">
+								<span class="content">Assign a violation for every prosodic node of category K whose left edge is not aligned with the left edge of a syntactic node of the corresponding category. Alignment is evaluated by comparing node ids (Kalivoda 2019, SPOT).</span>
+							</div>
+						</div>
+
+						<div class="category-row">
+							<div class="category-selection-div"><input type="checkbox" name="category-alignLeftPS" value="i">&iota;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-alignLeftPS" value="phi" checked="checked">&phiv;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-alignLeftPS" value="w">&omega;</div>
+						</div>
+					</div>
+
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="alignRightPS">Align-Right(Prosody&rarr;Syntax)</span>
+								<div class="info">
+									<span class="content">Assign a violation for every prosodic node of category K whose right edge is not aligned with the right edge of a syntactic node of the corresponding category. Alignment is evaluated by comparing node ids (Kalivoda 2019, SPOT).</span>
+								</div>
+						</div>
+						<div class="category-row">
+							<div class="category-selection-div"><input type="checkbox" name="category-alignRightPS" value="i">&iota;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-alignRightPS" value="phi" checked="checked">&phiv;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-alignRightPS" value="w">&omega;</div>
 						</div>
 					</div>
 					<div class="constraint-selection-table">
@@ -780,7 +808,7 @@
 
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
-								<span><input type="checkbox" name="constraints" value="matchPS">Match (Prosody&rarr;Syntax)</span>
+								<span><input type="checkbox" name="constraints" value="matchPS">Match(Prosody&rarr;Syntax)</span>
 								<div class="info">
 									<span class="content">Assign one violation for every node of category K in the prosodic tree such that there is no node of the corresponding syntactic category in the syntactic tree that dominates all and only the same terminal nodes. SPOT function: matchPS(). (Selkirk 2011)</span>
 								</div>
