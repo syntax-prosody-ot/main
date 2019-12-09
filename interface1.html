@@ -515,7 +515,7 @@
 			<h2>Inputs
 				<span class="info">
 					<span class="content">
-						To get prosodic candidate without building a syntactic tree, type the words that you want to be included in the output prosodic trees, separating them with spaces. Suffix a word with "-clitic" to map it to a syllable instead of &omega; in all prosodic trees. <b>N.B.</b> Input strings longer than 6 words may be very slow, and risk freezing your system.
+						Type the words that you want to be included in the output prosodic trees, separating them with spaces. To get prosodic candidate without building a syntactic tree, click "Run GEN". Otherwise, click "Build syntax." Suffix a word with "-clitic" to map it to a syllable in all prosodic trees.
 					</span>
 				</span>
 			</h2>
@@ -528,17 +528,16 @@
               		<div>
               			<button class="nodeEditingButton" id="treeUImakeParent" type="button" disabled>Add Mother</button>
               			<button class="nodeEditingButton" id="treeUIdeleteNodes" type="button" disabled style="margin-right: 50px">Delete</button>
-              			<button class="nodeEditingButton" id="treeUIclearSelection" type="button" disabled>Clear Selection</button>
+						  <button class="nodeEditingButton" id="treeUIclearSelection" type="button" disabled>Clear Selection</button>
+						  <span class="info"><span class="content"><p>To add a node, select one or more adjacent sisters and click "Add Mother." To remove nodes, select them and click "Delete." </p>
+							<p>All labels are editable. The small labels with grey backgrounds represent node categories, and must be "cp", "xp", or "x0" for a node to be visible to the syntax-prosody mapping constraints. Use "clitic" as the category for a node that should be mapped to a syllable instead of a &omega;. The larger labels with white backgrounds represent node ids, and can be any unique alphanumeric string.</p>
+							<p>To create a new tree, click "Build syntax" again.</p>
+					 </span></span>
               		</div>
 
-              		<br/>
                 	<div id="treeTableContainer"></div>
-                	<i><small>
-		            	<p>To add a node, select one or more adjacent sisters and click "Add Mother." To remove nodes, select them and click "Delete." </p>
-						<p>All labels are editable. The small labels with grey backgrounds represent node categories, and must be "cp", "xp", or "x0" for a node to be visible to the syntax-prosody mapping constraints. Use "clitic" as the category for a node that should be mapped to a syllable instead of a &omega;. The larger labels with white backgrounds represent node ids, and can be any unique alphanumeric string.</p>
-						<p>To create a new tree, click "Build syntax" again.</p>
-		            </small></i>
-
+					
+					<p></p>
                 	<button id="htmlToJsonTreeButton" type="button">Done!<br><small></small>Add trees to analysis</small></button>
 
 					</button>
