@@ -37,7 +37,7 @@ function strongStart_Elfner(s, ptree, k){
 }
 
 /* Assign a violation for every node of category cat whose leftmost daughter constituent
-*  and is lower in the prosodic hierarchy than its sister constituent immediately to its right.
+*  is lower in the prosodic hierarchy than its sister constituent immediately to its right.
 *  (intuitive strong start, according to the intuition of Bellik & Kalivoda 2019)
 */
 
