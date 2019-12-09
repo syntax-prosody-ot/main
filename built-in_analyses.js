@@ -254,6 +254,40 @@ function built_in_Japanese_IM2017(){
 
 }
 
+//cf. analysis_html_files/abstractMatchAnalysis.html. Japanese rebracketing project, Kalivoda 2019.
+function built_in_Japanese_rebracketing(n){
+  var gen = {obeysExhaustivity: true, requireRecWrapper: true};
+  var pwfcs = [{name: 'binMinBranches', cat:'phi'}, {name:'binMaxBranches', cat:'phi'}, {name:'binMaxLeaves', cat:'phi'}];
+  var mapping = [{name: 'matchSP', cat:'xp'}, {name:'matchPS', cat:'phi'}, {name: 'alignRight', cat:'xp'}, {name: 'alignLeft', cat:'xp'}, {name: 'alignRightPS', cat:'phi'}, {name: 'alignLeftPS', cat:'phi'}];
+  var jtrees = [tree_3w_1, tree_3w_2, tree_4w_1, tree_4w_2, tree_4w_3, tree_4w_4, tree_4w_5];
+  var selected_mapping;
+  switch(n){
+    case 1: selected_mapping = mapping.slice(0,2); break;
+    case 2: selected_mapping = mapping.slice(2); break;
+    case 3: selected_mapping = mapping.slice(2,4).concat([mapping[0]]); break;
+    case 4: selected_mapping = mapping.slice(2,4).concat([mapping[1]]); break;
+    case 5: selected_mapping = mapping.slice(4).concat([mapping[0]]); break;
+    case 6: selected_mapping = mapping.slice(4).concat([mapping[1]]); break;
+    default: selected_mapping = mapping;
+  }
+  var con = pwfcs.concat(selected_mapping);
+  my_built_in_analysis(gen, false, jtrees, con);
+}
+
+
+/* function built_in_Japanese_rebracketing_1(){
+  var gen = {obeysExhaustivity: true, requireRecWrapper: true};
+
+  var con = [{name:'matchPS', cat:'phi'}, {name: 'matchSP', cat:'xp'}, {name: 'binMinBranches', cat:'phi'}, {name:'binMaxBranches', cat:'phi'}, {name:'binMaxLeaves', cat:'phi'}];
+  //defined in abstractMatchTrees.js
+  var jtrees = [tree_3w_1, tree_3w_2, tree_4w_1, tree_4w_2, tree_4w_3, tree_4w_4, tree_4w_5];
+
+  my_built_in_analysis(gen, false, jtrees, con);
+
+}
+ */
+
+
 /* Nick Van Handel's Italian analysis as presented at ICPP2019
 */
 function built_in_Italian_NVH(){
@@ -282,6 +316,26 @@ function built_in(analysis) {
   if(analysis === "ito&mester2017"){
     built_in_Japanese_IM2017();
   }
+  //Systems for Nick Kalivoda's study of abstract mapping, using Japanese rebracketing
+  if(analysis === "japanese_rebracketing_1"){
+    built_in_Japanese_rebracketing(1);
+  }
+  if(analysis === "japanese_rebracketing_2"){
+    built_in_Japanese_rebracketing(2);
+  }
+  if(analysis === "japanese_rebracketing_3"){
+    built_in_Japanese_rebracketing(3);
+  }
+  if(analysis === "japanese_rebracketing_4"){
+    built_in_Japanese_rebracketing(4);
+  }
+  if(analysis === "japanese_rebracketing_5"){
+    built_in_Japanese_rebracketing(5);
+  }
+  if(analysis === "japanese_rebracketing_6"){
+    built_in_Japanese_rebracketing(6);
+  }
+
   if(analysis=== "italian"){
     built_in_Italian_NVH();
   }
