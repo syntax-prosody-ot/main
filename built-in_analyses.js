@@ -261,7 +261,7 @@ function built_in_Italian_NVH(){
 */
 function built_in_Chamorro_RB(){
   var gen = {obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: ['i'], cliticMovement: true};
-  var con = [{name: 'matchSP', cat:'xp'}, {name: 'matchPS', cat:'phi'}, {name: 'equalSistersAdj', cat:'phi'}, {name: 'binMaxBranches', cat:'i'}, {name: 'strongStart_Elfner', cat:'syll'}, {name: 'alignLeftMorpheme', cat:"clitic gui' yu' hit hao"}];
+  var con = [{name: 'matchSP', cat:'xp', options:{requireOvertHead:true}}, {name: 'matchPS', cat:'phi'}, {name: 'equalSistersAdj', cat:'phi'}, {name: 'binMaxBranches', cat:'i'}, {name: 'strongStart_Elfner', cat:'syll'}, {name: 'alignLeftMorpheme', cat:"gui' yu' hit hao"}];
   var chamorrotrees = chamorro_clitic_trees;
   my_built_in_analysis(gen, false, chamorrotrees, con);
 }
