@@ -261,7 +261,7 @@ function matchCustom(sTree, pTree, sCat, options){
 
 //Match Maximal P --> S
 //Switch inputs for PS matching:
-function matchMaxPS(sTree, pTree, pCat options){
+function matchMaxPS(sTree, pTree, pCat, options){
 	options = options || {};
 	options.maxSyntax = true;
 	options.maxProsody = true;
@@ -269,7 +269,7 @@ function matchMaxPS(sTree, pTree, pCat options){
 }
 
 //Match P --> S version of matchMaxSyntax. See comment there for explanation
-function matchMaxProsody(sTree, pTree, pCat options){
+function matchMaxProsody(sTree, pTree, pCat, options){
 	options = options || {};
 	options.maxSyntax = true;
 	return matchMaxSyntax(pTree, sTree, pCat, options);
