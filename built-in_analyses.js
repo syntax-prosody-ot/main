@@ -4,17 +4,28 @@
  * the user or from another built-in alalysis. */
 function clearAnalysis(){
   var genOptions = document.getElementsByName("genOptions");
+  var hideCategories = document.getElementsByName('hideCategory');
   var constraints = document.getElementsByName("constraints");
   var fieldsets = document.getElementsByTagName("fieldset");
-  
+
+  //reset gen options
   for(var i = 0; i<genOptions.length; i++){
     if(genOptions[i].checked){
       genOptions[i].click();
     }
   }
+
+  //reset prosodic categories
   document.getElementById("spotForm")["genOptions-rootCategory"].value = "i";
   document.getElementById("spotForm")["genOptions-recursiveCategory"].value = "phi";
   document.getElementById("spotForm")["genOptions-terminalCategory"].value = "w";
+
+  //reset tree parenthesization options
+  for(var i = 0; i<hideCategories.length; i++){
+    hideCategories[i].checked = false;
+  }
+
+  //reset constraints
   for(var i = 0; i<constraints.length; i++){
     if(constraints[i].checked){
       constraints[i].click();
@@ -25,7 +36,7 @@ function clearAnalysis(){
 
     fieldsets[i].classList.remove("open");
 
-    
+
   }
   window.clearUTrees();
   document.getElementById("stree-textarea").value = '{}';
@@ -64,10 +75,15 @@ function built_in_con(input){
           cat_boxes = document.getElementsByName("category-"+input[i].name);
           for(var z = 0; z < cat_boxes.length; z++){
             //used to test if constraint has been used before:
-            var regex = RegExp(input[i].name);
+            var regex = new RegExp(input[i].name);
             // select the category if the input calls for it
             if(cat_boxes[z].value === input[i].cat){
               cat_boxes[z].checked =  true;
+            }
+            //for dealing with text input (currently only from alignLeftMorpheme)
+            else if(cat_boxes[z].type==="text"){
+              cat_boxes[z].checked =  true;
+              cat_boxes[z].value = input[i].cat;
             }
             // otherwise clear out category if this constraint has not been used before
             else if(!regex.test(usedCons)){
@@ -77,6 +93,23 @@ function built_in_con(input){
         }
       }
     }
+    //handeling constraint options, uses last constraint options object specified
+    /* we only need to do this once per input and we should probably run it after
+     * all of the constraints and categories have been checked */
+    if(input[i].options && document.getElementsByName("option-"+input[i].name) && document.getElementsByName("option-"+input[i].name).length){
+      var optionBoxes = document.getElementsByName("option-"+input[i].name);
+      //iterate over option checkboxes corresponding to this input
+      for(var x in optionBoxes){
+        if(input[i].options[optionBoxes[x].value]){
+          optionBoxes[x].checked = true;
+        }
+        else{
+          optionBoxes[x].checked = false;
+        }
+      }
+    }
+    //record that this constraint has already been used so other inputs don't overwrite it
+    usedCons = usedCons+input[i].name;
   }
 }
 
@@ -96,6 +129,7 @@ function my_built_in_analysis(myGEN, showTones, myTrees, myCon){
   //Step 0: clear the webpage
   clearAnalysis();
   //Step 1: GEN options
+  // To move clitics: value should be "cliticMovement"
   var genBoxes = document.getElementsByName("genOptions");
   for(var box in genBoxes){
     var optVal = myGEN[genBoxes[box].value];
@@ -118,14 +152,33 @@ function my_built_in_analysis(myGEN, showTones, myTrees, myCon){
       }
     }
   }
-  if(myGEN.rootCategory){
+  if(myGEN.rootCategory && (myGEN.rootCategory !== "i")){
+    document.getElementById("prosodicCategories").setAttribute("class", "open");
     document.getElementById("spotForm")["genOptions-rootCategory"].value = myGEN.rootCategory;
   }
-  if(myGEN.recursiveCategory){
+  if(myGEN.recursiveCategory && (myGEN.recursiveCategory !== "phi")){
+    document.getElementById("prosodicCategories").setAttribute("class", "open");
     document.getElementById("spotForm")["genOptions-recursiveCategory"].value = myGEN.recursiveCategory;
   }
-  if(myGEN.terminalCategory){
+  if(myGEN.terminalCategory && (myGEN.terminalCategory !== "w")){
+    document.getElementById("prosodicCategories").setAttribute("class", "open");
     document.getElementById("spotForm")["genOptions-terminalCategory"].value = myGEN.terminalCategory;
+  }
+  //hide boundaries for nodes of category...
+  //myGEN.invisibleCategories should be an array
+  if(myGEN.invisibleCategories && myGEN.invisibleCategories.length){
+    var hideCategories = document.getElementsByName('hideCategory');
+    //open the fieldset:
+    document.getElementById("treeDisplayOptions").setAttribute("class", "open");
+    //iterate over specified invisible categories
+    for(var x = 0; x<myGEN.invisibleCategories.length; x++){
+      //iterate over hideCategory checkboxes
+      for(var y = 0; y<hideCategories.length; y++){
+        if(hideCategories[y].value === myGEN.invisibleCategories[x]){
+          hideCategories[y].checked = true;
+        }
+      }
+    }
   }
 
 
@@ -147,18 +200,21 @@ function my_built_in_analysis(myGEN, showTones, myTrees, myCon){
   // Step 4: If showTones is not false, the tableaux will be annotated with tones.
   if(showTones){
     var toneCheckbox = document.getElementById("annotatedWithTones");
-    toneCheckbox.checked = true;
-    //console.log(toneCheckbox.checked);
-    var toneButtons = toneCheckbox.parentNode.parentNode.getElementsByTagName("input");
+    //open the tree display options fieldset
+    document.getElementById("treeDisplayOptions").setAttribute("class", "open");
+    //make sure the annotated with tones checkbox is checked and its options are open
+    if(!toneCheckbox.checked){
+      toneCheckbox.click();
+    }
+    //the tone annotation options:
+    var toneButtons = document.getElementsByName("toneOptions");
     for(var x = 0; x < toneButtons.length; x++){
-      toneButtons[x].parentNode.setAttribute("style", "display: table-cell");
       if(toneButtons[x].value===showTones){
         toneButtons[x].checked =  "checked";
       }
       else if (toneButtons[x] !== toneCheckbox){
         //we don't want multiple radio buttons to be checked, it gets confusing
         toneButtons[x].checked = false;
-        //toneButtons[x].removeAttribute("checked");
       }
     }
   }
@@ -181,12 +237,50 @@ function built_in_Kinyambo(){
   my_built_in_analysis(kGEN, false, ktrees, kcon);
 }
 
+function built_in_Japanese_IM2017(){
+  var gen = {obeysHeadedness: true, obeysExhaustivity: true};
+
+  var con = [{name: 'matchMaxSyntax', cat:'xp'}, {name:'matchPS', cat:'phi'}, {name: 'matchSP', cat:'xp'}, {name: 'binMinBranches', cat:'phi'}, {name:'binMaxBranches', cat:'phi'}, {name:'binMaxLeaves', cat:'phi'}, {name:'equalSistersAdj', cat:'phi'}, {name: 'equalSisters2', cat:'phi'}, {name: 'accentAsHead', cat: ''}, {name: 'noLapseL', cat: ''}];
+
+  var jtrees = getAccentTrees();
+
+  my_built_in_analysis(gen, 'addJapaneseTones', jtrees, con);
+
+}
+
+/* Nick VH, please fill in your system's info here
+*/
+function built_in_Italian_NVH(){
+  var gen = {};
+  var con = [];
+  var trees = [];
+  my_built_in_analysis(gen, false, trees, con);
+}
+
+/* Richard, please fill in your system's info here
+*/
+function built_in_Chamorro_RB(){
+  var gen = {obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: ['i'], cliticMovement: true};
+  var con = [{name: 'matchSP', cat:'xp'}, {name: 'matchPS', cat:'phi'}, {name: 'equalSistersAdj', cat:'phi'}, {name: 'binMaxBranches', cat:'i'}, {name: 'strongStart_Elfner', cat:'syll'}, {name: 'alignLeftMorpheme', cat:"clitic gui' yu' hit hao"}];
+  var chamorrotrees = chamorro_clitic_trees;
+  my_built_in_analysis(gen, false, chamorrotrees, con);
+}
+
 function built_in(analysis) {
   if(analysis === "irish") {
     built_in_Irish();
   }
   if(analysis === "kinyambo") {
     built_in_Kinyambo();
+  }
+  if(analysis === "ito&mester2017"){
+    built_in_Japanese_IM2017();
+  }
+  if(analysis=== "italian"){
+    built_in_Italian_NVH();
+  }
+  if(analysis=== "chamorro"){
+    built_in_Chamorro_RB();
   }
 }
 
@@ -237,6 +331,15 @@ function record_analysis(){
   analysis.myGEN.recursiveCategory = spotForm['genOptions-recursiveCategory'].value;
   analysis.myGEN.terminalCategory = spotForm['genOptions-terminalCategory'].value;
 
+  //gen hide categories
+  analysis.myGEN.invisibleCategories = [];
+  for(var i = 0; i < spotForm.hideCategory.length; i++){
+    var hiddenCat = spotForm.hideCategory[i];
+    if(hiddenCat.checked){
+      analysis.myGEN.invisibleCategories.push(hiddenCat.value);
+    }
+  }
+
   //myTrees
   analysis.myTrees = JSON.parse(document.getElementById("stree-textarea").value);
 
@@ -257,6 +360,21 @@ function record_analysis(){
       else{
         //if the constraint does not have category specifications (accent constraints)
         analysis.myCon.push({name: cName}); //add to con without category specification
+      }
+    }
+  }
+  //matchOptions
+  var matchReg = /match/;
+  //iterate over all the selected constraints
+  for(var i = 0; i<analysis.myCon.length; i++){
+    var matchCon = analysis.myCon[i];
+    //if the constraint name has "match" in it
+    if(matchReg.test(matchCon.name)){
+      matchCon.options = {};
+      var matchOptions = spotForm["option-"+matchCon.name];
+      //iterate over the options for this match constraint
+      for(var x = 0; x<matchOptions.length; x++){
+        matchCon.options[matchOptions[x].value] = matchOptions[x].checked;
       }
     }
   }

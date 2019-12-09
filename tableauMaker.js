@@ -41,7 +41,8 @@ function makeTableau(candidateSet, constraintSet, options){
 				}
 			}
 		}
-		var constraintOptionsCat = conParts[0]+optionString+'('+conParts[1]+')';
+		var cat = conParts[1] ? '('+conParts[1]+')' : ''
+		var constraintOptionsCat = conParts[0]+optionString+cat;
 		header.push(constraintOptionsCat);
 	}
 	tableau.push(header);

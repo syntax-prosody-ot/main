@@ -209,6 +209,7 @@ function showUTree(tree){
 
 function clearUTrees(){
 	treeTableContainer.innerHTML = '';
+	treeUIsTreeMap = {};
 }
 
 function addOrRemoveUTrees(addTree){
@@ -216,7 +217,7 @@ function addOrRemoveUTrees(addTree){
 		treeTableContainer.innerHTML += addTree.toHtml();
 	}
 	else{
-		treeTableContainer.innerHTML = '';
+		clearUTrees();
 	}
 	refreshNodeEditingButtons();
 
@@ -335,10 +336,14 @@ window.addEventListener('load', function(){
 				//Figure out all the categories selected for the constraint
 				if(spotForm['category-'+constraint]){
 					var constraintCatSet = spotForm['category-'+constraint];
+					if (constraintCatSet.length === undefined) {
+						constraintCatSet = [constraintCatSet];
+					}
 					for(var j=0; j<constraintCatSet.length; j++){
 						var categoryBox = constraintCatSet[j];
 						if(categoryBox.checked){
 							var category = categoryBox.value;
+
 							//Figure out selected match options for the constraint
 							if(spotForm['option-'+constraint]){
 								var constraintOptionSet = spotForm['option-'+constraint];
@@ -418,7 +423,7 @@ window.addEventListener('load', function(){
 				throw terminalCategoryError;
 			}
 		}
-		
+
 
 		var tableauOptions = {
 			showTones: false,  //true iff tones are selected
@@ -451,7 +456,7 @@ window.addEventListener('load', function(){
 			//warn user about using more than six terminals
 			
 
-			//warn user about clitic movement
+			//warn user about possibly excessive numbers of candidates
 			if (genOptions['cliticMovement'] && (!genOptions['noUnary'] && (getLeaves(sTree).length >= 5 || pString.split(" ").length >= 5))
 											 || (genOptions['noUnary'] && (getLeaves(sTree).length >= 7 || pString.split(" ").length >= 7))){
 				if(!confirm("You have selected GEN settings that allow clitic reordering, and included a sentence of ".concat( pString.split(" ").length.toString()," terminals. This GEN may yield more than 10K candidates. To reduce the number of candidates, consider enforcing non-recursivity, exhaustivity, and/or branchingness for intermediate prosodic nodes. Do you wish to proceed with these settings?"))){
@@ -609,6 +614,7 @@ window.addEventListener('load', function(){
 		var nodeId = idPieces[1];
 		var isCat = idPieces[0] === 'catInput';
 		treeUIsTreeMap[treeIndex].nodeMap[nodeId][isCat ? 'cat' : 'id'] = target.value;
+		document.getElementById('doneMessage').style.display = 'none';
 	});
 
 
@@ -703,6 +709,7 @@ window.addEventListener('load', function(){
 
 	document.getElementById("clearAllButton").addEventListener("click", function(){
 		clearAnalysis();
+		document.getElementById('treeUI').style.display = 'none';
 		document.getElementById('built-in-dropdown').value = 'select';
 		document.getElementById('fileUpload').value = '';
 		document.getElementById('chooseFilePrompt').style = "font-size: 13px; color: #555";
