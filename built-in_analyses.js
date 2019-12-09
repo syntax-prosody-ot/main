@@ -93,7 +93,7 @@ function built_in_con(input){
         }
       }
     }
-    //handeling constraint options, uses last constraint options object specified
+    //handling constraint options, uses last constraint options object specified
     /* we only need to do this once per input and we should probably run it after
      * all of the constraints and categories have been checked */
     if(input[i].options && document.getElementsByName("option-"+input[i].name) && document.getElementsByName("option-"+input[i].name).length){
@@ -246,7 +246,7 @@ function built_in_Kinyambo(){
 function built_in_Japanese_IM2017(){
   var gen = {obeysHeadedness: true, obeysExhaustivity: true};
 
-  var con = [{name: 'matchMaxSyntax', cat:'xp'}, {name:'matchPS', cat:'phi'}, {name: 'matchSP', cat:'xp'}, {name: 'binMinBranches', cat:'phi'}, {name:'binMaxBranches', cat:'phi'}, {name:'binMaxLeaves', cat:'phi'}, {name:'equalSistersAdj', cat:'phi'}, {name: 'equalSisters2', cat:'phi'}, {name: 'accentAsHead', cat: ''}, {name: 'noLapseL', cat: ''}];
+  var con = [{name: 'matchMaxSP', cat:'xp'}, {name:'matchPS', cat:'phi'}, {name: 'matchSP', cat:'xp'}, {name: 'binMinBranches', cat:'phi'}, {name:'binMaxBranches', cat:'phi'}, {name:'binMaxLeaves', cat:'phi'}, {name:'equalSistersAdj', cat:'phi'}, {name: 'equalSisters2', cat:'phi'}, {name: 'accentAsHead', cat: ''}, {name: 'noLapseL', cat: ''}];
 
   var jtrees = getAccentTrees();
 
@@ -254,7 +254,7 @@ function built_in_Japanese_IM2017(){
 
 }
 
-/* Nick VH, please fill in your system's info here
+/* Nick Van Handel's Italian analysis as presented at ICPP2019
 */
 function built_in_Italian_NVH(){
   var gen = {obeysHeadedness: true, obeysExhaustivity: true};
@@ -263,7 +263,7 @@ function built_in_Italian_NVH(){
   my_built_in_analysis(gen, false, trees, con);
 }
 
-/* Richard, please fill in your system's info here
+/* Richard Bibbs's Chamorro clitic analysis as presented at ICPP2019
 */
 function built_in_Chamorro_RB(){
   var gen = {obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: ['i'], cliticMovement: true};
