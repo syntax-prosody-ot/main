@@ -437,13 +437,13 @@
 
 				<table class="spaceytable"><tbody>
 					<tr>
-						<td><input type="checkbox" name="genOptions" value="obeysNonrecursivity">No prosodic recursion.</td>
+						<td><input type="checkbox" name="genOptions" value="obeysNonrecursivity">No prosodic recursion. (Non-Recursivity)</td>
 					</tr>
 					<tr>
 						<td><input type="checkbox" name="genOptions" value="obeysHeadedness">Enforce headedness.</td>
 					</tr>
 					<tr>
-							<td><input type="checkbox" name="genOptions" id="exhaustivityBox" value="obeysExhaustivity">No level skipping.</td>
+							<td><input type="checkbox" name="genOptions" id="exhaustivityBox" value="obeysExhaustivity">No level skipping. (Exhaustivity)</td>
 						</tr>
 					<tr>
 						<td id="exhaustivityDetailOption1" style="display: none; padding-left: 3em" ><input type="checkbox" name="exhaustivityCats" value="i" checked="checked">&iota;'s children are &ge;&phiv;s&nbsp;&nbsp;</td>
@@ -917,13 +917,13 @@
 
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
-							<span><input type="checkbox" name="constraints" value="balancedSistersAdj">BalancedSisters (Uniformity)</span>
-							<div class="info"><span class="content">Assign one violation for every pair of adjacent sisters with a parent of category K that do not have the same number of children. (For concept of Uniformity, see Ghini 1993; for OT constraint, see Bellik 2019)</span></div>
+							<span><input type="checkbox" name="constraints" value="balancedSisters">BalancedSisters (Uniformity)</span>
+							<div class="info"><span class="content">Assign one violation for every set sisters with a parent of category K that do not have the same number of (immediate) children. (For concept of Uniformity, see Ghini 1993; for OT constraint, see Bellik 2019)</span></div>
 						</div>
 						<div class="category-row">
-							<div class="category-selection-div"><input type="checkbox" value=i name="category-balancedSistersAdj">&iota;</div>
-							<div class="category-selection-div"><input type="checkbox" value=phi name="category-balancedSistersAdj">&phi;</div>
-							<div class="category-selection-div"><input type="checkbox" value=w name="category-balancedSistersAdj">&omega;</div>
+							<div class="category-selection-div"><input type="checkbox" value=i name="category-balancedSisters">&iota;</div>
+							<div class="category-selection-div"><input type="checkbox" value=phi name="category-balancedSisters">&phi;</div>
+							<div class="category-selection-div"><input type="checkbox" value=w name="category-balancedSisters">&omega;</div>
 						</div>
 					</div>
 
