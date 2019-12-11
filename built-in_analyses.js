@@ -93,19 +93,25 @@ function built_in_con(input){
         }
       }
     }
-    //handeling constraint options, uses last constraint options object specified
+    //handling constraint options, uses last constraint options object specified
     /* we only need to do this once per input and we should probably run it after
      * all of the constraints and categories have been checked */
     if(input[i].options && document.getElementsByName("option-"+input[i].name) && document.getElementsByName("option-"+input[i].name).length){
       var optionBoxes = document.getElementsByName("option-"+input[i].name);
-      //iterate over option checkboxes corresponding to this input
-      for(var x in optionBoxes){
-        if(input[i].options[optionBoxes[x].value]){
-          optionBoxes[x].checked = true;
+      if(optionBoxes.length){
+        //iterate over option checkboxes corresponding to this input
+        for(var x in optionBoxes){
+          if(input[i].options[optionBoxes[x].value]){
+            optionBoxes[x].checked = true;
+          }
+          else{
+            optionBoxes[x].checked = false;
+          }
         }
-        else{
-          optionBoxes[x].checked = false;
-        }
+      }
+      //if there is only one option for this constraint:
+      else{
+        optionBoxes.checked = true;
       }
     }
     //record that this constraint has already been used so other inputs don't overwrite it
@@ -240,7 +246,7 @@ function built_in_Kinyambo(){
 function built_in_Japanese_IM2017(){
   var gen = {obeysHeadedness: true, obeysExhaustivity: true};
 
-  var con = [{name: 'matchMaxSyntax', cat:'xp'}, {name:'matchPS', cat:'phi'}, {name: 'matchSP', cat:'xp'}, {name: 'binMinBranches', cat:'phi'}, {name:'binMaxBranches', cat:'phi'}, {name:'binMaxLeaves', cat:'phi'}, {name:'equalSistersAdj', cat:'phi'}, {name: 'equalSisters2', cat:'phi'}, {name: 'accentAsHead', cat: ''}, {name: 'noLapseL', cat: ''}];
+  var con = [{name: 'matchMaxSP', cat:'xp'}, {name:'matchPS', cat:'phi'}, {name: 'matchSP', cat:'xp'}, {name: 'binMinBranches', cat:'phi'}, {name:'binMaxBranches', cat:'phi'}, {name:'binMaxLeaves', cat:'phi'}, {name:'equalSistersAdj', cat:'phi'}, {name: 'equalSisters2', cat:'phi'}, {name: 'accentAsHead', cat: ''}, {name: 'noLapseL', cat: ''}];
 
   var jtrees = getAccentTrees();
 
@@ -248,20 +254,52 @@ function built_in_Japanese_IM2017(){
 
 }
 
-/* Nick VH, please fill in your system's info here
+//cf. analysis_html_files/abstractMatchAnalysis.html. Japanese rebracketing project, Kalivoda 2019.
+function built_in_Japanese_rebracketing(n){
+  var gen = {obeysExhaustivity: true, requireRecWrapper: true};
+  var pwfcs = [{name: 'binMinBranches', cat:'phi'}, {name:'binMaxBranches', cat:'phi'}, {name:'binMaxLeaves', cat:'phi'}];
+  var mapping = [{name: 'matchSP', cat:'xp'}, {name:'matchPS', cat:'phi'}, {name: 'alignRight', cat:'xp'}, {name: 'alignLeft', cat:'xp'}, {name: 'alignRightPS', cat:'phi'}, {name: 'alignLeftPS', cat:'phi'}];
+  var jtrees = [tree_3w_1, tree_3w_2, tree_4w_1, tree_4w_2, tree_4w_3, tree_4w_4, tree_4w_5];
+  var selected_mapping;
+  switch(n){
+    case 1: selected_mapping = mapping.slice(0,2); break;
+    case 2: selected_mapping = mapping.slice(2); break;
+    case 3: selected_mapping = mapping.slice(2,4).concat([mapping[0]]); break;
+    case 4: selected_mapping = mapping.slice(2,4).concat([mapping[1]]); break;
+    case 5: selected_mapping = mapping.slice(4).concat([mapping[0]]); break;
+    case 6: selected_mapping = mapping.slice(4).concat([mapping[1]]); break;
+    default: selected_mapping = mapping;
+  }
+  var con = pwfcs.concat(selected_mapping);
+  my_built_in_analysis(gen, false, jtrees, con);
+}
+
+
+function built_in_Japanese_balSis(){
+  var gen = {obeysExhaustivity: true, requireRecWrapper: true};
+
+  var con = [{name:'matchPS', cat:'phi'}, {name: 'matchSP', cat:'xp'}, {name: 'binMinBranches', cat:'phi'}, {name:'binMaxBranches', cat:'phi'}, {name:'balancedSistersAdj', cat:'phi'}, {name: 'equalSisters2', cat:'phi'}, {name: 'accentAsHead', cat: ''}, {name: 'noLapseL', cat: ''}];
+  var jtrees = getAccentTrees();
+
+  my_built_in_analysis(gen, 'addJapaneseTones', jtrees, con);
+
+}
+
+
+/* Nick Van Handel's Italian analysis as presented at ICPP2019
 */
 function built_in_Italian_NVH(){
-  var gen = {};
-  var con = [];
-  var trees = [];
+  var gen = {obeysHeadedness: true, obeysExhaustivity: true};
+  var con = [{name: "matchSP", cat: "xp", options: {requireOvertHead: true}}, {name: "matchMaxSP", cat: "xp", options: {requireOvertHead: true}}, {name: "binMinLeaves", cat: "phi"}, {name: "binMaxLeaves", cat: "phi"}, {name: "binMinLeaves_requireMaximal", cat: "phi"}, {name: "strongStart_SubCat"}];
+  var trees = [italian_adj_noun, italian_noun_adj, italian_noun_adv_adj, italian_ditrans, italian_subj_verb, italian_noun_pp, italian_verb_do_1, italian_verb_do_2, italian_verb_do_3];
   my_built_in_analysis(gen, false, trees, con);
 }
 
-/* Richard, please fill in your system's info here
+/* Richard Bibbs's Chamorro clitic analysis as presented at ICPP2019
 */
 function built_in_Chamorro_RB(){
   var gen = {obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: ['i'], cliticMovement: true};
-  var con = [{name: 'matchSP', cat:'xp'}, {name: 'matchPS', cat:'phi'}, {name: 'equalSistersAdj', cat:'phi'}, {name: 'binMaxBranches', cat:'i'}, {name: 'strongStart_Elfner', cat:'syll'}, {name: 'alignLeftMorpheme', cat:"clitic gui' yu' hit hao"}];
+  var con = [{name: 'matchSP', cat:'xp', options:{requireOvertHead:true}}, {name: 'matchPS', cat:'phi'}, {name: 'equalSistersAdj', cat:'phi'}, {name: 'binMaxBranches', cat:'i'}, {name: 'strongStart_Elfner', cat:'syll'}, {name: 'alignLeftMorpheme', cat:"gui' yu' hit hao"}];
   var chamorrotrees = chamorro_clitic_trees;
   my_built_in_analysis(gen, false, chamorrotrees, con);
 }
@@ -276,6 +314,30 @@ function built_in(analysis) {
   if(analysis === "ito&mester2017"){
     built_in_Japanese_IM2017();
   }
+  //Systems for Nick Kalivoda's study of abstract mapping, using Japanese rebracketing
+  if(analysis === "japanese_rebracketing_1"){
+    built_in_Japanese_rebracketing(1);
+  }
+  if(analysis === "japanese_rebracketing_2"){
+    built_in_Japanese_rebracketing(2);
+  }
+  if(analysis === "japanese_rebracketing_3"){
+    built_in_Japanese_rebracketing(3);
+  }
+  if(analysis === "japanese_rebracketing_4"){
+    built_in_Japanese_rebracketing(4);
+  }
+  if(analysis === "japanese_rebracketing_5"){
+    built_in_Japanese_rebracketing(5);
+  }
+  if(analysis === "japanese_rebracketing_6"){
+    built_in_Japanese_rebracketing(6);
+  }
+
+  if(analysis === "japanese_BK_2019"){
+    built_in_Japanese_balSis();
+  }
+
   if(analysis=== "italian"){
     built_in_Italian_NVH();
   }
@@ -350,10 +412,17 @@ function record_analysis(){
     if(uCon[i].checked){
       if(spotForm['category-'+cName]){
         var uCategories = spotForm['category-'+cName]; //categories for this constraint
-        for(var x = 0; x<uCategories.length; x++){ //iterate over categories
-          var cat = uCategories[x];
-          if(cat.checked){
-            analysis.myCon.push({name: cName, cat: cat.value}); //add to con
+        //handeling alignLeftMorpheme: (category is actually a user defined string)
+        if(!uCategories.length){
+          analysis.myCon.push({name: cName, cat: uCategories.value});
+        }
+        //basically every other case: (category is actually a category)
+        else{
+          for(var x = 0; x<uCategories.length; x++){ //iterate over categories
+            var cat = uCategories[x];
+            if(cat.checked){
+              analysis.myCon.push({name: cName, cat: cat.value}); //add to con
+            }
           }
         }
       }
@@ -363,18 +432,23 @@ function record_analysis(){
       }
     }
   }
-  //matchOptions
-  var matchReg = /match/;
+  //optionable constraints:
   //iterate over all the selected constraints
   for(var i = 0; i<analysis.myCon.length; i++){
-    var matchCon = analysis.myCon[i];
-    //if the constraint name has "match" in it
-    if(matchReg.test(matchCon.name)){
-      matchCon.options = {};
-      var matchOptions = spotForm["option-"+matchCon.name];
-      //iterate over the options for this match constraint
-      for(var x = 0; x<matchOptions.length; x++){
-        matchCon.options[matchOptions[x].value] = matchOptions[x].checked;
+    var optionableCon = analysis.myCon[i];
+    //if the constraint has options
+    if(spotForm["option-"+optionableCon.name]){
+      optionableCon.options = {};
+      var conOptions = spotForm["option-"+optionableCon.name];
+      if(conOptions.length){
+        //iterate over the options for this match constraint
+        for(var x = 0; x<conOptions.length; x++){
+          optionableCon.options[conOptions[x].value] = conOptions[x].checked;
+        }
+      }
+      else{
+        //when there is only one option
+        optionableCon.options[conOptions.value] = conOptions.checked;
       }
     }
   }

@@ -199,16 +199,23 @@ function hasMatch(sNode, pTree, options)
 
 /*Various flavors of Match to be called more easily by makeTableau*/
 
-function matchSP_LexicalHead(stree, ptree, cat){
-	return matchSP(stree, ptree, cat, {requireLexical:true});
+function matchSP_LexicalHead(stree, ptree, cat, options){
+	options = options || {};
+	options.requireLexical = true;
+	return matchSP(stree, ptree, cat, options);
 }
 
-function matchSP_OvertHead(stree, ptree, cat){
-	return matchSP(stree, ptree, cat, {requireOvertHead:true});
+function matchSP_OvertHead(stree, ptree, cat, options){
+	options = options || {};
+	options.requireOvertHead = true;
+	return matchSP(stree, ptree, cat, options);
 }
 
-function matchSP_OvertLexicalHead(stree, ptree, cat){
-	return matchSP(stree, ptree, cat, {requireOvertHead: true, requireLexical:true});
+function matchSP_OvertLexicalHead(stree, ptree, cat, options){
+	options = options || {};
+	options.requireLexical = true;
+	options.requireLexical = true;
+	return matchSP(stree, ptree, cat, options);
 }
 
 
@@ -220,8 +227,11 @@ function matchSP_OvertLexicalHead(stree, ptree, cat){
  * ex. Match a maximal xp with a maximal phi.
  */
 
-function matchMaxSP(sTree, pTree, sCat){
-	return matchSP(sTree, pTree, sCat, {maxSyntax: true, maxProsody: true});
+function matchMaxSP(sTree, pTree, sCat, options){
+	options = options || {};
+	options.maxSyntax = true;
+	options.maxProsody = true;
+	return matchSP(sTree, pTree, sCat, options);
 }
 
 /* Match-SP(scat-max, pcat). Same as matchMaxSP, except matching prosodic node
@@ -251,13 +261,18 @@ function matchCustom(sTree, pTree, sCat, options){
 
 //Match Maximal P --> S
 //Switch inputs for PS matching:
-function matchMaxPS(sTree, pTree, pCat){
-	return matchPS(pTree, sTree, pCat, {maxSyntax: true, maxProsody: true});
+function matchMaxPS(sTree, pTree, pCat, options){
+	options = options || {};
+	options.maxSyntax = true;
+	options.maxProsody = true;
+	return matchPS(pTree, sTree, pCat, options);
 }
 
 //Match P --> S version of matchMaxSyntax. See comment there for explanation
-function matchMaxProsody(sTree, pTree, pCat){
-	return matchMaxSyntax(pTree, sTree, pCat, {maxSyntax: true});
+function matchMaxProsody(sTree, pTree, pCat, options){
+	options = options || {};
+	options.maxSyntax = true;
+	return matchMaxSyntax(pTree, sTree, pCat, options);
 }
 
 //Match Min constraints
