@@ -278,7 +278,7 @@ function built_in_Japanese_rebracketing(n){
 function built_in_Japanese_balSis(){
   var gen = {obeysExhaustivity: true, requireRecWrapper: true};
 
-  var con = [{name:'matchPS', cat:'phi'}, {name: 'matchSP', cat:'xp'}, {name: 'binMinBranches', cat:'phi'}, {name:'binMaxBranches', cat:'phi'}, {name:'balancedSistersAdj', cat:'phi'}, {name: 'equalSisters2', cat:'phi'}, {name: 'accentAsHead', cat: ''}, {name: 'noLapseL', cat: ''}];
+  var con = [{name:'matchPS', cat:'phi'}, {name: 'matchSP', cat:'xp'}, {name: 'binMinBranches', cat:'phi'}, {name:'binMaxBranches', cat:'phi'}, {name:'balancedSisters', cat:'phi'}, {name: 'equalSisters2', cat:'phi'}, {name: 'accentAsHead', cat: ''}, {name: 'noLapseL', cat: ''}];
   var jtrees = getAccentTrees();
 
   my_built_in_analysis(gen, 'addJapaneseTones', jtrees, con);
