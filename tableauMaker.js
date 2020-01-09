@@ -30,10 +30,10 @@ function makeTableau(candidateSet, constraintSet, options){
 		//If there are options, truncate their attribute names and append them to the constraint name.
 		if(conParts[2] && conParts[2].length){
 			var optionObj = JSON.parse(conParts[2]);
-			var options = Object.getOwnPropertyNames(optionObj);
-			for(var j in options){
-				if(optionObj[options[j]]==true){
-					var temp = options[j];
+			var optionProperties = Object.getOwnPropertyNames(optionObj);
+			for(var j in optionProperties){
+				if(optionObj[optionProperties[j]]==true){
+					var temp = optionProperties[j];
 					if(temp.indexOf('require')>=0){
 						temp = temp.slice('require'.length);
 					}
