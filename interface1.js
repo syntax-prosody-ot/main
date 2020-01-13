@@ -604,7 +604,31 @@ window.addEventListener('load', function(){
 	//Look at the html tree and turn it into a JSON tree. Put the JSON in the following textarea.
 	document.getElementById('htmlToJsonTreeButton').addEventListener('click', function(){
 		spotForm.sTree.value = JSON.stringify(Object.values(treeUIsTreeMap).map(function(tree) {
-			return JSON.parse(tree.toJSON()); // bit of a hack to get around replacer not being called recursively
+
+			// console.log(JSON.parse(tree.toJSON()));
+			// console.log(JSON.parse(tree.toJSON())['cat']);
+			var checkTree = JSON.parse(tree.toJSON());
+			console.log(checkTree);
+			console.log(checkTree['children']);
+			console.log(checkTree['children']['0']['cat'].split(','));
+			for (child in checkTree['children']){
+				for (cat in checkTree['children'][child]['cat'].split(',')){
+					if (cat.substring('silentHead') != -1){
+						checkTree['children'][child]['silentHead'] = true;
+					}
+					if (cat.substring('func') != -1){
+						checkTree['children'][child]['func'] = true;
+					}
+				}
+				// if (checkTree['children'][child]['cat'].split(',').includes('silentHead')){
+				// 	checkTree['children'][child]['silentHead'] = true;
+				// }
+				// if (checkTree['children'][child]['cat'].split(',').includes('func')){
+				// 	checkTree['children'][child]['func'] = true;
+				// }
+				console.log(checkTree['children'][child]);
+			}
+			return (checkTree); // bit of a hack to get around replacer not being called recursively
 		}), null, 4);
 
 		document.getElementById('doneMessage').style.display = 'inline-block';
@@ -617,6 +641,7 @@ window.addEventListener('load', function(){
 	treeTableContainer.addEventListener('input', function(e) {
 		var target = e.target;
 		var idPieces = target.id.split('-');
+		//console.log(idPieces);
 		var treeIndex = idPieces[2];
 		var nodeId = idPieces[1];
 		var isCat = idPieces[0] === 'catInput';
