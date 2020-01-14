@@ -538,7 +538,7 @@
               		</div>
 
                 	<div id="treeTableContainer"></div>
-					
+
 					<p></p>
                 	<button id="htmlToJsonTreeButton" type="button">Done!<br><small></small>Add trees to analysis</small></button>
 
@@ -760,14 +760,14 @@
 									<span class="content">Assign one violation for every node of category K in the syntactic tree whose left edge is not aligned with the left edge of a node of the prosodic category corresponding to K in the prosodic tree. SPOT function: alignLeft(). (Selkirk 1986, 1996)</span>
 								</div>
 							</div>
-	
+
 							<div class="category-row">
 								<div class="category-selection-div"><input type="checkbox" name="category-alignLeft" value="cp">CP</div>
 								<div class="category-selection-div"><input type="checkbox" name="category-alignLeft" value="xp" checked="checked">XP</div>
 								<div class="category-selection-div"><input type="checkbox" name="category-alignLeft" value="x0">X<sup>0</sup></div>
 							</div>
 						</div>
-	
+
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
 									<span><input type="checkbox" name="constraints" value="alignRight">Align-Right(Syntax&rarr;Prosody)</span>
@@ -788,14 +788,14 @@
 									<span class="content">Assign a violation for every prosodic node of category K whose left edge is not aligned with the left edge of a syntactic node of the corresponding category. Alignment is evaluated by comparing node ids (Kalivoda 2019, SPOT).</span>
 								</div>
 							</div>
-	
+
 							<div class="category-row">
 								<div class="category-selection-div"><input type="checkbox" name="category-alignLeftPS" value="i">&iota;</div>
 								<div class="category-selection-div"><input type="checkbox" name="category-alignLeftPS" value="phi" checked="checked">&phiv;</div>
 								<div class="category-selection-div"><input type="checkbox" name="category-alignLeftPS" value="w">&omega;</div>
 							</div>
 						</div>
-	
+
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
 									<span><input type="checkbox" name="constraints" value="alignRightPS">Align-Right(Prosody&rarr;Syntax)</span>
@@ -1045,10 +1045,10 @@
 						<div class="category-row">
 							<div class="category-selection-div"><input type="checkbox" name="category-strongStartClitic" value="i">&iota;</div>
 							<div class="category-selection-div"><input type="checkbox" name="category-strongStartClitic" value="phi">&phiv;</div>
-							
+
 						</div>
 					</div>
-					
+
 
 				</fieldset>
 
@@ -1179,6 +1179,7 @@
 							</span>
 						</span>
 					</h2>
+					<button onclick="clearTableau()" type="button">Clear Tableaux</button>
 				</div>
 			</form>
 		</div><!-- end of under not-results-->
