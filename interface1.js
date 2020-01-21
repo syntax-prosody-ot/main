@@ -608,6 +608,7 @@ window.addEventListener('load', function(){
 		}), null, 4);
 
 		document.getElementById('doneMessage').style.display = 'inline-block';
+		spotForm.inputToGen.value = "";
 	});
 
 	document.getElementById('danishJsonTreesButton').addEventListener('click', function() {
