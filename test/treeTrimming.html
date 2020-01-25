@@ -44,6 +44,93 @@
       }
       var test2 = JSON.parse("{\"id\":\"one\",\"cat\":\"xp\",\"children\":[{\"id\":\"two\",\"cat\":\"xp\",\"children\":[{\"id\":\"three\",\"cat\":\"x0\"}]},{\"id\":\"four\",\"cat\":\"x0\"}]}")
       var test3 = JSON.parse("{\"cat\":\"xp\",\"id\":\"root\",\"children\":[{\"id\":\"one\",\"cat\":\"xp\",\"children\":[{\"id\":\"two\",\"cat\":\"xp\",\"children\":[{\"id\":\"three\",\"cat\":\"x0\"}]},{\"id\":\"four\",\"cat\":\"x0\"}]}]}")
+      var test4 = {
+        "id": "CP1",
+        "cat": "xp",
+        "children": [
+            {
+                "cat": "xp",
+                "id": "XP_16",
+                "children": [
+                    {
+                        "cat": "xp",
+                        "id": "XP_15",
+                        "children": [
+                            {
+                                "cat": "xp",
+                                "id": "XP_14",
+                                "children": [
+                                    {
+                                        "cat": "xp",
+                                        "id": "XP_13",
+                                        "children": [
+                                            {
+                                                "cat": "xp",
+                                                "id": "XP_12",
+                                                "children": [
+                                                    {
+                                                        "cat": "xp",
+                                                        "id": "XP_11",
+                                                        "children": [
+                                                            {
+                                                                "cat": "xp",
+                                                                "id": "XP_10",
+                                                                "children": [
+                                                                    {
+                                                                        "id": "a",
+                                                                        "cat": "x0"
+                                                                    },
+                                                                    {
+                                                                        "id": "b",
+                                                                        "cat": "xp"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "id": "c",
+                                                                "cat": "xp"
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "id": "d",
+                                                        "cat": "xp"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "id": "e",
+                                                "cat": "xp"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "id": "f",
+                                        "cat": "xp"
+                                    }
+                                ]
+                            },
+                            {
+                                "id": "g",
+                                "cat": "xp"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "h",
+                        "cat": "xp"
+                    }
+                ]
+            },
+            {
+                "id": "i",
+                "cat": "xp"
+            }
+        ]
+      }
+      var test5 = {cat: "xp", id: "root", children: [{cat: "xp", id: "child", children: [
+        {cat: "x0", id: "terminal"}
+      ]}]}
       window.addEventListener("load", function(){
         console.log("Commencing test of tree trimming functions...");
         console.log("Un-trimmed tree is "+parenthesizeTree(test1));
