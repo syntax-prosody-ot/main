@@ -32,8 +32,7 @@
               },
               {
                 id: "terminal3",
-                cat: "xp",
-                silent: true
+                cat: "xp"
               }
             ]
           },
@@ -43,13 +42,15 @@
           }
          ]
       }
+      var test2 = JSON.parse("{\"id\":\"one\",\"cat\":\"xp\",\"children\":[{\"id\":\"two\",\"cat\":\"xp\",\"children\":[{\"id\":\"three\",\"cat\":\"x0\"}]},{\"id\":\"four\",\"cat\":\"x0\"}]}")
+      var test3 = JSON.parse("{\"cat\":\"xp\",\"id\":\"root\",\"children\":[{\"id\":\"one\",\"cat\":\"xp\",\"children\":[{\"id\":\"two\",\"cat\":\"xp\",\"children\":[{\"id\":\"three\",\"cat\":\"x0\"}]},{\"id\":\"four\",\"cat\":\"x0\"}]}]}")
       window.addEventListener("load", function(){
         console.log("Commencing test of tree trimming functions...");
         console.log("Un-trimmed tree is "+parenthesizeTree(test1));
         console.log(test1);
         console.log("Trimmed tree is "+parenthesizeTree(trimRedundantNodes(test1)));
         console.log(trimRedundantNodes(test1));
-        console.log("The original tree is also preserved:");
+        console.log("The original tree is also preserved:"+parenthesizeTree(test1));
         console.log(test1);
         console.log("We can also just remove the silent terminals:"+parenthesizeTree(trimSilentTerminals(test1)));
         console.log(trimSilentTerminals(test1));
