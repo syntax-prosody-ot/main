@@ -37,7 +37,7 @@ function strongStart_Elfner(s, ptree, k){
 }
 
 /* Assign a violation for every node of category cat whose leftmost daughter constituent
-*  and is lower in the prosodic hierarchy than its sister constituent immediately to its right.
+*  is lower in the prosodic hierarchy than its sister constituent immediately to its right.
 *  (intuitive strong start, according to the intuition of Bellik & Kalivoda 2019)
 */
 
@@ -73,14 +73,14 @@ function strongStart(s, ptree, cat){
 	return vcount;
 }
 
-/* Assign a violation for every node of category cat whose leftmost daughter constituent
-*  and is lower in the prosodic hierarchy than its sister constituent immediately to its right.
+/* Assign a violation for every node whose leftmost daughter constituent
+*  is lower in the prosodic hierarchy than its sister constituent immediately to its right.
 *  Sensitive to whether nodes are (non)minimal: phi min is lower than phi non-min
 *  Not sensitive to the category of the parent.
 *  (Van Handel's strongStart from SPOT2 2019)
 */
 
-function strongStart_Elfner_SubCat(s, ptree, cat){
+function strongStart_SubCat(s, ptree, cat){
 	//base case: ptree is a leaf or only has one child
 	if(!ptree.children){
 		return 0;
@@ -105,7 +105,7 @@ function strongStart_Elfner_SubCat(s, ptree, cat){
 	// Recurse
 	for(var i=0; i<ptree.children.length; i++){
 		child = ptree.children[i];
-		vcount += strongStart_Elfner_SubCat(s, child, cat);
+		vcount += strongStart_SubCat(s, child, cat);
 	}
 	
 	return vcount;

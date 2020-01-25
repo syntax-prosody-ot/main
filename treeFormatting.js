@@ -17,8 +17,7 @@ var categoryBrackets = {
    - invisibleCategories: by default, every category in categoryBrackets gets a bracket
    - parens: default mappings in categoryBrackets can be overwritten with a map
    - showNewCats: if true, annotate categories that aren't found in categoryBrackets with [cat ], where cat is the new category
-   - showTones: set to true to display whatever tones are in the tree
-	 (only useful if the tree has been annotated with tones, as by the function addJapaneseTones in annotate_tones.js)
+   - showTones: set to addJapaneseTones, addIrishTones_Elfner, etc. to annotate the tree with appropriate tones and show them in its parenthesization
 */
 function parenthesizeTree(tree, options){
 	var parTree = [];

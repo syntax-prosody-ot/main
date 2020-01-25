@@ -196,6 +196,46 @@ UTree.fromTerminals = function(terminalList) {
 	return new UTree(root);
 };
 
+function showUTree(tree){
+	treeTableContainer.innerHTML += tree.toHtml();
+	refreshNodeEditingButtons();
+
+	document.getElementById('treeUIinner').style.display = 'block';
+
+	var treeContainer = document.getElementById("treeTableContainer");
+	treeContainer.scrollTop = treeContainer.scrollHeight;
+
+}
+
+function clearUTrees(){
+	treeTableContainer.innerHTML = '';
+	treeUIsTreeMap = {};
+}
+
+function addOrRemoveUTrees(addTree){
+	if(addTree){
+		treeTableContainer.innerHTML += addTree.toHtml();
+	}
+	else{
+		clearUTrees();
+	}
+	refreshNodeEditingButtons();
+
+	document.getElementById('treeUIinner').style.display = 'block';
+
+	var treeContainer = document.getElementById("treeTableContainer");
+	treeContainer.scrollTop = treeContainer.scrollHeight;
+}
+
+function refreshNodeEditingButtons() {
+	var treeTableContainer = document.getElementById('treeTableContainer');
+	var hasSelection = treeTableContainer.getElementsByClassName('selected').length > 0;
+	var buttons = document.getElementsByClassName('nodeEditingButton');
+	for (var i = 0; i < buttons.length; i++) {
+		buttons[i].disabled = !hasSelection;
+	}
+}
+
 function getSTrees() {
 	var spotForm = document.getElementById('spotForm');
 	var sTrees;
@@ -272,14 +312,16 @@ window.addEventListener('load', function(){
 	spotForm.addEventListener('change', function(ev) {
 		var target = ev.target;
 		if (target.name === 'constraints') {
-			var trClassList = target.closest('tr').classList;
+			var catRow = target.closest('div .constraint-selection-table').classList;
 			if (target.checked) {
-				trClassList.add('constraint-checked');
+				catRow.add('constraint-checked');
 			}
 			else {
-				trClassList.remove('constraint-checked');
+				catRow.remove('constraint-checked');
 			}
+			//console.log(catRow);
 		}
+
 	});
 
 	spotForm.onsubmit=function(e){
@@ -294,11 +336,42 @@ window.addEventListener('load', function(){
 				//Figure out all the categories selected for the constraint
 				if(spotForm['category-'+constraint]){
 					var constraintCatSet = spotForm['category-'+constraint];
+					if (constraintCatSet.length === undefined) {
+						constraintCatSet = [constraintCatSet];
+					}
 					for(var j=0; j<constraintCatSet.length; j++){
 						var categoryBox = constraintCatSet[j];
 						if(categoryBox.checked){
 							var category = categoryBox.value;
-							constraintSet.push(constraint+'-'+category);
+
+							//Figure out selected match options for the constraint
+							if(spotForm['option-'+constraint]){
+								var constraintOptionSet = spotForm['option-'+constraint];
+								var options = {};
+								if(constraintOptionSet.length){
+									for(var k=0; k<constraintOptionSet.length; k++){
+										var optionBox = constraintOptionSet[k];
+										//If lexical or overtly headed is checked, then option is true
+										if(optionBox.checked) {
+											options[optionBox.value] = true;
+										}
+										//If option is in a select, not a checkbox, and the option is not "any", then option is true
+										if(optionBox.checked === undefined && optionBox.value !== 'any') {
+											options[optionBox.value] = true;
+										}
+									}
+								}
+								else{ //constraint only has one possible option:
+									if(constraintOptionSet.checked){
+										options[constraintOptionSet.value] = true;
+									}
+								}
+								var strOptions = JSON.stringify(options);
+								constraintSet.push(constraint+'-'+category+'-'+strOptions);
+							}
+							else {
+								constraintSet.push(constraint+'-'+category);
+							}
 						}
 					}
 				}
@@ -327,6 +400,7 @@ window.addEventListener('load', function(){
 			var optionBox = spotForm.genOptions[i];
 			genOptions[optionBox.value]=optionBox.checked;
 		}
+
 		//record exhaustivity options if selected
 		if(genOptions['obeysExhaustivity']){
 			var exCats = [];
@@ -338,22 +412,80 @@ window.addEventListener('load', function(){
 			genOptions['obeysExhaustivity'] = exCats;
 		}
 
-		var genTones = false; //true if tones are selected
+		//plug correct value into category options
+		genOptions.rootCategory = spotForm['genOptions-rootCategory'].value;
+		genOptions.recursiveCategory = spotForm['genOptions-recursiveCategory'].value;
+		genOptions.terminalCategory = spotForm['genOptions-terminalCategory'].value;
+
+		//warn user if they do something weird with the category options
+		var rootCategoryError = new Error("The specified root category is lower on the prosodic hierarchy\nthan the specified recursive category.");
+		var terminalCategoryError = new Error("The specified recursive category is not higher on the prosodic hierarchy\nthan the specified terminal category.");
+		if(pCat.isHigher(genOptions.recursiveCategory, genOptions.rootCategory)){
+			if(!confirm(rootCategoryError.message + " Are you sure you want to continue?\nIf you are confused, change Root Category and Recursive Category\nin \"Options for prosodic tree generation (GEN function)\"")){
+				throw rootCategoryError;
+			}
+		}
+		if(!pCat.isHigher(genOptions.recursiveCategory, genOptions.terminalCategory)){
+			if(!confirm(terminalCategoryError.message + " Are you sure you want to continue?\nIf you are confused, change Terminal Category and Recursive Category\nin \"Options for prosodic tree generation (GEN function)\"")){
+				throw terminalCategoryError;
+			}
+		}
+
+
+		var tableauOptions = {
+			showTones: false,  //true iff tones are selected
+			invisibleCategories: []
+		};
 
 		if(document.getElementById("annotatedWithTones").checked){
 			//from radio group near the bottom of spotForm
 			genOptions.addTones = spotForm.toneOptions.value;
-			genTones = spotForm.toneOptions.value;
+		 	tableauOptions.showTones = spotForm.toneOptions.value;
 			//console.log(genOptions);
 		}
+
+
+		for(var i = 0; i < spotForm.hideCategory.length; i++){
+			var hiddenCat = spotForm.hideCategory[i];
+			if(hiddenCat.checked){
+				tableauOptions.invisibleCategories.push(hiddenCat.value);
+			}
+		}
+
+		var resultsConCl = document.getElementById("results-container").classList;
+		resultsConCl.add('show-tableau');
+
 
 		var csvSegs = [];
 		for (var i = 0; i < sTrees.length; i++) {
 			var sTree = sTrees[i];
-			var candidateSet = GEN(sTree, pString, genOptions);
+			//console.log(pString.split(" ").length >= 6)
+			//warn user about using more than six terminals
+
+
+			//warn user about possibly excessive numbers of candidates
+			if (genOptions['cliticMovement'] && (!genOptions['noUnary'] && (getLeaves(sTree).length >= 5 || pString.split(" ").length >= 5))
+											 || (genOptions['noUnary'] && (getLeaves(sTree).length >= 7 || pString.split(" ").length >= 7))){
+				if(!confirm("You have selected GEN settings that allow clitic reordering, and included a sentence of ".concat( pString.split(" ").length.toString()," terminals. This GEN may yield more than 10K candidates. To reduce the number of candidates, consider enforcing non-recursivity, exhaustivity, and/or branchingness for intermediate prosodic nodes. Do you wish to proceed with these settings?"))){
+					throw new Error("clitic movement with too many terminals");
+				}
+			}
+			else if(getLeaves(sTree).length >= 6 || pString.split(" ").length >= 6){
+				if(!confirm("Inputs of more than six terminals may run slowly and even freeze your browser, depending on the selected GEN options. Do you wish to continue?")){
+					throw new Error("Tried to run gen with more than six terminals");
+				}
+			}
+
+			if (genOptions['cliticMovement']){
+				var candidateSet = GENwithCliticMovement(sTree, pString, genOptions);
+			}
+			else{
+				var candidateSet = GEN(sTree, pString, genOptions);
+			}
+
 
 			//Make the violation tableau with the info we just got.
-			var tabl = makeTableau(candidateSet, constraintSet, {showTones: genTones});
+			var tabl = makeTableau(candidateSet, constraintSet, tableauOptions);
 			csvSegs.push(tableauToCsv(tabl, ',', {noHeader: i}));
 			writeTableau(tabl);
 			revealNextSegment();
@@ -361,15 +493,7 @@ window.addEventListener('load', function(){
 
 		saveTextAs(csvSegs.join('\n'), 'SPOT_Results.csv');
 
-		function saveAs(blob, name) {
-			var a = document.createElement("a");
-			a.display = "none";
-			a.href = URL.createObjectURL(blob);
-			a.download = name;
-			document.body.appendChild(a);
-			a.click();
-			document.body.removeChild(a);
-		}
+		// the function saveAs() has been moved to the end of this file to make it global
 
 		function saveTextAs(text, name) {
 			saveAs(new Blob([text], {type: "text/csv", encoding: 'utf-8'}), name);
@@ -377,8 +501,15 @@ window.addEventListener('load', function(){
 
 		return false;
 	};
-
-
+	//show/hide the tree code area
+	document.getElementById('tree-code-box').addEventListener('click', function(){
+		if (document.getElementById('tree-code-area').style.display === 'none' && document.getElementById('tree-code-box').checked){
+			document.getElementById('tree-code-area').style.display = 'block';
+		}
+		else{
+			document.getElementById('tree-code-area').style.display = 'none';
+		}
+	});
 	document.getElementById('exhaustivityBox').addEventListener('click', function(){
 		if (document.getElementById('exhaustivityDetailOption1').style.display === 'none' && document.getElementById('exhaustivityBox').checked){
 			document.getElementById('exhaustivityDetailOption1').style.display = 'table-cell';
@@ -397,13 +528,11 @@ window.addEventListener('load', function(){
 	//show extra boxes for annotated with tones on click
 	//console.log(document.getElementById('annotatedWithTones'))
 	document.getElementById('annotatedWithTones').addEventListener('click', function(){
-		if (document.getElementById('japaneseTones').style.display === 'none' && document.getElementById('annotatedWithTones').checked){
-			document.getElementById('japaneseTones').style.display = 'table-cell';
-			document.getElementById('irishTones').style.display = 'table-cell';
+		if (document.getElementById('tonesSelectionRow').style.display === 'none' && document.getElementById('annotatedWithTones').checked){
+			document.getElementById('tonesSelectionRow').style.display = '';
 		}
 		else{
-			document.getElementById('japaneseTones').style.display = 'none';
-			document.getElementById('irishTones').style.display = 'none';
+			document.getElementById('tonesSelectionRow').style.display = 'none';
 			//if (genOptions['usesTones']){
 			//	genOptions['usesTones'] = false;
 			//}
@@ -421,7 +550,7 @@ window.addEventListener('load', function(){
 	var treeTableContainer = document.getElementById('treeTableContainer');
 
 	//Open the tree making GUI
-	document.getElementById('startTreeUIButton').addEventListener('click', function(){
+	document.getElementById('goButton').addEventListener('click', function(){
 		document.getElementById('treeUI').style.display = 'block';
 	});
 
@@ -439,19 +568,20 @@ window.addEventListener('load', function(){
 		refreshNodeEditingButtons();
 	}
 
+
+
 	//Set up the table...
 	document.getElementById('goButton').addEventListener('click', function(){
 		// Get the string of terminals
-		var terminalString = spotForm.sTreeTerminals.value;
+		var terminalString = spotForm.inputToGen.value;
 		var terminalList = terminalString.trim().split(/\s+/);
 
 		//Make the js tree (a dummy tree only containing the root CP)
 		var tree = UTree.fromTerminals(terminalList);
-		treeTableContainer.innerHTML += tree.toHtml();
-		refreshNodeEditingButtons();
-
-		document.getElementById('treeUIinner').style.display = 'block';
+		showUTree(tree);
+		document.getElementById('doneMessage').style.display = 'none';
 	});
+
 
 	// For testing only
 	/*
@@ -476,6 +606,8 @@ window.addEventListener('load', function(){
 		spotForm.sTree.value = JSON.stringify(Object.values(treeUIsTreeMap).map(function(tree) {
 			return JSON.parse(tree.toJSON()); // bit of a hack to get around replacer not being called recursively
 		}), null, 4);
+
+		document.getElementById('doneMessage').style.display = 'inline-block';
 	});
 
 	document.getElementById('danishJsonTreesButton').addEventListener('click', function() {
@@ -489,15 +621,10 @@ window.addEventListener('load', function(){
 		var nodeId = idPieces[1];
 		var isCat = idPieces[0] === 'catInput';
 		treeUIsTreeMap[treeIndex].nodeMap[nodeId][isCat ? 'cat' : 'id'] = target.value;
+		document.getElementById('doneMessage').style.display = 'none';
 	});
 
-	function refreshNodeEditingButtons() {
-		var hasSelection = treeTableContainer.getElementsByClassName('selected').length > 0;
-		var buttons = document.getElementsByClassName('nodeEditingButton');
-		for (var i = 0; i < buttons.length; i++) {
-			buttons[i].disabled = !hasSelection;
-		}
-	}
+
 
 	treeTableContainer.addEventListener('click', function(e) {
 		var node = e.target;
@@ -540,6 +667,7 @@ window.addEventListener('load', function(){
 			console.error(err);
 			alert('Error, unable to add daughter: ' + err.message);
 		}
+		document.getElementById('doneMessage').style.display = 'none';
 	});
 
 	document.getElementById('treeUIdeleteNodes').addEventListener('click', function() {
@@ -558,6 +686,7 @@ window.addEventListener('load', function(){
 			tree.deleteNode(nodes[i]);
 		}
 		refreshHtmlTree(treeIndex);
+		document.getElementById('doneMessage').style.display = 'none';
 	});
 
 	document.getElementById('treeUIclearSelection').addEventListener('click', function() {
@@ -578,30 +707,68 @@ window.addEventListener('load', function(){
 				return;
 			}
 		}
+
+
 		if (el.classList.contains('info')) {
 			el.classList.toggle('showing')
 		}
 	});
+
+	document.getElementById("clearAllButton").addEventListener("click", function(){
+		clearAnalysis();
+		document.getElementById('treeUI').style.display = 'none';
+		document.getElementById('built-in-dropdown').value = 'select';
+		document.getElementById('fileUpload').value = '';
+		document.getElementById('chooseFilePrompt').style = "font-size: 13px; color: #555";
+		document.getElementById('chooseFile').style = "display: none";
+		document.getElementById('save/load-dialog').innerHTML = '';
+	});
+
+	document.getElementById('spotForm').addEventListener("change", function(){
+		document.getElementById("save/load-dialog").innerHTML = '';
+	});
+
 });
 
 function toneInfoBlock(language){
 	var content = document.getElementById("tonesInfoContent");
 	var japaneseContent = "Tokyo Japanese: the left edge of phi is marked with a rising boundary tone (LH), accented words receive an HL on the accented syllable, and H tones that follow a pitch drop (HL) within the maximal phi are downstepped (!H). (See: Pierrehumbert and Beckman 1988; Gussenhoven 2004; Ito and Mester 2007) Accents, boundary tones, and downstep in Lekeitio Basque are realized with the same tones as in Tokyo Japanese.";
 	var irishContent = "Conamara Irish (Elfner 2012): The left edge of the non-minimal phi is marked with a rising boundary tone (LH), and the right edge of every phi is marked with a falling boundary tone (HL).";
+	var format = "font-size: 13px; color: #555; margin-left: 25px; display: table-cell";
 	if (language == "japanese"){
 		if (content.innerHTML == japaneseContent){
+			content.style = "display: none";
 			content.innerHTML = '';
 		}
 		else{
+			content.style = format;
 			content.innerHTML = japaneseContent;
 		}
 	}
 	if (language === "irish"){
 		if (content.innerHTML == irishContent){
+			content.style = "display: none";
 			content.innerHTML = '';
 		}
 		else {
+			content.style = format;
 			content.innerHTML = irishContent;
 		}
 	}
+}
+
+//downloads an element to the user's computer. Originally defined up by saveTextAs()
+function saveAs(blob, name) {
+	var a = document.createElement("a");
+	a.display = "none";
+	a.href = URL.createObjectURL(blob);
+	a.download = name;
+	document.body.appendChild(a);
+	a.click();
+	document.body.removeChild(a);
+}
+
+function clearTableau() {
+	 document.getElementById('results-container').innerHTML = "";
+	 document.getElementById('results-container').className = "";
 }

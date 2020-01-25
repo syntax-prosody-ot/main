@@ -176,16 +176,18 @@ function obeysHeadedness(tree){
 	//inner function
 	function nodeIsHeaded(node) {
 		/* Function to check if a node is headed. Relies on the prosodic hierarchy being
-		 * properly defined. Returns true iff one of the node's children is of the
-		 * category directly below its own category on the prosodic hierarchy or the
-		 * node is terminal.
+		 * properly defined. Returns true iff 
+		 * a. one of the node's children is of the category directly below its own category *    on the prosodic hierarchy,
+		 * b. one of the node's descendants is of the same category as the node
+		 * c. the node is terminal.
 		 */
 		var children = node.children;
 		//vacuously true if node is terminal
 		if (!children)
 			return true;
 		for (var i = 0; i < children.length; i++)
-			if (children[i].cat === pCat.nextLower(node.cat)){
+			if (children[i].cat === pCat.nextLower(node.cat) 
+			|| children[i].cat === node.cat){
 				return true;
 			}
 			return false;

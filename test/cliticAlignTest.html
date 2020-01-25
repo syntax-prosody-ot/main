@@ -124,13 +124,14 @@
         ]
     };
     //console.log(alignLeftClitic({}, cliticTree, "clitic"));
-	var constraintSetAlign = ['alignLeftClitic-clitic'];
+	var constraintSetAlign = ['alignLeftClitic-b'];
 	var candidateSet = [[cliticTree0, cliticTree0],[cliticTree2, cliticTree2], [cliticTree3, cliticTree3], [cliticTreeWPhis, cliticTreeWPhis]];
+    var candidateSet2 = GENwithCliticMovement({}, 'a b-clitic c');
 
 		
 	function runDemo() {
 		
-		writeTableau(makeTableau(candidateSet, constraintSetAlign));
+		writeTableau(makeTableau(candidateSet2, constraintSetAlign));
 		revealNextSegment();
 		lastSegmentId++;
 	}
