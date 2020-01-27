@@ -80,16 +80,18 @@ function trimRedundantNodes(inputTree){
 	creates a copy of the tree*/
 	var tree = trimDeadEndNodes(trimSilentTerminals(inputTree));
 	function trimInner(node){
-		for(var i = 0; i<node.children.length; i++){
-			var child = node.children[i];
-			if(child.children && child.children.length){
-				if(sameIds(getLeaves(node), getLeaves(child)) && child.cat === node.cat){
-					//node is redundant, get rid of it\
-					node = trimInner(child); //recursive function call
+		if(node.children && node.children.length){
+			for(var i = 0; i<node.children.length; i++){
+				var child = node.children[i];
+				if(child.children && child.children.length){
+					if(sameIds(getLeaves(node), getLeaves(child)) && child.cat === node.cat){
+						//node is redundant, get rid of it\
+						node = trimInner(child); //recursive function call
 
-				}
-				else {
-					node.children[i] = trimInner(node.children[i]); //recursive function call
+					}
+					else {
+						node.children[i] = trimInner(node.children[i]); //recursive function call
+					}
 				}
 			}
 		}
