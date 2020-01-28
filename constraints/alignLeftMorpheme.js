@@ -1,13 +1,13 @@
 /* For the specified lexical item(s), which are assumed to  be clitics (category is not checked),
 *  assign a violation for every terminal that intervenes between the left edge of the tree
-*  and the lexical item. 
+*  and the lexical item.
 */
 
 function alignLeftMorpheme(stree, ptree, clitic){
     if(ptree.cat !== "i" && ptree.cat !== 'iota'){
         console.warn("You are calling alignLeftClitic on a tree that is not rooted in i");
     }
-    clitic = clitic.split(' ');
+    clitic = clitic.split('_');
     var leaves = getLeaves(ptree);
     var cliticPos = leaves.findIndex(function(element){return clitic.indexOf(element.id) >= 0;});
     if(cliticPos < 0){
