@@ -600,7 +600,26 @@ window.addEventListener('load', function(){
 	refreshHtmlTree();
 	document.getElementById('treeUIinner').style.display = 'block';
 	*/
-
+	function parseCats(node){
+		var cats = node['cat'].split(',');
+		if (cats.length > 1){
+			node['cat'] = cats[0];
+		}
+		for (var cat of cats){
+			if (cat.indexOf('silentHead') != -1){
+				node['silentHead'] = true;
+			}
+			if (cat.indexOf('func') != -1){
+				node['func'] = true;
+			}
+		}
+		var children = node['children'];
+		if (children != undefined){
+			for (var child of children){
+				parseCats(child);
+			}
+		}
+	}
 	//Look at the html tree and turn it into a JSON tree. Put the JSON in the following textarea.
 	document.getElementById('htmlToJsonTreeButton').addEventListener('click', function(){
 		spotForm.sTree.value = JSON.stringify(Object.values(treeUIsTreeMap).map(function(tree) {
@@ -608,26 +627,7 @@ window.addEventListener('load', function(){
 			// console.log(JSON.parse(tree.toJSON()));
 			// console.log(JSON.parse(tree.toJSON())['cat']);
 			var checkTree = JSON.parse(tree.toJSON());
-			console.log(checkTree);
-			console.log(checkTree['children']);
-			console.log(checkTree['children']['0']['cat'].split(','));
-			for (child in checkTree['children']){
-				for (cat in checkTree['children'][child]['cat'].split(',')){
-					if (cat.substring('silentHead') != -1){
-						checkTree['children'][child]['silentHead'] = true;
-					}
-					if (cat.substring('func') != -1){
-						checkTree['children'][child]['func'] = true;
-					}
-				}
-				// if (checkTree['children'][child]['cat'].split(',').includes('silentHead')){
-				// 	checkTree['children'][child]['silentHead'] = true;
-				// }
-				// if (checkTree['children'][child]['cat'].split(',').includes('func')){
-				// 	checkTree['children'][child]['func'] = true;
-				// }
-				console.log(checkTree['children'][child]);
-			}
+			parseCats(checkTree);
 			return (checkTree); // bit of a hack to get around replacer not being called recursively
 		}), null, 4);
 
