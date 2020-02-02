@@ -38,7 +38,6 @@ function clearAnalysis(){
         //set checkboxes to unchecked
         if(conOptions[z].type == "checkbox"){
           conOptions[z].checked = false;
-          console.log("here");
         }
         //set drop-down selectors to "any"
         else if(conOptions[z].tagName === "SELECT"){
@@ -475,12 +474,24 @@ function record_analysis(){
       if(conOptions.length){
         //iterate over the options for this match constraint
         for(var x = 0; x<conOptions.length; x++){
-          optionableCon.options[conOptions[x].value] = conOptions[x].checked;
+          //if this option is a checkbox, record if it is checked
+          if(conOptions[x].type == "checkbox"){
+            optionableCon.options[conOptions[x].value] = conOptions[x].checked;
+          }
+          //if this option is a drop-down selector, record its value so long as it is not default
+          else if(conOptions[x].tagName === "SELECT" && conOptions[x].value != "any"){
+            optionableCon.options[conOptions[x].value] = true;
+          }
         }
       }
       else{
         //when there is only one option
-        optionableCon.options[conOptions.value] = conOptions.checked;
+        if(conOptions.type == "checkbox"){
+          optionableCon.options[conOptions.value] = conOptions.checked;
+        }
+        else if(conOptions.tagName === "SELECTOR"){
+          optionableCon.options[conOptions.value] = true;
+        }
       }
     }
   }
