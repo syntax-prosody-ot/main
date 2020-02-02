@@ -96,9 +96,6 @@ function matchPS(sParent, pParent, pCat, options)
 	return matchSP(pParent, sTree, pCat, flippedOptions);
 }
 
-
-//TODO: what about null syntactic terminals?? these need to be filtered out of the syntactic input?? write this function later.
-
 /* matchSP = Match(Syntax, Prosody):
 * Assign a violation for every syntactic node of type sCat in sParent that
 * doesn't have a  corresponding prosodic node in pTree, where "corresponding"
