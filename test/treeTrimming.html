@@ -142,6 +142,10 @@
         revealNextSegment();
         writeTableau(makeTableau(GEN(test4, "a"), ["matchSP-xp", 'matchSP-xp-{"trimTrees":true}']));
         revealNextSegment();
+        writeTableau(makeTableau(GEN(test1, "terminal2 terminal4"), ["matchPS-phi", 'matchPS-phi-{"trimTrees":true}']));
+        revealNextSegment();
+        writeTableau(makeTableau(GEN(test4, "a"), ["matchPS-phi", 'matchPS-phi-{"trimTrees":true}']));
+        revealNextSegment();
         console.log("Commencing test of tree trimming functions...");
         console.log("Un-trimmed tree is "+parenthesizeTree(test1));
         console.log(test1);

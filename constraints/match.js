@@ -68,7 +68,7 @@ function sameIds(a1, a2){
 }
 
 
-function matchPS(sTree, pParent, pCat, options)
+function matchPS(sParent, pParent, pCat, options)
 //Assign a violation for every prosodic node of type pCat in pParent that doesn't have a corresponding syntactic node in sTree,
 //where "corresponding" is defined as: dominates all and only the same terminals, and has the corresponding syntactic category
 //Assumes no null terminals.
@@ -76,6 +76,11 @@ function matchPS(sTree, pParent, pCat, options)
 //is set to true. The same goes for the syntactic trees
 {
 	options = options || {};
+	var sTree = sParent;
+	//trim trees here so ptree doesn't get trimmed
+	if(options.trimTrees){
+		sTree = trimRedundantNodes(sParent);
+	}
 	var flippedOptions = {};
 	flippedOptions.maxSyntax = options.maxProsody || false;
 	flippedOptions.nonMaxSyntax = options.nonMaxProsody || false;
@@ -87,6 +92,7 @@ function matchPS(sTree, pParent, pCat, options)
 	flippedOptions.nonMinProsody = options.nonMinSyntax || false;
 	flippedOptions.requireLexical = options.requireLexical || false;
 	flippedOptions.requireOvertHead = options.requireOvertHead || false;
+	flippedOptions.trimTrees = false; //always set to false, otherwise ptree gets trimmed
 	return matchSP(pParent, sTree, pCat, flippedOptions);
 }
 
