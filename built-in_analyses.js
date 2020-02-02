@@ -101,11 +101,26 @@ function built_in_con(input){
       if(optionBoxes.length){
         //iterate over option checkboxes corresponding to this input
         for(var x in optionBoxes){
-          if(input[i].options[optionBoxes[x].value]){
-            optionBoxes[x].checked = true;
+          //dealing with checkboxes
+          if(optionBoxes[x].type === "checkbox"){
+            if(input[i].options[optionBoxes[x].value]){
+              optionBoxes[x].checked = true;
+            }
+            else{
+              optionBoxes[x].checked = false;
+            }
           }
-          else{
-            optionBoxes[x].checked = false;
+          //if not a checkbox, it should be a selector
+          else if(optionBoxes[x].tagName === "SELECT"){
+            var child = optionBoxes[x].getElementsByTagName("option");
+            //iterate over options in the select tag
+            for(var count = 0; count < child.length; count++){
+              if(input[i].options[child[count].value]){
+                /*if the input options contain reference to the options inside
+                this selector, set this selector to that option value */
+                optionBoxes[x].value = child[count].value;
+              }
+            }
           }
         }
       }
