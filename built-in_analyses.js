@@ -256,7 +256,7 @@ function built_in_Japanese_IM2017(){
 
 //cf. analysis_html_files/abstractMatchAnalysis.html. Japanese rebracketing project, Kalivoda 2019.
 function built_in_Japanese_rebracketing(n){
-  var gen = {obeysExhaustivity: true, requireRecWrapper: true};
+  var gen = {obeysExhaustivity: true, requireRecWrapper: true, rootCategory: "phi"};
   var pwfcs = [{name: 'binMinBranches', cat:'phi'}, {name:'binMaxBranches', cat:'phi'}, {name:'binMaxLeaves', cat:'phi'}];
   var mapping = [{name: 'matchSP', cat:'xp'}, {name:'matchPS', cat:'phi'}, {name: 'alignRight', cat:'xp'}, {name: 'alignLeft', cat:'xp'}, {name: 'alignRightPS', cat:'phi'}, {name: 'alignLeftPS', cat:'phi'}];
   var jtrees = [tree_3w_1, tree_3w_2, tree_4w_1, tree_4w_2, tree_4w_3, tree_4w_4, tree_4w_5];
