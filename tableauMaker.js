@@ -1,6 +1,9 @@
 
 // Produces an array of arrays representing a tableau
 // Options: GEN options and options for parenthesize trees
+// trimStree option shows the trimmed version of the sTree,
+//		defaults to false, unless one of the constriants uses a trimTrees option,
+// 		in which case it defaults to true
 
 function makeTableau(candidateSet, constraintSet, options){
 	//all options passed to makeTableau are passed into parenthesizeTree, so make
@@ -9,15 +12,17 @@ function makeTableau(candidateSet, constraintSet, options){
 	var tableau = [];
 	//Make a header for the tableau, containing all the constraint names.
 	//First element is empty, to correspond to the column of candidates.
-	var sTree = candidateSet[0] ? candidateSet[0][0] : '';
-	if (sTree instanceof Object) {
+	var sTreeObject = candidateSet[0] ? candidateSet[0][0] : '';
+	var sTree; /*keeping string and object seperate so the trimmed version can be
+		added later, if necessary*/
+	if (sTreeObject instanceof Object) {
 		var sOptions = {}; //must not include tone options
 		for (var op in options){
 			if (op != "showTones" && op != "addTones"){
 				sOptions[op] = options[op]; //don't copy in tone options
 			}
 		}
-		sTree = parenthesizeTree(sTree, sOptions); //JSON.stringify(sTreeName);
+		sTree = parenthesizeTree(sTreeObject, sOptions); //JSON.stringify(sTreeName);
 	}
 	//Build a header for the tableau
 	var header = [sTree];
@@ -27,8 +32,14 @@ function makeTableau(candidateSet, constraintSet, options){
 		*/
 		var conParts = constraintSet[i].split('-');
 		var optionString = '';
+		var trimTreesRx = /trimTrees/ //regEx for testing if trim trees is set explicitly
+		var trimFalseRx = /"trimTrees":false/ //regEx to test if trimTrees is set to false
 		//If there are options, truncate their attribute names and append them to the constraint name.
 		if(conParts[2] && conParts[2].length){
+			//test constraints for tree trimming option
+			if(trimTreesRx.test(conParts[2]) && !trimFalseRx.test(conParts[2])){
+				options.trimStree = true;
+			}
 			var optionObj = JSON.parse(conParts[2]);
 			var optionProperties = Object.getOwnPropertyNames(optionObj);
 			for(var j in optionProperties){
@@ -45,6 +56,11 @@ function makeTableau(candidateSet, constraintSet, options){
 		var constraintOptionsCat = conParts[0]+optionString+cat;
 		header.push(constraintOptionsCat);
 	}
+
+	if(options.trimStree){
+		header[0] = header[0].concat(' trimmed: ', parenthesizeTree(trimRedundantNodes(sTreeObject)));
+	}
+
 	tableau.push(header);
 
 	var getCandidate = options.inputTypeString ? function(candidate) {return candidate;} : globalNameOrDirect;
@@ -97,6 +113,7 @@ function tableauToCsv(tableau, separator, options) {
 }
 
 function tableauToHtml(tableau) {
+	var trimRegEx = / trimmed: /; //for testing to see if there is a trimmed tree
 	if (!(tableau instanceof Array))
 		return '';
 	var htmlChunks = ['<table class="tableau"><thead><tr>'];
@@ -104,6 +121,9 @@ function tableauToHtml(tableau) {
 	htmlChunks.push('<th></th>');
 	for (var j = 0; j < headers.length; j++) {
 		htmlChunks.push('<th>');
+		if(trimRegEx.test(headers[j])){
+			headers[j] = headers[j].replace(' trimmed: ', '<br>trimmed: ');
+		}
 		htmlChunks.push(headers[j]);
 		htmlChunks.push('</th>');
 	}

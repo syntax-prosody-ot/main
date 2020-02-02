@@ -10,7 +10,11 @@
   <body>
     Open the console to see the tests of tree trimming functions trimSilentTerminals() and trimRedundantNodes().
     <br/>
-    In the tableaux below, the match on the right trims the trees and the match on the left is at default settings (tree trimming off).
+    In the first four tableaux below, the match on the right trims the trees and the match on the left is at default settings (tree trimming off).
+    <br/>
+    In the penultimate tableau, the trimmed sTree is not shown in the tableau because there are no constraints that use the tree trimming option.
+    <br/>
+    In the last tableau, the "trimStree" option is manually set to true in makeTableau, so the tableau shows the trimmed tree even though there are no constraints that use the option.
     <pre id="results-container"></pre>
     <script>
       var test1 = {
@@ -145,6 +149,10 @@
         writeTableau(makeTableau(GEN(test1, "terminal2 terminal4"), ["matchPS-phi", 'matchPS-phi-{"trimTrees":true}']));
         revealNextSegment();
         writeTableau(makeTableau(GEN(test4, "a"), ["matchPS-phi", 'matchPS-phi-{"trimTrees":true}']));
+        revealNextSegment();
+        writeTableau(makeTableau(GEN(test1, "terminal2 terminal4"), ["matchPS-phi", 'matchSP-xp']));
+        revealNextSegment();
+        writeTableau(makeTableau(GEN(test1, "terminal2 terminal4"), ["matchPS-phi", 'matchSP-xp'], {trimStree: true}));
         revealNextSegment();
         console.log("Commencing test of tree trimming functions...");
         console.log("Un-trimmed tree is "+parenthesizeTree(test1));
