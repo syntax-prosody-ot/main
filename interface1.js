@@ -179,6 +179,7 @@ function UTree(root) {
 
 UTree.fromTerminals = function(terminalList) {
 	var dedupedTerminals = deduplicateTerminals(terminalList);
+	var cliticRegex = /-clitic/; //for testing if terminal should be a clitic
 
 	//Make the js tree (a dummy tree only containing the root CP)
 	var root = {
@@ -188,10 +189,21 @@ UTree.fromTerminals = function(terminalList) {
 	};
 	//Add the provided terminals
 	for(var i=0; i<dedupedTerminals.length; i++){
-		root.children.push({
-			"id":dedupedTerminals[i],
-			"cat":"x0"
-		});
+		//if terminal should be a clitic
+		if(cliticRegex.test(dedupedTerminals[i])){
+			//push a clitic to root.children
+			root.children.push({
+				"id":dedupedTerminals[i].replace('-clitic', ''),
+				"cat":"clitic"
+			});
+		}
+		//non-clitic terminals
+		else {
+			root.children.push({
+				"id":dedupedTerminals[i],
+				"cat":"x0"
+			});
+		}
 	}
 	return new UTree(root);
 };
