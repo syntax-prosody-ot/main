@@ -6,6 +6,7 @@ function clearAnalysis(){
   var genOptions = document.getElementsByName("genOptions");
   var hideCategories = document.getElementsByName('hideCategory');
   var constraints = document.getElementsByName("constraints");
+  var conOptions;
   var fieldsets = document.getElementsByTagName("fieldset");
 
   //reset gen options
@@ -29,6 +30,22 @@ function clearAnalysis(){
   for(var i = 0; i<constraints.length; i++){
     if(constraints[i].checked){
       constraints[i].click();
+    }
+    //reset constraint options
+    conOptions = document.getElementsByName("option-"+constraints[i].value);
+    if(conOptions.length){
+      for(var z = 0; z < conOptions.length; z++){
+        //set checkboxes to unchecked
+        if(conOptions[z].type == "checkbox"){
+          conOptions[z].checked = false;
+          console.log("here");
+        }
+        //set drop-down selectors to "any"
+        else if(conOptions[z].tagName === "SELECT"){
+          //all of the drop-down constraint options default to "any" as of 2/1/20 -MT
+          conOptions[z].value = "any";
+        }
+      }
     }
   }
 
