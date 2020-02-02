@@ -112,13 +112,13 @@ function matchPS(sTree, pParent, pCat, options)
 *	minProsody: If true, the prosodic match needs to be minimal. Passed to hasMatch.
 *	nonMaxProsody: If true, the prosodic match must be non-maximal. Passed to hasMatch.
 *	nonMinProsody: If true, the prosodic match must be non-minimal. Passed to hasMatch.
-* trimTrees: Default true, trims trees of silent nodes, non-x0 terminals and redundant nodes, e.g. [[some terminals]]
+* trimTrees: If true, trims trees of silent nodes, non-x0 terminals and redundant nodes, e.g. [[some terminals]]
 */
 function matchSP(inputTree, pTree, sCat, options)
 {
 	options = options || {};
 	var sParent = inputTree;
-	if(options.trimTrees !== false){ //runs if trimTrees is undefined or set to anything but false
+	if(options.trimTrees){ //trimTrees option
 		sParent = trimRedundantNodes(inputTree);
 	}
 	markMinMax(sParent);
