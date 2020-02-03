@@ -11,20 +11,7 @@
 	<!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
 	(open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
 	<script src="../build/spot.js"></script>	
-	<script>
-	/*Custom constraints can be defined inside <script> tags, as here, or in a separate file which you can load, also using a script tag*/
-	function binBranches(stree, ptree, cat){
-		var minCount = binMinBranches(stree, ptree, cat);
-		var maxCount = binMaxBranches(stree, ptree, cat);
-		return minCount+maxCount;
-	}
-	
-	
-	</script>
-	
 
-	<!--Change "YOUR_TREES_HERE" to the name of your tree file on the following line. Make sure your file is in main/trees-->
-	<script src="../trees/abstractMatchTrees.js"></script>
 				
 </head>
 
@@ -34,18 +21,13 @@
 
 <script>
 	// ---- Variables that need to be customized ----
-	//var sTreeList = [htest];
-
 	
 	var inputGenOptions = {rootCategory: 'xp', recursiveCategory: 'xp', terminalCategory:'x0'};
-	// console.log(inputGenOptions.rootCategory);
-	// console.log(inputGenOptions.recursiveCategory);
-	// console.log(inputGenOptions.terminalCategory);
-	var autoStreePairs = GEN({}, 'a b', inputGenOptions);
-	var sTreeList = autoStreePairs.map(x=>x[1]);
+	var autoSTreePairs = GEN({}, 'a b c', inputGenOptions);
+	var sTreeList = autoSTreePairs.map(x=>x[1]);
+	sTreeList = sTreeList.filter(x => !x0Sisters(x, 'x0'));
 	
-	/*Constraint sets are defined below. You can change these or add your own. A constraint set is a list of constraint function names (refer to the files in constraints.js for names) + category arguments (separated from constraint names with -; refer to prosodicHierarchy.js for a list of defined categories).*/
-	
+	/*Constraint sets.*/
 	var MatchSPMatchPS = ['balancedSisters-phi', 'binMaxBranches-phi', 'binMinBranches-phi', 'matchSP-xp', 'matchPS-phi'];
 	
 	/*A list of names for constraint sets.*/
