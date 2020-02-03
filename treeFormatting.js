@@ -33,7 +33,7 @@ function parenthesizeTree(tree, options){
 	}
 
 	function processNode(node){
-		console.log(node);
+		//console.log(node);
 		var nonTerminal = (node.children instanceof Array) && node.children.length;
 		if (showNewCats && !parens.hasOwnProperty(node.cat)){
 			parens[node.cat] = ["["+node.cat+" ", "]"];
