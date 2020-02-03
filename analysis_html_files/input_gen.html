@@ -25,10 +25,12 @@
 	var inputGenOptions = {rootCategory: 'xp', recursiveCategory: 'xp', terminalCategory:'x0'};
 	var autoSTreePairs = GEN({}, 'a b c', inputGenOptions);
 	var sTreeList = autoSTreePairs.map(x=>x[1]);
-	sTreeList = sTreeList.filter(x => !x0Sisters(x, 'x0'));
+	var noX0Sisters = sTreeList.filter(x => !x0Sisters(x, 'x0'));
+	var binaryBrTrees = sTreeList.filter(x => !ternaryNodes(x, 2));
+	sTreeList = binaryBrTrees;
 	
 	/*Constraint sets.*/
-	var MatchSPMatchPS = ['balancedSisters-phi', 'binMaxBranches-phi', 'binMinBranches-phi', 'matchSP-xp', 'matchPS-phi'];
+	var MatchSPMatchPS = ['binMaxBranches-phi', 'binMinBranches-phi', 'matchSP-xp'];
 	
 	/*A list of names for constraint sets.*/
     var conNames = ['MatchSPMatchPS'];

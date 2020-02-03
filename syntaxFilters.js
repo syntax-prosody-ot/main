@@ -20,3 +20,20 @@ function x0Sisters(sTree, cat){
     }
     return x0SistersFound;	
 }
+
+function ternaryNodes(sTree, maxBr){
+    var ternaryNodesFound = false;
+    if(sTree.children && sTree.children.length){
+        if(sTree.children.length > maxBr){
+            ternaryNodesFound = true;
+            return true;
+        }
+        for(var i=0; i<sTree.children.length; i++){
+            var child = sTree.children[i];
+            ternaryNodesFound = ternaryNodes(child, maxBr);
+            if(ternaryNodesFound) break;
+        }
+        
+    }
+    return ternaryNodesFound;
+}
