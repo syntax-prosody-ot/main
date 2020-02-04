@@ -43,7 +43,7 @@ sCat.isHigher = function(cat1, cat2){
 
 // Functions that compare two prosodic/syntactic categories and returns true if cat 1 is lower in the prosodic hierarchy than cat2
 function isLower(pCat, cat1, cat2){
-	return (pCat.indexOf(cat1) < pCat.indexOf(cat2));
+	return (pCat.indexOf(cat1) > pCat.indexOf(cat2));
 }
 pCat.isLower = function (cat1, cat2){
 	return (isLower(pCat, cat1, cat2));

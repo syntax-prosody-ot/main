@@ -61,10 +61,9 @@ function strongStart(s, ptree, cat){
 			if(pCat.isLower(leftmostCat, sisterCat))
 			{
 				vcount++;
+				break;
 			}
 		}
-		
-
 	}
 	
 	// Recurse
