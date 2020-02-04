@@ -22,12 +22,13 @@
 <script>
 	// ---- Variables that need to be customized ----
 	
-	var inputGenOptions = {rootCategory: 'xp', recursiveCategory: 'xp', terminalCategory:'x0'};
-	var autoSTreePairs = GEN({}, 'a b c', inputGenOptions);
-	var sTreeList = autoSTreePairs.map(x=>x[1]);
-	var noX0Sisters = sTreeList.filter(x => !x0Sisters(x, 'x0'));
-	var binaryBrTrees = sTreeList.filter(x => !ternaryNodes(x, 2));
-	sTreeList = binaryBrTrees;
+	// var inputGenOptions = {rootCategory: 'xp', recursiveCategory: 'xp', terminalCategory:'x0', syntactic: true};
+	// var autoSTreePairs = GEN({}, 'a b c', inputGenOptions);
+	// var sTreeList = autoSTreePairs.map(x=>x[1]);
+	// var noX0Sisters = sTreeList.filter(x => !x0Sisters(x, 'x0'));
+	// var binaryBrTrees = sTreeList.filter(x => !ternaryNodes(x, 2));
+	// var maxTTrees = sTreeList.filter(x => !x0Sisters(x, 'x0') && !ternaryNodes(x, 2));
+	sTreeList = sTreeGEN('a b c');
 	
 	/*Constraint sets.*/
 	var MatchSPMatchPS = ['binMaxBranches-phi', 'binMinBranches-phi', 'matchSP-xp'];
