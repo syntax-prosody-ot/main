@@ -533,6 +533,7 @@
 						  <button class="nodeEditingButton" id="treeUIclearSelection" type="button" disabled>Clear Selection</button>
 						  <span class="info"><span class="content"><p>To add a node, select one or more adjacent sisters and click "Add Mother." To remove nodes, select them and click "Delete." </p>
 							<p>All labels are editable. The small labels with grey backgrounds represent node categories, and must be "cp", "xp", or "x0" for a node to be visible to the syntax-prosody mapping constraints. Use "clitic" as the category for a node that should be mapped to a syllable instead of a &omega;. The larger labels with white backgrounds represent node ids, and can be any unique alphanumeric string.</p>
+							<p> Mark nodes as functional by adding ",func" to the category label in the tree builder. Mark nodes as having silent heads by adding ",silentHead" to the category label in the tree builder.</p>
 							<p>To create a new tree, click "Build syntax" again.</p>
 					 </span></span>
               		</div>
@@ -587,13 +588,13 @@
 								</div>
 								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchSP" value="requireLexical">lexical</div>
 								<div class="info">
-									<span class="content custom-option-div">Match only syntactic nodes that are not labeled as functional.</span>
+									<span class="content custom-option-div">Match only syntactic nodes that are not labeled as functional. Mark nodes as functional by adding ",func" to the category label in the tree builder.</span>
 								</div>
 							</div>
 							<div class="category-row">
 								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchSP" value="requireOvertHead">overtly headed</div>
 								<div class="info">
-									<span class="content custom-option-div">Match only syntactic nodes that have a non-silent head.</span>
+									<span class="content custom-option-div">Match only syntactic nodes that have a non-silent head. Mark nodes as having silent heads by adding ",silentHead" to the category label in the tree builder.</span>
 								</div>
 							</div>
 						</div>
