@@ -437,31 +437,43 @@
 				<div class="spotBlock">
 				<legend><h2>GEN options</h2></legend>
 
-				<table class="spaceytable"><tbody>
-					<tr>
-						<td><input type="checkbox" name="genOptions" value="obeysNonrecursivity">No prosodic recursion. (Non-Recursivity)</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox" name="genOptions" value="obeysHeadedness">Enforce headedness.</td>
-					</tr>
-					<tr>
-							<td><input type="checkbox" name="genOptions" id="exhaustivityBox" value="obeysExhaustivity">No level skipping. (Exhaustivity)</td>
-						</tr>
-					<tr>
-						<td id="exhaustivityDetailOption1" style="display: none; padding-left: 3em" ><input type="checkbox" name="exhaustivityCats" value="i" checked="checked">&iota;'s children are &ge;&phiv;s&nbsp;&nbsp;</td>
-						<td id="exhaustivityDetailOption2" style="display: none"><input type="checkbox" name="exhaustivityCats" value="phi" checked="checked">&phiv;'s children are &ge;&omega;s&nbsp;&nbsp;</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox" name="genOptions" id="branchingBox" value="noUnary">Only generate branching constituents.</td>
-					</tr>
+				<div style="padding-right: 15px">
+					<div class="constraint-row">
+						<span><input type="checkbox" name="genOptions" value="obeysNonrecursivity">No prosodic recursion. (Non-Recursivity)</span>
+						<div class="info">
+							<span class="content">If selected, no pTree will contain a node of category K that dominates another node of category K.</span>
+						</div>
+					</div>
+					<div class="constraint-row">
+						<span><input type="checkbox" name="genOptions" value="obeysHeadedness">Enforce headedness.</span>
+						<div class="info">
+							<span class="content">If selected, every non-terminal pTree node of level i must immediately dominate a node of level i-1.</span>
+						</div>
+					</div>
+					<div class="constraint-row">
+						<span><input type="checkbox" name="genOptions" id="exhaustivityBox" value="obeysExhaustivity">No level skipping. (Exhaustivity)</span>
+						<div class="info">
+							<span class="content">If selected, every non-root pTree node of level i is dominated by a node of level i or i+1.</span>
+						</div>
+					</div>
 
-					<tr>
-						<td><input type="checkbox" name="genOptions" id="cliticMovementBox" value="cliticMovement">Allow clitics to move</td>
-						<td class="info" width="300char"><div class="content">
-								GEN will permute the first node in the syntactic tree with category 'clitic' through the sentence. Ex.: a b c-clitic -> a b c-clitic, a c-clitic b, c-clitic a b. Only use this if your sentences are short, or in conjunction with non-recursivity or the branching requirement.</div>
-						</td>
-					</tr>
-				</tbody></table>
+					<div id="exhaustivityDetailOption1" style="display: none; padding-left: 3em" ><input type="checkbox" name="exhaustivityCats" value="i" checked="checked">&iota;'s children are &ge;&phiv;s&nbsp;&nbsp;</div>
+					<div id="exhaustivityDetailOption2" style="display: none"><input type="checkbox" name="exhaustivityCats" value="phi" checked="checked">&phiv;'s children are &ge;&omega;s&nbsp;&nbsp;</div>
+
+					<div class="constraint-row">
+						<span><input type="checkbox" name="genOptions" id="branchingBox" value="noUnary">Only generate branching constituents.</span>
+						<div class="info">
+							<span class="content">info</span>
+						</div>
+					</div>
+					<div class="constraint-row">
+						<span><input type="checkbox" name="genOptions" id="cliticMovementBox" value="cliticMovement">Allow clitics to move</span>
+						<div class="info">
+							<span class="content">GEN will permute the first node in the syntactic tree with category 'clitic' through the sentence. Ex.: a b c-clitic -> a b c-clitic, a c-clitic b, c-clitic a b. Only use this if your sentences are short, or in conjunction with non-recursivity or the branching requirement.</span>
+						</div>
+					</div>
+				</div>
+
 				<fieldset id="prosodicCategories">
 					<legend><h2>Prosodic categories <span class="arrow"></span></h2></legend>
 					<div class="constraint-row"><span>Root prosodic tree in</span>
