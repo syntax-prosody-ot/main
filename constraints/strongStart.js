@@ -56,7 +56,7 @@ function strongStart(s, ptree, cat){
 		var leftmostCat = ptree.children[0].cat;
 		for(var i = 1; i<ptree.children.length; i++){
 			var sisterCat = ptree.children[i].cat;
-			console.log(leftmostCat, sisterCat, pCat.isLower(leftmostCat, sisterCat));
+			//console.log(leftmostCat, sisterCat, pCat.isLower(leftmostCat, sisterCat));
 
 			if(pCat.isLower(leftmostCat, sisterCat))
 			{
