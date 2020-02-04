@@ -29,7 +29,18 @@
 	// var binaryBrTrees = sTreeList.filter(x => !ternaryNodes(x, 2));
 	// var maxTTrees = sTreeList.filter(x => !x0Sisters(x, 'x0') && !ternaryNodes(x, 2));
 	sTreeList = sTreeGEN('a b c');
-	
+
+	console.log('abc trees')
+	for(var s in sTreeList){
+		console.log(parenthesizeTree(sTreeList[s]));
+	}
+
+	shortTrees = sTreeGEN('a b');
+	console.log('\nab trees')
+	for(var s in shortTrees){
+		console.log(parenthesizeTree(shortTrees[s]));
+	}
+
 	/*Constraint sets.*/
 	var MatchSPMatchPS = ['binMaxBranches-phi', 'binMinBranches-phi', 'matchSP-xp'];
 	
