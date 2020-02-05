@@ -33,9 +33,25 @@ function parenthesizeTree(tree, options){
 	}
 
 	function processNode(node){
+		//console.log(node);
 		var nonTerminal = (node.children instanceof Array) && node.children.length;
 		if (showNewCats && !parens.hasOwnProperty(node.cat)){
 			parens[node.cat] = ["["+node.cat+" ", "]"];
+		}
+		for (item in node){
+			if (item == "id" || item == "cat" || item == "children"){
+				continue;
+			}
+			if (node[item]){
+				if (toneTree.length == 0){
+					toneTree.push(item);
+				}
+				else{
+					toneTree[0] += '.' + item;
+				}
+			}
+			// console.log(item);
+			// console.log(node[item]);
 		}
 		var visible = invisCats.indexOf(node.cat) === -1 && parens.hasOwnProperty(node.cat);
 		if (nonTerminal) {
@@ -91,6 +107,8 @@ function parenthesizeTree(tree, options){
 	}
 
 	processNode(tree);
+	// console.log(tree);
+	// console.log(toneTree);
 	guiTree = parTree.join('');
 	if(showTones)
 		guiTree = guiTree + '\n' + toneTree.join('');

@@ -408,13 +408,6 @@ window.addEventListener('load', function(){
 		//Get input to GEN.
 		var pString = spotForm.inputToGen.value;
 
-		// Get the code that is in the stree textarea
-		var treeCode = spotForm.sTree.value
-		// if code has been generated, then ignore pString in GEN
-		if(treeCode !== "{}") {
-			pString = "";
-		}
-
 		//Build a list of checked GEN options.
 		var genOptions = {};
 		for(var i=0; i<spotForm.genOptions.length; i++){
@@ -482,7 +475,7 @@ window.addEventListener('load', function(){
 			var sTree = sTrees[i];
 			//console.log(pString.split(" ").length >= 6)
 			//warn user about using more than six terminals
-
+			
 
 			//warn user about possibly excessive numbers of candidates
 			if (genOptions['cliticMovement'] && (!genOptions['noUnary'] && (getLeaves(sTree).length >= 5 || pString.split(" ").length >= 5))
@@ -490,13 +483,13 @@ window.addEventListener('load', function(){
 				if(!confirm("You have selected GEN settings that allow clitic reordering, and included a sentence of ".concat( pString.split(" ").length.toString()," terminals. This GEN may yield more than 10K candidates. To reduce the number of candidates, consider enforcing non-recursivity, exhaustivity, and/or branchingness for intermediate prosodic nodes. Do you wish to proceed with these settings?"))){
 					throw new Error("clitic movement with too many terminals");
 				}
-			}
+			} 
 			else if(getLeaves(sTree).length >= 6 || pString.split(" ").length >= 6){
 				if(!confirm("Inputs of more than six terminals may run slowly and even freeze your browser, depending on the selected GEN options. Do you wish to continue?")){
 					throw new Error("Tried to run gen with more than six terminals");
 				}
 			}
-
+			
 			if (genOptions['cliticMovement']){
 				var candidateSet = GENwithCliticMovement(sTree, pString, genOptions);
 			}
@@ -621,15 +614,38 @@ window.addEventListener('load', function(){
 	refreshHtmlTree();
 	document.getElementById('treeUIinner').style.display = 'block';
 	*/
-
+	function parseCats(node){
+		var cats = node['cat'].split(',');
+		if (cats.length > 1){
+			node['cat'] = cats[0];
+		}
+		for (var cat of cats){
+			if (cat.indexOf('silentHead') != -1){
+				node['silentHead'] = true;
+			}
+			if (cat.indexOf('func') != -1){
+				node['func'] = true;
+			}
+		}
+		var children = node['children'];
+		if (children != undefined){
+			for (var child of children){
+				parseCats(child);
+			}
+		}
+	}
 	//Look at the html tree and turn it into a JSON tree. Put the JSON in the following textarea.
 	document.getElementById('htmlToJsonTreeButton').addEventListener('click', function(){
 		spotForm.sTree.value = JSON.stringify(Object.values(treeUIsTreeMap).map(function(tree) {
-			return JSON.parse(tree.toJSON()); // bit of a hack to get around replacer not being called recursively
+
+			// console.log(JSON.parse(tree.toJSON()));
+			// console.log(JSON.parse(tree.toJSON())['cat']);
+			var checkTree = JSON.parse(tree.toJSON());
+			parseCats(checkTree);
+			return (checkTree); // bit of a hack to get around replacer not being called recursively
 		}), null, 4);
 
 		document.getElementById('doneMessage').style.display = 'inline-block';
-		spotForm.inputToGen.value = "";
 	});
 
 	document.getElementById('danishJsonTreesButton').addEventListener('click', function() {
@@ -639,6 +655,7 @@ window.addEventListener('load', function(){
 	treeTableContainer.addEventListener('input', function(e) {
 		var target = e.target;
 		var idPieces = target.id.split('-');
+		//console.log(idPieces);
 		var treeIndex = idPieces[2];
 		var nodeId = idPieces[1];
 		var isCat = idPieces[0] === 'catInput';
@@ -788,9 +805,4 @@ function saveAs(blob, name) {
 	document.body.appendChild(a);
 	a.click();
 	document.body.removeChild(a);
-}
-
-function clearTableau() {
-	 document.getElementById('results-container').innerHTML = "";
-	 document.getElementById('results-container').className = "";
 }
