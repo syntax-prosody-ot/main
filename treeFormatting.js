@@ -33,90 +33,22 @@ function parenthesizeTree(tree, options){
 	}
 
 	function processNode(node){
-		console.log(node);
 		var nonTerminal = (node.children instanceof Array) && node.children.length;
-		console.log(nonTerminal);
-
 		if (showNewCats && !parens.hasOwnProperty(node.cat)){
-			//console.log(parens);
 			parens[node.cat] = ["["+node.cat+" ", "]"];
 		}
-		// for (item in node){
-		// 	if (item == "id" || item == "cat" || item == "children"){
-		// 		continue;
-		// 	}
-		// 	if (node[item]){
-		// 		if (toneTree.length == 0){
-		// 			toneTree.push(item);
-		// 		}
-		// 		else{
-		// 			toneTree[0] += '.' + item;
-		// 		}
-		// 	}
-		// 	// console.log(item);
-		// 	// console.log(node[item]);
-		// }
+
 		var visible = invisCats.indexOf(node.cat) === -1 && parens.hasOwnProperty(node.cat);
-		console.log(visible);
-		// if (nonTerminal) {
-		// 	//console.log(parTree);
-		// 	if (visible) {
-		// 		console.log(showTones);
-		// 		if(showTones){
-		// 			// console.log("passed");
-		// 			// console.log(node["func"]);
-		// 			// console.log("node");
-		// 			//console.log(node);
-		// 			if (node["func"] && node["silentHead"]){
-		// 				console.log("both");
-		// 				parTree.push(parens[node.cat][0] + " f.sh");
-		// 			}
-		// 			else if (node["func"]){
-		// 				console.log("func");
-		// 				parTree.push(parens[node.cat][0] + " f");
-		// 			}
-		// 			else if (node["silentHead"]){
-		// 				console.log("sh");
-		// 				parTree.push(parens[node.cat][0] + " sh");
-		// 			}
-		// 			else{
-		// 				console.log("none");
-		// 				parTree.push(parens[node.cat][0]);//pushes the right parens
-		// 			}
-				
-					
-		// 		}
-		// 		else{
-		// 			if (node["func"] && node["silentHead"]){
-		// 				console.log("both");
-		// 				parTree.push(parens[node.cat][0] + " f.sh");
-		// 			}
-		// 			else if (node["func"]){
-		// 				console.log("func");
-		// 				parTree.push(parens[node.cat][0] + " f");
-		// 			}
-		// 			else if (node["silentHead"]){
-		// 				console.log("sh");
-		// 				parTree.push(parens[node.cat][0] + " sh");
-		// 			}
-		// 			else{
-		// 				console.log("none");
-		// 				parTree.push(parens[node.cat][0]);//pushes the right parens
-		// 			}
-		// 		}
 		if (nonTerminal) {
 			if (visible) {
 				if (node["func"] && node["silentHead"]){
-					console.log("both");
-					parTree.push(parens[node.cat][0] + "f.sh ");
+					parTree.push(parens[node.cat][0] + ".f.sh ");
 				}
 				else if (node["func"]){
-					console.log("func");
-					parTree.push(parens[node.cat][0] + "f ");
+					parTree.push(parens[node.cat][0] + ".f ");
 				}
 				else if (node["silentHead"]){
-					console.log("sh");
-					parTree.push(parens[node.cat][0] + "sh ");
+					parTree.push(parens[node.cat][0] + ".sh ");
 				}
 				else{
 					parTree.push(parens[node.cat][0]);
@@ -172,11 +104,8 @@ function parenthesizeTree(tree, options){
 		}
 		//	parTree.push(node.id.split('_')[0]);
 	}
-	//console.log(tree);
+
 	processNode(tree);
-	//console.log(tree);
-	//console.log(parTree);
-	// console.log(toneTree);
 	guiTree = parTree.join('');
 	if(showTones)
 		guiTree = guiTree + '\n' + toneTree.join('');
