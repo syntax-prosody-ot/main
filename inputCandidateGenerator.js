@@ -8,12 +8,17 @@
 *  - rootCategory
 *  - recursiveCategory
 *  - terminalCategory
-*  - excludeSistersOfCat: determines the category of nodes that will be excluded if they are sisters
+*  - noAdjacentHeads: are x0 sisters allowed? [x0 x0]
+*  - noAdjuncts: are xp sisters allowed? [xp xp]
 *  - maxBranching: determines the maximum number of branches that are tolerated in the resulting syntactic trees
 */
 function sTreeGEN(terminalString, options)
 {
-    options = options || {syntactic: true, rootCategory:'xp', recursiveCategory:'xp', terminalCategory:'x0', excludeSistersOfCat:'x0', maxBranching:2};
+    options = options || {noAdjacentHeads:true, maxBranching:2};
+    options.syntactic = true;
+    options.recursiveCategory = options.recursiveCategory || 'xp';
+    options.terminalCategory = options.terminalCategory || 'x0';
+    options.rootCategory = options.rootCategory || 'xp';
 
     //Run GEN on the provided terminal string
     var autoSTreePairs = GEN({}, terminalString, options);
@@ -21,8 +26,11 @@ function sTreeGEN(terminalString, options)
     var sTreeList = autoSTreePairs.map(x=>x[1]);
 
     //Apply filters
-    if(options.excludeSistersOfCat){
-        sTreeList = sTreeList.filter(x => !x0Sisters(x, options.excludeSistersOfCat));
+    if(options.noAdjacentHeads){
+        sTreeList = sTreeList.filter(x => !x0Sisters(x, 'x0'));
+    }
+    if(options.noAdjuncts){
+        sTreeList = sTreeList.filter(x => !x0Sisters(x, 'xp'));
     }
     if(options.maxBranching > 0){
         sTreeList = sTreeList.filter(x=>!ternaryNodes(x, options.maxBranching));
