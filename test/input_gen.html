@@ -28,7 +28,7 @@
 	// var noX0Sisters = sTreeList.filter(x => !x0Sisters(x, 'x0'));
 	// var binaryBrTrees = sTreeList.filter(x => !ternaryNodes(x, 2));
 	// var maxTTrees = sTreeList.filter(x => !x0Sisters(x, 'x0') && !ternaryNodes(x, 2));
-	sTreeList = sTreeGEN('a b c');
+	sTreeList = sTreeGEN('a b c', {addClitics: 'left'});
 
 	console.log('abc trees')
 	for(var s in sTreeList){
@@ -48,7 +48,7 @@
     var conNames = ['MatchSPMatchPS'];
 	
 	//Candidate sets are generated with the options below.
-	var output_gen_options = {obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: true, addTones: false, requireRecWrapper: false};
+	var output_gen_options = {obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: ['i'], addTones: false, requireRecWrapper: false};
 
 	
 	
