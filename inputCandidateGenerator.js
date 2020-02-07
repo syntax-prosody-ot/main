@@ -37,7 +37,7 @@ function sTreeGEN(terminalString, options)
         sTreeList = sTreeList.filter(x=>!ternaryNodes(x, options.maxBranching));
     }
     if(options.addClitics){
-        sTreeList = sTreeList.map(x => addCliticXP(x));
+        sTreeList = sTreeList.map(x => addCliticXP(x, options.addClitics));
     }
 
     return sTreeList;
