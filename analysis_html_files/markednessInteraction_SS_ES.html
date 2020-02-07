@@ -32,12 +32,15 @@
 
 	/*Constraint sets.*/
     var MatchSP_SS_ES = ['matchSP-xp', 'strongStart-phi', 'eqSis-phi']; // Only one language, lots of promotion
-    var MatchSPPS_SS_ES = ['matchSP-xp', 'matchPS-phi','strongStart-phi', 'eqSis-phi'];
+	var MatchSPPS_SS_ES = ['matchSP-xp', 'matchPS-phi','strongStart-phi', 'eqSis-phi'];
+	var MatchSPPS_SEB = ['matchSP-xp', 'matchPS-phi','strongStart-phi', 'eqSis-phi', 'balancedSisters-phi'];
+
     var MatchSP_SS_ES_Bin = ['matchSP-xp', 'binMinBranches', 'binMaxBranches', 'strongStart-phi', 'eqSis-phi'];
     var MatchSP_SS_ES_Bin1 = ['matchSP-xp', 'binBranches', 'strongStart-phi', 'eqSis-phi'];
 	
 	/*A list of names for constraint sets.*/
-    var conNames = ['MatchSP_SS_ES', 'MatchSPPS_SS_ES', 'MatchSP_SS_ES_Bin', 'MatchSP_SS_ES_Bin1'];
+	var conNames = ['MatchSPPS_SEB'];
+	//['MatchSP_SS_ES', 'MatchSPPS_SS_ES', 'MatchSP_SS_ES_Bin', 'MatchSP_SS_ES_Bin1'];
 	
 	//Candidate sets are generated with the options below.
 	var output_gen_options = {obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: true, addTones: false, requireRecWrapper: true};
