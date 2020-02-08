@@ -33,30 +33,27 @@ function parenthesizeTree(tree, options){
 	}
 
 	function processNode(node){
-		//console.log(node);
 		var nonTerminal = (node.children instanceof Array) && node.children.length;
 		if (showNewCats && !parens.hasOwnProperty(node.cat)){
 			parens[node.cat] = ["["+node.cat+" ", "]"];
 		}
-		for (item in node){
-			if (item == "id" || item == "cat" || item == "children"){
-				continue;
-			}
-			if (node[item]){
-				if (toneTree.length == 0){
-					toneTree.push(item);
-				}
-				else{
-					toneTree[0] += '.' + item;
-				}
-			}
-			// console.log(item);
-			// console.log(node[item]);
-		}
+
 		var visible = invisCats.indexOf(node.cat) === -1 && parens.hasOwnProperty(node.cat);
 		if (nonTerminal) {
 			if (visible) {
-				parTree.push(parens[node.cat][0]);//pushes the right parens
+				if (node["func"] && node["silentHead"]){
+					parTree.push(parens[node.cat][0] + ".f.sh ");
+				}
+				else if (node["func"]){
+					parTree.push(parens[node.cat][0] + ".f ");
+				}
+				else if (node["silentHead"]){
+					parTree.push(parens[node.cat][0] + ".sh ");
+				}
+				else{
+					parTree.push(parens[node.cat][0]);
+				}//pushes the right parens}
+				
 				//parTree.push(parens[0]);
 				if(showTones){
 					toneTree.push(parens[node.cat][0]);
@@ -86,7 +83,9 @@ function parenthesizeTree(tree, options){
 					//console.log(toneTree[toneTree.length-1]);
 				}
 			}
-		} else if (visible) {
+		}
+		//terminal but visible 
+		else if (visible) {
 			parTree.push(node.id);
 			if(node.cat!='w' && node.cat!='x0'){
 				parTree.push('.'+node.cat);
@@ -107,8 +106,6 @@ function parenthesizeTree(tree, options){
 	}
 
 	processNode(tree);
-	// console.log(tree);
-	// console.log(toneTree);
 	guiTree = parTree.join('');
 	if(showTones)
 		guiTree = guiTree + '\n' + toneTree.join('');
