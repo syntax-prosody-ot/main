@@ -1,0 +1,24 @@
+<html>
+<head>
+	<title>Japanese Head Marking test</title>
+	<link rel="stylesheet" type="text/css" href="../spot.css">
+	<script src="../lib/jszip.min.js"></script>
+	<!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
+	(open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
+	<script src="../build/spot.js"></script>
+
+
+</head>
+
+<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+	<h2>Japanese Head Marking test 2/2020</h2>
+	<pre id="results-container"></pre>
+
+<script>
+	window.addEventListener("load",function(){
+		writeTableau(makeTableau(GEN('', 'a b c'), []));
+		revealNextSegment();
+	});
+</script>
+</body>
+</html>
