@@ -50,8 +50,9 @@ function makeTableau(candidateSet, constraintSet, options){
 	var getCandidate = options.inputTypeString ? function(candidate) {return candidate;} : globalNameOrDirect;
 
 	//Assess violations for each candidate.
-	for(var i = 0; i < candidateSet.length; i++){
-		var candidate = candidateSet[i];
+	var numCand = candidateSet.length;
+	for(var i = 1; i < numCand; i++){
+		var candidate = candidateSet[numCand-i];
 		var ptreeStr = options.inputTypeString ? candidate[1] : parenthesizeTree(globalNameOrDirect(candidate[1]), options);
 		var tableauRow = [ptreeStr];
 		for(var j = 0; j < constraintSet.length; j++){
