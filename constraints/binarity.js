@@ -59,13 +59,6 @@ function binMaxBranches(s, ptree, cat){
 	return vcount;
 }
 
-//A combined binarity constraint (branch-counting)
-function binBranches(stree, ptree, cat){
-	var minCount = binMinBranches(stree, ptree, cat);
-	var maxCount = binMaxBranches(stree, ptree, cat);
-	return minCount+maxCount;
-}
-
 /* Category-sensitive branch-counting constraint
 * (first proposed by Kalivoda 2019 in "New Analysis of Irish Syntax-Prosody", ms.)
 * Assign a violation for every node of category cat that immediately dominates

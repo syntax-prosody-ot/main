@@ -6,7 +6,6 @@ function clearAnalysis(){
   var genOptions = document.getElementsByName("genOptions");
   var hideCategories = document.getElementsByName('hideCategory');
   var constraints = document.getElementsByName("constraints");
-  var conOptions;
   var fieldsets = document.getElementsByTagName("fieldset");
 
   //reset gen options
@@ -30,21 +29,6 @@ function clearAnalysis(){
   for(var i = 0; i<constraints.length; i++){
     if(constraints[i].checked){
       constraints[i].click();
-    }
-    //reset constraint options
-    conOptions = document.getElementsByName("option-"+constraints[i].value);
-    if(conOptions.length){
-      for(var z = 0; z < conOptions.length; z++){
-        //set checkboxes to unchecked
-        if(conOptions[z].type == "checkbox"){
-          conOptions[z].checked = false;
-        }
-        //set drop-down selectors to "any"
-        else if(conOptions[z].tagName === "SELECT"){
-          //all of the drop-down constraint options default to "any" as of 2/1/20 -MT
-          conOptions[z].value = "any";
-        }
-      }
     }
   }
 
@@ -117,26 +101,11 @@ function built_in_con(input){
       if(optionBoxes.length){
         //iterate over option checkboxes corresponding to this input
         for(var x in optionBoxes){
-          //dealing with checkboxes
-          if(optionBoxes[x].type === "checkbox"){
-            if(input[i].options[optionBoxes[x].value]){
-              optionBoxes[x].checked = true;
-            }
-            else{
-              optionBoxes[x].checked = false;
-            }
+          if(input[i].options[optionBoxes[x].value]){
+            optionBoxes[x].checked = true;
           }
-          //if not a checkbox, it should be a selector
-          else if(optionBoxes[x].tagName === "SELECT"){
-            var child = optionBoxes[x].getElementsByTagName("option");
-            //iterate over options in the select tag
-            for(var count = 0; count < child.length; count++){
-              if(input[i].options[child[count].value]){
-                /*if the input options contain reference to the options inside
-                this selector, set this selector to that option value */
-                optionBoxes[x].value = child[count].value;
-              }
-            }
+          else{
+            optionBoxes[x].checked = false;
           }
         }
       }
@@ -287,7 +256,7 @@ function built_in_Japanese_IM2017(){
 
 //cf. analysis_html_files/abstractMatchAnalysis.html. Japanese rebracketing project, Kalivoda 2019.
 function built_in_Japanese_rebracketing(n){
-  var gen = {obeysExhaustivity: true, requireRecWrapper: true, rootCategory: "phi"};
+  var gen = {obeysExhaustivity: true, requireRecWrapper: true};
   var pwfcs = [{name: 'binMinBranches', cat:'phi'}, {name:'binMaxBranches', cat:'phi'}, {name:'binMaxLeaves', cat:'phi'}];
   var mapping = [{name: 'matchSP', cat:'xp'}, {name:'matchPS', cat:'phi'}, {name: 'alignRight', cat:'xp'}, {name: 'alignLeft', cat:'xp'}, {name: 'alignRightPS', cat:'phi'}, {name: 'alignLeftPS', cat:'phi'}];
   var jtrees = [tree_3w_1, tree_3w_2, tree_4w_1, tree_4w_2, tree_4w_3, tree_4w_4, tree_4w_5];
@@ -474,24 +443,12 @@ function record_analysis(){
       if(conOptions.length){
         //iterate over the options for this match constraint
         for(var x = 0; x<conOptions.length; x++){
-          //if this option is a checkbox, record if it is checked
-          if(conOptions[x].type == "checkbox"){
-            optionableCon.options[conOptions[x].value] = conOptions[x].checked;
-          }
-          //if this option is a drop-down selector, record its value so long as it is not default
-          else if(conOptions[x].tagName === "SELECT" && conOptions[x].value != "any"){
-            optionableCon.options[conOptions[x].value] = true;
-          }
+          optionableCon.options[conOptions[x].value] = conOptions[x].checked;
         }
       }
       else{
         //when there is only one option
-        if(conOptions.type == "checkbox"){
-          optionableCon.options[conOptions.value] = conOptions.checked;
-        }
-        else if(conOptions.tagName === "SELECTOR"){
-          optionableCon.options[conOptions.value] = true;
-        }
+        optionableCon.options[conOptions.value] = conOptions.checked;
       }
     }
   }

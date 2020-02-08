@@ -394,7 +394,7 @@
 	<div style="padding-bottom:40px">
 		<div class="header">
 			<img src="images/logo.png" alt="SPOT">
-			<span class="subtitle"><span style="display: inline-block; width:50%; font-size:larger;">Syntax-Prosody in Optimality Theory </span><span style="display:inline-block; text-align:right;"><a href="https://spot.sites.ucsc.edu/">spot.sites.ucsc.edu/</a></span></span>
+			<span class="subtitle"><span style="display: inline-block; width:50%; font-size:larger;">Syntax Prosody in Optimality Theory </span><span style="display:inline-block; text-align:right;"><a href="https://spot.sites.ucsc.edu/">spot.sites.ucsc.edu/</a></span></span>
 		</div>
 		<div class="below-header" style="background-color: #d0d8e0;">
 
@@ -437,43 +437,31 @@
 				<div class="spotBlock">
 				<legend><h2>GEN options</h2></legend>
 
-				<div style="padding-right: 15px">
-					<div class="constraint-row">
-						<span><input type="checkbox" name="genOptions" value="obeysNonrecursivity">No prosodic recursion. (Non-Recursivity)</span>
-						<div class="info">
-							<span class="content">If selected, no pTree will contain a node of category K that dominates another node of category K.</span>
-						</div>
-					</div>
-					<div class="constraint-row">
-						<span><input type="checkbox" name="genOptions" value="obeysHeadedness">Enforce headedness.</span>
-						<div class="info">
-							<span class="content">If selected, every non-terminal pTree node of level i must immediately dominate a node of level i-1.</span>
-						</div>
-					</div>
-					<div class="constraint-row">
-						<span><input type="checkbox" name="genOptions" id="exhaustivityBox" value="obeysExhaustivity">No level skipping. (Exhaustivity)</span>
-						<div class="info">
-							<span class="content">If selected, every non-root pTree node of level i is dominated by a node of level i or i+1.</span>
-						</div>
-					</div>
+				<table class="spaceytable"><tbody>
+					<tr>
+						<td><input type="checkbox" name="genOptions" value="obeysNonrecursivity">No prosodic recursion. (Non-Recursivity)</td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" name="genOptions" value="obeysHeadedness">Enforce headedness.</td>
+					</tr>
+					<tr>
+							<td><input type="checkbox" name="genOptions" id="exhaustivityBox" value="obeysExhaustivity">No level skipping. (Exhaustivity)</td>
+						</tr>
+					<tr>
+						<td id="exhaustivityDetailOption1" style="display: none; padding-left: 3em" ><input type="checkbox" name="exhaustivityCats" value="i" checked="checked">&iota;'s children are &ge;&phiv;s&nbsp;&nbsp;</td>
+						<td id="exhaustivityDetailOption2" style="display: none"><input type="checkbox" name="exhaustivityCats" value="phi" checked="checked">&phiv;'s children are &ge;&omega;s&nbsp;&nbsp;</td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" name="genOptions" id="branchingBox" value="noUnary">Only generate branching constituents.</td>
+					</tr>
 
-					<div id="exhaustivityDetailOption1" style="display: none; padding-left: 3em" ><input type="checkbox" name="exhaustivityCats" value="i" checked="checked">&iota;'s children are &ge;&phiv;s&nbsp;&nbsp;</div>
-					<div id="exhaustivityDetailOption2" style="display: none"><input type="checkbox" name="exhaustivityCats" value="phi" checked="checked">&phiv;'s children are &ge;&omega;s&nbsp;&nbsp;</div>
-
-					<div class="constraint-row">
-						<span><input type="checkbox" name="genOptions" id="branchingBox" value="noUnary">All intermediate nodes are branching.</span>
-						<div class="info">
-							<span class="content">If selected, every non-root, non-terminal node will have at least two children. No intermediate nodes will be unary.</span>
-						</div>
-					</div>
-					<div class="constraint-row">
-						<span><input type="checkbox" name="genOptions" id="cliticMovementBox" value="cliticMovement">Allow clitics to move</span>
-						<div class="info">
-							<span class="content">GEN will permute the first node in the syntactic tree with category 'clitic' through the sentence. Ex.: a b c-clitic -> a b c-clitic, a c-clitic b, c-clitic a b. Only use this if your sentences are short, or in conjunction with non-recursivity or the branching requirement.</span>
-						</div>
-					</div>
-				</div>
-
+					<tr>
+						<td><input type="checkbox" name="genOptions" id="cliticMovementBox" value="cliticMovement">Allow clitics to move</td>
+						<td class="info" width="300char"><div class="content">
+								GEN will permute the first node in the syntactic tree with category 'clitic' through the sentence. Ex.: a b c-clitic -> a b c-clitic, a c-clitic b, c-clitic a b. Only use this if your sentences are short, or in conjunction with non-recursivity or the branching requirement.</div>
+						</td>
+					</tr>
+				</tbody></table>
 				<fieldset id="prosodicCategories">
 					<legend><h2>Prosodic categories <span class="arrow"></span></h2></legend>
 					<div class="constraint-row"><span>Root prosodic tree in</span>
@@ -545,7 +533,6 @@
 						  <button class="nodeEditingButton" id="treeUIclearSelection" type="button" disabled>Clear Selection</button>
 						  <span class="info"><span class="content"><p>To add a node, select one or more adjacent sisters and click "Add Mother." To remove nodes, select them and click "Delete." </p>
 							<p>All labels are editable. The small labels with grey backgrounds represent node categories, and must be "cp", "xp", or "x0" for a node to be visible to the syntax-prosody mapping constraints. Use "clitic" as the category for a node that should be mapped to a syllable instead of a &omega;. The larger labels with white backgrounds represent node ids, and can be any unique alphanumeric string.</p>
-							<p> Mark nodes as functional by adding ",func" to the category label in the tree builder. Mark nodes as having silent heads by adding ",silentHead" to the category label in the tree builder.</p>
 							<p>To create a new tree, click "Build syntax" again.</p>
 					 </span></span>
               		</div>
@@ -600,13 +587,13 @@
 								</div>
 								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchSP" value="requireLexical">lexical</div>
 								<div class="info">
-									<span class="content custom-option-div">Match only syntactic nodes that are not labeled as functional. Mark nodes as functional by adding ",func" to the category label in the tree builder.</span>
+									<span class="content custom-option-div">Match only syntactic nodes that are not labeled as functional.</span>
 								</div>
 							</div>
 							<div class="category-row">
 								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchSP" value="requireOvertHead">overtly headed</div>
 								<div class="info">
-									<span class="content custom-option-div">Match only syntactic nodes that have a non-silent head. Mark nodes as having silent heads by adding ",silentHead" to the category label in the tree builder.</span>
+									<span class="content custom-option-div">Match only syntactic nodes that have a non-silent head.</span>
 								</div>
 							</div>
 						</div>

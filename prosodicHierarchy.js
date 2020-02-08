@@ -23,44 +23,23 @@ function catsMatch(aCat, bCat){
 	}
 }
 
-//defines the syntactic category hierarchy that we are working with
-var sCat = ["cp", "xp", "x0"];
+
 
 //defines the prosodic hierarchy
 var pCat = ["u", "i", "phi", "w", "Ft", "syll"];
 
 //Function that compares two prosodic categories and returns whether cat1 is higher in the prosodic hierarchy than cat2
-function isHigher(pCat, cat1, cat2){
+pCat.isHigher = function (cat1, cat2){
 	return (pCat.indexOf(cat1) < pCat.indexOf(cat2));
 }
-pCat.isHigher = function(cat1, cat2){
-	return (isHigher(pCat, cat1, cat2));
-}
-sCat.isHigher = function(cat1, cat2){
-	return (isHigher(sCat, cat1, cat2));
-}
 
-
-// Functions that compare two prosodic/syntactic categories and returns true if cat 1 is lower in the prosodic hierarchy than cat2
-function isLower(pCat, cat1, cat2){
-	return (pCat.indexOf(cat1) > pCat.indexOf(cat2));
-}
+// Function that compares two prosodic categories and returns true if cat 1 is lower in the prosodic hierarchy than cat2
 pCat.isLower = function (cat1, cat2){
-	return (isLower(pCat, cat1, cat2));
-}
-sCat.isLower = function (cat1, cat2){
-	return (isLower(sCat, cat1, cat2));
+	return (pCat.indexOf(cat1) > pCat.indexOf(cat2));
 }
 
 // Function that returns the prosodic category that is one level lower than the given category
 pCat.nextLower = function(cat) {
-	return nextLower(pCat, cat);
-}
-sCat.nextLower = function(cat) {
-	return nextLower(sCat, cat);
-}
-
-function nextLower(pCat, cat){
 	var i = pCat.indexOf(cat);
 	if (i < 0)
 		throw new Error(cat + ' is not a prosodic category');
