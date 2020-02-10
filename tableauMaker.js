@@ -51,7 +51,7 @@ function makeTableau(candidateSet, constraintSet, options){
 
 	//Assess violations for each candidate.
 	var numCand = candidateSet.length;
-	for(var i = 1; i < numCand; i++){
+	for(var i = 1; i <= numCand; i++){
 		var candidate = candidateSet[numCand-i];
 		var ptreeStr = options.inputTypeString ? candidate[1] : parenthesizeTree(globalNameOrDirect(candidate[1]), options);
 		var tableauRow = [ptreeStr];
