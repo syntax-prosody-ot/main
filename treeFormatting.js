@@ -90,8 +90,22 @@ function parenthesizeTree(tree, options){
 		}
 		//terminal but visible
 		else if (visible) {
-			parTree.push(node.id);
+			if (node["func"] && node["silentHead"]){
+				parTree.push(node.id + ".f.sh ");
+			}
+			else if (node["func"]){
+				parTree.push(node.id + ".f ");
+			}
+			else if (node["silentHead"]){
+				parTree.push(node.id + ".sh ");
+			}
+			else{
+				parTree.push(node.id);
+			}
+			//parTree.push(node.id);
 			if(node.cat!='w' && node.cat!='x0'){
+				
+				console.log(node.cat);
 				parTree.push('.'+node.cat);
 			}
 			if(node.head && options.showHeads){
