@@ -104,8 +104,6 @@ function parenthesizeTree(tree, options){
 			}
 			//parTree.push(node.id);
 			if(node.cat!='w' && node.cat!='x0'){
-				
-				console.log(node.cat);
 				parTree.push('.'+node.cat);
 			}
 			if(node.head && options.showHeads){
