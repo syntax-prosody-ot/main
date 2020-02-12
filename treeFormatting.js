@@ -42,18 +42,26 @@ function parenthesizeTree(tree, options){
 		if (nonTerminal) {
 			if (visible) {
 				if (node["func"] && node["silentHead"]){
-					parTree.push(parens[node.cat][0] + ".f.sh ");
+					parTree.push(parens[node.cat][0] + ".f.sh");
 				}
 				else if (node["func"]){
-					parTree.push(parens[node.cat][0] + ".f ");
+					parTree.push(parens[node.cat][0] + ".f");
 				}
 				else if (node["silentHead"]){
-					parTree.push(parens[node.cat][0] + ".sh ");
+					parTree.push(parens[node.cat][0] + ".sh");
 				}
 				else{
 					parTree.push(parens[node.cat][0]);
 				}//pushes the right parens}
-				
+
+				if(node["isHead"]){
+					parTree.push('*'); //marks head with a *
+				}
+
+				if(node["isHead"] || node["func"] || node["silentHead"]){
+					parTree.push(' '); //push a space
+				}
+
 				//parTree.push(parens[0]);
 				if(showTones){
 					toneTree.push(parens[node.cat][0]);
@@ -84,11 +92,14 @@ function parenthesizeTree(tree, options){
 				}
 			}
 		}
-		//terminal but visible 
+		//terminal but visible
 		else if (visible) {
 			parTree.push(node.id);
 			if(node.cat!='w' && node.cat!='x0'){
 				parTree.push('.'+node.cat);
+			}
+			if(node.isHead){
+				parTree.push("*");
 			}
 			if(showTones && node.tones){
 				toneTree.push(node.tones);
