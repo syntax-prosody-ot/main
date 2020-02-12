@@ -54,11 +54,11 @@ function parenthesizeTree(tree, options){
 					parTree.push(parens[node.cat][0]);
 				}//pushes the right parens}
 
-				if(node["isHead"]){
+				if(node.isHead === true){
 					parTree.push('*'); //marks head with a *
 				}
 
-				if(node["isHead"] || node["func"] || node["silentHead"]){
+				if(node.isHead === true || node["func"] || node["silentHead"]){
 					parTree.push(' '); //push a space
 				}
 
@@ -98,7 +98,7 @@ function parenthesizeTree(tree, options){
 			if(node.cat!='w' && node.cat!='x0'){
 				parTree.push('.'+node.cat);
 			}
-			if(node.isHead){
+			if(node.isHead === true){
 				parTree.push("*");
 			}
 			if(showTones && node.tones){
