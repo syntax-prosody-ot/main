@@ -15,10 +15,12 @@
 	<pre id="results-container"></pre>
 
 <script>
-	window.addEventListener("load",function(){
-		writeTableau(makeTableau(GEN('', 'a b c'), []));
-		revealNextSegment();
-	});
+	var someTrees = GEN('', 'a b c');
+	var results = document.getElementById("results-container");
+	for(var x = 0; x < someTrees.length; x++){
+		someTrees[x][1] = markHeadsJapanese(someTrees[x][1]);
+		results.innerHTML = results.innerHTML + "<p>" + parenthesizeTree(someTrees[x][1]) + "</p>";
+	}
 </script>
 </body>
 </html>

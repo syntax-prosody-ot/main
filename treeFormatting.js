@@ -54,11 +54,11 @@ function parenthesizeTree(tree, options){
 					parTree.push(parens[node.cat][0]);
 				}//pushes the right parens}
 
-				if(node.isHead === true){
+				if(node.isHead){
 					parTree.push('*'); //marks head with a *
 				}
 
-				if(node.isHead === true || node["func"] || node["silentHead"]){
+				if(node.isHead || node["func"] || node["silentHead"]){
 					parTree.push(' '); //push a space
 				}
 
