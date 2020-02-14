@@ -43,25 +43,17 @@ function parenthesizeTree(tree, options){
 		if (nonTerminal) {
 			if (visible) {
 				if (node["func"] && node["silentHead"]){
-					parTree.push(parens[node.cat][0] + ".f.sh");
+					parTree.push(parens[node.cat][0] + ".f.sh ");
 				}
 				else if (node["func"]){
-					parTree.push(parens[node.cat][0] + ".f");
+					parTree.push(parens[node.cat][0] + ".f ");
 				}
 				else if (node["silentHead"]){
-					parTree.push(parens[node.cat][0] + ".sh");
+					parTree.push(parens[node.cat][0] + ".sh ");
 				}
 				else{
 					parTree.push(parens[node.cat][0]);
 				}//pushes the right parens}
-
-				if(node.head && options.showHeads){
-					parTree.push('*'); //marks head with a *
-				}
-
-				if((node.head && options.showHeads) || node["func"] || node["silentHead"]){
-					parTree.push(' '); //push a space
-				}
 
 				//parTree.push(parens[0]);
 				if(showTones){
@@ -85,6 +77,9 @@ function parenthesizeTree(tree, options){
 			}
 			if (visible){
 				parTree.push(parens[node.cat][1]);
+				if(node.head && options.showHeads){
+					parTree.push('*'); //marks head with a *
+				}
 				//parTree.push(parens[1]);
 				if(showTones){
 					toneTree.push(parens[node.cat][1]);
