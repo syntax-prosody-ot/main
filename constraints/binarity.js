@@ -309,6 +309,7 @@ and in that case would need a type-sensitive implementation of getLeaves
 	Head binarity for Japanese compounds
 */
 function binMaxHead(s, ptree, cat) {
+	markHeadsJapanese(ptree);
 	var vcount = 0;
 	// non terminal
 	if(ptree.children && ptree.children.length){
