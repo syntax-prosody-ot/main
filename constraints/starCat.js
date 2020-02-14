@@ -5,7 +5,7 @@ function starCat(s, p, c){
 	if (p.cat === c){
 		occurances ++;
 	};
-	if (p.children){
+	if (p.children && p.children.length){
 		for (var i = 0; i < p.children.length; i ++){
 			var child = p.children[i];
 			occurances += starCat(s, child, c);
