@@ -93,8 +93,8 @@ function markHeadsJapanese(mytree){
 		for(var i = mytree.children.length-1; i >= 0; i--){
 			child = mytree.children[i];
 			/* since we are iterating through children from right to left, when we
-			 * come accross the highest cat we have seen so far, it is necessarily the
-			 * righmost of its category */
+			 * come across the highest cat we have seen so far, it is necessarily the
+			 * rightmost of its category */
 			if(pCat.isHigher(child.cat, headCat)){
 				headCat = child.cat;
 				child.head = true;
