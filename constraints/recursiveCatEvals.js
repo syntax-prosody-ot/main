@@ -88,7 +88,7 @@ function markHeadsJapanese(mytree){
 	var child; //for easy accees to the current child
 	//headCat stores the highest category in children. Defaults to lowest pCat
 	var headCat = pCat[pCat.length-1];
-	if(mytree.children && mytree.children.length > 1){
+	if(mytree.children && mytree.children.length){
 		//mark heads and iterate through tree from RIGHT to LEFT
 		for(var i = mytree.children.length-1; i >= 0; i--){
 			child = mytree.children[i];
@@ -97,26 +97,20 @@ function markHeadsJapanese(mytree){
 			 * righmost of its category */
 			if(pCat.isHigher(child.cat, headCat)){
 				headCat = child.cat;
-				child.isHead = true;
+				child.head = true;
 				//iterate over the children we have already marked:
 				for(var x = i+1; x < mytree.children.length; x++){
 					/* when a new head is marked, all nodes to the right of it must be
-					 * marked as isHead = false since they are of a lower category
+					 * marked as head = false since they are of a lower category
 					 * (remember, the outer loop is iterating from right to left) */
-					mytree.children[x].isHead = false;
+					mytree.children[x].head = false;
 				}
 			}
 			else{
-				child.isHead = false;
+				child.head = false;
 			}
 			child = markHeadsJapanese(child); //recursive function call
 		}
-	}
-	else if(mytree.children && mytree.children.length == 1){
-		//mark heads truthy but not true when they are only children
-		//(this is so I can avoid marking them in the perenthesized form)
-		mytree.children[0].isHead = 1;
-		mytree.children[0] = markHeadsJapanese(mytree.children[0]); //recursive function call
 	}
 	return mytree;
 }
