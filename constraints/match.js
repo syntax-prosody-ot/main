@@ -77,10 +77,6 @@ function matchPS(sParent, pParent, pCat, options)
 {
 	options = options || {};
 	var sTree = sParent;
-	//trim trees here so ptree doesn't get trimmed
-	if(options.trimTrees){
-		sTree = trimRedundantNodes(sParent);
-	}
 	var flippedOptions = {};
 	flippedOptions.maxSyntax = options.maxProsody || false;
 	flippedOptions.nonMaxSyntax = options.nonMaxProsody || false;
@@ -92,7 +88,6 @@ function matchPS(sParent, pParent, pCat, options)
 	flippedOptions.nonMinProsody = options.nonMinSyntax || false;
 	flippedOptions.requireLexical = options.requireLexical || false;
 	flippedOptions.requireOvertHead = options.requireOvertHead || false;
-	flippedOptions.trimTrees = false; //always set to false, otherwise ptree gets trimmed
 	return matchSP(pParent, sTree, pCat, flippedOptions);
 }
 
@@ -114,16 +109,11 @@ function matchPS(sParent, pParent, pCat, options)
 *	maxProsody: If true, the prosodic match needs to be maximal. Passed to hasMatch.
 *	minProsody: If true, the prosodic match needs to be minimal. Passed to hasMatch.
 *	nonMaxProsody: If true, the prosodic match must be non-maximal. Passed to hasMatch.
-*	nonMinProsody: If true, the prosodic match must be non-minimal. Passed to hasMatch.
-* trimTrees: If true, trims trees of silent nodes, non-x0 terminals and redundant nodes, e.g. [[some terminals]]
-*/
+*	nonMinProsody: If true, the prosodic match must be non-minimal. Passed to hasMatch.*/
 function matchSP(inputTree, pTree, sCat, options)
 {
 	options = options || {};
 	var sParent = inputTree;
-	if(options.trimTrees){ //trimTrees option
-		sParent = trimRedundantNodes(inputTree);
-	}
 	markMinMax(sParent);
 	if(sParent.cat === sCat)
 		logreport.debug("\tSeeking match for "+sParent.id + " in tree rooted in "+pTree.id);
