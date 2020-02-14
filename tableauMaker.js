@@ -13,6 +13,8 @@ function makeTableau(candidateSet, constraintSet, options){
 	var sTreeObject = candidateSet[0] ? candidateSet[0][0] : '';
 	var sTree; /*keeping string and object seperate so the trimmed version can be
 		added later, if necessary*/
+	var trimmedTree;//this will be the (un)trimmed tree in EVAL, I just want to to
+		//have wide scope so I can overwrite it a lot
 	if (sTreeObject instanceof Object) {
 		var sOptions = {}; //must not include tone options
 		for (var op in options){
@@ -71,7 +73,8 @@ function makeTableau(candidateSet, constraintSet, options){
 			//var numViolations = runConstraint(constraintAndCat[0], candidate[0], candidate[1], constraintAndCat[1]); ++lastSegmentId; // show log of each constraint run
 			var oldDebugOn = logreport.debug.on;
 			logreport.debug.on = false;
-			var numViolations = globalNameOrDirect(constraint)(getCandidate(candidate[0]), getCandidate(candidate[1]), cat, JSON.parse(conOptions)); logreport.debug.on = oldDebugOn; // don't show the log of each constraint run
+			trimmedTree = options.trimStree ? trimRedundantNodes(getCandidate(candidate[0])) : getCandidate(candidate[0]);
+			var numViolations = globalNameOrDirect(constraint)(trimmedTree, getCandidate(candidate[1]), cat, JSON.parse(conOptions)); logreport.debug.on = oldDebugOn; // don't show the log of each constraint run
 			tableauRow.push(numViolations);
 		}
 		tableau.push(tableauRow);
