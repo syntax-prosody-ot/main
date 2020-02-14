@@ -18,6 +18,7 @@ var categoryBrackets = {
    - parens: default mappings in categoryBrackets can be overwritten with a map
    - showNewCats: if true, annotate categories that aren't found in categoryBrackets with [cat ], where cat is the new category
    - showTones: set to addJapaneseTones, addIrishTones_Elfner, etc. to annotate the tree with appropriate tones and show them in its parenthesization
+	 - showHeads: if true, mark heads with an astrisk
 */
 function parenthesizeTree(tree, options){
 	var parTree = [];
@@ -54,11 +55,11 @@ function parenthesizeTree(tree, options){
 					parTree.push(parens[node.cat][0]);
 				}//pushes the right parens}
 
-				if(node.head){
+				if(node.head && options.showHeads){
 					parTree.push('*'); //marks head with a *
 				}
 
-				if(node.head || node["func"] || node["silentHead"]){
+				if((node.head && options.showHeads) || node["func"] || node["silentHead"]){
 					parTree.push(' '); //push a space
 				}
 
@@ -98,7 +99,7 @@ function parenthesizeTree(tree, options){
 			if(node.cat!='w' && node.cat!='x0'){
 				parTree.push('.'+node.cat);
 			}
-			if(node.head){
+			if(node.head && options.showHeads){
 				parTree.push("*");
 			}
 			if(showTones && node.tones){

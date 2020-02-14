@@ -16,11 +16,17 @@
 
 <script>
 	var someTrees = GEN('', 'a b c');
+	window.addEventListener("load", function(){
+		writeTableau(makeTableau(someTrees, [], {showHeads: true}));
+		revealNextSegment();
+	});
+	/*
 	var results = document.getElementById("results-container");
 	for(var x = 0; x < someTrees.length; x++){
 		someTrees[x][1] = markHeadsJapanese(someTrees[x][1]);
 		results.innerHTML = results.innerHTML + "<p>" + parenthesizeTree(someTrees[x][1]) + "</p>";
 	}
+	*/
 </script>
 </body>
 </html>
