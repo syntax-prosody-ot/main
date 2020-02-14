@@ -1,9 +1,7 @@
 
 // Produces an array of arrays representing a tableau
 // Options: GEN options and options for parenthesize trees
-// trimStree option shows the trimmed version of the sTree,
-//		defaults to false, unless one of the constriants uses a trimTrees option,
-// 		in which case it defaults to true
+// trimStree option uses the trimmed version of the sTree
 
 function makeTableau(candidateSet, constraintSet, options){
 	//all options passed to makeTableau are passed into parenthesizeTree, so make
@@ -32,14 +30,8 @@ function makeTableau(candidateSet, constraintSet, options){
 		*/
 		var conParts = constraintSet[i].split('-');
 		var optionString = '';
-		var trimTreesRx = /trimTrees/ //regEx for testing if trim trees is set explicitly
-		var trimFalseRx = /"trimTrees":false/ //regEx to test if trimTrees is set to false
 		//If there are options, truncate their attribute names and append them to the constraint name.
 		if(conParts[2] && conParts[2].length){
-			//test constraints for tree trimming option
-			if(trimTreesRx.test(conParts[2]) && !trimFalseRx.test(conParts[2])){
-				options.trimStree = true;
-			}
 			var optionObj = JSON.parse(conParts[2]);
 			var optionProperties = Object.getOwnPropertyNames(optionObj);
 			for(var j in optionProperties){
