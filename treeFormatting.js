@@ -18,6 +18,7 @@ var categoryBrackets = {
    - parens: default mappings in categoryBrackets can be overwritten with a map
    - showNewCats: if true, annotate categories that aren't found in categoryBrackets with [cat ], where cat is the new category
    - showTones: set to addJapaneseTones, addIrishTones_Elfner, etc. to annotate the tree with appropriate tones and show them in its parenthesization
+	 - showHeads: if true, mark heads with an astrisk
 */
 function parenthesizeTree(tree, options){
 	var parTree = [];
@@ -33,30 +34,27 @@ function parenthesizeTree(tree, options){
 	}
 
 	function processNode(node){
-		//console.log(node);
 		var nonTerminal = (node.children instanceof Array) && node.children.length;
 		if (showNewCats && !parens.hasOwnProperty(node.cat)){
 			parens[node.cat] = ["["+node.cat+" ", "]"];
 		}
-		for (item in node){
-			if (item == "id" || item == "cat" || item == "children"){
-				continue;
-			}
-			if (node[item]){
-				if (toneTree.length == 0){
-					toneTree.push(item);
-				}
-				else{
-					toneTree[0] += '.' + item;
-				}
-			}
-			// console.log(item);
-			// console.log(node[item]);
-		}
+
 		var visible = invisCats.indexOf(node.cat) === -1 && parens.hasOwnProperty(node.cat);
 		if (nonTerminal) {
 			if (visible) {
-				parTree.push(parens[node.cat][0]);//pushes the right parens
+				if (node["func"] && node["silentHead"]){
+					parTree.push(parens[node.cat][0] + ".f.sh ");
+				}
+				else if (node["func"]){
+					parTree.push(parens[node.cat][0] + ".f ");
+				}
+				else if (node["silentHead"]){
+					parTree.push(parens[node.cat][0] + ".sh ");
+				}
+				else{
+					parTree.push(parens[node.cat][0]);
+				}//pushes the right parens}
+
 				//parTree.push(parens[0]);
 				if(showTones){
 					toneTree.push(parens[node.cat][0]);
@@ -79,6 +77,9 @@ function parenthesizeTree(tree, options){
 			}
 			if (visible){
 				parTree.push(parens[node.cat][1]);
+				if(node.head && options.showHeads){
+					parTree.push('*'); //marks head with a *
+				}
 				//parTree.push(parens[1]);
 				if(showTones){
 					toneTree.push(parens[node.cat][1]);
@@ -86,10 +87,15 @@ function parenthesizeTree(tree, options){
 					//console.log(toneTree[toneTree.length-1]);
 				}
 			}
-		} else if (visible) {
+		}
+		//terminal but visible
+		else if (visible) {
 			parTree.push(node.id);
 			if(node.cat!='w' && node.cat!='x0'){
 				parTree.push('.'+node.cat);
+			}
+			if(node.head && options.showHeads){
+				parTree.push("*");
 			}
 			if(showTones && node.tones){
 				toneTree.push(node.tones);
@@ -107,8 +113,6 @@ function parenthesizeTree(tree, options){
 	}
 
 	processNode(tree);
-	// console.log(tree);
-	// console.log(toneTree);
 	guiTree = parTree.join('');
 	if(showTones)
 		guiTree = guiTree + '\n' + toneTree.join('');
