@@ -2,6 +2,8 @@
 // Produces an array of arrays representing a tableau
 // Options: GEN options and options for parenthesize trees
 // trimStree option uses the trimmed version of the sTree
+// showHeads: marks and shows the heads of Japanese compound words
+	// in the future, this might get a string value specifying a language other than Japanese
 
 function makeTableau(candidateSet, constraintSet, options){
 	//all options passed to makeTableau are passed into parenthesizeTree, so make
@@ -60,8 +62,10 @@ function makeTableau(candidateSet, constraintSet, options){
 	var getCandidate = options.inputTypeString ? function(candidate) {return candidate;} : globalNameOrDirect;
 
 	//Assess violations for each candidate.
-	for(var i = 0; i < candidateSet.length; i++){
-		var candidate = candidateSet[i];
+	var numCand = candidateSet.length;
+	for(var i = 1; i <= numCand; i++){
+		var candidate = candidateSet[numCand-i];
+		if(options.showHeads){candidate[1] = markHeadsJapanese(candidate[1]);}
 		var ptreeStr = options.inputTypeString ? candidate[1] : parenthesizeTree(globalNameOrDirect(candidate[1]), options);
 		var tableauRow = [ptreeStr];
 		for(var j = 0; j < constraintSet.length; j++){

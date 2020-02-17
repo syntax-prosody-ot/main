@@ -394,7 +394,7 @@
 	<div style="padding-bottom:40px">
 		<div class="header">
 			<img src="images/logo.png" alt="SPOT">
-			<span class="subtitle"><span style="display: inline-block; width:50%; font-size:larger;">Syntax Prosody in Optimality Theory </span><span style="display:inline-block; text-align:right;"><a href="https://spot.sites.ucsc.edu/">spot.sites.ucsc.edu/</a></span></span>
+			<span class="subtitle"><span style="display: inline-block; width:50%; font-size:larger;">Syntax-Prosody in Optimality Theory </span><span style="display:inline-block; text-align:right;"><a href="https://spot.sites.ucsc.edu/">spot.sites.ucsc.edu/</a></span></span>
 		</div>
 		<div class="below-header" style="background-color: #d0d8e0;">
 
@@ -437,31 +437,43 @@
 				<div class="spotBlock">
 				<legend><h2>GEN options</h2></legend>
 
-				<table class="spaceytable"><tbody>
-					<tr>
-						<td><input type="checkbox" name="genOptions" value="obeysNonrecursivity">No prosodic recursion. (Non-Recursivity)</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox" name="genOptions" value="obeysHeadedness">Enforce headedness.</td>
-					</tr>
-					<tr>
-							<td><input type="checkbox" name="genOptions" id="exhaustivityBox" value="obeysExhaustivity">No level skipping. (Exhaustivity)</td>
-						</tr>
-					<tr>
-						<td id="exhaustivityDetailOption1" style="display: none; padding-left: 3em" ><input type="checkbox" name="exhaustivityCats" value="i" checked="checked">&iota;'s children are &ge;&phiv;s&nbsp;&nbsp;</td>
-						<td id="exhaustivityDetailOption2" style="display: none"><input type="checkbox" name="exhaustivityCats" value="phi" checked="checked">&phiv;'s children are &ge;&omega;s&nbsp;&nbsp;</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox" name="genOptions" id="branchingBox" value="noUnary">Only generate branching constituents.</td>
-					</tr>
+				<div style="padding-right: 15px">
+					<div class="constraint-row">
+						<span><input type="checkbox" name="genOptions" value="obeysNonrecursivity">No prosodic recursion. (Non-Recursivity)</span>
+						<div class="info">
+							<span class="content">If selected, no pTree will contain a node of category K that dominates another node of category K.</span>
+						</div>
+					</div>
+					<div class="constraint-row">
+						<span><input type="checkbox" name="genOptions" value="obeysHeadedness">Enforce headedness.</span>
+						<div class="info">
+							<span class="content">If selected, every non-terminal pTree node of level i must immediately dominate a node of level i-1.</span>
+						</div>
+					</div>
+					<div class="constraint-row">
+						<span><input type="checkbox" name="genOptions" id="exhaustivityBox" value="obeysExhaustivity">No level skipping. (Exhaustivity)</span>
+						<div class="info">
+							<span class="content">If selected, every non-root pTree node of level i is dominated by a node of level i or i+1.</span>
+						</div>
+					</div>
 
-					<tr>
-						<td><input type="checkbox" name="genOptions" id="cliticMovementBox" value="cliticMovement">Allow clitics to move</td>
-						<td class="info" width="300char"><div class="content">
-								GEN will permute the first node in the syntactic tree with category 'clitic' through the sentence. Ex.: a b c-clitic -> a b c-clitic, a c-clitic b, c-clitic a b. Only use this if your sentences are short, or in conjunction with non-recursivity or the branching requirement.</div>
-						</td>
-					</tr>
-				</tbody></table>
+					<div id="exhaustivityDetailOption1" style="display: none; padding-left: 3em" ><input type="checkbox" name="exhaustivityCats" value="i" checked="checked">&iota;'s children are &ge;&phiv;s&nbsp;&nbsp;</div>
+					<div id="exhaustivityDetailOption2" style="display: none"><input type="checkbox" name="exhaustivityCats" value="phi" checked="checked">&phiv;'s children are &ge;&omega;s&nbsp;&nbsp;</div>
+
+					<div class="constraint-row">
+						<span><input type="checkbox" name="genOptions" id="branchingBox" value="noUnary">All intermediate nodes are branching.</span>
+						<div class="info">
+							<span class="content">If selected, every non-root, non-terminal node will have at least two children. No intermediate nodes will be unary.</span>
+						</div>
+					</div>
+					<div class="constraint-row">
+						<span><input type="checkbox" name="genOptions" id="cliticMovementBox" value="cliticMovement">Allow clitics to move</span>
+						<div class="info">
+							<span class="content">GEN will permute the first node in the syntactic tree with category 'clitic' through the sentence. Ex.: a b c-clitic -> a b c-clitic, a c-clitic b, c-clitic a b. Only use this if your sentences are short, or in conjunction with non-recursivity or the branching requirement.</span>
+						</div>
+					</div>
+				</div>
+
 				<fieldset id="prosodicCategories">
 					<legend><h2>Prosodic categories <span class="arrow"></span></h2></legend>
 					<div class="constraint-row"><span>Root prosodic tree in</span>
@@ -533,6 +545,7 @@
 						  <button class="nodeEditingButton" id="treeUIclearSelection" type="button" disabled>Clear Selection</button>
 						  <span class="info"><span class="content"><p>To add a node, select one or more adjacent sisters and click "Add Mother." To remove nodes, select them and click "Delete." </p>
 							<p>All labels are editable. The small labels with grey backgrounds represent node categories, and must be "cp", "xp", or "x0" for a node to be visible to the syntax-prosody mapping constraints. Use "clitic" as the category for a node that should be mapped to a syllable instead of a &omega;. The larger labels with white backgrounds represent node ids, and can be any unique alphanumeric string.</p>
+							<p> Mark nodes as functional by adding ",func" to the category label in the tree builder. Mark nodes as having silent heads by adding ",silentHead" to the category label in the tree builder.</p>
 							<p>To create a new tree, click "Build syntax" again.</p>
 					 </span></span>
               		</div>
@@ -573,7 +586,7 @@
 							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="matchSP">Match(Syntax&rarr;Prosody)</span>
 								<div class="info">
-									<span class="content">Assign one violation for every node of category K in the syntactic tree such that there is no node of the corresponding prosodic category in the prosodic tree that dominates all and only the same terminal nodes. SPOT function: matchSP(). (Selkirk 2011, Elfner 2012)</span>
+									<span class="content">Assign one violation for every node of category K in the syntactic tree such that there is no node of the corresponding prosodic category in the prosodic tree that dominates all and only the same terminal nodes. SPOT function: matchSP(). (Selkirk 2011)</span>
 								</div>
 							</div>
 							<div class="category-row">
@@ -587,13 +600,13 @@
 								</div>
 								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchSP" value="requireLexical">lexical</div>
 								<div class="info">
-									<span class="content custom-option-div">Match only syntactic nodes that are not labeled as functional.</span>
+									<span class="content custom-option-div">Match only syntactic nodes that are not labeled as functional. Mark nodes as functional by adding ",func" to the category label in the tree builder.</span>
 								</div>
 							</div>
 							<div class="category-row">
 								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchSP" value="requireOvertHead">overtly headed</div>
 								<div class="info">
-									<span class="content custom-option-div">Match only syntactic nodes that have a non-silent head.</span>
+									<span class="content custom-option-div">Match only syntactic nodes that have a non-silent head. Mark nodes as having silent heads by adding ",silentHead" to the category label in the tree builder.</span>
 								</div>
 							</div>
 						</div>
@@ -1016,7 +1029,7 @@
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="strongStart_Elfner">StrongStart</span>
 							<div class="info">
-								<span class="content">Assign one violation for every node in the syntactic tree whose leftmost daughter of the selected category, and is lower in the prosodic hierarchy than its sister constituent immediately to its right. (Elfner's StrongStart) SPOT function: strongStart_Elfner(). (Selkirk 2011, Elfner 2012.)</span>
+								<span class="content">Assign one violation for every node in the prosodic tree whose leftmost daughter is of the selected category, and is lower in the prosodic hierarchy than its sister constituent immediately to its right. (Elfner's StrongStart) SPOT function: strongStart_Elfner(). (Selkirk 2011, Elfner 2012.)</span>
 							</div>
 						</div>
 						<div class="category-row">
@@ -1063,7 +1076,7 @@
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="exhaust1">Exhaustivity</span>
 							<div class="info">
-								<span class="content">Assign one violation for every parent-child pair such that the child’s prosodic category is more than one level lower than the parent’s prosodic category. E.g., phi with a syllable child, i with a w child. SPOT function: exhaust1(). For Exhaustivity as a violable constraint, see Selkirk 1995 “The prosodic structure of function words”</span>
+								<span class="content">Assign one violation for every parent-child pair such that the child’s prosodic category is more than one level lower than the parent’s prosodic category. E.g., &phiv; with a syllable child, &iota; with an &omega; child. SPOT function: exhaust1(). For Exhaustivity as a violable constraint, see Selkirk 1995 “The prosodic structure of function words”</span>
 							</div>
 						</div>
 					</div>
@@ -1100,7 +1113,7 @@
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="nonRecTruckenbrodt">Non-recursivity, assessed by non-overlapping leaves (nonRecTruckenbrodt)</span>
 							<div class="info">
-								<span class="content">For every node X of category K dominated by another node Y of category K in the prosodic tree, assign one violation for every leaf dominated by Y that is not also dominated by X. SPOT function: nonRecTruckenbrodt(). (Truckenbrodt 1999)</span>
+								<span class="content">For every node X of category K dominated by another node Y of category K in the prosodic tree, assign one violation for every leaf dominated by Y that is not also dominated by X. SPOT function: nonRecTruckenbrodt(). (Truckenbrodt 1995, 1999)</span>
 							</div>
 						</div>
 							<div class="category-row">
@@ -1134,7 +1147,7 @@
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="accentAsHead">AccentAsHead</span>
 							<div class="info">
-								<span class="content">Every accent is the head of a minimal phi. Assign a violation for every accented word (A) that is not the sole accented word in its minimal phi (Ito & Mester 2013).</span>
+								<span class="content">Every accent is the head of a minimal &phiv;. Assign a violation for every accented word (A) that is not the sole accented word in its minimal &phiv; (Ito & Mester 2013).</span>
 							</div>
 						</div>
 					</div>
@@ -1142,7 +1155,7 @@
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="noLapseL">NoLapse-L</span>
 							<div class="info">
-								<span class="content">No tonal lapses. Assign a violation for every fully L-toned word (i.e., an unaccented word U that follows A within a minimal phi) (Ito & Mester 2013).</span>
+								<span class="content">No tonal lapses. Assign a violation for every fully L-toned word (i.e., an unaccented word U that follows A within a minimal &phiv;) (Ito & Mester 2013).</span>
 							</div>
 						</div>
 					</div>

@@ -5,6 +5,33 @@
 * TODO does the degree of prosodic inequality make a difference to the severity of the violation?
 *********************/
 
+/* Maximally categorical definition of equalSisters:
+*  Assign one violation for every set of sisters that do not all have the same category.
+*  That is, all of the following would have one violation: (a (b)(c)), (a b (c)), ((a) b c)
+*/
+function eqSis(s, ptree, cat){
+	var vcount = 0;
+	//base case: parent has category cat and is non-terminal
+	if(ptree.cat === cat && ptree.children && ptree.children.length){
+		var cat1 = ptree.children[0].cat;
+		for(var i=1; i<ptree.children.length; i++){
+			var child = ptree.children[i];
+			if(child.cat != cat1){
+				vcount++;
+				break;
+			}
+		}
+	}
+
+	//recursive case
+	if(ptree.children && ptree.children.length){
+		for(var i=0; i<ptree.children.length; i++){
+			vcount += eqSis(s, ptree.children[i], cat);
+		}
+	}
+	return vcount;
+}
+
 /* EqualSisters: looks at the category of the first sister, and assigns a violation 
 * for every one of its sisters that doesn't share its category
 * A definition probably no one wants but which is not ruled out by the "definitions" that appear in papers

@@ -37,8 +37,10 @@ function strongStart_Elfner(s, ptree, k){
 }
 
 /* Assign a violation for every node of category cat whose leftmost daughter constituent
-*  is lower in the prosodic hierarchy than its sister constituent immediately to its right.
-*  (intuitive strong start, according to the intuition of Bellik & Kalivoda 2019)
+*  is lower in the prosodic hierarchy than any sister constituent to its right.
+*  (intuitive strong start, according to the intuition of Bellik & Kalivoda 2019) 
+*  Updated Jan 2020 to penalize structures like (a b (c)) as well as (a (b c)). 
+*  The previous definition only looked at the first and second sisters.
 */
 
 function strongStart(s, ptree, cat){
@@ -52,15 +54,15 @@ function strongStart(s, ptree, cat){
 	
 	if(ptree.cat === cat && ptree.children.length>1){		
 		var leftmostCat = ptree.children[0].cat;
-		var sisterCat = ptree.children[1].cat;
-		
-		//console.log(leftmostCat);
-		//console.log(sisterCat);
-		//console.log(pCat.isLower(leftmostCat, sisterCat));
+		for(var i = 1; i<ptree.children.length; i++){
+			var sisterCat = ptree.children[i].cat;
+			//console.log(leftmostCat, sisterCat, pCat.isLower(leftmostCat, sisterCat));
 
-		if(pCat.isLower(leftmostCat, sisterCat))
-		{
-			vcount++;
+			if(pCat.isLower(leftmostCat, sisterCat))
+			{
+				vcount++;
+				break;
+			}
 		}
 	}
 	

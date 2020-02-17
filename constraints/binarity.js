@@ -59,6 +59,13 @@ function binMaxBranches(s, ptree, cat){
 	return vcount;
 }
 
+//A combined binarity constraint (branch-counting)
+function binBranches(stree, ptree, cat){
+	var minCount = binMinBranches(stree, ptree, cat);
+	var maxCount = binMaxBranches(stree, ptree, cat);
+	return minCount+maxCount;
+}
+
 /* Category-sensitive branch-counting constraint
 * (first proposed by Kalivoda 2019 in "New Analysis of Irish Syntax-Prosody", ms.)
 * Assign a violation for every node of category cat that immediately dominates
@@ -297,3 +304,35 @@ Note: relies on getLeaves.
 In the future we might want to have structure below the level of the (terminal) word, e.g., feet
 and in that case would need a type-sensitive implementation of getLeaves
 */
+
+/*
+	Head binarity for Japanese compounds
+*/
+function binMaxHead(s, ptree, cat) {
+	markHeadsJapanese(ptree);
+	var vcount = 0;
+	// non terminal
+	if(ptree.children && ptree.children.length){
+		// if category is correct and word is head
+		if(ptree.cat === cat && ptree.head === true){
+			if(ptree.children.length > 2){
+				vcount++;
+			}
+		}
+		for(var i = 0; i<ptree.children.length; i++){
+			vcount += binMaxHead(s, ptree.children[i], cat);
+		}
+	}
+	// terminal
+	else {
+		// if category is correct and word is head
+		if(ptree.cat === cat && ptree.head === true){
+			var id = ptree.id.split('_');
+			id = id[0];
+			if(id.length > 2) {
+				vcount++;
+			}
+		}
+	}
+	return vcount;
+}
