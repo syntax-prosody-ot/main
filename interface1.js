@@ -475,7 +475,7 @@ window.addEventListener('load', function(){
 			var sTree = sTrees[i];
 			//console.log(pString.split(" ").length >= 6)
 			//warn user about using more than six terminals
-			
+
 
 			//warn user about possibly excessive numbers of candidates
 			if (genOptions['cliticMovement'] && (!genOptions['noUnary'] && (getLeaves(sTree).length >= 5 || pString.split(" ").length >= 5))
@@ -483,13 +483,13 @@ window.addEventListener('load', function(){
 				if(!confirm("You have selected GEN settings that allow clitic reordering, and included a sentence of ".concat( pString.split(" ").length.toString()," terminals. This GEN may yield more than 10K candidates. To reduce the number of candidates, consider enforcing non-recursivity, exhaustivity, and/or branchingness for intermediate prosodic nodes. Do you wish to proceed with these settings?"))){
 					throw new Error("clitic movement with too many terminals");
 				}
-			} 
+			}
 			else if(getLeaves(sTree).length >= 6 || pString.split(" ").length >= 6){
 				if(!confirm("Inputs of more than six terminals may run slowly and even freeze your browser, depending on the selected GEN options. Do you wish to continue?")){
 					throw new Error("Tried to run gen with more than six terminals");
 				}
 			}
-			
+
 			if (genOptions['cliticMovement']){
 				var candidateSet = GENwithCliticMovement(sTree, pString, genOptions);
 			}
@@ -810,4 +810,24 @@ function saveAs(blob, name) {
 function clearTableau() {
 	document.getElementById('results-container').innerHTML = "";
 	document.getElementById('results-container').className = "";
+}
+
+function showMore(constraintType) {
+	if(constraintType === "mapping") {
+		var x = document.getElementById("moreMappingConstraints");
+	}
+	else if(constraintType === "binarity") {
+		var x = document.getElementById("moreBinarityConstraints");
+	}
+	else if(constraintType === "sisterhood") {
+		var x = document.getElementById("moreSisterhoodConstraints");
+	}
+	else if(constraintType === "layering") {
+		var x = document.getElementById("moreLayeringConstraints");
+	}
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
 }
