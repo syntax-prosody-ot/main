@@ -15,9 +15,9 @@
 	<pre id="results-container"></pre>
 
 <script>
-	var someTrees = GEN('', 'a b c');
+	var someTrees = GEN('', 'F FF FFF');
 	window.addEventListener("load", function(){
-		writeTableau(makeTableau(someTrees, [], {showHeads: true}));
+		writeTableau(makeTableau(someTrees, ['binMaxHead-w', 'binMaxHead-phi'], {showHeads: true}));
 		revealNextSegment();
 	});
 	/*
