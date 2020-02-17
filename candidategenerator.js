@@ -56,7 +56,7 @@ window.GEN = function(sTree, words, options){
 	 * But if they are not, the default setting code throws unhelpful errors.
 	 * The finally block throws more helpful errors and alert boxes instead
 	 */
-	
+
 	//a flag for whether the user has included a novel category undefined in categoryHierarchy
 	var novelCategories = false;
 	try{
@@ -189,7 +189,7 @@ function obeysHeadedness(tree){
 	//inner function
 	function nodeIsHeaded(node) {
 		/* Function to check if a node is headed. Relies on the prosodic hierarchy being
-		 * properly defined. Returns true iff 
+		 * properly defined. Returns true iff
 		 * a. one of the node's children is of the category directly below its own category *    on the prosodic hierarchy,
 		 * b. one of the node's descendants is of the same category as the node
 		 * c. the node is terminal.
@@ -199,7 +199,7 @@ function obeysHeadedness(tree){
 		if (!children)
 			return true;
 		for (var i = 0; i < children.length; i++)
-			if (children[i].cat === pCat.nextLower(node.cat) 
+			if (children[i].cat === pCat.nextLower(node.cat)
 			|| children[i].cat === node.cat){
 				return true;
 			}
@@ -413,24 +413,25 @@ function generateWordOrders(wordList, clitic){
 */
 function GENwithCliticMovement(stree, words, options){
 	// Identify the clitic of interest
-	var clitic = '';
+	var clitic = [];
 	// First try to read words and clitic off the tree
 	var leaves = getLeaves(stree);
 	if(leaves.length > 0 && leaves[0].id){
 		console.log(leaves);
 		var leaf = 0;
-		while(clitic === '' && leaf < leaves.length){
+		while(leaf < leaves.length){
 			if(leaves[leaf].cat==="clitic")
-				clitic = leaves[leaf].id;
+				clitic.push(leaves[leaf].id);
 			leaf++;
 		}
-		if(clitic === ''){
+		/* now redundant
+		if(clitic.length == 0){
 			console.warn("GENWithCliticMovement was called but no node in stree has category clitic was provided in stree");
 			console.log(stree);
 			return GEN(stree, words, options);
 			//throw new Error("GENWithCliticMovement was called but no node in stree has category clitic was provided in stree");
-
 		}
+		*/
 	}
 	//Otherwise, get the clitic from words
 	else
@@ -439,14 +440,17 @@ function GENwithCliticMovement(stree, words, options){
 		if(typeof words === "string"){
 			words = words.split(' ');
 		}
-		var x = words.find(containsClitic);
-		if(!x){ //x is undefined if no word in "words" contains "clitic"
-			console.warn("GENWithCliticMovement was called but no node in stree has category clitic was provided in stree");
-			console.log(stree);
-			return GEN(stree, words, options);
+		for(var x = 0; x < words.length; x++){
+			if(words[x].split('-clitic').length > 1){
+				clitic.push(words[x].split('-clitic')[0]);
+				words[x] = words[x].split('-clitic')[0];
+			}
 		}
-		clitic = x.split('-clitic')[0];
-		words[words.indexOf(x)] = clitic;
+	}
+	if(clitic.length == 0){ //clitic.length is 0 if no word in "words" contains "clitic"
+		console.warn("GENWithCliticMovement was called but no node in stree has category clitic was provided in stree");
+		console.log(stree);
+		return GEN(stree, words, options);
 	}
 
 	//Make sure words is defined before using it to generate word orders
