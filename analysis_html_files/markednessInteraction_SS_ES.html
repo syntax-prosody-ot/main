@@ -28,7 +28,7 @@
 	// var noX0Sisters = sTreeList.filter(x => !x0Sisters(x, 'x0'));
 	// var binaryBrTrees = sTreeList.filter(x => !ternaryNodes(x, 2));
 	// var maxTTrees = sTreeList.filter(x => !x0Sisters(x, 'x0') && !ternaryNodes(x, 2));
-    sTreeList = sTreeGEN('a b').concat(sTreeGEN('a b c'), sTreeGEN('a b c d'));
+	sTreeList = sTreeGEN('a b').concat(sTreeGEN('a b c'), sTreeGEN('a b c d'));
 
 	/*Constraint sets.*/
     var MatchSP_SS_ES = ['matchSP-xp', 'strongStart-phi', 'eqSis-phi']; // Only one language, lots of promotion
@@ -83,8 +83,8 @@
             var tabl = makeTableau(candSet, window[consName], {showTones: output_gen_options.addTones});
 			
 			//Write the tableau to the screen and reveal it -- only uncomment this if you don't have too many tableaux!
-			writeTableau(tabl)
-			revealNextSegment();
+			//writeTableau(tabl)
+			//revealNextSegment();
 			lastSegmentId++;
 			
 			//Add the tableau from the current stree to cumulative tableau that is being built in csvSegs.
