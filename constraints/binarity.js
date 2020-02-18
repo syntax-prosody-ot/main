@@ -186,6 +186,11 @@ function binMinLeaves(s, ptree, c){
 	return vcount;
 }
 
+//Combines the violations of maximal and minimal binarity (leaf-counting)
+function binLeaves(s, ptree, c){
+	return binMaxLeaves(s, ptree, c) + binMinLeaves(s, ptree, c);
+}
+
 //Helper function: given a node x, returns all the descendents of x that have category cat.
 //Since this function is designed for use on prosodic trees, it does not take silence into account.
 function getDescendentsOfCat(x, cat){
