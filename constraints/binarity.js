@@ -112,6 +112,10 @@ function binMaxBranchesGradient(s, ptree, cat){
 	return vcount;
 }
 
+function binBrGradient(s, ptree, cat){
+	return binMaxBranchesGradient(s, ptree, cat)+binMinBranches(s, ptree, cat);
+}
+
 /*TRUCKENBRODT-STYLE BINARITY*/
 
 /* Categorical BinMax (Leaves)
