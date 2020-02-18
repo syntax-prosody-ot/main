@@ -962,7 +962,7 @@
 						</div>
 					</div>
 
-					<div class="constraint-selection-table">
+					<!-- <div class="constraint-selection-table">
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="alignLeftMorpheme">AlignLeft (Lexical item)</span>
 							<div class="info"><span class="content">For the specified morpheme(s), assign a violation for every terminal that intervenes between the left edge of the tree and the lexical item. Separate lexical items with spaces. See: McCarthy & Prince 1993, "Generalized Alignment"</span></div>
@@ -970,8 +970,19 @@
 						<div class="category-row">
 							<div class="category-selection-div"><input type="text" name="category-alignLeftMorpheme" checked="true" placeholder="Lexical item(s)"></div>
 						</div>
+					</div> -->
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="alignMorpheme">AlignLeft (Lexical item)</span>
+							<div class="info"><span class="content">For the specified morpheme(s), assign a violation for every terminal that intervenes between the left edge of the tree and the lexical item. Separate lexical items with spaces. See: McCarthy & Prince 1993, "Generalized Alignment"</span></div>
+						</div>
+						<div class="category-row">
+							<div class="category-selection-div" style="width:initial"><input type="text" name="category-alignMorpheme" checked="true" placeholder="Lexical item(s)"></div>
+							<div class="category-selection-div" style="width:initial"><input type="radio" name="category-alignMorpheme" value="left" checked="true">left</div>
+							<div class="category-selection-div" style="width:initial"><input type="radio" name="category-alignMorpheme" value="right">right</div>
+						</div>
 					</div>
-
+					
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="balancedSisters">BalancedSisters (Uniformity)</span>

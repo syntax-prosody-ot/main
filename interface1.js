@@ -351,12 +351,14 @@ window.addEventListener('load', function(){
 					if (constraintCatSet.length === undefined) {
 						constraintCatSet = [constraintCatSet];
 					}
+					console.log(constraintCatSet[0]);
 					for(var j=0; j<constraintCatSet.length; j++){
 						var categoryBox = constraintCatSet[j];
 						if(categoryBox.checked){
 							var category = categoryBox.value;
-							if(constraint === "alignLeftMorpheme") {
+							if(constraint === "alignMorpheme") {
 								category = category.split(' ').join(';');
+								console.log(category);
 							}
 							//Figure out selected match options for the constraint
 							if(spotForm['option-'+constraint]){

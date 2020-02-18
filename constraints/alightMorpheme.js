@@ -4,6 +4,7 @@
 */
 
 function alignMorpheme(stree, ptree, clitic, direction){
+    //console.log("called alignMorpheme");
     // if(ptree.cat !== "i" && ptree.cat !== 'iota'){
     //     console.warn("You are calling alignLeftClitic on a tree that is not rooted in i");
     // }
