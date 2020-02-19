@@ -677,7 +677,7 @@
 							</div>
 						</div>
 
-						<h3 onclick="showMore('mapping')">Show more mapping constraints</h3>
+						<h3 onclick="showMore('mapping')">Show more constraints</h3>
 
 						<div id="moreMappingConstraints" class="more-constraints">
 							<div class="constraint-selection-table">
@@ -887,6 +887,20 @@
 							</div>
 					</div>
 
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="binBranches">Bin(branches)</span>
+							<div class="info">
+								<span class="content">info</span>
+							</div>
+						</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-binBranches" value="i">&iota;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-binBranches" value="phi" checked="checked">&phiv;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-binBranches" value="w">&omega;</div>
+							</div>
+					</div>
+
 					<h3>...counting leaves</h3>
 
 
@@ -918,7 +932,7 @@
 							</div>
 					</div>
 
-					<h3 onclick="showMore('binarity')">Show more binarity constraints</h3>
+					<h3 onclick="showMore('binarity')">Show more constraints</h3>
 
 					<div id="moreBinarityConstraints" class="more-constraints">
 						<div class="constraint-selection-table">
@@ -951,7 +965,7 @@
 
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
-								<span><input type="checkbox" name="constraints" value="binMinLeaves_requireMaximal">BinMin(leaves) <i>maximal nodes only</i></span>
+								<span><input type="checkbox" name="constraints" value="binMinLeaves_requireMaximal">BinMin(leaves) - <i>maximal nodes only</i></span>
 								<div class="info">
 									<span class="content">Assign one violation for every node P of the prosodic category K in the prosodic tree such that P is maximal and P dominates less than two nodes of the prosodic category immediately below K on the prosodic hierarchy. A node of category K is maximal if it is not dominated by any other nodes of category K. SPOT function: binMinLeaves_requireMaximal. (Van Handel 2019)</span>
 								</div>
@@ -962,6 +976,21 @@
 									<div class="category-selection-div"><input type="checkbox" name="category-binMinLeaves_requireMaximal" value="w">&omega;</div>
 								</div>
 						</div>
+
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="binMaxHead">BinMaxHead</span>
+								<div class="info">
+									<span class="content">info</span>
+								</div>
+							</div>
+								<div class="category-row">
+									<div class="category-selection-div"><input type="checkbox" name="category-binMaxHead" value="i">&iota;</div>
+									<div class="category-selection-div"><input type="checkbox" name="category-binMaxHead" value="phi" checked="checked">&phiv;</div>
+									<div class="category-selection-div"><input type="checkbox" name="category-binMaxHead" value="w">&omega;</div>
+								</div>
+						</div>
+
 					</div>
 
 				</fieldset>
@@ -986,7 +1015,30 @@
 
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
-							<span><input type="checkbox" name="constraints" value="strongStart_Elfner">StrongStart</span>
+							<span><input type="checkbox" name="constraints" value="eqSis">EqualSisters (categorical)</span>
+							<div class="info">
+								<span class="content">info</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="strongStart">StrongStart (categorical)</span>
+							<div class="info">
+								<span class="content">info</span>
+							</div>
+						</div>
+						<div class="category-row">
+							<div class="category-selection-div"><input type="checkbox" name="category-strongStart" value="phi">&phiv;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-strongStart" value="w" checked="checked">&omega;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-strongStart" value="syll">&sigma;</div>
+						</div>
+					</div>
+
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="strongStart_Elfner">StrongStart (Elfner, Selkirk)</span>
 							<div class="info">
 								<span class="content">Assign one violation for every node in the prosodic tree whose leftmost daughter is of the selected category, and is lower in the prosodic hierarchy than its sister constituent immediately to its right. (Elfner's StrongStart) SPOT function: strongStart_Elfner(). (Selkirk 2011, Elfner 2012.)</span>
 							</div>
@@ -998,7 +1050,7 @@
 						</div>
 					</div>
 
-					<h3 onclick="showMore('sisterhood')">Show more sisterhood constraints</h3>
+					<h3 onclick="showMore('sisterhood')">Show more constraints</h3>
 
 					<div id="moreSisterhoodConstraints" class="more-constraints">
 						<div class="constraint-selection-table">
@@ -1092,7 +1144,7 @@
 
 				<fieldset>
 
-					<legend><h2>Layering <span class="arrow"></h2></legend>
+					<legend><h2>Layering and structure <span class="arrow"></h2></legend>
 
 
 					<div class="constraint-selection-table">
@@ -1118,7 +1170,7 @@
 							</div>
 					</div>
 
-					<h3 onclick="showMore('layering')">Show more layering constraints</h3>
+					<h3 onclick="showMore('layering')">Show more constraints</h3>
 
 					<div id="moreLayeringConstraints" class="more-constraints">
 						<div class="constraint-selection-table">
@@ -1134,7 +1186,7 @@
 									<div class="category-selection-div"><input type="checkbox" name="category-nonRecTruckenbrodt" value="w">&omega;</div>
 								</div>
 						</div>
-						
+
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="nonRecChild">Non-recursivity, assessed by dominated node (nonRecChild)</span>
@@ -1164,11 +1216,25 @@
 						</div>
 					</div>
 
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name=constraints value="starCat">*pCat</span>
+							<div class="info">
+								<span class="content">info</span>
+							</div>
+						</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-starCat" value="i">&iota;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-starCat" value="phi" checked="checked">&phiv;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-starCat" value="w">&omega;</div>
+							</div>
+					</div>
+
 				</fieldset>
 				<br/>
 
 				<fieldset>
-					<legend><h2>Constraints on accentedness <span class="arrow"></h2></legend>
+					<legend><h2>Accent constraints <span class="arrow"></h2></legend>
 					<span class="info"><span class="content">Constraints proposed for analysis of lexical accent systems (Japanese, Basque). Accents must be indicated either by using 'a'/'u' or 'A'/'U' for the ids of words, or by adding accent attributes in the syntactic tree.</span></span>
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
