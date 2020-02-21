@@ -448,6 +448,7 @@ window.addEventListener('load', function(){
 
 		var tableauOptions = {
 			showTones: false,  //true iff tones are selected
+			trimStree: false,
 			invisibleCategories: []
 		};
 
@@ -456,6 +457,9 @@ window.addEventListener('load', function(){
 			genOptions.addTones = spotForm.toneOptions.value;
 		 	tableauOptions.showTones = spotForm.toneOptions.value;
 			//console.log(genOptions);
+		}
+		if(document.getElementById("trimTrees").checked){
+			tableauOptions.trimStree = true;
 		}
 
 
