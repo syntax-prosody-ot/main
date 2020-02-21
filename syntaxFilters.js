@@ -37,3 +37,29 @@ function ternaryNodes(sTree, maxBr){
     }
     return ternaryNodesFound;
 }
+
+function headsOnWrongSide(sTree, side, strict){
+    var badHeadFound = false;
+    if(sTree.children && sTree.children.length > 1){
+        var i = 0;
+        while(!badHeadFound && i<sTree.children.length){
+            var child = sTree.children[i];
+            if(child.cat==='x0'){
+                if((side==='right' && i===0) || (side==='left' && i===sTree.children.length-1)){
+                    badHeadFound = true;
+                }
+                if(strict==='strict'){
+                    if((side==='right' && i<sTree.children.length-1) || (side==='left' && i>0)){
+                        badHeadFound = true;
+                    }
+                }
+            }
+            else{
+                badHeadFound = headsOnWrongSide(child, side);
+            }
+            i++;
+        }
+    }
+    return badHeadFound;
+    
+}

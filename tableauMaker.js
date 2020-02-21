@@ -1,6 +1,7 @@
 
 // Produces an array of arrays representing a tableau
 // Options: GEN options and options for parenthesize trees
+// trimStree option uses the trimmed version of the sTree
 // showHeads: marks and shows the heads of Japanese compound words
 	// in the future, this might get a string value specifying a language other than Japanese
 
@@ -11,15 +12,19 @@ function makeTableau(candidateSet, constraintSet, options){
 	var tableau = [];
 	//Make a header for the tableau, containing all the constraint names.
 	//First element is empty, to correspond to the column of candidates.
-	var sTree = candidateSet[0] ? candidateSet[0][0] : '';
-	if (sTree instanceof Object) {
+	var sTreeObject = candidateSet[0] ? candidateSet[0][0] : '';
+	var sTree; /*keeping string and object seperate so the trimmed version can be
+		added later, if necessary*/
+	var trimmedTree;//this will be the (un)trimmed tree in EVAL, I just want to to
+		//have wide scope so I can overwrite it a lot
+	if (sTreeObject instanceof Object) {
 		var sOptions = {}; //must not include tone options
 		for (var op in options){
 			if (op != "showTones" && op != "addTones"){
 				sOptions[op] = options[op]; //don't copy in tone options
 			}
 		}
-		sTree = parenthesizeTree(sTree, sOptions); //JSON.stringify(sTreeName);
+		sTree = parenthesizeTree(sTreeObject, sOptions); //JSON.stringify(sTreeName);
 	}
 	//Build a header for the tableau
 	var header = [sTree];
@@ -47,6 +52,11 @@ function makeTableau(candidateSet, constraintSet, options){
 		var constraintOptionsCat = conParts[0]+optionString+cat;
 		header.push(constraintOptionsCat);
 	}
+
+	if(options.trimStree){
+		header[0] = header[0].concat(' trimmed: ', parenthesizeTree(trimRedundantNodes(sTreeObject)));
+	}
+
 	tableau.push(header);
 
 	var getCandidate = options.inputTypeString ? function(candidate) {return candidate;} : globalNameOrDirect;
@@ -67,7 +77,8 @@ function makeTableau(candidateSet, constraintSet, options){
 			//var numViolations = runConstraint(constraintAndCat[0], candidate[0], candidate[1], constraintAndCat[1]); ++lastSegmentId; // show log of each constraint run
 			var oldDebugOn = logreport.debug.on;
 			logreport.debug.on = false;
-			var numViolations = globalNameOrDirect(constraint)(getCandidate(candidate[0]), getCandidate(candidate[1]), cat, JSON.parse(conOptions)); logreport.debug.on = oldDebugOn; // don't show the log of each constraint run
+			trimmedTree = options.trimStree ? trimRedundantNodes(getCandidate(candidate[0])) : getCandidate(candidate[0]);
+			var numViolations = globalNameOrDirect(constraint)(trimmedTree, getCandidate(candidate[1]), cat, JSON.parse(conOptions)); logreport.debug.on = oldDebugOn; // don't show the log of each constraint run
 			tableauRow.push(numViolations);
 		}
 		tableau.push(tableauRow);
@@ -101,6 +112,7 @@ function tableauToCsv(tableau, separator, options) {
 }
 
 function tableauToHtml(tableau) {
+	var trimRegEx = / trimmed: /; //for testing to see if there is a trimmed tree
 	if (!(tableau instanceof Array))
 		return '';
 	var htmlChunks = ['<table class="tableau"><thead><tr>'];
@@ -108,6 +120,9 @@ function tableauToHtml(tableau) {
 	htmlChunks.push('<th></th>');
 	for (var j = 0; j < headers.length; j++) {
 		htmlChunks.push('<th>');
+		if(trimRegEx.test(headers[j])){
+			headers[j] = headers[j].replace(' trimmed: ', '<br>trimmed: ');
+		}
 		htmlChunks.push(headers[j]);
 		htmlChunks.push('</th>');
 	}
