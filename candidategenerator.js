@@ -401,6 +401,65 @@ function generateWordOrders(wordList, clitic){
 	return orders;
 }
 
+/* function that generates all orders of words
+ * for when there is more than one clitic
+ * takes a list of words to permute
+ * this is Heap's algorithm, by the way
+ * [https://en.wikipedia.org/wiki/Heap%27s_algorithm] */
+function generateAllOrders(wordList){
+	//function for swapping elements in an array, takes array and indexes of elements to be swapped
+	function swap(array, index1, index2){
+		var swapped = [];
+		for(var i = 0; i<array.length; i++){
+			if(i === index1){
+				swapped.push(array[index2]);
+			}
+			else if(i === index2){
+				swapped.push(array[index1]);
+			}
+			else{
+				swapped.push(array[i]);
+			}
+		}
+		return swapped;
+	}
+
+	//actual implementation of Heap's algorithm, I don't quite understand it
+	function allOrdersInner(innerList, k){
+		if(k == 1){
+			permutations.push(innerList);
+		}
+		else{
+			allOrdersInner(innerList, k-1); //recursive function call
+
+			for(var i = 0; i < k-1; i++){
+				if(k%2 === 0){
+					//swap innerList[i] with innerList[k-1]
+					allOrdersInner(swap(innerList, i, k-1), k-1); //recursive function call
+				}
+				else{
+					//swap innerList[0] with innerList[k-1]
+					allOrdersInner(swap(innerList, 0, k-1), k-1); //recursive function call
+				}
+			}
+		}
+	}
+
+	if(typeof wordList === 'string'){
+		// make sure wordList is an array
+		var cliticTagIndex = wordList.indexOf("-clitic");
+		if(cliticTagIndex > 0){
+			var wordListParts = wordList.split("-clitic");
+			wordList = wordListParts[0]+wordListParts[1];
+		}
+		wordList = wordList.split(' ');
+	}
+	var permutations = []; //all permutations of wordList
+
+	allOrdersInner(wordList, wordList.length);
+	return permutations;
+}
+
 /* Arguments:
 	stree: a syntatic tree, with the clitic marked as cat: "clitic"
 	words: optional string or array of strings which are the desired leaves
@@ -461,7 +520,13 @@ function GENwithCliticMovement(stree, words, options){
 		}
 		//console.log(words);
 	}
-	var wordOrders = generateWordOrders(words, clitic);
+	var wordOrders;
+	if(clitic.length === 1){
+		wordOrders = generateWordOrders(words, clitic[0]);
+	}
+	else{
+		wordOrders = generateAllOrders(words);
+	}
 	var candidateSets = new Array(wordOrders.length);
 	for(var i = 0; i<wordOrders.length; i++){
 		candidateSets[i] = GEN(stree, wordOrders[i], options);
