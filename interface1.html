@@ -948,7 +948,7 @@
 
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
-							<span><input type="checkbox" name="constraints" value="binMaxLeaves">BinMax(leaves) - <i>categorical</i></span>
+							<span><input type="checkbox" name="constraints" value="binMaxLeaves">BinMax(leaves)</span>
 							<div class="info">
 								<span class="content">Assign one violation for every node of category K in the prosodic tree that dominates more than two nodes of the category immediately below K on the prosodic hierarchy. SPOT function: binMaxLeaves(). Concept: see, Selkirk 2000, Sandalo & Truckenbrodt 2002</span>
 							</div>
@@ -957,6 +957,20 @@
 								<div class="category-selection-div"><input type="checkbox" name="category-binMaxLeaves" value="i">&iota;</div>
 								<div class="category-selection-div"><input type="checkbox" name="category-binMaxLeaves" value="phi" checked="checked">&phiv;</div>
 								<div class="category-selection-div"><input type="checkbox" name="category-binMaxLeaves" value="w">&omega;</div>
+							</div>
+					</div>
+
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="binLeaves">Bin(leaves)</span>
+							<div class="info">
+								<span class="content">info</span>
+							</div>
+						</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-binLeaves" value="i">&iota;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-binLeaves" value="phi" checked="checked">&phiv;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-binLeaves" value="w">&omega;</div>
 							</div>
 					</div>
 
@@ -1002,6 +1016,34 @@
 									<div class="category-selection-div"><input type="checkbox" name="category-binMinLeaves_requireMaximal" value="i">&iota;</div>
 									<div class="category-selection-div"><input type="checkbox" name="category-binMinLeaves_requireMaximal" value="phi" checked="checked">&phiv;</div>
 									<div class="category-selection-div"><input type="checkbox" name="category-binMinLeaves_requireMaximal" value="w">&omega;</div>
+								</div>
+						</div>
+
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="binBrGradient">Bin(branches) - <i>gradient</i></span>
+								<div class="info">
+									<span class="content">info</span>
+								</div>
+							</div>
+								<div class="category-row">
+									<div class="category-selection-div"><input type="checkbox" name="category-binBrGradient" value="i">&iota;</div>
+									<div class="category-selection-div"><input type="checkbox" name="category-binBrGradient" value="phi" checked="checked">&phiv;</div>
+									<div class="category-selection-div"><input type="checkbox" name="category-binBrGradient" value="w">&omega;</div>
+								</div>
+						</div>
+
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="binLeavesGradient">Bin(leaves) - <i>gradient</i></span>
+								<div class="info">
+									<span class="content">info</span>
+								</div>
+							</div>
+								<div class="category-row">
+									<div class="category-selection-div"><input type="checkbox" name="category-binLeavesGradient" value="i">&iota;</div>
+									<div class="category-selection-div"><input type="checkbox" name="category-binLeavesGradient" value="phi" checked="checked">&phiv;</div>
+									<div class="category-selection-div"><input type="checkbox" name="category-binLeavesGradient" value="w">&omega;</div>
 								</div>
 						</div>
 
@@ -1217,27 +1259,28 @@
 									<div class="category-selection-div"><input type="checkbox" name="category-nonRecPairs" value="w">&omega;</div>
 								</div>
 						</div>
-					</div>
 
-					<div class="constraint-selection-table">
-						<div class="constraint-row">
-							<span><input type="checkbox" name=constraints value="starCat">*pCat</span>
-							<div class="info">
-								<span class="content">info</span>
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name=constraints value="starCat">*pCat</span>
+								<div class="info">
+									<span class="content">info</span>
+								</div>
 							</div>
+								<div class="category-row">
+									<div class="category-selection-div"><input type="checkbox" name="category-starCat" value="i">&iota;</div>
+									<div class="category-selection-div"><input type="checkbox" name="category-starCat" value="phi" checked="checked">&phiv;</div>
+									<div class="category-selection-div"><input type="checkbox" name="category-starCat" value="w">&omega;</div>
+								</div>
 						</div>
-							<div class="category-row">
-								<div class="category-selection-div"><input type="checkbox" name="category-starCat" value="i">&iota;</div>
-								<div class="category-selection-div"><input type="checkbox" name="category-starCat" value="phi" checked="checked">&phiv;</div>
-								<div class="category-selection-div"><input type="checkbox" name="category-starCat" value="w">&omega;</div>
-							</div>
+
 					</div>
 
 				</fieldset>
 				<br/>
 
 				<fieldset>
-					<legend><h2>Accent constraints <span class="arrow"></h2></legend>
+					<legend><h2>Pitch accent <span class="arrow"></h2></legend>
 					<span class="info"><span class="content">Constraints proposed for analysis of lexical accent systems (Japanese, Basque). Accents must be indicated either by using 'a'/'u' or 'A'/'U' for the ids of words, or by adding accent attributes in the syntactic tree.</span></span>
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
