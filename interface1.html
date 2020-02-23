@@ -394,6 +394,11 @@
 				display: none;
 			}
 
+			.show-more {
+				color: #555;
+				margin: 5px;
+			}
+
 		</style>
 
 	</head>
@@ -684,7 +689,7 @@
 							</div>
 						</div>
 
-						<h3 onclick="showMore('mapping')">Show more constraints</h3>
+						<div onclick="showMore('moreMappingConstraints')" class="show-more">Show more...</div>
 
 						<div id="moreMappingConstraints" class="more-constraints">
 							<div class="constraint-selection-table">
@@ -974,7 +979,7 @@
 							</div>
 					</div>
 
-					<h3 onclick="showMore('binarity')">Show more constraints</h3>
+					<div onclick="showMore('moreBinarityConstraints')" class="show-more">Show more...</div>
 
 					<div id="moreBinarityConstraints" class="more-constraints">
 						<div class="constraint-selection-table">
@@ -1120,7 +1125,7 @@
 						</div>
 					</div>
 
-					<h3 onclick="showMore('sisterhood')">Show more constraints</h3>
+					<div onclick="showMore('moreSisterhoodConstraints')" class="show-more">Show more...</div>
 
 					<div id="moreSisterhoodConstraints" class="more-constraints">
 						<div class="constraint-selection-table">
@@ -1215,7 +1220,7 @@
 							</div>
 					</div>
 
-					<h3 onclick="showMore('layering')">Show more constraints</h3>
+					<div onclick="showMore('moreLayeringConstraints')" class="show-more">Show more...</div>
 
 					<div id="moreLayeringConstraints" class="more-constraints">
 						<div class="constraint-selection-table">

@@ -813,21 +813,10 @@ function clearTableau() {
 }
 
 function showMore(constraintType) {
-	if(constraintType === "mapping") {
-		var x = document.getElementById("moreMappingConstraints");
-	}
-	else if(constraintType === "binarity") {
-		var x = document.getElementById("moreBinarityConstraints");
-	}
-	else if(constraintType === "sisterhood") {
-		var x = document.getElementById("moreSisterhoodConstraints");
-	}
-	else if(constraintType === "layering") {
-		var x = document.getElementById("moreLayeringConstraints");
-	}
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
+	var x = document.getElementById(constraintType);
+  if (x.style.display === "block") {
     x.style.display = "none";
+  } else {
+    x.style.display = "block";
   }
 }
