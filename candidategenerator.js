@@ -19,6 +19,34 @@ function deduplicateTerminals(terminalList) {
 	return dedupedTerminals;
 }
 
+//Move to the next recursive category, if there is one.
+function pushRecCat(options){
+	var nextIndex = options.recursiveCatIndex + 1;
+	if(nextIndex > options.recursiveCats.length-1){
+		return false;
+	}
+	else{
+		var nextRecCat = options.recursiveCats[nextIndex];
+		options.recursiveCategory = nextRecCat;
+		options.recursiveCatIndex = nextIndex;
+		return options;
+	}
+	 
+}
+
+//Move to the previous recursive category, if there is one.
+function popRecCat(options){
+	var prevIndex = options.recursiveCatIndex - 1;
+	if(prevIndex < 0){
+		return false;
+	}
+	else{
+		var prevRecCat = options.recursiveCats[prevIndex];
+		options.recursiveCategory = prevRecCat;
+		options.recursiveCatIndex = prevIndex;
+	}
+}
+
 (function() {
 var recNum = 0;
 var terminalNum = 0;
@@ -29,8 +57,12 @@ var terminalNum = 0;
    - obeysHeadedness (boolean)
    - obeysNonrecursivity (boolean)
 	 - rootCategory (string)
-	 - recursiveCategory (string)
+	 - recursiveCategory (string) --> '-' separated list of categories, from highest to lowest (e.g. 'phi-w', not 'w-phi')
+	 	-> saved in recursiveCats (see below) + becomes a string rep of the current recursive category
 	 - terminalCategory (string)
+
+	 - recursiveCatIndex (int): tracks which recursive category we're currently using
+	 - recursiveCats (list of strings): list of recursive categories to use
    - addTones (string). Possible values include:
 	 		- "addJapaneseTones"
 			- "addIrishTones_Elfner"
@@ -43,6 +75,20 @@ window.GEN = function(sTree, words, options){
 	options = options || {}; // if options is undefined, set it to an empty object (so you can query its properties without crashing things)
 
 	var categoryHierarchy = options.syntactic ? sCat : pCat;
+
+	// Check for multiple recursive categories
+	if(options.recursiveCategory && options.recursiveCategory.length){
+		var recCats = options.recursiveCategory.split('-');
+		if(recCats.length > 1){
+			console.log(recCats);
+			//Point to first recursiveCat
+			options.recursiveCatIndex = 0;
+			//Set current recursiveCategory
+			options.recursiveCategory = recCats[recursiveCatIndex];
+			//Save list of all categories	
+			options.recursiveCats = recCats;
+		}
+	}
 
 	/* First, warn the user if they have specified terminalCategory and/or
 	 * rootCategory without specifying recursiveCategory
@@ -270,7 +316,8 @@ function wrapInLeafCat(word, cat){
 *	have a set of parentheses enclosing all of the leaves
 * Format: returns an array of parenthesizations, where each parenthesization
 *	is an array of children, where each child is
-*	either a phi node (with descendant nodes attached) or a leaf
+*	either a node of category recursiveCategory (with descendant nodes attached) 
+*	or a leaf (of category terminalCategory)
 * Options:
 */
 function gen(leaves, options){
@@ -284,12 +331,12 @@ function gen(leaves, options){
 		return candidates;
 	}
 
-	//Recursive case: at least 1 word. Consider all candidates where the first i words are grouped together
+	//Recursive case: at least 1 terminal. Consider all candidates where the first i words are grouped together
 	for(var i = 1; i <= leaves.length; i++){
 
 		var rightsides = addRecCatWrapped(gen(leaves.slice(i, leaves.length), options), options);
 
-		//Case 1: the first i leaves attach directly to parent (no phi wrapping)
+		//Case 1: the first i leaves attach directly to parent (no wrapping in a recursive category)
 
 		var leftside = leaves.slice(0,i);
 
@@ -306,12 +353,14 @@ function gen(leaves, options){
 
 
 
-		//Case 2: the first i words are wrapped in a phi
+		
 		if(i<leaves.length){
 			if(options.noUnary && i<2){
 				continue;
 				//Don't generate any candidates where the first terminal is in a phi by itself.
 			}
+
+			//Case 2: the first i words are wrapped in a phi
 			var phiLeftsides = gen(leaves.slice(0,i), options);
 			for(var k = 0; k<phiLeftsides.length; k++)
 			{
@@ -326,7 +375,11 @@ function gen(leaves, options){
 					candidates.push(cand);
 				}
 			}
+
+			var options2 
+			var wLeftSides = gen(leaves.slice(0,i), )
 		}
+
 
 	}
 

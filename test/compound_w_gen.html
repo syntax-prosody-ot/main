@@ -36,7 +36,7 @@
         }
     }
     console.log(terminalStrings);
-    var sTreeList = sTreeGEN('F FF');
+    var sTreeList = [sTreeGEN('F FF')[1]];
 
 
 	/*Constraint sets.*/
@@ -46,7 +46,8 @@
     var conNames = ['MatchSPMatchPS'];
 	
 	//Candidate sets are generated with the options below.
-	var output_gen_options = {obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: ['i'], addTones: false, requireRecWrapper: false};
+	var output_gen_options = {rootCategory: 'phi', recursiveCategory: 'phi-w', terminalCategory: 'w'};
+    //{obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: ['i'], addTones: false, requireRecWrapper: false};
 
 	
 	
@@ -71,7 +72,7 @@
             var candSet = GEN(sTreeList[j], '', output_gen_options);
             
 			//Make the tableau using the makeTableau function (defined in tableauMaker.js)
-            var tabl = makeTableau(candSet, window[consName], {showTones: output_gen_options.addTones});
+            var tabl = makeTableau(candSet, window[consName], {showTones: output_gen_options.addTones, invisibleCategories:['i']});
 			
 			//Write the tableau to the screen and reveal it -- only uncomment this if you don't have too many tableaux!
 			writeTableau(tabl)
