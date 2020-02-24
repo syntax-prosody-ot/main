@@ -255,6 +255,12 @@ function my_built_in_analysis(myGEN, showTones, myTrees, myCon){
       }
     }
   }
+
+  // Open all the show more sections
+  showMore('moreMappingConstraints');
+  showMore('moreBinarityConstraints');
+  showMore('moreSisterhoodConstraints');
+  showMore('moreLayeringConstraints');
 }
 
 //Irish, as analysed in Elfner (2012), with some useful trees
