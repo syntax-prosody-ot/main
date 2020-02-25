@@ -14,5 +14,5 @@ function alignRightMorpheme(stree, ptree, clitic){
         console.warn("The specified clitic "+clitic+" was not found in this tree");
         cliticPos = 0;
     }
-    return leaves.length - cliticPos;
+    return leaves.length - cliticPos - 1;
 }

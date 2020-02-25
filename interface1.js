@@ -345,18 +345,21 @@ window.addEventListener('load', function(){
 			var constraintBox = spotForm.constraints[i];
 			if(constraintBox.checked){
 				var constraint = constraintBox.value;
+				console.log(constraint);
 				//Figure out all the categories selected for the constraint
 				if(spotForm['category-'+constraint]){
 					var constraintCatSet = spotForm['category-'+constraint];
 					if (constraintCatSet.length === undefined) {
 						constraintCatSet = [constraintCatSet];
 					}
-					console.log(constraintCatSet[0]);
+					// console.log(constraintCatSet);
 					for(var j=0; j<constraintCatSet.length; j++){
 						var categoryBox = constraintCatSet[j];
+						// console.log(categoryBox);
+						// console.log(categoryBox.type);
 						if(categoryBox.checked){
 							var category = categoryBox.value;
-							if(constraint === "alignMorpheme") {
+							if(constraint === "alignLeftMorpheme") {
 								category = category.split(' ').join(';');
 								console.log(category);
 							}
