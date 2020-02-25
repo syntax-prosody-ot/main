@@ -794,6 +794,87 @@
 								<div class="category-selection-div"><input type="checkbox" name="category-alignRight" value="x0">X<sup>0</sup></div>
 							</div>
 						</div>
+
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="alignCustom">Custom Align(Syntax&rarr;Prosody)</span>
+								<div class="info">
+									<span class="content">Create your own custom Align constraint.</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-alignCustom" value="cp">CP</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-alignCustom" value="xp" checked="checked">XP</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-alignCustom" value="x0">X<sup>0</sup></div>
+							</div>
+							<div class="category-row">
+								<div class="custom-text">
+									<p>Enforce Align only for syntactic nodes that are...</p>
+								</div>
+								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-alignCustom" value="requireLexical">lexical</div>
+								<div class="info">
+									<span class="content custom-option-div">Match only syntactic nodes that are not labeled as functional.</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-alignCustom" value="requireOvertHead">overtly headed</div>
+								<div class="info">
+									<span class="content custom-option-div">Align only syntactic nodes that have a non-silent head.</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div custom-option-div">
+									<select name="option-alignCustom">
+										<option value="any">Any</option>
+										<option value="maxSyntax">+</option>
+										<option value="nonMaxSyntax">-</option>
+									</select> maximal
+								</div>
+								<div class="info">
+									<span class="content custom-option-div">A node is maximal if it does not dominate any nodes of its own category.</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div custom-option-div">
+									<select name="option-alignCustom">
+										<option value="any">Any</option>
+										<option value="minSyntax">+</option>
+										<option value="nonMinSyntax">-</option>
+									</select> minimal
+								</div>
+								<div class="info">
+									<span class="content custom-option-div">A node is minimal if it is not dominated by any nodes of its own category.</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="custom-text">
+									<p>Prosodic categories must be...</p>
+								</div>
+								<div class="option-selection-div custom-option-div">
+									<select name="option-alignCustom">
+										<option value="any">Any</option>
+										<option value="maxProsody">+</option>
+										<option value="nonMaxProsody">-</option>
+									</select> maximal
+								</div>
+								<div class="info">
+									<span class="content custom-option-div">A node is maximal if it does not dominate any nodes of its own category.</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div custom-option-div">
+									<select name="option-alignCustom">
+										<option value="any">Any</option>
+										<option value="minProsody">+</option>
+										<option value="nonMinProsody">-</option>
+									</select> minimal
+								</div>
+								<div class="info">
+									<span class="content custom-option-div">A node is minimal if it is not dominated by any nodes of its own category.</span>
+								</div>
+							</div>
+						</div>
+
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="alignLeftPS">Align-Left(Prosody&rarr;Syntax)</span>
