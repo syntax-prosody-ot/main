@@ -53,7 +53,7 @@ function trimDeadEndNodes(node){
 		while(i<node.children.length){ //iterate over children
 			var child = node.children[i];
 			//if child is a syntactic terminal that is not an x0, get rid of it
-			if(!(child.children && child.children.length) && (child.cat != "x0")){
+			if(!(child.children && child.children.length) && (child.cat != "x0" && child.cat != "clitic")){
 				node.children.splice(i, 1); //remove child from children array of node
 				if(node.children.length === 0){/*if node doesn't have any children,
 					node.children shouldn't really be an array anymore */
