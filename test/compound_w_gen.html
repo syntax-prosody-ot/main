@@ -36,7 +36,36 @@
         }
     }
     console.log(terminalStrings);
-    var sTreeList = [sTreeGEN('F FF')[1]];
+    var sTreeList = [
+						{
+							"id": "CP1",
+							"cat": "cp",
+							"children": [
+								{
+									"id": "a",
+									"cat": "x0"
+								},/*
+								{
+									"id": "b",
+									"cat": "x0"
+								},
+								{
+									"id": "d",
+									"cat": "x0"
+								},*/
+								{
+									"cat": "xp",
+									"id": "XP_3",
+									"children": [
+										{
+											"id": "c",
+											"cat": "x0"
+										}
+									]
+								}
+							]
+						}
+					];
 
 
 	/*Constraint sets.*/

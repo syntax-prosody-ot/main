@@ -29,7 +29,7 @@ function pushRecCat(options){
 		var nextRecCat = options.recursiveCats[nextIndex];
 		options.recursiveCategory = nextRecCat;
 		options.recursiveCatIndex = nextIndex;
-		return options;
+		return true;
 	}
 	 
 }
@@ -44,6 +44,7 @@ function popRecCat(options){
 		var prevRecCat = options.recursiveCats[prevIndex];
 		options.recursiveCategory = prevRecCat;
 		options.recursiveCatIndex = prevIndex;
+		return true;
 	}
 }
 
@@ -74,6 +75,10 @@ var terminalNum = 0;
 window.GEN = function(sTree, words, options){
 	options = options || {}; // if options is undefined, set it to an empty object (so you can query its properties without crashing things)
 
+	//Point to first recursiveCat
+	options.recursiveCatIndex = 0;
+
+	//Set the relevant category hierarchy (syntactic or prosodic) based on the GEN option syntactic
 	var categoryHierarchy = options.syntactic ? sCat : pCat;
 
 	// Check for multiple recursive categories
@@ -81,13 +86,19 @@ window.GEN = function(sTree, words, options){
 		var recCats = options.recursiveCategory.split('-');
 		if(recCats.length > 1){
 			console.log(recCats);
-			//Point to first recursiveCat
-			options.recursiveCatIndex = 0;
+			
 			//Set current recursiveCategory
-			options.recursiveCategory = recCats[recursiveCatIndex];
+			options.recursiveCategory = recCats[options.recursiveCatIndex];
 			//Save list of all categories	
 			options.recursiveCats = recCats;
 		}
+		if(recCats.length > 2){
+			this.alert("You have entered more than 2 recursive categories!")
+		}
+	}
+
+	if(!options.recursiveCats){
+		options.recursiveCats = [options.recursiveCategory];
 	}
 
 	/* First, warn the user if they have specified terminalCategory and/or
@@ -321,7 +332,9 @@ function wrapInLeafCat(word, cat){
 * Options:
 */
 function gen(leaves, options){
+	
 	var candidates = [];	//each candidate will be an array of siblings
+	var cand;
 	if(!(leaves instanceof Array))
 		throw new Error(leaves+" is not a list of leaves.");
 
@@ -334,8 +347,22 @@ function gen(leaves, options){
 	//Recursive case: at least 1 terminal. Consider all candidates where the first i words are grouped together
 	for(var i = 1; i <= leaves.length; i++){
 
-		var rightsides = addRecCatWrapped(gen(leaves.slice(i, leaves.length), options), options);
+		//First, create the right sides:
+		var rightLeaves = leaves.slice(i, leaves.length);
+		//recursion at top level
+		var rightsides = addRecCatWrapped(gen(rightLeaves, options), options);
+		
+		//recursion at lower level
+		// if(pushRecCat(options)){
+		// 	//console.log(rightLeaves.length, options.recursiveCategory, options.terminalCategory);
+		// 	if(rightLeaves.length>1 || !(options.recursiveCategory == options.terminalCategory)){
+		// 		rightsides.concat(addRecCatWrapped(gen(rightLeaves, options), options));
+		// 		//console.log(rightsides);
+		// 	}
+		// 	popRecCat(options);
+		// }
 
+		//Then create left sides and combine them with the right sides.
 		//Case 1: the first i leaves attach directly to parent (no wrapping in a recursive category)
 
 		var leftside = leaves.slice(0,i);
@@ -346,7 +373,7 @@ function gen(leaves, options){
 		for(var j = 0; j<rightsides.length; j++){
 			if(!rightsides[j].length || rightsides[j][0].cat === options.recursiveCategory)
 			{
-				var cand = leftside.concat(rightsides[j]);
+				cand = leftside.concat(rightsides[j]);
 				candidates.push(cand);
 			}
 		}
@@ -375,12 +402,66 @@ function gen(leaves, options){
 					candidates.push(cand);
 				}
 			}
-
-			var options2 
-			var wLeftSides = gen(leaves.slice(0,i), )
+ 
 		}
 
+		//Now try to use recursion at the next recursive category
+		// if(pushRecCat(options)){
+		// 	//console.log("Recursive category:", options.recursiveCategory);
 
+		// 	var noUnary = options.noUnary;
+		// 	if(options.recursiveCategory===options.terminalCategory){
+		// 		options.noUnary = true;
+		// 	}
+			
+		// 	var wLeftSides = addRecCatWrapped(gen(leaves.slice(0,i), options), options);
+		// 	options.noUnary = noUnary;
+
+		// 	//Case 3: The left side is wrapped in the next lower recursive cat
+		// 	if(options.recursiveCategory !== options.terminalCategory || i > 1){
+		// 		console.log(options.recursiveCategory, options.terminalCategory, i);
+		// 		for(var m = 0; m<wLeftSides.length; m++){
+		// 			// var wNode = wrapInRecCat(wLeftSides[m], options);
+		// 			// if(!wNode)
+		// 			// 	continue;
+		// 			var leftside = wLeftSides[m];
+	
+		// 			for(var n = 0; n<rightsides.length; n++){
+		// 				cand = leftside.concat(rightsides[n]);
+		// 				candidates.push(cand);
+		// 			}
+		// 		}
+		// 	}
+			
+			
+		// 	popRecCat(options);
+		// }
+
+	}
+
+	if (pushRecCat(options)) {
+		var noUnary = options.noUnary;
+		if(options.recursiveCategory===options.terminalCategory){
+			options.noUnary = true;
+		}
+		// var wCands = addRecCatWrapped(gen(leaves, options), options);
+		var wCands = gen(leaves, options);
+		for (i = 0; i < wCands.length; i++) {
+			cand = wCands[i];
+			// var hasWParent = false;
+			// for (j = 0; j < cand.length; j++) {
+			// 	if (cand[j].children) {
+			// 		hasWParent = true;
+			// 		break;
+			// 	}
+			// }
+			// if (hasWParent) {
+				candidates.push([wrapInRecCat(cand, options)]);
+				// candidates.push(cand);
+			// }
+		}
+		options.noUnary = noUnary;
+		popRecCat(options);
 	}
 
 	return candidates;
@@ -400,7 +481,7 @@ function wrapInRecCat(candidate, options){
 }
 
 //Takes a list of candidates and doubles it to root each of them in a phi
-//If options.noUnary, skip wrapInRecCating candidates that are only 1 terminal long
+//If options.noUnary, skip wrapInRecCat-ing candidates that are only 1 terminal long
 function addRecCatWrapped(candidates, options){
 	var origLen = candidates.length;
 	var result = [];
