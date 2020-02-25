@@ -548,6 +548,12 @@
 			<p>String of terminals: <input type="text" name="inputToGen"> <button id="goButton" type="button">Build syntax</button><button class="orange-button" type="submit" style='margin-left: 5px'>Run GEN</button></p>
 
             <div id="treeUI" style="display: none">
+								<div class="constraint-row">
+									<span><input type="checkbox" name="genOptions" id="trimTrees">Trim Syntactic tree</span>
+									<div class="info">
+										<span class="content">When checked, evaluates mapping constraints against a version of the input tree where silent nodes and terminals of a category other than "x0" or "clitic" are removed. Also removes vaccuous recursion, eg. [[a b]]</span>
+									</div>
+								</div>
 
               	<div id="treeUIinner" style="display: none">
               		<hr/>
@@ -845,6 +851,7 @@
 									<div class="category-selection-div"><input type="checkbox" name="category-alignLeftPS" value="w">&omega;</div>
 								</div>
 							</div>
+						</div>
 
 							<div class="constraint-selection-table">
 								<div class="constraint-row">
