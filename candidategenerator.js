@@ -426,23 +426,21 @@ function generateAllOrders(wordList){
 
 	//actual implementation of Heap's algorithm, I don't quite understand it
 	function allOrdersInner(innerList, k){
-		var temporary;
-		console.log(''+innerList+' '+k);
 		if(k == 1){
 			permutations.push(innerList);
 		}
 		else{
-			allOrdersInner(innerList, k-1);
+			allOrdersInner(innerList, k-1); //recursive function call
+
 			for(var i = 0; i < k-1; i++){
-				if(k%2 == 1){
+				if(k%2 === 0){
 					//swap innerList[i] with innerList[k-1]
-					temporary = swap(innerList, i, k-1);
+					allOrdersInner(swap(innerList, i, k-1), k-1); //recursive function call
 				}
 				else{
 					//swap innerList[0] with innerList[k-1]
-					temporary = swap(innerList, 0, k-1);
+					allOrdersInner(swap(innerList, 0, k-1), k-1); //recursive function call
 				}
-				allOrdersInner(temporary, k-1); //recursive function call
 			}
 		}
 	}
