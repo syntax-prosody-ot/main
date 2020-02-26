@@ -461,6 +461,9 @@ window.addEventListener('load', function(){
 		if(document.getElementById("trimTrees").checked){
 			tableauOptions.trimStree = true;
 		}
+		if(document.getElementById("showHeads").checked){
+			tableauOptions.showHeads= true;
+		}
 
 
 		for(var i = 0; i < spotForm.hideCategory.length; i++){
