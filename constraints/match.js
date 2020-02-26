@@ -251,10 +251,16 @@ function matchNonMinSyntax(sTree, pTree, sCat, options){
 	return matchSP(sTree, pTree, sCat, options);
 }
 
-//Match for custom match options
-function matchCustom(sTree, pTree, sCat, options){
+//Match for custom match SP options
+function matchCustomSP(sTree, pTree, sCat, options){
 	options = options || {};
 	return matchSP(sTree, pTree, sCat, options);
+}
+
+//Match for custom match PS options
+function matchCustomPS(sTree, pTree, sCat, options){
+	options = options || {};
+	return matchPS(pTree, sTree, sCat, options);
 }
 
 //Match Maximal P --> S
