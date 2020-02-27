@@ -24,7 +24,7 @@ function parenthesizeTree(tree, options){
 	var parTree = [];
 	var toneTree = [];
 	options = options || {};
-	var showNewCats = options.showNewCats || false;
+	var showNewCats = options.showNewCats || true;
 	var invisCats = options.invisibleCategories || [];
 	var showTones = options.showTones || false;
 	var parens = options.parens || Object.assign({}, categoryBrackets);
