@@ -353,15 +353,6 @@ function gen(leaves, options){
 		//recursion at top level
 		var rightsides = addRecCatWrapped(gen(rightLeaves, options), options);
 		
-		//recursion at lower level
-		// if(pushRecCat(options)){
-		// 	//console.log(rightLeaves.length, options.recursiveCategory, options.terminalCategory);
-		// 	if(rightLeaves.length>1 || !(options.recursiveCategory == options.terminalCategory)){
-		// 		rightsides.concat(addRecCatWrapped(gen(rightLeaves, options), options));
-		// 		//console.log(rightsides);
-		// 	}
-		// 	popRecCat(options);
-		// }
 
 		//Then create left sides and combine them with the right sides.
 		//Case 1: the first i leaves attach directly to parent (no wrapping in a recursive category)
@@ -448,24 +439,21 @@ function gen(leaves, options){
 			console.log('noUnary set to true', options.recursiveCategory, options.terminalCategory, options.noUnary);
 		}
 		var wCands = gen(leaves, options);
-		//var wCands = addRecCatWrapped(gen(leaves, options), options);
+		//Uncommenting these lines to replace the following ones leads to lots of empty stuff in the output
+		/*var wCands2 = addRecCatWrapped(wCands, options);
+		candidates.push(wCands2);
+		*/
 		
+		// Starting i at 1 here eliminates the duplication of ([.w a b ]) when a.cat and b.cat = w, but also erroneously eliminates a whole bunch of candidates when a.cat, b.cat = Ft, and isn't a general fix for the longer cases.
 		for (var i = 0; i < wCands.length; i++) {
 			cand = wCands[i];
 			var wrappedCand = wrapInRecCat(cand, options);
-			// var hasWParent = false;
-			// for (var j = 0; j < cand.length; j++) {
-			// 	if (cand[j].children.cat === options.terminalCategory && cand[j].children) {
-			// 		hasWParent = true;
-			// 		break;
-			// 	}
-			// }
-			// if (hasWParent) {
+			
 			if(wrappedCand)
 				candidates.push([wrappedCand]);
 				// candidates.push(cand);
-			// }
 		}
+		
 		options.noUnary = noUnary;
 		popRecCat(options);
 	}
