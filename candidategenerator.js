@@ -349,6 +349,7 @@ function gen(leaves, options){
 
 		//First, create the right sides:
 		var rightLeaves = leaves.slice(i, leaves.length);
+		
 		//recursion at top level
 		var rightsides = addRecCatWrapped(gen(rightLeaves, options), options);
 		
@@ -384,10 +385,10 @@ function gen(leaves, options){
 		if(i<leaves.length){
 			if(options.noUnary && i<2){
 				continue;
-				//Don't generate any candidates where the first terminal is in a phi by itself.
+				//Don't generate any candidates where the first terminal is in an intermediate level node by itself.
 			}
 
-			//Case 2: the first i words are wrapped in a phi
+			//Case 2: the first i words are wrapped in an intermediate level node
 			var phiLeftsides = gen(leaves.slice(0,i), options);
 			for(var k = 0; k<phiLeftsides.length; k++)
 			{
@@ -439,24 +440,29 @@ function gen(leaves, options){
 
 	}
 
+	//Now try to use recursion at the next recursive category
 	if (pushRecCat(options)) {
 		var noUnary = options.noUnary;
 		if(options.recursiveCategory===options.terminalCategory){
 			options.noUnary = true;
+			console.log('noUnary set to true', options.recursiveCategory, options.terminalCategory, options.noUnary);
 		}
-		// var wCands = addRecCatWrapped(gen(leaves, options), options);
 		var wCands = gen(leaves, options);
-		for (i = 0; i < wCands.length; i++) {
+		//var wCands = addRecCatWrapped(gen(leaves, options), options);
+		
+		for (var i = 0; i < wCands.length; i++) {
 			cand = wCands[i];
+			var wrappedCand = wrapInRecCat(cand, options);
 			// var hasWParent = false;
-			// for (j = 0; j < cand.length; j++) {
-			// 	if (cand[j].children) {
+			// for (var j = 0; j < cand.length; j++) {
+			// 	if (cand[j].children.cat === options.terminalCategory && cand[j].children) {
 			// 		hasWParent = true;
 			// 		break;
 			// 	}
 			// }
 			// if (hasWParent) {
-				candidates.push([wrapInRecCat(cand, options)]);
+			if(wrappedCand)
+				candidates.push([wrappedCand]);
 				// candidates.push(cand);
 			// }
 		}
@@ -475,8 +481,18 @@ function wrapInRecCat(candidate, options){
 	}
 	if (options && options.obeysNonrecursivity)
 		for (var i = 0; i < candidate.length; i++)
-			if (candidate[i].cat === options.recursiveCategory)
+			if (candidate[i].cat === options.recursiveCategory){
 				return null;
+			}
+				
+
+	// Don't wrap anything in a recursive category that is already wrapped in one
+	if (candidate.length < 2 && candidate[0] && candidate[0].cat === options.recursiveCategory){
+		console.log("wrapInRecCat", options.recursiveCategory, candidate);
+		console.log("Not wrapping ", candidate);
+		return null;
+	}
+
 	return {id: options.recursiveCategory+(recNum++), cat: options.recursiveCategory, children: candidate};
 }
 
@@ -494,9 +510,11 @@ function addRecCatWrapped(candidates, options){
 			if(options.noUnary && candLen == 1){
 				continue;
 			}
+			
 			var phiNode = wrapInRecCat(candidates[i], options);
-			if (phiNode)
+			if (phiNode){
 				result.push([phiNode]);
+			}
 		}
 	}
 	return result;

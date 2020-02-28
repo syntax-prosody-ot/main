@@ -98,22 +98,31 @@
 
             //Make the candidate set using the GEN function (defined in candidategenerator.js)
 			//Leave the 2nd argument as an empty string to scrape words from the terminals of the syntactic tree.
-            var candSet = GEN(sTreeList[j], '', output_gen_options);
+			var candSet1 = GEN({}, 'a b', output_gen_options);
+			
             
 			//Make the tableau using the makeTableau function (defined in tableauMaker.js)
-            var tabl = makeTableau(candSet, window[consName], {showTones: output_gen_options.addTones, invisibleCategories:['i']});
+			var tabl = makeTableau(candSet1, window[consName], {showTones: output_gen_options.addTones, invisibleCategories:['i']});
+			
 			
 			//Write the tableau to the screen and reveal it -- only uncomment this if you don't have too many tableaux!
-			writeTableau(tabl)
+			writeTableau(tabl);
+
+			var genOpt2 = output_gen_options;
+			genOpt2.terminalCategory = 'Ft';
+			var candSet2 = GEN({}, 'a b', genOpt2);
+			var tabl2 = makeTableau(candSet2, window[consName], {invisibleCategories:['i']});
+			writeTableau(tabl2);
+
 			revealNextSegment();
 			lastSegmentId++;
-			
+
 			//Add the tableau from the current stree to cumulative tableau that is being built in csvSegs.
             csvSegs.push(tableauToCsv(tabl, '\t', {noHeader: j}));
         }
 		
 		//Save the tableau as a tab-separated file, named after consName
-        saveTextAs(csvSegs.join('\n'),"tableau_"+consName+".tsv");
+        //saveTextAs(csvSegs.join('\n'),"tableau_"+consName+".tsv");
     }
 	
 	/*This function executes automatically when the page is reloaded. It calls all the other functions.*/
