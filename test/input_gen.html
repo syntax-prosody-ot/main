@@ -28,9 +28,9 @@
 	// var noX0Sisters = sTreeList.filter(x => !x0Sisters(x, 'x0'));
 	// var binaryBrTrees = sTreeList.filter(x => !ternaryNodes(x, 2));
 	// var maxTTrees = sTreeList.filter(x => !x0Sisters(x, 'x0') && !ternaryNodes(x, 2));
-	sTreeList = sTreeGEN('a b c', {addClitics: 'left'});
+	sTreeList = sTreeGEN('a b c', {addClitics: 'left', maxBranching:3, headSide:'right-strict'});
 
-	console.log('abc trees')
+	console.log('abc trees', sTreeList.length);
 	for(var s in sTreeList){
 		console.log(parenthesizeTree(sTreeList[s]));
 	}

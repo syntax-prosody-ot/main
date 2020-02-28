@@ -4,7 +4,7 @@ var chamorro_clitic_trees =
    [
     {
         "id": "TP",
-        "cat": "cp",
+        "cat": "xp",
         "children": [
             {
                 "cat": "xp",
@@ -53,7 +53,7 @@ var chamorro_clitic_trees =
     },
     {
         "id": "TP",
-        "cat": "cp",
+        "cat": "xp",
         "children": [
             {
                 "cat": "xp",
@@ -92,7 +92,7 @@ var chamorro_clitic_trees =
     },
     {
         "id": "TP",
-        "cat": "cp",
+        "cat": "xp",
         "children": [
             {
                 "cat": "xp",
@@ -151,7 +151,7 @@ var chamorro_clitic_trees =
     },
     {
         "id": "TP",
-        "cat": "cp",
+        "cat": "xp",
         "children": [
             {
                 "cat": "xp",
@@ -194,7 +194,7 @@ var chamorro_clitic_trees =
     },
     {
         "id": "TP",
-        "cat": "cp",
+        "cat": "xp",
         "children": [
             {
                 "cat": "xp",
@@ -237,7 +237,7 @@ var chamorro_clitic_trees =
     },
     {
         "id": "TP",
-        "cat": "cp",
+        "cat": "xp",
         "children": [
             {
                 "cat": "xp",
@@ -246,7 +246,7 @@ var chamorro_clitic_trees =
                 "children": [
                     {
                         "cat": "xp",
-                        "id": "XP_9",
+                        "id": "NP",
                         "children": [
                             {
                                 "cat": "cp",
@@ -302,7 +302,7 @@ var chamorro_clitic_trees =
     },
     {
         "id": "TP",
-        "cat": "cp",
+        "cat": "xp",
         "children": [
             {
                 "cat": "xp",
@@ -371,7 +371,7 @@ var chamorro_clitic_trees =
     },
         /*{
         "id": "TP",
-        "cat": "cp",
+        "cat": "xp",
         "children": [
             {
                 "cat": "xp",
@@ -441,7 +441,7 @@ var chamorro_clitic_trees =
     },*/
     {
         "id": "TP",
-        "cat": "cp",
+        "cat": "xp",
         "children": [
             {
                 "cat": "xp",
@@ -495,7 +495,7 @@ var chamorro_clitic_trees =
         ]
     },
                     {
-                        "cat": "cp",
+                        "cat": "xp",
                         "id": "TP",
                         "children": [
                             {
@@ -529,7 +529,7 @@ var chamorro_clitic_trees =
                     },
     {
         "id": "TP",
-        "cat": "cp",
+        "cat": "xp",
         "children": [
             {
                 "cat": "xp",
@@ -590,8 +590,8 @@ var chamorro_clitic_trees =
         ]
     }
     /*{
-        "id": "CP1",
-        "cat": "cp",
+        "id": "xp1",
+        "cat": "xp",
         "children": [
             {
                 "cat": "xp",

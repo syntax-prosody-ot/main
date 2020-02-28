@@ -28,37 +28,20 @@
 	// var noX0Sisters = sTreeList.filter(x => !x0Sisters(x, 'x0'));
 	// var binaryBrTrees = sTreeList.filter(x => !ternaryNodes(x, 2));
 	// var maxTTrees = sTreeList.filter(x => !x0Sisters(x, 'x0') && !ternaryNodes(x, 2));
-	sTreeList = sTreeGEN('a b').concat(sTreeGEN('a b c'), sTreeGEN('a b c d'));
+    sTreeList = sTreeGEN('a b').concat(sTreeGEN('a b c'));
 
 	/*Constraint sets.*/
-    var MatchSP_SS_ES = ['matchSP-xp', 'strongStart-phi', 'eqSis-phi']; // Only one language, lots of promotion
-	var MatchSPPS_SS_ES = ['matchSP-xp', 'matchPS-phi','strongStart-phi', 'eqSis-phi'];
-	var MatchSPPS_SEB = ['matchSP-xp', 'matchPS-phi','strongStart-phi', 'eqSis-phi', 'balancedSisters-phi'];
-
-    var MatchSP_SS_ES_Bin = ['matchSP-xp', 'binMinBranches-phi', 'binMaxBranches-phi', 'strongStart-phi', 'eqSis-phi'];
-	var MatchSP_SS_ES_Bin1 = ['matchSP-xp', 'binBranches-phi', 'strongStart-phi', 'eqSis-phi'];
-	
-	var matchEqSisAdj = ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj-phi'];
-	var matchEqSisFP = ['matchSP-xp', 'matchPS-phi', 'equalSistersFirstPrivilege-phi'];
-	var matchEqSisPair = ['matchSP-xp', 'matchPS-phi', 'equalSistersPairwise-phi'];
-
-	var matchSS_Elfw = ['matchSP-xp', 'matchPS-phi', 'strongStart_Elfner-w'];
-	var matchSS_Elfs = ['matchSP-xp', 'matchPS-phi', 'strongStart_Elfner-syll'];
-	var matchSS_cPhi = ['matchSP-xp', 'matchPS-phi', 'strongStartClitic-phi'];
-	var matchSS_ci = ['matchSP-xp', 'matchPS-phi', 'strongStartClitic-i'];
-	var matchSS = ['matchSP-xp', 'matchPS-phi', 'strongStart-phi'];
+    var starStruc = ['starCat-i', 'starCat-phi', 'starCat-w'];
 
 	/*A list of names for constraint sets.*/
-	var conNames = ['MatchSP_SS_ES_Bin', 'MatchSP_SS_ES_Bin1'];
+	var conNames = ['starStruc'];
 	//SS cons: ['matchSS_Elfw', 'matchSS_Elfs', 'matchSS_cPhi', 'matchSS_ci', 'matchSS'];
 	//Full list: ['MatchSP_SS_ES', 'MatchSPPS_SS_ES', 'MatchSPPS_SEB', 'MatchSP_SS_ES_Bin', 'MatchSP_SS_ES_Bin1'];
 	//ES cons: ['matchEqSisAdj', 'matchEqSisFP', 'matchEqSisPair']
 	
 	//Candidate sets are generated with the options below.
-	var output_gen_options = {obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: true, addTones: false, requireRecWrapper: true};
+	var output_gen_options = {obeysHeadedness: false, obeysNonrecursivity: false, obeysExhaustivity: false, addTones: false, requireRecWrapper: false};
 
-	
-	
 	// ---- Functions that don't necessarily need to be customized ----
 	
 	/*Function that concatenates a bunch of tableaux for various candidate sets into one large tableau. It does not need to be modified if you are only comparing different constraint sets. But it can be modified to deal with your particular analysis. For example, to consider multiple possible input syntaxes, you can add an outer for-loop to iterate over the different tree sets, as well as interating over the trees in each set.*/
@@ -83,8 +66,8 @@
             var tabl = makeTableau(candSet, window[consName], {showTones: output_gen_options.addTones});
 			
 			//Write the tableau to the screen and reveal it -- only uncomment this if you don't have too many tableaux!
-			//writeTableau(tabl)
-			//revealNextSegment();
+			writeTableau(tabl)
+			revealNextSegment();
 			lastSegmentId++;
 			
 			//Add the tableau from the current stree to cumulative tableau that is being built in csvSegs.

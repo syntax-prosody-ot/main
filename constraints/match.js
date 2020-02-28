@@ -68,7 +68,7 @@ function sameIds(a1, a2){
 }
 
 
-function matchPS(sTree, pParent, pCat, options)
+function matchPS(sParent, pParent, pCat, options)
 //Assign a violation for every prosodic node of type pCat in pParent that doesn't have a corresponding syntactic node in sTree,
 //where "corresponding" is defined as: dominates all and only the same terminals, and has the corresponding syntactic category
 //Assumes no null terminals.
@@ -76,6 +76,7 @@ function matchPS(sTree, pParent, pCat, options)
 //is set to true. The same goes for the syntactic trees
 {
 	options = options || {};
+	var sTree = sParent;
 	var flippedOptions = {};
 	flippedOptions.maxSyntax = options.maxProsody || false;
 	flippedOptions.nonMaxSyntax = options.nonMaxProsody || false;
@@ -89,9 +90,6 @@ function matchPS(sTree, pParent, pCat, options)
 	flippedOptions.requireOvertHead = options.requireOvertHead || false;
 	return matchSP(pParent, sTree, pCat, flippedOptions);
 }
-
-
-//TODO: what about null syntactic terminals?? these need to be filtered out of the syntactic input?? write this function later.
 
 /* matchSP = Match(Syntax, Prosody):
 * Assign a violation for every syntactic node of type sCat in sParent that
@@ -111,11 +109,11 @@ function matchPS(sTree, pParent, pCat, options)
 *	maxProsody: If true, the prosodic match needs to be maximal. Passed to hasMatch.
 *	minProsody: If true, the prosodic match needs to be minimal. Passed to hasMatch.
 *	nonMaxProsody: If true, the prosodic match must be non-maximal. Passed to hasMatch.
-*	nonMinProsody: If true, the prosodic match must be non-minimal. Passed to hasMatch.
-*/
-function matchSP(sParent, pTree, sCat, options)
+*	nonMinProsody: If true, the prosodic match must be non-minimal. Passed to hasMatch.*/
+function matchSP(inputTree, pTree, sCat, options)
 {
 	options = options || {};
+	var sParent = inputTree;
 	markMinMax(sParent);
 	if(sParent.cat === sCat)
 		logreport.debug("\tSeeking match for "+sParent.id + " in tree rooted in "+pTree.id);
@@ -253,10 +251,16 @@ function matchNonMinSyntax(sTree, pTree, sCat, options){
 	return matchSP(sTree, pTree, sCat, options);
 }
 
-//Match for custom match options
-function matchCustom(sTree, pTree, sCat, options){
+//Match for custom match SP options
+function matchCustomSP(sTree, pTree, sCat, options){
 	options = options || {};
 	return matchSP(sTree, pTree, sCat, options);
+}
+
+//Match for custom match PS options
+function matchCustomPS(sTree, pTree, sCat, options){
+	options = options || {};
+	return matchPS(pTree, sTree, sCat, options);
 }
 
 //Match Maximal P --> S

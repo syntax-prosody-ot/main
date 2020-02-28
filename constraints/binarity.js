@@ -112,6 +112,10 @@ function binMaxBranchesGradient(s, ptree, cat){
 	return vcount;
 }
 
+function binBrGradient(s, ptree, cat){
+	return binMaxBranchesGradient(s, ptree, cat)+binMinBranches(s, ptree, cat);
+}
+
 /*TRUCKENBRODT-STYLE BINARITY*/
 
 /* Categorical BinMax (Leaves)
@@ -184,6 +188,15 @@ function binMinLeaves(s, ptree, c){
 		}
 	}
 	return vcount;
+}
+
+//Combines the violations of maximal and minimal binarity (leaf-counting)
+function binLeaves(s, ptree, c){
+	return binMaxLeaves(s, ptree, c) + binMinLeaves(s, ptree, c);
+}
+
+function binLeavesGradient(s, ptree, c){
+	return binMaxLeavesGradient(s, ptree, c) + binMinLeaves(s, ptree, c);
 }
 
 //Helper function: given a node x, returns all the descendents of x that have category cat.
@@ -304,3 +317,35 @@ Note: relies on getLeaves.
 In the future we might want to have structure below the level of the (terminal) word, e.g., feet
 and in that case would need a type-sensitive implementation of getLeaves
 */
+
+/*
+	Head binarity for Japanese compounds
+*/
+function binMaxHead(s, ptree, cat) {
+	markHeadsJapanese(ptree);
+	var vcount = 0;
+	// non terminal
+	if(ptree.children && ptree.children.length){
+		// if category is correct and word is head
+		if(ptree.cat === cat && ptree.head === true){
+			if(ptree.children.length > 2){
+				vcount++;
+			}
+		}
+		for(var i = 0; i<ptree.children.length; i++){
+			vcount += binMaxHead(s, ptree.children[i], cat);
+		}
+	}
+	// terminal
+	else {
+		// if category is correct and word is head
+		if(ptree.cat === cat && ptree.head === true){
+			var id = ptree.id.split('_');
+			id = id[0];
+			if(id.length > 2) {
+				vcount++;
+			}
+		}
+	}
+	return vcount;
+}
