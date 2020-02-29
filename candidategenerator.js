@@ -363,7 +363,11 @@ function gen(leaves, options){
 
 		//Combine the all-leaf leftside with all the possible rightsides that have a phi at their left edge (or are empty)
 		for(var j = 0; j<rightsides.length; j++){
-			if(!rightsides[j].length || rightsides[j][0].cat === options.recursiveCategory)
+			var rightStartsStrong = !rightsides[j].length || (rightsides[j][0].cat !== options.terminalCategory);
+			if(!rightStartsStrong && rightsides[j].children && rightsides[j].children.length > 1){
+					rightStartsStrong = true;
+			}
+			if( rightStartsStrong)
 			{
 				cand = leftside.concat(rightsides[j]);
 				candidates.push(cand);
