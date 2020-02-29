@@ -370,6 +370,23 @@ function gen(leaves, options){
 			}
 		}
 
+		//Try to build left-sides that are wrapped in the next lower recursive category but aren't wrapped in the current recursive category
+		if(pushRecCat(options)){
+			var wLeftside = wrapInRecCat(leftside, options);
+			popRecCat(options);
+			if(wLeftside){
+				console.log(i, "wLeftside:", wLeftside);
+				//Combine the all-leaf leftside with all the possible rightsides that have a phi at their left edge (or are empty)
+				for(var j = 0; j<rightsides.length; j++){
+					if(rightsides[j].length)
+					{
+						cand = [wLeftside].concat(rightsides[j]);
+						candidates.push(cand);
+					}
+				}
+			}
+			
+        }
 
 
 		
