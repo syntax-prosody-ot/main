@@ -145,6 +145,9 @@
 			.treeUI-tree {
 				margin-top: 15px;
 			}
+			.input-button {
+				font-size: 10px;
+			}
 			button {
 				color: #ffffff;
 				background-color: #6d86a3;
@@ -550,7 +553,7 @@
 					</span>
 				</span>
 			</h2>
-			<p>String of terminals: <input type="text" name="inputToGen"> <button id="goButton" type="button">Build syntax</button><button class="orange-button" type="submit" style='margin-left: 5px'>Run GEN</button></p>
+			<p>String of terminals: <input type="text" name="inputToGen"><button id="goButton" type="button" class="input-button">Build syntax</button><button id="inputButton" type="button" class="input-button">Auto gen syntax</button><button class="orange-button input-button" type="submit" style='margin-left: 5px'>Run GEN</button></p>
 
             <div id="treeUI" style="display: none">
 								<div class="constraint-row">
@@ -594,6 +597,80 @@
 					<textarea id="stree-textarea" class="stree-textarea" name="sTree" rows="15">{}</textarea>
 				</div>
 			</div>
+
+			<!-- automatically generate syntax -->
+			<div id="">
+				<hr/>
+
+				<h2 style="font-size: 16px">Input GEN options
+					<span class="info">
+						<span class="content">
+							info
+						</span>
+					</span>
+				</h2>
+
+				<div class="constraint-row">
+					<span>Head requirements:
+						<select name="">
+							<option value="">Heads can be anywhere</option>
+							<option value="">Heads must be perfectly left-aligned</option>
+							<option value="">Heads must be perfectly right-aligned</option>
+							<option value="">Heads must be on the left edge</option>
+							<option value="">Heads must be on the right edge</option>
+						</select>
+					</span>
+					<div class="info">
+						<span class="content">info</span>
+					</div>
+				</div>
+
+				<div class="constraint-row"><span>Root syntactic tree in</span>
+					<div class="info">
+						<span class="content">info</span>
+					</div>
+				</div>
+				<div class="category-row">
+					<div class="category-selection-div"><input type="checkbox" name="" value="cp">CP</div>
+					<div class="category-selection-div"><input type="checkbox" name="" value="xp" checked="checked">XP</div>
+					<div class="category-selection-div"><input type="checkbox" name="" value="x0">X<sup>0</sup></div>
+				</div>
+				<div class="constraint-row"><span>Intermediate nodes are</span>
+					<div class="info"><span class="content">info</span></div>
+				</div>
+				<div class="category-row">
+					<div class="category-selection-div"><input type="checkbox" name="" value="cp">CP</div>
+					<div class="category-selection-div"><input type="checkbox" name="" value="xp" checked="checked">XP</div>
+					<div class="category-selection-div"><input type="checkbox" name="" value="x0">X<sup>0</sup></div>
+				</div>
+				<div class="constraint-row"><span>Syntactic terminals are</span>
+					<div class="info"><span class="content">info</span></div>
+				</div>
+				<div class="category-row">
+					<div class="category-selection-div"><input type="checkbox" name="" value="cp">CP</div>
+					<div class="category-selection-div"><input type="checkbox" name="" value="xp">XP</div>
+					<div class="category-selection-div"><input type="checkbox" name="" value="x0" checked="checked">X<sup>0</sup></div>
+				</div>
+
+				<div class="constraint-row">
+					<span><input type="checkbox" name="" value="" id="">Add XP clitics directly under root</span>
+					<div class="info"><span class="content">info</span></div>
+				</div>
+				<div class="category-row" style="" id="">
+					<div class="category-selection-div"><input type="radio" name="" value="" checked="checked">Left</div>
+					<div class="category-selection-div"><input type="radio" name="" value="">Right</div>
+				</div>
+
+				<div class="constraint-row">
+					<span><input type="checkbox" name="" value="" id="">Allow adjuncts</span>
+					<div class="info"><span class="content">info</span></div>
+				</div>
+
+				<button id="" type="button">Done!<br><small></small>Add trees to analysis</small></button>
+				<div id="">The trees in the analysis are up-to-date</div>
+				<p style="font-size: 15; vertical-align: middle"><label class="switch" style="margin-right: 10px;vertical-align: middle"><input type="checkbox" id="" value=""><span class="slider round"></span></label>Show syntactic trees</p>
+			</div>
+
 		</div>
 
 				<!--CONSTRAINTS-->
