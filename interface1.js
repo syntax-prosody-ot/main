@@ -408,6 +408,13 @@ window.addEventListener('load', function(){
 		//Get input to GEN.
 		var pString = spotForm.inputToGen.value;
 
+		// Get the code that is in the stree textarea
+		var treeCode = spotForm.sTree.value
+		// if code has been generated, then ignore pString in GEN
+		if(treeCode !== "{}") {
+			pString = "";
+		}
+
 		//Build a list of checked GEN options.
 		var genOptions = {};
 		for(var i=0; i<spotForm.genOptions.length; i++){
@@ -653,6 +660,7 @@ window.addEventListener('load', function(){
 		}), null, 4);
 
 		document.getElementById('doneMessage').style.display = 'inline-block';
+		spotForm.inputToGen.value = "";
 	});
 
 	document.getElementById('danishJsonTreesButton').addEventListener('click', function() {
