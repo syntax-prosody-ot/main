@@ -16,22 +16,19 @@ function exhaustParent(s, ptree){
 	//Recursive case: if parent is non_terminal, find out if there are any violations in each of the subtrees rooted in its children.
 
 	if(ptree.children && ptree.children.length){
-		var vcount = 0;
+		//var vcount = 0;
 		var child;
 		for (var i=0; i < ptree.children.length; i++){
 			child = ptree.children[i];
 			if (ptree.cat!==child.cat && pCat.nextLower(ptree.cat)!==child.cat){
-				vcount++;
+				//vcount++;
+				return 1;
 			}
-			vcount += exhaustParent(s, child);
-			//exhaust(s, child);
+			if (exhaustParent(s,child) > 0){
+				return 1;
+
+			}
 		}
-		if (vcount > 0){
-			return 1;
-		}
-		else{
-			return vcount;
-		}
-		
 	}
+	return 0;
 };
