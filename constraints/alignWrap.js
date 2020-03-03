@@ -17,7 +17,25 @@ function alignRight(sTree, pTree, sCat){
 	return alignSP(sTree, pTree, sCat, 'right');
 }
 
-function alignSP(sTree, pTree, sCat, d){
+
+/*
+* Options (all boolean):
+* requireLexical: To ignore non-lexical XPs give them an attribute func: true.
+*	requireOvertHead: To ignore silently-headed XPs, give them an attribute silentHead: true
+*	maxSyntax: If true, ignore non-maximal syntactic nodes (nodes of category c that are
+*				dominated by another node of category c)
+*	minSyntax: If true, ignore non-minimal syntactic nodes (nodes of category c that dominate
+*				another node of category c)
+*	nonMaxSyntax: If true, only look at non-maximal syntactic nodes
+*	nonMinSyntax: If true, only look at non-minimal syntactic nodes
+*	maxProsody: If true, the prosodic match needs to be maximal. Passed to hasMatch.
+*	minProsody: If true, the prosodic match needs to be minimal. Passed to hasMatch.
+*	nonMaxProsody: If true, the prosodic match must be non-maximal. Passed to hasMatch.
+*	nonMinProsody: If true, the prosodic match must be non-minimal. Passed to hasMatch.*/
+function alignSP(sTree, pTree, sCat, d, options){
+
+
+
 	var getEdge = (d==="left") ? getLeftEdge : getRightEdge;
 	var vCount = 0;
 	walkTree(sTree, function(sNode){
@@ -54,8 +72,21 @@ function getRightEdge(node){
 	return leaves[leaves.length-1];
 }
 
-function alignPS(sTree, pTree, cat, d){
-	return alignSP(pTree, sTree, cat, d);
+function alignPS(sTree, pTree, cat, d, options){
+	options = options || {};
+	var sTree = sParent;
+	var flippedOptions = {};
+	flippedOptions.maxSyntax = options.maxProsody || false;
+	flippedOptions.nonMaxSyntax = options.nonMaxProsody || false;
+	flippedOptions.minSyntax = options.minProsody || false;
+	flippedOptions.nonMinSyntax = options.nonMinProsody || false;
+	flippedOptions.maxProsody = options.maxSyntax || false;
+	flippedOptions.nonMaxProsody = options.nonMaxSyntax || false;
+	flippedOptions.minProsody = options.minSyntax || false;
+	flippedOptions.nonMinProsody = options.nonMinSyntax || false;
+	flippedOptions.requireLexical = options.requireLexical || false;
+	flippedOptions.requireOvertHead = options.requireOvertHead || false;
+	return alignSP(pTree, sTree, cat, d, flippedOptions);
 }
 
 function alignLeftPS(sTree, pTree, cat){
@@ -65,7 +96,10 @@ function alignLeftPS(sTree, pTree, cat){
 function alignRightPS(sTree, pTree, cat){
 	return alignPS(sTree, pTree, cat, 'right');
 }
-
+function alignCustom(sTree, pTree, cat, options){
+	options = options || {};
+	return alignSP()
+}
 function wrap(sTree, pTree, cat){
 	var vCount = 0;
 	walkTree(sTree, function(sNode){
