@@ -5,7 +5,7 @@
 * "Vertically categorical"; greater distance between parent and child on PH does not result in higher vcount.
 ******************/
 
-function exhaust1(s, ptree){
+function exhaustChild(s, ptree){
 //Assumes trees that obey Layering.
 	
 	//Base case: if parent is a terminal, return 0 violations.
@@ -23,7 +23,7 @@ function exhaust1(s, ptree){
 			if (ptree.cat!==child.cat && pCat.nextLower(ptree.cat)!==child.cat){
 				vcount++;
 			}
-			vcount += exhaust1(s, child);
+			vcount += exhaustChild(s, child);
 		}
 		return vcount;
 	}
