@@ -352,6 +352,14 @@ function gen(leaves, options){
 		
 		//recursion at top level
 		var rightsides = addRecCatWrapped(gen(rightLeaves, options), options);
+		if(pushRecCat(options)){
+			console.log("recursive push on right side", options.recursiveCategory);
+			var wRightsides = addRecCatWrapped(gen(rightLeaves, options), options);
+			console.log(wRightsides);
+			rightsides.concat(wRightsides);
+			popRecCat(options);
+		}
+		
 		
 
 		//Then create left sides and combine them with the right sides.
@@ -379,21 +387,26 @@ function gen(leaves, options){
 			}
 		}
 
+		//Case 3??
 		//Try to build left-sides that are wrapped in the next lower recursive category but aren't wrapped in the current recursive category
 		if(pushRecCat(options)){
-			var wLeftside = wrapInRecCat(leftside, options);
-			popRecCat(options);
-			if(wLeftside){
-				console.log(i, "wLeftside:", wLeftside);
-				//Combine the all-leaf leftside with all the possible rightsides that have a phi at their left edge (or are empty)
-				for(var j = 0; j<rightsides.length; j++){
-					if(rightsides[j].length)
-					{
-						cand = [wLeftside].concat(rightsides[j]);
-						candidates.push(cand);
+			var wLeftsides = gen(leaves.slice(0,i), options);
+			for(var k = 0; k<wLeftsides.length; k++){
+				var wLeftside = wrapInRecCat(wLeftsides[k], options);
+				popRecCat(options);
+				if(wLeftside){
+					console.log(i, "wLeftside:", wLeftside);
+					//Combine the all-leaf leftside with all the possible rightsides that aren't empty
+					for(var j = 0; j<rightsides.length; j++){
+						if(rightsides[j].length)
+						{
+							cand = [wLeftside].concat(rightsides[j]);
+							candidates.push(cand);
+						}
 					}
 				}
 			}
+			
 			
         }
 
