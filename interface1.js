@@ -561,7 +561,6 @@ window.addEventListener('load', function(){
 
 	});
 
-
 	/*
 	document.getElementById("japaneseTonesInfo").addEventListener("click", toneInfoBlock("japanese"));
 	document.getElementById("irishTonesInfo").addEventListener("click", toneInfoBlock("irish"));
@@ -573,6 +572,9 @@ window.addEventListener('load', function(){
 	//Open the tree making GUI
 	document.getElementById('goButton').addEventListener('click', function(){
 		document.getElementById('treeUI').style.display = 'block';
+		if(document.getElementById('inputOptions').style.display = 'block') {
+			document.getElementById('inputOptions').style.display = 'none';
+		}
 	});
 
 	function refreshHtmlTree(treeIndex) {
@@ -603,6 +605,69 @@ window.addEventListener('load', function(){
 		document.getElementById('doneMessage').style.display = 'none';
 	});
 
+	// automatically generate syntax button
+	document.getElementById('inputButton').addEventListener('click', function(){
+		document.getElementById('inputOptions').style.display = 'block';
+		if(document.getElementById('treeUI').style.display = 'block') {
+			document.getElementById('treeUI').style.display = 'none';
+		}
+		if(document.getElementById('autoDoneMessage').style.display = 'block') {
+			document.getElementById('autoDoneMessage').style.display = 'none';
+		}
+	});
+
+	// done button for auto input gen
+	document.getElementById('autoGenDoneButton').addEventListener('click', function(){
+		document.getElementById('autoDoneMessage').style.display = 'inline-block';
+		autoGenInputTree();
+	});
+
+	// automatically generate input tree
+	function autoGenInputTree() {
+		var inputString = spotForm.inputToGen.value;
+		// sTreeList = sTreeGEN('a b c', {addClitics: 'left', maxBranching:3, headSide:'right-strict'});
+		var headReq = document.getElementById('head-req').value;
+		console.log(headReq)
+		if(headReq !== 'select') {
+			var headSideVal = headReq;
+		}
+
+		var noAdjunctsVal = document.getElementById('allow-adjuncts').value;
+		if(document.getElementById('allow-adjuncts').checked) {
+			noAdjunctsVal = 'false';
+		}
+		console.log(noAdjunctsVal)
+
+		if(document.getElementById('add-clitics').checked) {
+			var addCliticsVal = document.getElementById('add-clitics').value;
+			if(document.getElementById('add-clitics-left').checked) {
+				addCliticsVal = 'left';
+			}
+		}
+		console.log(addCliticsVal)
+
+		var rootVal = document.getElementsByName('root-category').value;
+		console.log(rootVal)
+
+		sTreeList = sTreeGEN(inputString, {headSide: headSideVal, noAdjuncts: noAdjunctsVal, addClitics: addCliticsVal});
+		// console.log('abc trees', sTreeList.length);
+		// var trees = 'abc trees' + sTreeList.length;
+		for(var s in sTreeList){
+			// console.log(parenthesizeTree(sTreeList[s]));
+			var parTree = parenthesizeTree(sTreeList[s]);
+			document.getElementById('autoTreeTable').innerHTML += parTree + '<br>';
+		}
+	}
+
+	// show/hide syntactic trees
+	document.getElementById('syntax-tree-box').addEventListener('click', function(){
+		if (document.getElementById('autoTreeTable').style.display === 'none' && document.getElementById('syntax-tree-box').checked){
+			document.getElementById('autoTreeTable').style.display = 'block';
+		}
+		else{
+			document.getElementById('autoTreeTable').style.display = 'none';
+		}
+	});
 
 	// For testing only
 	/*
