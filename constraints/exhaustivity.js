@@ -28,3 +28,31 @@ function exhaust1(s, ptree){
 		return vcount;
 	}
 };
+
+function exhaustParent(s, ptree){
+//Assumes trees that obey Layering.
+	
+	//Base case: if parent is a terminal, return 0 violations.
+	if (!ptree.children){
+		return 0;
+	}
+	
+	//Recursive case: if parent is non_terminal, find out if there are any violations in each of the subtrees rooted in its children.
+
+	if(ptree.children && ptree.children.length){
+		//var vcount = 0;
+		var child;
+		for (var i=0; i < ptree.children.length; i++){
+			child = ptree.children[i];
+			if (ptree.cat!==child.cat && pCat.nextLower(ptree.cat)!==child.cat){
+				//vcount++;
+				return 1;
+			}
+			if (exhaustParent(s,child) > 0){
+				return 1;
+
+			}
+		}
+	}
+	return 0;
+};
