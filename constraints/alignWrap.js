@@ -33,8 +33,7 @@ function alignRight(sTree, pTree, sCat){
 *	nonMaxProsody: If true, the prosodic match must be non-maximal. Passed to hasMatch.
 *	nonMinProsody: If true, the prosodic match must be non-minimal. Passed to hasMatch.*/
 function alignSP(sTree, pTree, sCat, d, options){
-
-
+	options = options || {};
 
 	var getEdge = (d==="left") ? getLeftEdge : getRightEdge;
 	var vCount = 0;
@@ -57,8 +56,16 @@ function alignSP(sTree, pTree, sCat, d, options){
 				return false;
 			}
 		});
-		if(noMatch)
-			vCount++;
+		if(noMatch 
+			&& !(options.requireLexical && sNode.func)
+			&& !(options.requireOvertHead && sNode.silentHead)
+			&& !(options.maxSyntax && !sNode.isMax)
+			&& !(options.minSyntax && !isMinimal(sNode))
+			&& !(options.nonMaxSyntax && sNode.isMax)
+			&& !(options.nonMinSyntax && isMinimal(sParent))){
+
+				vCount++;
+		}
 	});
 	return vCount;
 }
