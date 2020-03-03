@@ -3,7 +3,7 @@
 *  and the lexical item.
 */
 
-function alignMorpheme(stree, ptree, clitic, direction){\
+function alignMorpheme(stree, ptree, clitic, direction){
 	if(ptree.cat !== "i" && ptree.cat !== 'iota'){
         console.warn("You are calling alignLeftClitic on a tree that is not rooted in i");
     }
