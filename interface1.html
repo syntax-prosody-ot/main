@@ -383,6 +383,9 @@
 				font-size: 13px;
 				margin-left: 10px;
       }
+			#add-clitics-row{
+				display: none;
+			}
 
 			/* built in analysis dropdown */
 			.dropdown {
@@ -638,45 +641,47 @@
 					</div>
 				</div>
 				<div class="category-row">
-					<div class="category-selection-div"><input type="checkbox" name="autoInputOptions-rootCategory" value="cp">CP</div>
-					<div class="category-selection-div"><input type="checkbox" name="autoInputOptions-rootCategory" value="xp" checked="checked">XP</div>
-					<div class="category-selection-div"><input type="checkbox" name="autoInputOptions-rootCategory" value="x0">X<sup>0</sup></div>
+					<div class="category-selection-div"><input type="radio" name="autoInputOptions-rootCategory" value="cp">CP</div>
+					<div class="category-selection-div"><input type="radio" name="autoInputOptions-rootCategory" value="xp" checked="checked">XP</div>
+					<div class="category-selection-div"><input type="radio" name="autoInputOptions-rootCategory" value="x0">X<sup>0</sup></div>
 				</div>
 				<div class="constraint-row"><span>Intermediate nodes are</span>
 					<div class="info"><span class="content">info</span></div>
 				</div>
 				<div class="category-row">
-					<div class="category-selection-div"><input type="checkbox" name="autoInputOptions-recursiveCategory" value="cp">CP</div>
-					<div class="category-selection-div"><input type="checkbox" name="autoInputOptions-recursiveCategory" value="xp" checked="checked">XP</div>
-					<div class="category-selection-div"><input type="checkbox" name="autoInputOptions-recursiveCategory" value="x0">X<sup>0</sup></div>
+					<div class="category-selection-div"><input type="radio" name="autoInputOptions-recursiveCategory" value="cp">CP</div>
+					<div class="category-selection-div"><input type="radio" name="autoInputOptions-recursiveCategory" value="xp" checked="checked">XP</div>
+					<div class="category-selection-div"><input type="radio" name="autoInputOptions-recursiveCategory" value="x0">X<sup>0</sup></div>
 				</div>
 				<div class="constraint-row"><span>Syntactic terminals are</span>
 					<div class="info"><span class="content">info</span></div>
 				</div>
 				<div class="category-row">
-					<div class="category-selection-div"><input type="checkbox" name="autoInputOptions-terminalCategory" value="cp">CP</div>
-					<div class="category-selection-div"><input type="checkbox" name="autoInputOptions-terminalCategory" value="xp">XP</div>
-					<div class="category-selection-div"><input type="checkbox" name="autoInputOptions-terminalCategory" value="x0" checked="checked">X<sup>0</sup></div>
+					<div class="category-selection-div"><input type="radio" name="autoInputOptions-terminalCategory" value="cp">CP</div>
+					<div class="category-selection-div"><input type="radio" name="autoInputOptions-terminalCategory" value="xp">XP</div>
+					<div class="category-selection-div"><input type="radio" name="autoInputOptions-terminalCategory" value="x0" checked="checked">X<sup>0</sup></div>
 				</div>
 
 				<div class="constraint-row">
-					<span><input type="checkbox" name="addClitics" value="right" id="add-clitics">Add XP clitics directly under root</span>
+					<span><input type="checkbox" name="autoInputOptions-addClitics" value="right" id="add-clitics">Add XP clitics directly under root</span>
 					<div class="info"><span class="content">info</span></div>
 				</div>
-				<div class="category-row">
-					<div class="category-selection-div"><input type="radio" name="cliticOptions" value="left" id="add-clitics-left">Left</div>
-					<div class="category-selection-div"><input type="radio" name="cliticOptions" value="right" checked="checked">Right</div>
+				<div class="category-row" id="add-clitics-row">
+					<div class="category-selection-div"><input type="radio" name="autoInputOptions-addClitics" value="left" id="add-clitics-left">Left</div>
+					<div class="category-selection-div"><input type="radio" name="autoInputOptions-addClitics" value="right" checked="checked">Right</div>
 				</div>
 
 				<div class="constraint-row">
-					<span><input type="checkbox" name="allow-adjucts" value="true" id="allow-adjuncts">Allow adjuncts</span>
+					<span><input type="checkbox" name="autoInputOptions" value="noAdjuncts">Allow adjuncts</span>
 					<div class="info"><span class="content">info</span></div>
 				</div>
 
 				<button id="autoGenDoneButton" type="button">Done!<br><small></small>Add trees to analysis</small></button>
 				<div id="autoDoneMessage">The trees in the analysis are up-to-date</div>
 				<p style="font-size: 15; vertical-align: middle"><label class="switch" style="margin-right: 10px;vertical-align: middle"><input type="checkbox" id="syntax-tree-box" value="show-syntax-tree-box"><span class="slider round"></span></label>Show syntactic trees</p>
-				<div id="autoTreeTable" style="display: none"></div>
+				<div id="autoTreeTable" style="display: none">
+					<hr>
+				</div>
 			</div>
 
 		</div>

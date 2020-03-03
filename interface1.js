@@ -616,6 +616,16 @@ window.addEventListener('load', function(){
 		}
 	});
 
+	// show and display addClitics options
+	document.getElementById('add-clitics').addEventListener('change', function(){
+		if(document.getElementById('add-clitics').checked) {
+			document.getElementById('add-clitics-row').style.display = 'block';
+		}
+		else {
+			document.getElementById('add-clitics-row').style.display = 'none';
+		}
+	});
+
 	// done button for auto input gen
 	document.getElementById('autoGenDoneButton').addEventListener('click', function(){
 		document.getElementById('autoDoneMessage').style.display = 'inline-block';
@@ -625,33 +635,42 @@ window.addEventListener('load', function(){
 	// automatically generate input tree
 	function autoGenInputTree() {
 		var inputString = spotForm.inputToGen.value;
-		// sTreeList = sTreeGEN('a b c', {addClitics: 'left', maxBranching:3, headSide:'right-strict'});
+
+		// allow adjuncts
+		var autoInputOptions = {};
+		// loop is there is more than one checkbox option, but for now there is only one
+		// for(var i=0; i<spotForm.autoInputOptions.length; i++){
+		// 	var optionBox = spotForm.autoInputOptions[i];
+		// 	autoInputOptions[optionBox.value]=optionBox.checked;
+		// }
+		var optionBox = spotForm.autoInputOptions;
+		autoInputOptions[optionBox.value]=optionBox.checked;
+
+		// head requirements
 		var headReq = document.getElementById('head-req').value;
-		console.log(headReq)
 		if(headReq !== 'select') {
 			var headSideVal = headReq;
 		}
+		autoInputOptions.headSide = headSideVal;
 
-		var noAdjunctsVal = document.getElementById('allow-adjuncts').value;
-		if(document.getElementById('allow-adjuncts').checked) {
-			noAdjunctsVal = 'false';
-		}
-		console.log(noAdjunctsVal)
-
+		// add XP clitics directly under root
 		if(document.getElementById('add-clitics').checked) {
 			var addCliticsVal = document.getElementById('add-clitics').value;
 			if(document.getElementById('add-clitics-left').checked) {
 				addCliticsVal = 'left';
 			}
 		}
-		console.log(addCliticsVal)
+		autoInputOptions.addClitics = addCliticsVal;
 
-		var rootVal = document.getElementsByName('root-category').value;
-		console.log(rootVal)
+		// root, recursive terminal, category
+		autoInputOptions.rootCategory = spotForm['autoInputOptions-rootCategory'].value;
+		autoInputOptions.recursiveCategory = spotForm['autoInputOptions-recursiveCategory'].value;
+		autoInputOptions.terminalCategory = spotForm['autoInputOptions-terminalCategory'].value;
 
-		sTreeList = sTreeGEN(inputString, {headSide: headSideVal, noAdjuncts: noAdjunctsVal, addClitics: addCliticsVal});
-		// console.log('abc trees', sTreeList.length);
-		// var trees = 'abc trees' + sTreeList.length;
+		console.log(autoInputOptions)
+
+		sTreeList = sTreeGEN(inputString, autoInputOptions);
+
 		for(var s in sTreeList){
 			// console.log(parenthesizeTree(sTreeList[s]));
 			var parTree = parenthesizeTree(sTreeList[s]);
