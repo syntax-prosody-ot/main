@@ -106,6 +106,13 @@
 				resize: both;
 				border: 1px solid #a9a9a9;
 			}
+			#autoTreeBox {
+				width: fit-content;
+				height: 250px;
+				overflow: scroll;
+				resize: both;
+				border: 1px solid #a9a9a9;
+			}
 			.inline-block {
 				display:inline-block
 			}
@@ -412,6 +419,17 @@
 				margin: 5px;
 			}
 
+			.auto-table {
+			    border-collapse: collapse;
+			    margin: 10px 10px 10px 10px;
+			}
+			.auto-table td {
+			    border: 1px solid black;
+					text-align: left;
+					padding: 4px;
+			}
+
+
 		</style>
 
 	</head>
@@ -678,9 +696,10 @@
 
 				<button id="autoGenDoneButton" type="button">Done!<br><small></small>Add trees to analysis</small></button>
 				<div id="autoDoneMessage">The trees in the analysis are up-to-date</div>
-				<p style="font-size: 15; vertical-align: middle"><label class="switch" style="margin-right: 10px;vertical-align: middle"><input type="checkbox" id="syntax-tree-box" value="show-syntax-tree-box"><span class="slider round"></span></label>Show syntactic trees</p>
-				<div id="autoTreeTable" style="display: none">
-					<hr>
+				<p style="font-size: 15; vertical-align: middle"><label class="switch" style="margin-right: 10px;vertical-align: middle"><input type="checkbox" id="syntax-tree-switch" value="show-syntax-tree-box"><span class="slider round"></span></label>Show syntactic trees</p>
+				<div id="autoTreeArea" style="display: none">
+					<hr><br>
+					<div id="autoTreeBox"></div>
 				</div>
 			</div>
 

@@ -256,7 +256,6 @@ function getSTrees() {
 		sTrees = [sTrees];
 	}
 	return sTrees;
-
 }
 
 function danishTrees() {
@@ -394,15 +393,29 @@ window.addEventListener('load', function(){
 			}
 		}
 
-		//Get the input syntactic tree.
-		var sTrees;
-		try{
-			sTrees = getSTrees();
+		// Get the automatically generated syntactic trees
+		if(document.getElementById('inputOptions').style.display == 'block') {
+			var sTrees;
+			try{
+				sTrees = getAutoSTreeList();
+			}
+			catch(e){
+				console.error(e);
+				alert(e.message);
+				return;
+			}
 		}
-		catch(e){
-			console.error(e);
-			alert(e.message);
-			return;
+		else {
+			// Get the input syntactic tree from tree builder
+			var sTrees;
+			try{
+				sTrees = getSTrees();
+			}
+			catch(e){
+				console.error(e);
+				alert(e.message);
+				return;
+			}
 		}
 
 		//Get input to GEN.
@@ -572,7 +585,7 @@ window.addEventListener('load', function(){
 	//Open the tree making GUI
 	document.getElementById('goButton').addEventListener('click', function(){
 		document.getElementById('treeUI').style.display = 'block';
-		if(document.getElementById('inputOptions').style.display = 'block') {
+		if(document.getElementById('inputOptions').style.display == 'block') {
 			document.getElementById('inputOptions').style.display = 'none';
 		}
 	});
@@ -608,12 +621,10 @@ window.addEventListener('load', function(){
 	// automatically generate syntax button
 	document.getElementById('inputButton').addEventListener('click', function(){
 		document.getElementById('inputOptions').style.display = 'block';
-		if(document.getElementById('treeUI').style.display = 'block') {
+		if(document.getElementById('treeUI').style.display == 'block') {
 			document.getElementById('treeUI').style.display = 'none';
 		}
-		if(document.getElementById('autoDoneMessage').style.display = 'block') {
-			document.getElementById('autoDoneMessage').style.display = 'none';
-		}
+		document.getElementById('autoDoneMessage').style.display = 'none';
 	});
 
 	// show and display addClitics options
@@ -632,13 +643,15 @@ window.addEventListener('load', function(){
 		autoGenInputTree();
 	});
 
+	var sTreeList;
+
 	// automatically generate input tree
 	function autoGenInputTree() {
 		var inputString = spotForm.inputToGen.value;
 
 		// allow adjuncts
 		var autoInputOptions = {};
-		// loop is there is more than one checkbox option, but for now there is only one
+		// loop if there is more than one checkbox option, but for now there is only one
 		// for(var i=0; i<spotForm.autoInputOptions.length; i++){
 		// 	var optionBox = spotForm.autoInputOptions[i];
 		// 	autoInputOptions[optionBox.value]=optionBox.checked;
@@ -667,26 +680,57 @@ window.addEventListener('load', function(){
 		autoInputOptions.recursiveCategory = spotForm['autoInputOptions-recursiveCategory'].value;
 		autoInputOptions.terminalCategory = spotForm['autoInputOptions-terminalCategory'].value;
 
-		console.log(autoInputOptions)
+		// console.log(autoInputOptions)
 
-		sTreeList = sTreeGEN(inputString, autoInputOptions);
+		var currSTreeList = sTreeGEN(inputString, autoInputOptions);
+		displayTable(currSTreeList);
+		// console.log("current s tree list")
+		// console.log(currSTreeList)
 
-		for(var s in sTreeList){
-			// console.log(parenthesizeTree(sTreeList[s]));
-			var parTree = parenthesizeTree(sTreeList[s]);
-			document.getElementById('autoTreeTable').innerHTML += parTree + '<br>';
+		if(sTreeList) {
+			sTreeList = sTreeList.concat(currSTreeList);
 		}
+		else {
+			sTreeList = currSTreeList;
+		}
+		// console.log()
+		// console.log("total s tree list")
+		// console.log(sTreeList)
+	}
+
+	function getAutoSTreeList() {
+		return sTreeList;
 	}
 
 	// show/hide syntactic trees
-	document.getElementById('syntax-tree-box').addEventListener('click', function(){
-		if (document.getElementById('autoTreeTable').style.display === 'none' && document.getElementById('syntax-tree-box').checked){
-			document.getElementById('autoTreeTable').style.display = 'block';
+	document.getElementById('syntax-tree-switch').addEventListener('click', function(){
+		if (document.getElementById('autoTreeArea').style.display === 'none' && document.getElementById('syntax-tree-switch').checked){
+			document.getElementById('autoTreeArea').style.display = 'block';
 		}
 		else{
-			document.getElementById('autoTreeTable').style.display = 'none';
+			document.getElementById('autoTreeArea').style.display = 'none';
 		}
 	});
+
+	// display tree tables
+	function displayTable(sTreeList) {
+		var treeTable = treeToTable(sTreeList);
+		document.getElementById('autoTreeBox').innerHTML += treeTable;
+	}
+
+	// create table from sTree list
+	function treeToTable(sTreeList) {
+		var htmlChunks = ['<table class="auto-table"><tbody>'];
+		for(var s in sTreeList) {
+			var parTree = parenthesizeTree(sTreeList[s]);
+			htmlChunks.push('<tr>');
+			htmlChunks.push('<td>' + parTree + '</td>');
+			htmlChunks.push('</tr>');
+		}
+		htmlChunks.push('</tbody></table>');
+		return htmlChunks.join('');
+	}
+
 
 	// For testing only
 	/*
