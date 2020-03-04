@@ -401,12 +401,12 @@ function generateWordOrders(wordList, clitic){
 	return orders;
 }
 
-/* function that generates all orders of words
- * for when there is more than one clitic
- * takes a list of words to permute
+/* function that generates word orders for when there are multiple clitics
+ * takes a list of words to permute and list of clitics to move
+ * if there is no clitic list, permutes all word orders
  * this is Heap's algorithm, by the way
  * [https://en.wikipedia.org/wiki/Heap%27s_algorithm] */
-function generateAllOrders(wordList){
+function generateAllOrders(wordList, cliticList){
 	//function for swapping elements in an array, takes array and indexes of elements to be swapped
 	function swap(array, index1, index2){
 		var swapped = [];
@@ -433,13 +433,18 @@ function generateAllOrders(wordList){
 			allOrdersInner(innerList, k-1); //recursive function call
 
 			for(var i = 0; i < k-1; i++){
-				if(k%2 === 0){
+				if(k%2 === 0
+					&& !(cliticList && cliticList.length
+					&& cliticList.indexOf(innerList[0]) < 0
+					&& cliticList.indexOf(innerList[k-1]) < 0)){
 					//swap innerList[i] with innerList[k-1]
-					allOrdersInner(swap(innerList, i, k-1), k-1); //recursive function call
-				}
-				else{
-					//swap innerList[0] with innerList[k-1]
 					allOrdersInner(swap(innerList, 0, k-1), k-1); //recursive function call
+				}
+				else if (!(cliticList && cliticList.length
+					&& cliticList.indexOf(innerList[i]) < 0
+					&& cliticList.indexOf(innerList[k-1]) < 0)){
+					//swap innerList[0] with innerList[k-1]
+					allOrdersInner(swap(innerList, i, k-1), k-1); //recursive function call
 				}
 			}
 		}
