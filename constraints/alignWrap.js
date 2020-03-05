@@ -56,6 +56,8 @@ function alignSP(sTree, pTree, sCat, d, options){
 				return false;
 			}
 		});
+		markMinMax(sNode);
+		markMinMax(pNode);
 		if(noMatch
 			&& !(options.requireLexical && sNode.func)
 			&& !(options.requireOvertHead && sNode.silentHead)
