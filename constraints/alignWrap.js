@@ -1,5 +1,5 @@
 /* Assign a violation for every node in sTree of category sCat
-whose d edge is not aligned with the d edge of a node in pTree 
+whose d edge is not aligned with the d edge of a node in pTree
 of the prosodic category corresponding to s
 
 For every sCat node s in sTree, find a node p in pTree of the proper category
@@ -49,20 +49,24 @@ function alignSP(sTree, pTree, sCat, d, options){
 			if(!catsMatch(sCat, pNode.cat))
 				return;
 			var pEdge = getEdge(pNode);
-			if(!pEdge) 
+			if(!pEdge)
 				pEdge = pNode;	//I'm assuming the leaves are words...
 			if(sEdge.id === pEdge.id){
 				noMatch = false;
 				return false;
 			}
 		});
-		if(noMatch 
+		if(noMatch
 			&& !(options.requireLexical && sNode.func)
 			&& !(options.requireOvertHead && sNode.silentHead)
 			&& !(options.maxSyntax && !sNode.isMax)
 			&& !(options.minSyntax && !isMinimal(sNode))
 			&& !(options.nonMaxSyntax && sNode.isMax)
-			&& !(options.nonMinSyntax && isMinimal(sParent))){
+			&& !(options.nonMinSyntax && isMinimal(sNode))
+			&& !(options.maxProsody && !pNode.isMax)
+			&& !(options.minProsody && !isMinimal(pNode))
+			&& !(options.nonMaxProsody && pNode.isMax)
+			&& !(options.nonMinProsody && isMinimal(pNode))){
 
 				vCount++;
 		}
@@ -81,7 +85,6 @@ function getRightEdge(node){
 
 function alignPS(sTree, pTree, cat, d, options){
 	options = options || {};
-	var sTree = sParent;
 	var flippedOptions = {};
 	flippedOptions.maxSyntax = options.maxProsody || false;
 	flippedOptions.nonMaxSyntax = options.nonMaxProsody || false;
