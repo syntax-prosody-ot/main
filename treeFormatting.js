@@ -52,6 +52,9 @@ function parenthesizeTree(tree, options){
 				if (node["foc"]){
 					tempLabel += ".foc";
 				}
+				if (node["func"] || node["silentHead"] || node["foc"]){
+					tempLabel += " ";
+				}
 				parTree.push(tempLabel);
 				//parTree.push(parens[0]);
 				if(showTones){
