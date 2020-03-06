@@ -52,18 +52,6 @@ function parenthesizeTree(tree, options){
 				if (node["foc"]){
 					tempLabel += ".foc";
 				}
-				// if (node["func"] && node["silentHead"]){
-				// 	parTree.push(parens[node.cat][0] + ".f.sh ");
-				// }
-				// else if (node["func"]){
-				// 	parTree.push(parens[node.cat][0] + ".f ");
-				// }
-				// else if (node["silentHead"]){
-				// 	parTree.push(parens[node.cat][0] + ".sh ");
-				// }
-				// else{
-				// 	parTree.push(parens[node.cat][0]);
-				// }//pushes the right parens}
 				parTree.push(tempLabel);
 				//parTree.push(parens[0]);
 				if(showTones){
@@ -111,19 +99,6 @@ function parenthesizeTree(tree, options){
 				tempLabel += ".foc";
 			}
 			parTree.push(tempLabel);
-			// if (node["func"] && node["silentHead"]){
-			// 	parTree.push(node.id + ".f.sh ");
-			// }
-			// else if (node["func"]){
-			// 	parTree.push(node.id + ".f ");
-			// }
-			// else if (node["silentHead"]){
-			// 	parTree.push(node.id + ".sh ");
-			// }
-			// else{
-			// 	parTree.push(node.id);
-			// }
-
 			//parTree.push(node.id);
 			if(node.cat!='w' && node.cat!='x0'){
 				parTree.push('.'+node.cat);
