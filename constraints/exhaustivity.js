@@ -28,7 +28,10 @@ function exhaustChild(s, ptree){
 		return vcount;
 	}
 };
-
+/*Included for backward compatability*/
+function exhaust1(s, ptree){
+	return exhaustChild(s, ptree);
+}
 function exhaustParent(s, ptree){
 //Assumes trees that obey Layering.
 	
