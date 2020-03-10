@@ -345,7 +345,6 @@ window.addEventListener('load', function(){
 			var constraintBox = spotForm.constraints[i];
 			if(constraintBox.checked){
 				var constraint = constraintBox.value;
-				console.log(constraint);
 				//Figure out all the categories selected for the constraint
 				if(spotForm['category-'+constraint]){
 					var constraintCatSet = spotForm['category-'+constraint];
