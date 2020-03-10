@@ -408,6 +408,13 @@ window.addEventListener('load', function(){
 		//Get input to GEN.
 		var pString = spotForm.inputToGen.value;
 
+		// Get the code that is in the stree textarea
+		var treeCode = spotForm.sTree.value
+		// if code has been generated, then ignore pString in GEN
+		if(treeCode !== "{}") {
+			pString = "";
+		}
+
 		//Build a list of checked GEN options.
 		var genOptions = {};
 		for(var i=0; i<spotForm.genOptions.length; i++){
@@ -448,6 +455,7 @@ window.addEventListener('load', function(){
 
 		var tableauOptions = {
 			showTones: false,  //true iff tones are selected
+			trimStree: false,
 			invisibleCategories: []
 		};
 
@@ -456,6 +464,12 @@ window.addEventListener('load', function(){
 			genOptions.addTones = spotForm.toneOptions.value;
 		 	tableauOptions.showTones = spotForm.toneOptions.value;
 			//console.log(genOptions);
+		}
+		if(document.getElementById("trimTrees").checked){
+			tableauOptions.trimStree = true;
+		}
+		if(document.getElementById("showHeads").checked){
+			tableauOptions.showHeads= true;
 		}
 
 
@@ -475,7 +489,7 @@ window.addEventListener('load', function(){
 			var sTree = sTrees[i];
 			//console.log(pString.split(" ").length >= 6)
 			//warn user about using more than six terminals
-			
+
 
 			//warn user about possibly excessive numbers of candidates
 			if (genOptions['cliticMovement'] && (!genOptions['noUnary'] && (getLeaves(sTree).length >= 5 || pString.split(" ").length >= 5))
@@ -483,13 +497,13 @@ window.addEventListener('load', function(){
 				if(!confirm("You have selected GEN settings that allow clitic reordering, and included a sentence of ".concat( pString.split(" ").length.toString()," terminals. This GEN may yield more than 10K candidates. To reduce the number of candidates, consider enforcing non-recursivity, exhaustivity, and/or branchingness for intermediate prosodic nodes. Do you wish to proceed with these settings?"))){
 					throw new Error("clitic movement with too many terminals");
 				}
-			} 
+			}
 			else if(getLeaves(sTree).length >= 6 || pString.split(" ").length >= 6){
 				if(!confirm("Inputs of more than six terminals may run slowly and even freeze your browser, depending on the selected GEN options. Do you wish to continue?")){
 					throw new Error("Tried to run gen with more than six terminals");
 				}
 			}
-			
+
 			if (genOptions['cliticMovement']){
 				var candidateSet = GENwithCliticMovement(sTree, pString, genOptions);
 			}
@@ -646,6 +660,7 @@ window.addEventListener('load', function(){
 		}), null, 4);
 
 		document.getElementById('doneMessage').style.display = 'inline-block';
+		spotForm.inputToGen.value = "";
 	});
 
 	document.getElementById('danishJsonTreesButton').addEventListener('click', function() {
@@ -810,4 +825,13 @@ function saveAs(blob, name) {
 function clearTableau() {
 	document.getElementById('results-container').innerHTML = "";
 	document.getElementById('results-container').className = "";
+}
+
+function showMore(constraintType) {
+	var x = document.getElementById(constraintType);
+  if (x.style.display === "block") {
+    x.style.display = "none";
+  } else {
+    x.style.display = "block";
+  }
 }

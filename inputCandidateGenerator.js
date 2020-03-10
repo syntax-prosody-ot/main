@@ -12,6 +12,9 @@
 *  - noAdjuncts: are xp sisters allowed? [xp xp]
 *  - maxBranching: determines the maximum number of branches that are tolerated in the resulting syntactic trees
 *  - addClitics: 'right' or 'left' determines whether clitics are added on the righthandside or the left; true will default to right. false doesn't add any clitics.
+*  - headSide: 'right', 'left', 'right-strict', 'left-strict'. 
+*    Which side will heads be required to be on, relative to their complements? 
+*    Also, must heads be at the very edge (strict)?
 */
 function sTreeGEN(terminalString, options)
 {
@@ -45,6 +48,11 @@ function sTreeGEN(terminalString, options)
     if(options.maxBranching > 0){
         sTreeList = sTreeList.filter(x=>!ternaryNodes(x, options.maxBranching));
     }
+    if(options.headSide){
+        var side, strict;
+        [side, strict] = options.headSide.split('-');
+        sTreeList = sTreeList.filter(x => !headsOnWrongSide(x, side, strict));
+    }
 
     return sTreeList;
 }
@@ -61,7 +69,7 @@ function addCliticXP(sTree, side="right", inside){
         }
         else if(side==="left"){
             sisters = [cliticXP].concat(sTree.children);
-            console.log(tp);
+            //console.log(tp);
         }
         else{
             throw new Error("addCliticXP(): The provided side ", side," is not valid. Side must be specified as 'left' or 'right'.")
