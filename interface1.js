@@ -533,9 +533,11 @@ window.addEventListener('load', function(){
 	document.getElementById('tree-code-box').addEventListener('click', function(){
 		if (document.getElementById('tree-code-area').style.display === 'none' && document.getElementById('tree-code-box').checked){
 			document.getElementById('tree-code-area').style.display = 'block';
+			document.getElementById('sliderText').innerHTML = 'Hide code';
 		}
 		else{
 			document.getElementById('tree-code-area').style.display = 'none';
+			document.getElementById('sliderText').innerHTML = 'Show code';
 		}
 	});
 	document.getElementById('exhaustivityBox').addEventListener('click', function(){
