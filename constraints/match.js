@@ -109,7 +109,9 @@ function matchPS(sParent, pParent, pCat, options)
 *	maxProsody: If true, the prosodic match needs to be maximal. Passed to hasMatch.
 *	minProsody: If true, the prosodic match needs to be minimal. Passed to hasMatch.
 *	nonMaxProsody: If true, the prosodic match must be non-maximal. Passed to hasMatch.
-*	nonMinProsody: If true, the prosodic match must be non-minimal. Passed to hasMatch.*/
+*	nonMinProsody: If true, the prosodic match must be non-minimal. Passed to hasMatch.
+*	anySyntacticConstituent: if true, ignore syntactic labels
+*	everyProsodicConstituent: if true, match with any prosodic category. Passed to hasMatch*/
 function matchSP(inputTree, pTree, sCat, options)
 {
 	options = options || {};
@@ -124,7 +126,7 @@ function matchSP(inputTree, pTree, sCat, options)
 	*  - either it is lexical (sParent.func is false) OR requireLexical is false
 	*  - either it has an overt head (sParent.silent is false) OR requireOvertHead is false
 	*/
-	if(sParent.cat === sCat
+	if(((sParent.cat === sCat ) && !options.anySyntacticConstituent)
 	&& !(options.requireLexical && sParent.func)
 	&& !(options.requireOvertHead && sParent.silentHead)
 	&& !(options.maxSyntax && !sParent.isMax)
@@ -161,7 +163,7 @@ function hasMatch(sNode, pTree, options)
 
 	var sLeaves = getLeaves(sNode);
 	markMinMax(pTree);
-	if(catsMatch(sNode.cat, pTree.cat)
+	if((catsMatch(sNode.cat, pTree.cat) && !options.everyProsodicConstituent)
 	&& sameIds(getLeaves(pTree), sLeaves)
 	&& !(options.requireLexical && pTree.func)
 	&& !(options.requireOvertHead && pTree.silentHead)
