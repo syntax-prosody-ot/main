@@ -831,9 +831,14 @@ function clearTableau() {
 
 function showMore(constraintType) {
 	var x = document.getElementById(constraintType);
+	var showMore = constraintType + "Show";
+	var y = document.getElementById(showMore);
+
   if (x.style.display === "block") {
     x.style.display = "none";
+		y.innerHTML = "Show more...";
   } else {
     x.style.display = "block";
+		y.innerHTML = "Show less...";
   }
 }
