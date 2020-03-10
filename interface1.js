@@ -642,6 +642,9 @@ window.addEventListener('load', function(){
 			if (cat.indexOf('func') != -1){
 				node['func'] = true;
 			}
+			if (cat.indexOf('foc') != -1){
+				node['foc'] = true;
+			}
 		}
 		var children = node['children'];
 		if (children != undefined){

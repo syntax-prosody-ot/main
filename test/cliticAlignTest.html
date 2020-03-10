@@ -7,7 +7,8 @@
 	<!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
 	(open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
     <script src="../build/spot.js"></script>
-    <script src="../constraints/nongeneral/alignLeftClitic.js"></script>
+    <script src="../build/constraints.js"></script>
+
 	
 </head>
 
@@ -124,7 +125,7 @@
         ]
     };
     //console.log(alignLeftClitic({}, cliticTree, "clitic"));
-	var constraintSetAlign = ['alignLeftClitic-b'];
+	var constraintSetAlign = ['alignLeftMorpheme-b','alignRightMorpheme-b'];
 	var candidateSet = [[cliticTree0, cliticTree0],[cliticTree2, cliticTree2], [cliticTree3, cliticTree3], [cliticTreeWPhis, cliticTreeWPhis]];
     var candidateSet2 = GENwithCliticMovement({}, 'a b-clitic c');
 
