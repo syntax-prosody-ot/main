@@ -581,8 +581,14 @@
 					</button>
 									<div id="doneMessage">The trees in the analysis are up-to-date</div>
 
+									<div style="margin-top: 15px">
+										<label class="switch" style="margin-right: 10px; vertical-align: middle">
+											<input type="checkbox" id="tree-code-box" value="show-tree-code">
+											<span class="slider round"></span>
+										</label>
+										<p id="sliderText" style="font-size: 15; vertical-align: middle; display: inline">Show code</p>
+									</div>
 
-                	<p style="font-size: 15; vertical-align: middle"><label class="switch" style="margin-right: 10px;vertical-align: middle"><input type="checkbox" id="tree-code-box" value="show-tree-code"><span class="slider round"></span></label>Show code</p>
             	</div>
 
 				<div style="display:none">
@@ -700,7 +706,7 @@
 							</div>
 						</div>
 
-						<div onclick="showMore('moreMappingConstraints')" class="show-more">Show more...</div>
+						<div onclick="showMore('moreMappingConstraints')" class="show-more" id="moreMappingConstraintsShow">Show more...</div>
 
 						<div id="moreMappingConstraints" class="more-constraints">
 							<div class="constraint-selection-table">
@@ -1070,7 +1076,7 @@
 							</div>
 					</div>
 
-					<div onclick="showMore('moreBinarityConstraints')" class="show-more">Show more...</div>
+					<div onclick="showMore('moreBinarityConstraints')" class="show-more" id="moreBinarityConstraintsShow">Show more...</div>
 
 					<div id="moreBinarityConstraints" class="more-constraints">
 						<div class="constraint-selection-table">
@@ -1215,7 +1221,7 @@
 						</div>
 					</div>
 
-					<div onclick="showMore('moreSisterhoodConstraints')" class="show-more">Show more...</div>
+					<div onclick="showMore('moreSisterhoodConstraints')" class="show-more" id="moreSisterhoodConstraintsShow">Show more...</div>
 
 					<div id="moreSisterhoodConstraints" class="more-constraints">
 						<div class="constraint-selection-table">
@@ -1310,7 +1316,7 @@
 							</div>
 					</div>
 
-					<div onclick="showMore('moreLayeringConstraints')" class="show-more">Show more...</div>
+					<div onclick="showMore('moreLayeringConstraints')" class="show-more" id="moreLayeringConstraintsShow">Show more...</div>
 
 					<div id="moreLayeringConstraints" class="more-constraints">
 						<div class="constraint-selection-table">
