@@ -421,6 +421,13 @@ window.addEventListener('load', function(){
 		//Get input to GEN.
 		var pString = spotForm.inputToGen.value;
 
+		// Get the code that is in the stree textarea
+		var treeCode = spotForm.sTree.value
+		// if code has been generated, then ignore pString in GEN
+		if(treeCode !== "{}") {
+			pString = "";
+		}
+
 		//Build a list of checked GEN options.
 		var genOptions = {};
 		for(var i=0; i<spotForm.genOptions.length; i++){
@@ -539,9 +546,11 @@ window.addEventListener('load', function(){
 	document.getElementById('tree-code-box').addEventListener('click', function(){
 		if (document.getElementById('tree-code-area').style.display === 'none' && document.getElementById('tree-code-box').checked){
 			document.getElementById('tree-code-area').style.display = 'block';
+			document.getElementById('sliderText').innerHTML = 'Hide code';
 		}
 		else{
 			document.getElementById('tree-code-area').style.display = 'none';
+			document.getElementById('sliderText').innerHTML = 'Show code';
 		}
 	});
 	document.getElementById('exhaustivityBox').addEventListener('click', function(){
@@ -761,6 +770,9 @@ window.addEventListener('load', function(){
 			if (cat.indexOf('func') != -1){
 				node['func'] = true;
 			}
+			if (cat.indexOf('foc') != -1){
+				node['foc'] = true;
+			}
 		}
 		var children = node['children'];
 		if (children != undefined){
@@ -781,6 +793,7 @@ window.addEventListener('load', function(){
 		}), null, 4);
 
 		document.getElementById('doneMessage').style.display = 'inline-block';
+		spotForm.inputToGen.value = "";
 	});
 
 	document.getElementById('danishJsonTreesButton').addEventListener('click', function() {
@@ -949,9 +962,14 @@ function clearTableau() {
 
 function showMore(constraintType) {
 	var x = document.getElementById(constraintType);
+	var showMore = constraintType + "Show";
+	var y = document.getElementById(showMore);
+
   if (x.style.display === "block") {
     x.style.display = "none";
+		y.innerHTML = "Show more...";
   } else {
     x.style.display = "block";
+		y.innerHTML = "Show less...";
   }
 }
