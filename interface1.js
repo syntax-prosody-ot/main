@@ -655,7 +655,7 @@ window.addEventListener('load', function(){
 			// console.log(JSON.parse(tree.toJSON()));
 			// console.log(JSON.parse(tree.toJSON())['cat']);
 			var checkTree = JSON.parse(tree.toJSON());
-			parseCats(checkTree)
+			parseCats(checkTree);
 			return (checkTree); // bit of a hack to get around replacer not being called recursively
 		}), null, 4);
 
