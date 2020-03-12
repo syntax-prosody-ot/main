@@ -650,7 +650,7 @@ window.addEventListener('load', function(){
 	}
 	//Look at the html tree and turn it into a JSON tree. Put the JSON in the following textarea.
 	document.getElementById('htmlToJsonTreeButton').addEventListener('click', function(){
-		spotForm.sTree.value = JSON.stringify(Object.values(treeUIsTreeMap).map(function(tree) {
+		sTree = JSON.stringify(Object.values(treeUIsTreeMap).map(function(tree) {
 
 			// console.log(JSON.parse(tree.toJSON()));
 			// console.log(JSON.parse(tree.toJSON())['cat']);
@@ -659,13 +659,14 @@ window.addEventListener('load', function(){
 			return (checkTree); // bit of a hack to get around replacer not being called recursively
 		}), null, 4);
 
-		sTree = spotForm.sTree.value
-		console.log(sTree)
-		if(sTree.includes('-') || sTree.includes('_')) {
+		if(sTree.includes('-')) {
 			alert('Do not use hyphens or underscores in category or id names in the tree builder.');
 		}
+		else {
+			spotForm.sTree.value = sTree
+			document.getElementById('doneMessage').style.display = 'inline-block';
+		}
 
-		document.getElementById('doneMessage').style.display = 'inline-block';
 		spotForm.inputToGen.value = "";
 	});
 
