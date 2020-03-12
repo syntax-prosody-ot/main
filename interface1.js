@@ -660,7 +660,9 @@ window.addEventListener('load', function(){
 		}), null, 4);
 
 		if(sTree.includes('-')) {
-			alert('Do not use hyphens or underscores in category or id names in the tree builder.');
+			alert('Your trees were not added to the analysis because there are hyphens in category or id names in the tree builder. Please refer to the instructions in the tree builder info section.');
+			var info = document.getElementById('treeBuilderInfo');
+			info.classList.add('showing');
 		}
 		else {
 			spotForm.sTree.value = sTree

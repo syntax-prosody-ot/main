@@ -547,8 +547,6 @@
 				<span class="info">
 					<span class="content">
 						Type the words that you want to be included in the output prosodic trees, separating them with spaces. To get prosodic candidate without building a syntactic tree, click "Run GEN". Otherwise, click "Build syntax." Suffix a word with "-clitic" to map it to a syllable in all prosodic trees.
-						<br><br>
-						To label a terminal as a clitic do one of these (not both): (i) within the string of terminals append "-clitic" to the desired terminal within the string; (ii) after building the syntax of a string of terminals, change the category label to "clitic" of one of the terminals in the syntactic tree.
 					</span>
 				</span>
 			</h2>
@@ -568,8 +566,9 @@
               			<button class="nodeEditingButton" id="treeUImakeParent" type="button" disabled>Add Mother</button>
               			<button class="nodeEditingButton" id="treeUIdeleteNodes" type="button" disabled style="margin-right: 50px">Delete</button>
 						  <button class="nodeEditingButton" id="treeUIclearSelection" type="button" disabled>Clear Selection</button>
-						  <span class="info"><span class="content"><p>To add a node, select one or more adjacent sisters and click "Add Mother." To remove nodes, select them and click "Delete." </p>
+						  <span id="treeBuilderInfo" class="info"><span class="content"><p>To add a node, select one or more adjacent sisters and click "Add Mother." To remove nodes, select them and click "Delete." </p>
 							<p>All labels are editable. The small labels with grey backgrounds represent node categories, and must be "cp", "xp", or "x0" for a node to be visible to the syntax-prosody mapping constraints. Use "clitic" as the category for a node that should be mapped to a syllable instead of a &omega;. The larger labels with white backgrounds represent node ids, and can be any unique alphanumeric string.</p>
+							<p>To label a terminal as a clitic do one of these (not both): (i) within the string of terminals append "-clitic" to the desired terminal within the string; (ii) after building the syntax of a string of terminals, change the category label to "clitic" of one of the terminals in the syntactic tree.</p>
 							<p> Mark nodes as functional by adding ",func" to the category label in the tree builder. Mark nodes as having silent heads by adding ",silentHead" to the category label in the tree builder.</p>
 							<p>To create a new tree, click "Build syntax" again.</p>
 					 </span></span>
