@@ -594,8 +594,12 @@ window.addEventListener('load', function(){
 	//Open the tree making GUI
 	document.getElementById('goButton').addEventListener('click', function(){
 		document.getElementById('treeUI').style.display = 'block';
+		document.getElementById('goButton').style.backgroundColor = 'white';
+		document.getElementById('goButton').style.borderColor = '#3A5370';
 		if(document.getElementById('inputOptions').style.display == 'block') {
 			document.getElementById('inputOptions').style.display = 'none';
+			document.getElementById('inputButton').style.backgroundColor = '#d0d8e0';
+			document.getElementById('inputButton').style.borderColor = '#d0d8e0';
 		}
 	});
 
@@ -616,7 +620,7 @@ window.addEventListener('load', function(){
 
 
 	//Set up the table...
-	document.getElementById('goButton').addEventListener('click', function(){
+	document.getElementById('buildButton').addEventListener('click', function(){
 		// Get the string of terminals
 		var terminalString = spotForm.inputToGen.value;
 		var terminalList = terminalString.trim().split(/\s+/);
@@ -630,10 +634,13 @@ window.addEventListener('load', function(){
 	// automatically generate syntax button
 	document.getElementById('inputButton').addEventListener('click', function(){
 		document.getElementById('inputOptions').style.display = 'block';
+		document.getElementById('inputButton').style.backgroundColor = 'white';
+		document.getElementById('inputButton').style.borderColor = '#3A5370';
 		if(document.getElementById('treeUI').style.display == 'block') {
 			document.getElementById('treeUI').style.display = 'none';
+			document.getElementById('goButton').style.backgroundColor = '#d0d8e0';
+			document.getElementById('goButton').style.borderColor = '#d0d8e0';
 		}
-		document.getElementById('autoDoneMessage').style.display = 'none';
 	});
 
 	// show and display addClitics options
@@ -656,68 +663,76 @@ window.addEventListener('load', function(){
 
 	// automatically generate input tree
 	function autoGenInputTree() {
-		var inputString = spotForm.inputToGen.value;
-
-		// allow adjuncts
-		var autoInputOptions = {};
-		// loop if there is more than one checkbox option, but for now there is only one
-		// for(var i=0; i<spotForm.autoInputOptions.length; i++){
-		// 	var optionBox = spotForm.autoInputOptions[i];
-		// 	autoInputOptions[optionBox.value]=optionBox.checked;
-		// }
-		var optionBox = spotForm.autoInputOptions;
-		autoInputOptions[optionBox.value]=optionBox.checked;
-
-		// head requirements
-		var headReq = document.getElementById('head-req').value;
-		if(headReq !== 'select') {
-			var headSideVal = headReq;
+		var length = spotForm.inputToGenAuto.length;
+		if(length === undefined) {
+			length = 1;
 		}
-		autoInputOptions.headSide = headSideVal;
+		var inputString = spotForm.inputToGenAuto.value;
 
-		// add XP clitics directly under root
-		if(document.getElementById('add-clitics').checked) {
-			var addCliticsVal = document.getElementById('add-clitics').value;
-			if(document.getElementById('add-clitics-left').checked) {
-				addCliticsVal = 'left';
+		sTreeList = undefined;
+		document.getElementById('autoTreeBox').innerHTML = "";
+
+		for(var i=0; i<length; i++){
+			if(length > 1) {
+				inputString = spotForm.inputToGenAuto[i].value;
+			}
+
+			// allow adjuncts
+			var autoInputOptions = {};
+			var optionBox = spotForm.autoInputOptions;
+			autoInputOptions[optionBox.value]=optionBox.checked;
+
+			// head requirements
+			var headReq = document.getElementById('head-req').value;
+			if(headReq !== 'select') {
+				var headSideVal = headReq;
+			}
+			autoInputOptions.headSide = headSideVal;
+
+			// add XP clitics directly under root
+			if(document.getElementById('add-clitics').checked) {
+				var addCliticsVal = document.getElementById('add-clitics').value;
+				if(document.getElementById('add-clitics-left').checked) {
+					addCliticsVal = 'left';
+				}
+			}
+			autoInputOptions.addClitics = addCliticsVal;
+
+			// root, recursive terminal, category
+			autoInputOptions.rootCategory = spotForm['autoInputOptions-rootCategory'].value;
+			autoInputOptions.recursiveCategory = spotForm['autoInputOptions-recursiveCategory'].value;
+			autoInputOptions.terminalCategory = spotForm['autoInputOptions-terminalCategory'].value;
+
+			if(inputString !== "") {
+				var currSTreeList = sTreeGEN(inputString, autoInputOptions);
+				displayTable(currSTreeList);
+				if(sTreeList) {
+					sTreeList = sTreeList.concat(currSTreeList);
+				}
+				else {
+					sTreeList = currSTreeList;
+				}
 			}
 		}
-		autoInputOptions.addClitics = addCliticsVal;
-
-		// root, recursive terminal, category
-		autoInputOptions.rootCategory = spotForm['autoInputOptions-rootCategory'].value;
-		autoInputOptions.recursiveCategory = spotForm['autoInputOptions-recursiveCategory'].value;
-		autoInputOptions.terminalCategory = spotForm['autoInputOptions-terminalCategory'].value;
-
-		// console.log(autoInputOptions)
-
-		var currSTreeList = sTreeGEN(inputString, autoInputOptions);
-		displayTable(currSTreeList);
-		// console.log("current s tree list")
-		// console.log(currSTreeList)
-
-		if(sTreeList) {
-			sTreeList = sTreeList.concat(currSTreeList);
-		}
-		else {
-			sTreeList = currSTreeList;
-		}
-		// console.log()
-		// console.log("total s tree list")
-		// console.log(sTreeList)
 	}
 
 	function getAutoSTreeList() {
 		return sTreeList;
 	}
 
+	document.getElementById('addString').addEventListener('click', function(){
+		document.getElementById('terminalStrings').innerHTML += "<p>String of terminals: <input type='text' name='inputToGenAuto'></p>";
+	});
+
 	// show/hide syntactic trees
 	document.getElementById('syntax-tree-switch').addEventListener('click', function(){
 		if (document.getElementById('autoTreeArea').style.display === 'none' && document.getElementById('syntax-tree-switch').checked){
 			document.getElementById('autoTreeArea').style.display = 'block';
+			document.getElementById('syntax-switch-text').innerHTML = 'Hide syntactic trees';
 		}
 		else{
 			document.getElementById('autoTreeArea').style.display = 'none';
+			document.getElementById('syntax-switch-text').innerHTML = 'Show syntactic trees';
 		}
 	});
 
