@@ -126,7 +126,7 @@ function matchSP(inputTree, pTree, sCat, options)
 	*  - either it is lexical (sParent.func is false) OR requireLexical is false
 	*  - either it has an overt head (sParent.silent is false) OR requireOvertHead is false
 	*/
-	if(((sParent.cat === sCat ) && !options.anySyntacticConstituent)
+	if((options.anySyntacticConstituent || (sParent.cat === sCat ))
 	&& !(options.requireLexical && sParent.func)
 	&& !(options.requireOvertHead && sParent.silentHead)
 	&& !(options.maxSyntax && !sParent.isMax)
@@ -163,7 +163,7 @@ function hasMatch(sNode, pTree, options)
 
 	var sLeaves = getLeaves(sNode);
 	markMinMax(pTree);
-	if((catsMatch(sNode.cat, pTree.cat) && !options.everyProsodicConstituent)
+	if(options.anySyntacticConstituent || (catsMatch(sNode.cat, pTree.cat))
 	&& sameIds(getLeaves(pTree), sLeaves)
 	&& !(options.requireLexical && pTree.func)
 	&& !(options.requireOvertHead && pTree.silentHead)
