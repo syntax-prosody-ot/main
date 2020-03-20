@@ -7,7 +7,7 @@
 
 function exhaustChild(s, ptree){
 //Assumes trees that obey Layering.
-	
+
 	//Base case: if parent is a terminal, return 0 violations.
 	if (!ptree.children){
 		return 0;
@@ -34,7 +34,6 @@ function exhaust1(s, ptree){
 }
 function exhaustParent(s, ptree){
 //Assumes trees that obey Layering.
-	
 	//Base case: if parent is a terminal, return 0 violations.
 	if (!ptree.children){
 		return 0;
@@ -45,19 +44,17 @@ function exhaustParent(s, ptree){
 	if(ptree.children && ptree.children.length){
 		var vcount = 0;
 		var child;
+		alreadyViolated = [];
 		for (var i=0; i < ptree.children.length; i++){
+			
 			child = ptree.children[i];
-			//check for 
-			console.log(pCat.nextLower(ptree.cat));
-			if (ptree.cat!==child.cat && pCat.nextLower(ptree.cat)!==child.cat){
+			if (ptree.cat!==child.cat && pCat.nextLower(ptree.cat)!==child.cat && !alreadyViolated.includes(child.cat)){
+				alreadyViolated.push(child.cat);
 				vcount++;
-				//return 1;
 			}
-			if (exhaustParent(s,child) > 0){
-				return 1;
-
-			}
+			vcount += exhaustParent(s, child)
 		}
 		return vcount;
 	}
 };
+
