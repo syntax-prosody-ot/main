@@ -44,13 +44,12 @@ function exhaustParent(s, ptree){
 	if(ptree.children && ptree.children.length){
 		var vcount = 0;
 		var child;
-		alreadyViolated = [];
-		for (var i=0; i < ptree.children.length; i++){
-			
+		for (var i=0; i < ptree.children.length; i++){			
 			child = ptree.children[i];
 			if (ptree.cat!==child.cat && pCat.nextLower(ptree.cat)!==child.cat && !alreadyViolated.includes(child.cat)){
 				alreadyViolated.push(child.cat);
 				vcount++;
+				continue;
 			}
 			vcount += exhaustParent(s, child)
 		}
