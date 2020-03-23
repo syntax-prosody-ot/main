@@ -721,7 +721,14 @@ window.addEventListener('load', function(){
 	}
 
 	document.getElementById('addString').addEventListener('click', function(){
-		document.getElementById('terminalStrings').innerHTML += "<p>String of terminals: <input type='text' name='inputToGenAuto'></p>";
+		var length = spotForm.inputToGenAuto.length;
+		if(length === undefined) {
+			length = 1;
+		}
+		var newLength = length + 1;
+		length = length.toString();
+		newLength = newLength.toString();
+		document.getElementById('str'+length).insertAdjacentHTML('afterend', "<p id='str"+newLength+"'>String of terminals "+newLength+": <input type='text' name='inputToGenAuto'></p>");
 	});
 
 	// show/hide syntactic trees
