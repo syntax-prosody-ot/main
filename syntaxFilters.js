@@ -16,9 +16,9 @@ function x0Sisters(sTree, cat){
             x0SistersFound = x0Sisters(child, cat);
             if(x0SistersFound) break;
         }
-        
+
     }
-    return x0SistersFound;	
+    return x0SistersFound;
 }
 
 function ternaryNodes(sTree, maxBr){
@@ -33,7 +33,7 @@ function ternaryNodes(sTree, maxBr){
             ternaryNodesFound = ternaryNodes(child, maxBr);
             if(ternaryNodesFound) break;
         }
-        
+
     }
     return ternaryNodesFound;
 }
@@ -61,5 +61,48 @@ function headsOnWrongSide(sTree, side, strict){
         }
     }
     return badHeadFound;
-    
+
+}
+
+// Input Gen option to remove trees that are mirror images of trees earlier in the list
+// returns true if tree is a mirror of an eariler tree
+// returns false if tree is not a mirror image of an earlier tree
+function mirrorImages(sTree, sTreeList) {
+	var mirrorImageExists = false;
+	var index = sTreeList.indexOf(sTree, sTree);
+	var reverseTree = sTree;
+	console.log(sTree)
+	console.log(parenthesizeTree(sTree))
+	reverseTree = getReverseTree(reverseTree);
+	console.log(parenthesizeTree(sTree))
+	for(var i = 0; i < index; i++) {
+		var currTree = sTreeList[i];
+		var checkReverse = checkReverseTree(reverseTree, currTree);
+		if(checkReverse) {
+			mirrorImageExists = true;
+			return mirrorImageExists;
+		}
+	}
+	return mirrorImageExists;
+}
+
+// Definition of mirror image:
+// Ignoring ids, but not cats, the mirror image of a tree T
+// is a tree T' in which every children array in T is in reverse order in T'.
+// Example:
+// T = [x0 [x0 [x0]]]
+// T' = [[[x0] x0] x0]
+function getReverseTree(rTree) {
+  if(rTree.children && rTree.children.length){
+		rTree.children = rTree.children.reverse();
+    for(var i=0; i<rTree.children.length; i++){
+      var child = rTree.children[i];
+      getReverseTree(child);
+    }
+  }
+	return rTree;
+}
+
+function checkReverseTree(sTree, currTree) {
+	return false;
 }
