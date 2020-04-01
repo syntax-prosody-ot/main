@@ -69,12 +69,12 @@ function headsOnWrongSide(sTree, side, strict){
 // returns false if tree is not a mirror image of an earlier tree
 function mirrorImages(sTree, sTreeList) {
 	var mirrorImageExists = false;
-	var index = sTreeList.indexOf(sTree, sTree);
-	var reverseTree = sTree;
-	console.log(sTree)
-	console.log(parenthesizeTree(sTree))
-	reverseTree = getReverseTree(reverseTree);
-	console.log(parenthesizeTree(sTree))
+	var index = sTreeList.indexOf(sTree);
+	var reverseTree = JSON.parse(JSON.stringify(sTree));
+	// console.log(sTree)
+	// console.log(parenthesizeTree(sTree))
+	// reverseTree = getReverseTree(reverseTree);
+	// console.log(parenthesizeTree(sTree))
 	for(var i = 0; i < index; i++) {
 		var currTree = sTreeList[i];
 		var checkReverse = checkReverseTree(reverseTree, currTree);
@@ -86,23 +86,39 @@ function mirrorImages(sTree, sTreeList) {
 	return mirrorImageExists;
 }
 
+// function getReverseTree(rTree) {
+//   if(rTree.children && rTree.children.length){
+// 		rTree.children = rTree.children.reverse();
+//     for(var i=0; i<rTree.children.length; i++){
+//       var child = rTree.children[i];
+//       getReverseTree(child);
+//     }
+//   }
+// 	return rTree;
+}
+
 // Definition of mirror image:
 // Ignoring ids, but not cats, the mirror image of a tree T
 // is a tree T' in which every children array in T is in reverse order in T'.
 // Example:
 // T = [x0 [x0 [x0]]]
 // T' = [[[x0] x0] x0]
-function getReverseTree(rTree) {
-  if(rTree.children && rTree.children.length){
-		rTree.children = rTree.children.reverse();
-    for(var i=0; i<rTree.children.length; i++){
-      var child = rTree.children[i];
-      getReverseTree(child);
+function checkReverseTree(rTree, currTree) {
+	var checkTree = false;
+	if(rTree.children && rTree.children.length && currTree.children && currTree.children.length){
+		var length = rTree.children.length
+    for(var i=0; i<length; i++){
+      var rChild = rTree.children[i];
+			var currChild = currTree.children[i];
+			if(rChild.cat === currTree.children[length-1-i].cat) {
+				checkTree = true;
+			}
+			else {
+				checkTree = false;
+				return checkTree;
+			}
+      checkReverseTree(rChild, currChild);
     }
   }
-	return rTree;
-}
-
-function checkReverseTree(sTree, currTree) {
-	return false;
+	return checkTree;
 }
