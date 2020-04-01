@@ -1,0 +1,36 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="../spot.css">
+		<script src="../build/spot.js"></script>
+		<script src="../build/constraints.js"></script>
+		<script src="../candidategenerator.js"></script>
+	</head>
+	<body>
+		<pre id="results-container"></pre>
+		<script>
+		var oneClitic = GENwithCliticMovement({}, "a b c-clitic", {rootCategory: "phi", recursiveCategory: "w", terminalCategory: "w", obeysNonrecursivity: true, noUnary: true});
+		//oneClitic[0][0] = {cat: "x0" id: 'Moving one clitic'};
+		var twoClitics = GENwithCliticMovement({}, "a b-clitic c-clitic", {rootCategory: "phi", recursiveCategory: "w", terminalCategory: "w", obeysNonrecursivity: true, noUnary: true});
+
+
+			//Make the tableau using the makeTableau function (defined in tableauMaker.js)
+			window.addEventListener("load",function(){
+				writeTableau(makeTableau(oneClitic, []));
+				revealNextSegment();
+
+				writeTableau(makeTableau(twoClitics, []));
+				revealNextSegment();
+/*
+				writeTableau(makeTableau(candSetExI, con));
+				revealNextSegment();
+
+				writeTableau(makeTableau(candSetExPhi, con));
+				revealNextSegment();
+
+				writeTableau(makeTableau(candSetExW, con));
+				revealNextSegment();
+				*/
+			});
+		</script>
+	</body>
+</html>
