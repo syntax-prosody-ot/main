@@ -95,7 +95,7 @@ function mirrorImages(sTree, sTreeList) {
 //     }
 //   }
 // 	return rTree;
-}
+// }
 
 // Definition of mirror image:
 // Ignoring ids, but not cats, the mirror image of a tree T
@@ -110,8 +110,12 @@ function checkReverseTree(rTree, currTree) {
     for(var i=0; i<length; i++){
       var rChild = rTree.children[i];
 			var currChild = currTree.children[i];
-			if(rChild.cat === currTree.children[length-1-i].cat) {
-				checkTree = true;
+			var rCat = rChild.cat;
+			var currCat = currTree.children[length-1-i].cat;
+			if(rCat && currCat) {
+				if(rCat === currCat) {
+					checkTree = true;
+				}
 			}
 			else {
 				checkTree = false;
