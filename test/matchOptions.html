@@ -72,7 +72,7 @@
 
 
 			//'matchPS-phi-{"maxProsody":true}'
-			var con = ['matchSP-xp', 'matchSP-xp-{"maxSyntax":true}', 'matchSP-xp-{"nonMinSyntax":true}', 'matchSP-xp-{"maxProsody":true}', 'matchSP-xp-{"requireOvertHead":true}', 'matchPS-phi-{"requireLexical":true}'];
+			var con = ['matchSP-xp', 'matchSP-xp-{"maxSyntax":true}', 'matchSP-xp-{"nonMinSyntax":true}', 'matchSP-xp-{"maxProsody":true}', 'matchSP-xp-{"requireOvertHead":true}', 'matchPS-phi-{"requireLexical":true}','matchSP-xp-{"anySyntacticConstituent":true}','matchPS-xp-{"everyProsodicConstituent":true}'];
 			window.addEventListener("load",function(){
 				//throw new Error(matchSP(GEN(sTree, "one two-func (three)")[0][0], GEN(sTree, "one two-func (three)")[0][1], "xp", {maxSyntax:true}));
 				writeTableau(makeTableau(GEN(sTree, "one two-func three-silent"), con));
