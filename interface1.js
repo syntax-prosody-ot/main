@@ -680,7 +680,7 @@ window.addEventListener('load', function(){
 			// allow adjuncts
 			var autoInputOptions = {};
 			var optionBox = spotForm.autoInputOptions;
-			autoInputOptions[optionBox.value]=optionBox.checked;
+			autoInputOptions[optionBox.value]=!optionBox.checked;
 
 			// head requirements
 			var headReq = document.getElementById('head-req').value;
