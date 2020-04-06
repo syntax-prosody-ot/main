@@ -73,7 +73,7 @@ function mirrorImages(sTree, sTreeList) {
 	var reverseTree = JSON.parse(JSON.stringify(sTree));
 	// console.log(sTree)
 	// console.log(parenthesizeTree(sTree))
-	// reverseTree = getReverseTree(reverseTree);
+	reverseTree = getReverseTree(reverseTree);
 	// console.log(parenthesizeTree(sTree))
 	for(var i = 0; i < index; i++) {
 		var currTree = sTreeList[i];
@@ -86,16 +86,16 @@ function mirrorImages(sTree, sTreeList) {
 	return mirrorImageExists;
 }
 
-// function getReverseTree(rTree) {
-//   if(rTree.children && rTree.children.length){
-// 		rTree.children = rTree.children.reverse();
-//     for(var i=0; i<rTree.children.length; i++){
-//       var child = rTree.children[i];
-//       getReverseTree(child);
-//     }
-//   }
-// 	return rTree;
-// }
+function getReverseTree(rTree) {
+  if(rTree.children && rTree.children.length){
+		rTree.children = rTree.children.reverse();
+    for(var i=0; i<rTree.children.length; i++){
+      var child = rTree.children[i];
+      getReverseTree(child);
+    }
+  }
+	return rTree;
+}
 
 // Definition of mirror image:
 // Ignoring ids, but not cats, the mirror image of a tree T
@@ -110,11 +110,22 @@ function checkReverseTree(rTree, currTree) {
     for(var i=0; i<length; i++){
       var rChild = rTree.children[i];
 			var currChild = currTree.children[i];
-			var rCat = rChild.cat;
-			var currCat = currTree.children[length-1-i].cat;
-			if(rCat && currCat) {
-				if(rCat === currCat) {
-					checkTree = true;
+			if(rChild && currChild) {
+				var rCat = rChild.cat;
+				// var currCat = currTree.children[length-1-i].cat;
+				var currCat = currChild.cat;
+				if(rCat && currCat) {
+					if(rCat === currCat) {
+						checkTree = true;
+					}
+					else {
+						checkTree = false;
+						return checkTree;
+					}
+				}
+				else {
+					checkTree = false;
+					return checkTree;
 				}
 			}
 			else {
