@@ -657,6 +657,9 @@ window.addEventListener('load', function(){
 	document.getElementById('autoGenDoneButton').addEventListener('click', function(){
 		document.getElementById('autoDoneMessage').style.display = 'inline-block';
 		autoGenInputTree();
+		document.getElementById('autoTreeArea').style.display = 'block';
+		document.getElementById('syntax-tree-switch').checked = true;
+		document.getElementById('syntax-switch-text').innerHTML = 'Hide syntactic trees';
 	});
 
 	var sTreeList;
@@ -729,6 +732,7 @@ window.addEventListener('load', function(){
 		length = length.toString();
 		newLength = newLength.toString();
 		document.getElementById('str'+length).insertAdjacentHTML('afterend', "<p id='str"+newLength+"'>String of terminals "+newLength+": <input type='text' name='inputToGenAuto'></p>");
+		document.getElementById('autoDoneMessage').style.display = 'none';
 	});
 
 	// show/hide syntactic trees
