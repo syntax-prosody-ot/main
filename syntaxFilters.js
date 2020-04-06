@@ -78,6 +78,7 @@ function mirrorImages(sTree, sTreeList) {
 	for(var i = 0; i < index; i++) {
 		var currTree = sTreeList[i];
 		var checkReverse = checkReverseTree(reverseTree, currTree);
+		console.log(checkReverse, "reverseTree: ", index, "currTree: ", i)
 		if(checkReverse) {
 			mirrorImageExists = true;
 			return mirrorImageExists;
