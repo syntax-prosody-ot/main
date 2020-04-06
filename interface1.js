@@ -680,10 +680,17 @@ window.addEventListener('load', function(){
 				inputString = spotForm.inputToGenAuto[i].value;
 			}
 
-			// allow adjuncts
+			// allow adjuncts and remove mirror images
 			var autoInputOptions = {};
 			var optionBox = spotForm.autoInputOptions;
-			autoInputOptions[optionBox.value]=!optionBox.checked;
+			for(var j = 0; j < optionBox.length; j++) {
+				if(optionBox[j].value === "noAdjuncts") {
+          autoInputOptions[optionBox[j].value]=!optionBox[j].checked;
+        }
+        else {
+          autoInputOptions[optionBox[j].value]=optionBox[j].checked;
+        }
+			}
 
 			// head requirements
 			var headReq = document.getElementById('head-req').value;
@@ -706,6 +713,8 @@ window.addEventListener('load', function(){
 			autoInputOptions.recursiveCategory = spotForm['autoInputOptions-recursiveCategory'].value;
 			autoInputOptions.terminalCategory = spotForm['autoInputOptions-terminalCategory'].value;
 
+			// console.log(autoInputOptions)
+
 			if(inputString !== "") {
 				var currSTreeList = sTreeGEN(inputString, autoInputOptions);
 				displayTable(currSTreeList);
@@ -717,6 +726,7 @@ window.addEventListener('load', function(){
 				}
 			}
 		}
+		// console.log(sTreeList)
 	}
 
 	function getAutoSTreeList() {
