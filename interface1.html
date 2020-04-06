@@ -186,7 +186,7 @@
 				background-color: #d0d8e0;
 				color: #07203D;
 				font-size: 16px;
-				border-radius: 4px 4px 0px 0px;
+				border-radius: 8px 8px 0px 0px;
 				padding: 8px;
 				margin-left: 0px;
 				margin-right: 0px;
@@ -650,11 +650,6 @@
 			<!-- automatically generate syntax -->
 			<div id="inputOptions" style="display: block">
 
-				<div id="terminalStrings">
-					<p id="str1">String of terminals 1: <input type="text" name="inputToGenAuto"></p>
-				</div>
-				<button id="addString" type="button">Add terminal string</button>
-
 				<fieldset>
 					<legend><h2>Syntax parameters <span class="arrow"></h2></legend>
 					<div class="constraint-row">
@@ -719,7 +714,12 @@
 					</div>
 				</fieldset>
 
-				<button id="autoGenDoneButton" style="margin-top: 20px" type="button">Generate trees</button>
+				<div id="terminalStrings">
+					<p id="str1">String of terminals 1: <input type="text" name="inputToGenAuto"></p>
+				</div>
+				<button id="addString" type="button">Add terminal string</button>
+
+				<button id="autoGenDoneButton" class="orange-button" type="button">Generate trees</button>
 				<div id="autoDoneMessage">The trees in the analysis are up-to-date</div>
 
 				<div style="margin-top: 15px">
@@ -731,7 +731,7 @@
 				</div>
 
 				<div id="autoTreeArea" style="display: none">
-					<hr><br>
+					<br>
 					<div id="autoTreeBox"></div>
 				</div>
 
