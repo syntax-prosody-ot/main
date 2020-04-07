@@ -533,9 +533,11 @@ window.addEventListener('load', function(){
 	document.getElementById('tree-code-box').addEventListener('click', function(){
 		if (document.getElementById('tree-code-area').style.display === 'none' && document.getElementById('tree-code-box').checked){
 			document.getElementById('tree-code-area').style.display = 'block';
+			document.getElementById('sliderText').innerHTML = 'Hide code';
 		}
 		else{
 			document.getElementById('tree-code-area').style.display = 'none';
+			document.getElementById('sliderText').innerHTML = 'Show code';
 		}
 	});
 	document.getElementById('exhaustivityBox').addEventListener('click', function(){
@@ -640,6 +642,9 @@ window.addEventListener('load', function(){
 			if (cat.indexOf('func') != -1){
 				node['func'] = true;
 			}
+			if (cat.indexOf('foc') != -1){
+				node['foc'] = true;
+			}
 		}
 		var children = node['children'];
 		if (children != undefined){
@@ -650,7 +655,7 @@ window.addEventListener('load', function(){
 	}
 	//Look at the html tree and turn it into a JSON tree. Put the JSON in the following textarea.
 	document.getElementById('htmlToJsonTreeButton').addEventListener('click', function(){
-		spotForm.sTree.value = JSON.stringify(Object.values(treeUIsTreeMap).map(function(tree) {
+		sTree = JSON.stringify(Object.values(treeUIsTreeMap).map(function(tree) {
 
 			// console.log(JSON.parse(tree.toJSON()));
 			// console.log(JSON.parse(tree.toJSON())['cat']);
@@ -659,7 +664,16 @@ window.addEventListener('load', function(){
 			return (checkTree); // bit of a hack to get around replacer not being called recursively
 		}), null, 4);
 
-		document.getElementById('doneMessage').style.display = 'inline-block';
+		if(sTree.includes('-')) {
+			alert('Your trees were not added to the analysis because there are hyphens in category or id names in the tree builder. Please refer to the instructions in the tree builder info section.');
+			var info = document.getElementById('treeBuilderInfo');
+			info.classList.add('showing');
+		}
+		else {
+			spotForm.sTree.value = sTree
+			document.getElementById('doneMessage').style.display = 'inline-block';
+		}
+
 		spotForm.inputToGen.value = "";
 	});
 
@@ -829,9 +843,14 @@ function clearTableau() {
 
 function showMore(constraintType) {
 	var x = document.getElementById(constraintType);
+	var showMore = constraintType + "Show";
+	var y = document.getElementById(showMore);
+
   if (x.style.display === "block") {
     x.style.display = "none";
+		y.innerHTML = "Show more...";
   } else {
     x.style.display = "block";
+		y.innerHTML = "Show less...";
   }
 }

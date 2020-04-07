@@ -566,8 +566,9 @@
               			<button class="nodeEditingButton" id="treeUImakeParent" type="button" disabled>Add Mother</button>
               			<button class="nodeEditingButton" id="treeUIdeleteNodes" type="button" disabled style="margin-right: 50px">Delete</button>
 						  <button class="nodeEditingButton" id="treeUIclearSelection" type="button" disabled>Clear Selection</button>
-						  <span class="info"><span class="content"><p>To add a node, select one or more adjacent sisters and click "Add Mother." To remove nodes, select them and click "Delete." </p>
+						  <span id="treeBuilderInfo" class="info"><span class="content"><p>To add a node, select one or more adjacent sisters and click "Add Mother." To remove nodes, select them and click "Delete." </p>
 							<p>All labels are editable. The small labels with grey backgrounds represent node categories, and must be "cp", "xp", or "x0" for a node to be visible to the syntax-prosody mapping constraints. Use "clitic" as the category for a node that should be mapped to a syllable instead of a &omega;. The larger labels with white backgrounds represent node ids, and can be any unique alphanumeric string.</p>
+							<p>To label a terminal as a clitic do one of these (not both): (i) within the string of terminals append "-clitic" to the desired terminal within the string; (ii) after building the syntax of a string of terminals, change the category label to "clitic" of one of the terminals in the syntactic tree.</p>
 							<p> Mark nodes as functional by adding ",func" to the category label in the tree builder. Mark nodes as having silent heads by adding ",silentHead" to the category label in the tree builder.</p>
 							<p>To create a new tree, click "Build syntax" again.</p>
 					 </span></span>
@@ -581,8 +582,14 @@
 					</button>
 									<div id="doneMessage">The trees in the analysis are up-to-date</div>
 
+									<div style="margin-top: 15px">
+										<label class="switch" style="margin-right: 10px; vertical-align: middle">
+											<input type="checkbox" id="tree-code-box" value="show-tree-code">
+											<span class="slider round"></span>
+										</label>
+										<p id="sliderText" style="font-size: 15; vertical-align: middle; display: inline">Show code</p>
+									</div>
 
-                	<p style="font-size: 15; vertical-align: middle"><label class="switch" style="margin-right: 10px;vertical-align: middle"><input type="checkbox" id="tree-code-box" value="show-tree-code"><span class="slider round"></span></label>Show code</p>
             	</div>
 
 				<div style="display:none">
@@ -681,7 +688,7 @@
 
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
-								<span><input type="checkbox" name="constraints" value="wrap">Wrap</span>
+								<span><input type="checkbox" name="constraints" value="wrap">Wrap(Syntax&rarr;Prosody)</span>
 								<div class="info">
 									<span class="content">Assign one violation for every node S of category K in the syntactic tree that does not have a corresponding node P in the prosodic tree, where P is of the category K corresponds to and P contains all the terminals dominated by S. SPOT function: wrap(). (Truckenbrodt 1995, 1999)</span>
 								</div>
@@ -700,7 +707,7 @@
 							</div>
 						</div>
 
-						<div onclick="showMore('moreMappingConstraints')" class="show-more">Show more...</div>
+						<div onclick="showMore('moreMappingConstraints')" class="show-more" id="moreMappingConstraintsShow">Show more...</div>
 
 						<div id="moreMappingConstraints" class="more-constraints">
 							<div class="constraint-selection-table">
@@ -761,7 +768,6 @@
 									</div>
 								</div>
 							</div>
-
 							<div class="constraint-selection-table">
 								<div class="constraint-row">
 									<span><input type="checkbox" name="constraints" value="matchCustomSP">Custom Match(Syntax&rarr;Prosody)</span>
@@ -839,9 +845,9 @@
 									<div class="info">
 										<span class="content custom-option-div">A node is minimal if it is not dominated by any nodes of its own category.</span>
 									</div>
+
 								</div>
 							</div>
-
 							<div class="constraint-selection-table">
 								<div class="constraint-row">
 									<span><input type="checkbox" name="constraints" value="matchCustomPS">Custom Match(Prosody&rarr;Syntax)</span>
@@ -961,6 +967,16 @@
 								</div>
 							</div>
 
+						</div>
+						
+							
+
+
+
+							
+
+							
+
 							<!-- <div class="constraint-selection-table">
 								<div class="constraint-row">
 									<span><input type="checkbox" name="constraints" value="alignRightMorpheme">AlignRight(Lexical item)</span>
@@ -971,7 +987,7 @@
 								</div>
 							</div> -->
 
-						</div>
+						
 
 			</fieldset>
 
@@ -1070,7 +1086,7 @@
 							</div>
 					</div>
 
-					<div onclick="showMore('moreBinarityConstraints')" class="show-more">Show more...</div>
+					<div onclick="showMore('moreBinarityConstraints')" class="show-more" id="moreBinarityConstraintsShow">Show more...</div>
 
 					<div id="moreBinarityConstraints" class="more-constraints">
 						<div class="constraint-selection-table">
@@ -1201,7 +1217,6 @@
 							<div class="category-selection-div"><input type="checkbox" name="category-strongStart" value="syll">&sigma;</div>
 						</div>
 					</div>
-
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="strongStart_Elfner">StrongStart (Elfner, Selkirk)</span>
@@ -1216,7 +1231,7 @@
 						</div>
 					</div>
 
-					<div onclick="showMore('moreSisterhoodConstraints')" class="show-more">Show more...</div>
+					<div onclick="showMore('moreSisterhoodConstraints')" class="show-more" id="moreSisterhoodConstraintsShow">Show more...</div>
 
 					<div id="moreSisterhoodConstraints" class="more-constraints">
 						<div class="constraint-selection-table">
@@ -1290,18 +1305,18 @@
 
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
-							<span><input type="checkbox" name="constraints" value="exhaustParent">Exhaustivity Parent</span>
+							<span><input type="checkbox" name="constraints" value="exhaustParent">Exhaustivity</span>
 							<div class="info">
-								<span class="content">Assign one violation for every parent-child pair such that the child’s prosodic category is more than one level lower than the parent’s prosodic category. E.g., &phi; with a syllable child, &iota; with an &omega; child. SPOT function: exhaustParent(). For Exhaustivity as a violable constraint, see Selkirk 1995 “The prosodic structure of function words”</span>
+								<span class="content">Assign one violation for every parent that has one or more children whose prosodic category is more than one level lower than the parent’s prosodic category. E.g., &phi; with a syllable child, &iota; with an &omega; child. SPOT function: exhaustParent(). For Exhaustivity as a violable constraint, see Selkirk 1995 “The prosodic structure of function words”</span>
 							</div>
 						</div>
 					</div>
 
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
-							<span><input type="checkbox" name="constraints" value="nonRecParent">Non-recursivity, assessed by dominating node (nonRecParent)</span>
+							<span><input type="checkbox" name="constraints" value="nonRecParent">Non-recursivity</span>
 							<div class="info">
-								<span class="content">Assign one violation for every node of category K that immediately dominates a node of category K in the prosodic tree. SPOT function: nonRecParent(). For Non-Recursivity as a violable constraint, see Selkirk 1995, Zec 2005. For this specific implementation & implications, see Bellik & Kalivoda 2017 (SPOT1 Workshop slides)</span>
+								<span class="content">Assign one violation for every node of category K that immediately dominates a node of category K in the prosodic tree. SPOT function: nonRecParent(). For Non-Recursivity as a violable constraint, see Selkirk 1995, Zec 2005. For this specific implementation & implications, see Bellik & Kalivoda 2017 (SPOT1 Workshop slides). nonRecParent().</span>
 							</div>
 						</div>
 							<div class="category-row">
@@ -1322,8 +1337,6 @@
 							</div>
 						</div>
 					</div>
-
-					<div id="moreLayeringConstraints" class="more-constraints">
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="nonRecTruckenbrodt">Non-recursivity, assessed by non-overlapping leaves (nonRecTruckenbrodt)</span>
