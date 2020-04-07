@@ -49,7 +49,7 @@ function sTreeGEN(terminalString, options)
         sTreeList = sTreeList.filter(x => !x0Sisters(x, 'x0'));
     }
     if(options.noAdjuncts){
-        sTreeList = sTreeList.filter(x => !x0Sisters(x, 'xp'));
+        sTreeList = sTreeList.filter(x => !x0Sisters(x, recursiveCategory));
     }
     if(options.maxBranching > 0){
         sTreeList = sTreeList.filter(x=>!ternaryNodes(x, options.maxBranching));
