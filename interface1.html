@@ -1330,16 +1330,16 @@
 					<div id="moreLayeringConstraints" class="more-constraints">
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
-								<span><input type="checkbox" name="constraints" value="exhaustChild">Exhaustivity Child</span>
+								<span><input type="checkbox" name="constraints" value="exhaustChild">Exhaustivity, assessed by dominated node</span>
 								<div class="info">
 									<span class="content">Assign one violation for every parent-child pair such that the child’s prosodic category is more than one level lower than the parent’s prosodic category. E.g., &phi; with a syllable child, &iota; with an &omega; child. SPOT function: exhaustChild(). For Exhaustivity as a violable constraint, see Selkirk 1995 “The prosodic structure of function words”</span>
 								</div>
 							</div>
 						</div>
-					</div>
+					
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
-								<span><input type="checkbox" name="constraints" value="nonRecTruckenbrodt">Non-recursivity, assessed by non-overlapping leaves (nonRecTruckenbrodt)</span>
+								<span><input type="checkbox" name="constraints" value="nonRecTruckenbrodt">Non-recursivity, assessed by non-overlapping leaves</span>
 								<div class="info">
 									<span class="content">For every node X of category K dominated by another node Y of category K in the prosodic tree, assign one violation for every leaf dominated by Y that is not also dominated by X. SPOT function: nonRecTruckenbrodt(). (Truckenbrodt 1995, 1999)</span>
 								</div>
@@ -1353,7 +1353,7 @@
 
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
-								<span><input type="checkbox" name="constraints" value="nonRecChild">Non-recursivity, assessed by dominated node (nonRecChild)</span>
+								<span><input type="checkbox" name="constraints" value="nonRecChild">Non-recursivity, assessed by dominated node</span>
 								<div class="info">
 									<span class="content">Assign one violation for every node of category K immediately dominated by another node of category K. SPOT function: nonRecChild(). For Non-Recursivity as a violable constraint, see Selkirk 1995, Zec 2005. For this specific implementation & implications, see Bellik & Kalivoda 2017 (SPOT1 Workshop slides)</span>
 								</div>
