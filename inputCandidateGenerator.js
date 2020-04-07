@@ -5,16 +5,22 @@
 *  syntactically ill-formed, since they only arise from head movement.
 *  
 *  Options:
-*  - rootCategory
-*  - recursiveCategory
-*  - terminalCategory
-*  - noAdjacentHeads: are x0 sisters allowed? [x0 x0]
-*  - noAdjuncts: are xp sisters allowed? [xp xp]
-*  - maxBranching: determines the maximum number of branches that are tolerated in the resulting syntactic trees
-*  - addClitics: 'right' or 'left' determines whether clitics are added on the righthandside or the left; true will default to right. false doesn't add any clitics.
+*  - rootCategory: default = 'xp'
+*  - recursiveCategory: default = 'xp'
+*  - terminalCategory: default = 'x0'
+*  - noAdjacentHeads: are x0 sisters allowed? [x0 x0]. Defaults to true.
+*  - noAdjuncts: are xp sisters allowed? [xp xp]. Defaults to false.
+*  - maxBranching: determines the maximum number of branches that are tolerated in 
+*    the resulting syntactic trees. Default = 2
+*  - addClitics: 'right' or 'left' determines whether clitics are added on the 
+*    righthand-side or the left; true will default to right. false doesn't add any clitics. 
+*    Default false.
 *  - headSide: 'right', 'left', 'right-strict', 'left-strict'. 
 *    Which side will heads be required to be on, relative to their complements? 
 *    Also, must heads be at the very edge (strict)?
+* Also has all the options from the underlying output candidate generator -- see 
+* GEN() in candidategenerator.js. Most relevant is probably noUnary which excludes 
+* non-branching intermediate nodes.
 */
 function sTreeGEN(terminalString, options)
 {
@@ -43,7 +49,7 @@ function sTreeGEN(terminalString, options)
         sTreeList = sTreeList.filter(x => !x0Sisters(x, 'x0'));
     }
     if(options.noAdjuncts){
-        sTreeList = sTreeList.filter(x => !x0Sisters(x, 'xp'));
+        sTreeList = sTreeList.filter(x => !x0Sisters(x, options.recursiveCategory));
     }
     if(options.maxBranching > 0){
         sTreeList = sTreeList.filter(x=>!ternaryNodes(x, options.maxBranching));
