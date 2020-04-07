@@ -8,6 +8,7 @@ function clearAnalysis(){
   var constraints = document.getElementsByName("constraints");
   var conOptions;
   var fieldsets = document.getElementsByTagName("fieldset");
+  var showMoreDivs = document.getElementsByClassName('more-constraints');
 
   //reset gen options
   for(var i = 0; i<genOptions.length; i++){
@@ -54,6 +55,9 @@ function clearAnalysis(){
 
 
   }
+  for(var i = 0; i<showMoreDivs.length; i++){
+    showMoreDivs[i].style.display = 'none';
+  }
   window.clearUTrees();
   document.getElementById("stree-textarea").value = '{}';
 }
@@ -88,6 +92,14 @@ function built_in_con(input){
           }
           //open the fieldset
           conFields[x].setAttribute("class", "open");
+          //open "show more", if the constraint belongs to it
+          var showMoreDivs = document.getElementsByClassName("more-constraints");
+          for(var q = 0; q<showMoreDivs.length; q++){
+            if(showMoreDivs[q].contains(con_boxes[y])){
+              showMoreDivs[q].style.display = "block";
+            }
+          }
+
           cat_boxes = document.getElementsByName("category-"+input[i].name);
           for(var z = 0; z < cat_boxes.length; z++){
             //used to test if constraint has been used before:
