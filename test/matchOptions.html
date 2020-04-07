@@ -37,6 +37,10 @@
 									{
 										cat: "x0",
 										id: "two-func"
+									},
+									{
+										cat:'x0',
+										id:'twopoint5'
 									}
 								]
 							},
@@ -48,6 +52,10 @@
 									{
 										cat:"x0",
 										id: "three-silent"
+									},
+									{
+										cat:'x0',
+										id:'four'
 									}
 								]
 							}
@@ -72,10 +80,11 @@
 
 
 			//'matchPS-phi-{"maxProsody":true}'
-			var con = ['matchSP-xp','matchSP-NA-{"anySCat":true}','matchSP-xp-{"everyPCat":true}', 'matchSP-xp-{"maxSyntax":true}', 'matchSP-xp-{"nonMinSyntax":true}', 'matchSP-xp-{"maxProsody":true}', 'matchSP-xp-{"requireOvertHead":true}', 'matchPS-phi-{"requireLexical":true}'];
+			var con1 = ['matchSP-xp','matchSP-any','matchSP-cp-{"everyPCat":true}', 'matchSP-xp-{"everyPCat":true}', 'matchSP-any-{"everyPCat":true}'];
+			var con2 = ['matchSP-xp-{"maxSyntax":true}', 'matchSP-xp-{"nonMinSyntax":true}', 'matchSP-xp-{"maxProsody":true}', 'matchSP-xp-{"requireOvertHead":true}', 'matchPS-phi-{"requireLexical":true}'];
 			window.addEventListener("load",function(){
 				//throw new Error(matchSP(GEN(sTree, "one two-func (three)")[0][0], GEN(sTree, "one two-func (three)")[0][1], "xp", {maxSyntax:true}));
-				writeTableau(makeTableau(GEN(sTree, "one two-func three-silent"), con));
+				writeTableau(makeTableau(GEN(sTree, 'one two-func twopoint5 three-silent four',{"obeysNonrecursivity":true}), con1));
 				revealNextSegment();
 			});
 
