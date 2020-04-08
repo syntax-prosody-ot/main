@@ -109,10 +109,10 @@ function alignRightPS(sTree, pTree, cat, options){
 	options = options || {};
 	return alignPS(sTree, pTree, cat, 'right', options);
 }
-function alignCustom(sTree, pTree, cat, options){
+/*function alignCustom(sTree, pTree, cat, options){
 	options = options || {};
 	return alignSP()
-}
+}*/
 function wrap(sTree, pTree, cat){
 	var vCount = 0;
 	walkTree(sTree, function(sNode){
