@@ -39,13 +39,13 @@ function alignSP(sTree, pTree, sCat, d, options){
 	var vCount = 0;
 	walkTree(sTree, function(sNode){
 		markMinMax(sNode);
-		if(sNode.cat !== sCat
-		&& !(options.requireLexical && sNode.func)
-		&& !(options.requireOvertHead && sNode.silentHead)
-		&& !(options.maxSyntax && !sNode.isMax)
-		&& !(options.minSyntax && !isMinimal(sNode))
-		&& !(options.nonMaxSyntax && sNode.isMax)
-		&& !(options.nonMinSyntax && isMinimal(sNode)))	 // only go further if sNode has the category we're interested in
+		if((sNode.cat !== sCat)
+			|| (options.requireLexical && sNode.func)
+			|| (options.requireOvertHead && sNode.silentHead)
+			|| (options.maxSyntax && !sNode.isMax)
+			|| (options.minSyntax && !sNode.isMin)
+			|| (options.nonMaxSyntax && sNode.isMax)
+			|| (options.nonMinSyntax && sNode.isMin))	 // only go further if sNode has the category we're interested in
 			return;
 		var sEdge = getEdge(sNode);
 		if(!sEdge)
@@ -55,10 +55,10 @@ function alignSP(sTree, pTree, sCat, d, options){
 		walkTree(pTree, function(pNode){
 			markMinMax(pNode);
 			if(!catsMatch(sCat, pNode.cat)
-			&& !(options.maxProsody && !pNode.isMax)
-			&& !(options.minProsody && !isMinimal(pNode))
-			&& !(options.nonMaxProsody && pNode.isMax)
-			&& !(options.nonMinProsody && isMinimal(pNode)))
+				|| (options.maxProsody && !pNode.isMax)
+				|| (options.minProsody && pNode.isMin)
+				|| (options.nonMaxProsody && pNode.isMax)
+				|| (options.nonMinProsody && pNode.isMin))
 				return;
 			var pEdge = getEdge(pNode);
 			if(!pEdge)
