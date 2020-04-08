@@ -733,6 +733,7 @@ window.addEventListener('load', function(){
 		return sTreeList;
 	}
 
+	// add terminal string button
 	document.getElementById('addString').addEventListener('click', function(){
 		var length = spotForm.inputToGenAuto.length;
 		if(length === undefined) {
@@ -742,6 +743,11 @@ window.addEventListener('load', function(){
 		length = length.toString();
 		newLength = newLength.toString();
 		document.getElementById('str'+length).insertAdjacentHTML('afterend', "<p id='str"+newLength+"'>String of terminals "+newLength+": <input type='text' name='inputToGenAuto'></p>");
+		document.getElementById('autoDoneMessage').style.display = 'none';
+	});
+
+	// check for change in syntax parameters
+	document.getElementById('syntax-parameters').addEventListener('change', function(){
 		document.getElementById('autoDoneMessage').style.display = 'none';
 	});
 
