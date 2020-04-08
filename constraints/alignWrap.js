@@ -56,7 +56,7 @@ function alignSP(sTree, pTree, sCat, d, options){
 			markMinMax(pNode);
 			if(!catsMatch(sCat, pNode.cat)
 				|| (options.maxProsody && !pNode.isMax)
-				|| (options.minProsody && pNode.isMin)
+				|| (options.minProsody && !pNode.isMin)
 				|| (options.nonMaxProsody && pNode.isMax)
 				|| (options.nonMinProsody && pNode.isMin))
 				return;
