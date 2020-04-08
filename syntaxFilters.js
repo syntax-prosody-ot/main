@@ -73,13 +73,23 @@ function mirrorImages(sTree, sTreeList) {
 	var reverseTree = JSON.parse(JSON.stringify(sTree));
 	// console.log(sTree)
 	// console.log(parenthesizeTree(sTree))
-	reverseTree = getReverseTree(reverseTree);
+	// reverseTree = getReverseTree(reverseTree);
 	// console.log(parenthesizeTree(sTree))
+	console.log("start", index)
+	console.log("original rTree")
+	console.log(reverseTree)
 	for(var i = 0; i < index; i++) {
 		var currTree = sTreeList[i];
-		var checkReverse = checkReverseTree(reverseTree, currTree);
-		console.log(checkReverse, "reverseTree: ", index, "currTree: ", i)
-		if(checkReverse) {
+		console.log("original sTree")
+		console.log(currTree)
+		console.log("--------------------------")
+		// var checkReverse1 = checkReverseTree(reverseTree, currTree);
+		var checkReverse1 = testing(currTree, reverseTree);
+		console.log(checkReverse1)
+		// var checkReverse2 = checkReverseTree(currTree, reverseTree);
+		// console.log(checkReverse2)
+		// console.log(checkReverse, "reverseTree: ", index, "currTree: ", i)
+		if(checkReverse1) {
 			mirrorImageExists = true;
 			return mirrorImageExists;
 		}
@@ -104,37 +114,62 @@ function getReverseTree(rTree) {
 // Example:
 // T = [x0 [x0 [x0]]]
 // T' = [[[x0] x0] x0]
-function checkReverseTree(rTree, currTree) {
-	var checkTree = false;
-	if(rTree.children && rTree.children.length && currTree.children && currTree.children.length){
-		var length = rTree.children.length
-    for(var i=0; i<length; i++){
-      var rChild = rTree.children[i];
-			var currChild = currTree.children[i];
-			if(rChild && currChild) {
-				var rCat = rChild.cat;
-				// var currCat = currTree.children[length-1-i].cat;
-				var currCat = currChild.cat;
-				if(rCat && currCat) {
-					if(rCat === currCat) {
-						checkTree = true;
+// var checkTree = false;
+// function checkReverseTree(rTree, currTree) {
+// 	// console.log("rTree")
+// 	// console.log(rTree)
+// 	// console.log("currTree")
+// 	// console.log(currTree)
+//
+// 	if (rTree.children && rTree.children.length && currTree.children && currTree.children.length){
+// 		var length = rTree.children.length;
+//     for(var i=0; i<length; i++){
+// 			var oppCurrChild = currTree.children[i];
+// 			var rChild = rTree.children[i];
+// 			if(oppCurrChild && rChild) {
+// 				var rCat = rChild.cat;
+// 				var currCat = oppCurrChild.cat;
+// 				if(rCat && currCat) {
+// 					if(rCat === currCat) {
+// 						checkTree = true;
+// 					}
+// 					else {
+// 						checkTree = false;
+// 						return checkTree;
+// 					}
+// 				}
+// 				else {
+// 					checkTree = false;
+// 					return checkTree;
+// 				}
+// 			}
+// 			else {
+// 				checkTree = false;
+// 				return checkTree;
+// 			}
+//       checkTree = checkReverseTree(rChild, oppCurrChild);
+//     }
+//   }
+// 	return checkTree;
+// }
+
+function testing(sTree, rTree) {
+	var equal = true;
+	if(sTree.children && sTree.children.length){
+			if(rTree.children === undefined || sTree.children.length !== rTree.children.length) {
+				return false;
+			}
+			for(var i=0; i<sTree.children.length; i++){
+					var sChild = sTree.children[i];
+					var rChild = rTree.children[sTree.children.length-i-1];
+					if (sChild.cat === rChild.cat) {
+						equal = true;
 					}
 					else {
-						checkTree = false;
-						return checkTree;
+						return false;
 					}
-				}
-				else {
-					checkTree = false;
-					return checkTree;
-				}
+					equal = testing(sChild, rChild);
 			}
-			else {
-				checkTree = false;
-				return checkTree;
-			}
-      checkReverseTree(rChild, currChild);
-    }
-  }
-	return checkTree;
+	}
+	return equal;
 }
