@@ -106,13 +106,6 @@
 				resize: both;
 				border: 1px solid #a9a9a9;
 			}
-			#autoTreeBox {
-				width: fit-content;
-				height: 250px;
-				overflow: scroll;
-				resize: both;
-				border: 1px solid #a9a9a9;
-			}
 			.inline-block {
 				display:inline-block
 			}
@@ -152,9 +145,6 @@
 			.treeUI-tree {
 				margin-top: 15px;
 			}
-			.input-button {
-				font-size: 10px;
-			}
 			button {
 				color: #ffffff;
 				background-color: #6d86a3;
@@ -181,20 +171,6 @@
 			button.submit-button {
 				font-size: 16px;
 				padding: 8px 20px;
-			}
-			button.tab-button {
-				background-color: #d0d8e0;
-				color: #07203D;
-				font-size: 16px;
-				border-radius: 8px 8px 0px 0px;
-				padding: 8px;
-				margin-left: 0px;
-				margin-right: 0px;
-				margin-bottom: 0px;
-				border-bottom-style: none;
-			}
-			button.tab-button:hover {
-				background-color: white;
 			}
 			fieldset {
 				margin-top: 10px;
@@ -398,16 +374,6 @@
 				margin-left: 10px;
       }
 
-			#autoDoneMessage {
-				display: none;
-				color: #555;
-				font-size: 13px;
-				margin-left: 10px;
-      }
-			#add-clitics-row{
-				display: none;
-			}
-
 			/* built in analysis dropdown */
 			.dropdown {
 				border: 0.1rem solid #6d86a3;
@@ -432,17 +398,6 @@
 				color: #555;
 				margin: 5px;
 			}
-
-			.auto-table {
-			    border-collapse: collapse;
-			    margin: 10px 10px 10px 10px;
-			}
-			.auto-table td {
-			    border: 1px solid black;
-					text-align: left;
-					padding: 4px;
-			}
-
 
 		</style>
 
@@ -492,7 +447,7 @@
 			<form id="spotForm">
 				<!--GEN OPTIONS-->
 				<div class="spotBlock">
-				<legend><h2>GEN: Output parameters</h2></legend>
+				<legend><h2>GEN options</h2></legend>
 
 				<div style="padding-right: 15px">
 					<div class="constraint-row">
@@ -588,17 +543,16 @@
 
 			<!--INPUT-->
 			<div class="spotBlock input">
-			<h2>GEN: Input parameters
+			<h2>Inputs
 				<span class="info">
 					<span class="content">
-						To generate input syntactic trees using SPOT's algorithm, use the 'Automatic' tab. To build input syntactic trees yourself, use the 'Manual' tab. In the 'String of terminals' textboxes, type the words that you want to be included in the output prosodic trees, separating them with spaces.
+						Type the words that you want to be included in the output prosodic trees, separating them with spaces. To get prosodic candidate without building a syntactic tree, click "Run GEN". Otherwise, click "Build syntax." Suffix a word with "-clitic" to map it to a syllable in all prosodic trees.
 					</span>
 				</span>
 			</h2>
-			<p style="margin-bottom: 0"><button id="inputButton" type="button" class="tab-button" style="background-color: white; border-color: #3A5370">Automatic</button><button id="goButton" type="button" class="tab-button">Manual</button></p>
-						<hr style="margin-block-start: 0; margin-block-start: 0; color: #3A5370; border-style: solid">
+			<p>String of terminals: <input type="text" name="inputToGen"> <button id="goButton" type="button">Build syntax</button><button class="orange-button" type="submit" style='margin-left: 5px'>Run GEN</button></p>
+
             <div id="treeUI" style="display: none">
-							<p>String of terminals: <input type="text" name="inputToGen"><button id="buildButton" type="button" class="input-button">Build syntax</button></p>
 								<div class="constraint-row">
 									<span><input type="checkbox" name="genOptions" id="trimTrees">Trim Syntactic tree</span>
 									<div class="info">
@@ -647,97 +601,6 @@
 					<textarea id="stree-textarea" class="stree-textarea" name="sTree" rows="15">{}</textarea>
 				</div>
 			</div>
-
-			<!-- automatically generate syntax -->
-			<div id="inputOptions" style="display: block">
-
-				<fieldset id="syntax-parameters">
-					<legend><h2>Syntax parameters <span class="arrow"></h2></legend>
-					<div class="constraint-row">
-						<span>Head requirements:
-							<select name="head-req" id="head-req">
-								<option value="select">Heads can be anywhere</option>
-								<option value="left-strict">Heads must be perfectly left-aligned</option>
-								<option value="right-strict">Heads must be perfectly right-aligned</option>
-								<option value="left">Heads must be on the left edge</option>
-								<option value="right">Heads must be on the right edge</option>
-							</select>
-						</span>
-						<div class="info">
-							<span class="content">info</span>
-						</div>
-					</div>
-
-					<div class="constraint-row"><span>Root syntactic tree in</span>
-						<div class="info">
-							<span class="content">info</span>
-						</div>
-					</div>
-					<div class="category-row">
-						<div class="category-selection-div"><input type="radio" name="autoInputOptions-rootCategory" value="cp">CP</div>
-						<div class="category-selection-div"><input type="radio" name="autoInputOptions-rootCategory" value="xp" checked="checked">XP</div>
-						<div class="category-selection-div"><input type="radio" name="autoInputOptions-rootCategory" value="x0">X<sup>0</sup></div>
-					</div>
-					<div class="constraint-row"><span>Intermediate nodes are</span>
-						<div class="info"><span class="content">info</span></div>
-					</div>
-					<div class="category-row">
-						<div class="category-selection-div"><input type="radio" name="autoInputOptions-recursiveCategory" value="cp">CP</div>
-						<div class="category-selection-div"><input type="radio" name="autoInputOptions-recursiveCategory" value="xp" checked="checked">XP</div>
-						<div class="category-selection-div"><input type="radio" name="autoInputOptions-recursiveCategory" value="x0">X<sup>0</sup></div>
-					</div>
-					<div class="constraint-row"><span>Syntactic terminals are</span>
-						<div class="info"><span class="content">info</span></div>
-					</div>
-					<div class="category-row">
-						<div class="category-selection-div"><input type="radio" name="autoInputOptions-terminalCategory" value="cp">CP</div>
-						<div class="category-selection-div"><input type="radio" name="autoInputOptions-terminalCategory" value="xp">XP</div>
-						<div class="category-selection-div"><input type="radio" name="autoInputOptions-terminalCategory" value="x0" checked="checked">X<sup>0</sup></div>
-					</div>
-
-					<div class="constraint-row">
-						<span><input type="checkbox" name="autoInputOptions-addClitics" value="right" id="add-clitics">Add XP clitics directly under root</span>
-						<div class="info"><span class="content">info</span></div>
-					</div>
-					<div class="category-row" id="add-clitics-row">
-						<div class="category-selection-div"><input type="radio" name="autoInputOptions-addClitics" value="left" id="add-clitics-left">Left</div>
-						<div class="category-selection-div"><input type="radio" name="autoInputOptions-addClitics" value="right" checked="checked">Right</div>
-					</div>
-
-					<div class="constraint-row">
-						<span><input type="checkbox" name="autoInputOptions" value="noAdjuncts" checked="checked">Allow adjuncts</span>
-						<div class="info"><span class="content">info</span></div>
-					</div>
-
-					<div class="constraint-row">
-						<span><input type="checkbox" name="autoInputOptions" value="noMirrorImages">Remove mirror images</span>
-						<div class="info"><span class="content">info</span></div>
-					</div>
-				</fieldset>
-
-				<div id="terminalStrings">
-					<p id="str1">String of terminals 1: <input type="text" name="inputToGenAuto"></p>
-				</div>
-				<button id="addString" type="button">Add terminal string</button>
-
-				<button id="autoGenDoneButton" class="orange-button" type="button">Generate trees</button>
-				<div id="autoDoneMessage">The trees in the analysis are up-to-date</div>
-
-				<div style="margin-top: 15px">
-					<label class="switch" style="margin-right: 10px; vertical-align: middle">
-						<input type="checkbox" id="syntax-tree-switch" value="show-syntax-tree-box">
-						<span class="slider round"></span>
-					</label>
-					<p id="syntax-switch-text" style="font-size: 15; vertical-align: middle; display: inline">Show syntactic trees</p>
-				</div>
-
-				<div id="autoTreeArea" style="display: none">
-					<br>
-					<div id="autoTreeBox"></div>
-				</div>
-
-			</div>
-
 		</div>
 
 				<!--CONSTRAINTS-->
