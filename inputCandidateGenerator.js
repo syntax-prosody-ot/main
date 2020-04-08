@@ -54,14 +54,8 @@ function sTreeGEN(terminalString, options)
         sTreeList = sTreeList.filter(x => !headsOnWrongSide(x, side, strict));
     }
     if(options.noMirrorImages){
-      // var oldList = sTreeList;
       sTreeList = sTreeList.filter(x => !mirrorImages(x, sTreeList));
     }
-
-    // console.log(sTreeList[3])
-    // console.log(Object.values(sTreeList[3]))
-    // // should be false
-    // console.log(sTreeList[4])
 
     return sTreeList;
 }

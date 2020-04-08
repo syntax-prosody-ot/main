@@ -64,32 +64,16 @@ function headsOnWrongSide(sTree, side, strict){
 
 }
 
-// Input Gen option to remove trees that are mirror images of trees earlier in the list
-// returns true if tree is a mirror of an eariler tree
-// returns false if tree is not a mirror image of an earlier tree
+// returns true if tree is a mirror of an eariler tree in list
+// returns false if tree is not a mirror image of an earlier tree in list
 function mirrorImages(sTree, sTreeList) {
 	var mirrorImageExists = false;
 	var index = sTreeList.indexOf(sTree);
 	var reverseTree = JSON.parse(JSON.stringify(sTree));
-	// console.log(sTree)
-	// console.log(parenthesizeTree(sTree))
-	// reverseTree = getReverseTree(reverseTree);
-	// console.log(parenthesizeTree(sTree))
-	console.log("start", index)
-	console.log("original rTree")
-	console.log(reverseTree)
 	for(var i = 0; i < index; i++) {
 		var currTree = sTreeList[i];
-		console.log("original sTree")
-		console.log(currTree)
-		console.log("--------------------------")
-		// var checkReverse1 = checkReverseTree(reverseTree, currTree);
-		var checkReverse1 = testing(currTree, reverseTree);
-		console.log(checkReverse1)
-		// var checkReverse2 = checkReverseTree(currTree, reverseTree);
-		// console.log(checkReverse2)
-		// console.log(checkReverse, "reverseTree: ", index, "currTree: ", i)
-		if(checkReverse1) {
+		var isMirror = checkMirror(currTree, reverseTree);
+		if(isMirror) {
 			mirrorImageExists = true;
 			return mirrorImageExists;
 		}
@@ -97,63 +81,8 @@ function mirrorImages(sTree, sTreeList) {
 	return mirrorImageExists;
 }
 
-function getReverseTree(rTree) {
-  if(rTree.children && rTree.children.length){
-		rTree.children = rTree.children.reverse();
-    for(var i=0; i<rTree.children.length; i++){
-      var child = rTree.children[i];
-      getReverseTree(child);
-    }
-  }
-	return rTree;
-}
-
-// Definition of mirror image:
-// Ignoring ids, but not cats, the mirror image of a tree T
-// is a tree T' in which every children array in T is in reverse order in T'.
-// Example:
-// T = [x0 [x0 [x0]]]
-// T' = [[[x0] x0] x0]
-// var checkTree = false;
-// function checkReverseTree(rTree, currTree) {
-// 	// console.log("rTree")
-// 	// console.log(rTree)
-// 	// console.log("currTree")
-// 	// console.log(currTree)
-//
-// 	if (rTree.children && rTree.children.length && currTree.children && currTree.children.length){
-// 		var length = rTree.children.length;
-//     for(var i=0; i<length; i++){
-// 			var oppCurrChild = currTree.children[i];
-// 			var rChild = rTree.children[i];
-// 			if(oppCurrChild && rChild) {
-// 				var rCat = rChild.cat;
-// 				var currCat = oppCurrChild.cat;
-// 				if(rCat && currCat) {
-// 					if(rCat === currCat) {
-// 						checkTree = true;
-// 					}
-// 					else {
-// 						checkTree = false;
-// 						return checkTree;
-// 					}
-// 				}
-// 				else {
-// 					checkTree = false;
-// 					return checkTree;
-// 				}
-// 			}
-// 			else {
-// 				checkTree = false;
-// 				return checkTree;
-// 			}
-//       checkTree = checkReverseTree(rChild, oppCurrChild);
-//     }
-//   }
-// 	return checkTree;
-// }
-
-function testing(sTree, rTree) {
+// check for if trees are mirror images of eachother
+function checkMirror(sTree, rTree) {
 	var equal = true;
 	if(sTree.children && sTree.children.length){
 			if(rTree.children === undefined || sTree.children.length !== rTree.children.length) {
@@ -168,7 +97,7 @@ function testing(sTree, rTree) {
 					else {
 						return false;
 					}
-					equal = testing(sChild, rChild);
+					equal = checkMirror(sChild, rChild);
 			}
 	}
 	return equal;
