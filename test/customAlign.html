@@ -1,0 +1,608 @@
+<!-- Max Tarlov 4/7/2020 testing align constraint options-->
+<html>
+	<title>Align Options</title>
+	<head>
+		<link rel="stylesheet" type="text/css" href="../spot.css">
+		<script src="../build/spot.js"></script>
+		<script src="../build/constraints.js"></script>
+		<script src="../candidategenerator.js"></script>
+	</head>
+	<body>
+		<pre id="results-container"></pre>
+		<script>
+			var stree1 = {
+				id: "root",
+				cat: "xp",
+				children: [
+					{
+						id: "one",
+						cat: "x0"
+					}
+				]
+			};
+			var stree2 = {
+				id: "root",
+				cat: "cp",
+				children: [
+					{
+						id: "maximal",
+						cat: "xp",
+						children: [
+							{
+								id: "terminal",
+								cat: "x0"
+							}
+						]
+					},
+					{
+						id: "two",
+						cat: "x0"
+					}
+				]
+			};
+			var stree3 = {
+				id: "root",
+				cat: "xp",
+				children: [
+					{
+						id: "nonMaximal",
+						cat: "xp",
+						children: [
+							{
+								id: "terminal",
+								cat: "x0"
+							}
+						]
+					},
+					{
+						id: "three",
+						cat: "x0"
+					}
+				]
+			};
+			var stree4 = {
+				id: "root",
+				cat: "cp",
+				children: [
+					{
+						id: "maximal",
+						cat: "xp",
+						children: [
+							{
+								id: "terminal",
+								cat: "x0"
+							}
+						]
+					},
+					{
+						id: "four",
+						cat: "x0"
+					}
+				]
+			};
+			var stree5 = {
+				id: "root",
+				cat: "xp",
+				children: [
+					{
+						id: "nonMaximal",
+						cat: "xp",
+						children: [
+							{
+								id: "terminal",
+								cat: "x0"
+							}
+						]
+					},
+					{
+						id: "five",
+						cat: "x0"
+					}
+				]
+			};
+			var stree6 = {
+				id: "root",
+				cat: "xp",
+				children: [
+					{
+						id: "minimal",
+						cat: "xp",
+						children: [
+							{
+								id: "terminal",
+								cat: "x0"
+							}
+						]
+					},
+					{
+						id: "six",
+						cat: "x0"
+					}
+				]
+			};
+			var stree7 = {
+				id: "root",
+				cat: "xp",
+				children: [
+					{
+						id: "minimal",
+						cat: "xp",
+						children: [
+							{
+								id: "terminal",
+								cat: "x0"
+							},
+							{
+								id: "seven",
+								cat: "x0"
+							}
+						]
+					}
+				]
+			};
+			var stree8 = {
+				id: "root",
+				cat: "cp",
+				children: [
+					{
+						id: "minimal",
+						cat: "xp",
+						children: [
+							{
+								id: "terminal",
+								cat: "x0"
+							}
+						]
+					},
+					{
+						id: "eight",
+						cat: "x0"
+					}
+				]
+			};
+			var stree9 = {
+				id: "root",
+				cat: "xp",
+				children: [
+					{
+						id: "minimal",
+						cat: "xp",
+						children: [
+							{
+								id: "terminal",
+								cat: "x0"
+							}
+						]
+					},
+					{
+						id: "nine",
+						cat: "x0"
+					}
+				]
+			};
+			var stree10 = {
+				id: "maximal",
+				cat: "xp",
+				children: [
+					{
+						id: "xp1",
+						cat: "xp",
+						children: [
+							{
+								id: "terminal",
+								cat: "x0"
+							}
+						]
+					},
+					{
+						id: "ten",
+						cat: "x0"
+					}
+				]
+			};
+			var stree11 = {
+				id: "root",
+				cat: "xp",
+				children: [
+					{
+						id: "minimal",
+						cat: "xp",
+						children: [
+							{
+								id: "terminal",
+								cat: "x0"
+							},
+							{
+								id: "eleven",
+								cat: "x0"
+							}
+						]
+					}
+				]
+			};
+			var stree12 = {
+				id: "root",
+				cat: "cp",
+				children: [
+					{
+						id: "maxmin",
+						cat: "xp",
+						children: [
+							{
+								id: "terminal",
+								cat: "x0"
+							},
+							{
+								id: "twelve",
+								cat: "x0"
+							}
+						]
+					}
+				]
+			};
+			var stree17 = {
+				id: "superRoot",
+				cat: "xp",
+				children: [
+					{
+						id: "other",
+						cat: "x0"
+					},
+					{
+						id: "maximal",
+						cat: "xp",
+						children: [
+							{
+								id: "xp1",
+								cat: "xp",
+								children: [
+									{
+										id: "terminal",
+										cat: "x0"
+									}
+								]
+							},
+							{
+								id: "seventeen",
+								cat: "x0"
+							}
+						]
+					}
+				]
+			};
+
+			var ptree1 = {
+				id: "parent",
+				cat: "phi",
+				children: [
+					{
+						id: "terminal",
+						cat: "w"
+					}
+				]
+			};
+			var ptree2 = {
+				id: "maximal",
+				cat: "phi",
+				children: [
+					{
+						id: "minimal",
+						cat: "phi",
+						children: [
+							{
+								id: "terminal",
+								cat: "w"
+							}
+						]
+					}
+				]
+			};
+			var ptree3 = {
+				id: "maximal",
+				cat: "phi",
+				children: [
+					{
+						id: "middle",
+						cat: "phi",
+						children: [
+							{
+								id: "minimal",
+								cat: "phi",
+								children: [
+									{
+										id: "terminal",
+										cat: "w"
+									}
+								]
+							}
+						]
+					}
+				]
+			};
+			var ptree91 = {
+				id: "root",
+				cat: "phi",
+				children: [
+					{
+						id: "terminal",
+						cat: "w"
+					},
+					{
+						id: "nine",
+						cat: "w"
+					}
+				]
+			};
+			var ptree92 = {
+				id: "maximal",
+				cat: "phi",
+				children: [
+					{
+						id: "minimal",
+						cat: "phi",
+						children: [
+							{
+								id: "terminal",
+								cat: "w"
+							},
+							{
+								id: "nine",
+								cat: "w"
+							}
+						]
+					}
+				]
+			};
+			var ptree93 = {
+				id: "maximal",
+				cat: "phi",
+				children: [
+					{
+						id: "middle",
+						cat: "phi",
+						children: [
+							{
+								id: "minimal",
+								cat: "phi",
+								children: [
+									{
+										id: "terminal",
+										cat: "w"
+									},
+									{
+										id: "nine",
+										cat: "w"
+									}
+								]
+							}
+						]
+					}
+				]
+			};
+			var ptree101 = {
+				id: "root",
+				cat: "phi",
+				children: [
+					{
+						id: "terminal",
+						cat: "w"
+					},
+					{
+						id: "ten",
+						cat: "w"
+					}
+				]
+			};
+			var ptree102 = {
+				id: "maximal",
+				cat: "phi",
+				children: [
+					{
+						id: "minimal",
+						cat: "phi",
+						children: [
+							{
+								id: "terminal",
+								cat: "w"
+							},
+							{
+								id: "ten",
+								cat: "w"
+							}
+						]
+					}
+				]
+			};
+			var ptree103 = {
+				id: "maximal",
+				cat: "phi",
+				children: [
+					{
+						id: "middle",
+						cat: "phi",
+						children: [
+							{
+								id: "minimal",
+								cat: "phi",
+								children: [
+									{
+										id: "terminal",
+										cat: "w"
+									},
+									{
+										id: "ten",
+										cat: "w"
+									}
+								]
+							}
+						]
+					}
+				]
+			};
+			var ptree153 = {
+				id: "maximal",
+				cat: "phi",
+				children: [
+					{
+						id: "middle",
+						cat: "phi",
+						children: [
+							{
+								id: "minimal",
+								cat: "phi",
+								children: [
+									{
+										id: "terminal",
+										cat: "w"
+									},
+									{
+										id: "fifteen",
+										cat: "w"
+									}
+								]
+							}
+						]
+					}
+				]
+			};
+
+			var con1 = [
+				'alignLeftPS-phi', 'alignLeftPS-phi-{"maxProsody": true}', 'alignLeftPS-phi-{"nonMaxProsody": true}',
+				'alignLeftPS-phi-{"minProsody": true}', 'alignLeftPS-phi-{"maxProsody": true, "minProsody": true}', 'alignLeftPS-phi-{"nonMaxProsody": true, "minProsody": true}',
+				'alignLeftPS-phi-{"nonMinProsody": true}', 'alignLeftPS-phi-{"nonMinProsody": true, "maxProsody": true}', 'alignLeftPS-phi-{"nonMaxProsody": true, "nonMinProsody": true}'];
+			var con2 = [
+				'alignLeftPS-phi-{"maxSyntax": true}', 'alignLeftPS-phi-{"maxSyntax": true, "maxProsody": true}', 'alignLeftPS-phi-{"maxSyntax": true, "nonMaxProsody": true}',
+				'alignLeftPS-phi-{"maxSyntax": true, "minProsody": true}', 'alignLeftPS-phi-{"maxSyntax": true, "maxProsody": true, "minProsody": true}', 'alignLeftPS-phi-{"maxSyntax": true, "nonMaxProsody": true, "minProsody": true}',
+				'alignLeftPS-phi-{"maxSyntax": true, "nonMinProsody": true}', 'alignLeftPS-phi-{"maxSyntax": true, "nonMinProsody": true, "maxProsody": true}', 'alignLeftPS-phi-{"maxSyntax": true, "nonMaxProsody": true, "nonMinProsody": true}'];
+			var con3 = [
+				'alignLeftPS-phi-{"nonMaxSyntax": true}', 'alignLeftPS-phi-{"nonMaxSyntax": true, "maxProsody": true}', 'alignLeftPS-phi-{"nonMaxSyntax": true, "nonMaxProsody": true}',
+				'alignLeftPS-phi-{"nonMaxSyntax": true, "minProsody": true}', 'alignLeftPS-phi-{"nonMaxSyntax": true, "maxProsody": true, "minProsody": true}', 'alignLeftPS-phi-{"nonMaxSyntax": true, "nonMaxProsody": true, "minProsody": true}',
+				'alignLeftPS-phi-{"nonMaxSyntax": true, "nonMinProsody": true}', 'alignLeftPS-phi-{"nonMaxSyntax": true, "nonMinProsody": true, "maxProsody": true}', 'alignLeftPS-phi-{"nonMaxSyntax": true, "nonMaxProsody": true, "nonMinProsody": true}'];
+			var con4 = [
+				'alignLeftPS-phi-{"minSyntax": true}', 'alignLeftPS-phi-{"minSyntax": true, "maxProsody": true}', 'alignLeftPS-phi-{"minSyntax": true, "nonMaxProsody": true}',
+				'alignLeftPS-phi-{"minSyntax": true, "minProsody": true}', 'alignLeftPS-phi-{"minSyntax": true, "maxProsody": true, "minProsody": true}', 'alignLeftPS-phi-{"minSyntax": true, "nonMaxProsody": true, "minProsody": true}',
+				'alignLeftPS-phi-{"minSyntax": true, "nonMinProsody": true}', 'alignLeftPS-phi-{"minSyntax": true, "nonMinProsody": true, "maxProsody": true}', 'alignLeftPS-phi-{"minSyntax": true, "nonMaxProsody": true, "nonMinProsody": true}'];
+			var con5 = [
+				'alignLeftPS-phi-{"nonMinSyntax": true}', 'alignLeftPS-phi-{"nonMinSyntax": true, "maxProsody": true}', 'alignLeftPS-phi-{"nonMinSyntax": true, "nonMaxProsody": true}',
+				'alignLeftPS-phi-{"nonMinSyntax": true, "minProsody": true}', 'alignLeftPS-phi-{"nonMinSyntax": true, "maxProsody": true, "minProsody": true}', 'alignLeftPS-phi-{"nonMinSyntax": true, "nonMaxProsody": true, "minProsody": true}',
+				'alignLeftPS-phi-{"nonMinSyntax": true, "nonMinProsody": true}', 'alignLeftPS-phi-{"nonMinSyntax": true, "nonMinProsody": true, "maxProsody": true}', 'alignLeftPS-phi-{"nonMinSyntax": true, "nonMaxProsody": true, "nonMinProsody": true}'];
+			var con6 = [
+				'alignLeftPS-phi-{"maxSyntax": true, "minSyntax": true}', 'alignLeftPS-phi-{"maxSyntax": true, "minSyntax": true, "maxProsody": true}', 'alignLeftPS-phi-{"maxSyntax": true, "minSyntax": true, "nonMaxProsody": true}',
+				'alignLeftPS-phi-{"maxSyntax": true, "minSyntax": true, "minProsody": true}', 'alignLeftPS-phi-{"maxSyntax": true, "minSyntax": true, "maxProsody": true, "minProsody": true}', 'alignLeftPS-phi-{"maxSyntax": true, "minSyntax": true, "nonMaxProsody": true, "minProsody": true}',
+				'alignLeftPS-phi-{"maxSyntax": true, "minSyntax": true, "nonMinProsody": true}', 'alignLeftPS-phi-{"maxSyntax": true, "minSyntax": true, "nonMinProsody": true, "maxProsody": true}', 'alignLeftPS-phi-{"maxSyntax": true, "minSyntax": true, "nonMaxProsody": true, "nonMinProsody": true}'];
+			var con7 = [
+				'alignLeftPS-phi-{"nonMaxSyntax": true, "minSyntax": true}', 'alignLeftPS-phi-{"nonMaxSyntax": true, "minSyntax": true, "maxProsody": true}', 'alignLeftPS-phi-{"nonMaxSyntax": true, "minSyntax": true, "nonMaxProsody": true}',
+				'alignLeftPS-phi-{"nonMaxSyntax": true, "minSyntax": true, "minProsody": true}', 'alignLeftPS-phi-{"nonMaxSyntax": true, "minSyntax": true, "maxProsody": true, "minProsody": true}', 'alignLeftPS-phi-{"nonMaxSyntax": true, "minSyntax": true, "nonMaxProsody": true, "minProsody": true}',
+				'alignLeftPS-phi-{"nonMaxSyntax": true, "minSyntax": true, "nonMinProsody": true}', 'alignLeftPS-phi-{"nonMaxSyntax": true, "minSyntax": true, "nonMinProsody": true, "maxProsody": true}', 'alignLeftPS-phi-{"nonMaxSyntax": true, "minSyntax": true, "nonMaxProsody": true, "nonMinProsody": true}'];
+			var con8 = [
+				'alignLeftPS-phi-{"nonMaxSyntax": true, "nonMinSyntax": true}', 'alignLeftPS-phi-{"nonMaxSyntax": true, "nonMinSyntax": true, "maxProsody": true}', 'alignLeftPS-phi-{"nonMaxSyntax": true, "nonMinSyntax": true, "nonMaxProsody": true}',
+				'alignLeftPS-phi-{"nonMaxSyntax": true, "nonMinSyntax": true, "minProsody": true}', 'alignLeftPS-phi-{"nonMaxSyntax": true, "nonMinSyntax": true, "maxProsody": true, "minProsody": true}', 'alignLeftPS-phi-{"nonMaxSyntax": true, "nonMinSyntax": true, "nonMaxProsody": true, "minProsody": true}',
+				'alignLeftPS-phi-{"nonMaxSyntax": true, "nonMinSyntax": true, "nonMinProsody": true}', 'alignLeftPS-phi-{"nonMaxSyntax": true, "nonMinSyntax": true, "nonMinProsody": true, "maxProsody": true}', 'alignLeftPS-phi-{"nonMaxSyntax": true, "nonMinSyntax": true, "nonMaxProsody": true, "nonMinProsody": true}'];
+			var con9 = [
+				'alignLeftPS-phi-{"maxSyntax": true, "nonMinSyntax": true}', 'alignLeftPS-phi-{"maxSyntax": true, "nonMinSyntax": true, "maxProsody": true}', 'alignLeftPS-phi-{"maxSyntax": true, "nonMinSyntax": true, "nonMaxProsody": true}',
+				'alignLeftPS-phi-{"maxSyntax": true, "nonMinSyntax": true, "minProsody": true}', 'alignLeftPS-phi-{"maxSyntax": true, "nonMinSyntax": true, "maxProsody": true, "minProsody": true}', 'alignLeftPS-phi-{"maxSyntax": true, "nonMinSyntax": true, "nonMaxProsody": true, "minProsody": true}',
+				'alignLeftPS-phi-{"maxSyntax": true, "nonMinSyntax": true, "nonMinProsody": true}', 'alignLeftPS-phi-{"maxSyntax": true, "nonMinSyntax": true, "nonMinProsody": true, "maxProsody": true}', 'alignLeftPS-phi-{"maxSyntax": true, "nonMinSyntax": true, "nonMaxProsody": true, "nonMinProsody": true}'];
+			window.addEventListener("load",function(){
+				//reverse order:
+				stree2.children.reverse();
+				stree3.children.reverse();
+				stree4.children.reverse();
+				stree5.children.reverse();
+				stree6.children.reverse();
+				stree7.children.reverse();
+				stree8.children.reverse();
+				stree9.children.reverse();
+				stree10.children.reverse();
+				stree11.children.reverse();
+				stree12.children.reverse();
+				stree17.children.reverse();
+
+
+				writeTableau(makeTableau([[stree1, ptree1], [stree1, ptree2], [stree1, ptree3]], con1));
+				revealNextSegment();
+				writeTableau(makeTableau([[stree2, ptree1], [stree2, ptree2], [stree2, ptree3]], con2));
+				revealNextSegment();
+				writeTableau(makeTableau([[stree3, ptree1], [stree3, ptree2], [stree3, ptree3]], con2));
+				revealNextSegment();
+				writeTableau(makeTableau([[stree4, ptree1], [stree4, ptree2], [stree4, ptree3]], con3));
+				revealNextSegment();
+				writeTableau(makeTableau([[stree5, ptree1], [stree5, ptree2], [stree5, ptree3]], con3));
+				revealNextSegment();
+				writeTableau(makeTableau([[stree6, ptree1], [stree6, ptree2], [stree6, ptree3]], con4));
+				revealNextSegment();
+				writeTableau(makeTableau([[stree7, ptree1], [stree7, ptree2], [stree7, ptree3]], con4));
+				revealNextSegment();
+				writeTableau(makeTableau([[stree8, ptree1], [stree8, ptree2], [stree8, ptree3]], con5));
+				revealNextSegment();
+				writeTableau(makeTableau([[stree9, ptree91], [stree9, ptree92], [stree9, ptree93]], con5));
+				revealNextSegment();
+				writeTableau(makeTableau([[stree10, ptree101], [stree10, ptree102], [stree10, ptree103]], con6));
+				revealNextSegment();
+				ptree101.children[1].id = "eleven";
+				ptree102.children[0].children[1].id = "eleven";
+				ptree103.children[0].children[0].children[1].id = "eleven";
+				writeTableau(makeTableau([[stree11, ptree101], [stree11, ptree102], [stree11, ptree103]], con6));
+				revealNextSegment();
+				ptree101.children[1].id = "twelve";
+				ptree102.children[0].children[1].id = "twelve";
+				ptree103.children[0].children[0].children[1].id = "twelve";
+				writeTableau(makeTableau([[stree12, ptree101], [stree12, ptree102], [stree12, ptree103]], con6));
+				revealNextSegment();
+				stree10.children[1].id = "thirteen";
+				ptree101.children[1].id = "thirteen";
+				ptree102.children[0].children[1].id = "thirteen";
+				ptree103.children[0].children[0].children[1].id = "thirteen";
+				writeTableau(makeTableau([[stree10, ptree101], [stree8, ptree102], [stree8, ptree103]], con7));
+				revealNextSegment();
+				stree11.children[0].children[1].id = "fourteen";
+				ptree101.children[1].id = "fourteen";
+				ptree102.children[0].children[1].id = "fourteen";
+				ptree103.children[0].children[0].children[1].id = "fourteen";
+				writeTableau(makeTableau([[stree11, ptree101], [stree11, ptree102], [stree11, ptree103]], con7));
+				revealNextSegment();
+				stree12.children[0].children[1].id = "fifteen";
+				ptree101.children[1].id = "fifteen";
+				ptree102.children[0].children[1].id = "fifteen";
+				ptree103.children[0].children[0].children[1].id = "fifteen";
+				writeTableau(makeTableau([[stree12, ptree101], [stree12, ptree102], [stree12, ptree153]], con7));
+				revealNextSegment();
+				stree10.children[1].id = "sixteen";
+				ptree101.children[1].id = "sixteen";
+				ptree102.children[0].children[1].id = "sixteen";
+				ptree103.children[0].children[0].children[1].id = "sixteen";
+				writeTableau(makeTableau([[stree10, ptree101], [stree10, ptree102], [stree10, ptree103]], con9));
+				revealNextSegment();
+				ptree101.children[1].id = "seventeen";
+				ptree102.children[0].children[1].id = "seventeen";
+				ptree103.children[0].children[0].children[1].id = "seventeen";
+				writeTableau(makeTableau([[stree17, ptree101], [stree17, ptree102], [stree17, ptree103]], con9));
+				revealNextSegment();
+				stree12.children[0].children[1].id = "eighteen";
+				ptree101.children[1].id = "eighteen";
+				ptree102.children[0].children[1].id = "eighteen";
+				ptree103.children[0].children[0].children[1].id = "eighteen";
+				writeTableau(makeTableau([[stree12, ptree101], [stree12, ptree102], [stree12, ptree153]], con9));
+				revealNextSegment();
+				stree17.children[1].children[1].id = "nineteen";
+				ptree101.children[1].id = "nineteen";
+				ptree102.children[0].children[1].id = "nineteen";
+				ptree103.children[0].children[0].children[1].id = "nineteen";
+				writeTableau(makeTableau([[stree17, ptree101], [stree17, ptree102], [stree17, ptree103]], con8));
+				revealNextSegment();
+				stree17.cat = "cp";
+				stree17.children[1].children[1].id = "twenty";
+				ptree101.children[1].id = "twenty";
+				ptree102.children[0].children[1].id = "twenty";
+				ptree103.children[0].children[0].children[1].id = "twenty";
+				writeTableau(makeTableau([[stree17, ptree101], [stree17, ptree102], [stree17, ptree103]], con8));
+				revealNextSegment();
+				stree7.children[0].children[1].id = "twentyone";
+				ptree101.children[1].id = "twentyone";
+				ptree102.children[0].children[1].id = "twentyone";
+				ptree103.children[0].children[0].children[1].id = "twentyone";
+				writeTableau(makeTableau([[stree7, ptree101], [stree7, ptree102], [stree7, ptree103]], con8));
+				revealNextSegment();
+			});
+		</script>
+	</body>
+</html>

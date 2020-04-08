@@ -38,7 +38,14 @@ function alignSP(sTree, pTree, sCat, d, options){
 	var getEdge = (d==="left") ? getLeftEdge : getRightEdge;
 	var vCount = 0;
 	walkTree(sTree, function(sNode){
-		if(sNode.cat !== sCat)	 // only go further if sNode has the category we're interested in
+		markMinMax(sNode);
+		if(sNode.cat !== sCat
+		&& !(options.requireLexical && sNode.func)
+		&& !(options.requireOvertHead && sNode.silentHead)
+		&& !(options.maxSyntax && !sNode.isMax)
+		&& !(options.minSyntax && !isMinimal(sNode))
+		&& !(options.nonMaxSyntax && sNode.isMax)
+		&& !(options.nonMinSyntax && isMinimal(sNode)))	 // only go further if sNode has the category we're interested in
 			return;
 		var sEdge = getEdge(sNode);
 		if(!sEdge)
@@ -46,7 +53,12 @@ function alignSP(sTree, pTree, sCat, d, options){
 								// then look for a p-node that matches sNode itself. TODO is this a good idea?
 		var noMatch = true;
 		walkTree(pTree, function(pNode){
-			if(!catsMatch(sCat, pNode.cat))
+			markMinMax(pNode);
+			if(!catsMatch(sCat, pNode.cat)
+			&& !(options.maxProsody && !pNode.isMax)
+			&& !(options.minProsody && !isMinimal(pNode))
+			&& !(options.nonMaxProsody && pNode.isMax)
+			&& !(options.nonMinProsody && isMinimal(pNode)))
 				return;
 			var pEdge = getEdge(pNode);
 			if(!pEdge)
@@ -55,23 +67,10 @@ function alignSP(sTree, pTree, sCat, d, options){
 				noMatch = false;
 				return false;
 			}
+			if(noMatch){
+					vCount++;
+			}
 		});
-		markMinMax(sNode);
-		markMinMax(pNode);
-		if(noMatch
-			&& !(options.requireLexical && sNode.func)
-			&& !(options.requireOvertHead && sNode.silentHead)
-			&& !(options.maxSyntax && !sNode.isMax)
-			&& !(options.minSyntax && !isMinimal(sNode))
-			&& !(options.nonMaxSyntax && sNode.isMax)
-			&& !(options.nonMinSyntax && isMinimal(sNode))
-			&& !(options.maxProsody && !pNode.isMax)
-			&& !(options.minProsody && !isMinimal(pNode))
-			&& !(options.nonMaxProsody && pNode.isMax)
-			&& !(options.nonMinProsody && isMinimal(pNode))){
-
-				vCount++;
-		}
 	});
 	return vCount;
 }
@@ -101,12 +100,14 @@ function alignPS(sTree, pTree, cat, d, options){
 	return alignSP(pTree, sTree, cat, d, flippedOptions);
 }
 
-function alignLeftPS(sTree, pTree, cat){
-	return alignPS(sTree, pTree, cat, 'left');
+function alignLeftPS(sTree, pTree, cat, options){
+	options = options || {};
+	return alignPS(sTree, pTree, cat, 'left', options);
 }
 
-function alignRightPS(sTree, pTree, cat){
-	return alignPS(sTree, pTree, cat, 'right');
+function alignRightPS(sTree, pTree, cat, options){
+	options = options || {};
+	return alignPS(sTree, pTree, cat, 'right', options);
 }
 function alignCustom(sTree, pTree, cat, options){
 	options = options || {};
