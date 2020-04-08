@@ -1,9 +1,9 @@
 /* Function that calls GEN from candidategenerator.js to generate syntactic input trees
 *  rather than output prosodic trees.
 *  By default, this creates unary and binary-branching strees rooted in xp, with all terminals mapped to x0.
-*  Intermediate levels are xps, and structures of the form [x0 x0] are excluded as being
+*  Intermediate levels are xps, and structures of the form [x0 x0] are excluded as being 
 *  syntactically ill-formed, since they only arise from head movement.
-*
+*  
 *  Options:
 *  - rootCategory: default = 'xp'
 *  - recursiveCategory: default = 'xp'
@@ -59,9 +59,6 @@ function sTreeGEN(terminalString, options)
         [side, strict] = options.headSide.split('-');
         sTreeList = sTreeList.filter(x => !headsOnWrongSide(x, side, strict));
     }
-    if(options.noMirrorImages){
-      sTreeList = sTreeList.filter(x => !mirrorImages(x, sTreeList));
-    }
 
     return sTreeList;
 }
@@ -96,7 +93,7 @@ function addCliticXP(sTree, side="right", inside){
         else{
             throw new Error("addCliticXP(): The provided side ", side," is not valid. Side must be specified as 'left' or 'right'.")
         }
-
+        
     }
     tp = {id: 'root', cat: 'xp', children: sisters};
     return tp;
