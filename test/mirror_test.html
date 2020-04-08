@@ -1,0 +1,197 @@
+<html>
+<body>
+<script>
+
+// x = [[a b][c d]]
+var x = {
+        "id": "CP1",
+        "cat": "xp",
+        "children": [
+            {
+                "cat": "xp",
+                "id": "XP_5",
+                "children": [
+                    {
+                        "id": "a",
+                        "cat": "x0"
+                    },
+                    {
+                        "id": "b",
+                        "cat": "x0"
+                    }
+                ]
+            },
+            {
+                "cat": "xp",
+                "id": "XP_6",
+                "children": [
+                    {
+                        "id": "c",
+                        "cat": "x0"
+                    },
+                    {
+                        "id": "d",
+                        "cat": "x0"
+                    }
+                ]
+            }
+        ]
+    }
+
+checkMirror(x, {});
+// false
+mirrorImages(x, [x]);
+// false
+
+//y = [[[a] b] [c [d]]]
+var y =     {
+        "id": "CP1",
+        "cat": "xp",
+        "children": [
+            {
+                "cat": "xp",
+                "id": "XP_5",
+                "children": [
+                    {
+                        "cat": "xp",
+                        "id": "XP_7",
+                        "children": [
+                            {
+                                "id": "a",
+                                "cat": "x0"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "b",
+                        "cat": "x0"
+                    }
+                ]
+            },
+            {
+                "cat": "xp",
+                "id": "XP_6",
+                "children": [
+                    {
+                        "id": "c",
+                        "cat": "x0"
+                    },
+                    {
+                        "cat": "xp",
+                        "id": "XP_8",
+                        "children": [
+                            {
+                                "id": "d",
+                                "cat": "x0"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+>
+mirrorImages(x, [y, x]);
+//false
+
+//z = [ [[a] b] [c d] ]
+var z =
+    {
+        "id": "CP1",
+        "cat": "xp",
+        "children": [
+            {
+                "cat": "xp",
+                "id": "XP_5",
+                "children": [
+                    {
+                        "cat": "xp",
+                        "id": "XP_7",
+                        "children": [
+                            {
+                                "id": "a",
+                                "cat": "x0"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "b",
+                        "cat": "x0"
+                    }
+                ]
+            },
+            {
+                "cat": "xp",
+                "id": "XP_6",
+                "children": [
+                    {
+                        "id": "c",
+                        "cat": "x0"
+                    },
+                    {
+                        "id": "d",
+                        "cat": "x0"
+                    }
+                ]
+            }
+        ]
+    }
+>
+//z2 = [ [a b] [c [d]] ] - should be a mirror of z
+var z2 = 
+    {
+        "id": "CP1",
+        "cat": "xp",
+        "children": [
+            {
+                "cat": "xp",
+                "id": "XP_5",
+                "children": [
+                    {
+                        "id": "a",
+                        "cat": "x0"
+                    },
+                    {
+                        "id": "b",
+                        "cat": "x0"
+                    }
+                ]
+            },
+            {
+                "cat": "xp",
+                "id": "XP_6",
+                "children": [
+                    {
+                        "id": "c",
+                        "cat": "x0"
+                    },
+                    {
+                        "cat": "xp",
+                        "id": "XP_9",
+                        "children": [
+                            {
+                                "id": "d",
+                                "cat": "x0"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+
+
+checkMirror(z, z2);
+//true //correct
+mirrorImages(z2, [x,y, z, z2]);
+//true //correct: z2 is a mirror of z
+mirrorImages(z, [x,y, z, z2]);
+//true //incorrect! z should not be a mirror of any preceding tree in the list (x or y)
+checkMirror(z, x);
+//true - incorrect!!!
+checkMirror(y, x);
+//false - correct
+</script>
+
+</body>
+</html>

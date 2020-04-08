@@ -71,7 +71,7 @@ function mirrorImages(sTree, sTreeList) {
 	var index = sTreeList.indexOf(sTree);
 	var reverseTree = JSON.parse(JSON.stringify(sTree));
 	for(var i = 0; i < index; i++) {
-		var currTree = sTreeList[i];
+        var currTree = sTreeList[i];
 		var isMirror = checkMirror(currTree, reverseTree);
 		if(isMirror) {
 			mirrorImageExists = true;
