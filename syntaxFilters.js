@@ -69,10 +69,10 @@ function headsOnWrongSide(sTree, side, strict){
 function mirrorImages(sTree, sTreeList) {
 	var mirrorImageExists = false;
 	var index = sTreeList.indexOf(sTree);
-	var reverseTree = sTree;//JSON.parse(JSON.stringify(sTree));
+	//var reverseTree = JSON.parse(JSON.stringify(sTree));
 	for(var i = 0; i < index; i++) {
 		var currTree = sTreeList[i];
-		if(checkMirror(currTree, reverseTree)) {
+		if(checkMirror(currTree, sTree)) {
 			mirrorImageExists = true;
 			return mirrorImageExists;
 		}
