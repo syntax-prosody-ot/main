@@ -64,29 +64,24 @@ function headsOnWrongSide(sTree, side, strict){
 
 }
 
-var isMirror = true;
-// returns true if tree is a mirror of an eariler tree in list
-// returns false if tree is not a mirror image of an earlier tree in list
+// returns true if sTree is a mirror of an earlier tree in sTreeList
+// returns false if sTree is not a mirror image of an earlier tree in sTreeList
 function mirrorImages(sTree, sTreeList) {
-	isMirror = true;
 	var mirrorImageExists = false;
 	var index = sTreeList.indexOf(sTree);
-	var reverseTree = JSON.parse(JSON.stringify(sTree));
+	var reverseTree = sTree;//JSON.parse(JSON.stringify(sTree));
 	for(var i = 0; i < index; i++) {
 		var currTree = sTreeList[i];
-		var check = checkMirror(currTree, reverseTree);
-		if(isMirror && check) {
+		if(checkMirror(currTree, reverseTree)) {
 			mirrorImageExists = true;
 			return mirrorImageExists;
 		}
-		isMirror = true;
 	}
 	return mirrorImageExists;
 }
 
 // check for if trees are mirror images of eachother
 function checkMirror(sTree, rTree) {
-	var equal = true;
 	if(sTree.children && sTree.children.length){
 			if(rTree.children === undefined || sTree.children.length !== rTree.children.length) {
 				return false;
@@ -94,15 +89,18 @@ function checkMirror(sTree, rTree) {
 			for(var i=0; i<sTree.children.length; i++){
 					var sChild = sTree.children[i];
 					var rChild = rTree.children[sTree.children.length-i-1];
-					if (sChild.cat === rChild.cat) {
-						equal = true;
-					}
-					else {
-						isMirror = false;
+					if (sChild.cat !== rChild.cat) {
 						return false;
 					}
-					equal = checkMirror(sChild, rChild);
+					if(!checkMirror(sChild, rChild)){
+                        return false;
+                        //quit early if checkMirror evaluates to false for any child.
+                    }
 			}
-	}
-	return equal;
+    }
+    //if sTree has no children but rTree does
+    else if(rTree.children && rTree.children.length > 0){
+        return false;
+    }
+	return true;
 }
