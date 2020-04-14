@@ -64,19 +64,22 @@ function headsOnWrongSide(sTree, side, strict){
 
 }
 
+var isMirror = true;
 // returns true if tree is a mirror of an eariler tree in list
 // returns false if tree is not a mirror image of an earlier tree in list
 function mirrorImages(sTree, sTreeList) {
+	isMirror = true;
 	var mirrorImageExists = false;
 	var index = sTreeList.indexOf(sTree);
 	var reverseTree = JSON.parse(JSON.stringify(sTree));
 	for(var i = 0; i < index; i++) {
-        var currTree = sTreeList[i];
-		var isMirror = checkMirror(currTree, reverseTree);
-		if(isMirror) {
+		var currTree = sTreeList[i];
+		var check = checkMirror(currTree, reverseTree);
+		if(isMirror && check) {
 			mirrorImageExists = true;
 			return mirrorImageExists;
 		}
+		isMirror = true;
 	}
 	return mirrorImageExists;
 }
@@ -95,6 +98,7 @@ function checkMirror(sTree, rTree) {
 						equal = true;
 					}
 					else {
+						isMirror = false;
 						return false;
 					}
 					equal = checkMirror(sChild, rChild);

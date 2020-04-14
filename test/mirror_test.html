@@ -42,8 +42,13 @@ var x = {
 console.log("x = ", parenthesizeTree(x));
 console.log("checkMirror(x,{}) = ", checkMirror(x, {}));
 // false
+console.log("expected: ", false)
+console.log("\n")
+
 console.log("mirrorImages(x, [x]) = ", mirrorImages(x, [x]));
 // false
+console.log("expected: ", false)
+console.log("\n")
 
 //y = [[[a] b] [c [d]]]
 var y =     {
@@ -95,6 +100,8 @@ var y =     {
 console.log("y = ", parenthesizeTree(y));
 console.log("mirrorImages(x, [y, x]) = ", mirrorImages(x, [y, x]));
 //false
+console.log("expected: ", false)
+console.log("\n")
 
 //z = [ [[a] b] [c d] ]
 var z =
@@ -185,20 +192,50 @@ var z2 = 
 console.log("z2 = ", parenthesizeTree(z2));
 console.log("checkMirror(z, z2) = ", checkMirror(z, z2));
 //true //correct
+console.log("expected: ", true)
+console.log("\n")
+
 console.log("mirrorImages(z2, [x, y, z, z2]) = ", mirrorImages(z2, [x,y, z, z2]));
 //true //correct: z2 is a mirror of z
+console.log("expected: ", true)
+console.log("\n")
+
 console.log("mirrorImages(z, [x, y, z, z2]) = ", mirrorImages(z, [x,y, z, z2]));
 //true //incorrect! z should not be a mirror of any preceding tree in the list (x or y)
+console.log("expected: ", false)
+// console.log("This is a false positive!")
+console.log("\n")
+
+// this is still a false positive with just checkMirror,
+// but is correct when using mirrorImages
 console.log("checkMirror(z, x) = ", checkMirror(z, x));
-console.log("This is a false positive!")
 //true - incorrect!!!
+console.log("expected: ", false)
+// console.log("This is a false positive!")
+console.log("\n")
 
+console.log("checkMirror(x, z) = ", checkMirror(x, z));
+//true - incorrect!!!
+console.log("expected: ", false)
+console.log("\n")
+
+// this is still a false positive with just checkMirror,
+// but is correct when using mirrorImages
 console.log("checkMirror(z2, y) = ", checkMirror(z2, y));
-console.log("This is another false positive!")
 //true - incorrect!!!
+console.log("expected: ", false)
+// console.log("This is a false positive!")
+console.log("\n")
 
-checkMirror(y, x);
+console.log("mirrorImages(z2, [y, z2]) = ", mirrorImages(z2, [y, z2]));
+console.log("expected: ", false)
+console.log("\n")
+
+console.log("checkMirror(y, x) = ", checkMirror(y, x));
 //false - correct
+console.log("expected: ", false)
+console.log("\n")
+
 </script>
 
 </body>
