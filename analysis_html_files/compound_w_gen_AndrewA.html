@@ -69,9 +69,7 @@
         myTrees.push(currTrees);
     }
 
-
-    var sTreeList = myTrees.flat();
-
+    sTreeList = myTrees.flat();
     console.log("Number of sTrees: ", sTreeList.length);
     for(var i in sTreeList){
         console.log(parenthesizeTree(sTreeList[i]));
@@ -87,7 +85,6 @@
     var conNames = ['con1'];
 	
 	//Candidate sets are generated with the options below.
-
 	var output_gen_options = {rootCategory: 'phi', recursiveCategory: 'phi-w', terminalCategory: 'w'};
 	
 	
@@ -98,7 +95,7 @@
         var csvSegs = [];	//List to accumulate tableaux in
 
         var candSets = [];
-        for(var s=0; s<5; s++){
+        for(var s in sTreeList){
             var sTree = sTreeList[s];
             var cs = GEN(sTree, '', output_gen_options);
             //TODO: add the missing (a [.w b c]), ([.w a [.w b c]])
