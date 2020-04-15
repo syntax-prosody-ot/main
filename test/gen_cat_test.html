@@ -63,7 +63,7 @@
             //Make the candidate set using the GEN function (defined in candidategenerator.js)
             //Leave the 2nd argument as an empty string to scrape words from the terminals of the syntactic tree.
             var output_gen_options = output_gen_opt_list[j];
-            var candSet = GEN({}, 'a b', output_gen_options);
+            var candSet = GEN({}, 'a b c', output_gen_options);
             
 			//Make the tableau using the makeTableau function (defined in tableauMaker.js)
             var tabl = makeTableau(candSet, window[consName], {showTones: output_gen_options.addTones, parens: myCategoryBrackets});
