@@ -32,8 +32,41 @@
 <script>
 	// ---- Variables that need to be customized ----
 	
-	/*sTreeList is an array of variable names of syntactic trees, either from your tree file (trees/YOUR_TREES_HERE.js) or defined in this document.*/
-	var sTreeList = [sTree1, sTree2];
+	// 	Options for auto-generating input syntactic trees 
+	// 	see sTreeGEN() in inputCandidateGenerator.js):
+	//   - rootCategory: default = 'xp'
+	//   - recursiveCategory: default = 'xp'
+	//   - terminalCategory: default = 'x0'
+	//   - noAdjacentHeads: are x0 sisters allowed? [x0 x0]. Defaults to true.
+	//   - noAdjuncts: are xp sisters allowed? [xp xp]. Defaults to false.
+	//   - maxBranching: determines the maximum number of branches that are tolerated in 
+	//     the resulting syntactic trees. Default = 2
+	//   - addClitics: 'right' or 'left' determines whether clitics are added on the 
+	//     righthand-side or the left; true will default to right. false doesn't add any clitics. 
+	//     Default false.
+	//   - headSide: 'right', 'left', 'right-strict', 'left-strict'. 
+	//     Which side will heads be required to be on, relative to their complements? 
+	//     Also, must heads be at the very edge (strict)?
+
+	/*sTreeList is an array of syntactic trees. There are two options for getting the list of syntactic trees:
+	1. Recommended: Auto-generate a systematic set of syntactic trees using sTreeGEN()
+	2. Manually create and save trees (either in a separate tree file (trees/YOUR_TREES_HERE.js) or in this document), and list their variable names in the array.*/
+
+	//Option 1: Auto generation of trees (Recommended)
+	var sTreeOptions = {rootCategory:'xp', recursiveCategory: 'xp', terminalCategory: 'x0',
+						noAdjacentHeads: true, noAdjuncts: false, 
+						maxBranching: 2, noUnary: false,
+						headSide: 'left', addClitics: false};
+	// Replace 'a b', 'a b c' with the terminal strings you are interested in
+	var terminalStrings = ['a b', 'a b c'];
+	var sTreeLists = Array(length=terminalStrings.length);
+	for(var i in terminalStrings){
+		sTreeLists[i] = sTreeGEN(terminalStrings[i], sTreeOptions);
+	}
+	var sTreeList = sTreeLists.flat();
+
+	//Option 2: Define trees manually
+	//var sTreeList = [sTree1, sTree2];
 	
 	/*Constraint sets are defined below. You can change these or add your own. A constraint set is a list of constraint function names (refer to the files in constraints.js for names) + category arguments (separated from constraint names with -; refer to prosodicHierarchy.js for a list of defined categories).*/
 	var conMatch = ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj-phi'];
