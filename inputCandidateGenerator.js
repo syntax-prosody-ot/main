@@ -29,7 +29,7 @@ function sTreeGEN(terminalString, options)
     options.rootCategory = options.rootCategory || 'xp';
 
     //Run GEN on the provided terminal string
-    var autoSTreePairs = GEN({}, terminalString, options);
+    var autoSTreePairs = goodGEN({}, terminalString, options);
     //Select just the generated trees
     var sTreeList = autoSTreePairs.map(x=>x[1]);
 
