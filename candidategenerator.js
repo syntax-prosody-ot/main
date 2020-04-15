@@ -284,7 +284,6 @@ function wrapInRootCat(candidate, options){
 	}
 
 	if(candidate.length > 2 && options.rootCategory === candidate[0].cat){
-		console.log(candidate, options.rootCategory);
 		return null;
 	}
 	//if we get here, there aren't any relevant exhaustivity violations
