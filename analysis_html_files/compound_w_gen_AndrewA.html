@@ -55,21 +55,22 @@
     //Generate all the possible syntactic trees for these terminal strings.
     var sTreeOptions = {
         rootCategory: 'x0', recursiveCategory: 'x0', 
-        maxBranching: 2, noAdjacentHeads: false,
+        maxBranching: 2, noAdjacentHeads: false, noUnary:true
     };
 
-    var sTreeList = [];
+    var myTrees = [];
     // Something is going wrong here: only getting [[a b] c], not [a [b c]]
     for(var i = 0; i<terminalStrings.length; i++){
         
         var currString = terminalStrings[i];
         console.log(currString);
         var currTrees = sTreeGEN(currString, sTreeOptions);
-        console.log(currTrees);
-        sTreeList.push(currTrees);
+        //console.log(currTrees);
+        myTrees.push(currTrees);
     }
 
-    sTreeList = sTreeList.flat();
+    sTreeList = myTrees.flat();
+    console.log("Number of sTrees: ", sTreeList.length);
     for(var i in sTreeList){
         console.log(parenthesizeTree(sTreeList[i]));
     }

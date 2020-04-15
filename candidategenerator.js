@@ -85,7 +85,7 @@ window.GEN = function(sTree, words, options){
 	if(options.recursiveCategory && options.recursiveCategory.length){
 		var recCats = options.recursiveCategory.split('-');
 		if(recCats.length > 1){
-			console.log(recCats);
+			//console.log(recCats);
 			
 			//Set current recursiveCategory
 			options.recursiveCategory = recCats[options.recursiveCatIndex];
@@ -353,9 +353,9 @@ function gen(leaves, options){
 		//recursion at top level
 		var rightsides = addRecCatWrapped(gen(rightLeaves, options), options);
 		if(pushRecCat(options)){
-			console.log("recursive push on right side", options.recursiveCategory);
+			//console.log("recursive push on right side", options.recursiveCategory);
 			var wRightsides = addRecCatWrapped(gen(rightLeaves, options), options);
-			console.log(wRightsides);
+			//console.log(wRightsides);
 			rightsides.concat(wRightsides);
 			popRecCat(options);
 		}
@@ -395,7 +395,7 @@ function gen(leaves, options){
 				var wLeftside = wrapInRecCat(wLeftsides[k], options);
 				popRecCat(options);
 				if(wLeftside){
-					console.log(i, "wLeftside:", wLeftside);
+					//console.log(i, "wLeftside:", wLeftside);
 					//Combine the all-leaf leftside with all the possible rightsides that aren't empty
 					for(var j = 0; j<rightsides.length; j++){
 						if(rightsides[j].length)
@@ -475,7 +475,7 @@ function gen(leaves, options){
 		var noUnary = options.noUnary;
 		if(options.recursiveCategory===options.terminalCategory){
 			options.noUnary = true;
-			console.log('noUnary set to true', options.recursiveCategory, options.terminalCategory, options.noUnary);
+			//console.log('noUnary set to true', options.recursiveCategory, options.terminalCategory, options.noUnary);
 		}
 		var wCands = gen(leaves, options);
 		//Uncommenting these lines to replace the following ones leads to lots of empty stuff in the output
@@ -515,8 +515,8 @@ function wrapInRecCat(candidate, options){
 
 	// Don't wrap anything in a recursive category that is already wrapped in one
 	if (candidate.length < 2 && candidate[0] && candidate[0].cat === options.recursiveCategory){
-		console.log("wrapInRecCat", options.recursiveCategory, candidate);
-		console.log("Not wrapping ", candidate);
+		//("wrapInRecCat", options.recursiveCategory, candidate);
+		//console.log("Not wrapping ", candidate);
 		return null;
 	}
 
