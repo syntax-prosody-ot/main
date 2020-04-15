@@ -59,11 +59,11 @@
     };
 
     var myTrees = [];
-    // Something is going wrong here: only getting [[a b] c], not [a [b c]]
+
+    // Something is going wrong here: getting doubles of everything
     for(var i = 0; i<terminalStrings.length; i++){
-        
         var currString = terminalStrings[i];
-        console.log(currString);
+        //console.log(currString);
         var currTrees = sTreeGEN(currString, sTreeOptions);
         //console.log(currTrees);
         myTrees.push(currTrees);
