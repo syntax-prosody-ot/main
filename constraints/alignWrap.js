@@ -36,7 +36,7 @@ function alignSP(sTree, pTree, sCat, d){
 				pEdge = pNode;	//I'm assuming the leaves are words...
 			if(sEdge.id === pEdge.id){
 				noMatch = false;
-				return false;
+				return DONT_WALK_SUBTREES;
 			}
 		});
 		if(noMatch)
