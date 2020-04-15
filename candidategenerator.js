@@ -150,8 +150,9 @@ window.GEN = function(sTree, words, options){
 	 * only one child, which will be of the same category, ie. {i {i (...) (...)}}
 	 */
 	var rootlessCand = gen(leaves, recursiveOptions)
-	if(options.rootCategory !== options.recursiveCategory)
-	 rootlessCand = addRecCatWrapped(gen(leaves, recursiveOptions), options);
+	if(options.rootCategory !== options.recursiveCategory){
+		rootlessCand = addRecCatWrapped(gen(leaves, recursiveOptions), options);
+	}
 
 	var candidates = [];
 	for(var i=0; i<rootlessCand.length; i++){
@@ -160,21 +161,7 @@ window.GEN = function(sTree, words, options){
 			continue;
 		if (options.obeysHeadedness && !obeysHeadedness(pRoot))
 			continue;
-		/* if (options.addTones){
-			try {
-				window[options.addTones](pRoot); //calls the function named in the string
-				//console.log(parenthesizeTree(pRoot, {showTones: options.addTones}));
-			}
-			catch(err){
-				if (typeof(options.addTones) == "boolean"){
-					addJapaneseTones(pRoot); //backwards compatibility
-					console.log("The addTones option has been updated. It now takes the name of a function as its value. Next time, try {addTones: 'addJapaneseTones'}");
-				}
-				else{
-					throw new Error("Something isn't right with the addTones option. The value of addTones must be a string with the name of a tone function, no parentheses, eg. {addTones: 'addJapaneseTones'}. You used: "+options.addTones);
-				}
-			}
-		} */
+		
 		candidates.push([sTree, pRoot]);
 	}
 	return candidates;
@@ -224,7 +211,6 @@ function obeysHeadedness(tree){
 function obeysExhaustivity(cat, children) {
 	for (var i = 0; i < children.length; i++)
 		if (cat !== children[i].cat && pCat.nextLower(cat) !== children[i].cat){
-			//console.log('violates Exhaustivity:',cat, 'next lower cat:',pCat.nextLower(cat), '; actual child cat:', children[i].cat);
 			return false;
 		}
 	return true;
@@ -238,6 +224,11 @@ function wrapInRootCat(candidate, options){
 		else if (options.obeysExhaustivity instanceof Array && options.obeysExhaustivity.indexOf(options.rootCategory)>=0 && !obeysExhaustivity(options.rootCategory, candidate)){
 			return null;
 		}
+	}
+
+	if(candidate.length > 2 && options.rootCategory === candidate[0].cat){
+		console.log(candidate, options.rootCategory);
+		return null;
 	}
 	//if we get here, there aren't any relevant exhaustivity violations
 	return {id: 'root', cat: options.rootCategory, children: candidate};
@@ -297,7 +288,8 @@ function gen(leaves, options){
 
 		//Combine the all-leaf leftside with all the possible rightsides that have a phi at their left edge (or are empty)
 		for(var j = 0; j<rightsides.length; j++){
-			if(!rightsides[j].length || rightsides[j][0].cat === options.recursiveCategory)
+			var firstRight = rightsides[j][0];
+			if(!rightsides[j].length || firstRight.children && firstRight.children.length)
 			{
 				var cand = leftside.concat(rightsides[j]);
 				candidates.push(cand);
@@ -316,8 +308,9 @@ function gen(leaves, options){
 			for(var k = 0; k<phiLeftsides.length; k++)
 			{
 				var phiNode = wrapInRecCat(phiLeftsides[k], options);
-				if (!phiNode)
+				if (!phiNode){
 					continue;
+				}
 				var leftside = [phiNode];
 
 				for(var j = 0; j<rightsides.length; j++)
@@ -343,6 +336,10 @@ function wrapInRecCat(candidate, options){
 		for (var i = 0; i < candidate.length; i++)
 			if (candidate[i].cat === options.recursiveCategory)
 				return null;
+
+	if (candidate.length<2 && options.recursiveCategory === candidate[0].cat){
+		return null;
+	}
 	return {id: options.recursiveCategory+(recNum++), cat: options.recursiveCategory, children: candidate};
 }
 
@@ -361,8 +358,10 @@ function addRecCatWrapped(candidates, options){
 				continue;
 			}
 			var phiNode = wrapInRecCat(candidates[i], options);
-			if (phiNode)
-				result.push([phiNode]);
+			if (!phiNode){
+				continue;
+			}
+			result.push([phiNode]);
 		}
 	}
 	return result;
@@ -417,7 +416,7 @@ function GENwithCliticMovement(stree, words, options){
 	// First try to read words and clitic off the tree
 	var leaves = getLeaves(stree);
 	if(leaves.length > 0 && leaves[0].id){
-		console.log(leaves);
+		//console.log(leaves);
 		var leaf = 0;
 		while(clitic === '' && leaf < leaves.length){
 			if(leaves[leaf].cat==="clitic")
@@ -455,7 +454,7 @@ function GENwithCliticMovement(stree, words, options){
 		for(var i in leaves){
 			words[i] = leaves[i].id;
 		}
-		//console.log(words);
+		
 	}
 	var wordOrders = generateWordOrders(words, clitic);
 	var candidateSets = new Array(wordOrders.length);
