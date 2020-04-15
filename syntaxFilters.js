@@ -38,6 +38,23 @@ function ternaryNodes(sTree, maxBr){
     return ternaryNodesFound;
 }
 
+function unaryNodes(sTree, minBr){
+    var unaryNodesFound = false;
+    if(sTree.children && sTree.children.length){
+        if(sTree.children.length < minBr){
+            unaryNodesFound = true;
+            return true;
+        }
+        for(var i=0; i<sTree.children.length; i++){
+            var child = sTree.children[i];
+            unaryNodesFound = unaryNodes(child, minBr);
+            if(unaryNodesFound) break;
+        }
+
+    }
+    return unaryNodesFound;
+}
+
 function headsOnWrongSide(sTree, side, strict){
     var badHeadFound = false;
     if(sTree.children && sTree.children.length > 1){
