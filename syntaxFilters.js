@@ -16,9 +16,9 @@ function x0Sisters(sTree, cat){
             x0SistersFound = x0Sisters(child, cat);
             if(x0SistersFound) break;
         }
-
+        
     }
-    return x0SistersFound;
+    return x0SistersFound;	
 }
 
 function ternaryNodes(sTree, maxBr){
@@ -33,7 +33,7 @@ function ternaryNodes(sTree, maxBr){
             ternaryNodesFound = ternaryNodes(child, maxBr);
             if(ternaryNodesFound) break;
         }
-
+        
     }
     return ternaryNodesFound;
 }
@@ -61,6 +61,7 @@ function headsOnWrongSide(sTree, side, strict){
         }
     }
     return badHeadFound;
+
 
 }
 
@@ -104,3 +105,4 @@ function checkMirror(sTree, rTree) {
     }
 	return true;
 }
+

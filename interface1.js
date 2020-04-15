@@ -256,6 +256,7 @@ function getSTrees() {
 		sTrees = [sTrees];
 	}
 	return sTrees;
+
 }
 
 function danishTrees() {
@@ -393,29 +394,15 @@ window.addEventListener('load', function(){
 			}
 		}
 
-		// Get the automatically generated syntactic trees
-		if(document.getElementById('inputOptions').style.display == 'block') {
-			var sTrees;
-			try{
-				sTrees = getAutoSTreeList();
-			}
-			catch(e){
-				console.error(e);
-				alert(e.message);
-				return;
-			}
+		//Get the input syntactic tree.
+		var sTrees;
+		try{
+			sTrees = getSTrees();
 		}
-		else {
-			// Get the input syntactic tree from tree builder
-			var sTrees;
-			try{
-				sTrees = getSTrees();
-			}
-			catch(e){
-				console.error(e);
-				alert(e.message);
-				return;
-			}
+		catch(e){
+			console.error(e);
+			alert(e.message);
+			return;
 		}
 
 		//Get input to GEN.
@@ -583,6 +570,7 @@ window.addEventListener('load', function(){
 
 	});
 
+
 	/*
 	document.getElementById("japaneseTonesInfo").addEventListener("click", toneInfoBlock("japanese"));
 	document.getElementById("irishTonesInfo").addEventListener("click", toneInfoBlock("irish"));
@@ -594,13 +582,6 @@ window.addEventListener('load', function(){
 	//Open the tree making GUI
 	document.getElementById('goButton').addEventListener('click', function(){
 		document.getElementById('treeUI').style.display = 'block';
-		document.getElementById('goButton').style.backgroundColor = 'white';
-		document.getElementById('goButton').style.borderColor = '#3A5370';
-		if(document.getElementById('inputOptions').style.display == 'block') {
-			document.getElementById('inputOptions').style.display = 'none';
-			document.getElementById('inputButton').style.backgroundColor = '#d0d8e0';
-			document.getElementById('inputButton').style.borderColor = '#d0d8e0';
-		}
 	});
 
 	function refreshHtmlTree(treeIndex) {
@@ -620,7 +601,7 @@ window.addEventListener('load', function(){
 
 
 	//Set up the table...
-	document.getElementById('buildButton').addEventListener('click', function(){
+	document.getElementById('goButton').addEventListener('click', function(){
 		// Get the string of terminals
 		var terminalString = spotForm.inputToGen.value;
 		var terminalList = terminalString.trim().split(/\s+/);
@@ -630,6 +611,7 @@ window.addEventListener('load', function(){
 		showUTree(tree);
 		document.getElementById('doneMessage').style.display = 'none';
 	});
+
 
 	// automatically generate syntax button
 	document.getElementById('inputButton').addEventListener('click', function(){
@@ -784,6 +766,7 @@ window.addEventListener('load', function(){
 		htmlChunks.push('</tbody></table>');
 		return htmlChunks.join('');
 	}
+
 
 
 	// For testing only
