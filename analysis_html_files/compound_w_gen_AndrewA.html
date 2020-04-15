@@ -21,13 +21,7 @@
 <script>
 	// ---- Variables that need to be customized ----
 	
-	// var inputGenOptions = {rootCategory: 'xp', recursiveCategory: 'xp', terminalCategory:'x0', syntactic: true};
-	// var autoSTreePairs = GEN({}, 'a b c', inputGenOptions);
-	// var sTreeList = autoSTreePairs.map(x=>x[1]);
-	// var noX0Sisters = sTreeList.filter(x => !x0Sisters(x, 'x0'));
-	// var binaryBrTrees = sTreeList.filter(x => !ternaryNodes(x, 2));
-	// var maxTTrees = sTreeList.filter(x => !x0Sisters(x, 'x0') && !ternaryNodes(x, 2));
-    var words = ['F', 'FF', 'FFF', 'FFFF'];
+	    var words = ['F', 'FF', 'FFF']; //, 'FFFF'];
     var terminalStrings = [];
 
     //Two word compound strings
@@ -55,17 +49,15 @@
     //Generate all the possible syntactic trees for these terminal strings.
     var sTreeOptions = {
         rootCategory: 'x0', recursiveCategory: 'x0', 
-        maxBranching: 2, noAdjacentHeads: false, minBranching:2
+        maxBranching: 2, minBranching:2, 
+        noAdjacentHeads: false, noMirrorImages:true
     };
 
     var myTrees = [];
 
-    // Something is going wrong here: getting doubles of everything
     for(var i = 0; i<terminalStrings.length; i++){
         var currString = terminalStrings[i];
-        //console.log(currString);
         var currTrees = sTreeGEN(currString, sTreeOptions);
-        //console.log(currTrees);
         myTrees.push(currTrees);
     }
 
@@ -73,9 +65,9 @@
     var sTreeList = myTrees.flat();
 
     console.log("Number of sTrees: ", sTreeList.length);
-    for(var i in sTreeList){
+    /*for(var i in sTreeList){
         console.log(parenthesizeTree(sTreeList[i]));
-    }
+    }*/
 
 
 	/*Constraint sets.*/
@@ -98,12 +90,13 @@
         var csvSegs = [];	//List to accumulate tableaux in
 
         var candSets = [];
-        for(var s=0; s<5; s++){
+        for(var s=0; s<sTreeList.length; s++){
             var sTree = sTreeList[s];
             var cs = GEN(sTree, '', output_gen_options);
             //TODO: add the missing (a [.w b c]), ([.w a [.w b c]])
             var leaves = getLeaves(sTree);
-            if(leaves.length === 3){
+            /* if(leaves.length === 3){
+                console.log('adding missing candidates');
                 var m1 = {id:'root', cat:'phi', children:[
                     {
                         id:leaves[0].id,
@@ -146,7 +139,7 @@
                 ]}]};
                 cs.push([sTree, m1]);
                 cs.push([sTree, m2]);
-            }
+            } */
             candSets.push(cs);
         }
 		for(var i in candSets){
