@@ -69,7 +69,9 @@
         myTrees.push(currTrees);
     }
 
+
     var sTreeList = myTrees.flat();
+
     console.log("Number of sTrees: ", sTreeList.length);
     for(var i in sTreeList){
         console.log(parenthesizeTree(sTreeList[i]));
@@ -85,7 +87,8 @@
     var conNames = ['con1'];
 	
 	//Candidate sets are generated with the options below.
-	var output_gen_options = {rootCategory: 'phi', recursiveCategory: 'w', terminalCategory: 'w'};
+
+	var output_gen_options = {rootCategory: 'phi', recursiveCategory: 'phi-w', terminalCategory: 'w'};
 	
 	
 	// ---- Functions that don't necessarily need to be customized ----
