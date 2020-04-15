@@ -86,6 +86,9 @@ function wrap(sTree, pTree, cat){
 	});
 	return vCount;
 }
+function wrapPS(sTree, pTree, cat){
+	return wrap(pTree, sTree, cat);
+}
 
 // Returns true if a contains b
 // More precisely, if a contains a set of nodes whose ids are identical to the ids of the nodes in b.
