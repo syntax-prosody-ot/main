@@ -12,8 +12,6 @@
 *  - noAdjuncts: are xp sisters allowed? [xp xp]. Defaults to false.
 *  - maxBranching: determines the maximum number of branches that are tolerated in 
 *    the resulting syntactic trees. Default = 2
-*  - minBranching: determines the maximum number of branches that are tolerated in 
-*    the resulting syntactic trees. Default = 2
 *  - addClitics: 'right' or 'left' determines whether clitics are added on the 
 *    righthand-side or the left; true will default to right. false doesn't add any clitics. 
 *    Default false.
@@ -55,9 +53,6 @@ function sTreeGEN(terminalString, options)
     }
     if(options.maxBranching > 0){
         sTreeList = sTreeList.filter(x=>!ternaryNodes(x, options.maxBranching));
-    }
-    if(options.minBranching > 0){
-        sTreeList = sTreeList.filter(x=>!unaryNodes(x, options.minBranching));
     }
     if(options.headSide){
         var side, strict;
