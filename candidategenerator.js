@@ -125,6 +125,7 @@ function gen(leaves, options){
 		
 		//recursion at top level
 		var rightsides = addRecCatWrapped(gen(rightLeaves, options), options);
+		//recursion at lower levels
 		if(pushRecCat(options)){
 			var wRightsides = addRecCatWrapped(gen(rightLeaves, options), options);
 			rightsides.concat(wRightsides);
@@ -134,18 +135,19 @@ function gen(leaves, options){
 		
 
 		//Then create left sides and combine them with the right sides.
-		//Case 1: the first i leaves attach directly to parent (no wrapping in a recursive category)
 
+		//Case 1: the first i leaves attach directly to parent (no wrapping in a recursive category)
 		var leftside = leaves.slice(0,i);
 
-		// for case 1, we don't need to check the left side for nonrecursivity, because it's all leaves
+		// We don't need to check the left side for nonrecursivity, because it's all leaves
 
 		//Combine the all-leaf leftside with all the possible rightsides that have a phi at their left edge (or are empty)
 		for(var j = 0; j<rightsides.length; j++){
-			var firstRight = rightsides[j][0];
-			if(!rightsides[j].length || (firstRight.children && firstRight.children.length) || (firstRight.cat != options.terminalCategory))
+			var currRightside = rightsides[j];
+			var firstRight = currRightside[0];
+			if(!currRightside.length || (firstRight.children && firstRight.children.length) || (firstRight.cat != options.terminalCategory))
 			{
-				cand = leftside.concat(rightsides[j]);
+				cand = leftside.concat(currRightside);
 				candidates.push(cand);
 			}
 		}
@@ -178,7 +180,7 @@ function gen(leaves, options){
 				}
 			}
 
-			//Case 3??
+			//Case 3
 			//Try to build left-sides that are wrapped in the next lower recursive category but aren't wrapped in the current recursive category
 			if(pushRecCat(options)){
 				var wLeftsides = gen(leaves.slice(0,i), options);
@@ -205,17 +207,10 @@ function gen(leaves, options){
 
 	//Now try to use recursion at the next recursive category
 	if (pushRecCat(options)) {
-		/*var noUnary = options.noUnary;
-		if(options.recursiveCategory===options.terminalCategory){
-			options.noUnary = true;
-			//console.log('noUnary set to true', options.recursiveCategory, options.terminalCategory, options.noUnary);
-		}*/
-		var wCands = gen(leaves, options);
-		//Uncommenting these lines to replace the following ones leads to lots of empty stuff in the output
-		/*var wCands2 = addRecCatWrapped(wCands, options);
-		candidates.push(wCands2);
-		*/
 		
+		var wCands = gen(leaves, options);
+				
+		//Add things that are entirely wrapped in [ ]
 		for (var i = 0; i < wCands.length; i++) {
 			cand = wCands[i];
 			var wrappedCand = wrapInRecCat(cand, options);
@@ -223,11 +218,11 @@ function gen(leaves, options){
 			if(wrappedCand)
 				candidates.push([wrappedCand]);
 				// candidates.push(cand);
-		}
+		} 
 		
-		//options.noUnary = noUnary;
 		popRecCat(options);
-	}
+	} 
+
 
 	return candidates;
 }
@@ -246,8 +241,9 @@ function wrapInRecCat(candidate, options){
 				
 
 	// Don't wrap anything in a recursive category that is already wrapped in one
-	if (candidate.length < 2 && candidate[0] && candidate[0].cat === options.recursiveCategory){
-		//("wrapInRecCat", options.recursiveCategory, candidate);
+	if (candidate.length < 2 && (candidate[0] && candidate[0].cat === options.recursiveCategory)){
+		/*if(candidate[0].cat==='phi')
+			console.log("wrapInRecCat", options.recursiveCategory, candidate);*/
 		//console.log("Not wrapping ", candidate);
 		return null;
 	}
@@ -270,10 +266,10 @@ function addRecCatWrapped(candidates, options){
 			}
 			
 			var phiNode = wrapInRecCat(candidates[i], options);
-			if (!phiNode){
-				continue;
+			if (phiNode){
+				result.push([phiNode]);
 			}
-			result.push([phiNode]);
+			
 		}
 	}
 	return result;

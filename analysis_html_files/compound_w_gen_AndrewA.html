@@ -50,7 +50,7 @@
     var sTreeOptions = {
         rootCategory: 'x0', recursiveCategory: 'x0', 
         maxBranching: 2, minBranching:2, 
-        noAdjacentHeads: false, noMirrorImages:true
+        noAdjacentHeads: false, noMirrorImages:false
     };
 
     var myTrees = [];
@@ -65,9 +65,9 @@
     var sTreeList = myTrees.flat();
 
     console.log("Number of sTrees: ", sTreeList.length);
-    /*for(var i in sTreeList){
-        console.log(parenthesizeTree(sTreeList[i]));
-    }*/
+    for(var i in sTreeList){
+        //console.log(parenthesizeTree(sTreeList[i]));
+    }
 
 
 	/*Constraint sets.*/
@@ -80,7 +80,7 @@
 	
 	//Candidate sets are generated with the options below.
 
-	var output_gen_options = {rootCategory: 'phi', recursiveCategory: 'phi-w', terminalCategory: 'w'};
+	var output_gen_options = {rootCategory: 'phi', recursiveCategory: 'phi-w', terminalCategory: 'w', noUnary:false};
 	
 	
 	// ---- Functions that don't necessarily need to be customized ----
