@@ -279,6 +279,36 @@ function addRecCatWrapped(candidates, options){
 	return result;
 }
 
+//Move to the next recursive category, if there is one.
+function pushRecCat(options){
+	var nextIndex = options.recursiveCatIndex + 1;
+	if(nextIndex > options.recursiveCats.length-1){
+		return false;
+	}
+	else{
+		var nextRecCat = options.recursiveCats[nextIndex];
+		options.recursiveCategory = nextRecCat;
+		options.recursiveCatIndex = nextIndex;
+		return true;
+	}
+	 
+}
+
+//Move to the previous recursive category, if there is one.
+function popRecCat(options){
+	var prevIndex = options.recursiveCatIndex - 1;
+	if(prevIndex < 0){
+		return false;
+	}
+	else{
+		var prevRecCat = options.recursiveCats[prevIndex];
+		options.recursiveCategory = prevRecCat;
+		options.recursiveCatIndex = prevIndex;
+		return true;
+	}
+}
+
+
 })();
 
 function containsClitic(x){
