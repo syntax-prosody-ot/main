@@ -93,7 +93,7 @@
         for(var s=0; s<sTreeList.length; s++){
             var sTree = sTreeList[s];
             var cs = GEN(sTree, '', output_gen_options);
-            //TODO: add the missing (a [.w b c]), ([.w a [.w b c]])
+            
             var leaves = getLeaves(sTree);
             /* if(leaves.length === 3){
                 console.log('adding missing candidates');
@@ -142,6 +142,7 @@
             } */
             candSets.push(cs);
         }
+        candSets = [GEN({}, 'a b c', output_gen_options)];
 		for(var i in candSets){
 			//Make the tableau using the makeTableau function (defined in tableauMaker.js)
 			var tabl = makeTableau(candSets[i], window[consName], {showHeads:true});
