@@ -4,8 +4,12 @@
    - obeysHeadedness (boolean)
    - obeysNonrecursivity (boolean)
 	 - rootCategory (string)
-	 - recursiveCategory (string)
+	 - recursiveCategory (string) --> '-' separated list of categories, from highest to lowest (e.g. 'phi-w', not 'w-phi')
+	 	-> saved in recursiveCats (see below) + becomes a string rep of the current recursive category
 	 - terminalCategory (string)
+
+	 - recursiveCatIndex (int): tracks which recursive category we're currently using
+	 - recursiveCats (list of strings): list of recursive categories to use
    - addTones (string). Possible values include:
 	 		- "addJapaneseTones"
 			- "addIrishTones_Elfner"
@@ -17,7 +21,31 @@
 window.GEN = function(sTree, words, options){
 	options = options || {}; // if options is undefined, set it to an empty object (so you can query its properties without crashing things)
 
+	//Point to first recursiveCat
+	options.recursiveCatIndex = 0;
+
+	//Set the relevant category hierarchy (syntactic or prosodic) based on the GEN option syntactic
 	var categoryHierarchy = options.syntactic ? sCat : pCat;
+
+	// Check for multiple recursive categories
+	if(options.recursiveCategory && options.recursiveCategory.length){
+		var recCats = options.recursiveCategory.split('-');
+		if(recCats.length > 1){
+			//console.log(recCats);
+			
+			//Set current recursiveCategory
+			options.recursiveCategory = recCats[options.recursiveCatIndex];
+			//Save list of all categories	
+			options.recursiveCats = recCats;
+		}
+		if(recCats.length > 2){
+			this.alert("You have entered more than 2 recursive categories!")
+		}
+	}
+
+	if(!options.recursiveCats){
+		options.recursiveCats = [options.recursiveCategory];
+	}
 
 	/* First, warn the user if they have specified terminalCategory and/or
 	 * rootCategory without specifying recursiveCategory
