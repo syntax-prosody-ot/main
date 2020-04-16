@@ -362,7 +362,7 @@ function gen(leaves, options){
 		//Combine the all-leaf leftside with all the possible rightsides that have a phi at their left edge (or are empty)
 		for(var j = 0; j<rightsides.length; j++){
 			var firstRight = rightsides[j][0];
-			if(!rightsides[j].length || firstRight.children && firstRight.children.length)
+			if(!rightsides[j].length || (firstRight.children && firstRight.children.length))
 			{
 				cand = leftside.concat(rightsides[j]);
 				candidates.push(cand);
