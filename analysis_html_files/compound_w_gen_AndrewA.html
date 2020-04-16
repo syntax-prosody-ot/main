@@ -145,7 +145,7 @@
         candSets = [GEN({}, 'a b c', output_gen_options)];
 		for(var i in candSets){
 			//Make the tableau using the makeTableau function (defined in tableauMaker.js)
-			var tabl = makeTableau(candSets[i], window[consName], {showHeads:true});
+			var tabl = makeTableau(candSets[i], window[consName], {showHeads:false});
 			writeTableau(tabl);
 			revealNextSegment();
 			lastSegmentId++;
