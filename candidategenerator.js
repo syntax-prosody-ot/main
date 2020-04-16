@@ -49,9 +49,6 @@ function popRecCat(options){
 }
 
 (function() {
-var recNum = 0;
-var terminalNum = 0;
-
 /* Takes a list of words and returns the candidate set of trees (JS objects)
    Options is an object consisting of the parameters of GEN. Its properties can be:
    - obeysExhaustivity (boolean or array of categories at which to require conformity to exhaustivity)
@@ -191,10 +188,18 @@ window.GEN = function(sTree, words, options){
 	}
 
 	var leaves = [];
-	recNum = terminalNum = 0;
+	options.counters = {
+		recNum: 0
+	}
 	for(var i=0; i<words.length; i++){
 		leaves.push(wrapInLeafCat(words[i], options.terminalCategory));
 	}
+
+	return genImpl(sTree, leaves, options);
+
+}
+
+function genImpl(sTree, leaves, options) {
 
 	var recursiveOptions = {};
 	for (var k in options) {
@@ -468,8 +473,7 @@ function wrapInRecCat(candidate, options){
 		//console.log("Not wrapping ", candidate);
 		return null;
 	}
-
-	return {id: options.recursiveCategory+(recNum++), cat: options.recursiveCategory, children: candidate};
+	return {id: options.recursiveCategory+(options.counters.recNum++), cat: options.recursiveCategory, children: candidate};
 }
 
 //Takes a list of candidates and doubles it to root each of them in a phi
