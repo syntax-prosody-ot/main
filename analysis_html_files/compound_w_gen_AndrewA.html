@@ -95,21 +95,85 @@
             var cs = GEN(sTree, '', output_gen_options);
             
             var leaves = getLeaves(sTree);
-            /* if(leaves.length === 3){
+            if(leaves.length === 3){
                 console.log('adding missing candidates');
+                //m1: ((a)(b)(c))
                 var m1 = {id:'root', cat:'phi', children:[
+                    { 
+                        id: 'phi1',
+                        cat: 'phi',
+                        children: [
+                        {
+                            id:leaves[0].id,
+                            cat:'w'
+                        }
+                    ]},
                     {
-                        id:leaves[0].id,
-                        cat:'w'
-                    },
-                    {
-                        id:'intermed',
+                        id:'phi2',
                         cat:'w',
                         children:[
                             {
                                 id:leaves[1].id,
                                 cat:'w'
-                            },
+                            }
+                        ]
+                    },
+                    {
+                        id:'phi3',
+                        cat: 'phi',
+                        children:
+                        [
+                            {
+                                id:leaves[2].id,
+                                cat:'w'
+                            }
+                        ]
+                    }
+                
+                ]};
+                //((a)(b)c)
+                var m2 = {id:'root', cat:'phi', children:[
+                    { 
+                        id: 'phi1',
+                        cat: 'phi',
+                        children: [
+                        {
+                            id:leaves[0].id,
+                            cat:'w'
+                        }
+                    ]},
+                    {
+                        id:'phi2',
+                        cat:'w',
+                        children:[
+                            {
+                                id:leaves[1].id,
+                                cat:'w'
+                            }
+                        ]
+                    },
+                    {
+                        id:leaves[2].id,
+                        cat:'w'
+
+                    }
+                
+                ]};
+                //((a)b(c))
+                var m3 = {id:'root', cat:'phi', children:
+                [ 
+                    {
+                        id:'intermed1', cat:'phi', children:[
+                        {id:leaves[0].id, cat:'w'}]
+                    },
+                    {
+                        id:leaves[1].id,
+                        cat:'w'
+                    },
+                    {
+                        id:'intermed2',
+                        cat:'phi',
+                        children:[
                             {
                                 id:leaves[2].id,
                                 cat:'w'
@@ -117,40 +181,41 @@
                         ]
                     }
                 ]};
-                var m2 = {id:'root', cat:'phi', children:[ {id:'intermed', cat:'w', children:[
+                //((a)b(c))
+                var m4 = {id:'root', cat:'phi', children:
+                [ 
                     {
-                        id:leaves[0].id,
+                        id:'intermed1', cat:'phi', children:[
+                        {id:leaves[0].id, cat:'w'}]
+                    },
+                    {
+                        id:leaves[1].id,
                         cat:'w'
                     },
                     {
-                        id:'intermed',
-                        cat:'w',
-                        children:[
-                            {
-                                id:leaves[1].id,
-                                cat:'w'
-                            },
-                            {
-                                id:leaves[2].id,
-                                cat:'w'
-                            }
-                        ]
+                        id:leaves[2].id,
+                        cat:'w'
                     }
-                ]}]};
+                ]};
                 cs.push([sTree, m1]);
                 cs.push([sTree, m2]);
-            } */
+                cs.push([sTree, m3]);
+                cs.push([sTree, m4])
+            }
             candSets.push(cs);
         }
-        candSets = [GEN({}, 'a b c', output_gen_options)];
-		for(var i in candSets){
+        //the next line is useful for testing only
+        //candSets = [GEN({}, 'a b c', output_gen_options)];
+		for(var i=0; i<candSets.length; i++){
 			//Make the tableau using the makeTableau function (defined in tableauMaker.js)
-			var tabl = makeTableau(candSets[i], window[consName], {showHeads:false});
+			var tabl = makeTableau(candSets[i], window[consName], {showHeads:true});
 			writeTableau(tabl);
 			revealNextSegment();
-			lastSegmentId++;
-		}
+            lastSegmentId++;
 
+            csvSegs.push(tableauToCsv(tabl, '\t', {noHeader: i}));
+		}
+        saveTextAs(csvSegs.join('\n'),"tableau_"+consName+".tsv");
 
     }
 	

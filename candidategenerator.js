@@ -209,7 +209,7 @@ function gen(leaves, options){
 	if (pushRecCat(options)) {
 		
 		var wCands = gen(leaves, options);
-				
+		
 		//Add things that are entirely wrapped in [ ]
 		for (var i = 0; i < wCands.length; i++) {
 			cand = wCands[i];
@@ -217,7 +217,6 @@ function gen(leaves, options){
 			
 			if(wrappedCand)
 				candidates.push([wrappedCand]);
-				// candidates.push(cand);
 		} 
 		
 		popRecCat(options);
@@ -241,9 +240,9 @@ function wrapInRecCat(candidate, options){
 				
 
 	// Don't wrap anything in a recursive category that is already wrapped in one
-	if (candidate.length < 2 && (candidate[0] && candidate[0].cat === options.recursiveCategory)){
-		/*if(candidate[0].cat==='phi')
-			console.log("wrapInRecCat", options.recursiveCategory, candidate);*/
+	if (candidate.length === 1 && (candidate[0] && candidate[0].cat === options.recursiveCategory)){
+		if(candidate[0].cat==='phi')
+			console.log("wrapInRecCat", options.recursiveCategory, candidate);
 		//console.log("Not wrapping ", candidate);
 		return null;
 	}
