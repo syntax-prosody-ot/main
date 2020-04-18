@@ -20,6 +20,7 @@ function alignRight(sTree, pTree, sCat){
 function alignSP(sTree, pTree, sCat, d){
 	var getEdge = (d==="left") ? getLeftEdge : getRightEdge;
 	var vCount = 0;
+	
 	walkTree(sTree, function(sNode){
 		if(sNode.cat !== sCat)	 // only go further if sNode has the category we're interested in
 			return;
@@ -66,6 +67,35 @@ function alignRightPS(sTree, pTree, cat){
 	return alignPS(sTree, pTree, cat, 'right');
 }
 
+function alignFocus(sTree, pTree, cat, d){
+	var getEdge = (d==="left") ? getLeftEdge : getRightEdge;
+	var vCount = 0;
+	walkTree(sTree, function(sNode){
+		if(!sNode.foc)	 // only go further if sNode is a focus node
+			return;
+		var sEdge = getEdge(sNode);
+		if(!sEdge)
+			sEdge = sNode;	// If sNode is a leaf (which it probably shouldn't be but depending on the tree might be),
+								// then look for a p-node that matches sNode itself. TODO is this a good idea?
+		var noMatch = true;
+		walkTree(pTree, function(pNode){
+			//!catsMatch(sCat, pNode.cat)
+			if(pNode.cat === cat)
+				return;
+			var pEdge = getEdge(pNode);
+			if(!pEdge) 
+				pEdge = pNode;	//I'm assuming the leaves are words...
+			if(sEdge.id === pEdge.id){
+				noMatch = false;
+				return false;
+			}
+		});
+		if(noMatch)
+			vCount++;
+	});
+	return vCount;
+
+}
 function wrap(sTree, pTree, cat){
 	var vCount = 0;
 	walkTree(sTree, function(sNode){
