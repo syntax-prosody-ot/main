@@ -14,6 +14,7 @@ function noShift(stree, ptree, cat){
     catch(err) {
       // Display error message in alert if error is thrown
       console.warn(err);
+      alert(err.message);
     }
 
     for(var i in sleaves){
