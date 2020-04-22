@@ -1,26 +1,31 @@
 function noShift(stree, ptree, cat){
     //Get lists of terminals
 
-    var sleaves = getLeaves(stree);
-    var pleaves = getLeaves(ptree);
-    var sorder = new Array(sleaves.length);
-    var porder = new Array(pleaves.length);
+    // var sleaves = getLeaves(stree);
+    // var pleaves = getLeaves(ptree);
+    // var sorder = new Array(sleaves.length);
+    // var porder = new Array(pleaves.length);
+    //
+    // try {
+    //   if(sleaves.length != pleaves.length) {
+    //     throw new Error("NoShift problem: The stree and ptree have different numbers of terminals!");
+    //   }
+    // }
+    // catch(err) {
+    //   // Display error message in alert if error is thrown
+    //   console.warn(err);
+    // }
+    //
+    // for(var i in sleaves){
+    //     sorder[i] = sleaves[i].id;
+    //     porder[i] = pleaves[i].id;
+    // }
 
-    try {
-      if(sleaves.length != pleaves.length) {
-        throw new Error("NoShift problem: The stree and ptree have different numbers of terminals!");
-      }
-    }
-    catch(err) {
-      // Display error message in alert if error is thrown
-      console.warn(err);
-    }
-
-    for(var i in sleaves){
-        sorder[i] = sleaves[i].id;
-        porder[i] = pleaves[i].id;
-    }
     //for the gradient version, we may want to use parenthesize tree for this, but we'll worry about that later.
+
+    // get list of terminals using helper function
+    var sorder = getTerminals(stree);
+    var porder = getTerminals(ptree);
 
     //counter
     var j = 0;
@@ -51,5 +56,28 @@ function noShift(stree, ptree, cat){
         //increment outer counter and check the next word
         j++;
     }
+
     return shiftFound ? 1 : 0;
+}
+
+// gradient noShift as linearity
+// Linearity (McCarthy & Prince 1995 applied to terminal strings)
+// For every pair of terminals (x,y), assign a violation if x precedes y
+// in the terminal string of sTree and y precedes x in the terminal string of pTree.
+function noShiftGradient(stree, ptree, cat) {
+  // get list of terminals
+  var sorder = getTerminals(stree);
+  var porder = getTerminals(ptree);
+
+
+}
+
+// helper function that takes a tree and gives back terminal string
+function getTerminals(tree) {
+  var leaves = getLeaves(tree);
+  var order = new Array(leaves.length);
+  for(var i in leaves){
+      order[i] = leaves[i].id;
+  }
+  return order;
 }
