@@ -19,15 +19,46 @@
 	<script src="../trees/exhaustivityTestTrees.js"></script>	
 	
 	<script>
-	var constraintSetAlign = ['exhaustChild', 'alignLeft-xp', 'alignRight-xp', 'wrap-xp','exhaustParent', 'alignFocus-xp'];
+	var focusTree =
+    {
+        "id": "CP1",
+        "cat": "cp",
+        "children": [
+            {
+                "id": "a",
+                "cat": "x0"
+            },
+            {
+                "cat": "xp",
+                "id": "XP_4",
+                "children": [
+                    {
+                        "id": "b",
+                        "cat": "x0"
+                    },
+                    {
+                        "id": "c",
+                        "cat": "x0",
+                        "foc": true
+                    }
+                ],
+                "foc": true
+            }
+        ]
+    };
+	
+	var constraintSetAlign = ['exhaustChild', 'alignLeft-xp', 'alignRight-xp', 'wrap-xp','exhaustParent'];
 	var candidateSet = [[sTreeAlign1, pTree3words], [sTreeAlign1, pTree4words], [sTreeAlign1, pTree4wordsRec], [sTreeAlign1, pTree4words2xRec]];
 
 
 	var candidateSetMin = [[sTreeAlign1, noExViolation], [sTreeAlign1, oneExViolation], [sTreeAlign1, twoExViolations], [sTreeAlign1, fiveExViolations], [sTreeAlign1, pTree1word], [sTreeAlign1, pTree1wordRec], [sTreeAlign1, pTree1word2xRec], [sTreeAlign1, pTree2words]];
+
+	var constraintSetFocus = ['alignFocus-phi', 'alignFocus-w'];
+	var candidateSetFocus = GEN(focusTree, '');
 		
 	function runDemo() {
 		
-		writeTableau(makeTableau(candidateSetMin, constraintSetAlign));
+		writeTableau(makeTableau(candidateSetFocus, constraintSetFocus));
 		revealNextSegment();
 		lastSegmentId++;
 	}
