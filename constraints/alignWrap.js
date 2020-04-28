@@ -80,7 +80,7 @@ function alignFocus(sTree, pTree, cat, d){
 		var noMatch = true;
 		walkTree(pTree, function(pNode){
 			//!catsMatch(sCat, pNode.cat)
-			if(pNode.cat === cat)
+			if(pNode.cat !== cat)
 				return;
 			var pEdge = getEdge(pNode);
 			if(!pEdge) 
@@ -95,6 +95,12 @@ function alignFocus(sTree, pTree, cat, d){
 	});
 	return vCount;
 
+}
+function alignFocLeft(sTree, pTree, cat){
+	return alignFocus(sTree, pTree, cat, 'left');
+}
+function alignFocRight(sTree, pTree, cat){
+	return alignFocus(sTree, pTree, cat, 'right');
 }
 function wrap(sTree, pTree, cat){
 	var vCount = 0;
