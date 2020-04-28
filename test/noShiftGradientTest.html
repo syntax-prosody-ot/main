@@ -13,46 +13,33 @@
       var vcount = 0;
       var length = sorder.length;
 
-      // initialize sorder nxn table of precedence relations
+      // initialize nxn tables of precedence relations as false
       var sRel = new Array(length);
-      for (var i = 0; i < length; i++) {
-        sRel[i] = new Array(length);
-        for (var j = 0; j < length; j++) {
-          sRel[i][j] = false;
-        }
-      }
-
-      // intialize porder nxn table of precedence relations
       var pRel = new Array(length);
       for (var i = 0; i < length; i++) {
+        sRel[i] = new Array(length);
         pRel[i] = new Array(length);
         for (var j = 0; j < length; j++) {
+          sRel[i][j] = false;
           pRel[i][j] = false;
         }
       }
 
-      // fill in relations in sorder table
+      // fill in true precedence relations in tables
       for (i = 0; i < length - 1; i++) {
-        var x = sorder[i];
-        var y = sorder.slice(i + 1, length);
-        for (j = 0; j < y.length; j++) {
-          sRel[i][sorder.indexOf(y[j])] = true;
-        }
-      }
-
-      // fill in relations in porder table
-      for (i = 0; i < length - 1; i++) {
-        var x = porder[i];
-        var y = porder.slice(i + 1, length);
-        for (j = 0; j < y.length; j++) {
-          pRel[sorder.indexOf(x)][sorder.indexOf(y[j])] = true;
+        var sy = sorder.slice(i + 1, length);
+        var px = porder[i];
+        var py = porder.slice(i + 1, length);
+        for (j = 0; j < sy.length; j++) {
+          sRel[i][sorder.indexOf(sy[j])] = true;
+          pRel[sorder.indexOf(px)][sorder.indexOf(py[j])] = true;
         }
       }
 
       // count violations, where precedence relation is true in sorder and false in porder
       for (var i = 0; i < length; i++) {
         for (var j = 0; j < length; j++) {
-          if (sRel[i][j] == true && pRel[i][j] === false) {
+          if (sRel[i][j] == true && pRel[i][j] == false) {
             vcount++;
           }
         }
