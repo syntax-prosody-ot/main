@@ -53,25 +53,25 @@
     var sorder = ["a", "b", "c", "d", "x"];
     var porder = ["a", "b", "c", "d", "x"];
     console.log("a b c d X: ", noShiftGradientTest(sorder, porder))
-    var porder = ["a", "b", "c", "x", "d"];
+    porder = ["a", "b", "c", "x", "d"];
     console.log("a b c X d: ", noShiftGradientTest(sorder, porder))
-    var porder = ["a", "b", "x", "c", "d"];
+    porder = ["a", "b", "x", "c", "d"];
     console.log("a b X c d: ", noShiftGradientTest(sorder, porder))
-    var porder = ["a", "x", "b", "c", "d"];
+    porder = ["a", "x", "b", "c", "d"];
     console.log("a X b c d: ", noShiftGradientTest(sorder, porder))
-    var porder = ["x", "a", "b", "c", "d"];
+    porder = ["x", "a", "b", "c", "d"];
     console.log("X a b c d: ", noShiftGradientTest(sorder, porder))
 
     // example with potential movers x,y
     console.log("a b c d X Y")
-    var sorder = ["a", "b", "c", "d", "x", "y"];
-    var porder = ["x", "a", "b", "c", "d", "y"];
+    sorder = ["a", "b", "c", "d", "x", "y"];
+    porder = ["x", "a", "b", "c", "d", "y"];
     console.log("X a b c d Y: ", noShiftGradientTest(sorder, porder))
-    var porder = ["y", "a", "b", "c", "d", "x"];
+    porder = ["y", "a", "b", "c", "d", "x"];
     console.log("Y a b c d X: ", noShiftGradientTest(sorder, porder))
-    var porder = ["x", "y", "a", "b", "c", "d"];
+    porder = ["x", "y", "a", "b", "c", "d"];
     console.log("X Y a b c d: ", noShiftGradientTest(sorder, porder))
-    var porder = ["y", "x", "a", "b", "c", "d"];
+    porder = ["y", "x", "a", "b", "c", "d"];
     console.log("Y X a b c d: ", noShiftGradientTest(sorder, porder))
 
   </script>
