@@ -52,8 +52,8 @@ function alignSP(sTree, pTree, sCat, d, options){
 			sEdge = sNode;	// If sNode is a leaf (which it probably shouldn't be but depending on the tree might be),
 								// then look for a p-node that matches sNode itself. TODO is this a good idea?
 		var noMatch = true;
+		markMinMax(pTree);
 		walkTree(pTree, function(pNode){
-			markMinMax(pNode);
 			if(!catsMatch(sCat, pNode.cat)
 				|| (options.maxProsody && !pNode.isMax)
 				|| (options.minProsody && !pNode.isMin)
@@ -67,10 +67,11 @@ function alignSP(sTree, pTree, sCat, d, options){
 				noMatch = false;
 				return false;
 			}
-			if(noMatch){
-					vCount++;
-			}
 		});
+		if(noMatch){
+				vCount++;
+		}
+		
 	});
 	return vCount;
 }
