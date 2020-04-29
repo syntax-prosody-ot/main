@@ -8,6 +8,43 @@
 		<script src="../candidategenerator.js"></script>
 	</head>
 	<body>
+		<p>
+			The tableaux in this test file are designed to check that each component
+			of the custom constraint options is working. Within each tablea, every
+			combination of options on the prosody is checked (maxProsody, minProsody,
+			nonMaxProsody, nonMinProsody). The input is intentionall completely
+			different from each candidate so that each candidate will recieve at least
+			 one violation. As such, the number of violations essentially just counts
+			the number of phis that match the prosodic options, for example, alignLeftPS-maxProsody(phi)
+			should count only one violation for each candidate since there is only one
+			maximal phi in each candidate.
+		</p>
+		<p>
+			The proceeding tableaux test (1) that each combination of options is not
+			assigning violations when it shouldn't and (2) testing every combination
+			of syntactic options (maxSyntax, minSyntax, nonMaxSyntax, nonMinSyntax) with
+			every combination of prosodic options (listed above). Since every combination
+			of prosodic option is tested within each tableau, the syntactic options remain
+			constant within each tableau and are varied accross each tableau. For example,
+			the second and third tableaux both test the maxSyntax option and the fourth
+			and fifth tableaux test the nonMaxSyntax option.
+		</p>
+		<p>
+			The tableaux are numbered in the mismatching input, so the first tableau's
+			input is "[one]" and the second tableau's input is "{two [terminal]}" and
+			so on. If a tableaux has any
+			violations at all, each cell should match the violation count recorded in
+			the corresponding cell in the first tableaux, since all of the candidates
+			are essentially the same and the prosodic options are the same for each tableaux.
+			 Otherwise, the constraint is either counting the violations wrong or should
+			not be counting any violations at all.
+		</p>
+		<p>
+			Tableaux which should count violations matching those in tableau 1: 1, 3, 4,
+			7, 8, 10, 11, 14, 15, 16, 18, 20, 21
+			<br>
+			Tableau which should not count any violations at all: 2, 5, 6, 9, 12, 13, 17, 19
+		</p>
 		<pre id="results-container"></pre>
 		<script>
 			var stree1 = {
@@ -205,13 +242,13 @@
 				cat: "xp",
 				children: [
 					{
+						id: "terminal",
+						cat: "x0"
+					},
+					{
 						id: "minimal",
 						cat: "xp",
 						children: [
-							{
-								id: "terminal",
-								cat: "x0"
-							},
 							{
 								id: "eleven",
 								cat: "x0"
@@ -509,13 +546,13 @@
 				stree4.children.reverse();
 				stree5.children.reverse();
 				stree6.children.reverse();
-				stree7.children.reverse();
+				stree7.children[0].children.reverse();
 				stree8.children.reverse();
-				stree9.children.reverse();
+				//stree9.children.reverse();
 				stree10.children.reverse();
-				stree11.children.reverse();
+				//stree11.children.reverse();
 				stree12.children.reverse();
-				stree17.children.reverse();
+				//stree17.children.reverse();
 
 
 				writeTableau(makeTableau([[stree1, ptree1], [stree1, ptree2], [stree1, ptree3]], con1));
@@ -548,13 +585,13 @@
 				ptree103.children[0].children[0].children[1].id = "twelve";
 				writeTableau(makeTableau([[stree12, ptree101], [stree12, ptree102], [stree12, ptree103]], con6));
 				revealNextSegment();
-				stree10.children[1].id = "thirteen";
+				stree10.children[0].id = "thirteen";
 				ptree101.children[1].id = "thirteen";
 				ptree102.children[0].children[1].id = "thirteen";
 				ptree103.children[0].children[0].children[1].id = "thirteen";
 				writeTableau(makeTableau([[stree10, ptree101], [stree8, ptree102], [stree8, ptree103]], con7));
 				revealNextSegment();
-				stree11.children[0].children[1].id = "fourteen";
+				stree11.children[1].children[0].id = "fourteen";
 				ptree101.children[1].id = "fourteen";
 				ptree102.children[0].children[1].id = "fourteen";
 				ptree103.children[0].children[0].children[1].id = "fourteen";
@@ -566,16 +603,17 @@
 				ptree103.children[0].children[0].children[1].id = "fifteen";
 				writeTableau(makeTableau([[stree12, ptree101], [stree12, ptree102], [stree12, ptree153]], con7));
 				revealNextSegment();
-				stree10.children[1].id = "sixteen";
+				stree10.children[0].id = "sixteen";
 				ptree101.children[1].id = "sixteen";
 				ptree102.children[0].children[1].id = "sixteen";
 				ptree103.children[0].children[0].children[1].id = "sixteen";
 				writeTableau(makeTableau([[stree10, ptree101], [stree10, ptree102], [stree10, ptree103]], con9));
 				revealNextSegment();
+				stree11.children[1].children[0].id = "seventeen"
 				ptree101.children[1].id = "seventeen";
 				ptree102.children[0].children[1].id = "seventeen";
 				ptree103.children[0].children[0].children[1].id = "seventeen";
-				writeTableau(makeTableau([[stree17, ptree101], [stree17, ptree102], [stree17, ptree103]], con9));
+				writeTableau(makeTableau([[stree11, ptree101], [stree17, ptree102], [stree17, ptree103]], con9));
 				revealNextSegment();
 				stree12.children[0].children[1].id = "eighteen";
 				ptree101.children[1].id = "eighteen";
@@ -597,6 +635,7 @@
 				writeTableau(makeTableau([[stree17, ptree101], [stree17, ptree102], [stree17, ptree103]], con8));
 				revealNextSegment();
 				stree7.children[0].children[1].id = "twentyone";
+				stree7.children[0].children[0].id = "terminal";
 				ptree101.children[1].id = "twentyone";
 				ptree102.children[0].children[1].id = "twentyone";
 				ptree103.children[0].children[0].children[1].id = "twentyone";
