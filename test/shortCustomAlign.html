@@ -1,0 +1,89 @@
+<!-- Max Tarlov 4/29/20 testing align constraint options -->
+<html>
+	<title>Shorter alignSP Constraints Test</title>
+	<head>
+		<link rel="stylesheet" type="text/css" href="../spot.css">
+		<script src="../build/spot.js"></script>
+		<script src="../build/constraints.js"></script>
+		<script src="../candidategenerator.js"></script>
+	</head>
+	<body>
+		<pre id="results-container"></pre>
+
+		<script>
+			var sTree = {
+				cat: "xp",
+				id: "root",
+				children: [
+					{
+						cat: "x0",
+						id:"terminal"
+					}
+				]
+			}
+
+			var pTree1 = {
+				cat: "phi",
+				id: "root",
+				children: [
+					{
+						cat: "w",
+						id: "terminal"
+					}
+				]
+			}
+
+			var pTree2 = {
+				cat: "phi",
+				id: "root",
+				children: [
+					{
+						cat: "w",
+						id: "other"
+					},
+					{
+						cat: "phi",
+						id: "unique",
+						children: [
+							{
+								cat: "w",
+								id: "terminal"
+							}
+						]
+					}
+				]
+			}
+
+			var pTree3 = {
+				cat: "phi",
+				id: "root",
+				children: [
+					{
+						cat: "w",
+						id: "terminal"
+					},
+					{
+						cat: "phi",
+						id: "unique",
+						children: [
+							{
+								cat: "w",
+								id: "other"
+							}
+						]
+					}
+				]
+			}
+
+
+			//'matchPS-phi-{"maxProsody":true}'
+			var con1 = ['alignLeft-xp', 'alignLeft-xp-{"maxProsody": true}', 'alignLeft-xp-{"minProsody": true}', 'alignLeft-xp-{"nonMaxProsody": true}', 'alignLeft-xp-{"nonMinProsody": true}'];
+			window.addEventListener("load",function(){
+				//throw new Error(matchSP(GEN(sTree, "one two-func (three)")[0][0], GEN(sTree, "one two-func (three)")[0][1], "xp", {maxSyntax:true}));
+				writeTableau(makeTableau([[sTree, pTree1], [sTree, pTree2], [sTree, pTree3]], con1));
+				revealNextSegment();
+			});
+
+		</script>
+	</body>
+</html>
