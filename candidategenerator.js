@@ -1,143 +1,6 @@
-function deduplicateTerminals(terminalList) {
-	//Check for duplicate words
-	var occurrences = {};
-	var dedupedTerminals = [];
-	for(var i=0; i<terminalList.length; i++){
-		var t = terminalList[i];
-		//If this is the first occurrence of t, don't append an index
-		if(!occurrences.hasOwnProperty(t)){
-			dedupedTerminals.push(t);
-			occurrences[t] = 1;
-		}
-		// If we've seen t before, then add an index to it such that the 2nd occurrence of t
-		// becomes t_1.
-		else{
-			dedupedTerminals.push(t+'_'+occurrences[t]);
-			occurrences[t] = occurrences[t] + 1;
-		}
-	}
-	return dedupedTerminals;
-}
-
 (function() {
-var recNum = 0;
-var terminalNum = 0;
 
-/* Takes a list of words and returns the candidate set of trees (JS objects)
-   Options is an object consisting of the parameters of GEN. Its properties can be:
-   - obeysExhaustivity (boolean or array of categories at which to require conformity to exhaustivity)
-   - obeysHeadedness (boolean)
-   - obeysNonrecursivity (boolean)
-	 - rootCategory (string)
-	 - recursiveCategory (string)
-	 - terminalCategory (string)
-   - addTones (string). Possible values include:
-	 		- "addJapaneseTones"
-			- "addIrishTones_Elfner"
-			- "addIrishTones_Kalivoda"
-	- noUnary (boolean): if true, don't create any nodes that immediately dominate only a single terminal.
-	- requireRecWrapper (boolean). Formerly "requirePhiStem"
-	- syntactic (boolean): are we generating syntactic trees?
-*/
-window.GEN = function(sTree, words, options){
-	options = options || {}; // if options is undefined, set it to an empty object (so you can query its properties without crashing things)
-
-	var categoryHierarchy = options.syntactic ? sCat : pCat;
-
-	/* First, warn the user if they have specified terminalCategory and/or
-	 * rootCategory without specifying recursiveCategory
-	 */
-	 if(!options.recursiveCategory && (options.rootCategory || options.terminalCategory)){
-		if(!window.confirm("You have not specified the recursive category for GEN, it will default to 'phi'.\nClick OK if you wish to continue."))
-			throw new Error("GEN was canceled by user.");
-	}
-	/* the prosodic hierarchy should include the categories specified in
-	 * options.rootCategory, options.recursiveCategory and options.terminalCategory
-	 * But if they are not, the default setting code throws unhelpful errors.
-	 * The finally block throws more helpful errors and alert boxes instead
-	 */
-	
-	//a flag for whether the user has included a novel category undefined in categoryHierarchy
-	var novelCategories = false;
-	try{
-		//sets the default of recursiveCategory option to "phi"
-		options.recursiveCategory = options.recursiveCategory || "phi";
-		//sets the default of rootCategory based on recursiveCategory
-		options.rootCategory = options.rootCategory || categoryHierarchy.nextHigher(options.recursiveCategory);
-		//sets the default of terminalCategory based on recursiveCategory
-		options.terminalCategory = options.terminalCategory|| categoryHierarchy.nextLower(options.recursiveCategory);
-	}
-	finally{
-		if(options.rootCategory && categoryHierarchy.indexOf(options.rootCategory)<0){
-			alert("Warning:\n"+options.rootCategory+" is not in SPOT's pre-defined prosodic hierarchy (see pCat and sCat in prosodicHierarch.js)");
-			novelCategories = true;
-			//throw new Error(options.rootCategory+" is not in SPOT's pre-defined prosodic hierarchy (see pCat in prosodicHierarch.js)");
-		}
-		if(categoryHierarchy.indexOf(options.recursiveCategory)<0){
-			alert("Warning:\n"+options.recursiveCategory+" is not in SPOT's pre-defined prosodic hierarchy (see pCat and sCat in prosodicHierarch.js)");
-			novelCategories = true;
-			//throw new Error(options.recursiveCategory+" is not in SPOT's pre-defined prosodic hierarchy (see pCat in prosodicHierarch.js)");
-		}
-		if(options.terminalCategory && categoryHierarchy.indexOf(options.terminalCategory)<0){
-			alert("Warning:\n"+options.terminalCategory+" is not in SPOT's pre-defined prosodic hierarchy (see pCat and sCat in prosodicHierarch.js)");
-			novelCategories = true;
-			//throw new Error(options.terminalCategory+" is not in SPOT's pre-defined prosodic hierarchy (see pCat in prosodicHierarch.js)");
-		}
-	}
-
-	//Warnings for adverse GEN options combinations:
-	if(options.rootCategory === options.recursiveCategory && options.obeysNonrecursivity){
-		console.warn("You have instructed GEN to produce non-recursive trees and to produce trees where the root node and intermediate nodes are of the same category. Some of the trees GEN produces will be recursive.");
-	}
-	if(options.rootCategory === options.terminalCategory && options.obeysNonrecursivity){
-		console.warn("You have instructed GEN to produce non-recursive trees and to produce trees where the root node and terminal nodes are of the same category. All of the trees GEN produces will be recursive.");
-	}
-	if(options.recursiveCategory === options.terminalCategory && options.obeysNonrecursivity){
-		console.warn("You have instructed GEN to produce non-recursive trees and to produce trees where the intermediate nodes and the terminal nodes are of the same category. You will only get one bracketing.");
-	}
-
-	//Perform additional checks of layering if novel categories are involved.
-	if(!novelCategories){
-		if(categoryHierarchy.isHigher(options.recursiveCategory, options.rootCategory) || categoryHierarchy.isHigher(options.terminalCategory, options.recursiveCategory)){
-			console.warn("You have instructed GEN to produce trees that do not obey layering. See pCat and sCat in prosodicHierarchy.js");
-		}
-		else{
-			if(options.recursiveCategory !== categoryHierarchy.nextLower(options.rootCategory) && options.recursiveCategory !== options.rootCategory){
-				console.warn(""+options.recursiveCategory+" is not directly below "+options.rootCategory+" in the prosodic hierarchy. None of the resulting trees will be exhaustive because GEN will not generate any "+categoryHierarchy.nextLower(options.rootCategory)+"s. See pCat and sCat in prosodicHierarchy.js");
-			}
-			if(options.terminalCategory !== categoryHierarchy.nextLower(options.recursiveCategory) && options.terminalCategory !== options.recursiveCategory){
-				console.warn(""+options.terminalCategory+" is not directly below "+options.recursiveCategory+" in the prosodic hierarchy. None of the resulting trees will be exhaustive because GEN will not generate any "+categoryHierarchy.nextLower(options.recursiveCategory)+"s. See pCat and sCat in prosodicHierarchy.js");
-			}
-		}
-	}
-
-	if(typeof words === "string") { // words can be a space-separated string of words or an array of words; if string, split up into an array
-		if (!words) { // if empty, scrape words from sTree
-			words = getLeaves(sTree);
-			for (var i = 0; i < words.length; i++) {
-				var catSuffix = '';
-				if (words[i].cat == 'clitic'){
-					catSuffix = '-clitic';
-				}
-				var accentSuffix = '';
-				if(words[i].accent){
-					accentSuffix = '-'+words[i].accent;
-				}
-				words[i] = words[i].id+catSuffix+accentSuffix;
-			}
-		} else {
-			words = words.split(' ');
-			words = deduplicateTerminals(words);
-		}
-	} else {
-		words = deduplicateTerminals(words);
-	}
-
-	var leaves = [];
-	recNum = terminalNum = 0;
-	for(var i=0; i<words.length; i++){
-		leaves.push(wrapInLeafCat(words[i], options.terminalCategory));
-	}
+window.GEN_impl = function(sTree, leaves, options) {
 
 	var recursiveOptions = {};
 	for (var k in options) {
@@ -150,8 +13,9 @@ window.GEN = function(sTree, words, options){
 	 * only one child, which will be of the same category, ie. {i {i (...) (...)}}
 	 */
 	var rootlessCand = gen(leaves, recursiveOptions)
-	if(options.rootCategory !== options.recursiveCategory)
-	 rootlessCand = addRecCatWrapped(gen(leaves, recursiveOptions), options);
+	if(options.rootCategory !== options.recursiveCategory){
+		rootlessCand = addRecCatWrapped(gen(leaves, recursiveOptions), options);
+	}
 
 	var candidates = [];
 	for(var i=0; i<rootlessCand.length; i++){
@@ -160,21 +24,7 @@ window.GEN = function(sTree, words, options){
 			continue;
 		if (options.obeysHeadedness && !obeysHeadedness(pRoot))
 			continue;
-		/* if (options.addTones){
-			try {
-				window[options.addTones](pRoot); //calls the function named in the string
-				//console.log(parenthesizeTree(pRoot, {showTones: options.addTones}));
-			}
-			catch(err){
-				if (typeof(options.addTones) == "boolean"){
-					addJapaneseTones(pRoot); //backwards compatibility
-					console.log("The addTones option has been updated. It now takes the name of a function as its value. Next time, try {addTones: 'addJapaneseTones'}");
-				}
-				else{
-					throw new Error("Something isn't right with the addTones option. The value of addTones must be a string with the name of a tone function, no parentheses, eg. {addTones: 'addJapaneseTones'}. You used: "+options.addTones);
-				}
-			}
-		} */
+		
 		candidates.push([sTree, pRoot]);
 	}
 	return candidates;
@@ -224,7 +74,6 @@ function obeysHeadedness(tree){
 function obeysExhaustivity(cat, children) {
 	for (var i = 0; i < children.length; i++)
 		if (cat !== children[i].cat && pCat.nextLower(cat) !== children[i].cat){
-			//console.log('violates Exhaustivity:',cat, 'next lower cat:',pCat.nextLower(cat), '; actual child cat:', children[i].cat);
 			return false;
 		}
 	return true;
@@ -239,31 +88,13 @@ function wrapInRootCat(candidate, options){
 			return null;
 		}
 	}
+
+	if(candidate.length > 2 && options.rootCategory === candidate[0].cat){
+		console.log(candidate, options.rootCategory);
+		return null;
+	}
 	//if we get here, there aren't any relevant exhaustivity violations
 	return {id: 'root', cat: options.rootCategory, children: candidate};
-}
-
-function wrapInLeafCat(word, cat){
-	var myCat = cat || 'w';
-	var wordId = word;
-	var isClitic = word.indexOf('-clitic')>=0;
-	if (isClitic){
-		myCat = 'syll';
-		wordId = wordId.split('-clitic')[0];
-	}
-	var wordObj = {cat: myCat};
-	var accented = word.indexOf('-accented') >= 0;
-	var	unaccented = word.indexOf('-unaccented') >= 0;
-	if(accented){
-		wordObj.accent = 'a';
-		wordId = wordId.split('-accented')[0];
-	}
-	else if(unaccented){
-		wordObj.accent = 'u';
-		wordId = wordId.split('-unaccented')[0];
-	}
-	wordObj.id = wordId;
-	return wordObj;
 }
 
 /*Conceptually, returns all possible parenthesizations of leaves that don't
@@ -297,7 +128,8 @@ function gen(leaves, options){
 
 		//Combine the all-leaf leftside with all the possible rightsides that have a phi at their left edge (or are empty)
 		for(var j = 0; j<rightsides.length; j++){
-			if(!rightsides[j].length || rightsides[j][0].cat === options.recursiveCategory)
+			var firstRight = rightsides[j][0];
+			if(!rightsides[j].length || firstRight.children && firstRight.children.length)
 			{
 				var cand = leftside.concat(rightsides[j]);
 				candidates.push(cand);
@@ -316,8 +148,9 @@ function gen(leaves, options){
 			for(var k = 0; k<phiLeftsides.length; k++)
 			{
 				var phiNode = wrapInRecCat(phiLeftsides[k], options);
-				if (!phiNode)
+				if (!phiNode){
 					continue;
+				}
 				var leftside = [phiNode];
 
 				for(var j = 0; j<rightsides.length; j++)
@@ -343,7 +176,11 @@ function wrapInRecCat(candidate, options){
 		for (var i = 0; i < candidate.length; i++)
 			if (candidate[i].cat === options.recursiveCategory)
 				return null;
-	return {id: options.recursiveCategory+(recNum++), cat: options.recursiveCategory, children: candidate};
+
+	if (candidate.length<2 && options.recursiveCategory === candidate[0].cat){
+		return null;
+	}
+	return {id: options.recursiveCategory+(options.counters.recNum++), cat: options.recursiveCategory, children: candidate};
 }
 
 //Takes a list of candidates and doubles it to root each of them in a phi
@@ -361,8 +198,10 @@ function addRecCatWrapped(candidates, options){
 				continue;
 			}
 			var phiNode = wrapInRecCat(candidates[i], options);
-			if (phiNode)
-				result.push([phiNode]);
+			if (!phiNode){
+				continue;
+			}
+			result.push([phiNode]);
 		}
 	}
 	return result;
@@ -417,7 +256,7 @@ function GENwithCliticMovement(stree, words, options){
 	// First try to read words and clitic off the tree
 	var leaves = getLeaves(stree);
 	if(leaves.length > 0 && leaves[0].id){
-		console.log(leaves);
+		//console.log(leaves);
 		var leaf = 0;
 		while(clitic === '' && leaf < leaves.length){
 			if(leaves[leaf].cat==="clitic")
@@ -455,7 +294,7 @@ function GENwithCliticMovement(stree, words, options){
 		for(var i in leaves){
 			words[i] = leaves[i].id;
 		}
-		//console.log(words);
+		
 	}
 	var wordOrders = generateWordOrders(words, clitic);
 	var candidateSets = new Array(wordOrders.length);

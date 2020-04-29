@@ -1,0 +1,113 @@
+<html>
+<head>
+	<title>SPOT investigation: autogenerating inputs</title>
+
+	<link rel="stylesheet" type="text/css" href="../spot.css">
+
+	<script src="../lib/jszip.min.js"></script>
+    <script src="../trees/abstractMatchTrees.js"></script>
+	
+
+	<!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
+	(open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
+	<script src="../build/spot.js"></script>	
+
+				
+</head>
+
+<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+	<h2>GENerating inputs</h2>
+	<pre id="results-container"></pre>
+
+<script>
+	// ---- Variables that need to be customized ----
+	
+	/*Constraint sets.*/
+	var MatchSPMatchPS = ['binMaxBranches-phi', 'binMinBranches-phi', 'matchSP-xp'];
+	
+	/*A list of names for constraint sets.*/
+    var conNames = ['MatchSPMatchPS'];
+	
+	//Candidate sets are generated with the options below.
+     
+    var i_phi_w = {rootCategory:'i', recursiveCategory:'phi', terminalCategory: 'w'};
+    var phi_phi_w = {rootCategory:'phi', recursiveCategory:'phi', terminalCategory: 'w'};
+    var phi_w_w = {rootCategory:'phi', recursiveCategory:'w', terminalCategory: 'w'};
+    var w_w_w = {rootCategory:'w', recursiveCategory:'w', terminalCategory: 'w'};
+ 
+    var output_gen_opt_list = [i_phi_w, phi_phi_w, phi_w_w, w_w_w];
+
+    var myCategoryBrackets = {
+	"i": "{}",
+	"cp": "{}",
+	"xp": "[]",
+	"phi": "()",
+	"x0": ["[x0 ","]"],
+	"w": ["[", "]"],
+	"clitic": ["",""],
+	"syll": ["",""],
+	"Ft": ["", ""],
+	"u": ["{u ", "}"]
+};
+	
+	
+	// ---- Functions that don't necessarily need to be customized ----
+	
+	/*Function that concatenates a bunch of tableaux for various candidate sets into one large tableau. It does not need to be modified if you are only comparing different constraint sets. But it can be modified to deal with your particular analysis. For example, to consider multiple possible input syntaxes, you can add an outer for-loop to iterate over the different tree sets, as well as interating over the trees in each set.*/
+    function makeTableauCsvs(consName) {
+        var csvSegs = [];	//List to accumulate tableaux in
+		
+        //For each syntactic tree in sTreeList, make a tableau using the current constraint set
+        for(var j=0; j<output_gen_opt_list.length; j++){
+            
+            //Make the candidate set using the GEN function (defined in candidategenerator.js)
+            //Leave the 2nd argument as an empty string to scrape words from the terminals of the syntactic tree.
+            var output_gen_options = output_gen_opt_list[j];
+            var candSet = GEN({}, 'a b', output_gen_options);
+            
+			//Make the tableau using the makeTableau function (defined in tableauMaker.js)
+            var tabl = makeTableau(candSet, window[consName], {showTones: output_gen_options.addTones, parens: myCategoryBrackets});
+			
+			//Write the tableau to the screen and reveal it -- only uncomment this if you don't have too many tableaux!
+			writeTableau(tabl, {});
+			revealNextSegment();
+			lastSegmentId++;
+			
+			//Add the tableau from the current stree to cumulative tableau that is being built in csvSegs.
+            csvSegs.push(tableauToCsv(tabl, '\t', {noHeader: j}));
+        }
+		
+		//Save the tableau as a tab-separated file, named after consName
+        //saveTextAs(csvSegs.join('\n'),"tableau_"+consName+".tsv");
+    }
+	
+	/*This function executes automatically when the page is reloaded. It calls all the other functions.*/
+    function runDemo() {
+	//Iterate over the different constraint sets. Make a tableau for each one.
+		for(var i = 0; i<conNames.length; i++){
+			makeTableauCsvs(conNames[i]);
+		}
+    }
+    
+    /*Utilities for saving files.*/
+    function saveAs(blob, name) {
+        var a = document.createElement("a");
+        a.display = "none";
+        a.href = URL.createObjectURL(blob);
+        a.download = name;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+   
+    function saveTextAs(text, name) {
+        saveAs(new Blob([text], {type: "text/csv", encoding: 'utf-8'}), name);
+    }
+	
+
+
+</script>
+
+</body>
+
+</html>

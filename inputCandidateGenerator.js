@@ -1,9 +1,9 @@
 /* Function that calls GEN from candidategenerator.js to generate syntactic input trees
 *  rather than output prosodic trees.
 *  By default, this creates unary and binary-branching strees rooted in xp, with all terminals mapped to x0.
-*  Intermediate levels are xps, and structures of the form [x0 x0] are excluded as being 
+*  Intermediate levels are xps, and structures of the form [x0 x0] are excluded as being
 *  syntactically ill-formed, since they only arise from head movement.
-*  
+*
 *  Options:
 *  - rootCategory: default = 'xp'
 *  - recursiveCategory: default = 'xp'
@@ -11,6 +11,8 @@
 *  - noAdjacentHeads: are x0 sisters allowed? [x0 x0]. Defaults to true.
 *  - noAdjuncts: are xp sisters allowed? [xp xp]. Defaults to false.
 *  - maxBranching: determines the maximum number of branches that are tolerated in 
+*    the resulting syntactic trees. Default = 2
+*  - minBranching: determines the maximum number of branches that are tolerated in 
 *    the resulting syntactic trees. Default = 2
 *  - addClitics: 'right' or 'left' determines whether clitics are added on the 
 *    righthand-side or the left; true will default to right. false doesn't add any clitics. 
@@ -54,10 +56,16 @@ function sTreeGEN(terminalString, options)
     if(options.maxBranching > 0){
         sTreeList = sTreeList.filter(x=>!ternaryNodes(x, options.maxBranching));
     }
+    if(options.minBranching > 0){
+        sTreeList = sTreeList.filter(x=>!unaryNodes(x, options.minBranching));
+    }
     if(options.headSide){
         var side, strict;
         [side, strict] = options.headSide.split('-');
         sTreeList = sTreeList.filter(x => !headsOnWrongSide(x, side, strict));
+    }
+    if(options.noMirrorImages){
+      sTreeList = sTreeList.filter(x => !mirrorImages(x, sTreeList));
     }
 
     return sTreeList;
@@ -93,7 +101,7 @@ function addCliticXP(sTree, side="right", inside){
         else{
             throw new Error("addCliticXP(): The provided side ", side," is not valid. Side must be specified as 'left' or 'right'.")
         }
-        
+
     }
     tp = {id: 'root', cat: 'xp', children: sisters};
     return tp;
