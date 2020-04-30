@@ -1,28 +1,4 @@
 function noShift(stree, ptree, cat) {
-  //Get lists of terminals
-
-  // var sleaves = getLeaves(stree);
-  // var pleaves = getLeaves(ptree);
-  // var sorder = new Array(sleaves.length);
-  // var porder = new Array(pleaves.length);
-  //
-  // try {
-  //   if(sleaves.length != pleaves.length) {
-  //     throw new Error("NoShift problem: The stree and ptree have different numbers of terminals!");
-  //   }
-  // }
-  // catch(err) {
-  //   // Display error message in alert if error is thrown
-  //   console.warn(err);
-  // }
-  //
-  // for(var i in sleaves){
-  //     sorder[i] = sleaves[i].id;
-  //     porder[i] = pleaves[i].id;
-  // }
-
-  //for the gradient version, we may want to use parenthesize tree for this, but we'll worry about that later.
-
   // get list of terminals using helper function
   var sorder = getTerminals(stree);
   var porder = getTerminals(ptree);
@@ -102,6 +78,11 @@ function noShiftGradient(stree, ptree, cat) {
 }
 
 function getTerminals(tree) {
+  // if input is an array of ids (in the test file noShiftGradientTest.html) then return the array
+  if (Array.isArray(tree)) {
+    return tree;
+  }
+  // else if input is a tree, then get terminals
   var leaves = getLeaves(tree);
   var order = new Array(leaves.length);
   for (var i in leaves) {

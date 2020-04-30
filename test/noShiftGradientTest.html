@@ -4,76 +4,50 @@
 
   <title>noShiftGradientTest</title>
 
+  <script src="../build/spot.js"></script>
+
 </head>
 
 <body>
 
   <script>
-    function noShiftGradientTest(sorder, porder) {
-      var vcount = 0;
-      var length = sorder.length;
-
-      // initialize nxn tables of precedence relations as false
-      var sRel = new Array(length);
-      var pRel = new Array(length);
-      for (var i = 0; i < length; i++) {
-        sRel[i] = new Array(length);
-        pRel[i] = new Array(length);
-        for (var j = 0; j < length; j++) {
-          sRel[i][j] = false;
-          pRel[i][j] = false;
-        }
-      }
-
-      // fill in true precedence relations in tables
-      for (i = 0; i < length - 1; i++) {
-        var sy = sorder.slice(i + 1, length);
-        var px = porder[i];
-        var py = porder.slice(i + 1, length);
-        for (j = 0; j < sy.length; j++) {
-          sRel[i][sorder.indexOf(sy[j])] = true;
-          pRel[sorder.indexOf(px)][sorder.indexOf(py[j])] = true;
-        }
-      }
-
-      // count violations, where precedence relation is true in sorder and false in porder
-      for (var i = 0; i < length; i++) {
-        for (var j = 0; j < length; j++) {
-          if (sRel[i][j] == true && pRel[i][j] == false) {
-            vcount++;
-          }
-        }
-      }
-
-      return vcount;
-    }
-
     // example with moving x
     console.log("a b c d X")
     var sorder = ["a", "b", "c", "d", "x"];
     var porder = ["a", "b", "c", "d", "x"];
-    console.log("a b c d X: ", noShiftGradientTest(sorder, porder))
+    console.log("a b c d X: ", noShiftGradient(sorder, porder), " expected: 0")
     porder = ["a", "b", "c", "x", "d"];
-    console.log("a b c X d: ", noShiftGradientTest(sorder, porder))
+    console.log("a b c X d: ", noShiftGradient(sorder, porder), " expected: 1")
     porder = ["a", "b", "x", "c", "d"];
-    console.log("a b X c d: ", noShiftGradientTest(sorder, porder))
+    console.log("a b X c d: ", noShiftGradient(sorder, porder), " expected: 2")
     porder = ["a", "x", "b", "c", "d"];
-    console.log("a X b c d: ", noShiftGradientTest(sorder, porder))
+    console.log("a X b c d: ", noShiftGradient(sorder, porder), " expected: 3")
     porder = ["x", "a", "b", "c", "d"];
-    console.log("X a b c d: ", noShiftGradientTest(sorder, porder))
+    console.log("X a b c d: ", noShiftGradient(sorder, porder), " expected: 4")
 
     // example with potential movers x,y
     console.log("a b c d X Y")
     sorder = ["a", "b", "c", "d", "x", "y"];
     porder = ["x", "a", "b", "c", "d", "y"];
-    console.log("X a b c d Y: ", noShiftGradientTest(sorder, porder))
+    console.log("X a b c d Y: ", noShiftGradient(sorder, porder), " expected: 4")
     porder = ["y", "a", "b", "c", "d", "x"];
-    console.log("Y a b c d X: ", noShiftGradientTest(sorder, porder))
+    console.log("Y a b c d X: ", noShiftGradient(sorder, porder), " expected: 5")
     porder = ["x", "y", "a", "b", "c", "d"];
-    console.log("X Y a b c d: ", noShiftGradientTest(sorder, porder))
+    console.log("X Y a b c d: ", noShiftGradient(sorder, porder), " expected: 8")
     porder = ["y", "x", "a", "b", "c", "d"];
-    console.log("Y X a b c d: ", noShiftGradientTest(sorder, porder))
+    console.log("Y X a b c d: ", noShiftGradient(sorder, porder), " expected: 9")
 
+    // additional test cases
+    console.log("a b c d X")
+    sorder = ["a", "b", "c", "d", "x"];
+    porder = ["x", "d", "c", "b", "a"];
+    console.log("X d c b a: ", noShiftGradient(sorder, porder), " expected: 10")
+    porder = ["b", "a", "c", "d", "x"];
+    console.log("b a c d x: ", noShiftGradient(sorder, porder), " expected: 1")
+    porder = ["c", "a", "b", "d", "x"];
+    console.log("c a b d x: ", noShiftGradient(sorder, porder), " expected: 2")
+    porder = ["d", "a", "b", "c", "x"];
+    console.log("d a b c X: ", noShiftGradient(sorder, porder), " expected: 3")
   </script>
 
 </body>
