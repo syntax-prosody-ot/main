@@ -52,7 +52,7 @@
 
     var two_leaves = 'a b';
 
-    var max_branches = 3;
+    var max_branches = 2;
 
     var options = {
       cliticMovement: false,
@@ -71,7 +71,9 @@
       usesTones: false
     };
 
+    console.log("three branch tree")
     var candidates_3 = GEN(three_branch, three_leaves, options);
+    console.log("two branch tree")
     var candidates_2 = GEN(two_branch, two_leaves, options);
 
     var constraints = [];
