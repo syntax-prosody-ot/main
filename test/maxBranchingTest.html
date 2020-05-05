@@ -13,44 +13,41 @@
 <body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
 
   <h2>maxBranching GEN Output Option Test</h2>
-	<pre id="results-container"></pre>
+  <pre id="results-container"></pre>
 
   <script>
-
     var three_branch = {
-        "id": "CP1",
-        "cat": "cp",
-        "children": [
-            {
-                "id": "a",
-                "cat": "x0"
-            },
-            {
-                "id": "b",
-                "cat": "x0"
-            },
-            {
-                "id": "c",
-                "cat": "x0"
-            }
-        ]
+      "id": "CP1",
+      "cat": "cp",
+      "children": [{
+          "id": "a",
+          "cat": "x0"
+        },
+        {
+          "id": "b",
+          "cat": "x0"
+        },
+        {
+          "id": "c",
+          "cat": "x0"
+        }
+      ]
     };
 
     var three_leaves = 'a b c';
 
     var two_branch = {
-        "id": "CP1",
-        "cat": "cp",
-        "children": [
-            {
-                "id": "a",
-                "cat": "x0"
-            },
-            {
-                "id": "b",
-                "cat": "x0"
-            }
-        ]
+      "id": "CP1",
+      "cat": "cp",
+      "children": [{
+          "id": "a",
+          "cat": "x0"
+        },
+        {
+          "id": "b",
+          "cat": "x0"
+        }
+      ]
     };
 
     var two_leaves = 'a b';
@@ -59,7 +56,9 @@
 
     var options = {
       cliticMovement: false,
-      counters: {recNum: 52},
+      counters: {
+        recNum: 52
+      },
       maxBranching: max_branches,
       noUnary: false,
       obeysExhaustivity: false,
@@ -78,12 +77,11 @@
     var constraints = [];
 
     function runDemo() {
-  		writeTableau(makeTableau(candidates_3, constraints));
+      writeTableau(makeTableau(candidates_3, constraints));
       writeTableau(makeTableau(candidates_2, constraints));
       revealNextSegment();
-  		lastSegmentId++;
-  	};
-
+      lastSegmentId++;
+    };
   </script>
 
 </body>
