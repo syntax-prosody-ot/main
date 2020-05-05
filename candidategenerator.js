@@ -24,9 +24,13 @@ window.GEN_impl = function(sTree, leaves, options) {
 			continue;
 		if (options.obeysHeadedness && !obeysHeadedness(pRoot))
 			continue;
-		
+		if (ternaryNodes(pRoot, options.maxBranching)) {
+			continue;
+		}
+
 		candidates.push([sTree, pRoot]);
 	}
+	
 	return candidates;
 }
 
@@ -39,7 +43,7 @@ function obeysHeadedness(tree){
 	//inner function
 	function nodeIsHeaded(node) {
 		/* Function to check if a node is headed. Relies on the prosodic hierarchy being
-		 * properly defined. Returns true iff 
+		 * properly defined. Returns true iff
 		 * a. one of the node's children is of the category directly below its own category *    on the prosodic hierarchy,
 		 * b. one of the node's descendants is of the same category as the node
 		 * c. the node is terminal.
@@ -49,7 +53,7 @@ function obeysHeadedness(tree){
 		if (!children)
 			return true;
 		for (var i = 0; i < children.length; i++)
-			if (children[i].cat === pCat.nextLower(node.cat) 
+			if (children[i].cat === pCat.nextLower(node.cat)
 			|| children[i].cat === node.cat){
 				return true;
 			}
@@ -294,7 +298,7 @@ function GENwithCliticMovement(stree, words, options){
 		for(var i in leaves){
 			words[i] = leaves[i].id;
 		}
-		
+
 	}
 	var wordOrders = generateWordOrders(words, clitic);
 	var candidateSets = new Array(wordOrders.length);
