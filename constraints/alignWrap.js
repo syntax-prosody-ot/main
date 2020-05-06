@@ -5,20 +5,7 @@ of the prosodic category corresponding to s
 For every sCat node s in sTree, find a node p in pTree of the proper category
 such that the first (for align-left) leaf dominated by s has the same id as
 the first leaf dominated by p.
-
-TODO Do we ever want to try to align x0 levels?? Or would we ever have an xp as a leaf?
-TODO test this function.
 */
-function alignLeft(sTree, pTree, sCat, options){
-	options = options || {};
-	return alignSP(sTree, pTree, sCat, 'left', options);
-}
-
-function alignRight(sTree, pTree, sCat, options){
-	options = options || {};
-	return alignSP(sTree, pTree, sCat, 'right', options);
-}
-
 
 /*
 * Options (all boolean):
@@ -103,6 +90,17 @@ function alignPS(sTree, pTree, cat, d, options){
 	return alignSP(pTree, sTree, cat, d, flippedOptions);
 }
 
+function alignLeft(sTree, pTree, sCat, options){
+	options = options || {};
+	return alignSP(sTree, pTree, sCat, 'left', options);
+}
+
+function alignRight(sTree, pTree, sCat, options){
+	options = options || {};
+	return alignSP(sTree, pTree, sCat, 'right', options);
+}
+
+
 function alignLeftPS(sTree, pTree, cat, options){
 	options = options || {};
 	return alignPS(sTree, pTree, cat, 'left', options);
@@ -112,10 +110,7 @@ function alignRightPS(sTree, pTree, cat, options){
 	options = options || {};
 	return alignPS(sTree, pTree, cat, 'right', options);
 }
-/*function alignCustom(sTree, pTree, cat, options){
-	options = options || {};
-	return alignSP()
-}*/
+
 function wrap(sTree, pTree, cat){
 	var vCount = 0;
 	walkTree(sTree, function(sNode){
