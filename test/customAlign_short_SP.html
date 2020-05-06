@@ -22,6 +22,39 @@
 				]
 			}
 
+			var sTree2 = {
+							"id": "CP1",
+							"cat": "cp",
+							"children": [
+								{
+									"cat": "xp",
+									"id": "XP_5",
+									"children": [
+										{
+											"cat": "xp",
+											"id": "XP_4",
+											"children": [
+												{
+													"id": "a",
+													"cat": "x0"
+												}
+											]
+										},
+										{
+											"cat": "xp",
+											"id": "XP_6",
+											"children": [
+												{
+													"id": "b",
+													"cat": "x0"
+												}
+											]
+										}
+									]
+								}
+							]
+						};
+
 			var pTree1 = {
 				cat: "phi",
 				id: "root",
@@ -79,10 +112,17 @@
 			//'matchPS-phi-{"maxProsody":true}'
 			var con1 = ['alignLeft-xp', 'alignLeft-xp-{"maxProsody": true}', 'alignLeft-xp-{"minProsody": true}', 'alignLeft-xp-{"nonMaxProsody": true}', 'alignLeft-xp-{"nonMinProsody": true}'];
 			var con2 = ['alignLeftPS-phi', 'alignLeftPS-phi-{"maxProsody": true}', 'alignLeftPS-phi-{"minProsody": true}', 'alignLeftPS-phi-{"nonMaxProsody": true}', 'alignLeftPS-phi-{"nonMinProsody": true}'];
+			var con3 = ['alignRight-xp', 'alignRight-xp-{"maxProsody": true}', 'alignRight-xp-{"minProsody": true}', 'alignRight-xp-{"nonMaxProsody": true}', 'alignRight-xp-{"nonMinProsody": true}'];
 			window.addEventListener("load",function(){
 				//throw new Error(matchSP(GEN(sTree, "one two-func (three)")[0][0], GEN(sTree, "one two-func (three)")[0][1], "xp", {maxSyntax:true}));
 				writeTableau(makeTableau([[sTree, pTree1], [sTree, pTree2], [sTree, pTree3]], con1));
 				revealNextSegment();
+				
+				var genCand = window.GEN(sTree2, '');
+				writeTableau(makeTableau(genCand, con1));
+
+				writeTableau(makeTableau(genCand, con3));
+
 				writeTableau(makeTableau([[sTree, pTree1], [sTree, pTree2], [sTree, pTree3]], con2));
 				revealNextSegment();
 			});
