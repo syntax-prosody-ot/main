@@ -44,9 +44,9 @@
             }
         ]
     }
-		var oneClitic = GENwithCliticMovement(stree1, '');
+		var oneClitic = GENwithCliticMovement(stree1, '', {obeysNonrecursivity: true, noUnary: true});
 		//oneClitic[0][0] = {cat: "x0" id: 'Moving one clitic'};
-		var twoClitics = GENwithPermutation(stree2, '');
+		var twoClitics = GENwithPermutation(stree2, '', {obeysNonrecursivity: true, noUnary: true});
 
 
 			//Make the tableau using the makeTableau function (defined in tableauMaker.js)
