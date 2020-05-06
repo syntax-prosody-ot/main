@@ -603,6 +603,7 @@ function GENwithPermutation(stree, words, options){
 	}
 
 	//actual implementation of Heap's algorithm
+
 	function allOrdersInner(innerList, k){
 		if(k == 1){
 			permutations.push(innerList);
@@ -643,33 +644,36 @@ function GENwithPermutation(stree, words, options){
 /* Arguments:
 	stree: a syntatic tree, with the clitic marked as cat: "clitic"
 	words: optional string or array of strings which are the desired leaves
-	options: options for GEN
+	options: options for GEN and permuteAll: generates all permutations of words,
+	 	does not care if terminals are or are not clitics
 
    Returns: GEN run on each possible order of the words, where possible orders
    are those where terminals other than the clitic remian in place but the clitic can occupy any position.
 
-   Caveat: If there are multiple clitics, only the first will be moved.
+   Caveat: If there are multiple clitics, the order of non-clitics might not be maintaned in all candidates
 */
 function GENwithCliticMovement(stree, words, options){
+	options = options || {};
 	// Identify the clitic of interest
-	var clitic = '';
+	var clitic = [];
 	// First try to read words and clitic off the tree
 	var leaves = getLeaves(stree);
 	if(leaves.length > 0 && leaves[0].id){
 		//console.log(leaves);
 		var leaf = 0;
-		while(clitic === '' && leaf < leaves.length){
+		while(leaf < leaves.length){
 			if(leaves[leaf].cat==="clitic")
-				clitic = leaves[leaf].id;
+				clitic.push(leaves[leaf].id);
 			leaf++;
 		}
-		if(clitic === ''){
+		/* now redundant
+		if(clitic.length == 0){
 			console.warn("GENWithCliticMovement was called but no node in stree has category clitic was provided in stree");
 			console.log(stree);
 			return GEN(stree, words, options);
 			//throw new Error("GENWithCliticMovement was called but no node in stree has category clitic was provided in stree");
-
 		}
+		*/
 	}
 	//Otherwise, get the clitic from words
 	else
@@ -678,14 +682,17 @@ function GENwithCliticMovement(stree, words, options){
 		if(typeof words === "string"){
 			words = words.split(' ');
 		}
-		var x = words.find(containsClitic);
-		if(!x){ //x is undefined if no word in "words" contains "clitic"
-			console.warn("GENWithCliticMovement was called but no node in stree has category clitic was provided in stree");
-			console.log(stree);
-			return GEN(stree, words, options);
+		for(var x = 0; x < words.length; x++){
+			if(words[x].split('-clitic').length > 1){
+				clitic.push(words[x].split('-clitic')[0]);
+				words[x] = words[x].split('-clitic')[0];
+			}
 		}
-		clitic = x.split('-clitic')[0];
-		words[words.indexOf(x)] = clitic;
+	}
+	if(clitic.length == 0 && !options.permuteAll){ //clitic.length is 0 if no word in "words" contains "clitic"
+		console.warn("GENWithCliticMovement was called but no node in stree has category clitic was provided in stree");
+		console.log(stree);
+		return GEN(stree, words, options);
 	}
 
 	//Make sure words is defined before using it to generate word orders
@@ -696,7 +703,16 @@ function GENwithCliticMovement(stree, words, options){
 		}
 		//console.log(words);
 	}
-	var wordOrders = generateWordOrders(words, clitic);
+	var wordOrders;
+	if(clitic.length === 1){
+		wordOrders = generateWordOrders(words, clitic[0]);
+	}
+	else if(options.permuteAll){
+		wordOrders = generateAllOrders(words);
+	}
+	else{
+		wordOrders = generateAllOrders(words, clitic);
+	}
 	var candidateSets = new Array(wordOrders.length);
 	for(var i = 0; i<wordOrders.length; i++){
 		candidateSets[i] = GEN(stree, wordOrders[i], options);
