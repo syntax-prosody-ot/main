@@ -9,12 +9,14 @@ the first leaf dominated by p.
 TODO Do we ever want to try to align x0 levels?? Or would we ever have an xp as a leaf?
 TODO test this function.
 */
-function alignLeft(sTree, pTree, sCat){
+function alignLeft(sTree, pTree, sCat, options){
+	options = options || {};
 	return alignSP(sTree, pTree, sCat, 'left');
 }
 
-function alignRight(sTree, pTree, sCat){
-	return alignSP(sTree, pTree, sCat, 'right');
+function alignRight(sTree, pTree, sCat, options){
+	options = options || {};
+	return alignSP(sTree, pTree, sCat, 'right', options);
 }
 
 
