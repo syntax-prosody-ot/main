@@ -11,7 +11,7 @@ TODO test this function.
 */
 function alignLeft(sTree, pTree, sCat, options){
 	options = options || {};
-	return alignSP(sTree, pTree, sCat, 'left');
+	return alignSP(sTree, pTree, sCat, 'left', options);
 }
 
 function alignRight(sTree, pTree, sCat, options){
@@ -73,7 +73,7 @@ function alignSP(sTree, pTree, sCat, d, options){
 		if(noMatch){
 				vCount++;
 		}
-		
+
 	});
 	return vCount;
 }
