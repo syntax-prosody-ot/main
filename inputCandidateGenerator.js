@@ -1,17 +1,26 @@
 /* Function that calls GEN from candidategenerator.js to generate syntactic input trees
 *  rather than output prosodic trees.
 *  By default, this creates unary and binary-branching strees rooted in xp, with all terminals mapped to x0.
-*  Intermediate levels are xps, and structures of the form [x0 x0] are excluded as being 
+*  Intermediate levels are xps, and structures of the form [x0 x0] are excluded as being
 *  syntactically ill-formed, since they only arise from head movement.
-*  
+*
 *  Options:
-*  - rootCategory
-*  - recursiveCategory
-*  - terminalCategory
-*  - noAdjacentHeads: are x0 sisters allowed? [x0 x0]
-*  - noAdjuncts: are xp sisters allowed? [xp xp]
-*  - maxBranching: determines the maximum number of branches that are tolerated in the resulting syntactic trees
-*  - addClitics: 'right' or 'left' determines whether clitics are added on the righthandside or the left; true will default to right. false doesn't add any clitics.
+*  - rootCategory: default = 'xp'
+*  - recursiveCategory: default = 'xp'
+*  - terminalCategory: default = 'x0'
+*  - noAdjacentHeads: are x0 sisters allowed? [x0 x0]. Defaults to true.
+*  - noAdjuncts: are xp sisters allowed? [xp xp]. Defaults to false.
+*  - maxBranching: determines the maximum number of branches that are tolerated in 
+*    the resulting syntactic trees. Default = 2
+*  - addClitics: 'right' or 'left' determines whether clitics are added on the 
+*    righthand-side or the left; true will default to right. false doesn't add any clitics. 
+*    Default false.
+*  - headSide: 'right', 'left', 'right-strict', 'left-strict'. 
+*    Which side will heads be required to be on, relative to their complements? 
+*    Also, must heads be at the very edge (strict)?
+* Also has all the options from the underlying output candidate generator -- see 
+* GEN() in candidategenerator.js. Most relevant is probably noUnary which excludes 
+* non-branching intermediate nodes.
 */
 function sTreeGEN(terminalString, options)
 {
@@ -26,7 +35,7 @@ function sTreeGEN(terminalString, options)
     options.rootCategory = options.rootCategory || 'xp';
 
     //Run GEN on the provided terminal string
-    var autoSTreePairs = GEN({}, terminalString, options);
+    var autoSTreePairs = goodGEN({}, terminalString, options);
     //Select just the generated trees
     var sTreeList = autoSTreePairs.map(x=>x[1]);
 
@@ -40,10 +49,18 @@ function sTreeGEN(terminalString, options)
         sTreeList = sTreeList.filter(x => !x0Sisters(x, 'x0'));
     }
     if(options.noAdjuncts){
-        sTreeList = sTreeList.filter(x => !x0Sisters(x, 'xp'));
+        sTreeList = sTreeList.filter(x => !x0Sisters(x, options.recursiveCategory));
     }
     if(options.maxBranching > 0){
         sTreeList = sTreeList.filter(x=>!ternaryNodes(x, options.maxBranching));
+    }
+    if(options.headSide){
+        var side, strict;
+        [side, strict] = options.headSide.split('-');
+        sTreeList = sTreeList.filter(x => !headsOnWrongSide(x, side, strict));
+    }
+    if(options.noMirrorImages){
+      sTreeList = sTreeList.filter(x => !mirrorImages(x, sTreeList));
     }
 
     return sTreeList;
@@ -61,7 +78,7 @@ function addCliticXP(sTree, side="right", inside){
         }
         else if(side==="left"){
             sisters = [cliticXP].concat(sTree.children);
-            console.log(tp);
+            //console.log(tp);
         }
         else{
             throw new Error("addCliticXP(): The provided side ", side," is not valid. Side must be specified as 'left' or 'right'.")
@@ -79,7 +96,7 @@ function addCliticXP(sTree, side="right", inside){
         else{
             throw new Error("addCliticXP(): The provided side ", side," is not valid. Side must be specified as 'left' or 'right'.")
         }
-        
+
     }
     tp = {id: 'root', cat: 'xp', children: sisters};
     return tp;

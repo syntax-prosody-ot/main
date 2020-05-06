@@ -36,7 +36,7 @@ function alignSP(sTree, pTree, sCat, d){
 				pEdge = pNode;	//I'm assuming the leaves are words...
 			if(sEdge.id === pEdge.id){
 				noMatch = false;
-				return false;
+				return DONT_WALK_SUBTREES;
 			}
 		});
 		if(noMatch)
@@ -85,6 +85,9 @@ function wrap(sTree, pTree, cat){
 			vCount++;
 	});
 	return vCount;
+}
+function wrapPS(sTree, pTree, cat){
+	return wrap(pTree, sTree, cat);
 }
 
 // Returns true if a contains b

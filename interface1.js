@@ -256,7 +256,6 @@ function getSTrees() {
 		sTrees = [sTrees];
 	}
 	return sTrees;
-
 }
 
 function danishTrees() {
@@ -394,19 +393,40 @@ window.addEventListener('load', function(){
 			}
 		}
 
-		//Get the input syntactic tree.
-		var sTrees;
-		try{
-			sTrees = getSTrees();
+		// Get the automatically generated syntactic trees
+		if(document.getElementById('inputOptions').style.display == 'block') {
+			var sTrees;
+			try{
+				sTrees = getAutoSTreeList();
+			}
+			catch(e){
+				console.error(e);
+				alert(e.message);
+				return;
+			}
 		}
-		catch(e){
-			console.error(e);
-			alert(e.message);
-			return;
+		else {
+			// Get the input syntactic tree from tree builder
+			var sTrees;
+			try{
+				sTrees = getSTrees();
+			}
+			catch(e){
+				console.error(e);
+				alert(e.message);
+				return;
+			}
 		}
 
 		//Get input to GEN.
 		var pString = spotForm.inputToGen.value;
+
+		// Get the code that is in the stree textarea
+		var treeCode = spotForm.sTree.value
+		// if code has been generated, then ignore pString in GEN
+		if(treeCode !== "{}") {
+			pString = "";
+		}
 
 		//Build a list of checked GEN options.
 		var genOptions = {};
@@ -448,6 +468,7 @@ window.addEventListener('load', function(){
 
 		var tableauOptions = {
 			showTones: false,  //true iff tones are selected
+			trimStree: false,
 			invisibleCategories: []
 		};
 
@@ -456,6 +477,12 @@ window.addEventListener('load', function(){
 			genOptions.addTones = spotForm.toneOptions.value;
 		 	tableauOptions.showTones = spotForm.toneOptions.value;
 			//console.log(genOptions);
+		}
+		if(document.getElementById("trimTrees").checked){
+			tableauOptions.trimStree = true;
+		}
+		if(document.getElementById("showHeads").checked){
+			tableauOptions.showHeads= true;
 		}
 
 
@@ -475,7 +502,7 @@ window.addEventListener('load', function(){
 			var sTree = sTrees[i];
 			//console.log(pString.split(" ").length >= 6)
 			//warn user about using more than six terminals
-			
+
 
 			//warn user about possibly excessive numbers of candidates
 			if (genOptions['cliticMovement'] && (!genOptions['noUnary'] && (getLeaves(sTree).length >= 5 || pString.split(" ").length >= 5))
@@ -483,13 +510,13 @@ window.addEventListener('load', function(){
 				if(!confirm("You have selected GEN settings that allow clitic reordering, and included a sentence of ".concat( pString.split(" ").length.toString()," terminals. This GEN may yield more than 10K candidates. To reduce the number of candidates, consider enforcing non-recursivity, exhaustivity, and/or branchingness for intermediate prosodic nodes. Do you wish to proceed with these settings?"))){
 					throw new Error("clitic movement with too many terminals");
 				}
-			} 
+			}
 			else if(getLeaves(sTree).length >= 6 || pString.split(" ").length >= 6){
 				if(!confirm("Inputs of more than six terminals may run slowly and even freeze your browser, depending on the selected GEN options. Do you wish to continue?")){
 					throw new Error("Tried to run gen with more than six terminals");
 				}
 			}
-			
+
 			if (genOptions['cliticMovement']){
 				var candidateSet = GENwithCliticMovement(sTree, pString, genOptions);
 			}
@@ -519,9 +546,11 @@ window.addEventListener('load', function(){
 	document.getElementById('tree-code-box').addEventListener('click', function(){
 		if (document.getElementById('tree-code-area').style.display === 'none' && document.getElementById('tree-code-box').checked){
 			document.getElementById('tree-code-area').style.display = 'block';
+			document.getElementById('sliderText').innerHTML = 'Hide code';
 		}
 		else{
 			document.getElementById('tree-code-area').style.display = 'none';
+			document.getElementById('sliderText').innerHTML = 'Show code';
 		}
 	});
 	document.getElementById('exhaustivityBox').addEventListener('click', function(){
@@ -554,7 +583,6 @@ window.addEventListener('load', function(){
 
 	});
 
-
 	/*
 	document.getElementById("japaneseTonesInfo").addEventListener("click", toneInfoBlock("japanese"));
 	document.getElementById("irishTonesInfo").addEventListener("click", toneInfoBlock("irish"));
@@ -566,6 +594,13 @@ window.addEventListener('load', function(){
 	//Open the tree making GUI
 	document.getElementById('goButton').addEventListener('click', function(){
 		document.getElementById('treeUI').style.display = 'block';
+		document.getElementById('goButton').style.backgroundColor = 'white';
+		document.getElementById('goButton').style.borderColor = '#3A5370';
+		if(document.getElementById('inputOptions').style.display == 'block') {
+			document.getElementById('inputOptions').style.display = 'none';
+			document.getElementById('inputButton').style.backgroundColor = '#d0d8e0';
+			document.getElementById('inputButton').style.borderColor = '#d0d8e0';
+		}
 	});
 
 	function refreshHtmlTree(treeIndex) {
@@ -585,7 +620,7 @@ window.addEventListener('load', function(){
 
 
 	//Set up the table...
-	document.getElementById('goButton').addEventListener('click', function(){
+	document.getElementById('buildButton').addEventListener('click', function(){
 		// Get the string of terminals
 		var terminalString = spotForm.inputToGen.value;
 		var terminalList = terminalString.trim().split(/\s+/);
@@ -595,6 +630,160 @@ window.addEventListener('load', function(){
 		showUTree(tree);
 		document.getElementById('doneMessage').style.display = 'none';
 	});
+
+	// automatically generate syntax button
+	document.getElementById('inputButton').addEventListener('click', function(){
+		document.getElementById('inputOptions').style.display = 'block';
+		document.getElementById('inputButton').style.backgroundColor = 'white';
+		document.getElementById('inputButton').style.borderColor = '#3A5370';
+		if(document.getElementById('treeUI').style.display == 'block') {
+			document.getElementById('treeUI').style.display = 'none';
+			document.getElementById('goButton').style.backgroundColor = '#d0d8e0';
+			document.getElementById('goButton').style.borderColor = '#d0d8e0';
+		}
+	});
+
+	// show and display addClitics options
+	document.getElementById('add-clitics').addEventListener('change', function(){
+		if(document.getElementById('add-clitics').checked) {
+			document.getElementById('add-clitics-row').style.display = 'block';
+		}
+		else {
+			document.getElementById('add-clitics-row').style.display = 'none';
+		}
+	});
+
+	// done button for auto input gen
+	document.getElementById('autoGenDoneButton').addEventListener('click', function(){
+		document.getElementById('autoDoneMessage').style.display = 'inline-block';
+		autoGenInputTree();
+		document.getElementById('autoTreeArea').style.display = 'block';
+		document.getElementById('syntax-tree-switch').checked = true;
+		document.getElementById('syntax-switch-text').innerHTML = 'Hide syntactic trees';
+	});
+
+	var sTreeList;
+
+	// automatically generate input tree
+	function autoGenInputTree() {
+		var length = spotForm.inputToGenAuto.length;
+		if(length === undefined) {
+			length = 1;
+		}
+		var inputString = spotForm.inputToGenAuto.value;
+
+		sTreeList = undefined;
+		document.getElementById('autoTreeBox').innerHTML = "";
+
+		for(var i=0; i<length; i++){
+			if(length > 1) {
+				inputString = spotForm.inputToGenAuto[i].value;
+			}
+
+			// allow adjuncts and remove mirror images
+			var autoInputOptions = {};
+			var optionBox = spotForm.autoInputOptions;
+			for(var j = 0; j < optionBox.length; j++) {
+				if(optionBox[j].value === "noAdjuncts") {
+          autoInputOptions[optionBox[j].value]=!optionBox[j].checked;
+        }
+        else {
+          autoInputOptions[optionBox[j].value]=optionBox[j].checked;
+        }
+			}
+
+			// head requirements
+			var headReq = document.getElementById('head-req').value;
+			if(headReq !== 'select') {
+				var headSideVal = headReq;
+			}
+			autoInputOptions.headSide = headSideVal;
+
+			// add XP clitics directly under root
+			if(document.getElementById('add-clitics').checked) {
+				var addCliticsVal = document.getElementById('add-clitics').value;
+				if(document.getElementById('add-clitics-left').checked) {
+					addCliticsVal = 'left';
+				}
+			}
+			autoInputOptions.addClitics = addCliticsVal;
+
+			// root, recursive terminal, category
+			autoInputOptions.rootCategory = spotForm['autoInputOptions-rootCategory'].value;
+			autoInputOptions.recursiveCategory = spotForm['autoInputOptions-recursiveCategory'].value;
+			autoInputOptions.terminalCategory = spotForm['autoInputOptions-terminalCategory'].value;
+
+			// console.log(autoInputOptions)
+
+			if(inputString !== "") {
+				var currSTreeList = sTreeGEN(inputString, autoInputOptions);
+				displayTable(currSTreeList);
+				if(sTreeList) {
+					sTreeList = sTreeList.concat(currSTreeList);
+				}
+				else {
+					sTreeList = currSTreeList;
+				}
+			}
+		}
+		// console.log(sTreeList)
+	}
+
+	function getAutoSTreeList() {
+		return sTreeList;
+	}
+
+	// add terminal string button
+	document.getElementById('addString').addEventListener('click', function(){
+		var length = spotForm.inputToGenAuto.length;
+		if(length === undefined) {
+			length = 1;
+		}
+		var newLength = length + 1;
+		length = length.toString();
+		newLength = newLength.toString();
+		document.getElementById('str'+length).insertAdjacentHTML('afterend', "<p id='str"+newLength+"'>String of terminals "+newLength+": <input type='text' name='inputToGenAuto'></p>");
+		document.getElementById('autoDoneMessage').style.display = 'none';
+	});
+
+	// check for change in syntax parameters
+	document.getElementById('syntax-parameters').addEventListener('change', function(){
+		document.getElementById('autoDoneMessage').style.display = 'none';
+	});
+
+	// show/hide syntactic trees
+	document.getElementById('syntax-tree-switch').addEventListener('click', function(){
+		if (document.getElementById('autoTreeArea').style.display === 'none' && document.getElementById('syntax-tree-switch').checked){
+			document.getElementById('autoTreeArea').style.display = 'block';
+			document.getElementById('syntax-switch-text').innerHTML = 'Hide syntactic trees';
+		}
+		else{
+			document.getElementById('autoTreeArea').style.display = 'none';
+			document.getElementById('syntax-switch-text').innerHTML = 'Show syntactic trees';
+		}
+	});
+
+	// display tree tables
+	function displayTable(sTreeList) {
+		var treeTable = treeToTable(sTreeList);
+		document.getElementById('autoTreeBox').innerHTML += treeTable;
+	}
+
+	// create table from sTree list
+	function treeToTable(sTreeList) {
+		var htmlChunks = ['<table class="auto-table"><tbody>'];
+		var i = 1;
+		for(var s in sTreeList) {
+			var parTree = parenthesizeTree(sTreeList[s]);
+			htmlChunks.push('<tr>');
+			htmlChunks.push('<td>' + i + "." + '</td>');
+			htmlChunks.push('<td>' + parTree + '</td>');
+			htmlChunks.push('</tr>');
+			i++;
+		}
+		htmlChunks.push('</tbody></table>');
+		return htmlChunks.join('');
+	}
 
 
 	// For testing only
@@ -626,6 +815,9 @@ window.addEventListener('load', function(){
 			if (cat.indexOf('func') != -1){
 				node['func'] = true;
 			}
+			if (cat.indexOf('foc') != -1){
+				node['foc'] = true;
+			}
 		}
 		var children = node['children'];
 		if (children != undefined){
@@ -636,7 +828,7 @@ window.addEventListener('load', function(){
 	}
 	//Look at the html tree and turn it into a JSON tree. Put the JSON in the following textarea.
 	document.getElementById('htmlToJsonTreeButton').addEventListener('click', function(){
-		spotForm.sTree.value = JSON.stringify(Object.values(treeUIsTreeMap).map(function(tree) {
+		sTree = JSON.stringify(Object.values(treeUIsTreeMap).map(function(tree) {
 
 			// console.log(JSON.parse(tree.toJSON()));
 			// console.log(JSON.parse(tree.toJSON())['cat']);
@@ -645,7 +837,17 @@ window.addEventListener('load', function(){
 			return (checkTree); // bit of a hack to get around replacer not being called recursively
 		}), null, 4);
 
-		document.getElementById('doneMessage').style.display = 'inline-block';
+		if(sTree.includes('-')) {
+			alert('Your trees were not added to the analysis because there are hyphens in category or id names in the tree builder. Please refer to the instructions in the tree builder info section.');
+			var info = document.getElementById('treeBuilderInfo');
+			info.classList.add('showing');
+		}
+		else {
+			spotForm.sTree.value = sTree
+			document.getElementById('doneMessage').style.display = 'inline-block';
+		}
+
+		spotForm.inputToGen.value = "";
 	});
 
 	document.getElementById('danishJsonTreesButton').addEventListener('click', function() {
@@ -810,4 +1012,18 @@ function saveAs(blob, name) {
 function clearTableau() {
 	document.getElementById('results-container').innerHTML = "";
 	document.getElementById('results-container').className = "";
+}
+
+function showMore(constraintType) {
+	var x = document.getElementById(constraintType);
+	var showMore = constraintType + "Show";
+	var y = document.getElementById(showMore);
+
+  if (x.style.display === "block") {
+    x.style.display = "none";
+		y.innerHTML = "Show more...";
+  } else {
+    x.style.display = "block";
+		y.innerHTML = "Show less...";
+  }
 }

@@ -112,6 +112,10 @@ function binMaxBranchesGradient(s, ptree, cat){
 	return vcount;
 }
 
+function binBrGradient(s, ptree, cat){
+	return binMaxBranchesGradient(s, ptree, cat)+binMinBranches(s, ptree, cat);
+}
+
 /*TRUCKENBRODT-STYLE BINARITY*/
 
 /* Categorical BinMax (Leaves)
@@ -184,6 +188,15 @@ function binMinLeaves(s, ptree, c){
 		}
 	}
 	return vcount;
+}
+
+//Combines the violations of maximal and minimal binarity (leaf-counting)
+function binLeaves(s, ptree, c){
+	return binMaxLeaves(s, ptree, c) + binMinLeaves(s, ptree, c);
+}
+
+function binLeavesGradient(s, ptree, c){
+	return binMaxLeavesGradient(s, ptree, c) + binMinLeaves(s, ptree, c);
 }
 
 //Helper function: given a node x, returns all the descendents of x that have category cat.
