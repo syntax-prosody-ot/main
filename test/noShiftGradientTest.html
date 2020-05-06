@@ -1,0 +1,55 @@
+<html>
+
+<head>
+
+  <title>noShiftGradientTest</title>
+
+  <script src="../build/spot.js"></script>
+
+</head>
+
+<body>
+
+  <script>
+    // example with moving x
+    console.log("a b c d X")
+    var sorder = ["a", "b", "c", "d", "x"];
+    var porder = ["a", "b", "c", "d", "x"];
+    console.log("a b c d X: ", noShiftGradient(sorder, porder), " expected: 0")
+    porder = ["a", "b", "c", "x", "d"];
+    console.log("a b c X d: ", noShiftGradient(sorder, porder), " expected: 1")
+    porder = ["a", "b", "x", "c", "d"];
+    console.log("a b X c d: ", noShiftGradient(sorder, porder), " expected: 2")
+    porder = ["a", "x", "b", "c", "d"];
+    console.log("a X b c d: ", noShiftGradient(sorder, porder), " expected: 3")
+    porder = ["x", "a", "b", "c", "d"];
+    console.log("X a b c d: ", noShiftGradient(sorder, porder), " expected: 4")
+
+    // example with potential movers x,y
+    console.log("a b c d X Y")
+    sorder = ["a", "b", "c", "d", "x", "y"];
+    porder = ["x", "a", "b", "c", "d", "y"];
+    console.log("X a b c d Y: ", noShiftGradient(sorder, porder), " expected: 4")
+    porder = ["y", "a", "b", "c", "d", "x"];
+    console.log("Y a b c d X: ", noShiftGradient(sorder, porder), " expected: 5")
+    porder = ["x", "y", "a", "b", "c", "d"];
+    console.log("X Y a b c d: ", noShiftGradient(sorder, porder), " expected: 8")
+    porder = ["y", "x", "a", "b", "c", "d"];
+    console.log("Y X a b c d: ", noShiftGradient(sorder, porder), " expected: 9")
+
+    // additional test cases
+    console.log("a b c d X")
+    sorder = ["a", "b", "c", "d", "x"];
+    porder = ["x", "d", "c", "b", "a"];
+    console.log("X d c b a: ", noShiftGradient(sorder, porder), " expected: 10")
+    porder = ["b", "a", "c", "d", "x"];
+    console.log("b a c d x: ", noShiftGradient(sorder, porder), " expected: 1")
+    porder = ["c", "a", "b", "d", "x"];
+    console.log("c a b d x: ", noShiftGradient(sorder, porder), " expected: 2")
+    porder = ["d", "a", "b", "c", "x"];
+    console.log("d a b c X: ", noShiftGradient(sorder, porder), " expected: 3")
+  </script>
+
+</body>
+
+</html>
