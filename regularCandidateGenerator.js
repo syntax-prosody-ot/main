@@ -19,35 +19,6 @@ function deduplicateTerminals(terminalList) {
 	return dedupedTerminals;
 }
 
-//Move to the next recursive category, if there is one.
-function pushRecCat(options){
-	var nextIndex = options.recursiveCatIndex + 1;
-	if(nextIndex > options.recursiveCats.length-1){
-		return false;
-	}
-	else{
-		var nextRecCat = options.recursiveCats[nextIndex];
-		options.recursiveCategory = nextRecCat;
-		options.recursiveCatIndex = nextIndex;
-		return true;
-	}
-
-}
-
-//Move to the previous recursive category, if there is one.
-function popRecCat(options){
-	var prevIndex = options.recursiveCatIndex - 1;
-	if(prevIndex < 0){
-		return false;
-	}
-	else{
-		var prevRecCat = options.recursiveCats[prevIndex];
-		options.recursiveCategory = prevRecCat;
-		options.recursiveCatIndex = prevIndex;
-		return true;
-	}
-}
-
 (function() {
 var recNum = 0;
 var terminalNum = 0;
@@ -58,12 +29,8 @@ var terminalNum = 0;
    - obeysHeadedness (boolean)
    - obeysNonrecursivity (boolean)
 	 - rootCategory (string)
-	 - recursiveCategory (string) --> '-' separated list of categories, from highest to lowest (e.g. 'phi-w', not 'w-phi')
-	 	-> saved in recursiveCats (see below) + becomes a string rep of the current recursive category
+	 - recursiveCategory (string)
 	 - terminalCategory (string)
-
-	 - recursiveCatIndex (int): tracks which recursive category we're currently using
-	 - recursiveCats (list of strings): list of recursive categories to use
    - addTones (string). Possible values include:
 	 		- "addJapaneseTones"
 			- "addIrishTones_Elfner"
@@ -72,34 +39,10 @@ var terminalNum = 0;
 	- requireRecWrapper (boolean). Formerly "requirePhiStem"
 	- syntactic (boolean): are we generating syntactic trees?
 */
-window.GEN = function(sTree, words, options){
+window.goodGEN = function(sTree, words, options){
 	options = options || {}; // if options is undefined, set it to an empty object (so you can query its properties without crashing things)
 
-	//Point to first recursiveCat
-	options.recursiveCatIndex = 0;
-
-	//Set the relevant category hierarchy (syntactic or prosodic) based on the GEN option syntactic
 	var categoryHierarchy = options.syntactic ? sCat : pCat;
-
-	// Check for multiple recursive categories
-	if(options.recursiveCategory && options.recursiveCategory.length){
-		var recCats = options.recursiveCategory.split('-');
-		if(recCats.length > 1){
-			//console.log(recCats);
-
-			//Set current recursiveCategory
-			options.recursiveCategory = recCats[options.recursiveCatIndex];
-			//Save list of all categories
-			options.recursiveCats = recCats;
-		}
-		if(recCats.length > 2){
-			this.alert("You have entered more than 2 recursive categories!")
-		}
-	}
-
-	if(!options.recursiveCats){
-		options.recursiveCats = [options.recursiveCategory];
-	}
 
 	/* First, warn the user if they have specified terminalCategory and/or
 	 * rootCategory without specifying recursiveCategory
@@ -113,7 +56,7 @@ window.GEN = function(sTree, words, options){
 	 * But if they are not, the default setting code throws unhelpful errors.
 	 * The finally block throws more helpful errors and alert boxes instead
 	 */
-
+	
 	//a flag for whether the user has included a novel category undefined in categoryHierarchy
 	var novelCategories = false;
 	try{
@@ -246,7 +189,7 @@ function obeysHeadedness(tree){
 	//inner function
 	function nodeIsHeaded(node) {
 		/* Function to check if a node is headed. Relies on the prosodic hierarchy being
-		 * properly defined. Returns true iff
+		 * properly defined. Returns true iff 
 		 * a. one of the node's children is of the category directly below its own category *    on the prosodic hierarchy,
 		 * b. one of the node's descendants is of the same category as the node
 		 * c. the node is terminal.
@@ -256,7 +199,7 @@ function obeysHeadedness(tree){
 		if (!children)
 			return true;
 		for (var i = 0; i < children.length; i++)
-			if (children[i].cat === pCat.nextLower(node.cat)
+			if (children[i].cat === pCat.nextLower(node.cat) 
 			|| children[i].cat === node.cat){
 				return true;
 			}
@@ -327,14 +270,11 @@ function wrapInLeafCat(word, cat){
 *	have a set of parentheses enclosing all of the leaves
 * Format: returns an array of parenthesizations, where each parenthesization
 *	is an array of children, where each child is
-*	either a node of category recursiveCategory (with descendant nodes attached)
-*	or a leaf (of category terminalCategory)
+*	either a phi node (with descendant nodes attached) or a leaf
 * Options:
 */
 function gen(leaves, options){
-
 	var candidates = [];	//each candidate will be an array of siblings
-	var cand;
 	if(!(leaves instanceof Array))
 		throw new Error(leaves+" is not a list of leaves.");
 
@@ -344,26 +284,12 @@ function gen(leaves, options){
 		return candidates;
 	}
 
-	//Recursive case: at least 1 terminal. Consider all candidates where the first i words are grouped together
+	//Recursive case: at least 1 word. Consider all candidates where the first i words are grouped together
 	for(var i = 1; i <= leaves.length; i++){
 
-		//First, create the right sides:
-		var rightLeaves = leaves.slice(i, leaves.length);
+		var rightsides = addRecCatWrapped(gen(leaves.slice(i, leaves.length), options), options);
 
-		//recursion at top level
-		var rightsides = addRecCatWrapped(gen(rightLeaves, options), options);
-		if(pushRecCat(options)){
-			//console.log("recursive push on right side", options.recursiveCategory);
-			var wRightsides = addRecCatWrapped(gen(rightLeaves, options), options);
-			//console.log(wRightsides);
-			rightsides.concat(wRightsides);
-			popRecCat(options);
-		}
-
-
-
-		//Then create left sides and combine them with the right sides.
-		//Case 1: the first i leaves attach directly to parent (no wrapping in a recursive category)
+		//Case 1: the first i leaves attach directly to parent (no phi wrapping)
 
 		var leftside = leaves.slice(0,i);
 
@@ -371,54 +297,21 @@ function gen(leaves, options){
 
 		//Combine the all-leaf leftside with all the possible rightsides that have a phi at their left edge (or are empty)
 		for(var j = 0; j<rightsides.length; j++){
-			//If the right side is:
-			// a. is empty,
-			// b. begins with a non-terminal category, or
-			// c. has more than 1 child...
-			var rightStartsStrong = !rightsides[j].length || (rightsides[j][0].cat !== options.terminalCategory);
-			if(!rightStartsStrong && rightsides[j].children && rightsides[j].children.length > 1){
-					rightStartsStrong = true;
-			}
-			//... then combine it with the left side.
-			if(rightStartsStrong)
+			if(!rightsides[j].length || rightsides[j][0].cat === options.recursiveCategory)
 			{
-				cand = leftside.concat(rightsides[j]);
+				var cand = leftside.concat(rightsides[j]);
 				candidates.push(cand);
 			}
 		}
 
-		//Case 3??
-		//Try to build left-sides that are wrapped in the next lower recursive category but aren't wrapped in the current recursive category
-		if(pushRecCat(options)){
-			var wLeftsides = gen(leaves.slice(0,i), options);
-			for(var k = 0; k<wLeftsides.length; k++){
-				var wLeftside = wrapInRecCat(wLeftsides[k], options);
-				popRecCat(options);
-				if(wLeftside){
-					//console.log(i, "wLeftside:", wLeftside);
-					//Combine the all-leaf leftside with all the possible rightsides that aren't empty
-					for(var j = 0; j<rightsides.length; j++){
-						if(rightsides[j].length)
-						{
-							cand = [wLeftside].concat(rightsides[j]);
-							candidates.push(cand);
-						}
-					}
-				}
-			}
 
 
-        }
-
-
-
+		//Case 2: the first i words are wrapped in a phi
 		if(i<leaves.length){
 			if(options.noUnary && i<2){
 				continue;
-				//Don't generate any candidates where the first terminal is in an intermediate level node by itself.
+				//Don't generate any candidates where the first terminal is in a phi by itself.
 			}
-
-			//Case 2: the first i words are wrapped in an intermediate level node
 			var phiLeftsides = gen(leaves.slice(0,i), options);
 			for(var k = 0; k<phiLeftsides.length; k++)
 			{
@@ -433,68 +326,8 @@ function gen(leaves, options){
 					candidates.push(cand);
 				}
 			}
-
 		}
 
-		//Now try to use recursion at the next recursive category
-		// if(pushRecCat(options)){
-		// 	//console.log("Recursive category:", options.recursiveCategory);
-
-		// 	var noUnary = options.noUnary;
-		// 	if(options.recursiveCategory===options.terminalCategory){
-		// 		options.noUnary = true;
-		// 	}
-
-		// 	var wLeftSides = addRecCatWrapped(gen(leaves.slice(0,i), options), options);
-		// 	options.noUnary = noUnary;
-
-		// 	//Case 3: The left side is wrapped in the next lower recursive cat
-		// 	if(options.recursiveCategory !== options.terminalCategory || i > 1){
-		// 		console.log(options.recursiveCategory, options.terminalCategory, i);
-		// 		for(var m = 0; m<wLeftSides.length; m++){
-		// 			// var wNode = wrapInRecCat(wLeftSides[m], options);
-		// 			// if(!wNode)
-		// 			// 	continue;
-		// 			var leftside = wLeftSides[m];
-
-		// 			for(var n = 0; n<rightsides.length; n++){
-		// 				cand = leftside.concat(rightsides[n]);
-		// 				candidates.push(cand);
-		// 			}
-		// 		}
-		// 	}
-
-
-		// 	popRecCat(options);
-		// }
-
-	}
-
-	//Now try to use recursion at the next recursive category
-	if (pushRecCat(options)) {
-		var noUnary = options.noUnary;
-		if(options.recursiveCategory===options.terminalCategory){
-			options.noUnary = true;
-			//console.log('noUnary set to true', options.recursiveCategory, options.terminalCategory, options.noUnary);
-		}
-		var wCands = gen(leaves, options);
-		//Uncommenting these lines to replace the following ones leads to lots of empty stuff in the output
-		/*var wCands2 = addRecCatWrapped(wCands, options);
-		candidates.push(wCands2);
-		*/
-
-		// Starting i at 1 here eliminates the duplication of ([.w a b ]) when a.cat and b.cat = w, but also erroneously eliminates a whole bunch of candidates when a.cat, b.cat = Ft, and isn't a general fix for the longer cases.
-		for (var i = 0; i < wCands.length; i++) {
-			cand = wCands[i];
-			var wrappedCand = wrapInRecCat(cand, options);
-
-			if(wrappedCand)
-				candidates.push([wrappedCand]);
-				// candidates.push(cand);
-		}
-
-		options.noUnary = noUnary;
-		popRecCat(options);
 	}
 
 	return candidates;
@@ -508,23 +341,13 @@ function wrapInRecCat(candidate, options){
 	}
 	if (options && options.obeysNonrecursivity)
 		for (var i = 0; i < candidate.length; i++)
-			if (candidate[i].cat === options.recursiveCategory){
+			if (candidate[i].cat === options.recursiveCategory)
 				return null;
-			}
-
-
-	// Don't wrap anything in a recursive category that is already wrapped in one
-	if (candidate.length < 2 && candidate[0] && candidate[0].cat === options.recursiveCategory){
-		//("wrapInRecCat", options.recursiveCategory, candidate);
-		//console.log("Not wrapping ", candidate);
-		return null;
-	}
-
 	return {id: options.recursiveCategory+(recNum++), cat: options.recursiveCategory, children: candidate};
 }
 
 //Takes a list of candidates and doubles it to root each of them in a phi
-//If options.noUnary, skip wrapInRecCat-ing candidates that are only 1 terminal long
+//If options.noUnary, skip wrapInRecCating candidates that are only 1 terminal long
 function addRecCatWrapped(candidates, options){
 	var origLen = candidates.length;
 	var result = [];
@@ -537,11 +360,9 @@ function addRecCatWrapped(candidates, options){
 			if(options.noUnary && candLen == 1){
 				continue;
 			}
-
 			var phiNode = wrapInRecCat(candidates[i], options);
-			if (phiNode){
+			if (phiNode)
 				result.push([phiNode]);
-			}
 		}
 	}
 	return result;
@@ -580,100 +401,36 @@ function generateWordOrders(wordList, clitic){
 	return orders;
 }
 
-function GENwithPermutation(stree, words, options){
-
-	var leaves = getLeaves(stree);
-	var permutations = [];
-
-	//function for swapping elements in an array, takes array and indexes of elements to be swapped
-	function swap(array, index1, index2){
-		var swapped = [];
-		for(var i = 0; i<array.length; i++){
-			if(i === index1){
-				swapped.push(array[index2]);
-			}
-			else if(i === index2){
-				swapped.push(array[index1]);
-			}
-			else{
-				swapped.push(array[i]);
-			}
-		}
-		return swapped;
-	}
-
-	//actual implementation of Heap's algorithm
-
-	function allOrdersInner(innerList, k){
-		if(k == 1){
-			permutations.push(innerList);
-		}
-		else{
-			allOrdersInner(innerList, k-1); //recursive function call
-
-			for(var i = 0; i < k-1; i++){
-				if(k%2 === 0){
-					//swap innerList[i] with innerList[k-1]
-					allOrdersInner(swap(innerList, 0, k-1), k-1); //recursive function call
-				}
-				else {
-					//swap innerList[0] with innerList[k-1]
-					allOrdersInner(swap(innerList, i, k-1), k-1); //recursive function call
-				}
-			}
-		}
-	}
-
-	//Make sure words is defined before using it to generate word orders
-	if(!words || words.length<leaves.length){
-		words = new Array(leaves.length);
-		for(var i in leaves){
-			words[i] = leaves[i].id;
-		}
-		//console.log(words);
-	}
-	allOrdersInner(words, words.length);
-	var candidateSets = [];
-	for(var i = 0; i<permutations.length; i++){
-		candidateSets[i] = GEN(stree, permutations[i], options);
-	}
-	//candidateSets;
-	return [].concat.apply([], candidateSets);
-}
-
 /* Arguments:
 	stree: a syntatic tree, with the clitic marked as cat: "clitic"
 	words: optional string or array of strings which are the desired leaves
-	options: options for GEN and permuteAll: generates all permutations of words,
-	 	does not care if terminals are or are not clitics
+	options: options for GEN
 
    Returns: GEN run on each possible order of the words, where possible orders
    are those where terminals other than the clitic remian in place but the clitic can occupy any position.
 
-   Caveat: If there are multiple clitics, the order of non-clitics might not be maintaned in all candidates
+   Caveat: If there are multiple clitics, only the first will be moved.
 */
 function GENwithCliticMovement(stree, words, options){
-	options = options || {};
 	// Identify the clitic of interest
-	var clitic = [];
+	var clitic = '';
 	// First try to read words and clitic off the tree
 	var leaves = getLeaves(stree);
 	if(leaves.length > 0 && leaves[0].id){
-		//console.log(leaves);
+		console.log(leaves);
 		var leaf = 0;
-		while(leaf < leaves.length){
+		while(clitic === '' && leaf < leaves.length){
 			if(leaves[leaf].cat==="clitic")
-				clitic.push(leaves[leaf].id);
+				clitic = leaves[leaf].id;
 			leaf++;
 		}
-		/* now redundant
-		if(clitic.length == 0){
+		if(clitic === ''){
 			console.warn("GENWithCliticMovement was called but no node in stree has category clitic was provided in stree");
 			console.log(stree);
 			return GEN(stree, words, options);
 			//throw new Error("GENWithCliticMovement was called but no node in stree has category clitic was provided in stree");
+
 		}
-		*/
 	}
 	//Otherwise, get the clitic from words
 	else
@@ -682,17 +439,14 @@ function GENwithCliticMovement(stree, words, options){
 		if(typeof words === "string"){
 			words = words.split(' ');
 		}
-		for(var x = 0; x < words.length; x++){
-			if(words[x].split('-clitic').length > 1){
-				clitic.push(words[x].split('-clitic')[0]);
-				words[x] = words[x].split('-clitic')[0];
-			}
+		var x = words.find(containsClitic);
+		if(!x){ //x is undefined if no word in "words" contains "clitic"
+			console.warn("GENWithCliticMovement was called but no node in stree has category clitic was provided in stree");
+			console.log(stree);
+			return GEN(stree, words, options);
 		}
-	}
-	if(clitic.length == 0 && !options.permuteAll){ //clitic.length is 0 if no word in "words" contains "clitic"
-		console.warn("GENWithCliticMovement was called but no node in stree has category clitic was provided in stree");
-		console.log(stree);
-		return GEN(stree, words, options);
+		clitic = x.split('-clitic')[0];
+		words[words.indexOf(x)] = clitic;
 	}
 
 	//Make sure words is defined before using it to generate word orders
@@ -703,16 +457,7 @@ function GENwithCliticMovement(stree, words, options){
 		}
 		//console.log(words);
 	}
-	var wordOrders;
-	if(clitic.length === 1){
-		wordOrders = generateWordOrders(words, clitic[0]);
-	}
-	else if(options.permuteAll){
-		wordOrders = generateAllOrders(words);
-	}
-	else{
-		wordOrders = generateAllOrders(words, clitic);
-	}
+	var wordOrders = generateWordOrders(words, clitic);
 	var candidateSets = new Array(wordOrders.length);
 	for(var i = 0; i<wordOrders.length; i++){
 		candidateSets[i] = GEN(stree, wordOrders[i], options);
