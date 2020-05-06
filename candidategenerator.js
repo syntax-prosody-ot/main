@@ -581,6 +581,10 @@ function generateWordOrders(wordList, clitic){
 }
 
 function GENwithPermutation(stree, words, options){
+
+	var leaves = getLeaves(stree);
+	var permutations = [];
+
 	//function for swapping elements in an array, takes array and indexes of elements to be swapped
 	function swap(array, index1, index2){
 		var swapped = [];
@@ -597,7 +601,7 @@ function GENwithPermutation(stree, words, options){
 		}
 		return swapped;
 	}
-	
+
 	//actual implementation of Heap's algorithm
 	function allOrdersInner(innerList, k){
 		if(k == 1){
@@ -607,16 +611,11 @@ function GENwithPermutation(stree, words, options){
 			allOrdersInner(innerList, k-1); //recursive function call
 
 			for(var i = 0; i < k-1; i++){
-				if(k%2 === 0
-					&& !(cliticList && cliticList.length
-					&& cliticList.indexOf(innerList[0]) < 0
-					&& cliticList.indexOf(innerList[k-1]) < 0)){
+				if(k%2 === 0){
 					//swap innerList[i] with innerList[k-1]
 					allOrdersInner(swap(innerList, 0, k-1), k-1); //recursive function call
 				}
-				else if (!(cliticList && cliticList.length
-					&& cliticList.indexOf(innerList[i]) < 0
-					&& cliticList.indexOf(innerList[k-1]) < 0)){
+				else {
 					//swap innerList[0] with innerList[k-1]
 					allOrdersInner(swap(innerList, i, k-1), k-1); //recursive function call
 				}
@@ -632,10 +631,10 @@ function GENwithPermutation(stree, words, options){
 		}
 		//console.log(words);
 	}
-	var wordOrders = allOrdersInner(words, words.length);
-	var candidateSets = new Array(wordOrders.length);
-	for(var i = 0; i<wordOrders.length; i++){
-		candidateSets[i] = GEN(stree, wordOrders[i], options);
+	allOrdersInner(words, words.length);
+	var candidateSets = [];
+	for(var i = 0; i<permutations.length; i++){
+		candidateSets[i] = GEN(stree, permutations[i], options);
 	}
 	//candidateSets;
 	return [].concat.apply([], candidateSets);
@@ -657,7 +656,7 @@ function GENwithCliticMovement(stree, words, options){
 	// First try to read words and clitic off the tree
 	var leaves = getLeaves(stree);
 	if(leaves.length > 0 && leaves[0].id){
-		console.log(leaves);
+		//console.log(leaves);
 		var leaf = 0;
 		while(clitic === '' && leaf < leaves.length){
 			if(leaves[leaf].cat==="clitic")
