@@ -78,8 +78,11 @@
 
 			//'matchPS-phi-{"maxProsody":true}'
 			var con1 = ['alignLeft-xp', 'alignLeft-xp-{"maxProsody": true}', 'alignLeft-xp-{"minProsody": true}', 'alignLeft-xp-{"nonMaxProsody": true}', 'alignLeft-xp-{"nonMinProsody": true}'];
+			var con2 = ['alignLeftPS-phi', 'alignLeftPS-phi-{"maxProsody": true}', 'alignLeftPS-phi-{"minProsody": true}', 'alignLeftPS-phi-{"nonMaxProsody": true}', 'alignLeftPS-phi-{"nonMinProsody": true}'];
 			window.addEventListener("load",function(){
 				//throw new Error(matchSP(GEN(sTree, "one two-func (three)")[0][0], GEN(sTree, "one two-func (three)")[0][1], "xp", {maxSyntax:true}));
+				writeTableau(makeTableau([[sTree, pTree1], [sTree, pTree2], [sTree, pTree3]], con1));
+				revealNextSegment();
 				writeTableau(makeTableau([[sTree, pTree1], [sTree, pTree2], [sTree, pTree3]], con1));
 				revealNextSegment();
 			});
