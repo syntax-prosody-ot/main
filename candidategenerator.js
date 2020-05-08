@@ -24,8 +24,7 @@
         continue;
       if (options.obeysHeadedness && !obeysHeadedness(pRoot))
         continue;
-      if (ternaryNodes(pRoot, options.maxBranching)) {
-				console.log("excluded: ", [sTree, pRoot])
+      if (options.maxBranching && ternaryNodes(pRoot, options.maxBranching)) {
 				continue;
 			}
       candidates.push([sTree, pRoot]);
