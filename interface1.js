@@ -446,6 +446,11 @@ window.addEventListener('load', function(){
 			genOptions['obeysExhaustivity'] = exCats;
 		}
 
+		// if max branching option is selected
+		if(genOptions['maxBranching']){
+			genOptions['maxBranching'] = spotForm.maxBranchingValue.value;
+		}
+
 		//plug correct value into category options
 		genOptions.rootCategory = spotForm['genOptions-rootCategory'].value;
 		genOptions.recursiveCategory = spotForm['genOptions-recursiveCategory'].value;
@@ -1026,4 +1031,15 @@ function showMore(constraintType) {
     x.style.display = "block";
 		y.innerHTML = "Show less...";
   }
+}
+
+
+function showMaxBranching() {
+	var text = document.getElementById('maxBranchingText');
+	if(text.style.display === 'none') {
+		text.style.display = 'inline';
+	}
+	else if(text.style.display === 'inline') {
+		text.style.display = 'none';
+	}
 }

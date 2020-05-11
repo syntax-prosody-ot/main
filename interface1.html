@@ -524,6 +524,12 @@
 						</div>
 					</div>
 					<div class="constraint-row">
+						<span><input type="checkbox" name="genOptions" value="maxBranching" onclick="showMaxBranching()">Restrict maximum number of branches<span id="maxBranchingText" style="display: none"> to <input style="width: 25px; text-align: center" type="text" name="maxBranchingValue" value=""></span></span>
+						<div class="info">
+							<span class="content">If selected, restricts the maximum number of branches that are tolerated to the entered number.</span>
+						</div>
+					</div>
+					<div class="constraint-row">
 						<span><input type="checkbox" name="genOptions" id="cliticMovementBox" value="cliticMovement">Allow clitics to move</span>
 						<div class="info">
 							<span class="content">GEN will permute the first node in the syntactic tree with category 'clitic' through the sentence. Ex.: a b c-clitic -> a b c-clitic, a c-clitic b, c-clitic a b. Only use this if your sentences are short, or in conjunction with non-recursivity or the branching requirement.</span>
