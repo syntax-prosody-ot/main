@@ -310,3 +310,64 @@ function GENwithCliticMovement(stree, words, options) {
   //candidateSets;
   return [].concat.apply([], candidateSets);
 }
+
+function GENwithPermutation(stree, words, options){
+
+	var leaves = getLeaves(stree);
+	var permutations = [];
+
+	//function for swapping elements in an array, takes array and indexes of elements to be swapped
+	function swap(array, index1, index2){
+		var swapped = [];
+		for(var i = 0; i<array.length; i++){
+			if(i === index1){
+				swapped.push(array[index2]);
+			}
+			else if(i === index2){
+				swapped.push(array[index1]);
+			}
+			else{
+				swapped.push(array[i]);
+			}
+		}
+		return swapped;
+	}
+
+	//actual implementation of Heap's algorithm
+
+	function allOrdersInner(innerList, k){
+		if(k == 1){
+			permutations.push(innerList);
+		}
+		else{
+			allOrdersInner(innerList, k-1); //recursive function call
+
+			for(var i = 0; i < k-1; i++){
+				if(k%2 === 0){
+					//swap innerList[i] with innerList[k-1]
+					allOrdersInner(swap(innerList, 0, k-1), k-1); //recursive function call
+				}
+				else {
+					//swap innerList[0] with innerList[k-1]
+					allOrdersInner(swap(innerList, i, k-1), k-1); //recursive function call
+				}
+			}
+		}
+	}
+
+	//Make sure words is defined before using it to generate word orders
+	if(!words || words.length<leaves.length){
+		words = new Array(leaves.length);
+		for(var i in leaves){
+			words[i] = leaves[i].id;
+		}
+		//console.log(words);
+	}
+	allOrdersInner(words, words.length);
+	var candidateSets = [];
+	for(var i = 0; i<permutations.length; i++){
+		candidateSets[i] = GEN(stree, permutations[i], options);
+	}
+	//candidateSets;
+	return [].concat.apply([], candidateSets);
+}
