@@ -800,223 +800,229 @@
 						</div>
 					</div>
 
-					<div class="constraint-selection-table">
-						<div class="constraint-row">
-								<span><input type="checkbox" name="constraints" value="matchMaxSP">MatchMax(Syntax&rarr;Prosody)</span>
-								<div class="info">
-									<span class="content">Assign one violation for every maximal node of category K in the syntactic tree such that there is no maximal node of the category corresponding to K that dominates all and only the same terminal nodes in the prosodic tree. A node of category K is maximal iff it is not dominated by any other node of category K. SPOT function: matchMaxSP(). (Ito & Mester 2009, Ishihara 2014)</span>
+					<div onclick="showMore('moreMappingConstraints')" class="show-more" id="moreMappingConstraintsShow">Show more...</div>
+
+					<div id="moreMappingConstraints" class="more-constraints">
+
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+									<span><input type="checkbox" name="constraints" value="matchMaxSP">MatchMax(Syntax&rarr;Prosody)</span>
+									<div class="info">
+										<span class="content">Assign one violation for every maximal node of category K in the syntactic tree such that there is no maximal node of the category corresponding to K that dominates all and only the same terminal nodes in the prosodic tree. A node of category K is maximal iff it is not dominated by any other node of category K. SPOT function: matchMaxSP(). (Ito & Mester 2009, Ishihara 2014)</span>
+									</div>
+							</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-matchMaxSP" value="cp">CP</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-matchMaxSP" value="xp" checked="checked">XP</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-matchMaxSP" value="x0">X<sup>0</sup></div>
+							</div>
+							<div class="category-row">
+
+								<div class="custom-text">
+									<p>Enforce Match only for syntactic nodes that are...</p>
 								</div>
+								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchMaxSP" value="requireLexical">lexical</div>
+								<div class="info">
+									<span class="content custom-option-div">Match only maximal syntactic nodes that are not labeled as functional.</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchMaxSP" value="requireOvertHead">overtly headed</div>
+								<div class="info">
+									<span class="content custom-option-div">Match only maximal syntactic nodes that have a non-silent head.</span>
+								</div>
+							</div>
 						</div>
-						<div class="category-row">
-							<div class="category-selection-div"><input type="checkbox" name="category-matchMaxSP" value="cp">CP</div>
-							<div class="category-selection-div"><input type="checkbox" name="category-matchMaxSP" value="xp" checked="checked">XP</div>
-							<div class="category-selection-div"><input type="checkbox" name="category-matchMaxSP" value="x0">X<sup>0</sup></div>
-						</div>
-						<div class="category-row">
 
-							<div class="custom-text">
-								<p>Enforce Match only for syntactic nodes that are...</p>
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="matchNonMinSyntax">MatchNonMinimal(Syntax&rarr;Prosody)</span>
+								<div class="info">
+									<span class="content">Assign one violation for every non-minimal node of category K in the syntactic tree for which there is no node of the category corresponding to K in the prosodic tree that dominates all and only the same terminals. A node of category K is non-minimal iff it dominates at least one other node of category K. SPOT function: matchNonMinSyntax(). (Ito & Mester 2009, Kalivoda, Ito, & Mester 2019)</span>
+								</div>
 							</div>
-							<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchMaxSP" value="requireLexical">lexical</div>
-							<div class="info">
-								<span class="content custom-option-div">Match only maximal syntactic nodes that are not labeled as functional.</span>
+							<div class="category-row">
+									<div class="category-selection-div"><input type="checkbox" name="category-matchNonMinSyntax" value="cp">CP</div>
+									<div class="category-selection-div"><input type="checkbox" name="category-matchNonMinSyntax" value="xp" checked="checked">XP</div>
+									<div class="category-selection-div"><input type="checkbox" name="category-matchNonMinSyntax" value="x0">X<sup>0</sup></div>
+							</div>
+							<div class="category-row">
+								<div class="custom-text">
+									<p>Enforce Match only for syntactic nodes that are...</p>
+								</div>
+								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchNonMinSyntax" value="requireLexical">lexical</div>
+								<div class="info">
+									<span class="content custom-option-div">Match only non-minimal syntactic nodes that are not labeled as functional.</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchNonMinSyntax" value="requireOvertHead">overtly headed</div>
+								<div class="info">
+									<span class="content custom-option-div">Match only non-minimal syntactic nodes that have a non-silent head.</span>
+								</div>
 							</div>
 						</div>
-						<div class="category-row">
-							<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchMaxSP" value="requireOvertHead">overtly headed</div>
-							<div class="info">
-								<span class="content custom-option-div">Match only maximal syntactic nodes that have a non-silent head.</span>
-							</div>
-						</div>
-					</div>
 
-					<div class="constraint-selection-table">
-						<div class="constraint-row">
-							<span><input type="checkbox" name="constraints" value="matchNonMinSyntax">MatchNonMinimal(Syntax&rarr;Prosody)</span>
-							<div class="info">
-								<span class="content">Assign one violation for every non-minimal node of category K in the syntactic tree for which there is no node of the category corresponding to K in the prosodic tree that dominates all and only the same terminals. A node of category K is non-minimal iff it dominates at least one other node of category K. SPOT function: matchNonMinSyntax(). (Ito & Mester 2009, Kalivoda, Ito, & Mester 2019)</span>
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="matchCustomSP">Custom Match(Syntax&rarr;Prosody)</span>
+								<div class="info">
+									<span class="content">Create your own custom Match constraint.</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-matchCustomSP" value="cp">CP</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-matchCustomSP" value="xp" checked="checked">XP</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-matchCustomSP" value="x0">X<sup>0</sup></div>
+							</div>
+							<div class="category-row">
+								<div class="custom-text">
+									<p>Enforce Match only for syntactic nodes that are...</p>
+								</div>
+								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchCustomSP" value="requireLexical">lexical</div>
+								<div class="info">
+									<span class="content custom-option-div">Match only syntactic nodes that are not labeled as functional.</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchCustomSP" value="requireOvertHead">overtly headed</div>
+								<div class="info">
+									<span class="content custom-option-div">Match only syntactic nodes that have a non-silent head.</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div custom-option-div">
+									<select name="option-matchCustomSP">
+										<option value="any">Any</option>
+										<option value="maxSyntax">+</option>
+										<option value="nonMaxSyntax">-</option>
+									</select> maximal
+								</div>
+								<div class="info">
+									<span class="content custom-option-div">A node is maximal if it does not dominate any nodes of its own category.</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div custom-option-div">
+									<select name="option-matchCustomSP">
+										<option value="any">Any</option>
+										<option value="minSyntax">+</option>
+										<option value="nonMinSyntax">-</option>
+									</select> minimal
+								</div>
+								<div class="info">
+									<span class="content custom-option-div">A node is minimal if it is not dominated by any nodes of its own category.</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="custom-text">
+									<p>Prosodic categories must be...</p>
+								</div>
+								<div class="option-selection-div custom-option-div">
+									<select name="option-matchCustomSP">
+										<option value="any">Any</option>
+										<option value="maxProsody">+</option>
+										<option value="nonMaxProsody">-</option>
+									</select> maximal
+								</div>
+								<div class="info">
+									<span class="content custom-option-div">A node is maximal if it does not dominate any nodes of its own category.</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div custom-option-div">
+									<select name="option-matchCustomSP">
+										<option value="any">Any</option>
+										<option value="minProsody">+</option>
+										<option value="nonMinProsody">-</option>
+									</select> minimal
+								</div>
+								<div class="info">
+									<span class="content custom-option-div">A node is minimal if it is not dominated by any nodes of its own category.</span>
+								</div>
 							</div>
 						</div>
-						<div class="category-row">
-								<div class="category-selection-div"><input type="checkbox" name="category-matchNonMinSyntax" value="cp">CP</div>
-								<div class="category-selection-div"><input type="checkbox" name="category-matchNonMinSyntax" value="xp" checked="checked">XP</div>
-								<div class="category-selection-div"><input type="checkbox" name="category-matchNonMinSyntax" value="x0">X<sup>0</sup></div>
-						</div>
-						<div class="category-row">
-							<div class="custom-text">
-								<p>Enforce Match only for syntactic nodes that are...</p>
-							</div>
-							<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchNonMinSyntax" value="requireLexical">lexical</div>
-							<div class="info">
-								<span class="content custom-option-div">Match only non-minimal syntactic nodes that are not labeled as functional.</span>
-							</div>
-						</div>
-						<div class="category-row">
-							<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchNonMinSyntax" value="requireOvertHead">overtly headed</div>
-							<div class="info">
-								<span class="content custom-option-div">Match only non-minimal syntactic nodes that have a non-silent head.</span>
-							</div>
-						</div>
-					</div>
 
-					<div class="constraint-selection-table">
-						<div class="constraint-row">
-							<span><input type="checkbox" name="constraints" value="matchCustomSP">Custom Match(Syntax&rarr;Prosody)</span>
-							<div class="info">
-								<span class="content">Create your own custom Match constraint.</span>
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="matchCustomPS">Custom Match(Prosody&rarr;Syntax)</span>
+								<div class="info">
+									<span class="content">Create your own custom Match constraint.</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-matchCustomPS" value="i">&iota;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-matchCustomPS" value="phi" checked="checked">&phi;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-matchCustomPS" value="w">&omega;</div>
+							</div>
+							<div class="category-row">
+								<div class="custom-text">
+									<p>Enforce Match only for prosodic nodes that are...</p>
+								</div>
+								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchCustomPS" value="requireLexical">lexical</div>
+								<div class="info">
+									<span class="content custom-option-div">Match only prosodic nodes that are not labeled as functional.</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchCustomPS" value="requireOvertHead">overtly headed</div>
+								<div class="info">
+									<span class="content custom-option-div">Match only prosodic nodes that have a non-silent head.</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div custom-option-div">
+									<select name="option-matchCustomPS">
+										<option value="any">Any</option>
+										<option value="maxProsody">+</option>
+										<option value="nonMaxProsody">-</option>
+									</select> maximal
+								</div>
+								<div class="info">
+									<span class="content custom-option-div">A node is maximal if it does not dominate any nodes of its own category.</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div custom-option-div">
+									<select name="option-matchCustomPS">
+										<option value="any">Any</option>
+										<option value="minProsody">+</option>
+										<option value="nonMinProsody">-</option>
+									</select> minimal
+								</div>
+								<div class="info">
+									<span class="content custom-option-div">A node is minimal if it is not dominated by any nodes of its own category.</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="custom-text">
+									<p>Syntactic categories must be...</p>
+								</div>
+								<div class="option-selection-div custom-option-div">
+									<select name="option-matchCustomPS">
+										<option value="any">Any</option>
+										<option value="maxSyntax">+</option>
+										<option value="nonMaxSyntax">-</option>
+									</select> maximal
+								</div>
+								<div class="info">
+									<span class="content custom-option-div">A node is maximal if it does not dominate any nodes of its own category.</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div custom-option-div">
+									<select name="option-matchCustomPS">
+										<option value="any">Any</option>
+										<option value="minSyntax">+</option>
+										<option value="nonMinSyntax">-</option>
+									</select> minimal
+								</div>
+								<div class="info">
+									<span class="content custom-option-div">A node is minimal if it is not dominated by any nodes of its own category.</span>
+								</div>
 							</div>
 						</div>
-						<div class="category-row">
-							<div class="category-selection-div"><input type="checkbox" name="category-matchCustomSP" value="cp">CP</div>
-							<div class="category-selection-div"><input type="checkbox" name="category-matchCustomSP" value="xp" checked="checked">XP</div>
-							<div class="category-selection-div"><input type="checkbox" name="category-matchCustomSP" value="x0">X<sup>0</sup></div>
-						</div>
-						<div class="category-row">
-							<div class="custom-text">
-								<p>Enforce Match only for syntactic nodes that are...</p>
-							</div>
-							<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchCustomSP" value="requireLexical">lexical</div>
-							<div class="info">
-								<span class="content custom-option-div">Match only syntactic nodes that are not labeled as functional.</span>
-							</div>
-						</div>
-						<div class="category-row">
-							<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchCustomSP" value="requireOvertHead">overtly headed</div>
-							<div class="info">
-								<span class="content custom-option-div">Match only syntactic nodes that have a non-silent head.</span>
-							</div>
-						</div>
-						<div class="category-row">
-							<div class="option-selection-div custom-option-div">
-								<select name="option-matchCustomSP">
-									<option value="any">Any</option>
-									<option value="maxSyntax">+</option>
-									<option value="nonMaxSyntax">-</option>
-								</select> maximal
-							</div>
-							<div class="info">
-								<span class="content custom-option-div">A node is maximal if it does not dominate any nodes of its own category.</span>
-							</div>
-						</div>
-						<div class="category-row">
-							<div class="option-selection-div custom-option-div">
-								<select name="option-matchCustomSP">
-									<option value="any">Any</option>
-									<option value="minSyntax">+</option>
-									<option value="nonMinSyntax">-</option>
-								</select> minimal
-							</div>
-							<div class="info">
-								<span class="content custom-option-div">A node is minimal if it is not dominated by any nodes of its own category.</span>
-							</div>
-						</div>
-						<div class="category-row">
-							<div class="custom-text">
-								<p>Prosodic categories must be...</p>
-							</div>
-							<div class="option-selection-div custom-option-div">
-								<select name="option-matchCustomSP">
-									<option value="any">Any</option>
-									<option value="maxProsody">+</option>
-									<option value="nonMaxProsody">-</option>
-								</select> maximal
-							</div>
-							<div class="info">
-								<span class="content custom-option-div">A node is maximal if it does not dominate any nodes of its own category.</span>
-							</div>
-						</div>
-						<div class="category-row">
-							<div class="option-selection-div custom-option-div">
-								<select name="option-matchCustomSP">
-									<option value="any">Any</option>
-									<option value="minProsody">+</option>
-									<option value="nonMinProsody">-</option>
-								</select> minimal
-							</div>
-							<div class="info">
-								<span class="content custom-option-div">A node is minimal if it is not dominated by any nodes of its own category.</span>
-							</div>
-						</div>
-					</div>
 
-					<div class="constraint-selection-table">
-						<div class="constraint-row">
-							<span><input type="checkbox" name="constraints" value="matchCustomPS">Custom Match(Prosody&rarr;Syntax)</span>
-							<div class="info">
-								<span class="content">Create your own custom Match constraint.</span>
-							</div>
-						</div>
-						<div class="category-row">
-							<div class="category-selection-div"><input type="checkbox" name="category-matchCustomPS" value="i">&iota;</div>
-							<div class="category-selection-div"><input type="checkbox" name="category-matchCustomPS" value="phi" checked="checked">&phi;</div>
-							<div class="category-selection-div"><input type="checkbox" name="category-matchCustomPS" value="w">&omega;</div>
-						</div>
-						<div class="category-row">
-							<div class="custom-text">
-								<p>Enforce Match only for prosodic nodes that are...</p>
-							</div>
-							<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchCustomPS" value="requireLexical">lexical</div>
-							<div class="info">
-								<span class="content custom-option-div">Match only prosodic nodes that are not labeled as functional.</span>
-							</div>
-						</div>
-						<div class="category-row">
-							<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchCustomPS" value="requireOvertHead">overtly headed</div>
-							<div class="info">
-								<span class="content custom-option-div">Match only prosodic nodes that have a non-silent head.</span>
-							</div>
-						</div>
-						<div class="category-row">
-							<div class="option-selection-div custom-option-div">
-								<select name="option-matchCustomPS">
-									<option value="any">Any</option>
-									<option value="maxProsody">+</option>
-									<option value="nonMaxProsody">-</option>
-								</select> maximal
-							</div>
-							<div class="info">
-								<span class="content custom-option-div">A node is maximal if it does not dominate any nodes of its own category.</span>
-							</div>
-						</div>
-						<div class="category-row">
-							<div class="option-selection-div custom-option-div">
-								<select name="option-matchCustomPS">
-									<option value="any">Any</option>
-									<option value="minProsody">+</option>
-									<option value="nonMinProsody">-</option>
-								</select> minimal
-							</div>
-							<div class="info">
-								<span class="content custom-option-div">A node is minimal if it is not dominated by any nodes of its own category.</span>
-							</div>
-						</div>
-						<div class="category-row">
-							<div class="custom-text">
-								<p>Syntactic categories must be...</p>
-							</div>
-							<div class="option-selection-div custom-option-div">
-								<select name="option-matchCustomPS">
-									<option value="any">Any</option>
-									<option value="maxSyntax">+</option>
-									<option value="nonMaxSyntax">-</option>
-								</select> maximal
-							</div>
-							<div class="info">
-								<span class="content custom-option-div">A node is maximal if it does not dominate any nodes of its own category.</span>
-							</div>
-						</div>
-						<div class="category-row">
-							<div class="option-selection-div custom-option-div">
-								<select name="option-matchCustomPS">
-									<option value="any">Any</option>
-									<option value="minSyntax">+</option>
-									<option value="nonMinSyntax">-</option>
-								</select> minimal
-							</div>
-							<div class="info">
-								<span class="content custom-option-div">A node is minimal if it is not dominated by any nodes of its own category.</span>
-							</div>
-						</div>
 					</div>
 
 				</fieldset>
@@ -1070,93 +1076,98 @@
 						</div>
 					</div>
 
-					<div class="constraint-selection-table">
-						<div class="constraint-row">
-							<span><input type="checkbox" name="constraints" value="alignLeftPS">AlignLeft(Prosody&rarr;Syntax)</span>
-							<div class="info">
-								<span class="content">Assign a violation for every prosodic node of category K whose left edge is not aligned with the left edge of a syntactic node of the corresponding category. Alignment is evaluated by comparing node ids (Kalivoda 2019, SPOT).</span>
+					<div onclick="showMore('moreAlignConstraints')" class="show-more" id="moreAlignConstraintsShow">Show more...</div>
+
+					<div id="moreAlignConstraints" class="more-constraints">
+
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="alignLeftPS">AlignLeft(Prosody&rarr;Syntax)</span>
+								<div class="info">
+									<span class="content">Assign a violation for every prosodic node of category K whose left edge is not aligned with the left edge of a syntactic node of the corresponding category. Alignment is evaluated by comparing node ids (Kalivoda 2019, SPOT).</span>
+								</div>
+							</div>
+
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-alignLeftPS" value="i">&iota;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-alignLeftPS" value="phi" checked="checked">&phi;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-alignLeftPS" value="w">&omega;</div>
 							</div>
 						</div>
 
-						<div class="category-row">
-							<div class="category-selection-div"><input type="checkbox" name="category-alignLeftPS" value="i">&iota;</div>
-							<div class="category-selection-div"><input type="checkbox" name="category-alignLeftPS" value="phi" checked="checked">&phi;</div>
-							<div class="category-selection-div"><input type="checkbox" name="category-alignLeftPS" value="w">&omega;</div>
-						</div>
-					</div>
-
-					<div class="constraint-selection-table">
-						<div class="constraint-row">
-								<span><input type="checkbox" name="constraints" value="alignRightPS">AlignRight(Prosody&rarr;Syntax)</span>
-								<div class="info">
-									<span class="content">Assign a violation for every prosodic node of category K whose right edge is not aligned with the right edge of a syntactic node of the corresponding category. Alignment is evaluated by comparing node ids (Kalivoda 2019, SPOT).</span>
-								</div>
-						</div>
-						<div class="category-row">
-							<div class="category-selection-div"><input type="checkbox" name="category-alignRightPS" value="i">&iota;</div>
-							<div class="category-selection-div"><input type="checkbox" name="category-alignRightPS" value="phi" checked="checked">&phi;</div>
-							<div class="category-selection-div"><input type="checkbox" name="category-alignRightPS" value="w">&omega;</div>
-						</div>
-					</div>
-
-					<div class="constraint-selection-table">
-						<div class="constraint-row">
-							<span><input type="checkbox" name="constraints" value="alignLeftMorpheme">AlignLeft(Lexical item)</span>
-							<div class="info"><span class="content">For the specified morpheme(s), assign a violation for every terminal that intervenes between the left edge of the tree and the lexical item. Separate lexical items with spaces. See: McCarthy & Prince 1993, "Generalized Alignment"</span></div>
-						</div>
-						<div class="category-row">
-							<div class="category-selection-div"><input type="text" name="category-alignLeftMorpheme" checked="true" placeholder="Lexical item(s)"></div>
-						</div>
-					</div>
-					<div class="constraint-selection-table">
-						<div class="constraint-row">
-							<span><input type="checkbox" name="constraints" value="alignRightMorpheme">AlignRight(Lexical item)</span>
-							<div class="info"><span class="content">For the specified morpheme(s), assign a violation for every terminal that intervenes between the right edge of the tree and the lexical item. Separate lexical items with spaces. See: McCarthy & Prince 1993, "Generalized Alignment"</span></div>
-						</div>
-						<div class="category-row">
-							<div class="category-selection-div"><input type="text" name="category-alignRightMorpheme" checked="true" placeholder="Lexical item(s)"></div>
-						</div>
-					</div>
-					<div class="constraint-selection-table">
-						<div class="constraint-row">
-								<span><input type="checkbox" name="constraints" value="alignFocLeft">AlignFocLeft</span>
-								<div class="info">
-								<span class="content">For every node S with attribute "foc" in sTree, assign a violation if the left-edge of S is not aligned to the left-edge of a node of category pCat in pTree.</span>
-								</div>
-						</div>
-						<div class="category-row">
-							<div class="category-selection-div"><input type="checkbox" name="category-alignFocLeft" value="i">&iota;</div>
-							<div class="category-selection-div"><input type="checkbox" name="category-alignFocLeft" value="phi" checked="checked">&phi;</div>
-							<div class="category-selection-div"><input type="checkbox" name="category-alignFocLeft" value="w">&omega;</div>
-						</div>
-					</div>
-
-					<div class="constraint-selection-table">
-						<div class="constraint-row">
-								<span><input type="checkbox" name="constraints" value="alignFocRight">AlignFocRight</span>
-								<div class="info">
-								<span class="content">For every node S with attribute "foc" in sTree, assign a violation if the right-edge of S is not aligned to the right-edge of a node of category pCat in pTree.</span>
-								</div>
-						</div>
-						<div class="category-row">
-							<div class="category-selection-div"><input type="checkbox" name="category-alignFocRight" value="i">&iota;</div>
-							<div class="category-selection-div"><input type="checkbox" name="category-alignFocRight" value="phi" checked="checked">&phi;</div>
-							<div class="category-selection-div"><input type="checkbox" name="category-alignFocRight" value="w">&omega;</div>
-						</div>
-					</div>
-
-
-					<div class="constraint-selection-table">
-						<div class="constraint-row">
-							<span><input type="checkbox" name="constraints" value="wrapPS">Wrap(Prosody&rarr;Syntax)</span>
-							<div class="info">
-								<span class="content">Assign one violation for every node S of category K in the syntactic tree that does not have a corresponding node P in the prosodic tree, where P is of the category K corresponds to and P contains all the terminals dominated by S. SPOT function: wrap(). (Truckenbrodt 1995, 1999)</span>
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+									<span><input type="checkbox" name="constraints" value="alignRightPS">AlignRight(Prosody&rarr;Syntax)</span>
+									<div class="info">
+										<span class="content">Assign a violation for every prosodic node of category K whose right edge is not aligned with the right edge of a syntactic node of the corresponding category. Alignment is evaluated by comparing node ids (Kalivoda 2019, SPOT).</span>
+									</div>
+							</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-alignRightPS" value="i">&iota;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-alignRightPS" value="phi" checked="checked">&phi;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-alignRightPS" value="w">&omega;</div>
 							</div>
 						</div>
-						<div class="category-row">
-							<div class="category-selection-div"><input type="checkbox" name="category-wrapPS" value="i">&iota;</div>
-							<div class="category-selection-div"><input type="checkbox" name="category-wrapPS" value="phi" checked="checked">&phi;</div>
-							<div class="category-selection-div"><input type="checkbox" name="category-wrapPS" value="w">&omega;</div>
+
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="alignLeftMorpheme">AlignLeft(Lexical item)</span>
+								<div class="info"><span class="content">For the specified morpheme(s), assign a violation for every terminal that intervenes between the left edge of the tree and the lexical item. Separate lexical items with spaces. See: McCarthy & Prince 1993, "Generalized Alignment"</span></div>
+							</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="text" name="category-alignLeftMorpheme" checked="true" placeholder="Lexical item(s)"></div>
+							</div>
+						</div>
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="alignRightMorpheme">AlignRight(Lexical item)</span>
+								<div class="info"><span class="content">For the specified morpheme(s), assign a violation for every terminal that intervenes between the right edge of the tree and the lexical item. Separate lexical items with spaces. See: McCarthy & Prince 1993, "Generalized Alignment"</span></div>
+							</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="text" name="category-alignRightMorpheme" checked="true" placeholder="Lexical item(s)"></div>
+							</div>
+						</div>
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+									<span><input type="checkbox" name="constraints" value="alignFocLeft">AlignFocLeft</span>
+									<div class="info">
+									<span class="content">For every node S with attribute "foc" in sTree, assign a violation if the left-edge of S is not aligned to the left-edge of a node of category pCat in pTree.</span>
+									</div>
+							</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-alignFocLeft" value="i">&iota;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-alignFocLeft" value="phi" checked="checked">&phi;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-alignFocLeft" value="w">&omega;</div>
+							</div>
+						</div>
+
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+									<span><input type="checkbox" name="constraints" value="alignFocRight">AlignFocRight</span>
+									<div class="info">
+									<span class="content">For every node S with attribute "foc" in sTree, assign a violation if the right-edge of S is not aligned to the right-edge of a node of category pCat in pTree.</span>
+									</div>
+							</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-alignFocRight" value="i">&iota;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-alignFocRight" value="phi" checked="checked">&phi;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-alignFocRight" value="w">&omega;</div>
+							</div>
+						</div>
+
+
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="wrapPS">Wrap(Prosody&rarr;Syntax)</span>
+								<div class="info">
+									<span class="content">Assign one violation for every node S of category K in the syntactic tree that does not have a corresponding node P in the prosodic tree, where P is of the category K corresponds to and P contains all the terminals dominated by S. SPOT function: wrap(). (Truckenbrodt 1995, 1999)</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-wrapPS" value="i">&iota;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-wrapPS" value="phi" checked="checked">&phi;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-wrapPS" value="w">&omega;</div>
+							</div>
 						</div>
 					</div>
 
