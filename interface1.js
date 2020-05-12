@@ -512,7 +512,7 @@ window.addEventListener('load', function(){
 			//warn user about possibly excessive numbers of candidates
 			if (genOptions['cliticMovement'] && (!genOptions['noUnary'] && (getLeaves(sTree).length >= 5 || pString.split(" ").length >= 5))
 											 || (genOptions['noUnary'] && (getLeaves(sTree).length >= 7 || pString.split(" ").length >= 7))){
-				if(!confirm("You have selected GEN settings that allow clitic reordering, and included a sentence of ".concat( pString.split(" ").length.toString()," terminals. This GEN may yield more than 10K candidates. To reduce the number of candidates, consider enforcing non-recursivity, exhaustivity, and/or branchingness for intermediate prosodic nodes. Do you wish to proceed with these settings?"))){
+				if(!confirm("You have selected GEN settings that allow movement, and included a sentence of ".concat( pString.split(" ").length.toString()," terminals. This GEN may yield more than 10K candidates. To reduce the number of candidates, consider enforcing non-recursivity, exhaustivity, and/or branchingness for intermediate prosodic nodes. Do you wish to proceed with these settings?"))){
 					throw new Error("clitic movement with too many terminals");
 				}
 			}
@@ -523,7 +523,8 @@ window.addEventListener('load', function(){
 			}
 
 			if (genOptions['cliticMovement']){
-				var candidateSet = GENwithCliticMovement(sTree, pString, genOptions);
+			//	var candidateSet = GENwithCliticMovement(sTree, pString, genOptions);
+				var candidateSet = globalNameOrDirect(spotForm['genOptions-movement'].value)(sTree, pString, genOptions);
 			}
 			else{
 				var candidateSet = GEN(sTree, pString, genOptions);
@@ -572,6 +573,15 @@ window.addEventListener('load', function(){
 
 		}
 	});
+	document.getElementById('movementOptions').addEventListener('click', function(){
+		var movementSpecifications = document.getElementById('movementSpecification');
+		if (movementSpecifications.style.display === 'none' && document.getElementById('movementOptions').checked){
+			movementSpecifications.style.display = 'block';
+		}
+		else{
+			movementSpecifications.style.display = 'none';
+		}
+	})
 
 	//show extra boxes for annotated with tones on click
 	//console.log(document.getElementById('annotatedWithTones'))
