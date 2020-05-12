@@ -31,7 +31,7 @@ window.GEN = function(sTree, words, options){
 	 * But if they are not, the default setting code throws unhelpful errors.
 	 * The finally block throws more helpful errors and alert boxes instead
 	 */
-	
+
 	//a flag for whether the user has included a novel category undefined in categoryHierarchy
 	var novelCategories = false;
 	try{
@@ -113,7 +113,7 @@ window.GEN = function(sTree, words, options){
 		recNum: 0
 	}
 	for(var i=0; i<words.length; i++){
-		leaves.push(wrapInLeafCat(words[i], options.terminalCategory));
+		leaves.push(wrapInLeafCat(words[i], options.terminalCategory, options.syntactic));
 	}
 
 	return GEN_impl(sTree, leaves, options);
@@ -140,12 +140,12 @@ function deduplicateTerminals(terminalList) {
 	return dedupedTerminals;
 }
 
-function wrapInLeafCat(word, cat){
+function wrapInLeafCat(word, cat, syntactic){
 	var myCat = cat || 'w';
 	var wordId = word;
 	var isClitic = word.indexOf('-clitic')>=0;
 	if (isClitic){
-		myCat = 'syll';
+		myCat = syntactic ? 'clitic' : 'syll'; //syntactic tree vs prosodic trees
 		wordId = wordId.split('-clitic')[0];
 	}
 	var wordObj = {cat: myCat};
