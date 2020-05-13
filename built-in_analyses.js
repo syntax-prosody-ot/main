@@ -552,7 +552,7 @@ function loadAnalysis(file){
         //error handeling:
         console.error("File does not follow SPOT format:");
         console.error(err);
-        alert('File does not follow SPOT format: ' + err.message);
+        displayError('File does not follow SPOT format: ' + err.message);
         return;
       }
     }

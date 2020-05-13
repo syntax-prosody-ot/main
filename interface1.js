@@ -401,7 +401,7 @@ window.addEventListener('load', function(){
 			}
 			catch(e){
 				console.error(e);
-				alert(e.message);
+				displayError(e.message);
 				return;
 			}
 		}
@@ -413,7 +413,7 @@ window.addEventListener('load', function(){
 			}
 			catch(e){
 				console.error(e);
-				alert(e.message);
+				displayError(e.message);
 				return;
 			}
 		}
@@ -838,7 +838,7 @@ window.addEventListener('load', function(){
 		}), null, 4);
 
 		if(sTree.includes('-')) {
-			alert('Your trees were not added to the analysis because there are hyphens in category or id names in the tree builder. Please refer to the instructions in the tree builder info section.');
+			displayError('Your trees were not added to the analysis because there are hyphens in category or id names in the tree builder. Please refer to the instructions in the tree builder info section.');
 			var info = document.getElementById('treeBuilderInfo');
 			info.classList.add('showing');
 		}
@@ -906,7 +906,7 @@ window.addEventListener('load', function(){
 			refreshHtmlTree();
 		} catch (err) {
 			console.error(err);
-			alert('Error, unable to add daughter: ' + err.message);
+			displayError('Unable to add daughter: ' + err.message);
 		}
 		document.getElementById('doneMessage').style.display = 'none';
 	});
@@ -917,7 +917,7 @@ window.addEventListener('load', function(){
 			var treeIndex = nodes[0].m.treeIndex;
 			for (var i = 1; i < nodes.length; i++) {
 				if (nodes[i].treeIndex != treeIndex) {
-					alert('Attempting to delete nodes from multiple trees. Please delete nodes one tree at a time.');
+					displayError('You attempted to delete nodes from multiple trees. Please delete nodes one tree at a time.');
 					return;
 				}
 			}
@@ -1051,7 +1051,7 @@ function displayError(errorMsg) {
 	closeButton();
 }
 
-function displayWarn(warnMsg) {
+function displayWarning(warnMsg) {
 	var div = document.getElementById("warning");
 	div.children[2].innerHTML = warnMsg;
 	div.style.display = "block";

@@ -224,8 +224,10 @@ function generateWordOrders(wordList, clitic){
 	}
 	//Find the clitic to move around
 	var cliticIndex = wordList.indexOf(clitic);
-	if(cliticIndex < 0)
+	if(cliticIndex < 0) {
 		console.warn("The provided clitic "+clitic+" was not found in the word list");
+		displayWarning("The provided clitic "+clitic+" was not found in the word list");
+	}
 	//Slice the clitic out
 	var beforeClitic = wordList.slice(0,cliticIndex);
 	var afterClitic = wordList.slice(cliticIndex+1, wordList.length);
@@ -265,6 +267,7 @@ function GENwithCliticMovement(stree, words, options){
 		}
 		if(clitic === ''){
 			console.warn("You selected GEN settings that move clitics, but one or more input trees do not have a clitic labeled.");
+			displayWarning("You selected GEN settings that move clitics, but one or more input trees do not have a clitic labeled.");
 			console.log(stree);
 			return GEN(stree, words, options);
 			//throw new Error("GENWithCliticMovement was called but no node in stree has category clitic was provided in stree");
@@ -281,6 +284,7 @@ function GENwithCliticMovement(stree, words, options){
 		var x = words.find(containsClitic);
 		if(!x){ //x is undefined if no word in "words" contains "clitic"
 			console.warn("You selected GEN settings that move clitics, but one or more input trees do not have a clitic labeled.");
+			displayWarning("You selected GEN settings that move clitics, but one or more input trees do not have a clitic labeled.");
 			console.log(stree);
 			return GEN(stree, words, options);
 		}
