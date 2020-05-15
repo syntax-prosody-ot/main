@@ -608,14 +608,7 @@ window.addEventListener('load', function(){
 
 	//Open the tree making GUI
 	document.getElementById('goButton').addEventListener('click', function(){
-		document.getElementById('treeUI').style.display = 'block';
-		document.getElementById('goButton').style.backgroundColor = 'white';
-		document.getElementById('goButton').style.borderColor = '#3A5370';
-		if(document.getElementById('inputOptions').style.display == 'block') {
-			document.getElementById('inputOptions').style.display = 'none';
-			document.getElementById('inputButton').style.backgroundColor = '#d0d8e0';
-			document.getElementById('inputButton').style.borderColor = '#d0d8e0';
-		}
+		changeInputTabs('inputButton', 'goButton');
 	});
 
 	function refreshHtmlTree(treeIndex) {
@@ -648,14 +641,7 @@ window.addEventListener('load', function(){
 
 	// automatically generate syntax button
 	document.getElementById('inputButton').addEventListener('click', function(){
-		document.getElementById('inputOptions').style.display = 'block';
-		document.getElementById('inputButton').style.backgroundColor = 'white';
-		document.getElementById('inputButton').style.borderColor = '#3A5370';
-		if(document.getElementById('treeUI').style.display == 'block') {
-			document.getElementById('treeUI').style.display = 'none';
-			document.getElementById('goButton').style.backgroundColor = '#d0d8e0';
-			document.getElementById('goButton').style.borderColor = '#d0d8e0';
-		}
+		changeInputTabs('goButton', 'inputButton');
 	});
 
 	// show and display addClitics options
@@ -1043,7 +1029,6 @@ function showMore(constraintType) {
   }
 }
 
-
 function showMaxBranching() {
 	var text = document.getElementById('maxBranchingText');
 	if(text.style.display === 'none') {
@@ -1051,5 +1036,25 @@ function showMaxBranching() {
 	}
 	else if(text.style.display === 'inline') {
 		text.style.display = 'none';
+	}
+}
+
+function changeInputTabs(from, to) {
+	var fromButton = 	document.getElementById(from);
+	var toButton = document.getElementById(to);
+	// if from === 'inputButton'
+	var show = 	document.getElementById('treeUI');
+	var hide = document.getElementById('inputOptions');
+	if(from === 'goButton') {
+		show = 	document.getElementById('inputOptions');
+		hide = document.getElementById('treeUI');
+	}
+	show.style.display = 'block';
+	toButton.style.backgroundColor = 'white';
+	toButton.style.borderColor = '#3A5370';
+	if(hide.style.display === 'block') {
+		hide.style.display = 'none';
+		fromButton.style.backgroundColor = '#d0d8e0';
+		fromButton.style.borderColor = '#d0d8e0';
 	}
 }
