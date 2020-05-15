@@ -241,7 +241,7 @@ var kinyambo_trees = [
                                 "children":
                                     [
                                         {
-                                            "id":"NP__IO",
+                                            "id":"NP_IO",
                                             "cat":"xp",
                                             "children":
                                                 [
@@ -257,7 +257,7 @@ var kinyambo_trees = [
                                             "children":
                                                 [
                                                     {
-                                                        "id":"NP__DO",
+                                                        "id":"NP_DO",
                                                         "cat":"xp",
                                                         "children":
                                                             [
@@ -354,7 +354,7 @@ var kinyambo_trees = [
                                             "children":
                                                 [
                                                     {
-                                                        "id":"NP__IO",
+                                                        "id":"NP_IO",
                                                         "cat":"xp",
                                                         "children":
                                                             [
@@ -370,7 +370,7 @@ var kinyambo_trees = [
                                                         "children":
                                                             [
                                                                 {
-                                                                    "id":"NP__DO",
+                                                                    "id":"NP_DO",
                                                                     "cat":"xp",
                                                                     "children":
                                                                         [
@@ -404,6 +404,7 @@ var kinyambo_trees = [
 ];
 // Chamorro clitic analysis trees
 
+/* This variable is being redeclared in ./chamorro_clitic_trees.js
 var chamorro_clitic_trees =
    [
     {
@@ -473,7 +474,7 @@ var chamorro_clitic_trees =
                                 "id": "XP_4",
                                 "children": [
                                     {
-                                        "id": "man__suetti__n_taotao",
+                                        "id": "man_suetti_n_taotao",
                                         "cat": "x0"
                                     }
                                 ]
@@ -610,7 +611,7 @@ var chamorro_clitic_trees =
                         "id": "XP_4",
                         "children": [
                             {
-                                "id": "ma'estro__nna",
+                                "id": "ma'estro_nna",
                                 "cat": "x0"
                             }
                         ]
@@ -669,7 +670,7 @@ var chamorro_clitic_trees =
                                                 "id": "VP",
                                                 "children": [
                                                     {
-                                                        "id": "ya__hu",
+                                                        "id": "ya_hu",
                                                         "cat": "x0"
                                                     }
                                                 ]
@@ -740,7 +741,7 @@ var chamorro_clitic_trees =
                                         "id": "XP_8",
                                         "children": [
                                             {
-                                                "id": "na_chi'lu__hu",
+                                                "id": "na_chi'lu_hu",
                                                 "cat": "x0"
                                             }
                                         ]
@@ -810,7 +811,7 @@ var chamorro_clitic_trees =
                                         "id": "XP_8",
                                         "children": [
                                             {
-                                                "id": "na_chi'lu__hu",
+                                                "id": "na_chi'lu_hu",
                                                 "cat": "x0"
                                             }
                                         ]
@@ -842,7 +843,7 @@ var chamorro_clitic_trees =
                 ]
             }
         ]
-    },*/
+    },*//*
     {
         "id": "TP",
         "cat": "cp",
@@ -912,7 +913,7 @@ var chamorro_clitic_trees =
                                         "id": "NP",
                                         "children": [
                                             {
-                                                "id": "patgon__na",
+                                                "id": "patgon_na",
                                                 "cat": "x0"
                                             }
                                         ]
@@ -1025,7 +1026,7 @@ var chamorro_clitic_trees =
                                         "id": "NP",
                                         "children": [
                                             {
-                                                "id": "patgon__na",
+                                                "id": "patgon_na",
                                                 "cat": "x0"
                                             }
                                         ]
@@ -1047,5 +1048,6 @@ var chamorro_clitic_trees =
                 ]
             }
         ]
-    }*/
+    }*//*
 ];
+*/
