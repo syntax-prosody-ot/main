@@ -400,8 +400,7 @@ window.addEventListener('load', function(){
 				sTrees = getAutoSTreeList();
 			}
 			catch(e){
-				console.error(e);
-				displayError(e.message);
+				displayError(e.message, e);
 				return;
 			}
 		}
@@ -412,8 +411,7 @@ window.addEventListener('load', function(){
 				sTrees = getSTrees();
 			}
 			catch(e){
-				console.error(e);
-				displayError(e.message);
+				displayError(e.message, e);
 				return;
 			}
 		}
@@ -905,8 +903,7 @@ window.addEventListener('load', function(){
 			treeUIsTreeMap[nodes[0].m.treeIndex].addParent(nodes);
 			refreshHtmlTree();
 		} catch (err) {
-			console.error(err);
-			displayError('Unable to add daughter: ' + err.message);
+			displayError('Unable to add daughter: ' + err.message, err);
 		}
 		document.getElementById('doneMessage').style.display = 'none';
 	});
@@ -1043,11 +1040,18 @@ function closeButton() {
 	}
 }
 
-function displayError(errorMsg) {
+function displayError(errorMsg, error) {
 	var spotForm = document.getElementById('spotForm');
 	if (!spotForm) {
 		alert("Error: " + errorMsg);
 		return;
+	}
+
+	if(error !== undefined) {
+		console.error(error);
+	}
+	else {
+		console.error("Error: " + errorMsg);
 	}
 
 	var div = document.getElementById("error");
@@ -1063,6 +1067,8 @@ function displayWarning(warnMsg) {
 		alert("Warning: " + warnMsg);
 		return;
 	}
+
+	console.warn("Warning: " + warnMsg);
 
 	var div = document.getElementById("warning");
 	div.children[2].innerHTML = warnMsg;

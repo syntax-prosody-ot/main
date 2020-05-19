@@ -73,7 +73,6 @@ pCat.nextHigher = function(cat){
 	if (i < 0)
 		throw new Error(cat + ' is not a prosodic category');
 	if (i === 0){
-		console.error(cat + ' is the highest prosodic category');
 		displayError(cat + ' is the highest prosodic category');
 		return cat;
 	}

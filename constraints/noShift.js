@@ -12,9 +12,7 @@ function noShift(stree, ptree, cat){
       }
     }
     catch(err) {
-      // Display error message in alert if error is thrown
-      console.warn(err);
-      displayError(err.message);
+      displayError(err.message, err);
     }
 
     for(var i in sleaves){
