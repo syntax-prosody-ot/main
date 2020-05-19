@@ -106,7 +106,7 @@ function binMaxBranchesGradient(s, ptree, cat){
 			vcount += excessChildren;
 		}
 		for(var i = 0; i<ptree.children.length; i++){
-			vcount += binMaxBranches(s, ptree.children[i], cat);
+			vcount += binMaxBranchesGradient(s, ptree.children[i], cat);
 		}
 	}
 	return vcount;
