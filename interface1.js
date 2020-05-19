@@ -1044,6 +1044,12 @@ function closeButton() {
 }
 
 function displayError(errorMsg) {
+	var spotForm = document.getElementById('spotForm');
+	if (!spotForm) {
+		alert("Error: " + errorMsg);
+		return;
+	}
+
 	var div = document.getElementById("error");
 	div.children[2].innerHTML = errorMsg;
 	div.style.display = "block";
@@ -1052,6 +1058,12 @@ function displayError(errorMsg) {
 }
 
 function displayWarning(warnMsg) {
+	var spotForm = document.getElementById('spotForm');
+	if (!spotForm) {
+		alert("Warning: " + warnMsg);
+		return;
+	}
+
 	var div = document.getElementById("warning");
 	div.children[2].innerHTML = warnMsg;
 	div.style.display = "block";
