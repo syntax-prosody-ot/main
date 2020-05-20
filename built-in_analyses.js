@@ -236,7 +236,8 @@ function my_built_in_analysis(myGEN, showTones, myTrees, myCon){
 
   //Step 3: Trees
   //First, shows the tree UI & the code view
-  document.getElementById("treeUI").style.display = "block";
+  changeInputTabs('inputButton', 'goButton');
+
   for(var i = 0; i < myTrees.length; i++){
 	  var myUTree = new UTree(myTrees[i]);
 	  window.showUTree(myUTree);

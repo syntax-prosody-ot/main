@@ -444,6 +444,11 @@ window.addEventListener('load', function(){
 			genOptions['obeysExhaustivity'] = exCats;
 		}
 
+		// if max branching option is selected
+		if(genOptions['maxBranching']){
+			genOptions['maxBranching'] = spotForm.maxBranchingValue.value;
+		}
+
 		//plug correct value into category options
 		genOptions.rootCategory = spotForm['genOptions-rootCategory'].value;
 		genOptions.recursiveCategory = spotForm['genOptions-recursiveCategory'].value;
@@ -505,7 +510,7 @@ window.addEventListener('load', function(){
 			//warn user about possibly excessive numbers of candidates
 			if (genOptions['cliticMovement'] && (!genOptions['noUnary'] && (getLeaves(sTree).length >= 5 || pString.split(" ").length >= 5))
 											 || (genOptions['noUnary'] && (getLeaves(sTree).length >= 7 || pString.split(" ").length >= 7))){
-				if(!confirm("You have selected GEN settings that allow clitic reordering, and included a sentence of ".concat( pString.split(" ").length.toString()," terminals. This GEN may yield more than 10K candidates. To reduce the number of candidates, consider enforcing non-recursivity, exhaustivity, and/or branchingness for intermediate prosodic nodes. Do you wish to proceed with these settings?"))){
+				if(!confirm("You have selected GEN settings that allow movement, and included a sentence of ".concat( pString.split(" ").length.toString()," terminals. This GEN may yield more than 10K candidates. To reduce the number of candidates, consider enforcing non-recursivity, exhaustivity, and/or branchingness for intermediate prosodic nodes. Do you wish to proceed with these settings?"))){
 					throw new Error("clitic movement with too many terminals");
 				}
 			}
@@ -516,7 +521,8 @@ window.addEventListener('load', function(){
 			}
 
 			if (genOptions['cliticMovement']){
-				var candidateSet = GENwithCliticMovement(sTree, pString, genOptions);
+			//	var candidateSet = GENwithCliticMovement(sTree, pString, genOptions);
+				var candidateSet = globalNameOrDirect(spotForm['genOptions-movement'].value)(sTree, pString, genOptions);
 			}
 			else{
 				var candidateSet = GEN(sTree, pString, genOptions);
@@ -565,6 +571,15 @@ window.addEventListener('load', function(){
 
 		}
 	});
+	document.getElementById('movementOptions').addEventListener('click', function(){
+		var movementSpecifications = document.getElementById('movementSpecification');
+		if (movementSpecifications.style.display === 'none' && document.getElementById('movementOptions').checked){
+			movementSpecifications.style.display = 'block';
+		}
+		else{
+			movementSpecifications.style.display = 'none';
+		}
+	})
 
 	//show extra boxes for annotated with tones on click
 	//console.log(document.getElementById('annotatedWithTones'))
@@ -591,14 +606,7 @@ window.addEventListener('load', function(){
 
 	//Open the tree making GUI
 	document.getElementById('goButton').addEventListener('click', function(){
-		document.getElementById('treeUI').style.display = 'block';
-		document.getElementById('goButton').style.backgroundColor = 'white';
-		document.getElementById('goButton').style.borderColor = '#3A5370';
-		if(document.getElementById('inputOptions').style.display == 'block') {
-			document.getElementById('inputOptions').style.display = 'none';
-			document.getElementById('inputButton').style.backgroundColor = '#d0d8e0';
-			document.getElementById('inputButton').style.borderColor = '#d0d8e0';
-		}
+		changeInputTabs('inputButton', 'goButton');
 	});
 
 	function refreshHtmlTree(treeIndex) {
@@ -631,14 +639,7 @@ window.addEventListener('load', function(){
 
 	// automatically generate syntax button
 	document.getElementById('inputButton').addEventListener('click', function(){
-		document.getElementById('inputOptions').style.display = 'block';
-		document.getElementById('inputButton').style.backgroundColor = 'white';
-		document.getElementById('inputButton').style.borderColor = '#3A5370';
-		if(document.getElementById('treeUI').style.display == 'block') {
-			document.getElementById('treeUI').style.display = 'none';
-			document.getElementById('goButton').style.backgroundColor = '#d0d8e0';
-			document.getElementById('goButton').style.borderColor = '#d0d8e0';
-		}
+		changeInputTabs('goButton', 'inputButton');
 	});
 
 	// show and display addClitics options
@@ -1075,4 +1076,33 @@ function displayWarning(warnMsg) {
 	div.style.display = "block";
 	div.style.opacity = "100";
 	closeButton();
+
+function showMaxBranching() {
+	var text = document.getElementById('maxBranchingText');
+	if(text.style.display === 'none') {
+		text.style.display = 'inline';
+	}
+	else if(text.style.display === 'inline') {
+		text.style.display = 'none';
+	}
+}
+
+function changeInputTabs(from, to) {
+	var fromButton = 	document.getElementById(from);
+	var toButton = document.getElementById(to);
+	// if from === 'inputButton'
+	var show = 	document.getElementById('treeUI');
+	var hide = document.getElementById('inputOptions');
+	if(from === 'goButton') {
+		show = 	document.getElementById('inputOptions');
+		hide = document.getElementById('treeUI');
+	}
+	show.style.display = 'block';
+	toButton.style.backgroundColor = 'white';
+	toButton.style.borderColor = '#3A5370';
+	if(hide.style.display === 'block') {
+		hide.style.display = 'none';
+		fromButton.style.backgroundColor = '#d0d8e0';
+		fromButton.style.borderColor = '#d0d8e0';
+	}
 }
