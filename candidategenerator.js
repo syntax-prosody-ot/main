@@ -112,8 +112,13 @@
    */
   function gen(leaves, options) {
     var candidates = []; //each candidate will be an array of siblings
-    if (!(leaves instanceof Array))
-      throw new Error(leaves + " is not a list of leaves.");
+    try {
+      if (!(leaves instanceof Array))
+        throw new Error(leaves + " is not a list of leaves.");
+    }
+    catch(err) {
+      displayError(err.message, err);
+    }
 
     //Base case: 0 leaves
     if (leaves.length === 0) {
@@ -232,8 +237,13 @@ function generateWordOrders(wordList, clitic) {
   }
   //Find the clitic to move around
   var cliticIndex = wordList.indexOf(clitic);
-  if (cliticIndex < 0)
-    throw new Error("The provided clitic " + clitic + " was not found in the word list");
+  try {
+    if (cliticIndex < 0)
+      throw new Error("The provided clitic " + clitic + " was not found in the word list");
+  }
+  catch(err) {
+    displayWarning(err.message, err);
+  }
   //Slice the clitic out
   var beforeClitic = wordList.slice(0, cliticIndex);
   var afterClitic = wordList.slice(cliticIndex + 1, wordList.length);
@@ -273,7 +283,7 @@ function GENwithCliticMovement(stree, words, options) {
       leaf++;
     }
     if (clitic === '') {
-      console.warn("GENWithCliticMovement was called but no node in stree has category clitic was provided in stree");
+      displayWarning("You selected GEN settings that move clitics, but one or more input trees do not have a clitic lableled.");
       console.log(stree);
       return GEN(stree, words, options);
       //throw new Error("GENWithCliticMovement was called but no node in stree has category clitic was provided in stree");
@@ -288,7 +298,7 @@ function GENwithCliticMovement(stree, words, options) {
     }
     var x = words.find(containsClitic);
     if (!x) { //x is undefined if no word in "words" contains "clitic"
-      console.warn("GENWithCliticMovement was called but no node in stree has category clitic was provided in stree");
+      displayWarning("You selected GEN settings that move clitics, but one or more input trees do not have a clitic lableled.");
       console.log(stree);
       return GEN(stree, words, options);
     }
