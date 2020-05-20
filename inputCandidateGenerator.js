@@ -10,18 +10,18 @@
 *  - terminalCategory: default = 'x0'
 *  - noAdjacentHeads: are x0 sisters allowed? [x0 x0]. Defaults to true.
 *  - noAdjuncts: are xp sisters allowed? [xp xp]. Defaults to false.
-*  - maxBranching: determines the maximum number of branches that are tolerated in 
+*  - maxBranching: determines the maximum number of branches that are tolerated in
 *    the resulting syntactic trees. Default = 2
-*  - minBranching: determines the maximum number of branches that are tolerated in 
+*  - minBranching: determines the maximum number of branches that are tolerated in
 *    the resulting syntactic trees. Default = 2
-*  - addClitics: 'right' or 'left' determines whether clitics are added on the 
-*    righthand-side or the left; true will default to right. false doesn't add any clitics. 
+*  - addClitics: 'right' or 'left' determines whether clitics are added on the
+*    righthand-side or the left; true will default to right. false doesn't add any clitics.
 *    Default false.
-*  - headSide: 'right', 'left', 'right-strict', 'left-strict'. 
-*    Which side will heads be required to be on, relative to their complements? 
+*  - headSide: 'right', 'left', 'right-strict', 'left-strict'.
+*    Which side will heads be required to be on, relative to their complements?
 *    Also, must heads be at the very edge (strict)?
-* Also has all the options from the underlying output candidate generator -- see 
-* GEN() in candidategenerator.js. Most relevant is probably noUnary which excludes 
+* Also has all the options from the underlying output candidate generator -- see
+* GEN() in candidategenerator.js. Most relevant is probably noUnary which excludes
 * non-branching intermediate nodes.
 */
 function sTreeGEN(terminalString, options)
@@ -78,19 +78,25 @@ function addCliticXP(sTree, side="right", inside){
     //Make the clitic a daughter of sTree
     if(inside){
         //console.log("inside");
-        if(side==="right"){
-            sisters = sTree.children.concat(cliticXP);
+        try {
+          if(side==="right"){
+              sisters = sTree.children.concat(cliticXP);
+          }
+          else if(side==="left"){
+              sisters = [cliticXP].concat(sTree.children);
+              //console.log(tp);
+          }
+          else{
+              throw new Error("addCliticXP(): The provided side ", side," is not valid. Side must be specified as 'left' or 'right'.")
+          }
         }
-        else if(side==="left"){
-            sisters = [cliticXP].concat(sTree.children);
-            //console.log(tp);
-        }
-        else{
-            throw new Error("addCliticXP(): The provided side ", side," is not valid. Side must be specified as 'left' or 'right'.")
+        catch(err) {
+          displayError(err.message, err);
         }
     }
     //Make the clitic sister to sTree's root, and root the whole thing elsewhere
     else{
+      try {
         var sisters;
         if(side==="right"){
             sisters = [sTree, cliticXP];
@@ -101,7 +107,10 @@ function addCliticXP(sTree, side="right", inside){
         else{
             throw new Error("addCliticXP(): The provided side ", side," is not valid. Side must be specified as 'left' or 'right'.")
         }
-
+      }
+      catch(err) {
+        displayError(err.message, err);
+      }
     }
     tp = {id: 'root', cat: 'xp', children: sisters};
     return tp;

@@ -106,8 +106,13 @@ function wrapInRootCat(candidate, options){
 */
 function gen(leaves, options){
 	var candidates = [];	//each candidate will be an array of siblings
-	if(!(leaves instanceof Array))
-		throw new Error(leaves+" is not a list of leaves.");
+	try {
+		if(!(leaves instanceof Array))
+			throw new Error(leaves+" is not a list of leaves.");
+	}
+	catch(err) {
+		displayError(err.message, err);
+	}
 
 	//Base case: 0 leaves
 	if(leaves.length === 0){
