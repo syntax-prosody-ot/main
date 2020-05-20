@@ -400,8 +400,7 @@ window.addEventListener('load', function(){
 				sTrees = getAutoSTreeList();
 			}
 			catch(e){
-				console.error(e);
-				alert(e.message);
+				displayError(e.message, e);
 				return;
 			}
 		}
@@ -412,8 +411,7 @@ window.addEventListener('load', function(){
 				sTrees = getSTrees();
 			}
 			catch(e){
-				console.error(e);
-				alert(e.message);
+				displayError(e.message, e);
 				return;
 			}
 		}
@@ -839,7 +837,7 @@ window.addEventListener('load', function(){
 		}), null, 4);
 
 		if(sTree.includes('-')) {
-			alert('Your trees were not added to the analysis because there are hyphens in category or id names in the tree builder. Please refer to the instructions in the tree builder info section.');
+			displayError('Your trees were not added to the analysis because there are hyphens in category or id names in the tree builder. Please refer to the instructions in the tree builder info section.');
 			var info = document.getElementById('treeBuilderInfo');
 			info.classList.add('showing');
 		}
@@ -906,8 +904,7 @@ window.addEventListener('load', function(){
 			treeUIsTreeMap[nodes[0].m.treeIndex].addParent(nodes);
 			refreshHtmlTree();
 		} catch (err) {
-			console.error(err);
-			alert('Error, unable to add daughter: ' + err.message);
+			displayError('Unable to add daughter: ' + err.message, err);
 		}
 		document.getElementById('doneMessage').style.display = 'none';
 	});
@@ -918,7 +915,7 @@ window.addEventListener('load', function(){
 			var treeIndex = nodes[0].m.treeIndex;
 			for (var i = 1; i < nodes.length; i++) {
 				if (nodes[i].treeIndex != treeIndex) {
-					alert('Attempting to delete nodes from multiple trees. Please delete nodes one tree at a time.');
+					displayError('You attempted to delete nodes from multiple trees. Please delete nodes one tree at a time.');
 					return;
 				}
 			}
@@ -1028,6 +1025,57 @@ function showMore(constraintType) {
 		y.innerHTML = "Show less...";
   }
 }
+
+function closeButton() {
+	var close = document.getElementsByClassName("closebtn");
+	var i;
+
+	for (i = 0; i < close.length; i++) {
+		close[i].onclick = function() {
+			var div = this.parentElement;
+			div.style.opacity = "0";
+			setTimeout(function() {
+				div.style.display = "none";
+			}, 600);
+		}
+	}
+}
+
+function displayError(errorMsg, error) {
+	var spotForm = document.getElementById('spotForm');
+	if (!spotForm) {
+		alert("Error: " + errorMsg);
+		return;
+	}
+
+	if(error !== undefined) {
+		console.error(error);
+	}
+	else {
+		console.error("Error: " + errorMsg);
+	}
+
+	var div = document.getElementById("error");
+	div.children[2].innerHTML = errorMsg;
+	div.style.display = "block";
+	div.style.opacity = "100";
+	closeButton();
+}
+
+function displayWarning(warnMsg) {
+	var spotForm = document.getElementById('spotForm');
+	if (!spotForm) {
+		alert("Warning: " + warnMsg);
+		return;
+	}
+
+	console.warn("Warning: " + warnMsg);
+
+	var div = document.getElementById("warning");
+	div.children[2].innerHTML = warnMsg;
+	div.style.display = "block";
+	div.style.opacity = "100";
+	closeButton();
 
 function showMaxBranching() {
 	var text = document.getElementById('maxBranchingText');
