@@ -42,12 +42,6 @@ function sTreeGEN(terminalString, options)
     var sTreeList = autoSTreePairs.map(x=>x[1]);
 
     //Apply filters
-    if(options.allowClitic){
-      var cliticTrees = getCliticTrees(terminalString, options);
-      if(cliticTrees) {
-        sTreeList = sTreeList.concat(cliticTrees);
-      }
-    }
     if(options.addClitics){
         var outsideClitics = sTreeList.map(x => addCliticXP(x, options.addClitics));
         var insideClitics = sTreeList.map(x => addCliticXP(x, options.addClitics, true));
@@ -111,23 +105,4 @@ function addCliticXP(sTree, side="right", inside){
     }
     tp = {id: 'root', cat: 'xp', children: sisters};
     return tp;
-}
-
-function getCliticTrees(string, options) {
-  var cliticTreeList = [];
-  // if terminal string already contains cltic label do nothing
-  if(string.includes('-clitic')) {
-    return;
-  }
-  // else run gen on new strings with clitics
-  var terminalList = string.split(" ");
-  for(var i = 0; i < terminalList.length; i++) {
-    var currList = string.split(" ");
-    currList[i] = currList[i] + '-clitic';
-    var cliticString = currList.join(" ");
-    var autoSTreePairs = GEN({}, cliticString, options);
-    var sTreeList = autoSTreePairs.map(x=>x[1]);
-    cliticTreeList = cliticTreeList.concat(sTreeList);
-  }
-  return cliticTreeList;
 }
