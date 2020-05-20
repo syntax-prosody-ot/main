@@ -10,18 +10,18 @@
 *  - terminalCategory: default = 'x0'
 *  - noAdjacentHeads: are x0 sisters allowed? [x0 x0]. Defaults to true.
 *  - noAdjuncts: are xp sisters allowed? [xp xp]. Defaults to false.
-*  - maxBranching: determines the maximum number of branches that are tolerated in 
+*  - maxBranching: determines the maximum number of branches that are tolerated in
 *    the resulting syntactic trees. Default = 2
-*  - minBranching: determines the maximum number of branches that are tolerated in 
+*  - minBranching: determines the maximum number of branches that are tolerated in
 *    the resulting syntactic trees. Default = 2
-*  - addClitics: 'right' or 'left' determines whether clitics are added on the 
-*    righthand-side or the left; true will default to right. false doesn't add any clitics. 
+*  - addClitics: 'right' or 'left' determines whether clitics are added on the
+*    righthand-side or the left; true will default to right. false doesn't add any clitics.
 *    Default false.
-*  - headSide: 'right', 'left', 'right-strict', 'left-strict'. 
-*    Which side will heads be required to be on, relative to their complements? 
+*  - headSide: 'right', 'left', 'right-strict', 'left-strict'.
+*    Which side will heads be required to be on, relative to their complements?
 *    Also, must heads be at the very edge (strict)?
-* Also has all the options from the underlying output candidate generator -- see 
-* GEN() in candidategenerator.js. Most relevant is probably noUnary which excludes 
+* Also has all the options from the underlying output candidate generator -- see
+* GEN() in candidategenerator.js. Most relevant is probably noUnary which excludes
 * non-branching intermediate nodes.
 */
 function sTreeGEN(terminalString, options)
@@ -42,6 +42,12 @@ function sTreeGEN(terminalString, options)
     var sTreeList = autoSTreePairs.map(x=>x[1]);
 
     //Apply filters
+    if(options.allowClitic){
+      var cliticTrees = getCliticTrees(terminalString, options);
+      if(cliticTrees) {
+        sTreeList = sTreeList.concat(cliticTrees);
+      }
+    }
     if(options.addClitics){
         var outsideClitics = sTreeList.map(x => addCliticXP(x, options.addClitics));
         var insideClitics = sTreeList.map(x => addCliticXP(x, options.addClitics, true));
@@ -105,4 +111,23 @@ function addCliticXP(sTree, side="right", inside){
     }
     tp = {id: 'root', cat: 'xp', children: sisters};
     return tp;
+}
+
+function getCliticTrees(string, options) {
+  var cliticTreeList = [];
+  // if terminal string already contains cltic label do nothing
+  if(string.includes('-clitic')) {
+    return;
+  }
+  // else run gen on new strings with clitics
+  var terminalList = string.split(" ");
+  for(var i = 0; i < terminalList.length; i++) {
+    var currList = string.split(" ");
+    currList[i] = currList[i] + '-clitic';
+    var cliticString = currList.join(" ");
+    var autoSTreePairs = GEN({}, cliticString, options);
+    var sTreeList = autoSTreePairs.map(x=>x[1]);
+    cliticTreeList = cliticTreeList.concat(sTreeList);
+  }
+  return cliticTreeList;
 }
