@@ -725,11 +725,6 @@ window.addEventListener('load', function(){
 				else {
 					sTreeList = currSTreeList;
 				}
-
-				if(autoInputOptions.allowClitic) {
-					var cliticTreeList = getCliticTrees(inputString, autoInputOptions);
-					sTreeList = sTreeList.concat(cliticTreeList);
-				}
 			}
 		}
 		// console.log(sTreeList)
@@ -737,25 +732,6 @@ window.addEventListener('load', function(){
 
 	function getAutoSTreeList() {
 		return sTreeList;
-	}
-
-	function getCliticTrees(string, options) {
-	  var cliticTreeList = [];
-	  // if terminal string already contains cltic label do nothing
-	  if(string.includes('-clitic')) {
-	    return;
-	  }
-	  // else run gen on new strings with clitics
-	  var terminalList = string.split(" ");
-	  for(var i = 0; i < terminalList.length; i++) {
-	    var currList = string.split(" ");
-	    currList[i] = currList[i] + '-clitic';
-	    var cliticString = currList.join(" ");
-	    var sTreeList = sTreeGEN(cliticString, options);
-			displayTable(sTreeList);
-	    cliticTreeList = cliticTreeList.concat(sTreeList);
-	  }
-	  return cliticTreeList;
 	}
 
 	// add terminal string button
