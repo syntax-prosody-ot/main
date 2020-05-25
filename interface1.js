@@ -685,12 +685,14 @@ window.addEventListener('load', function(){
 			var autoInputOptions = {};
 			var optionBox = spotForm.autoInputOptions;
 			for(var j = 0; j < optionBox.length; j++) {
-				if(optionBox[j].value === "noAdjuncts") {
-          autoInputOptions[optionBox[j].value]=!optionBox[j].checked;
-        }
-        else {
-          autoInputOptions[optionBox[j].value]=optionBox[j].checked;
-        }
+				switch(optionBox[j].value){
+					case "noAdjuncts": //fall through
+					case "noAdjacentHeads":
+						autoInputOptions[optionBox[j].value]=!optionBox[j].checked;
+						break;
+					default:
+						autoInputOptions[optionBox[j].value]=optionBox[j].checked;
+				}
 			}
 
 			// head requirements
