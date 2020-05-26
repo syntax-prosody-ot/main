@@ -115,7 +115,7 @@ function reversibleCatPairings(cat){
         return props[i];
       }
     }
-    // if no matching category is found, return a costum error.
+    // if no matching category is found, return a custom error.
     if (!propFound){
       throw(new Error("" + cat + " is not a category defined in categoryPairings (see main/prosodicHierarchy.js)"));
     }
