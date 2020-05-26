@@ -1076,6 +1076,7 @@ function displayWarning(warnMsg) {
 	div.style.display = "block";
 	div.style.opacity = "100";
 	closeButton();
+}
 
 function showMaxBranching() {
 	var text = document.getElementById('maxBranchingText');
