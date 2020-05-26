@@ -1060,3 +1060,32 @@ function changeInputTabs(from, to) {
 		fromButton.style.borderColor = '#d0d8e0';
 	}
 }
+
+function syntaxOpCompatible(){
+	spotForm = document.getElementById("spotForm");
+	recursive = spotForm["autoInputOptions-recursiveCategory"].value;
+	terminal = spotForm["autoInputOptions-terminalCategory"].value;
+	unary = document.getElementById("unarySyntaxOption").checked;
+
+	adjacent = document.getElementById("adjacentSyntaxOption");
+
+	if(recursive == terminal || (!adjacent.checked && unary)) {
+		adjacent.setAttribute("usersChoice", adjacent.checked);
+		console.log(adjacent.attributes.usersChoice);
+		adjacent.checked = true;
+		adjacent.disabled = true;
+	}
+	else {
+		adjacent.disabled = false;
+		if(adjacent.hasAttribute("usersChoice")) {
+			switch(adjacent.attributes.usersChoice.value) {
+				case "true":
+					adjacent.checked = true;
+					break;
+				case "false":
+					adjacent.checked = false;
+					break;
+			}
+		}
+	}
+}

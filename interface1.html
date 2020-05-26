@@ -691,7 +691,7 @@
 					<div class="constraint-row"><span>Intermediate nodes are</span>
 						<div class="info"><span class="content">info</span></div>
 					</div>
-					<div class="category-row">
+					<div class="category-row" onchange="syntaxOpCompatible()">
 						<div class="category-selection-div"><input type="radio" name="autoInputOptions-recursiveCategory" value="cp">CP</div>
 						<div class="category-selection-div"><input type="radio" name="autoInputOptions-recursiveCategory" value="xp" checked="checked">XP</div>
 						<div class="category-selection-div"><input type="radio" name="autoInputOptions-recursiveCategory" value="x0">X<sup>0</sup></div>
@@ -699,7 +699,7 @@
 					<div class="constraint-row"><span>Syntactic terminals are</span>
 						<div class="info"><span class="content">info</span></div>
 					</div>
-					<div class="category-row">
+					<div class="category-row" onchange="syntaxOpCompatible()">
 						<div class="category-selection-div"><input type="radio" name="autoInputOptions-terminalCategory" value="cp">CP</div>
 						<div class="category-selection-div"><input type="radio" name="autoInputOptions-terminalCategory" value="xp">XP</div>
 						<div class="category-selection-div"><input type="radio" name="autoInputOptions-terminalCategory" value="x0" checked="checked">X<sup>0</sup></div>
@@ -715,7 +715,7 @@
 					</div>
 
 					<div class="constraint-row">
-						<span><input type="checkbox" name="autoInputOptions" value="noUnary">Allow only branching nodes</span>
+						<span><input type="checkbox" name="autoInputOptions" value="noUnary" id="unarySyntaxOption" onclick="syntaxOpCompatible()">Unary XPs are invisible</span>
 						<div class="info"><span class="content">info</span></div>
 					</div>
 
@@ -725,7 +725,7 @@
 					</div>
 
 					<div class="constraint-row">
-						<span><input type="checkbox" name="autoInputOptions" value="noAdjacentHeads">Allow ajacent heads</span>
+						<span><input type="checkbox" name="autoInputOptions" value="noAdjacentHeads" id="adjacentSyntaxOption">Allow ajacent heads</span>
 						<div class="info"><span class="content">info</span></div>
 					</div>
 
