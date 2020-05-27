@@ -12,10 +12,27 @@ var categoryPairings = {
 function catsMatch(aCat, bCat){
 	if(aCat === undefined && bCat === undefined)
 		return true;	//vacuously true if both nodes are leaves (with no category)
-	else if(categoryPairings.hasOwnProperty(aCat))
-		return categoryPairings[aCat] === bCat;
-	else if(categoryPairings.hasOwnProperty(bCat))
-		return categoryPairings[bCat] === aCat;
+	// aCat is the key
+	else if(categoryPairings.hasOwnProperty(aCat)){
+		// check if bCat is an array
+		if (Array.isArray(bCat)){
+			return bCat.includes(aCat);
+		}
+		else{
+			return categoryPairings[aCat] === bCat;
+		}
+	}
+	// bCat is the key
+	else if(categoryPairings.hasOwnProperty(bCat)){
+		// check if aCat is an array
+		if (Array.isArray(aCat)){
+			return aCat.includes(bCat);
+		}
+		else{
+			return categoryPairings[bCat] === aCat;
+	
+		}
+	}
 	else
 	{
 		//console.warn("Neither argument to catsMatch was a valid syntactic category:", aCat, bCat);	//TODO this gives a false positive warning every time Match PS runs on a tree whose leaves don't have categories.
