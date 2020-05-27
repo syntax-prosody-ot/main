@@ -1062,12 +1062,12 @@ function changeInputTabs(from, to) {
 }
 
 function syntaxOpCompatible(){
-	let spotForm = document.getElementById("spotForm");
-	let recursive = spotForm["autoInputOptions-recursiveCategory"].value;
-	let terminal = spotForm["autoInputOptions-terminalCategory"].value;
-	let unary = document.getElementById("unarySyntaxOption").checked;
+	spotForm = document.getElementById("spotForm");
+	recursive = spotForm["autoInputOptions-recursiveCategory"].value;
+	terminal = spotForm["autoInputOptions-terminalCategory"].value;
+	unary = document.getElementById("unarySyntaxOption").checked;
 
-	let adjacent = document.getElementById("adjacentSyntaxOption");
+	adjacent = document.getElementById("adjacentSyntaxOption");
 
 	if(recursive == terminal || (!adjacent.checked && unary)) {
 		adjacent.setAttribute("usersChoice", adjacent.checked);
