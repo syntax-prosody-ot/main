@@ -1042,17 +1042,17 @@ function closeButton() {
 }
 
 function displayError(errorMsg, error) {
-	var spotForm = document.getElementById('spotForm');
-	if (!spotForm) {
-		alert("Error: " + errorMsg);
-		return;
-	}
-
 	if(error !== undefined) {
 		console.error(error);
 	}
 	else {
 		console.error("Error: " + errorMsg);
+	}
+
+	var spotForm = document.getElementById('spotForm');
+	if (!spotForm) {
+		alert("Error: " + errorMsg);
+		return;
 	}
 
 	var div = document.getElementById("error");
@@ -1063,13 +1063,13 @@ function displayError(errorMsg, error) {
 }
 
 function displayWarning(warnMsg) {
+	console.warn("Warning: " + warnMsg);
+	
 	var spotForm = document.getElementById('spotForm');
 	if (!spotForm) {
 		alert("Warning: " + warnMsg);
 		return;
 	}
-
-	console.warn("Warning: " + warnMsg);
 
 	var div = document.getElementById("warning");
 	div.children[2].innerHTML = warnMsg;

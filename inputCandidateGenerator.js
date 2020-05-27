@@ -87,7 +87,8 @@ function addCliticXP(sTree, side="right", inside){
               //console.log(tp);
           }
           else{
-              throw new Error("addCliticXP(): The provided side ", side," is not valid. Side must be specified as 'left' or 'right'.")
+              var errorMsg = "addCliticXP(): The provided side " + side + " is not valid. Side must be specified as 'left' or 'right'.";
+              throw new Error(errorMsg)
           }
         }
         catch(err) {
@@ -105,7 +106,8 @@ function addCliticXP(sTree, side="right", inside){
             sisters = [cliticXP, sTree];
         }
         else{
-            throw new Error("addCliticXP(): The provided side ", side," is not valid. Side must be specified as 'left' or 'right'.")
+            var errorMsg = "addCliticXP(): The provided side " + side + " is not valid. Side must be specified as 'left' or 'right'.";
+            throw new Error(errorMsg)
         }
       }
       catch(err) {
