@@ -242,7 +242,7 @@ function generateWordOrders(wordList, clitic) {
       throw new Error("The provided clitic " + clitic + " was not found in the word list");
   }
   catch(err) {
-    displayWarning(err.message, err);
+    displayError(err.message, err);
   }
   //Slice the clitic out
   var beforeClitic = wordList.slice(0, cliticIndex);
