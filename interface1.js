@@ -685,13 +685,11 @@ window.addEventListener('load', function(){
 			var autoInputOptions = {};
 			var optionBox = spotForm.autoInputOptions;
 			for(var j = 0; j < optionBox.length; j++) {
-				switch(optionBox[j].value){
-					case "noAdjuncts": //fall through
-					case "noAdjacentHeads":
-						autoInputOptions[optionBox[j].value]=!optionBox[j].checked;
-						break;
-					default:
-						autoInputOptions[optionBox[j].value]=optionBox[j].checked;
+				if(optionBox[j].value == "noAdjuncts") {
+					autoInputOptions[optionBox[j].value]=!optionBox[j].checked;
+				}
+				else {
+					autoInputOptions[optionBox[j].value]=optionBox[j].checked;
 				}
 			}
 
@@ -716,6 +714,10 @@ window.addEventListener('load', function(){
 			autoInputOptions.recursiveCategory = spotForm['autoInputOptions-recursiveCategory'].value;
 			autoInputOptions.terminalCategory = spotForm['autoInputOptions-terminalCategory'].value;
 
+			if(autoInputOptions.recursiveCategory == autoInputOptions.terminalCategory || autoInputOptions.noUnary){
+				autoInputOptions.noAdjacentHeads = false;
+			}
+			
 			// console.log(autoInputOptions)
 
 			if(inputString !== "") {
@@ -1058,34 +1060,5 @@ function changeInputTabs(from, to) {
 		hide.style.display = 'none';
 		fromButton.style.backgroundColor = '#d0d8e0';
 		fromButton.style.borderColor = '#d0d8e0';
-	}
-}
-
-function syntaxOpCompatible(){
-	spotForm = document.getElementById("spotForm");
-	recursive = spotForm["autoInputOptions-recursiveCategory"].value;
-	terminal = spotForm["autoInputOptions-terminalCategory"].value;
-	unary = document.getElementById("unarySyntaxOption").checked;
-
-	adjacent = document.getElementById("adjacentSyntaxOption");
-
-	if(recursive == terminal || (!adjacent.checked && unary)) {
-		adjacent.setAttribute("usersChoice", adjacent.checked);
-		console.log(adjacent.attributes.usersChoice);
-		adjacent.checked = true;
-		adjacent.disabled = true;
-	}
-	else {
-		adjacent.disabled = false;
-		if(adjacent.hasAttribute("usersChoice")) {
-			switch(adjacent.attributes.usersChoice.value) {
-				case "true":
-					adjacent.checked = true;
-					break;
-				case "false":
-					adjacent.checked = false;
-					break;
-			}
-		}
 	}
 }
