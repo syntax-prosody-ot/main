@@ -78,7 +78,13 @@ function makeTableau(candidateSet, constraintSet, options){
 			var oldDebugOn = logreport.debug.on;
 			logreport.debug.on = false;
 			trimmedTree = options.trimStree ? trimRedundantNodes(getCandidate(candidate[0])) : getCandidate(candidate[0]);
-			var numViolations = globalNameOrDirect(constraint)(trimmedTree, getCandidate(candidate[1]), cat, JSON.parse(conOptions)); logreport.debug.on = oldDebugOn; // don't show the log of each constraint run
+			
+			//options for this constraint:
+			var myConOptions = JSON.parse(conOptions);
+			//if options.catsMatch --> add it to myConOptions
+
+			//calculate violations
+			var numViolations = globalNameOrDirect(constraint)(trimmedTree, getCandidate(candidate[1]), cat, myConOptions); logreport.debug.on = oldDebugOn; // don't show the log of each constraint run
 			tableauRow.push(numViolations);
 		}
 		tableau.push(tableauRow);
