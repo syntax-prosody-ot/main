@@ -68,17 +68,17 @@ function alignRightPS(sTree, pTree, cat){
 }
 
 // custom align functions
-function alignLeftCustom(sTree, pTree, cat){
-	return alignSP(sTree, pTree, cat, 'left');
+function alignLeftCustom(sTree, pTree, cat, options){
+	return alignSP(sTree, pTree, cat, 'left', options);
 }
-function alignRightCustom(sTree, pTree, cat){
-	return alignSP(sTree, pTree, cat, 'right');
+function alignRightCustom(sTree, pTree, cat, options){
+	return alignSP(sTree, pTree, cat, 'right', options);
 }
-function alignLeftPSCustom(sTree, pTree, cat){
-	return alignPS(sTree, pTree, cat, 'left');
+function alignLeftPSCustom(sTree, pTree, cat, options){
+	return alignPS(sTree, pTree, cat, 'left', options);
 }
-function alignRightPSCustom(sTree, pTree, cat){
-	return alignPS(sTree, pTree, cat, 'right');
+function alignRightPSCustom(sTree, pTree, cat, options){
+	return alignPS(sTree, pTree, cat, 'right', options);
 }
 function alignFocus(sTree, pTree, cat, d){
 	var getEdge = (d==="left") ? getLeftEdge : getRightEdge;
