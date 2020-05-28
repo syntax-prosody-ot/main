@@ -714,7 +714,7 @@ window.addEventListener('load', function(){
 			autoInputOptions.recursiveCategory = spotForm['autoInputOptions-recursiveCategory'].value;
 			autoInputOptions.terminalCategory = spotForm['autoInputOptions-terminalCategory'].value;
 
-			if(autoInputOptions.recursiveCategory == autoInputOptions.terminalCategory || autoInputOptions.noUnary){
+			if(autoInputOptions.recursiveCategory === 'x0' || autoInputOptions.noUnary){
 				autoInputOptions.noAdjacentHeads = false;
 			}
 			
