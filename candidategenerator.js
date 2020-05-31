@@ -109,6 +109,7 @@
    *	is an array of children, where each child is
    *	either a phi node (with descendant nodes attached) or a leaf
    * Options:
+   * customPCat: a list of a custom pCat to be used instead of the default.
    */
   function gen(leaves, options) {
     var candidates = []; //each candidate will be an array of siblings
