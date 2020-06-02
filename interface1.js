@@ -1058,3 +1058,11 @@ function changeInputTabs(from, to) {
 		fromButton.style.borderColor = '#d0d8e0';
 	}
 }
+
+function takeScreenShot() {
+	html2canvas(document.getElementById("treeTableContainer")).then(function(canvas) {
+	 	document.getElementById("screenshotContainer").appendChild(canvas);
+		var base64URL = canvas.toDataURL('image/jpeg').replace('image/jpeg', 'image/octet-stream');
+		window.open(base64URL);
+	});
+}
