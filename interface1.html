@@ -725,13 +725,21 @@
 							</select>
 						</span>
 						<div class="info">
-							<span class="content">info</span>
+							<span class="content">
+								To require all X0s to be at the very left edge of their XP, select "Heads must be 
+								perfectly left-aligned." This will admit [a [b]] and [[a][b]] but not [[a]b[c]] or 
+								[[a]b]. To admit [[a]b[c]] while still excluding [[a]b], select "Heads must be 
+								left-aligned." To require all X0s be at the very right edge of their XP, select 
+								"Heads must be perfectly right-aligned." This will admit [[a]b] and [[a][b]], but 
+								not [[a]b[c]] or [a[b]]. To admit [[a]b[c]] while still excluding [a[b]], select 
+								"Heads must be right-aligned."
+							</span>
 						</div>
 					</div>
 
 					<div class="constraint-row"><span>Root syntactic tree in</span>
 						<div class="info">
-							<span class="content">info</span>
+							<span class="content">Choose what syntactic category the roots of generated trees will be.</span>
 						</div>
 					</div>
 					<div class="category-row">
@@ -740,7 +748,7 @@
 						<div class="category-selection-div"><input type="radio" name="autoInputOptions-rootCategory" value="x0">X<sup>0</sup></div>
 					</div>
 					<div class="constraint-row"><span>Intermediate nodes are</span>
-						<div class="info"><span class="content">info</span></div>
+						<div class="info"><span class="content">Choose what syntactic category the nodes between the roots and the terminals will be for the generated trees.</span></div>
 					</div>
 					<div class="category-row">
 						<div class="category-selection-div"><input type="radio" name="autoInputOptions-recursiveCategory" value="cp">CP</div>
@@ -748,7 +756,7 @@
 						<div class="category-selection-div"><input type="radio" name="autoInputOptions-recursiveCategory" value="x0">X<sup>0</sup></div>
 					</div>
 					<div class="constraint-row"><span>Syntactic terminals are</span>
-						<div class="info"><span class="content">info</span></div>
+						<div class="info"><span class="content">Choose what syntactic category the terminal nodes of the generated trees will be.</span></div>
 					</div>
 					<div class="category-row">
 						<div class="category-selection-div"><input type="radio" name="autoInputOptions-terminalCategory" value="cp">CP</div>
@@ -766,13 +774,18 @@
 					</div>
 
 					<div class="constraint-row">
+						<span><input type="checkbox" name="autoInputOptions" value="noUnary">Unary XPs are invisible</span>
+						<div class="info"><span class="content">If selected, all intermediate nodes must have at least two children.</span></div>
+					</div>
+
+					<div class="constraint-row">
 						<span><input type="checkbox" name="autoInputOptions" value="noAdjuncts" checked="checked">Allow adjuncts</span>
-						<div class="info"><span class="content">info</span></div>
+						<div class="info"><span class="content">If selected, nodes if the intermediate category may be sisters to other nodes of the intermediate category.</span></div>
 					</div>
 
 					<div class="constraint-row">
 						<span><input type="checkbox" name="autoInputOptions" value="noMirrorImages">Remove mirror images</span>
-						<div class="info"><span class="content">info</span></div>
+						<div class="info"><span class="content">If selected, no mirror image pairs will be generated. E.g. [a [b [c]]] and [[[a] b] c] are mirror images of eachother; if this option is selected, [[[a] b] c] will be removed.</span></div>
 					</div>
 
 					<div class="constraint-row">
@@ -1954,7 +1967,7 @@
 							<div class="constraint-row">
 								<span><input type="checkbox" name=constraints value="starCat">*pCat</span>
 								<div class="info">
-									<span class="content">info</span>
+									<span class="content">Assign one violation for every node of category K in the prosodic tree. SPOT function: starCat(). See Prince & Smolensky 2004 [1993], Zoll 1993, 1996</span>
 								</div>
 							</div>
 								<div class="category-row">

@@ -683,12 +683,12 @@ window.addEventListener('load', function(){
 			var autoInputOptions = {};
 			var optionBox = spotForm.autoInputOptions;
 			for(var j = 0; j < optionBox.length; j++) {
-				if(optionBox[j].value === "noAdjuncts") {
-          autoInputOptions[optionBox[j].value]=!optionBox[j].checked;
-        }
-        else {
-          autoInputOptions[optionBox[j].value]=optionBox[j].checked;
-        }
+				if(optionBox[j].value == "noAdjuncts") {
+					autoInputOptions[optionBox[j].value]=!optionBox[j].checked;
+				}
+				else {
+					autoInputOptions[optionBox[j].value]=optionBox[j].checked;
+				}
 			}
 
 			// head requirements
@@ -712,6 +712,10 @@ window.addEventListener('load', function(){
 			autoInputOptions.recursiveCategory = spotForm['autoInputOptions-recursiveCategory'].value;
 			autoInputOptions.terminalCategory = spotForm['autoInputOptions-terminalCategory'].value;
 
+			if(autoInputOptions.recursiveCategory === 'x0' || autoInputOptions.noUnary){
+				autoInputOptions.noAdjacentHeads = false;
+			}
+			
 			// console.log(autoInputOptions)
 
 			if(inputString !== "") {
