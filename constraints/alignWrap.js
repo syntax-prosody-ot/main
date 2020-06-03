@@ -149,7 +149,8 @@ function alignFocLeft(sTree, pTree, cat){
 function alignFocRight(sTree, pTree, cat){
 	return alignFocus(sTree, pTree, cat, 'right');
 }
-function wrap(sTree, pTree, cat){
+function wrap(sTree, pTree, cat, options){
+	options = options || {};
 	var vCount = 0;
 	walkTree(sTree, function(sNode){
 		if(sNode.cat !== cat)
@@ -157,7 +158,7 @@ function wrap(sTree, pTree, cat){
 		var noMatch = true;
 		sLeaves = getLeaves(sNode);
 		walkTree(pTree, function(pNode){
-			if(!catsMatch(cat, pNode.cat))
+			if(!catsMatch(cat, pNode.cat, options.customPairings))
 				return;
 			if(containsIds(getLeaves(pNode), sLeaves)){	// if the current pNode wraps our sNode
 				noMatch = false;
