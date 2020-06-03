@@ -9,7 +9,8 @@
 *  Assign one violation for every set of sisters that do not all have the same category.
 *  That is, all of the following would have one violation: (a (b)(c)), (a b (c)), ((a) b c)
 */
-function eqSis(s, ptree, cat){
+function eqSis(s, ptree, pcat){
+	cat = pcat || ptree.cat
 	var vcount = 0;
 	//base case: parent has category cat and is non-terminal
 	if(ptree.cat === cat && ptree.children && ptree.children.length){
@@ -26,7 +27,7 @@ function eqSis(s, ptree, cat){
 	//recursive case
 	if(ptree.children && ptree.children.length){
 		for(var i=0; i<ptree.children.length; i++){
-			vcount += eqSis(s, ptree.children[i], cat);
+			vcount += eqSis(s, ptree.children[i], pcat);
 		}
 	}
 	return vcount;
