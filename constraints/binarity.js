@@ -199,7 +199,7 @@ function binLeaves(s, ptree, c, n){
 	return binMaxLeaves(s, ptree, c, n) + binMinLeaves(s, ptree, c);
 }
 
-function binLeavesGradient(s, ptree, c){
+function binLeavesGradient(s, ptree, c, n){
 	n = n || 2;
 	return binMaxLeavesGradient(s, ptree, c, n) + binMinLeaves(s, ptree, c);
 }
