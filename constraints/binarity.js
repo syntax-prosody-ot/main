@@ -45,15 +45,16 @@ function binMinBranchesInit(s, ptree, cat){
 }
 //sensitive to the category of the parent only (2 branches of any type is acceptable)
 //categorical evaluation: 1 violation for every super-binary branching node
-function binMaxBranches(s, ptree, cat){
+function binMaxBranches(s, ptree, cat, n){
+	n = n || 2;
 	var vcount = 0;
 	if(ptree.children && ptree.children.length){
-		if(ptree.cat === cat && ptree.children.length>2){
+		if(ptree.cat === cat && ptree.children.length>n){
 			//logreport("VIOLATION: "+ptree.id+" has "+ptree.children.length+" children!");
 			vcount++;
 		}
 		for(var i = 0; i<ptree.children.length; i++){
-			vcount += binMaxBranches(s, ptree.children[i], cat);
+			vcount += binMaxBranches(s, ptree.children[i], cat, n);
 		}
 	}
 	return vcount;
@@ -127,7 +128,8 @@ function binBrGradient(s, ptree, cat){
 * Sandalo & Truckenbrodt 2002: "Max-Bin: P-phrases consist of maximally two prosodic words"
 * Assigns a violation for every node in ptree that dominates more than two prosodic words.
 */
-function binMaxLeaves(s, ptree, c){
+function binMaxLeaves(s, ptree, c, n){
+	n = n || 2;
 	var vcount = 0;
 	//the category we are looking for:
 	var target = pCat.nextLower(c);
@@ -136,11 +138,11 @@ function binMaxLeaves(s, ptree, c){
 	if(ptree.children && ptree.children.length){
 		var targetDesc = getDescendentsOfCat(ptree, target);
 		//console.log("there are " + targetDesc.length + " " + target + "s");
-		if(ptree.cat === c && targetDesc.length > 2){
+		if(ptree.cat === c && targetDesc.length > n){
 			vcount ++;
 		}
 		for(var i = 0; i < ptree.children.length; i++){
-			vcount += binMaxLeaves(s, ptree.children[i], c);
+			vcount += binMaxLeaves(s, ptree.children[i], c, n);
 		}
 	}
 	return vcount;
@@ -150,18 +152,19 @@ function binMaxLeaves(s, ptree, c){
 * I don't know how to define this constraint in prose, but it's binMaxLeaves as
 * a gradient constraint instead of a categorical constraint.
 */
-function binMaxLeavesGradient(s, ptree, c){
+function binMaxLeavesGradient(s, ptree, c, n){
+	n = n || 2;
 	var vcount = 0;
 	//the category we are looking for:
 	var target = pCat.nextLower(c);
 	//pCat.nextLower defined in prosodicHierarchy.js
 	if(ptree.children && ptree.children.length){
 		var targetDesc = getDescendentsOfCat(ptree, target);
-		if(ptree.cat === c && targetDesc.length > 2){
+		if(ptree.cat === c && targetDesc.length > n){
 			vcount += targetDesc.length - 2; //this makes the constraint gradient
 		}
 		for(var i = 0; i < ptree.children.length; i++){
-			vcount += binMaxLeavesGradient(s, ptree.children[i], c);
+			vcount += binMaxLeavesGradient(s, ptree.children[i], c, n);
 		}
 	}
 	return vcount;
@@ -191,12 +194,14 @@ function binMinLeaves(s, ptree, c){
 }
 
 //Combines the violations of maximal and minimal binarity (leaf-counting)
-function binLeaves(s, ptree, c){
-	return binMaxLeaves(s, ptree, c) + binMinLeaves(s, ptree, c);
+function binLeaves(s, ptree, c, n){
+	n = n || 2;
+	return binMaxLeaves(s, ptree, c, n) + binMinLeaves(s, ptree, c);
 }
 
 function binLeavesGradient(s, ptree, c){
-	return binMaxLeavesGradient(s, ptree, c) + binMinLeaves(s, ptree, c);
+	n = n || 2;
+	return binMaxLeavesGradient(s, ptree, c, n) + binMinLeaves(s, ptree, c);
 }
 
 //Helper function: given a node x, returns all the descendents of x that have category cat.
