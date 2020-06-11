@@ -61,6 +61,7 @@ var vso_tree = {
         {
             "cat": "xp",
             "id": "TP",
+			"silentHead": true,
             "children": [
                 {
                     "cat": "xp",
@@ -98,6 +99,7 @@ var vsso_tree = {
         {
             "cat": "xp",
             "id": "TP",
+			"silentHead": true,
             "children": [
                 {
                     "cat": "xp",
@@ -145,6 +147,7 @@ var vsoo_tree = {
         {
             "cat": "xp",
             "id": "TP",
+			"silentHead": true,
             "children": [
                 {
                     "cat": "xp",
@@ -218,7 +221,7 @@ var vsoo_tree_handout = {
 
 var vssoo_tree = {
     "id": "SigmaP",
-    "cat": "cp",
+    "cat": "xp",
     "children": [
         {
             "id": "V",
@@ -227,6 +230,7 @@ var vssoo_tree = {
         {
             "cat": "xp",
             "id": "TP",
+			"silentHead": true,
             "children": [
                 {
                     "cat": "xp",
