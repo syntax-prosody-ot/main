@@ -91,7 +91,7 @@
       }
     }
 
-    if (candidate.length > 2 && options.rootCategory === candidate[0].cat) {
+    if (candidate.length < 2 && options.rootCategory === candidate[0].cat) {
       //console.log(candidate, options.rootCategory);
       return null;
     }
