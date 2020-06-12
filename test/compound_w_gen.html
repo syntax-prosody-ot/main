@@ -88,11 +88,12 @@
 
 		var candSet2w = GEN({}, 'a b', output_gen_options);
 		var candSet3w = GEN({}, 'a b c', output_gen_options);
+		var candSet4w = GEN({}, 'a b c d', output_gen_options);
 		var genOptFt = output_gen_options;
 		genOptFt.terminalCategory = 'Ft';
 		var candSet2Ft = GEN({}, 'a b', genOptFt);
 
-		var candSets = [candSet2w, candSet2Ft, candSet3w];
+		var candSets = [candSet4w]; //[candSet2w, candSet2Ft, candSet3w, candSet4w];
 		for(var i in candSets){
 			//Make the tableau using the makeTableau function (defined in tableauMaker.js)
 			var tabl = makeTableau(candSets[i], window[consName]);
