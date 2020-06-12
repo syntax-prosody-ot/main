@@ -508,18 +508,25 @@ window.addEventListener('load', function(){
 
 
 			//warn user about possibly excessive numbers of candidates
-			if (genOptions['cliticMovement'] && (!genOptions['noUnary'] && (getLeaves(sTree).length >= 5 || pString.split(" ").length >= 5))
-											 || (genOptions['noUnary'] && (getLeaves(sTree).length >= 7 || pString.split(" ").length >= 7))){
-				if(!confirm("You have selected GEN settings that allow movement, and included a sentence of ".concat( pString.split(" ").length.toString()," terminals. This GEN may yield more than 10K candidates. To reduce the number of candidates, consider enforcing non-recursivity, exhaustivity, and/or branchingness for intermediate prosodic nodes. Do you wish to proceed with these settings?"))){
-					throw new Error("clitic movement with too many terminals");
+			var maxNumTerminals = Math.max(getLeaves(sTree).length, pString.split(" ").length);
+			if (genOptions['cliticMovement'])
+			{
+				if((maxNumTerminals >= 7) || (!genOptions['noUnary'] && maxNumTerminals >= 5))
+				{
+					var tooManyCandMsg = "You have selected GEN settings that allow movement, and included a sentence of "+ maxNumTerminals.toString()+" terminals. This GEN may yield more than 10K candidates. To reduce the number of candidates, consider enforcing non-recursivity, exhaustivity, and/or branchingness for intermediate prosodic nodes. Do you wish to proceed with these settings?";
+					var continueGEN = confirm(tooManyCandMsg);
+					if(!continueGEN){
+						throw new Error("Tried to run GEN with clitic movement with too many terminals");
+					}
 				}
 			}
-			else if(getLeaves(sTree).length >= 6 || pString.split(" ").length >= 6){
+			else if(maxNumTerminals >= 9 || (maxNumTerminals >= 6 && !genOptions['noUnary'])){
 				if(!confirm("Inputs of more than six terminals may run slowly and even freeze your browser, depending on the selected GEN options. Do you wish to continue?")){
-					throw new Error("Tried to run gen with more than six terminals");
+					throw new Error("Tried to run GEN with too many terminals");
 				}
 			}
 
+			//Actually create the candidate set
 			if (genOptions['cliticMovement']){
 			//	var candidateSet = GENwithCliticMovement(sTree, pString, genOptions);
 				var candidateSet = globalNameOrDirect(spotForm['genOptions-movement'].value)(sTree, pString, genOptions);
