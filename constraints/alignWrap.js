@@ -25,7 +25,8 @@ the first leaf dominated by p.
 *	*/
 function alignSP(sTree, pTree, sCat, d, options){
 	options = options || {};
-
+	console.log("align options");
+	console.log(options);
 	var getEdge = (d==="left") ? getLeftEdge : getRightEdge;
 	var vCount = 0;
 	

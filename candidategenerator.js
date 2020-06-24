@@ -108,10 +108,8 @@
    * Format: returns an array of parenthesizations, where each parenthesization
    *	is an array of children, where each child is
    *	either a phi node (with descendant nodes attached) or a leaf
-   * Options:
-   * customPCat: a list of a custom pCat to be used instead of the default.
    */
-  function gen(leaves, options) {
+  function gen(leaves) {
     var candidates = []; //each candidate will be an array of siblings
     if (!(leaves instanceof Array))
       throw new Error(leaves + " is not a list of leaves.");

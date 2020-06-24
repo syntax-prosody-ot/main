@@ -4,12 +4,37 @@
 // trimStree option uses the trimmed version of the sTree
 // showHeads: marks and shows the heads of Japanese compound words
 	// in the future, this might get a string value specifying a language other than Japanese
-// customPCat: if not None, use this list instead of the normal pCat
-// customPairings: if not None, use this list to pair pCat instead of the default pairings
+// ph: prosodic hierarchy object with elements as follows:
+// 	.pCat: custom pCat list to be passed to Gen
+// 	.categoryPairings: custom category pairings to be passed to constraints
 function makeTableau(candidateSet, constraintSet, options){
 	//all options passed to makeTableau are passed into parenthesizeTree, so make
 	//sure your options in dependent functions have unique names from other funcs
 	options = options || {};
+	console.log("make Tableau options");
+	console.log(options);
+	if (!options.ph){
+		options.ph = {}
+		options.ph.categoryPairings = {
+			"clause": "i",
+			"cp": "i",
+			"xp": "phi",
+			"x0": "w"
+		};
+		options.ph.pCat = ["u", "i", "phi", "w", "Ft", "syll"];
+
+	}
+
+	// set default category pairings value if none exists
+	if (!options.ph.categoryPairings){
+		options.ph.categoryPairings = {
+			"clause": "i",
+			"cp": "i",
+			"xp": "phi",
+			"x0": "w"
+		};
+
+	}
 	var tableau = [];
 	//Make a header for the tableau, containing all the constraint names.
 	//First element is empty, to correspond to the column of candidates.
@@ -79,11 +104,17 @@ function makeTableau(candidateSet, constraintSet, options){
 			var oldDebugOn = logreport.debug.on;
 			logreport.debug.on = false;
 			trimmedTree = options.trimStree ? trimRedundantNodes(getCandidate(candidate[0])) : getCandidate(candidate[0]);
-			
-			//options for this constraint:
-			var myConOptions = JSON.parse(conOptions);
 			//if options.catsMatch --> add it to myConOptions
 
+			//options for this constraint:
+			var myConOptions = JSON.parse(conOptions);
+			if (options.ph.categoryPairings){
+				myConOptions["categoryPairings"] = JSON.parse(JSON.stringify(options.ph.categoryPairings));	
+			}
+			console.log("myConOptions");
+			console.log(myConOptions);
+			console.log("constraint");
+			console.log(constraint);
 			//calculate violations
 			var numViolations = globalNameOrDirect(constraint)(trimmedTree, getCandidate(candidate[1]), cat, myConOptions); logreport.debug.on = oldDebugOn; // don't show the log of each constraint run
 			tableauRow.push(numViolations);

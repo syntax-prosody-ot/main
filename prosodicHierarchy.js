@@ -10,7 +10,7 @@ var categoryPairings = {
 
 //Evaluates whether two nodes have corresponding categories.
 //categoryPairings: default is global definition
-function catsMatch(aCat, bCat, categoryPairings=categoryPairings){
+function catsMatch(aCat, bCat, catPairs=categoryPairings){
 	if(aCat === undefined && bCat === undefined)
 		return true;	//vacuously true if both nodes are leaves (with no category)
 	// aCat is the key
