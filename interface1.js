@@ -818,7 +818,13 @@ window.addEventListener('load', function(){
 		if (cats.length > 1){
 			node['cat'] = cats[0];
 		}
-		for (var cat of cats){
+		// add the rest of the list as attributes
+		for (var cat of cats.slice(1)){
+			// remove spaces
+			att = cat.trim();
+			console.log(att)
+			node[att] = true;
+			/*
 			if (cat.indexOf('silentHead') != -1){
 				node['silentHead'] = true;
 			}
@@ -827,7 +833,8 @@ window.addEventListener('load', function(){
 			}
 			if (cat.indexOf('foc') != -1){
 				node['foc'] = true;
-			}
+			}*/
+
 		}
 		var children = node['children'];
 		if (children != undefined){
