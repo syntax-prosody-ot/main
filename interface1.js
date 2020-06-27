@@ -820,8 +820,12 @@ window.addEventListener('load', function(){
 		}
 		// add the rest of the list as attributes
 		for (var cat of cats.slice(1)){
-			// remove spaces
-			att = cat.trim();
+			// remove non-alphanumeric characters, underscores
+			// replace capital letters with lowercase
+			att = cat.trim().replace(/\W/g, '');
+			if (att === ""){
+				continue;
+			}
 			console.log(att)
 			node[att] = true;
 			/*
