@@ -13,18 +13,14 @@ function makeTableau(candidateSet, constraintSet, options){
 	options = options || {};
 	console.log("make Tableau options");
 	console.log(options);
+	// create the ph object if none was passed
 	if (!options.ph){
 		options.ph = {}
-		options.ph.categoryPairings = {
-			"clause": "i",
-			"cp": "i",
-			"xp": "phi",
-			"x0": "w"
-		};
-		options.ph.pCat = ["u", "i", "phi", "w", "Ft", "syll"];
-
 	}
-
+	// set default pCat if none exists
+	if (!options.ph.pCat){
+		options.ph.pCat = ["u", "i", "phi", "w", "Ft", "syll"];
+	}
 	// set default category pairings value if none exists
 	if (!options.ph.categoryPairings){
 		options.ph.categoryPairings = {
@@ -111,10 +107,10 @@ function makeTableau(candidateSet, constraintSet, options){
 			if (options.ph.categoryPairings){
 				myConOptions["categoryPairings"] = JSON.parse(JSON.stringify(options.ph.categoryPairings));	
 			}
-			console.log("myConOptions");
-			console.log(myConOptions);
-			console.log("constraint");
-			console.log(constraint);
+			//console.log("myConOptions");
+			//console.log(myConOptions);
+			//console.log("constraint");
+			//console.log(constraint);
 			//calculate violations
 			var numViolations = globalNameOrDirect(constraint)(trimmedTree, getCandidate(candidate[1]), cat, myConOptions); logreport.debug.on = oldDebugOn; // don't show the log of each constraint run
 			tableauRow.push(numViolations);
