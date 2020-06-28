@@ -37,15 +37,15 @@
 
 	var majorPhrase = {obeysNonRecursivity: true, obeysExhaustivity: true/false, rootCategory: 'i', terminalCategory: 'w', recursiveCategory: 'MaP'};
 	var minorPhrase = {obeysNonRecursivity: true, obeysExhaustivity: true/false, rootCategory: 'i', terminalCategory: 'w', recursiveCategory: 'MiP'};
-	/*var categoryPairings = {
+	var customPairings = {
 	"clause": "i",
 	"cp": "i",
 	"xp": "phi",
 	"x0": "w"
-};*/
-	var customPCat = ['i', 'MaP', 'MiP', 'w'];
+};
+	var customPCatList = ['i', 'MaP', 'MiP', 'w'];
 var output_gen_opt_list = [i_phi_w, phi_phi_w, phi_w_w, w_w_w];//, majorPhrase, minorPhrase];
-	
+	var ph = {pCat: customPCatList, categoryPairings: customPairings};	
     var myCategoryBrackets = {
 	"i": "{}",
 	"cp": "{}",
@@ -75,7 +75,7 @@ var output_gen_opt_list = [i_phi_w, phi_phi_w, phi_w_w, w_w_w];//, majorPhrase, 
             var candSet = GEN({}, 'a b', output_gen_options);
             
 			//Make the tableau using the makeTableau function (defined in tableauMaker.js)
-            var tabl = makeTableau(candSet, window[consName], {showTones: output_gen_options.addTones, parens: myCategoryBrackets});
+            var tabl = makeTableau(candSet, window[consName], {showTones: output_gen_options.addTones, parens: myCategoryBrackets, ph});
 			
 			//Write the tableau to the screen and reveal it -- only uncomment this if you don't have too many tableaux!
 			writeTableau(tabl, {});
