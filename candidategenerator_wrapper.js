@@ -96,7 +96,8 @@ window.GEN = function(sTree, words, options){
 				}
 				var accentSuffix = '';
 				if(words[i].accent){
-					accentSuffix = '-'+words[i].accent;
+					var accentVal = (words[i].accent && words[i].accent !== 'u') ? "accented": "unaccented";
+					accentSuffix = '-'+ accentVal;
 				}
 				words[i] = words[i].id+catSuffix+accentSuffix;
 			}
