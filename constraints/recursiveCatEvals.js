@@ -81,10 +81,15 @@ function markMinMax(mytree){
 	return mytree;
 }
 
+function markHeadsJapanese(mytree){
+	console.warn('markHeadsJapanese() has chaned to markHeads()');
+	return markHeads(mytree, 'right');
+}
+
 /* Function to mark heads of Japanese compound words.
  * Head of a node is the righmost daughter of the highest category.
  */
-function markHeadsJapanese(mytree){
+function markHeads(mytree, side){
 	var child; //for easy accees to the current child
 	//headCat stores the highest category in children. Defaults to lowest pCat
 	var headCat = pCat[pCat.length-1];
@@ -109,7 +114,7 @@ function markHeadsJapanese(mytree){
 			else{
 				child.head = false;
 			}
-			child = markHeadsJapanese(child); //recursive function call
+			child = markHeads(child, side); //recursive function call
 		}
 	}
 	return mytree;
