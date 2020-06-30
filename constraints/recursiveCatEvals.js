@@ -88,34 +88,52 @@ function markHeadsJapanese(mytree){
 
 /* Function to mark heads of Japanese compound words.
  * Head of a node is the righmost daughter of the highest category.
+ * Takes two arguments:
+ * 	mytree: tree to mark heads on
+ * 	side: 'left' or 'right', default 'right'
  */
 function markHeads(mytree, side){
-	var child; //for easy accees to the current child
+	side = side || 'right'
 	//headCat stores the highest category in children. Defaults to lowest pCat
 	var headCat = pCat[pCat.length-1];
 	if(mytree.children && mytree.children.length){
-		//mark heads and iterate through tree from RIGHT to LEFT
-		for(var i = mytree.children.length-1; i >= 0; i--){
-			child = mytree.children[i];
-			/* since we are iterating through children from right to left, when we
-			 * come across the highest cat we have seen so far, it is necessarily the
-			 * rightmost of its category */
-			if(pCat.isHigher(child.cat, headCat)){
-				headCat = child.cat;
-				child.head = true;
-				//iterate over the children we have already marked:
-				for(var x = i+1; x < mytree.children.length; x++){
-					/* when a new head is marked, all nodes to the right of it must be
-					 * marked as head = false since they are of a lower category
-					 * (remember, the outer loop is iterating from right to left) */
-					mytree.children[x].head = false;
-				}
+		let previousChildren = [];
+		if(side === 'right'){
+			//mark heads and iterate through tree from RIGHT to LEFT
+			for(let i = mytree.children.length-1; i >= 0; i--){
+				markHeadsInner(mytree.children[i], previousChildren, side);
 			}
-			else{
-				child.head = false;
+		}
+		else if(side === 'left'){
+			//mark heads and iterate from LEFT to RIGHT
+			for(let i = 0; i < mytree.children.length; i++){
+				markHeadsInner(mytree.children[i], previousChildren, side);
 			}
-			child = markHeads(child, side); //recursive function call
+		}
+		else{
+			throw new Error('the "sides" parameter of markHeads() must be either "right" or "left"');
 		}
 	}
 	return mytree;
+
+	function markHeadsInner(child, previousChildren, side){
+		/* since we are iterating through children in a specified direction, if we
+		 * come across the highest cat we have seen so far, it is necessarily the
+		 * rightmost of its category */
+		if(pCat.isHigher(child.cat, headCat)){
+			headCat = child.cat;
+			child.head = true;
+			//iterate over the children we have already marked:
+			for(var x = 0; x < previousChildren.length; x++){
+				/* when a new head is marked, all nodes previously evaluated must be
+				 * marked as head = false since they are of a lower category */
+				mytree.children[x].head = false;
+			}
+		}
+		else{
+			child.head = false;
+		}
+		previousChildren.push(child);
+		child = markHeads(child, side); //recursive function call
+	}
 }
