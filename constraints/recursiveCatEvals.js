@@ -94,7 +94,7 @@ function markHeadsJapanese(mytree){
  */
 function markHeads(mytree, side){
 	side = side || 'right'
-	if(typeof side !== String){
+	if(typeof side !== 'string'){
 		console.warn('"side" argument of markHeads() must be "right" or "left"');
 		side = 'right';
 	}
