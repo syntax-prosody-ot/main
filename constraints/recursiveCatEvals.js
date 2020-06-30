@@ -127,7 +127,7 @@ function markHeads(mytree, side){
 			for(var x = 0; x < previousChildren.length; x++){
 				/* when a new head is marked, all nodes previously evaluated must be
 				 * marked as head = false since they are of a lower category */
-				mytree.children[x].head = false;
+				previousChildren[x].head = false;
 			}
 		}
 		else{

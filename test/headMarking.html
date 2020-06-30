@@ -11,7 +11,9 @@
 
 		<script>
 			window.addEventListener("load",function(){
-				writeTableau(makeTableau(GEN({}, "a b c d"), [], {showHeads: true}));
+				writeTableau(makeTableau(GEN({}, "a b c"), ['binMaxHead-phi'], {showHeads: 'right'}));
+                revealNextSegment();
+                writeTableau(makeTableau(GEN({}, "a b c"), [], {showHeads: 'left'}));
 				revealNextSegment();
             });
 
@@ -24,7 +26,7 @@
                 console.log(checkIsomorphic(currentBehavior[y][1], expected[y][1]));
             }
             function checkIsomorphic(tree1, tree2){
-                if(!nodesIsomorphic){
+                if(!nodesIsomorphic(tree1, tree2)){
                     return false;
                 }
                 else if(tree1.children && tree1.children.length){
@@ -37,20 +39,18 @@
                 return true;
 
                 function nodesIsomorphic(tree1, tree2){
-                    //this is all pretty bad form
-                    if((tree1.head || tree2.head) && tree1.head == tree2.head){
-                        "nothing"
+                    try{
+                        if((tree1.head || tree2.head) && tree1.head !== tree2.head){
+                            return false;
+                        }
+                        if((tree1.children || tree2.children) && tree1.children.length !== tree2.children.length){
+                            return false;
+                        }
+                        if(tree1.cat !== tree2.cat){
+                            return false;
+                        }
                     }
-                    else{
-                        return false;
-                    }
-                    if((tree1.children || tree2.children) && tree1.children.length == tree2.children.length){
-                        'nothing'
-                    }
-                    else{
-                        return false;
-                    }
-                    if(tree1.cat !== tree2.cat){
+                    catch{
                         return false;
                     }
                     return true;
