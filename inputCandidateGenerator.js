@@ -150,21 +150,28 @@ function generateTerminalStrings(T, min, max) {
   // console.log(data)
   var temp = T.slice();
   // console.log(temp)
-  genStringsRecur(temp, data, length - 1, 0);
+  var resultArr = new Array();
+  var result = genStringsRecur(temp, data, length - 1, 0, resultArr);
+  // console.log(result)
+  return result;
 }
 
-function genStringsRecur(T, data, last, index) {
+function genStringsRecur(T, data, last, index, result) {
   var length = T.length;
-  for (var i = 0; i < length; i++) {
+  for(var i = 0; i < length; i++) {
     data[index] = T[i];
 
-    if (index == last) {
-      console.log(data)
+    if(index == last) {
+      // console.log(data)
+      var strData = data.join(' ');
+      // console.log(strData)
+      result.push(strData);
       // result.push(data);
       // console.log(result)
     }
     else {
-      genStringsRecur(T, data, last, index + 1);
+      genStringsRecur(T, data, last, index + 1, result);
     }
   }
+  return result;
 }
