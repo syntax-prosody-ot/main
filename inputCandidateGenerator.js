@@ -142,3 +142,29 @@ function getCliticTrees(string, options) {
   }
   return cliticTreeList;
 }
+
+function generateTerminalStrings(T, min, max) {
+  var length = T.length;
+
+  var data = new Array(length);
+  // console.log(data)
+  var temp = T.slice();
+  // console.log(temp)
+  genStringsRecur(temp, data, length - 1, 0);
+}
+
+function genStringsRecur(T, data, last, index) {
+  var length = T.length;
+  for (var i = 0; i < length; i++) {
+    data[index] = T[i];
+
+    if (index == last) {
+      console.log(data)
+      // result.push(data);
+      // console.log(result)
+    }
+    else {
+      genStringsRecur(T, data, last, index + 1);
+    }
+  }
+}
