@@ -94,6 +94,10 @@ function markHeadsJapanese(mytree){
  */
 function markHeads(mytree, side){
 	side = side || 'right'
+	if(typeof side !== String){
+		console.warn('"side" argument of markHeads() must be "right" or "left"');
+		side = 'right';
+	}
 	//headCat stores the highest category in children. Defaults to lowest pCat
 	var headCat = pCat[pCat.length-1];
 	if(mytree.children && mytree.children.length){
