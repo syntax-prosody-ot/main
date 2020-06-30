@@ -143,35 +143,87 @@ function getCliticTrees(string, options) {
   return cliticTreeList;
 }
 
+// Return an array of all possible space-separated strings of length at least min and no more than max, drawn from T with replacement.
 function generateTerminalStrings(T, min, max) {
   var length = T.length;
 
-  var data = new Array(length);
-  // console.log(data)
-  var temp = T.slice();
-  // console.log(temp)
-  var resultArr = new Array();
-  var result = genStringsRecur(temp, data, length - 1, 0, resultArr);
-  // console.log(result)
-  return result;
+  // Get list of a possible combinations of T from length min to max
+  finalCombList = [];
+  for(var i=min; i<=max; i++) {
+    if(i === length) {
+      var currCombList = T.slice().join(' ');
+      finalCombList.push(currCombList);
+    }
+    else {
+      var temp2 = T.slice();
+      var data2 = new Array(i);
+      var combList = [];
+      var currCombList = getCombinations(temp2, data2, 0, length-1, 0, i, combList);
+      if(finalCombList.length === 0) {
+        finalCombList = currCombList;
+      }
+      else {
+        finalCombList = finalCombList.concat(currCombList);
+      }
+    }
+  }
+
+  // Get list of all possible permutations with repetition of the previously found list of combinations
+  var results = [];
+  for(var j=0; j<finalCombList.length; j++) {
+    var temp1 = finalCombList[j].split(' ');
+    var temp1Length = temp1.length;
+    var data1 = new Array(temp1Length);
+
+    var resultArr = new Array();
+    var result = getPermutations(temp1, data1, temp1Length-1, 0, resultArr);
+    if(results.length === 0) {
+      results = result;
+    }
+    else {
+      results = results.concat(result);
+    }
+  }
+
+  // Convert to set to remove duplicates
+  var uniqResults = [...new Set(results)];
+  uniqResults = Array.from(uniqResults);
+  return uniqResults;
 }
 
-function genStringsRecur(T, data, last, index, result) {
+// Return an array of all possible space-separated strings of length equal to length of T
+function getPermutations(T, data, last, index, permList) {
   var length = T.length;
   for(var i = 0; i < length; i++) {
     data[index] = T[i];
 
     if(index == last) {
-      // console.log(data)
       var strData = data.join(' ');
-      // console.log(strData)
-      result.push(strData);
-      // result.push(data);
-      // console.log(result)
+      permList.push(strData);
     }
     else {
-      genStringsRecur(T, data, last, index + 1, result);
+      getPermutations(T, data, last, index + 1, permList);
     }
   }
-  return result;
+  return permList;
+}
+
+// Returns list of combinations of length r from input array
+function getCombinations(arr, data, start, end, index, r, combList) {
+  if(index == r) {
+    var currComb = [];
+    for(var j=0; j<r; j++) {
+      currComb.push(data[j]);
+    }
+    var str = currComb.join(' ');
+    combList.push(str);
+    return;
+  }
+
+  for(var i=start; i<=end && end-i+1 >= r-index; i++) {
+    data[index] = arr[i];
+    getCombinations(arr, data, i+1, end, index+1, r, combList);
+  }
+
+  return combList;
 }

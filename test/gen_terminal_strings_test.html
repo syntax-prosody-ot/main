@@ -4,19 +4,24 @@
 
 <script>
 
+  //generateTerminalStrings
+  console.log('generateTerminalStrings()')
   var T1 = ['F', 'FF', 'FFF'];
-  console.log(generateTerminalStrings(T1));
-  console.log("\n")
+  console.log(generateTerminalStrings(T1, 2, 2));
+  console.log(generateTerminalStrings(T1, 3, 3));
+  console.log(generateTerminalStrings(T1, 2, 3));
 
-  var T2 = ['F', 'FF'];
-  console.log(generateTerminalStrings(T2));
-  console.log("\n")
-  var T3 = ['FF', 'FFF'];
-  console.log(generateTerminalStrings(T3));
-  console.log("\n")
-  var T4 = ['F', 'FFF'];
-  console.log(generateTerminalStrings(T4));
-  console.log("\n")
+  // getCombinations
+  console.log('getCombinations()')
+  var data = new Array(2);
+  var combList = new Array();
+  console.log(getCombinations(T1, data, 0, 2, 0, 2, combList));
+
+  // getPermutations
+  console.log('getPermutations()')
+  var data = new Array(3);
+  var result = new Array();
+  console.log(getPermutations(T1, data, 2, 0, result));
 
 </script>
 
