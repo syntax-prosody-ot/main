@@ -486,7 +486,6 @@ window.addEventListener('load', function(){
 		}
 		if(document.getElementById("showHeads").checked){
 			tableauOptions.showHeads = spotForm['genOptions-showHeads'].value;
-			console.log(tableauOptions.showHeads);
 		}
 
 
