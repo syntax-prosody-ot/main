@@ -485,7 +485,8 @@ window.addEventListener('load', function(){
 			tableauOptions.trimStree = true;
 		}
 		if(document.getElementById("showHeads").checked){
-			tableauOptions.showHeads= true;
+			tableauOptions.showHeads = spotForm['genOptions-showHeads'].value;
+			console.log(tableauOptions.showHeads);
 		}
 
 
@@ -601,6 +602,15 @@ window.addEventListener('load', function(){
 			//}
 		}
 
+	});
+
+	document.getElementById('showHeads').addEventListener('click', function(){
+		if (document.getElementById('headSideOptions').style.display === 'none' && document.getElementById('showHeads').checked){
+			document.getElementById('headSideOptions').style.display = '';
+		}
+		else{
+			document.getElementById('headSideOptions').style.display = 'none';
+		}
 	});
 
 	/*
