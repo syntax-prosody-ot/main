@@ -168,7 +168,7 @@ function generateTerminalStrings(T, min, max) {
     }
   }
 
-  // Get list of all possible permutations with repetition of the previously found list of combinations
+  // Get list of all possible permutations with repetition of each of the elements in the list of combinations
   var results = [];
   for(var j=0; j<finalCombList.length; j++) {
     var temp1 = finalCombList[j].split(' ');
