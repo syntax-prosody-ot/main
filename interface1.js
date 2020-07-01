@@ -826,7 +826,7 @@ window.addEventListener('load', function(){
 			if (att === ""){
 				continue;
 			}
-			console.log(att)
+			//console.log(att)
 			node[att] = true;
 			/*
 			if (cat.indexOf('silentHead') != -1){
