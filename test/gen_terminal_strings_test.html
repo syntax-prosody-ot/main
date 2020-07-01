@@ -4,28 +4,25 @@
 
 <script>
 
-  //generateTerminalStrings
-  console.log('generateTerminalStrings()')
-  var T1 = ['F', 'FF', 'FFF'];
-  console.log(generateTerminalStrings(T1, 2, 2));
-  console.log(generateTerminalStrings(T1, 3, 3));
-  console.log(generateTerminalStrings(T1, 2, 3));
+  var T3 = ['a', 'b', 'c'];
+  console.log("T = ['a', 'b', 'c']");
+  console.log('min = 2, max = 2');
+  console.log(generateTerminalStrings(T3, 2, 2));
+  console.log('min = 3, max = 3');
+  console.log(generateTerminalStrings(T3, 3, 3));
+  console.log('min = 2, max = 3');
+  console.log(generateTerminalStrings(T3, 2, 3));
 
-  // getCombinations
-  console.log('getCombinations()')
-  var data = new Array(2);
-  var combList = new Array();
-  console.log(getCombinations(T1, data, 0, 2, 0, 2, combList));
-
-  // getPermutations
-  console.log('getPermutations()')
-  var data = new Array(3);
-  var result = new Array();
-  console.log(getPermutations(T1, data, 2, 0, result));
-  var data = new Array(2);
-  var result = new Array();
-  var T2 = ['F', 'FF'];
-  console.log(getPermutations(T2, data, 1, 0, result));
+  var T4 = ['a', 'u'];
+  console.log("T = ['a', 'u']");
+  console.log('min = 2, max = 2');
+  console.log(generateTerminalStrings(T4, 2, 2));
+  console.log('min = 3, max = 3');
+  console.log(generateTerminalStrings(T4, 3, 3));
+  console.log('min = 4, max = 4');
+  console.log(generateTerminalStrings(T4, 4, 4));
+  console.log('min = 2, max = 4');
+  console.log(generateTerminalStrings(T4, 2, 4));
 
 </script>
 

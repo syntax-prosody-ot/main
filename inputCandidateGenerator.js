@@ -148,42 +148,13 @@ function getCliticTrees(string, options) {
 // min -> minimum length of output strings
 // max -> maximum length of output strings
 function generateTerminalStrings(T, min, max) {
-  var length = T.length;
-
-  // Get list of a possible combinations of T of length min to max
-  finalCombList = [];
-  for(var i=min; i<=max; i++) {
-    // If curr length is equal to length of T, add to finalCombList
-    // Don't need to call getCombinations
-    if(i === length) {
-      var currCombList = T.slice().join(' ');
-      finalCombList.push(currCombList);
-    }
-    // Else get all combinations of T of length i and add to finalCombList
-    else {
-      var temp2 = T.slice();
-      var data2 = new Array(i);
-      var combList = [];
-      var currCombList = getCombinations(temp2, data2, 0, length-1, 0, i, combList);
-      // Initialize finalCombList
-      if(finalCombList.length === 0) {
-        finalCombList = currCombList;
-      }
-      // Add to finalCombList
-      else {
-        finalCombList = finalCombList.concat(currCombList);
-      }
-    }
-  }
-
-  // Get list of all possible permutations of each string in finalCombList
+  // Get list of all possible permutations for each length
   var finalPermList = [];
-  for(var j=0; j<finalCombList.length; j++) {
-    var temp1 = finalCombList[j].split(' ');
-    var temp1Length = temp1.length;
-    var data1 = new Array(temp1Length);
-    var permList = new Array();
-    var currPermList = getPermutations(temp1, data1, temp1Length-1, 0, permList);
+  for(var i = min; i <= max; i++) {
+    var temp = T.slice();
+    var data = new Array(i);
+    var permList = [];
+    var currPermList = getPermutations(temp, data, i - 1, 0, permList);
     // Initialize finalPermList
     if(finalPermList.length === 0) {
       finalPermList = currPermList;
@@ -194,19 +165,16 @@ function generateTerminalStrings(T, min, max) {
     }
   }
 
-  // Convert to set to remove duplicates from finalPermList
-  var uniqResults = [...new Set(finalPermList)];
-  uniqResults = Array.from(uniqResults);
-  return uniqResults;
+  return finalPermList;
 }
 
 // Return an array of all permutations (allowing repitition) of input array T
 // T -> input array of characters in string
 // data -> stores permutation at current iteration
-// last -> index of last element in T
+// last -> index of last element in resulting permuatation
 // index -> current index
 // permList -> list of all permutations
-// If T = ['F', 'FF']
+// If T = ['F', 'FF'] and last = 1
 // Then permList = ["F F", "F FF", "FF F", "FF FF"]
 function getPermutations(T, data, last, index, permList) {
   var length = T.length;
@@ -224,34 +192,4 @@ function getPermutations(T, data, last, index, permList) {
     }
   }
   return permList;
-}
-
-// Returns list of all combinations of length r from input array T
-// T -> input array of characters in string
-// data -> store combination at current iteration
-// start -> start index in T
-// end -> end index in T
-// index -> current index in data
-// r -> size of combinations
-// combList -> list of all combinations
-// If T = ['F', 'FF', 'FFF'] and r = 2
-// Then combList = ["F FF", "F FFF", "FF FFF"]
-function getCombinations(T, data, start, end, index, r, combList) {
-  // If current combination is ready to be added to combList, add it
-  if(index == r) {
-    var currComb = [];
-    for(var j=0; j<r; j++) {
-      currComb.push(data[j]);
-    }
-    var str = currComb.join(' ');
-    combList.push(str);
-    return;
-  }
-  // Replace index with all possible elements
-  // "end-i+1 >= r-index" makes sure that including one element at index will make a combination with remaining elements at remaining positions
-  for(var i=start; i<=end && end-i+1 >= r-index; i++) {
-    data[index] = T[i];
-    getCombinations(T, data, i+1, end, index+1, r, combList);
-  }
-  return combList;
 }
