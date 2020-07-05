@@ -321,8 +321,9 @@ and in that case would need a type-sensitive implementation of getLeaves
 /*
 	Head binarity for Japanese compounds
 */
-function binMaxHead(s, ptree, cat) {
-	markHeads(ptree, 'right');
+function binMaxHead(s, ptree, cat, side) {
+	side = side || 'right';
+	markHeads(ptree, side);
 	var vcount = 0;
 	// non terminal
 	if(ptree.children && ptree.children.length){
