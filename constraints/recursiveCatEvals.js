@@ -82,20 +82,20 @@ function markMinMax(mytree){
 }
 
 function markHeadsJapanese(mytree){
-	console.warn('markHeadsJapanese() has chaned to markHeads()');
+	console.warn('markHeadsJapanese() has changed to markHeads()');
 	return markHeads(mytree, 'right');
 }
 
 /* Function to mark heads of Japanese compound words.
- * Head of a node is the righmost daughter of the highest category.
+ * Head of a node is the leftmost/rightmost(default) daughter of the highest category.
  * Takes two arguments:
  * 	mytree: tree to mark heads on
- * 	side: 'left' or 'right', default 'right'
+ * 	side: 'left' or 'right' (default)
  */
 function markHeads(mytree, side){
 	side = side || 'right'
-	if(typeof side !== 'string'){
-		console.warn('"side" argument of markHeads() must be "right" or "left"');
+	if(typeof side !== 'string' || side !== 'right' || side !== 'left'){
+		console.warn('"side" argument of markHeads() must be "right" or "left", default to "right"');
 		side = 'right';
 	}
 	//headCat stores the highest category in children. Defaults to lowest pCat
@@ -114,16 +114,13 @@ function markHeads(mytree, side){
 				markHeadsInner(mytree.children[i], previousChildren, side);
 			}
 		}
-		else{
-			throw new Error('the "sides" parameter of markHeads() must be either "right" or "left"');
-		}
 	}
 	return mytree;
 
 	function markHeadsInner(child, previousChildren, side){
 		/* since we are iterating through children in a specified direction, if we
 		 * come across the highest cat we have seen so far, it is necessarily the
-		 * rightmost of its category */
+		 * rightmost/leftmost of its category */
 		if(pCat.isHigher(child.cat, headCat)){
 			headCat = child.cat;
 			child.head = true;
