@@ -93,8 +93,7 @@ function markHeadsJapanese(mytree){
  * 	side: 'left' or 'right' (default)
  */
 function markHeads(mytree, side){
-	side = side || 'right'
-	if(typeof side !== 'string' || side !== 'right' || side !== 'left'){
+	if(typeof side !== 'string' || !(side === 'right' || side === 'left')){
 		console.warn('"side" argument of markHeads() must be "right" or "left", default to "right"');
 		side = 'right';
 	}
