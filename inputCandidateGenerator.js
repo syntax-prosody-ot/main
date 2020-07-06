@@ -142,3 +142,54 @@ function getCliticTrees(string, options) {
   }
   return cliticTreeList;
 }
+
+// Return an array of all possible space-separated strings of length at least min and no more than max, drawn from T with replacement.
+// T -> input array of characters in string
+// min -> minimum length of output strings
+// max -> maximum length of output strings
+function generateTerminalStrings(T, min, max) {
+  // Get list of all possible permutations for each length
+  var finalPermList = [];
+  for(var i = min; i <= max; i++) {
+    var temp = T.slice();
+    var data = new Array(i);
+    var permList = [];
+    var currPermList = getPermutations(temp, data, i - 1, 0, permList);
+    // Initialize finalPermList
+    if(finalPermList.length === 0) {
+      finalPermList = currPermList;
+    }
+    // Add to finalPermList
+    else {
+      finalPermList = finalPermList.concat(currPermList);
+    }
+  }
+
+  return finalPermList;
+}
+
+// Return an array of all permutations (allowing repitition) of input array T
+// T -> input array of characters in string
+// data -> stores permutation at current iteration
+// last -> index of last element in resulting permuatation
+// index -> current index
+// permList -> list of all permutations
+// If T = ['F', 'FF'] and last = 1
+// Then permList = ["F F", "F FF", "FF F", "FF FF"]
+function getPermutations(T, data, last, index, permList) {
+  var length = T.length;
+  // One by one fix all characters at the given index and recur for the subsequent indexes
+  for(var i = 0; i < length; i++) {
+    // Fix the ith character at index and if this is not the last index then recursively call for higher indexes
+    data[index] = T[i];
+    // If this is the last index then add the string stored in data to permList
+    if(index == last) {
+      var strData = data.join(' ');
+      permList.push(strData);
+    }
+    else {
+      getPermutations(T, data, last, index + 1, permList);
+    }
+  }
+  return permList;
+}
