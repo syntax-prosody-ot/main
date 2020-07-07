@@ -13,24 +13,7 @@ function makeTableau(candidateSet, constraintSet, options){
 	options = options || {};
 	console.log("make Tableau options");
 	console.log(options);
-	// create the ph object if none was passed
-	if (!options.ph){
-		options.ph = {}
-	}
-	// set default pCat if none exists
-	if (!options.ph.pCat){
-		options.ph.pCat = ["u", "i", "phi", "w", "Ft", "syll"];
-	}
-	// set default category pairings value if none exists
-	if (!options.ph.categoryPairings){
-		options.ph.categoryPairings = {
-			"clause": "i",
-			"cp": "i",
-			"xp": "phi",
-			"x0": "w"
-		};
-
-	}
+	
 	var tableau = [];
 	//Make a header for the tableau, containing all the constraint names.
 	//First element is empty, to correspond to the column of candidates.
@@ -90,7 +73,8 @@ function makeTableau(candidateSet, constraintSet, options){
 		if(options.showHeads){candidate[1] = markHeadsJapanese(candidate[1]);}
 		var ptreeStr = options.inputTypeString ? candidate[1] : parenthesizeTree(globalNameOrDirect(candidate[1]), options);
 		var tableauRow = [ptreeStr];
-		for(var j = 0; j < constraintSet.length; j++){
+		// the last element is the getter function that retrieves the category pairings received from GEN in candidategenerator.js
+		for(var j = 0; j < constraintSet.length-1; j++){
 
 			var [constraint, cat, conOptions] = constraintSet[j].split('-');
 			if(!conOptions){
@@ -104,9 +88,10 @@ function makeTableau(candidateSet, constraintSet, options){
 
 			//options for this constraint:
 			var myConOptions = JSON.parse(conOptions);
-			if (options.ph.categoryPairings){
-				myConOptions["categoryPairings"] = JSON.parse(JSON.stringify(options.ph.categoryPairings));	
-			}
+			myConOptions.categoryPairings = JSON.parse(JSON.stringify(constraintSet.getCategoryPairings()));
+			//if (options.ph.categoryPairings){
+			//	myConOptions["categoryPairings"] = JSON.parse(JSON.stringify(options.ph.categoryPairings));	
+			//}
 			//console.log("myConOptions");
 			//console.log(myConOptions);
 			//console.log("constraint");

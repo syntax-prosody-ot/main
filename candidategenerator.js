@@ -1,7 +1,8 @@
 (function() {
 
   window.GEN_impl = function(sTree, leaves, options) {
-
+	console.log("GEN options");
+	  console.log(options);
     var recursiveOptions = {};
     for (var k in options) {
       if (options.hasOwnProperty(k) && k !== 'requireRecWrapper')
@@ -29,6 +30,8 @@
 			}
       candidates.push([sTree, pRoot]);
     }
+	// push a getter function that returns the category pairings so make tableau can access them
+	candidates.getCategoryPairings = function(){return options.ph.categoryPairings};
 
     return candidates;
   }
@@ -109,7 +112,7 @@
    *	is an array of children, where each child is
    *	either a phi node (with descendant nodes attached) or a leaf
    */
-  function gen(leaves) {
+  function gen(leaves, options) {
     var candidates = []; //each candidate will be an array of siblings
     if (!(leaves instanceof Array))
       throw new Error(leaves + " is not a list of leaves.");

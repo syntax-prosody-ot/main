@@ -13,10 +13,30 @@
 	- noUnary (boolean): if true, don't create any nodes that immediately dominate only a single terminal.
 	- requireRecWrapper (boolean). Formerly "requirePhiStem"
 	- syntactic (boolean): are we generating syntactic trees?
+   - ph (prosodic heirarchy object):
+   	pCat: custom pCat used in GEN
+	categoryPairings: custom category pairings passed to makeTableau passed to constraints
 */
 window.GEN = function(sTree, words, options){
 	options = options || {}; // if options is undefined, set it to an empty object (so you can query its properties without crashing things)
+	// create the ph object if none was passed
+	if (!options.ph){
+		options.ph = {}
+	}
+	// set default pCat if none exists
+	if (!options.ph.pCat){
+		options.ph.pCat = ["u", "i", "phi", "w", "Ft", "syll"];
+	}
+	// set default category pairings value if none exists
+	if (!options.ph.categoryPairings){
+		options.ph.categoryPairings = {
+			"clause": "i",
+			"cp": "i",
+			"xp": "phi",
+			"x0": "w"
+		};
 
+	}
 	var categoryHierarchy = options.syntactic ? sCat : pCat;
 
 	/* First, warn the user if they have specified terminalCategory and/or
