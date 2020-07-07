@@ -42,9 +42,6 @@ function sTreeGEN(terminalString, options)
     var sTreeList = autoSTreePairs.map(x=>x[1]);
 
     //Apply filters
-    if(options.noBarLevels){
-      options.maxBranching = 3;
-    }
     if(options.allowClitic){
       var cliticTrees = getCliticTrees(terminalString, options);
       if(cliticTrees) {

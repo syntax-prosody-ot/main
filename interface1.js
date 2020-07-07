@@ -723,6 +723,9 @@ window.addEventListener('load', function(){
 				autoInputOptions.noAdjacentHeads = false;
 			}
 
+			if(autoInputOptions.noBarLevels) {
+				autoInputOptions.maxBranching = 3;
+			}
 			// console.log(autoInputOptions)
 
 			if(inputString !== "") {
