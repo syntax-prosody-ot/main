@@ -32,7 +32,6 @@ function noShift(stree, ptree, cat) {
     //increment outer counter and check the next word
     j++;
   }
-
   return shiftFound ? 1 : 0;
 }
 

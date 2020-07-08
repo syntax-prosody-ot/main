@@ -84,14 +84,14 @@ function noLapseL(s, p, c){
         node = accentFromId(node);  //assign an accent if necessary
         
         if(node.cat==='w'){
-            if(node.accent==='a' || node.accent === 'A'){
+            if(node.accent && node.accent !=='u' && node.accent !== 'U' && node.accent !== 'unaccented'){
                 spreadLow = true;
             }
             
             /* spreadLow will be true if no phi or iota left edge intervenes
                between the last accented word and the current word
             */ 
-            else if(spreadLow && (node.accent==='u' || node.accent==='U')){
+            else if(spreadLow && (node.accent==='u' || node.accent==='U' || !node.accent)){
                 vCount++;
             }
         }
@@ -120,7 +120,11 @@ function noLapseL(s, p, c){
 		if(p.accent === "a") spreadLow = true;
 */
 function accentFromId(node){
-    if(!node.accent)
-        node.accent = node.id.split('_')[0];
+    if(!node.accent){
+		var nodeIdPref = node.id.split('_')[0];
+		if(nodeIdPref in ['a', 'A', 'u', 'U'])
+			node.accent = nodeIdPref;
+	}
+        
     return node;
 }
