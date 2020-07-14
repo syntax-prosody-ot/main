@@ -47,6 +47,8 @@ var sCat = ["cp", "xp", "x0"];
 //defines the prosodic hierarchy
 var pCat = ["u", "i", "phi", "w", "Ft", "syll"];
 
+//defines Major Minor Phrase prosodic hierarchy
+var MaPMiPpCat = ["i", "MaP", "MiP", "w"];
 //Function that compares two prosodic categories and returns whether cat1 is higher in the prosodic hierarchy than cat2
 function isHigher(pCat, cat1, cat2){
 	return (pCat.indexOf(cat1) < pCat.indexOf(cat2));
