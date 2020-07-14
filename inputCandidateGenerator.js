@@ -57,7 +57,7 @@ function sTreeGEN(terminalString, options)
         sTreeList = sTreeList.filter(x => !x0Sisters(x, 'x0'));
     }
     if(options.noAdjuncts){
-        sTreeList = sTreeList.filter(x => !x0Sisters(x, options.recursiveCategory));
+        sTreeList = sTreeList.filter(x => !containsAdjunct(x));
     }
     if(options.maxBranching > 0){
         sTreeList = sTreeList.filter(x=>!ternaryNodes(x, options.maxBranching));
@@ -76,6 +76,7 @@ function sTreeGEN(terminalString, options)
     if(options.noBarLevels){
       sTreeList = sTreeList.filter(x => !threeXPs(x));
     }
+    // console.log(sTree)
     return sTreeList;
 }
 
