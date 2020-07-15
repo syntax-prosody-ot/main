@@ -7,7 +7,18 @@ var categoryPairings = {
 	"x0": "w"
 };
 
+function resetCategoryPairings(){
+	categoryPairings = {
+		"clause": "i",
+		"cp": "i",
+		"xp": "phi",
+		"x0": "w"
+	};
 
+}
+function setCategoryPairings(newCategoryPairings){
+	categoryPairings = newCategoryPairings;
+}
 //Evaluates whether two nodes have corresponding categories.
 //categoryPairings: default is global definition
 function catsMatch(aCat, bCat, catPairs=categoryPairings){
@@ -49,6 +60,15 @@ var pCat = ["u", "i", "phi", "w", "Ft", "syll"];
 
 //defines Major Minor Phrase prosodic hierarchy
 var MaPMiPpCat = ["i", "MaP", "MiP", "w"];
+
+function setPCat(newPCat){
+	pCat = newPCat;
+}
+
+function resetPCat(){
+	pCat = ["u", "i", "phi", "w", "Ft", "syll"];
+
+}
 //Function that compares two prosodic categories and returns whether cat1 is higher in the prosodic hierarchy than cat2
 function isHigher(pCat, cat1, cat2){
 	return (pCat.indexOf(cat1) < pCat.indexOf(cat2));
