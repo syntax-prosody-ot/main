@@ -30,8 +30,9 @@
 			}
       candidates.push([sTree, pRoot]);
     }
-	// push a getter function that returns the category pairings so make tableau can access them
+	// add getter functions that returns the category pairinig and pCat so make tableau can access them
 	candidates.getCategoryPairings = function(){return options.ph.categoryPairings};
+	candidates.getPCat = function(){return options.ph.pCat};
 
     return candidates;
   }
