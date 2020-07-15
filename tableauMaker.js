@@ -88,15 +88,19 @@ function makeTableau(candidateSet, constraintSet, options){
 
 			//options for this constraint:
 			var myConOptions = JSON.parse(conOptions);
-			myConOptions.categoryPairings = JSON.parse(JSON.stringify(constraintSet.getCategoryPairings()));
-			//if (options.ph.categoryPairings){
-			//	myConOptions["categoryPairings"] = JSON.parse(JSON.stringify(options.ph.categoryPairings));	
-			//}
-			//console.log("myConOptions");
-			//console.log(myConOptions);
-			//console.log("constraint");
-			//console.log(constraint);
-			//calculate violations
+			// retrieve the category pairings from the prosodic heirarchy object that GEN received
+			checkPCat = JSON.parse(JSON.stringify(constraintSet.getPCat()));
+			checkCategoryPairings = JSON.parse(JSON.stringify(constraintSet.getCategoryPairings()));
+			if (!checkProsodicHierarchy(checkPCat, checkCategoryPairings)){
+				console.log("there are categories from categoryPairings that are missing from pCat!");
+				//set pCat and categoryPairings to their default values
+				resetPCat();
+				resetCategoryPairings();
+			}
+			// set the global pCat and category pairings from GEN
+			setPCat(checkPCat);
+			setCategoryPairings(checkCategoryPairings);
+
 			var numViolations = globalNameOrDirect(constraint)(trimmedTree, getCandidate(candidate[1]), cat, myConOptions); logreport.debug.on = oldDebugOn; // don't show the log of each constraint run
 			tableauRow.push(numViolations);
 		}
@@ -158,4 +162,13 @@ function tableauToHtml(tableau) {
 	}
 	htmlChunks.push('</tbody></table>');
 	return htmlChunks.join('');
+}
+// check that every prosodic category in cateogry pairings is in pCat
+function checkProsodicHierarchy(pCat, categoryPairings){
+	for (category in categoryPairings){
+		if (!pCat.includes(categoryPairings[category]){
+			return false;
+		}
+	}
+	return true;
 }
