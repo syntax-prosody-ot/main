@@ -91,8 +91,11 @@ function makeTableau(candidateSet, constraintSet, options){
 			// retrieve the category pairings from the prosodic heirarchy object that GEN received
 			checkPCat = JSON.parse(JSON.stringify(constraintSet.getPCat()));
 			checkCategoryPairings = JSON.parse(JSON.stringify(constraintSet.getCategoryPairings()));
+			// at least warn of not matching pCat and categoryPairings
+			// use warnings in interface.js
 			if (!checkProsodicHierarchy(checkPCat, checkCategoryPairings)){
-				console.log("there are categories from categoryPairings that are missing from pCat!");
+				//console.log("there are categories from categoryPairings that are missing from pCat!");
+				displayWarning("There are categories from categoryPairings missing from pCat!");
 				//set pCat and categoryPairings to their default values
 				resetPCat();
 				resetCategoryPairings();
