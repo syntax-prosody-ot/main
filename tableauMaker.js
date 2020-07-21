@@ -11,8 +11,6 @@ function makeTableau(candidateSet, constraintSet, options){
 	//all options passed to makeTableau are passed into parenthesizeTree, so make
 	//sure your options in dependent functions have unique names from other funcs
 	options = options || {};
-	console.log("make Tableau options");
-	console.log(options);
 	
 	var tableau = [];
 	//Make a header for the tableau, containing all the constraint names.
@@ -65,16 +63,31 @@ function makeTableau(candidateSet, constraintSet, options){
 	tableau.push(header);
 
 	var getCandidate = options.inputTypeString ? function(candidate) {return candidate;} : globalNameOrDirect;
+	
+	checkPCat = JSON.parse(JSON.stringify(candidateSet.getPCat()));
+	checkCategoryPairings = JSON.parse(JSON.stringify(candidateSet.getCategoryPairings()));
+
+	setPCat(checkPCat);
+	setCategoryPairings(checkCategoryPairings);
+	
+	// give a warning if there are categories from categoryPairings not present in pCat
+	if (!checkProsodicHierarchy(checkPCat, checkCategoryPairings)){
+		displayWarning("There are categories from categoryPairings missing from pCat!");
+		//set pCat and categoryPairings to their default values
+		resetPCat();
+		resetCategoryPairings();
+	}
 
 	//Assess violations for each candidate.
 	var numCand = candidateSet.length;
+
 	for(var i = 1; i <= numCand; i++){
 		var candidate = candidateSet[numCand-i];
 		if(options.showHeads){candidate[1] = markHeadsJapanese(candidate[1]);}
 		var ptreeStr = options.inputTypeString ? candidate[1] : parenthesizeTree(globalNameOrDirect(candidate[1]), options);
 		var tableauRow = [ptreeStr];
 		// the last element is the getter function that retrieves the category pairings received from GEN in candidategenerator.js
-		for(var j = 0; j < constraintSet.length-1; j++){
+		for(var j = 0; j < constraintSet.length; j++){
 
 			var [constraint, cat, conOptions] = constraintSet[j].split('-');
 			if(!conOptions){
@@ -88,22 +101,7 @@ function makeTableau(candidateSet, constraintSet, options){
 
 			//options for this constraint:
 			var myConOptions = JSON.parse(conOptions);
-			// retrieve the category pairings from the prosodic heirarchy object that GEN received
-			checkPCat = JSON.parse(JSON.stringify(constraintSet.getPCat()));
-			checkCategoryPairings = JSON.parse(JSON.stringify(constraintSet.getCategoryPairings()));
-			// at least warn of not matching pCat and categoryPairings
-			// use warnings in interface.js
-			if (!checkProsodicHierarchy(checkPCat, checkCategoryPairings)){
-				//console.log("there are categories from categoryPairings that are missing from pCat!");
-				displayWarning("There are categories from categoryPairings missing from pCat!");
-				//set pCat and categoryPairings to their default values
-				resetPCat();
-				resetCategoryPairings();
-			}
-			// set the global pCat and category pairings from GEN
-			setPCat(checkPCat);
-			setCategoryPairings(checkCategoryPairings);
-
+			
 			var numViolations = globalNameOrDirect(constraint)(trimmedTree, getCandidate(candidate[1]), cat, myConOptions); logreport.debug.on = oldDebugOn; // don't show the log of each constraint run
 			tableauRow.push(numViolations);
 		}
@@ -169,7 +167,8 @@ function tableauToHtml(tableau) {
 // check that every prosodic category in cateogry pairings is in pCat
 function checkProsodicHierarchy(pCat, categoryPairings){
 	for (category in categoryPairings){
-		if (!pCat.includes(categoryPairings[category]){
+		console.log(categoryPairings[category]);
+		if (!pCat.includes(categoryPairings[category])){
 			return false;
 		}
 	}

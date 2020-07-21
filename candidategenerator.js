@@ -1,8 +1,6 @@
 (function() {
 
   window.GEN_impl = function(sTree, leaves, options) {
-	console.log("GEN options");
-	  console.log(options);
     var recursiveOptions = {};
     for (var k in options) {
       if (options.hasOwnProperty(k) && k !== 'requireRecWrapper')
@@ -33,8 +31,7 @@
 	// add getter functions that returns the category pairinig and pCat so make tableau can access them
 	candidates.getCategoryPairings = function(){return options.ph.categoryPairings};
 	candidates.getPCat = function(){return options.ph.pCat};
-
-    return candidates;
+  return candidates;
   }
 
   /* Function to check if a tree obeys headedness. Each node must either be be

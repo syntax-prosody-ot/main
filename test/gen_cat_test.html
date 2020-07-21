@@ -26,27 +26,27 @@
 	var MatchSPMatchPS = ['binMaxBranches-phi', 'binMinBranches-phi', 'matchSP-xp'];
 	
 	/*A list of names for constraint sets.*/
-    var conNames = ['MatchSPMatchPS'];
-	
+	    var conNames = ['MatchSPMatchPS'];
+	var customPCatList = ['i', 'MaP', 'MiP', 'w'];
+	var customPairings = {
+		"clause": "i",
+		"cp": "i",
+		"xp": "phi",
+		"x0": "w"
+	};
+
+	var ph = {pCat: customPCatList, categoryPairings: customPairings};	
+
 	//Candidate sets are generated with the options below.
      
-    var i_phi_w = {rootCategory:'i', recursiveCategory:'phi', terminalCategory: 'w'};
-    var phi_phi_w = {rootCategory:'phi', recursiveCategory:'phi', terminalCategory: 'w'};
-    var phi_w_w = {rootCategory:'phi', recursiveCategory:'w', terminalCategory: 'w'};
-    var w_w_w = {rootCategory:'w', recursiveCategory:'w', terminalCategory: 'w'};
+    var i_phi_w = {rootCategory:'i', recursiveCategory:'phi', terminalCategory: 'w', ph:ph};
+    var phi_phi_w = {rootCategory:'phi', recursiveCategory:'phi', terminalCategory: 'w', ph:ph};
+    var phi_w_w = {rootCategory:'phi', recursiveCategory:'w', terminalCategory: 'w', ph:ph};
+    var w_w_w = {rootCategory:'w', recursiveCategory:'w', terminalCategory: 'w', ph:ph};
 
 	var majorPhrase = {obeysNonRecursivity: true, obeysExhaustivity: true/false, rootCategory: 'i', terminalCategory: 'w', recursiveCategory: 'MaP'};
 	var minorPhrase = {obeysNonRecursivity: true, obeysExhaustivity: true/false, rootCategory: 'i', terminalCategory: 'w', recursiveCategory: 'MiP'};
-	var customPairings = {
-	"clause": "i",
-	"cp": "i",
-	"xp": "phi",
-	"x0": "w"
-};
-	var customPCatList = ['i', 'MaP', 'MiP', 'w'];
-var output_gen_opt_list = [i_phi_w, phi_phi_w, phi_w_w, w_w_w];//, majorPhrase, minorPhrase];
-	var ph = {pCat: customPCatList, categoryPairings: customPairings};	
-    var myCategoryBrackets = {
+	    var myCategoryBrackets = {
 	"i": "{}",
 	"cp": "{}",
 	"xp": "[]",
@@ -58,7 +58,8 @@ var output_gen_opt_list = [i_phi_w, phi_phi_w, phi_w_w, w_w_w];//, majorPhrase, 
 	"Ft": ["", ""],
 	"u": ["{u ", "}"]
 };
-	
+	var output_gen_opt_list = [i_phi_w, phi_phi_w, phi_w_w, w_w_w];//, majorPhrase, minorPhrase];
+
 	
 	// ---- Functions that don't necessarily need to be customized ----
 	
@@ -75,7 +76,7 @@ var output_gen_opt_list = [i_phi_w, phi_phi_w, phi_w_w, w_w_w];//, majorPhrase, 
             var candSet = GEN({}, 'a b', output_gen_options);
             
 			//Make the tableau using the makeTableau function (defined in tableauMaker.js)
-            var tabl = makeTableau(candSet, window[consName], {showTones: output_gen_options.addTones, parens: myCategoryBrackets, ph});
+		var tabl = makeTableau(candSet, window[consName], {showTones: output_gen_options.addTones, parens: myCategoryBrackets});//, ph}); ph object goes to GEN instead of to tableauMaker
 			
 			//Write the tableau to the screen and reveal it -- only uncomment this if you don't have too many tableaux!
 			writeTableau(tabl, {});

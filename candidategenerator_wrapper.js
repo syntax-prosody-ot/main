@@ -37,8 +37,9 @@ window.GEN = function(sTree, words, options){
 		};
 
 	}
-	var categoryHierarchy = options.syntactic ? sCat : pCat;
-
+	// use the custom pCat 
+	var categoryHierarchy = options.syntactic ? sCat : options.ph.pCat;
+	//var categoryHierarchy = options.syntactic ? sCat : pCat;
 	/* First, warn the user if they have specified terminalCategory and/or
 	 * rootCategory without specifying recursiveCategory
 	 */
