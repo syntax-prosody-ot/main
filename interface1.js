@@ -354,11 +354,14 @@ window.addEventListener('load', function(){
 						var categoryBox = constraintCatSet[j];
 						if(categoryBox.checked){
 							var category = categoryBox.value;
-							if(constraint === "alignLeftMorpheme") {
+							if(constraint === "alignLeftMorpheme" || constraint === 'alignRightMorpheme') {
 								category = category.split(' ').join(';');
 							}
+							if(constraint === "binMaxHead") {
+								constraintSet.push('binMaxHead-' + category + '-{"side" : "' + spotForm['genOptions-showHeads'].value + '"}')
+							}
 							//Figure out selected match options for the constraint
-							if(spotForm['option-'+constraint]){
+							else if(spotForm['option-'+constraint]){
 								var constraintOptionSet = spotForm['option-'+constraint];
 								var options = {};
 								if(constraintOptionSet.length){
