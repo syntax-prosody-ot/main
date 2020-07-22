@@ -400,8 +400,7 @@ window.addEventListener('load', function(){
 				sTrees = getAutoSTreeList();
 			}
 			catch(e){
-				console.error(e);
-				alert(e.message);
+				displayError(e.message, e);
 				return;
 			}
 		}
@@ -412,8 +411,7 @@ window.addEventListener('load', function(){
 				sTrees = getSTrees();
 			}
 			catch(e){
-				console.error(e);
-				alert(e.message);
+				displayError(e.message, e);
 				return;
 			}
 		}
@@ -510,18 +508,25 @@ window.addEventListener('load', function(){
 
 
 			//warn user about possibly excessive numbers of candidates
-			if (genOptions['cliticMovement'] && (!genOptions['noUnary'] && (getLeaves(sTree).length >= 5 || pString.split(" ").length >= 5))
-											 || (genOptions['noUnary'] && (getLeaves(sTree).length >= 7 || pString.split(" ").length >= 7))){
-				if(!confirm("You have selected GEN settings that allow movement, and included a sentence of ".concat( pString.split(" ").length.toString()," terminals. This GEN may yield more than 10K candidates. To reduce the number of candidates, consider enforcing non-recursivity, exhaustivity, and/or branchingness for intermediate prosodic nodes. Do you wish to proceed with these settings?"))){
-					throw new Error("clitic movement with too many terminals");
+			var maxNumTerminals = Math.max(getLeaves(sTree).length, pString.split(" ").length);
+			if (genOptions['cliticMovement'])
+			{
+				if((maxNumTerminals >= 7) || (!genOptions['noUnary'] && maxNumTerminals >= 5))
+				{
+					var tooManyCandMsg = "You have selected GEN settings that allow movement, and included a sentence of "+ maxNumTerminals.toString()+" terminals. This GEN may yield more than 10K candidates. To reduce the number of candidates, consider enforcing non-recursivity, exhaustivity, and/or branchingness for intermediate prosodic nodes. Do you wish to proceed with these settings?";
+					var continueGEN = confirm(tooManyCandMsg);
+					if(!continueGEN){
+						throw new Error("Tried to run GEN with clitic movement with too many terminals");
+					}
 				}
 			}
-			else if(getLeaves(sTree).length >= 6 || pString.split(" ").length >= 6){
+			else if(maxNumTerminals >= 9 || (maxNumTerminals >= 6 && !genOptions['noUnary'])){
 				if(!confirm("Inputs of more than six terminals may run slowly and even freeze your browser, depending on the selected GEN options. Do you wish to continue?")){
-					throw new Error("Tried to run gen with more than six terminals");
+					throw new Error("Tried to run GEN with too many terminals");
 				}
 			}
 
+			//Actually create the candidate set
 			if (genOptions['cliticMovement']){
 			//	var candidateSet = GENwithCliticMovement(sTree, pString, genOptions);
 				var candidateSet = globalNameOrDirect(spotForm['genOptions-movement'].value)(sTree, pString, genOptions);
@@ -685,12 +690,12 @@ window.addEventListener('load', function(){
 			var autoInputOptions = {};
 			var optionBox = spotForm.autoInputOptions;
 			for(var j = 0; j < optionBox.length; j++) {
-				if(optionBox[j].value === "noAdjuncts") {
-          autoInputOptions[optionBox[j].value]=!optionBox[j].checked;
-        }
-        else {
-          autoInputOptions[optionBox[j].value]=optionBox[j].checked;
-        }
+				if(optionBox[j].value == "noAdjuncts") {
+					autoInputOptions[optionBox[j].value]=!optionBox[j].checked;
+				}
+				else {
+					autoInputOptions[optionBox[j].value]=optionBox[j].checked;
+				}
 			}
 
 			// head requirements
@@ -714,6 +719,13 @@ window.addEventListener('load', function(){
 			autoInputOptions.recursiveCategory = spotForm['autoInputOptions-recursiveCategory'].value;
 			autoInputOptions.terminalCategory = spotForm['autoInputOptions-terminalCategory'].value;
 
+			if(autoInputOptions.recursiveCategory === 'x0' || autoInputOptions.noUnary){
+				autoInputOptions.noAdjacentHeads = false;
+			}
+
+			if(autoInputOptions.noBarLevels) {
+				autoInputOptions.maxBranching = 3;
+			}
 			// console.log(autoInputOptions)
 
 			if(inputString !== "") {
@@ -809,7 +821,17 @@ window.addEventListener('load', function(){
 		if (cats.length > 1){
 			node['cat'] = cats[0];
 		}
-		for (var cat of cats){
+		// add the rest of the list as attributes
+		for (var cat of cats.slice(1)){
+			// remove non-alphanumeric characters, underscores
+			// replace capital letters with lowercase
+			att = cat.trim().replace(/\W/g, '');
+			if (att === ""){
+				continue;
+			}
+			//console.log(att)
+			node[att] = true;
+			/*
 			if (cat.indexOf('silentHead') != -1){
 				node['silentHead'] = true;
 			}
@@ -818,7 +840,8 @@ window.addEventListener('load', function(){
 			}
 			if (cat.indexOf('foc') != -1){
 				node['foc'] = true;
-			}
+			}*/
+
 		}
 		var children = node['children'];
 		if (children != undefined){
@@ -839,7 +862,7 @@ window.addEventListener('load', function(){
 		}), null, 4);
 
 		if(sTree.includes('-')) {
-			alert('Your trees were not added to the analysis because there are hyphens in category or id names in the tree builder. Please refer to the instructions in the tree builder info section.');
+			displayError('Your trees were not added to the analysis because there are hyphens in category or id names in the tree builder. Please refer to the instructions in the tree builder info section.');
 			var info = document.getElementById('treeBuilderInfo');
 			info.classList.add('showing');
 		}
@@ -906,8 +929,7 @@ window.addEventListener('load', function(){
 			treeUIsTreeMap[nodes[0].m.treeIndex].addParent(nodes);
 			refreshHtmlTree();
 		} catch (err) {
-			console.error(err);
-			alert('Error, unable to add daughter: ' + err.message);
+			displayError('Unable to add daughter: ' + err.message, err);
 		}
 		document.getElementById('doneMessage').style.display = 'none';
 	});
@@ -918,7 +940,7 @@ window.addEventListener('load', function(){
 			var treeIndex = nodes[0].m.treeIndex;
 			for (var i = 1; i < nodes.length; i++) {
 				if (nodes[i].treeIndex != treeIndex) {
-					alert('Attempting to delete nodes from multiple trees. Please delete nodes one tree at a time.');
+					displayError('You attempted to delete nodes from multiple trees. Please delete nodes one tree at a time.');
 					return;
 				}
 			}
@@ -968,6 +990,58 @@ window.addEventListener('load', function(){
 
 	document.getElementById('spotForm').addEventListener("change", function(){
 		document.getElementById("save/load-dialog").innerHTML = '';
+	});
+
+	var x = document.getElementsByName("autoInputOptions");
+	var i;
+	var noBarLevelsIndex;
+	for (i = 0; i < x.length; i++) {
+		if (x[i].value === "noBarLevels") {
+			noBarLevelsIndex = i;
+			break;
+		}
+	}
+
+	document.getElementsByName('autoInputOptions-recursiveCategory')[2].addEventListener('click', function() {
+		if(document.getElementsByName('autoInputOptions-recursiveCategory')[2].checked == true) {
+			// console.log("xo checked")
+			var x = document.getElementsByName("autoInputOptions")[noBarLevelsIndex];
+			x.disabled = true;
+		}
+	});
+
+	document.getElementsByName('autoInputOptions-recursiveCategory')[0].addEventListener('click', function() {
+		if(document.getElementsByName('autoInputOptions-recursiveCategory')[0].checked == true) {
+			// console.log("cp checked")
+			var x = document.getElementsByName("autoInputOptions")[noBarLevelsIndex];
+			x.disabled = false;
+		}
+	});
+
+	document.getElementsByName('autoInputOptions-recursiveCategory')[1].addEventListener('click', function() {
+		if(document.getElementsByName('autoInputOptions-recursiveCategory')[1].checked == true) {
+			// console.log("xp checked")
+			var x = document.getElementsByName("autoInputOptions")[noBarLevelsIndex];
+			x.disabled = false;
+		}
+	});
+
+	document.getElementsByName("autoInputOptions")[noBarLevelsIndex].addEventListener('click', function() {
+		var x = document.getElementsByName("autoInputOptions")[noBarLevelsIndex];
+		if(x.checked === true) {
+			var y = document.getElementById('head-req').options;
+			// Heads must be on the left edge
+			y[3].disabled = false;
+			// Heads must be on the right edge
+			y[4].disabled = false;
+		}
+		else {
+			var y = document.getElementById('head-req').options;
+			// Heads must be on the left edge
+			y[3].disabled = true;
+			// Heads must be on the right edge
+			y[4].disabled = true;
+		}
 	});
 
 });
@@ -1027,6 +1101,58 @@ function showMore(constraintType) {
     x.style.display = "block";
 		y.innerHTML = "Show less...";
   }
+}
+
+function closeButton() {
+	var close = document.getElementsByClassName("closebtn");
+	var i;
+
+	for (i = 0; i < close.length; i++) {
+		close[i].onclick = function() {
+			var div = this.parentElement;
+			div.style.opacity = "0";
+			setTimeout(function() {
+				div.style.display = "none";
+			}, 600);
+		}
+	}
+}
+
+function displayError(errorMsg, error) {
+	if(error !== undefined) {
+		console.error(error);
+	}
+	else {
+		console.error("Error: " + errorMsg);
+	}
+
+	var spotForm = document.getElementById('spotForm');
+	if (!spotForm) {
+		alert("Error: " + errorMsg);
+		return;
+	}
+
+	var div = document.getElementById("error");
+	div.children[2].innerHTML = errorMsg;
+	div.style.display = "block";
+	div.style.opacity = "100";
+	closeButton();
+}
+
+function displayWarning(warnMsg) {
+	console.warn("Warning: " + warnMsg);
+
+	var spotForm = document.getElementById('spotForm');
+	if (!spotForm) {
+		alert("Warning: " + warnMsg);
+		return;
+	}
+
+	var div = document.getElementById("warning");
+	div.children[2].innerHTML = warnMsg;
+	div.style.display = "block";
+	div.style.opacity = "100";
+	closeButton();
 }
 
 function showMaxBranching() {

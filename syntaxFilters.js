@@ -121,3 +121,47 @@ function checkMirror(sTree, rTree) {
     }
 	return true;
 }
+
+// Return true if there is any node that has more than two children x such that x.cat === 'xp'.
+// Two xp children is fine, but three (or more) is not fine.
+function threeXPs(sTree) {
+	var threeXPsFound = false;
+	if(sTree.children && sTree.children.length){
+		// console.log(sTree.children)
+		var numXPs = 0;
+		for(var i=0; i<sTree.children.length; i++){
+			var child = sTree.children[i];
+			if(child.cat === 'xp') {
+				numXPs += 1;
+			}
+			if(numXPs > 2) {
+				threeXPsFound = true;
+				break;
+			}
+			threeXPsFound = threeXPs(child);
+			if(threeXPsFound) break;
+		}
+	}
+	return threeXPsFound;
+}
+
+// Return true if there is a node in it whose children are all xps, false if all nodes have an x0 child
+function containsAdjunct(sTree) {
+	var adjunctFound = false;
+	if(sTree.children && sTree.children.length){
+		var numXPs = 0;
+		for(var i=0; i<sTree.children.length; i++){
+			var child = sTree.children[i];
+			if(child.cat === 'xp') {
+				numXPs += 1;
+			}
+			if(numXPs == sTree.children.length) {
+				adjunctFound = true;
+				break;
+			}
+			adjunctFound = containsAdjunct(child);
+			if(adjunctFound) break;
+		}
+	}
+	return adjunctFound;
+}

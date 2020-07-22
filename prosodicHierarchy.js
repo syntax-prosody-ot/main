@@ -102,18 +102,28 @@ sCat.nextLower = function(cat) {
 
 function nextLower(pCat, cat){
 	var i = pCat.indexOf(cat);
-	if (i < 0)
-		throw new Error(cat + ' is not a prosodic category');
+	try {
+		if (i < 0)
+			throw new Error(cat + ' is not a prosodic category');
+	}
+	catch(err) {
+		displayError(err.message, err);
+	}
 	return pCat[i+1];
 }
 
 //function that returns the prosodic category that is one level higher than the given category
 pCat.nextHigher = function(cat){
 	var i = pCat.indexOf(cat);
-	if (i < 0)
-		throw new Error(cat + ' is not a prosodic category');
+	try {
+		if (i < 0)
+			throw new Error(cat + ' is not a prosodic category');
+	}
+	catch(err) {
+		displayError(err.message, err);
+	}
 	if (i === 0){
-		console.error(cat + ' is the highest prosodic category');
+		displayError(cat + ' is the highest prosodic category');
 		return cat;
 	}
 	return pCat[i-1];
@@ -155,7 +165,7 @@ function reversibleCatPairings(cat){
         return props[i];
       }
     }
-    // if no matching category is found, return a costum error.
+    // if no matching category is found, return a custom error.
     if (!propFound){
       throw(new Error("" + cat + " is not a category defined in categoryPairings (see main/prosodicHierarchy.js)"));
     }
