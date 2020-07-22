@@ -339,7 +339,7 @@ function binMaxHead(s, ptree, cat, options) {
 			}
 		}
 		for(var i = 0; i<ptree.children.length; i++){
-			vcount += binMaxHead(s, ptree.children[i], cat);
+			vcount += binMaxHead(s, ptree.children[i], cat, options);
 		}
 	}
 	// terminal
