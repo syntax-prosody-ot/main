@@ -15,13 +15,14 @@ function resetCategoryPairings(){
 		"x0": "w"
 	};
 
+
 }
 function setCategoryPairings(newCategoryPairings){
 	categoryPairings = newCategoryPairings;
+
 }
 //Evaluates whether two nodes have corresponding categories.
-//categoryPairings: default is global definition
-function catsMatch(aCat, bCat, catPairs=categoryPairings){
+function catsMatch(aCat, bCat){
 	if(aCat === undefined && bCat === undefined)
 		return true;	//vacuously true if both nodes are leaves (with no category)
 	// aCat is the key
@@ -63,11 +64,36 @@ var MaPMiPpCat = ["i", "MaP", "MiP", "w"];
 
 function setPCat(newPCat){
 	pCat = newPCat;
+
+	pCat.isHigher = function(cat1, cat2){
+		return (isHigher(pCat, cat1, cat2));
+	}
+	pCat.isLower = function (cat1, cat2){
+		return (isLower(pCat, cat1, cat2));
+	}
+	pCat.nextLower = function(cat) {
+		return nextLower(pCat, cat);
+	}
+	pCat.nextHigher = function(cat){
+		var i = pCat.indexOf(cat);
+		try {
+			if (i < 0)
+				throw new Error(cat + ' is not a prosodic category');
+		}
+		catch(err) {
+			displayError(err.message, err);
+		}
+		if (i === 0){
+			displayError(cat + ' is the highest prosodic category');
+			return cat;
+		}
+		return pCat[i-1];
+	}
 }
 
 function resetPCat(){
-	pCat = ["u", "i", "phi", "w", "Ft", "syll"];
-
+	//pCat = ["u", "i", "phi", "w", "Ft", "syll"];
+	setPCat(["u", "i", "phi", "w", "Ft", "syll"]);
 }
 //Function that compares two prosodic categories and returns whether cat1 is higher in the prosodic hierarchy than cat2
 function isHigher(pCat, cat1, cat2){
