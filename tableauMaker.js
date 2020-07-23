@@ -64,20 +64,6 @@ function makeTableau(candidateSet, constraintSet, options){
 
 	var getCandidate = options.inputTypeString ? function(candidate) {return candidate;} : globalNameOrDirect;
 	
-	checkPCat = JSON.parse(JSON.stringify(candidateSet.getPCat()));
-	checkCategoryPairings = JSON.parse(JSON.stringify(candidateSet.getCategoryPairings()));
-
-	setPCat(checkPCat);
-	setCategoryPairings(checkCategoryPairings);
-	
-	// give a warning if there are categories from categoryPairings not present in pCat
-	if (!checkProsodicHierarchy(checkPCat, checkCategoryPairings)){
-		displayWarning("There are categories from categoryPairings missing from pCat!");
-		//set pCat and categoryPairings to their default values
-		resetPCat();
-		resetCategoryPairings();
-	}
-
 	//Assess violations for each candidate.
 	var numCand = candidateSet.length;
 
@@ -167,7 +153,6 @@ function tableauToHtml(tableau) {
 // check that every prosodic category in cateogry pairings is in pCat
 function checkProsodicHierarchy(pCat, categoryPairings){
 	for (category in categoryPairings){
-		console.log(categoryPairings[category]);
 		if (!pCat.includes(categoryPairings[category])){
 			return false;
 		}

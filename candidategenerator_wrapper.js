@@ -37,6 +37,20 @@ window.GEN = function(sTree, words, options){
 		};
 
 	}
+
+	//checkPCat = JSON.parse(JSON.stringify(candidateSet.getPCat()));
+	//checkCategoryPairings = JSON.parse(JSON.stringify(candidateSet.getCategoryPairings()));
+
+	setPCat(options.ph.pCat);
+	setCategoryPairings(options.ph.categoryPairings);
+	
+	// give a warning if there are categories from categoryPairings not present in pCat
+	if (!checkProsodicHierarchy(option.ph.pCat, options.ph.categoryPairings)){
+		displayWarning("There are categories from categoryPairings missing from pCat!");
+		//set pCat and categoryPairings to their default values
+		resetPCat();
+		resetCategoryPairings();
+	}
 	// use the custom pCat 
 	var categoryHierarchy = options.syntactic ? sCat : options.ph.pCat;
 	//var categoryHierarchy = options.syntactic ? sCat : pCat;
