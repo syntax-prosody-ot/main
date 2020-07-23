@@ -47,7 +47,7 @@ function alignSP(sTree, pTree, sCat, d, options){
 		var noMatch = true;
 		markMinMax(pTree);
 		walkTree(pTree, function(pNode){
-			if(!catsMatch(sCat, pNode.cat, options.customPairings)
+			if(!catsMatch(sCat, pNode.cat)
 				|| (options.maxProsody && !pNode.isMax)
 				|| (options.minProsody && !pNode.isMin)
 				|| (options.nonMaxProsody && pNode.isMax)
@@ -163,7 +163,7 @@ function alignFocLeft(sTree, pTree, cat){
 function alignFocRight(sTree, pTree, cat){
 	return alignFocus(sTree, pTree, cat, 'right');
 }
-function wrap(sTree, pTree, cat, options){
+function wrap(sTree, pTree, cat){
 	options = options || {};
 	var vCount = 0;
 	walkTree(sTree, function(sNode){
@@ -172,7 +172,7 @@ function wrap(sTree, pTree, cat, options){
 		var noMatch = true;
 		sLeaves = getLeaves(sNode);
 		walkTree(pTree, function(pNode){
-			if(!catsMatch(cat, pNode.cat, options.customPairings))
+			if(!catsMatch(cat, pNode.cat))
 				return;
 			if(containsIds(getLeaves(pNode), sLeaves)){	// if the current pNode wraps our sNode
 				noMatch = false;
