@@ -146,6 +146,14 @@ function binMaxLeaves(s, ptree, c){
 	return vcount;
 }
 
+/*
+* BinMax(phi-min)
+* Violated if a minimal phi contains more than 2 minimal words --> leaf-counting
+*/
+function binMaxLeavesMin(s, ptree, c){
+	
+}
+
 /* Gradiant BinMax (Leaves)
 * I don't know how to define this constraint in prose, but it's binMaxLeaves as
 * a gradient constraint instead of a categorical constraint.
