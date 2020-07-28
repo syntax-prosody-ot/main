@@ -607,7 +607,39 @@
 			<!-- automatically generate syntax -->
 			<div id="inputOptions" style="display: block">
 
-				<fieldset id="syntax-parameters">
+				<h3 style="margin-top: 10px">Generate combinations and permutations of terminals</h3>
+
+				<div id="">
+					<p id="">List of terminals 1: <input type="text" name=""></p>
+					<p>Number of terminals in generated strings:</p>
+					<p style="margin-left: 15px">Min: <input type="text" name="" style="width: 25px; text-align: center; margin-left: 4px"></p>
+					<p style="margin-left: 15px">Max: <input type="text" name="" style="width: 25px; text-align: center"></p>
+				</div>
+				<button id="" type="button" style="margin-top: -5px">Add list of terminals</button>
+
+				<h3 style="margin-top: 10px">Enter fixed terminal string</h3>
+
+				<div id="terminalStrings">
+					<p id="str1">String of terminals 1: <input type="text" name="inputToGenAuto"></p>
+				</div>
+				<button id="addString" type="button" style="margin-top: -5px">Add terminal string</button>
+				<br>
+				<button id="" class="orange-button" type="button" style="margin-top: 10px">Generate terminal strings</button>
+
+				<div style="margin-top: 15px">
+					<label class="switch" style="margin-right: 10px; vertical-align: middle">
+						<input type="checkbox" id="" value="">
+						<span class="slider round"></span>
+					</label>
+					<p id="" style="font-size: 15; vertical-align: middle; display: inline">Show generated terminal strings</p>
+				</div>
+
+				<div id="" style="display: none">
+					<br>
+					<div id=""></div>
+				</div>
+
+				<fieldset id="syntax-parameters" class="open">
 					<legend><h2>Syntax parameters <span class="arrow"></h2></legend>
 						<div class="constraint-row"><span>Root syntactic tree in</span>
 							<div class="info">
@@ -694,12 +726,7 @@
 						</div>
 				</fieldset>
 
-				<div id="terminalStrings">
-					<p id="str1">String of terminals 1: <input type="text" name="inputToGenAuto"></p>
-				</div>
-				<button id="addString" type="button">Add terminal string</button>
-
-				<button id="autoGenDoneButton" class="orange-button" type="button">Generate trees</button>
+				<button id="autoGenDoneButton" class="orange-button" type="button" style="margin-top: 15px">Generate trees</button>
 				<div id="autoDoneMessage">The trees in the analysis are up-to-date</div>
 
 				<div style="margin-top: 15px">
@@ -2043,7 +2070,7 @@
 								<p>Clicking "Get results" initiates a download of a tab-separated version of the resulting tableau.
 								The tab-separated version of the tableau will also appear in a text-area, from which it can be copy-pasted. (Use Control-A to select it if it's not already selected.)
 								An html version of the tableau will also display below. </p>
-								<p>Trees in the violation tableau are shown in bracket notation. Curly braces { } stand for CP boundaries in a syntactic tree, and for intonational phrase boundaries in a syntactic tree. Parentheses ( ) stand for phonological phrase boundaries. Square brackets [ ] in a syntactic tree stand for XP boundaries, and in a prosodic tree stand for prosodic word boundaries.</p> 
+								<p>Trees in the violation tableau are shown in bracket notation. Curly braces { } stand for CP boundaries in a syntactic tree, and for intonational phrase boundaries in a syntactic tree. Parentheses ( ) stand for phonological phrase boundaries. Square brackets [ ] in a syntactic tree stand for XP boundaries, and in a prosodic tree stand for prosodic word boundaries.</p>
 								<p>Features are shown with the following suffixed abbreviations: .f = functional; .a = has a lexical accent; .foc = focused; * = head of the phonological constituent.</p>
 							</span>
 						</span>
