@@ -324,28 +324,8 @@ and in that case would need a type-sensitive implementation of getLeaves
 function binMaxHead(s, ptree, cat) {
 	markHeadsJapanese(ptree);
 	var vcount = 0;
-	// non terminal
-	if(ptree.children && ptree.children.length){
-		// if category is correct and word is head
-		if(ptree.cat === cat && ptree.head === true){
-			if(ptree.children.length > 2){
-				vcount++;
-			}
-		}
-		for(var i = 0; i<ptree.children.length; i++){
-			vcount += binMaxHead(s, ptree.children[i], cat);
-		}
-	}
-	// terminal
-	else {
-		// if category is correct and word is head
-		if(ptree.cat === cat && ptree.head === true){
-			var id = ptree.id.split('_');
-			id = id[0];
-			if(id.length > 2) {
-				vcount++;
-			}
-		}
-	}
+
+	// console.log(ptree)
+
 	return vcount;
 }
