@@ -106,7 +106,7 @@
 				resize: both;
 				border: 1px solid #a9a9a9;
 			}
-			#autoTreeBox {
+			#autoTreeBox, #genStringsBox {
 				width: fit-content;
 				height: 250px;
 				overflow: scroll;
@@ -609,13 +609,15 @@
 
 				<h3 style="margin-top: 10px">Generate combinations and permutations of terminals</h3>
 
-				<div id="">
-					<p id="">List of terminals 1: <input type="text" name=""></p>
-					<p>Number of terminals in generated strings:</p>
-					<p style="margin-left: 15px">Min: <input type="text" name="" style="width: 25px; text-align: center; margin-left: 4px"></p>
-					<p style="margin-left: 15px">Max: <input type="text" name="" style="width: 25px; text-align: center"></p>
+				<div id="listOfTerminals">
+					<div id="list1">
+						List of terminals 1: <input type="text" name="genStringsInput">
+						<p>Number of terminals in generated strings:</p>
+						<p style="margin-left: 15px">Min: <input type="text" name="genStringsMin" style="width: 25px; text-align: center; margin-left: 4px"></p>
+						<p style="margin-left: 15px">Max: <input type="text" name="genStringsMax" style="width: 25px; text-align: center"></p>
+					</div>
 				</div>
-				<button id="" type="button" style="margin-top: -5px">Add list of terminals</button>
+				<button id="addList" type="button" style="margin-top: -5px">Add list of terminals</button>
 
 				<h3 style="margin-top: 10px">Enter fixed terminal string</h3>
 
@@ -624,19 +626,19 @@
 				</div>
 				<button id="addString" type="button" style="margin-top: -5px">Add terminal string</button>
 				<br>
-				<button id="" class="orange-button" type="button" style="margin-top: 10px">Generate terminal strings</button>
+				<button id="genStringsDoneButton" class="orange-button" type="button" style="margin-top: 10px">Generate terminal strings</button>
 
 				<div style="margin-top: 15px">
 					<label class="switch" style="margin-right: 10px; vertical-align: middle">
-						<input type="checkbox" id="" value="">
+						<input type="checkbox" id="gen-strings-switch" value="">
 						<span class="slider round"></span>
 					</label>
-					<p id="" style="font-size: 15; vertical-align: middle; display: inline">Show generated terminal strings</p>
+					<p id="strings-switch-text" style="font-size: 15; vertical-align: middle; display: inline">Show generated terminal strings</p>
 				</div>
 
-				<div id="" style="display: none">
+				<div id="genStringsArea" style="display: none">
 					<br>
-					<div id=""></div>
+					<div id="genStringsBox"></div>
 				</div>
 
 				<fieldset id="syntax-parameters" class="open">

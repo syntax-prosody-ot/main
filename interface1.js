@@ -672,19 +672,14 @@ window.addEventListener('load', function(){
 
 	// automatically generate input tree
 	function autoGenInputTree() {
-		var length = spotForm.inputToGenAuto.length;
-		if(length === undefined) {
-			length = 1;
-		}
-		var inputString = spotForm.inputToGenAuto.value;
+		var strings = getStringsList();
+		var length = strings.length;
 
 		sTreeList = undefined;
 		document.getElementById('autoTreeBox').innerHTML = "";
 
 		for(var i=0; i<length; i++){
-			if(length > 1) {
-				inputString = spotForm.inputToGenAuto[i].value;
-			}
+			var inputString = strings[i];
 
 			// allow adjuncts and remove mirror images
 			var autoInputOptions = {};
@@ -791,6 +786,129 @@ window.addEventListener('load', function(){
 			htmlChunks.push('<tr>');
 			htmlChunks.push('<td>' + i + "." + '</td>');
 			htmlChunks.push('<td>' + parTree + '</td>');
+			htmlChunks.push('</tr>');
+			i++;
+		}
+		htmlChunks.push('</tbody></table>');
+		return htmlChunks.join('');
+	}
+
+	// GENERATE TERMINAL STRINGS
+
+	// add list of terminals button
+	document.getElementById('addList').addEventListener('click', function(){
+		var length = spotForm.genStringsInput.length;
+		if(length === undefined) {
+			length = 1;
+		}
+		var newLength = length + 1;
+		length = length.toString();
+		newLength = newLength.toString();
+		document.getElementById('list'+length).insertAdjacentHTML('afterend', "<div id='list"+newLength+"'>List of terminals "+newLength+": <input type='text' name='genStringsInput'><p>Number of terminals in generated strings:</p><p style='margin-left: 15px'>Min: <input type='text' name='genStringsMin' style='width: 25px; text-align: center; margin-left: 4px'></p><p style='margin-left: 15px'>Max: <input type='text' name='genStringsMax' style='width: 25px; text-align: center'></p></div>");
+	});
+
+	// show/hide generated terminal strings
+	document.getElementById('gen-strings-switch').addEventListener('click', function(){
+		if (document.getElementById('genStringsArea').style.display === 'none' && document.getElementById('gen-strings-switch').checked){
+			document.getElementById('genStringsArea').style.display = 'block';
+			document.getElementById('strings-switch-text').innerHTML = 'Hide generated terminals strings';
+		}
+		else{
+			document.getElementById('genStringsArea').style.display = 'none';
+			document.getElementById('strings-switch-text').innerHTML = 'Show generated terminals strings';
+		}
+	});
+
+	// done button for gen terminal strings
+	document.getElementById('genStringsDoneButton').addEventListener('click', function(){
+		genTerminalStrings();
+		document.getElementById('genStringsArea').style.display = 'block';
+		document.getElementById('gen-strings-switch').checked = true;
+		document.getElementById('strings-switch-text').innerHTML = 'Hide generated terminals strings';
+	});
+
+	var genStringsList;
+
+	function genTerminalStrings() {
+		var length = spotForm.genStringsInput.length;
+		if(length === undefined) {
+			length = 1;
+		}
+		genStringsList = undefined;
+		var inputList = spotForm.genStringsInput.value;
+		var min = spotForm.genStringsMin.value;
+		var max = spotForm.genStringsMax.value;
+
+		document.getElementById('genStringsBox').innerHTML = "";
+
+		for(var i=0; i<length; i++){
+			if(length > 1) {
+				inputList = spotForm.genStringsInput[i].value;
+				min = spotForm.genStringsMin[i].value;
+				max = spotForm.genStringsMax[i].value;
+			}
+
+			if(inputList !== "") {
+				inputList = inputList.replace(/\s+/g,'').split(',');
+				var currGenStringsList = generateTerminalStrings(inputList, min, max)
+				displayStringsTable(currGenStringsList);
+
+				if(genStringsList) {
+					genStringsList = genStringsList.concat(currGenStringsList);
+				}
+				else {
+					genStringsList = currGenStringsList;
+				}
+			}
+		}
+
+		var length = spotForm.inputToGenAuto.length;
+		if(length === undefined) {
+			length = 1;
+		}
+		var inputString = spotForm.inputToGenAuto.value;
+
+		var fixedStringList = [];
+
+		for(var i=0; i<length; i++){
+			if(length > 1) {
+				inputString = spotForm.inputToGenAuto[i].value;
+			}
+			if(inputString !== "") {
+				fixedStringList.push(inputString);
+			}
+		}
+		if(fixedStringList.length > 0 && genStringsList) {
+			displayStringsTable(fixedStringList);
+			genStringsList = genStringsList.concat(fixedStringList);
+		}
+		else if(fixedStringList.length > 0 && !genStringsList){
+			displayStringsTable(fixedStringList);
+			genStringsList = fixedStringList;
+		}
+
+		// console.log(genStringsList)
+	}
+
+	function getStringsList() {
+		return genStringsList;
+	}
+
+	// display generated terminal strings in table
+	function displayStringsTable(genStringsList) {
+		var stringsTable = stringToTable(genStringsList);
+		document.getElementById('genStringsBox').innerHTML += stringsTable;
+	}
+
+	// create table from generated terminal strings list
+	function stringToTable(genStringsList) {
+		var htmlChunks = ['<table class="auto-table"><tbody>'];
+		var i = 1;
+		for(var s in genStringsList) {
+			var string = genStringsList[s];
+			htmlChunks.push('<tr>');
+			htmlChunks.push('<td>' + i + "." + '</td>');
+			htmlChunks.push('<td>' + string + '</td>');
 			htmlChunks.push('</tr>');
 			i++;
 		}
