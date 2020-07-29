@@ -152,10 +152,12 @@ function tableauToHtml(tableau) {
 }
 // check that every prosodic category in cateogry pairings is in pCat
 function checkProsodicHierarchy(pCat, categoryPairings){
+	ret = true;
 	for (category in categoryPairings){
 		if (!pCat.includes(categoryPairings[category])){
-			return false;
+			displayWarning("" + category + " from categoryPairings is not in pCat!");
+			ret = false;
 		}
 	}
-	return true;
+	return ret;
 }
