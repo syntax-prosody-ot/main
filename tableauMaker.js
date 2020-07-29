@@ -74,8 +74,11 @@ function makeTableau(candidateSet, constraintSet, options){
 		var tableauRow = [ptreeStr];
 		// the last element is the getter function that retrieves the category pairings received from GEN in candidategenerator.js
 		for(var j = 0; j < constraintSet.length; j++){
-
 			var [constraint, cat, conOptions] = constraintSet[j].split('-');
+			// check if the category argument is in pCat
+			if(!pCat.includes(cat)){
+				displayWarning("category argument " + cat + " is not in pCat.");
+			}
 			if(!conOptions){
 				conOptions = "{}";
 			}

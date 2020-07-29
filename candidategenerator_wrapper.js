@@ -41,7 +41,7 @@ window.GEN = function(sTree, words, options){
 	setPCat(options.ph.pCat);
 	setCategoryPairings(options.ph.categoryPairings);
 	// give a warning if there are categories from categoryPairings not present in pCat
-	if (!checkProsodicHierarchy(option.ph.pCat, options.ph.categoryPairings)){
+	if (!checkProsodicHierarchy(options.ph.pCat, options.ph.categoryPairings)){
 		//set pCat and categoryPairings to their default values
 		resetPCat();
 		resetCategoryPairings();
