@@ -919,6 +919,7 @@ window.addEventListener('load', function(){
 		return htmlChunks.join('');
 	}
 
+	// add thicker line between generated strings of different lengths
 	function addThickLine(genStringsList) {
 		var sheet = document.styleSheets[1];
 
@@ -932,6 +933,7 @@ window.addEventListener('load', function(){
 		}
 	}
 
+	// remove thicker line between generated strings of different lengths before regenerating strings
 	function deleteThickLine() {
 		var sheet = document.styleSheets[1];
 		var rules = 0;
