@@ -547,7 +547,7 @@
 			<h2>GEN: Input parameters
 				<span class="info">
 					<span class="content">
-						To generate input syntactic trees using SPOT's algorithm, use the 'Automatic' tab. To build input syntactic trees yourself, use the 'Manual' tab. In the 'String of terminals' textboxes, type the words that you want to be included in the output prosodic trees, separating them with spaces.
+						To generate input syntactic trees using SPOT's algorithm, use the 'Automatic' tab. To build input syntactic trees yourself, use the 'Manual' tab.
 					</span>
 				</span>
 			</h2>
@@ -607,7 +607,13 @@
 			<!-- automatically generate syntax -->
 			<div id="inputOptions" style="display: block">
 
-				<h3 style="margin-top: 10px">Generate combinations and permutations of terminals</h3>
+				<h3 style="margin-top: 10px">Generate combinations and permutations of terminals
+					<span class="info">
+						<span class="content">
+							In the 'List of terminals' textboxes, type the terminals you want to use to generate permutations and combinations that will serve as your input strings. Separate each list with commas and specify the minimum and maximum number of terminals in the generated strings.
+						</span>
+					</span>
+				</h3>
 
 				<div id="listOfTerminals">
 					<div id="list1">
@@ -619,7 +625,13 @@
 				</div>
 				<button id="addList" type="button" style="margin-top: -5px">Add list of terminals</button>
 
-				<h3 style="margin-top: 10px">Enter fixed terminal string</h3>
+				<h3 style="margin-top: 10px">Enter fixed terminal string
+					<span class="info">
+						<span class="content">
+							In the 'String of terminals' textboxes, type the words that you want to be included in the output prosodic trees, separating them with spaces.
+						</span>
+					</span>
+				</h3>
 
 				<div id="terminalStrings">
 					<p id="str1">String of terminals 1: <input type="text" name="inputToGenAuto"></p>
