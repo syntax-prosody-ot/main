@@ -819,7 +819,7 @@ window.addEventListener('load', function(){
 		}
 	});
 
-	// done button for gen terminal strings
+	// done button for generate terminal strings
 	document.getElementById('genStringsDoneButton').addEventListener('click', function(){
 		genTerminalStrings();
 		document.getElementById('genStringsArea').style.display = 'block';
@@ -829,6 +829,7 @@ window.addEventListener('load', function(){
 
 	var genStringsList;
 
+	// generate and display terminal strings
 	function genTerminalStrings() {
 		var length = spotForm.genStringsInput.length;
 		if(length === undefined) {
