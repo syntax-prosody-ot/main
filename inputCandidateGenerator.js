@@ -73,7 +73,7 @@ function sTreeGEN(terminalString, options)
     if(options.noMirrorImages){
       sTreeList = sTreeList.filter(x => !mirrorImages(x, sTreeList));
     }
-    if(options.noBarLevels){
+    if(!options.noBarLevels){
       sTreeList = sTreeList.filter(x => !threeXPs(x));
     }
     // console.log(sTree)
