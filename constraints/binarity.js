@@ -330,27 +330,28 @@ function binMaxHead(s, ptree, cat, options) {
 	}
 	markHeads(ptree, options.side);
 	var vcount = 0;
-	// non terminal
+
 	if(ptree.children && ptree.children.length){
-		// if category is correct and word is head
-		if(ptree.cat === cat && ptree.head === true){
-			if(ptree.children.length > 2){
-				vcount++;
+		if(ptree.cat === cat){
+			for(var i = 0; i<ptree.children.length; i++){
+				if(ptree.children[i].head === true) {
+					if(ptree.children[i].children){
+						if(ptree.children[i].children.length > 2) {
+							vcount++;
+						}
+					}
+					else {
+						var id = ptree.children[i].id.split('_');
+						id = id[0];
+						if(id.length > 2) {
+							vcount++;
+						}
+					}
+				}
 			}
 		}
 		for(var i = 0; i<ptree.children.length; i++){
 			vcount += binMaxHead(s, ptree.children[i], cat, options);
-		}
-	}
-	// terminal
-	else {
-		// if category is correct and word is head
-		if(ptree.cat === cat && ptree.head === true){
-			var id = ptree.id.split('_');
-			id = id[0];
-			if(id.length > 2) {
-				vcount++;
-			}
 		}
 	}
 	return vcount;
