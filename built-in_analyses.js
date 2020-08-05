@@ -162,7 +162,61 @@ function built_in_con(input){
   }
 }
 
+function built_in_input(myTrees){
+  if(Array.isArray(myTrees)){ //manual trees
+    //First, shows the tree UI & the code view
+    changeInputTabs('inputButton', 'goButton');
+  
+    for(var i = 0; i < myTrees.length; i++){
+      var myUTree = new UTree(myTrees[i]);
+      window.showUTree(myUTree);
+    }
+    document.getElementById("htmlToJsonTreeButton").click();
+    //document.getElementById("tree-code-box").click();
+    //Then paste trees in
+    //document.getElementById("stree-textarea").value = JSON.stringify(myTrees);
+  
+  }
+  else{
+    //First make sure we are in auto mode and open syntax options
+    changeInputTabs('goButton', 'inputButton');
+    document.getElementById('syntax-parameters').setAttribute('class', 'open');
 
+    for(let x = 0; x<spotForm.autoInputOptions.length; x++){
+      const autoBox = spotForm.autoInputOptions[x];
+      if(myTrees.autoInputOptions[autoBox.value] && !autoBox.checked){
+        autoBox.click();
+      }
+    }
+
+    if(myTrees.inputToGenAuto.length<2){
+      spotForm.inputToGenAuto.value = myTrees.inputToGenAuto[0];
+    }
+    else{
+      for(let x = 0; x<myTrees.inputToGenAuto.length; x++){
+        if(!spotForm.inputToGenAuto.length || spotForm.inputToGenAuto.length<myTrees.inputToGenAuto.length){
+          document.getElementById('addString').click();
+        }
+        spotForm.inputToGenAuto[x].value = myTrees.inputToGenAuto[x];
+      }
+    }
+
+    if(myTrees['autoInputOptions-addClitics']){
+      if(!spotForm['autoInputOptions-addClitics'][0].checked){
+        spotForm['autoInputOptions-addClitics'][0].click();
+      }
+      spotForm['autoInputOptions-addClitics'].value = myTrees['autoInputOptions-addClitics'];
+    }
+
+    for(const i in myTrees){
+      if(typeof myTrees[i] === 'string'){
+        spotForm[i].value = myTrees[i];
+      }
+    }
+
+    document.getElementById('autoGenDoneButton').click();
+  }
+}
 
 /*Template for built-in analyses
 * Arguments:
@@ -234,19 +288,9 @@ function my_built_in_analysis(myGEN, showTones, myTrees, myCon){
   //Step 2: CON. Call a helper function to select the appropriate constraints & categories.
   built_in_con(myCon);
 
-  //Step 3: Trees
-  //First, shows the tree UI & the code view
-  changeInputTabs('inputButton', 'goButton');
-
-  for(var i = 0; i < myTrees.length; i++){
-	  var myUTree = new UTree(myTrees[i]);
-	  window.showUTree(myUTree);
-  }
-  document.getElementById("htmlToJsonTreeButton").click();
-  //document.getElementById("tree-code-box").click();
-  //Then paste trees in
-  //document.getElementById("stree-textarea").value = JSON.stringify(myTrees);
-
+  //Step 3: Trees Call a helper function
+  built_in_input(myTrees);
+  
   // Step 4: If showTones is not false, the tableaux will be annotated with tones.
   if(showTones){
     var toneCheckbox = document.getElementById("annotatedWithTones");
@@ -446,8 +490,42 @@ function record_analysis(){
     }
   }
 
-  //myTrees
-  analysis.myTrees = JSON.parse(document.getElementById("stree-textarea").value);
+  //myTrees: manual
+  if(document.getElementById('treeUI').style.display == 'block'){
+    analysis.myTrees = JSON.parse(document.getElementById("stree-textarea").value);
+  }
+  //myTrees: auto
+  else if(document.getElementById('inputOptions').style.display == 'block'){
+    analysis.myTrees = {};
+    analysis.myTrees.autoInputOptions = {};
+    for(let i = 0; i<spotForm.autoInputOptions.length; i++){
+      if(spotForm.autoInputOptions[i].checked){
+        analysis.myTrees.autoInputOptions[spotForm.autoInputOptions[i].value] = true;
+      }
+    }
+    if(spotForm['autoInputOptions-addClitics'][0].checked){
+      analysis.myTrees['autoInputOptions-addClitics'] = spotForm['autoInputOptions-addClitics'].value;
+    }
+    analysis.myTrees['autoInputOptions-rootCategory'] = spotForm['autoInputOptions-rootCategory'].value;
+    analysis.myTrees['autoInputOptions-recursiveCategory'] = spotForm['autoInputOptions-recursiveCategory'].value;
+    analysis.myTrees['autoInputOptions-terminalCategory'] = spotForm['autoInputOptions-terminalCategory'].value;
+    
+    analysis.myTrees['head-req'] = spotForm['head-req'].value;
+
+    if(spotForm.inputToGenAuto.length){
+      analysis.myTrees.inputToGenAuto = [];
+      for(let i = 0; i<spotForm.inputToGenAuto.length; i++){
+        analysis.myTrees.inputToGenAuto.push(spotForm.inputToGenAuto[i].value);
+      }
+    }
+    else {
+      analysis.myTrees.inputToGenAuto = [spotForm.inputToGenAuto.value];
+    }
+  }
+  else {
+    displayError('GEN input not found');
+    throw new Error('GEN input not found');
+  }
 
   //myCon
   var uCon = spotForm.constraints;
