@@ -354,11 +354,14 @@ window.addEventListener('load', function(){
 						var categoryBox = constraintCatSet[j];
 						if(categoryBox.checked){
 							var category = categoryBox.value;
-							if(constraint === "alignLeftMorpheme") {
+							if(constraint === "alignLeftMorpheme" || constraint === 'alignRightMorpheme') {
 								category = category.split(' ').join(';');
 							}
+							if(constraint === "binMaxHead") {
+								constraintSet.push('binMaxHead-' + category + '-{"side" : "' + spotForm['genOptions-showHeads'].value + '"}')
+							}
 							//Figure out selected match options for the constraint
-							if(spotForm['option-'+constraint]){
+							else if(spotForm['option-'+constraint]){
 								var constraintOptionSet = spotForm['option-'+constraint];
 								var options = {};
 								if(constraintOptionSet.length){
@@ -485,7 +488,7 @@ window.addEventListener('load', function(){
 			tableauOptions.trimStree = true;
 		}
 		if(document.getElementById("showHeads").checked){
-			tableauOptions.showHeads= true;
+			tableauOptions.showHeads = spotForm['genOptions-showHeads'].value;
 		}
 
 
@@ -601,6 +604,15 @@ window.addEventListener('load', function(){
 			//}
 		}
 
+	});
+
+	document.getElementById('showHeads').addEventListener('click', function(){
+		if (document.getElementById('headSideOptions').style.display === 'none' && document.getElementById('showHeads').checked){
+			document.getElementById('headSideOptions').style.display = '';
+		}
+		else{
+			document.getElementById('headSideOptions').style.display = 'none';
+		}
 	});
 
 	/*
