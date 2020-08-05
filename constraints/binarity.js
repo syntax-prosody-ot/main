@@ -325,7 +325,28 @@ function binMaxHead(s, ptree, cat) {
 	markHeadsJapanese(ptree);
 	var vcount = 0;
 
-	// console.log(ptree)
-
+	if(ptree.children && ptree.children.length){
+		if(ptree.cat === cat){
+			for(var i = 0; i<ptree.children.length; i++){
+				if(ptree.children[i].head === true) {
+					if(ptree.children[i].children){
+						if(ptree.children[i].children.length > 2) {
+							vcount++;
+						}
+					}
+					else {
+						var id = ptree.children[i].id.split('_');
+						id = id[0];
+						if(id.length > 2) {
+							vcount++;
+						}
+					}
+				}
+			}
+		}
+		for(var i = 0; i<ptree.children.length; i++){
+			vcount += binMaxHead(s, ptree.children[i], cat);
+		}
+	}
 	return vcount;
 }

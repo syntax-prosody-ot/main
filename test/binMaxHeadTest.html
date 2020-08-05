@@ -18,7 +18,6 @@ var x = {
             {
                 "cat": "w",
                 "id": "nonhead",
-                head: false,
                 "children": [
                     {
                         "id": "a",
@@ -37,11 +36,10 @@ var x = {
             {
                 "cat": "w",
                 "id": "head",
-                head: true,
                 "children": [
                     {
                         "id": "c",
-                        "cat": "w"
+                        "cat": "w",
                     },
                     {
                         "id": "d",
@@ -67,7 +65,6 @@ var y = {
             {
                 "cat": "w",
                 "id": "nonhead",
-                head: false,
                 "children": [
                     {
                         "id": "a",
@@ -82,7 +79,6 @@ var y = {
             {
                 "cat": "w",
                 "id": "head",
-                head: true,
                 "children": [
                     {
                         "id": "c",
@@ -116,7 +112,6 @@ var z = {
             {
                 "cat": "w",
                 "id": "nonhead",
-                head: false,
                 "children": [
                     {
                         "id": "a",
@@ -131,7 +126,6 @@ var z = {
             {
                 "cat": "w",
                 "id": "head",
-                head: true,
                 "children": [
                     {
                         "id": "c",
@@ -150,15 +144,61 @@ var z = {
         ]
     }
 
+// Example 4:
+// {id: 'rootw', cat: 'w', children:
+// [ {id: 'nonhead', cat: 'w', size: 2},
+// {id: 'head', cat: 'w', head: true, size: 3}
+// ]
+// }
+// --> one violation
+
+var a = {
+        "id": "rootw",
+        "cat": "w",
+        "children": [
+            {
+                "cat": "w",
+                "id": "nonhead",
+                "children": [
+                    {
+                        "id": "a",
+                        "cat": "w"
+                    },
+                    {
+                        "id": "b",
+                        "cat": "w"
+                    }
+                ]
+            },
+            {
+                "cat": "w",
+                "id": "FFF_1"
+            }
+        ]
+    }
+
 var s = null;
+console.log('ex 1')
 console.log('expected: 0')
 console.log('actual: ' + binMaxHead(s, x, 'w'))
-console.log('\nexpected: 1')
+// console.log(x)
+
+console.log('ex 2')
+console.log('expected: 1')
 console.log('actual: ' + binMaxHead(s, y, 'w'))
-console.log('\nexpected: 0')
+// console.log(y)
+
+console.log('ex 3')
+console.log('expected: 0')
 console.log('actual: ' + binMaxHead(s, z, 'w'))
-console.log('\nexpected: 1')
+console.log('expected: 1')
 console.log('actual: ' + binMaxHead(s, z, 'phi'))
+// console.log(z)
+
+console.log('ex 4')
+console.log('expected: 1')
+console.log('actual: ' + binMaxHead(s, a, 'w'))
+// console.log(a)
 
 </script>
 
