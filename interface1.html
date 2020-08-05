@@ -551,9 +551,9 @@
 					</span>
 				</span>
 			</h2>
-			<p style="margin-bottom: 0"><button id="inputButton" type="button" class="tab-button" style="background-color: white; border-color: #3A5370">Automatic</button><button id="goButton" type="button" class="tab-button">Manual</button></p>
+			<p style="margin-bottom: 0"><button id="inputButton" type="button" class="tab-button">Automatic</button><button id="goButton" type="button" class="tab-button" style="background-color: white; border-color: #3A5370">Manual</button></p>
 						<hr style="margin-block-start: 0; margin-block-start: 0; color: #3A5370; border-style: solid">
-            <div id="treeUI" style="display: none">
+            <div id="treeUI" style="display: block">
 							<p>String of terminals: <input type="text" name="inputToGen"><button id="buildButton" type="button">Build syntax</button></p>
 								<div class="constraint-row">
 									<span><input type="checkbox" name="genOptions" id="trimTrees">Trim Syntactic tree</span>
@@ -605,7 +605,7 @@
 			</div>
 
 			<!-- automatically generate syntax -->
-			<div id="inputOptions" style="display: block">
+			<div id="inputOptions" style="display: none">
 
 				<fieldset id="syntax-parameters">
 					<legend><h2>Syntax parameters <span class="arrow"></h2></legend>
