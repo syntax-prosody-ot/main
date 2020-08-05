@@ -609,6 +609,7 @@
 
 				<fieldset id="syntax-parameters" class="open">
 					<legend><h2>Syntax parameters <span class="arrow"></h2></legend>
+					<h3>Syntactic parameters</h3>
 						<div class="constraint-row"><span>Root syntactic tree in</span>
 							<div class="info">
 								<span class="content">Choose what syntactic category the roots of generated trees will be.</span>
@@ -640,17 +641,7 @@
 							<span><input type="checkbox" name="autoInputOptions" value="noAdjuncts" checked="checked">Allow adjuncts</span>
 							<div class="info"><span class="content">If selected, nodes if the intermediate category may be sisters to other nodes of the intermediate category.</span></div>
 						</div>
-
-						<div class="constraint-row">
-							<span><input type="checkbox" name="autoInputOptions" value="noBarLevels">Bar levels (X', C') are invisible</span>
-							<div class="info"><span class="content">By default, SPOT treats bar level projections the same as phrase level projections, and labels them all as XP (or CP). This makes them visible to Match and Align constraints. On this setting, all syntactic trees are binary branching. To treat bar level projections as invisible to mapping constraints, check this box, which will allow GEN to also create ternary branching syntactic trees, in which X' (or C') are not represented at all. An example of a tree in which the X' level is not represented at all: [[spec] head [comp]]. Under default settings, this tree would instead be represented as: [[spec][head [comp]]].</span></div>
-						</div>
-
-						<div class="constraint-row">
-							<span><input type="checkbox" name="autoInputOptions" value="noUnary">Unary XPs are invisible</span>
-							<div class="info"><span class="content">If selected, all intermediate nodes must have at least two children.</span></div>
-						</div>
-
+						
 						<div class="constraint-row">
 							<span>Head requirements:
 								<select name="head-req" id="head-req">
@@ -674,11 +665,7 @@
 							</div>
 						</div>
 
-						<div class="constraint-row">
-							<span><input type="checkbox" name="autoInputOptions" value="noMirrorImages">Remove mirror images</span>
-							<div class="info"><span class="content">If selected, no mirror image pairs will be generated. E.g. [a [b [c]]] and [[[a] b] c] are mirror images of eachother; if this option is selected, [[[a] b] c] will be removed.</span></div>
-						</div>
-
+						<h3>Clitics</h3>
 						<div class="constraint-row">
 							<span><input type="checkbox" name="autoInputOptions-addClitics" value="right" id="add-clitics">Add XP clitics directly under root</span>
 							<div class="info"><span class="content">info</span></div>
@@ -692,6 +679,24 @@
 							<span><input type="checkbox" name="autoInputOptions" value="allowClitic">Allow clitic in terminal string</span>
 							<div class="info"><span class="content">If checked, then for every clitic-free input tree with n terminals, there are n additional input trees of the same shape, in which one terminal is a clitic, such that every terminal is a clitic in exactly one of these trees.</span></div>
 						</div>
+
+						<h3>Visibility to phonology</h3>
+						<div class="constraint-row">
+							<span><input type="checkbox" name="autoInputOptions" value="noUnary">Unary XPs are invisible</span>
+							<div class="info"><span class="content">If selected, all intermediate nodes must have at least two children.</span></div>
+						</div>
+
+						<div class="constraint-row">
+							<span><input type="checkbox" name="autoInputOptions" value="noBarLevels">Bar levels (X', C') are invisible</span>
+							<div class="info"><span class="content">By default, SPOT treats bar level projections the same as phrase level projections, and labels them all as XP (or CP). This makes them visible to Match and Align constraints. On this setting, all syntactic trees are binary branching. To treat bar level projections as invisible to mapping constraints, check this box, which will allow GEN to also create ternary branching syntactic trees, in which X' (or C') are not represented at all. An example of a tree in which the X' level is not represented at all: [[spec] head [comp]]. Under default settings, this tree would instead be represented as: [[spec][head [comp]]].</span></div>
+						</div>
+
+						
+												<div class="constraint-row">
+							<span><input type="checkbox" name="autoInputOptions" value="noMirrorImages">Remove mirror images</span>
+							<div class="info"><span class="content">If selected, no mirror image pairs will be generated. E.g. [a [b [c]]] and [[[a] b] c] are mirror images of eachother; if this option is selected, [[[a] b] c] will be removed.</span></div>
+						</div>
+
 				</fieldset>
 
 				<div id="terminalStrings">
