@@ -723,7 +723,7 @@ window.addEventListener('load', function(){
 				autoInputOptions.noAdjacentHeads = false;
 			}
 
-			if(autoInputOptions.noBarLevels) {
+			if(!autoInputOptions.noBarLevels) {
 				autoInputOptions.maxBranching = 3;
 			}
 			// console.log(autoInputOptions)
@@ -996,7 +996,7 @@ window.addEventListener('load', function(){
 	var i;
 	var noBarLevelsIndex;
 	for (i = 0; i < x.length; i++) {
-		if (x[i].value === "noBarLevels") {
+		if (x[i].value !== "noBarLevels") {
 			noBarLevelsIndex = i;
 			break;
 		}
