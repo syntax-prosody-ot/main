@@ -59,6 +59,26 @@ var sCat = ["cp", "xp", "x0"];
 //defines the prosodic hierarchy
 var pCat = ["u", "i", "phi", "w", "Ft", "syll"];
 
+PH_PHI = {
+	pCat : ["u", "i", "phi", "w", "Ft", "syll"],
+	categoryPairings : {
+		"clause": "i",
+		"cp": "i",
+		"xp": "phi",
+		"x0": "w"
+	}
+
+};
+PH_MAJMIN = {
+	pCat : ["i", "MaP", "MiP", "w"],
+	categoryPairings : {
+		"clause": "i",
+		"cp": "i",
+		"xp": ["MaP", "MiP"],
+		"x0": "w"
+	}
+
+};
 //defines Major Minor Phrase prosodic hierarchy
 var MaPMiPpCat = ["i", "MaP", "MiP", "w"];
 
