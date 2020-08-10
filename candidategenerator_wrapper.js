@@ -19,9 +19,9 @@
 */
 window.GEN = function(sTree, words, options){
 	options = options || {}; // if options is undefined, set it to an empty object (so you can query its properties without crashing things)
-	// create the ph object if none was passed
+	// create the ph object if none was passed and set it the default PH object
 	if (!options.ph){
-		options.ph = {}
+		options.ph = PH_PHI;
 	}
 	// set default pCat if none exists
 	if (!options.ph.pCat){
@@ -37,7 +37,7 @@ window.GEN = function(sTree, words, options){
 		};
 
 	}
-
+	
 	setPCat(options.ph.pCat);
 	setCategoryPairings(options.ph.categoryPairings);
 	// give a warning if there are categories from categoryPairings not present in pCat
@@ -47,7 +47,6 @@ window.GEN = function(sTree, words, options){
 		resetCategoryPairings();
 	}
 	var categoryHierarchy = options.syntactic ? sCat : pCat;
-	//var categoryHierarchy = options.syntactic ? sCat : pCat;
 	/* First, warn the user if they have specified terminalCategory and/or
 	 * rootCategory without specifying recursiveCategory
 	 */
