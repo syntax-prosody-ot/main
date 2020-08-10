@@ -763,6 +763,14 @@ window.addEventListener('load', function(){
 	document.getElementById('syntax-parameters').addEventListener('change', function(){
 		document.getElementById('autoDoneMessage').style.display = 'none';
 	});
+	// check for change in syntax parameters
+	document.getElementById('syntax-parameters-clitics').addEventListener('change', function(){
+		document.getElementById('autoDoneMessage').style.display = 'none';
+	});
+	// check for change in syntax parameters
+	document.getElementById('syntax-parameters-phonology').addEventListener('change', function(){
+		document.getElementById('autoDoneMessage').style.display = 'none';
+	});
 
 	// show/hide syntactic trees
 	document.getElementById('syntax-tree-switch').addEventListener('click', function(){
@@ -993,10 +1001,11 @@ window.addEventListener('load', function(){
 	});
 
 	var x = document.getElementsByName("autoInputOptions");
+	console.log(x);
 	var i;
 	var noBarLevelsIndex;
 	for (i = 0; i < x.length; i++) {
-		if (x[i].value !== "noBarLevels") {
+		if (x[i].value === "noBarLevels") {
 			noBarLevelsIndex = i;
 			break;
 		}
@@ -1028,7 +1037,7 @@ window.addEventListener('load', function(){
 
 	document.getElementsByName("autoInputOptions")[noBarLevelsIndex].addEventListener('click', function() {
 		var x = document.getElementsByName("autoInputOptions")[noBarLevelsIndex];
-		if(x.checked === true) {
+		if(x.checked === false) {
 			var y = document.getElementById('head-req').options;
 			// Heads must be on the left edge
 			y[3].disabled = false;
