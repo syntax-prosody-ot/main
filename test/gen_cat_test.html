@@ -26,26 +26,45 @@
 	var MatchSPMatchPS = ['binMaxBranches-phi', 'binMinBranches-phi', 'matchSP-xp'];
 	
 	/*A list of names for constraint sets.*/
-	    var conNames = ['MatchSPMatchPS'];
+	var conNames = ['MatchSPMatchPS'];
+	
 	var customPCatList = ['i', 'MaP', 'MiP', 'w'];
 	var customPairings = {
 		"clause": "i",
 		"cp": "i",
-		"xp": "phi",
+		"xp": ["MaP", "MiP"],
 		"x0": "w"
+	};
+	var customPairingsMissing = {
+		"clause": "i",
+		"cp": "i", 
+		"xp":"phi",
+		"x0":"w"
 	};
 
 	var ph = {pCat: customPCatList, categoryPairings: customPairings};	
-
+	var phMissing = {pCat: customPCatList, categoryPairings: customPairingsMissing} 
 	//Candidate sets are generated with the options below.
-     
-    var i_phi_w = {rootCategory:'i', recursiveCategory:'phi', terminalCategory: 'w', ph:ph};
-    var phi_phi_w = {rootCategory:'phi', recursiveCategory:'phi', terminalCategory: 'w', ph:ph};
-    var phi_w_w = {rootCategory:'phi', recursiveCategory:'w', terminalCategory: 'w', ph:ph};
-    var w_w_w = {rootCategory:'w', recursiveCategory:'w', terminalCategory: 'w', ph:ph};
+    	
+	
+	var i_phi_w = {rootCategory:'i', recursiveCategory:'phi', terminalCategory: 'w', ph:ph};
+	var phi_phi_w = {rootCategory:'phi', recursiveCategory:'phi', terminalCategory: 'w', ph:phMissing};
+	var phi_w_w = {rootCategory:'phi', recursiveCategory:'w', terminalCategory: 'w'};
+	var w_w_w = {rootCategory:'w', recursiveCategory:'w', terminalCategory: 'w'};
 
-	var majorPhrase = {obeysNonRecursivity: true, obeysExhaustivity: true/false, rootCategory: 'i', terminalCategory: 'w', recursiveCategory: 'MaP'};
-	var minorPhrase = {obeysNonRecursivity: true, obeysExhaustivity: true/false, rootCategory: 'i', terminalCategory: 'w', recursiveCategory: 'MiP'};
+	//var majorPhrase = {obeysNonRecursivity: true, obeysExhaustivity: false, rootCategory: 'i', terminalCategory: 'w', recursiveCategory: 'MaP',ph:ph};
+	//var minorPhrase = {obeysNonRecursivity: true, obeysExhaustivity: false, rootCategory: 'i', terminalCategory: 'w', recursiveCategory: 'MiP', ph:ph};
+		 
+	//GEN and constraints DO NOT match
+	// pCat that GEN recieves, categories from constraints
+	// i_phi_w has phi which is not in PHI_MAJMIN, expect category argument phi and xp is not in pCat
+	//pCat and categoryPairings DO NOT match
+	// phi_phi_w will use phMissing, phi is not in pCat
+	// expect phi from categoryPairings is not in pCat
+	//GEN and constraints DO match
+		//use default
+	//pCat and constraints DO match
+		//use default
 	    var myCategoryBrackets = {
 	"i": "{}",
 	"cp": "{}",
@@ -58,7 +77,7 @@
 	"Ft": ["", ""],
 	"u": ["{u ", "}"]
 };
-	var output_gen_opt_list = [i_phi_w, phi_phi_w, phi_w_w, w_w_w];//, majorPhrase, minorPhrase];
+	var output_gen_opt_list = [i_phi_w, phi_phi_w, phi_w_w, w_w_w];
 
 	
 	// ---- Functions that don't necessarily need to be customized ----
