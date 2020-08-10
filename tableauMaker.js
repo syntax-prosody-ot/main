@@ -157,8 +157,19 @@ function tableauToHtml(tableau) {
 function checkProsodicHierarchy(pCat, categoryPairings){
 	ret = true;
 	for (category in categoryPairings){
-		if (!pCat.includes(categoryPairings[category])){
-			displayWarning("" + category + " from categoryPairings is not in pCat!");
+		// check if category maps to multiple pairings 
+		if (Array.isArray(categoryPairings[category])){
+			console.log(categoryPairings[category]);
+			for (pairing in categoryPairings[category]){
+				if (!pCat.includes(categoryPairings[category][pairing])){
+					console.log(categoryPairings[category][pairing]);
+					displayWarning("" + categoryPairings[category][pairing] + " from categoryPairings is not in pCat!");
+					ret = false;	
+				}
+			}
+		}
+		else if(!pCat.includes(categoryPairings[category])){
+			displayWarning("" + categoryPairings[category] + " from categoryPairings is not in pCat!");
 			ret = false;
 		}
 	}
