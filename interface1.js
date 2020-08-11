@@ -898,14 +898,16 @@ window.addEventListener('load', function(){
 
 	// display generated terminal strings in table
 	function displayStringsTable(genStringsList) {
-		var stringsTable = stringToTable(genStringsList);
+		var tables = document.getElementsByClassName("string-table");
+		var index = tables.length + 1;
+		var stringsTable = stringToTable(genStringsList, index);
 		document.getElementById('genStringsBox').innerHTML += stringsTable;
-		addThickLine(genStringsList);
+		addThickLine(genStringsList, index);
 	}
 
 	// create table from generated terminal strings list
-	function stringToTable(genStringsList) {
-		var htmlChunks = ['<table class="auto-table" id="string-table"><tbody>'];
+	function stringToTable(genStringsList, index) {
+		var htmlChunks = ['<table class="auto-table string-table" id="string-table-' + index + '"><tbody>'];
 		var i = 1;
 		for(var s in genStringsList) {
 			var string = genStringsList[s];
@@ -920,15 +922,14 @@ window.addEventListener('load', function(){
 	}
 
 	// add thicker line between generated strings of different lengths
-	function addThickLine(genStringsList) {
+	function addThickLine(genStringsList, index) {
 		var sheet = document.styleSheets[1];
-
 		for(var i = 0; i < genStringsList.length - 1; i++) {
 			var currString = genStringsList[i].split(' ');
 			var nextString = genStringsList[i + 1].split(' ');
 			if(currString.length < nextString.length) {
 				var row = i + 1;
-				sheet.addRule('#string-table tbody > :nth-child(' + row + ')', 'border-bottom: 3px solid black;', 0);
+				sheet.addRule('#string-table-' + index + ' tbody > :nth-child(' + row + ')', 'border-bottom: 3px solid black;', 0);
 			}
 		}
 	}
