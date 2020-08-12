@@ -1,6 +1,14 @@
 <html>
-<body>
+  <head>
+    <title>Syntax-prosody interface application</title>
+  
+    <link rel="stylesheet" type="text/css" href="../spot.css">
+    </head>
+
 <script src="../build/spot.js"></script>
+<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+	<h2>Binarity subcat</h2>
+	<pre id="results-container"></pre>
 <script>
 
 
@@ -130,6 +138,19 @@ console.log('actual: ', binMaxPhiMin(s, tree3, c))
 console.log(tree4)
 console.log('expected violations: 1')
 console.log('actual: ', binMaxPhiMin(s, tree4, c))
+
+var cand1 = GEN({}, 'a b c d', {obeysExhaustivity: true});
+var cand2 = GEN({}, 'a b c d', {obeysExhaustivity: true, rootCategory: 'phi', recursiveCategory: 'w', terminalCategory:'w'});
+var con = ['binMaxPhiMin-phi', 'binMaxLeaves-phi'];
+
+function runDemo() {
+		writeTableau(makeTableau(cand1, con));
+		revealNextSegment();
+    lastSegmentId++;
+    writeTableau(makeTableau(cand2, con));
+		revealNextSegment();
+		lastSegmentId++;
+	}
 
 </script>
 
