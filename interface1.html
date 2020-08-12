@@ -505,9 +505,6 @@
 			#inputOptions button {
 				margin-left: 0px;
 			}
-			.specifyTerminalsSection {
-				margin-left: 15px;
-			}
 
 		</style>
 
@@ -728,26 +725,24 @@
 					</span>
 				</h3>
 
-				<div class="specifyTerminalsSection">
-					<div id="terminalStrings">
-						<p id="str1">String of terminals 1: <input type="text" name="inputToGenAuto"></p>
-					</div>
-					<button id="addString" type="button" style="margin-top: -5px">Add terminal string</button>
-
-					<fieldset id="" class="">
-						<legend><h4>Generate combinations and permutations <span class="arrow"></h4></legend>
-
-						<div id="listOfTerminals" style="margin-top: 10px">
-							<div id="list1">
-								List of terminals 1: <input type="text" name="genStringsInput">
-								<p>Number of terminals in generated strings:</p>
-								<p class="genStringsNum">Min: <input type="text" name="genStringsMin" class="genStringsNumBox" style="margin-left: 4px"></p>
-								<p class="genStringsNum">Max: <input type="text" name="genStringsMax" class="genStringsNumBox"></p>
-							</div>
-						</div>
-						<button id="addList" type="button">Add list of terminals</button>
-					</fieldset>
+				<div id="terminalStrings">
+					<p id="str1">String of terminals 1: <input type="text" name="inputToGenAuto"></p>
 				</div>
+				<button id="addString" type="button" style="margin-top: -5px">Add terminal string</button>
+
+				<fieldset id="" class="">
+					<legend><h4>Generate combinations and permutations <span class="arrow"></h4></legend>
+
+					<div id="listOfTerminals" style="margin-top: 10px">
+						<div id="list1">
+							List of terminals 1: <input type="text" name="genStringsInput">
+							<p>Number of terminals in generated strings:</p>
+							<p class="genStringsNum">Min: <input type="text" name="genStringsMin" class="genStringsNumBox" style="margin-left: 4px"></p>
+							<p class="genStringsNum">Max: <input type="text" name="genStringsMax" class="genStringsNumBox"></p>
+						</div>
+					</div>
+					<button id="addList" type="button">Add list of terminals</button>
+				</fieldset>
 
 				<button id="genStringsDoneButton" class="orange-button" type="button" style="margin-top: 10px">Generate terminal strings</button>
 				<button id="autoGenDoneButton" class="orange-button" type="button" style="margin-top: 15px">Generate trees</button>
