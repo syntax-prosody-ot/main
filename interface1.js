@@ -832,16 +832,36 @@ window.addEventListener('load', function(){
 
 	// generate and display terminal strings
 	function genTerminalStrings() {
+		document.getElementById('genStringsBox').innerHTML = "";
+
+		var length = spotForm.inputToGenAuto.length;
+		if(length === undefined) {
+			length = 1;
+		}
+		var inputString = spotForm.inputToGenAuto.value;
+		var fixedStringList = [];
+		genStringsList = undefined;
+
+		for(var i=0; i<length; i++){
+			if(length > 1) {
+				inputString = spotForm.inputToGenAuto[i].value;
+			}
+			if(inputString !== "") {
+				fixedStringList.push(inputString);
+			}
+		}
+		if(fixedStringList.length > 0) {
+			displayStringsTable(fixedStringList);
+			genStringsList = fixedStringList;
+		}
+
 		var length = spotForm.genStringsInput.length;
 		if(length === undefined) {
 			length = 1;
 		}
-		genStringsList = undefined;
 		var inputList = spotForm.genStringsInput.value;
 		var min = spotForm.genStringsMin.value;
 		var max = spotForm.genStringsMax.value;
-
-		document.getElementById('genStringsBox').innerHTML = "";
 
 		for(var i=0; i<length; i++){
 			if(length > 1) {
@@ -864,32 +884,7 @@ window.addEventListener('load', function(){
 			}
 		}
 
-		var length = spotForm.inputToGenAuto.length;
-		if(length === undefined) {
-			length = 1;
-		}
-		var inputString = spotForm.inputToGenAuto.value;
-
-		var fixedStringList = [];
-
-		for(var i=0; i<length; i++){
-			if(length > 1) {
-				inputString = spotForm.inputToGenAuto[i].value;
-			}
-			if(inputString !== "") {
-				fixedStringList.push(inputString);
-			}
-		}
-		if(fixedStringList.length > 0 && genStringsList) {
-			displayStringsTable(fixedStringList);
-			genStringsList = genStringsList.concat(fixedStringList);
-		}
-		else if(fixedStringList.length > 0 && !genStringsList){
-			displayStringsTable(fixedStringList);
-			genStringsList = fixedStringList;
-		}
-
-		// console.log(genStringsList)
+		console.log(genStringsList)
 	}
 
 	function getStringsList() {

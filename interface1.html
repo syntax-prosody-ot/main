@@ -607,6 +607,19 @@
 			<!-- automatically generate syntax -->
 			<div id="inputOptions" style="display: block">
 
+				<h3 style="margin-top: 10px">Enter fixed terminal string
+					<span class="info">
+						<span class="content">
+							In the 'String of terminals' textboxes, type the words that you want to be included in the output prosodic trees, separating them with spaces.
+						</span>
+					</span>
+				</h3>
+
+				<div id="terminalStrings">
+					<p id="str1">String of terminals 1: <input type="text" name="inputToGenAuto"></p>
+				</div>
+				<button id="addString" type="button" style="margin-top: -5px">Add terminal string</button>
+
 				<h3 style="margin-top: 10px">Generate combinations and permutations of terminals
 					<span class="info">
 						<span class="content">
@@ -624,19 +637,7 @@
 					</div>
 				</div>
 				<button id="addList" type="button" style="margin-top: -5px">Add list of terminals</button>
-
-				<h3 style="margin-top: 10px">Enter fixed terminal string
-					<span class="info">
-						<span class="content">
-							In the 'String of terminals' textboxes, type the words that you want to be included in the output prosodic trees, separating them with spaces.
-						</span>
-					</span>
-				</h3>
-
-				<div id="terminalStrings">
-					<p id="str1">String of terminals 1: <input type="text" name="inputToGenAuto"></p>
-				</div>
-				<button id="addString" type="button" style="margin-top: -5px">Add terminal string</button>
+				
 				<br>
 				<button id="genStringsDoneButton" class="orange-button" type="button" style="margin-top: 10px">Generate terminal strings</button>
 
