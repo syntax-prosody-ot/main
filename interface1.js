@@ -804,7 +804,7 @@ window.addEventListener('load', function(){
 		var newLength = length + 1;
 		length = length.toString();
 		newLength = newLength.toString();
-		document.getElementById('list'+length).insertAdjacentHTML('afterend', "<div id='list"+newLength+"'>List of terminals "+newLength+": <input type='text' name='genStringsInput'><p>Number of terminals in generated strings:</p><p style='margin-left: 15px'>Min: <input type='text' name='genStringsMin' style='width: 25px; text-align: center; margin-left: 4px'></p><p style='margin-left: 15px'>Max: <input type='text' name='genStringsMax' style='width: 25px; text-align: center'></p></div>");
+		document.getElementById('list'+length).insertAdjacentHTML('afterend', "<div id='list"+newLength+"'>List of terminals "+newLength+": <input type='text' name='genStringsInput'><p>Number of terminals in generated strings:</p><p class='genStringsNum'>Min: <input type='text' name='genStringsMin' class='genStringsNumBox' style='margin-left: 4px'></p><p class='genStringsNum'>Max: <input type='text' name='genStringsMax' class='genStringsNumBox'></p></div>");
 	});
 
 	// show/hide generated terminal strings
@@ -883,8 +883,7 @@ window.addEventListener('load', function(){
 				}
 			}
 		}
-
-		console.log(genStringsList)
+		// console.log(genStringsList)
 	}
 
 	function getStringsList() {

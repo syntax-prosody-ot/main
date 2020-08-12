@@ -213,6 +213,12 @@
 				color: #07203D;
 				font-weight: normal;
 			}
+			fieldset h4 {
+				margin: 0px;
+			}
+			h4 {
+				color: #07203D;
+			}
 
 			.constraint-selection-table {
 				padding-left: 20px;
@@ -483,6 +489,20 @@
 				display: inline;
 			}
 
+			#listOfTerminals p {
+				margin-top: 10px;
+				margin-bottom: 10px;
+				margin-left: 0px;
+				color: black;
+			}
+			.genStringsNum {
+				margin-left: 15px !important;
+			}
+			.genStringsNumBox {
+				width: 25px;
+				text-align: center;
+			}
+
 		</style>
 
 	</head>
@@ -607,7 +627,7 @@
 			<!-- automatically generate syntax -->
 			<div id="inputOptions" style="display: block">
 
-				<h3 style="margin-top: 10px">Enter fixed terminal string
+				<h3 style="margin-top: 10px; margin-bottom: -5px">Enter fixed terminal string
 					<span class="info">
 						<span class="content">
 							In the 'String of terminals' textboxes, type the words that you want to be included in the output prosodic trees, separating them with spaces.
@@ -620,39 +640,41 @@
 				</div>
 				<button id="addString" type="button" style="margin-top: -5px">Add terminal string</button>
 
-				<h3 style="margin-top: 10px">Generate combinations and permutations of terminals
-					<span class="info">
+				<fieldset id="" class="">
+					<legend><h4>Generate combinations and permutations of terminals <span class="arrow"></h4></legend>
+
+					<span class="info" style="margin-left: 0px">
 						<span class="content">
 							In the 'List of terminals' textboxes, type the terminals you want to use to generate permutations and combinations that will serve as your input strings. Separate each list with spaces and specify the minimum and maximum number of terminals in the generated strings.
 						</span>
 					</span>
-				</h3>
 
-				<div id="listOfTerminals">
-					<div id="list1">
-						List of terminals 1: <input type="text" name="genStringsInput">
-						<p>Number of terminals in generated strings:</p>
-						<p style="margin-left: 15px">Min: <input type="text" name="genStringsMin" style="width: 25px; text-align: center; margin-left: 4px"></p>
-						<p style="margin-left: 15px">Max: <input type="text" name="genStringsMax" style="width: 25px; text-align: center"></p>
+					<div id="listOfTerminals" style="margin-top: 10px">
+						<div id="list1">
+							List of terminals 1: <input type="text" name="genStringsInput">
+							<p>Number of terminals in generated strings:</p>
+							<p class="genStringsNum">Min: <input type="text" name="genStringsMin" class="genStringsNumBox" style="margin-left: 4px"></p>
+							<p class="genStringsNum">Max: <input type="text" name="genStringsMax" class="genStringsNumBox"></p>
+						</div>
 					</div>
-				</div>
-				<button id="addList" type="button" style="margin-top: -5px">Add list of terminals</button>
-				
-				<br>
-				<button id="genStringsDoneButton" class="orange-button" type="button" style="margin-top: 10px">Generate terminal strings</button>
+					<button id="addList" type="button">Add list of terminals</button>
 
-				<div style="margin-top: 15px">
-					<label class="switch" style="margin-right: 10px; vertical-align: middle">
-						<input type="checkbox" id="gen-strings-switch" value="">
-						<span class="slider round"></span>
-					</label>
-					<p id="strings-switch-text" style="font-size: 15; vertical-align: middle; display: inline">Show generated terminal strings</p>
-				</div>
-
-				<div id="genStringsArea" style="display: none">
 					<br>
-					<div id="genStringsBox"></div>
-				</div>
+					<button id="genStringsDoneButton" class="orange-button" type="button" style="margin-top: 10px">Generate terminal strings</button>
+
+					<div style="margin-top: 15px">
+						<label class="switch" style="margin-right: 10px; vertical-align: middle">
+							<input type="checkbox" id="gen-strings-switch" value="">
+							<span class="slider round"></span>
+						</label>
+						<p id="strings-switch-text" style="font-size: 15; vertical-align: middle; display: inline">Show generated terminal strings</p>
+					</div>
+
+					<div id="genStringsArea" style="display: none">
+						<br>
+						<div id="genStringsBox"></div>
+					</div>
+				</fieldset>
 
 				<fieldset id="syntax-parameters" class="open">
 					<legend><h2>Syntax parameters <span class="arrow"></h2></legend>
