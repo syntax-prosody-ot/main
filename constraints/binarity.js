@@ -156,7 +156,6 @@ function binMax_minLeaves(s, ptree, c){
 	var vcount = 0;
 	if(ptree.children && ptree.children.length){
 		var leafCat = pCat.nextLower(c);
-		console.log(leafCat);
 		var wDesc = getDescendentsOfCat(ptree, leafCat);
 		// console.log("there are " + wDesc.length + " " + "ws");
 		if(ptree.cat === c && ptree.isMin){
