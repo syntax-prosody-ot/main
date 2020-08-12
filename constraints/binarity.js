@@ -150,8 +150,28 @@ function binMaxLeaves(s, ptree, c){
 * BinMax(phi-min)
 * Violated if a minimal phi contains more than 2 minimal words --> leaf-counting
 */
-function binMaxLeavesMin(s, ptree, c){
-	
+function binMaxPhiMin(s, ptree, c){
+	markMinMax(ptree);
+	var vcount = 0;
+	if(ptree.children && ptree.children.length){
+		var wDesc = getDescendentsOfCat(ptree, 'w');
+		// console.log("there are " + wDesc.length + " " + "ws");
+		if(ptree.cat === c && ptree.isMin){
+			var count = 0;
+			for(var i=0; i < wDesc.length; i++) {
+				if(wDesc[i].isMin) {
+					count++;
+				}
+			}
+			if(count > 2) {
+				vcount++;
+			}
+		}
+		for(var i = 0; i < ptree.children.length; i++){
+			vcount += binMaxPhiMin(s, ptree.children[i], c);
+		}
+	}
+	return vcount;
 }
 
 /* Gradiant BinMax (Leaves)
