@@ -1,5 +1,42 @@
 /* Built-in Analyses */
 
+function clearInputs(){
+  let inputOptions = spotForm['autoInputOptions'];
+  //document.getElementById('inputOptions');
+
+  spotForm['autoInputOptions-rootCategory'].value = 'xp';
+  spotForm['autoInputOptions-recursiveCategory'].value = 'xp';
+  spotForm['autoInputOptions-terminalCategory'].value = 'x0';
+
+  for(let i = 0; i<inputOptions.length; i++){
+    if(inputOptions[i].checked){
+      inputOptions[i].click();
+    }
+  }
+
+  spotForm['head-req'].value = 'select';
+
+  if(spotForm['autoInputOptions-addClitics'].checked){
+    spotForm['autoInputOptions-addClitics'].click();
+  }
+
+  let inputStrings = spotForm['inputToGenAuto'];
+
+  if(inputStrings.length){
+    for(let i = 0; i<inputStrings.length; i++){
+      inputStrings[i].value = ''
+      if(i>0){
+        inputStrings[i].parentElement.remove();
+      }
+    }
+  }
+  else{
+    inputStrings.value = ''
+  }
+
+  changeInputTabs('inputButton', 'goButton');
+}
+
 /*function to clear out any previous interaction with the interface, either from
  * the user or from another built-in alalysis. */
 function clearAnalysis(){
@@ -60,6 +97,9 @@ function clearAnalysis(){
   }
   window.clearUTrees();
   document.getElementById("stree-textarea").value = '{}';
+
+  clearInputs();
+
 }
 
 /* Function to check all of the boxes for a built-in constaint set in the UI
@@ -177,7 +217,7 @@ function built_in_input(myTrees){
     //document.getElementById("stree-textarea").value = JSON.stringify(myTrees);
   
   }
-  else{
+  else if (Object.keys(myTrees).length){
     //First make sure we are in auto mode and open syntax options
     changeInputTabs('goButton', 'inputButton');
     document.getElementById('syntax-parameters').setAttribute('class', 'open');
