@@ -151,6 +151,7 @@ function binMaxLeaves(s, ptree, c){
 * Violated if a minimal phi contains more than 2 minimal words --> leaf-counting
 */
 function binMaxPhiMin(s, ptree, c){
+	// c = phi
 	markMinMax(ptree);
 	var vcount = 0;
 	if(ptree.children && ptree.children.length){
