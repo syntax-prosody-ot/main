@@ -851,7 +851,7 @@ window.addEventListener('load', function(){
 			}
 
 			if(inputList !== "") {
-				inputList = inputList.replace(/\s+/g,'').split(',');
+				inputList = inputList.trim().split(' ');
 				var currGenStringsList = generateTerminalStrings(inputList, min, max)
 				displayStringsTable(currGenStringsList);
 
