@@ -551,9 +551,9 @@
 					</span>
 				</span>
 			</h2>
-			<p style="margin-bottom: 0"><button id="inputButton" type="button" class="tab-button" style="background-color: white; border-color: #3A5370">Automatic</button><button id="goButton" type="button" class="tab-button">Manual</button></p>
+			<p style="margin-bottom: 0"><button id="inputButton" type="button" class="tab-button">Automatic</button><button id="goButton" type="button" class="tab-button" style="background-color: white; border-color: #3A5370">Manual</button></p>
 						<hr style="margin-block-start: 0; margin-block-start: 0; color: #3A5370; border-style: solid">
-            <div id="treeUI" style="display: none">
+            <div id="treeUI" style="display: block">
 							<p>String of terminals: <input type="text" name="inputToGen"><button id="buildButton" type="button">Build syntax</button></p>
 								<div class="constraint-row">
 									<span><input type="checkbox" name="genOptions" id="trimTrees">Trim Syntactic tree</span>
@@ -605,7 +605,7 @@
 			</div>
 
 			<!-- automatically generate syntax -->
-			<div id="inputOptions" style="display: block">
+			<div id="inputOptions" style="display: none">
 
 				<fieldset id="syntax-parameters">
 					<legend><h2>Syntax parameters <span class="arrow"></h2></legend>
@@ -803,7 +803,7 @@
 
 		<fieldset id="treeDisplayOptions">
 		<legend><h2>Tree display options <span class="arrow"></span></h2></legend>
-		<div class="constraint-row"><input type="checkbox" name="genOptions" value="usesTones" id="annotatedWithTones">annotated with tones</div>
+		<div class="constraint-row"><input type="checkbox" name="genOptions" value="usesTones" id="annotatedWithTones">Annotated with Tones</div>
 		<div class="category-row" style="display: none" id="tonesSelectionRow">
 			<div class="category-selection-div" style="width: 180px"><input type="radio" name="toneOptions" value="addJapaneseTones" checked="checked">Japanese <div class="info" onclick="toneInfoBlock('japanese')"></div></div>
 			<div class="category-selection-div" style="width: 180px"><input type="radio" name="toneOptions" value="addIrishTones_Elfner">Irish <div class="info" onclick="toneInfoBlock('irish')"></div></div>
@@ -819,7 +819,14 @@
 		</div>
 
 		<div class="constraint-row">
-			<span><input type="checkbox" name="genOptions" id="showHeads">mark heads</span>
+			<span><input type="checkbox" name="genOptions" id="showHeads">Mark Heads</span>
+			<div class="info">
+				<span class="content">The head of a node is its leftmost/rightmost child of the highest category.</span>
+			</div>
+		</div>
+		<div class="category-row" id='headSideOptions' style='display: none'>
+			<div><input type="radio" name="genOptions-showHeads" value="left">Left-headed</div>
+			<div><input type="radio" name="genOptions-showHeads" value="right" checked>Right-headed (Japanese)</div>
 		</div>
 
 		</fieldset>
