@@ -146,6 +146,36 @@ function binMaxLeaves(s, ptree, c){
 	return vcount;
 }
 
+/*
+* BinMax(phi-min)
+* Violated if a minimal phi contains more than 2 minimal words --> leaf-counting
+*/
+function binMax_minLeaves(s, ptree, c){
+	// c = phi
+	markMinMax(ptree);
+	var vcount = 0;
+	if(ptree.children && ptree.children.length){
+		var leafCat = pCat.nextLower(c);
+		var wDesc = getDescendentsOfCat(ptree, leafCat);
+		// console.log("there are " + wDesc.length + " " + "ws");
+		if(ptree.cat === c && ptree.isMin){
+			var count = 0;
+			for(var i=0; i < wDesc.length; i++) {
+				if(wDesc[i].isMin) {
+					count++;
+				}
+			}
+			if(count > 2) {
+				vcount++;
+			}
+		}
+		for(var i = 0; i < ptree.children.length; i++){
+			vcount += binMax_minLeaves(s, ptree.children[i], c);
+		}
+	}
+	return vcount;
+}
+
 /* Gradiant BinMax (Leaves)
 * I don't know how to define this constraint in prose, but it's binMaxLeaves as
 * a gradient constraint instead of a categorical constraint.
