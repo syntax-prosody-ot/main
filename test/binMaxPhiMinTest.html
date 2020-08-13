@@ -141,7 +141,7 @@ console.log('actual: ', binMax_minLeaves(s, tree4, c))
 
 var cand1 = GEN({}, 'a b c d', {obeysExhaustivity: true});
 var cand2 = GEN({}, 'a b c d', {obeysExhaustivity: true, rootCategory: 'phi', recursiveCategory: 'w', terminalCategory:'w'});
-var con = ['binMax_minLeaves-phi', 'binMaxLeaves-phi'];
+var con = ['binMax_minLeaves-phi','binMax_minLeaves-i', 'binMaxLeaves-phi'];
 
 function runDemo() {
 		writeTableau(makeTableau(cand1, con));
