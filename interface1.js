@@ -759,6 +759,16 @@ window.addEventListener('load', function(){
 		document.getElementById('autoDoneMessage').style.display = 'none';
 	});
 
+	// check for change in 'string of terminals'
+	document.getElementById('terminalStrings').addEventListener('change', function(){
+		document.getElementById('autoDoneMessage').style.display = 'none';
+	});
+
+	// check for change in 'list of terminals'
+	document.getElementById('listOfTerminals').addEventListener('change', function(){
+		document.getElementById('autoDoneMessage').style.display = 'none';
+	});
+
 	// show/hide syntactic trees
 	document.getElementById('syntax-tree-switch').addEventListener('click', function(){
 		if (document.getElementById('autoTreeArea').style.display === 'none' && document.getElementById('syntax-tree-switch').checked){
@@ -805,6 +815,7 @@ window.addEventListener('load', function(){
 		length = length.toString();
 		newLength = newLength.toString();
 		document.getElementById('list'+length).insertAdjacentHTML('afterend', "<div id='list"+newLength+"'>List of terminals "+newLength+": <input type='text' name='genStringsInput'><p>Number of terminals in generated strings:</p><p class='genStringsNum'>Min: <input type='text' name='genStringsMin' class='genStringsNumBox' style='margin-left: 4px'></p><p class='genStringsNum'>Max: <input type='text' name='genStringsMax' class='genStringsNumBox'></p></div>");
+		document.getElementById('autoDoneMessage').style.display = 'none';
 	});
 
 	// show/hide generated terminal strings
