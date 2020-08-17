@@ -1018,7 +1018,15 @@ window.addEventListener('load', function(){
 		if(document.getElementsByName('autoInputOptions-recursiveCategory')[2].checked == true) {
 			// console.log("xo checked")
 			var x = document.getElementsByName("autoInputOptions")[noBarLevelsIndex];
+			if(x.checked === true) {
+				x.checked = false;
+			}
 			x.disabled = true;
+			var y = document.getElementById('head-req').options;
+			y[1].disabled = true;
+			y[2].disabled = true;
+			y[3].disabled = true;
+			y[4].disabled = true;
 		}
 	});
 
@@ -1027,6 +1035,17 @@ window.addEventListener('load', function(){
 			// console.log("cp checked")
 			var x = document.getElementsByName("autoInputOptions")[noBarLevelsIndex];
 			x.disabled = false;
+			var y = document.getElementById('head-req').options;
+			y[1].disabled = false;
+			y[2].disabled = false;
+			if(x.checked) {
+				y[3].disabled = false;
+				y[4].disabled = false;
+			}
+			else {
+				y[3].disabled = true;
+				y[4].disabled = true;
+			}
 		}
 	});
 
@@ -1035,6 +1054,17 @@ window.addEventListener('load', function(){
 			// console.log("xp checked")
 			var x = document.getElementsByName("autoInputOptions")[noBarLevelsIndex];
 			x.disabled = false;
+			var y = document.getElementById('head-req').options;
+			y[1].disabled = false;
+			y[2].disabled = false;
+			if(x.checked) {
+				y[3].disabled = false;
+				y[4].disabled = false;
+			}
+			else {
+				y[3].disabled = true;
+				y[4].disabled = true;
+			}
 		}
 	});
 
@@ -1042,6 +1072,10 @@ window.addEventListener('load', function(){
 		var x = document.getElementsByName("autoInputOptions")[noBarLevelsIndex];
 		if(x.checked === true) {
 			var y = document.getElementById('head-req').options;
+			// Heads must be perfectly left-aligned
+			y[1].disabled = false;
+			// Heads must be perfectly right-aligned
+			y[2].disabled = false;
 			// Heads must be on the left edge
 			y[3].disabled = false;
 			// Heads must be on the right edge
@@ -1049,9 +1083,9 @@ window.addEventListener('load', function(){
 		}
 		else {
 			var y = document.getElementById('head-req').options;
-			// Heads must be on the left edge
+			y[1].disabled = false;
+			y[2].disabled = false;
 			y[3].disabled = true;
-			// Heads must be on the right edge
 			y[4].disabled = true;
 		}
 	});
