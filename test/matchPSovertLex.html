@@ -18,11 +18,13 @@
     			"children": [
         		{
             	"cat": "xp",
-            	"id": "B",
+				"id": "B",
+				"func": true,
             	"children": [
                 {
                     "cat": "xp",
-                    "id": "C",
+					"id": "C",
+					"silentHead": true,
                     "children": [
                         {
                             "id": "first",
@@ -34,24 +36,32 @@
       			},
         		{
             	"cat": "xp",
-            	"id": "D",
+				"id": "D",
+				"silentHead": true,
             	"children": [
                 {
                     "id": "second",
                     "cat": "x0"
                 }
             	]
-        		},
+				},
+				{
+				"cat": "xp",
+				"id": 'whatever',
+				"func": true,
+				"children": [
 						{
 							"cat": "x0",
 							"id": "third",
 						}
+					]
+				}
     			]
 				}
 
 				var theCandidates = GEN(sTree, 'first second third', {"obeysExhaustivity":false});
 
-				var con = ['matchPS-phi', 'matchCustomPS-phi-{"requireLexical": true}', 'matchCustomPS-phi-{"requireOvertlyHeaded": true}', 'matchCustomPS-phi-{"requireLexical": true, "requireOvertlyHeaded": true}', 'matchMaxPS-phi'];
+				var con = ['matchPS-phi', 'matchCustomPS-phi-{"requireLexical": true}', 'matchCustomPS-phi-{"requireOvertHead": true}', 'matchCustomPS-phi-{"requireLexical": true, "requireOvertHead": true}', 'matchMaxPS-phi'];
 				window.addEventListener("load",function(){
 					writeTableau(makeTableau(theCandidates, con));
 					revealNextSegment();
