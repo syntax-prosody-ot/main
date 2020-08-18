@@ -49,8 +49,8 @@ function sTreeGEN(terminalString, options)
       }
     }
     if(options.addClitics){
-        var outsideClitics = sTreeList.map(x => addCliticXP(x, options.addClitics));
-        var insideClitics = sTreeList.map(x => addCliticXP(x, options.addClitics, true));
+        var outsideClitics = sTreeList.map(x => addCliticXP(x, options.addClitics, options.rootCategory));
+        var insideClitics = sTreeList.map(x => addCliticXP(x, options.addClitics, options.rootCategory, true));
         sTreeList = outsideClitics.concat(insideClitics);
     }
     if(options.noAdjacentHeads){
@@ -80,7 +80,7 @@ function sTreeGEN(terminalString, options)
     return sTreeList;
 }
 
-function addCliticXP(sTree, side="right", inside){
+function addCliticXP(sTree, side="right", rootCategory, inside){
     var cliticXP = {id:'dp', cat: 'xp', children: [{id:'x', cat: 'clitic'}]};
     var tp;
     var sisters;
@@ -123,7 +123,7 @@ function addCliticXP(sTree, side="right", inside){
         displayError(err.message, err);
       }
     }
-    tp = {id: 'root', cat: 'xp', children: sisters};
+    tp = {id: 'root', cat: rootCategory, children: sisters};
     return tp;
 }
 
