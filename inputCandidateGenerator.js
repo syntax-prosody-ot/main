@@ -32,11 +32,18 @@ function sTreeGEN(terminalString, options)
     if(options.noAdjacentHeads === undefined){
         options.noAdjacentHeads = true;
     }
-    options.maxBranching = options.maxBranching || 2;
+    
     options.syntactic = true;
     options.recursiveCategory = options.recursiveCategory || 'xp';
     options.terminalCategory = options.terminalCategory || 'x0';
     options.rootCategory = options.rootCategory || 'xp';
+    
+    // If bar levels are not treated as phrasal, then we need to allow ternary XPs and CPs, but not ternary x0s.
+    if(options.recursiveCategory !== 'x0'){
+      options.maxBranching = 3;
+    }
+    //Otherwise, we want binary branching syntactic inputs.
+    options.maxBranching = options.maxBranching || 2;
 
     //Run GEN on the provided terminal string
     var autoSTreePairs = GEN({}, terminalString, options);
@@ -44,14 +51,6 @@ function sTreeGEN(terminalString, options)
     var sTreeList = autoSTreePairs.map(x=>x[1]);
 
     //---Apply filters---
-    // If bar levels are not treated as phrasal, then we need to allow ternary XPs and CPs.
-    if(options.noBarLevels){
-      if(recursiveCategory ==! 'x0'){
-        options.maxBranching = 3;
-      }
-      sTreeList = sTreeList.filter(x => !threeXPs(x));
-    }
-
     if(options.allowClitic){
       var cliticTrees = getCliticTrees(terminalString, options);
       if(cliticTrees) {
@@ -68,6 +67,9 @@ function sTreeGEN(terminalString, options)
     }
     if(options.noAdjuncts){
         sTreeList = sTreeList.filter(x => !containsAdjunct(x));
+    }
+    if(options.noBarLevels){
+      sTreeList = sTreeList.filter(x => !threeXPs(x));
     }
     if(options.maxBranching > 0){
         sTreeList = sTreeList.filter(x=>!ternaryNodes(x, options.maxBranching));
