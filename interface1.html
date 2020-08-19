@@ -645,21 +645,15 @@
 							<span>Head requirements:
 								<select name="head-req" id="head-req">
 									<option value="select">Heads can be anywhere</option>
-									<option value="left-strict">Heads must be perfectly left-aligned</option>
-									<option value="right-strict">Heads must be perfectly right-aligned</option>
-									<option value="left" disabled>Heads must be on the left edge</option>
-									<option value="right" disabled>Heads must be on the right edge</option>
+									<option value="left-strict">Heads must be at the left edge of an XP</option>
+									<option value="right-strict">Heads must be at the right edge of an XP</option>
+									<option value="left" disabled>Heads cannot be on the right edge of an XP</option>
+									<option value="right" disabled>Heads cannot be on the left edge of an XP</option>
 								</select>
 							</span>
 							<div class="info">
 								<span class="content">
-									To require all X0s to be at the very left edge of their XP, select "Heads must be
-									perfectly left-aligned." This will admit [a [b]] and [[a][b]] but not [[a]b[c]] or
-									[[a]b]. To admit [[a]b[c]] while still excluding [[a]b], select "Heads must be
-									left-aligned." To require all X0s be at the very right edge of their XP, select
-									"Heads must be perfectly right-aligned." This will admit [[a]b] and [[a][b]], but
-									not [[a]b[c]] or [a[b]]. To admit [[a]b[c]] while still excluding [a[b]], select
-									"Heads must be right-aligned."
+									By default, trees are maximally binary-branching, and there is no distinction between “Heads must be at the left edge of an XP” and “Heads cannot be on the right edge of the XP.” This distinction is only relevant when ternary-branching structures are considered, which occurs when intermediate projections are not treated as phrasal (see: Visibility to Phonology). To require all X0s to be at the very left edge of their XP (specifiers and complements are both on the right), select "Heads must be at the left edge of an XP." This will admit [a [b]] and [[a][b]] but not [[a]b[c]] or [[a]b]. To admit [[a]b[c]] while still excluding [[a]b], select "Heads cannot be on the right edge of an XP." To require all X0s be at the very right edge of their XP, select "Heads must be at the right edge of an XP." This will admit [[a]b] and [[a][b]], but not [[a]b[c]] or [a[b]]. To admit [[a]b[c]] while still excluding [a[b]], select "Heads cannot be on the left edge of an XP."
 								</span>
 							</div>
 						</div>
