@@ -14,6 +14,8 @@
 *    the resulting syntactic trees. Default = 2
 *  - minBranching: determines the maximum number of branches that are tolerated in
 *    the resulting syntactic trees. Default = 2
+*  - noBarLevels: if false (default), bar levels are treated as phrasal. 
+*    If true, bar levels are not represented, and ternary branching is permitted.
 *  - addClitics: 'right' or 'left' determines whether clitics are added on the
 *    righthand-side or the left; true will default to right. false doesn't add any clitics.
 *    Default false.
@@ -41,7 +43,15 @@ function sTreeGEN(terminalString, options)
     //Select just the generated trees
     var sTreeList = autoSTreePairs.map(x=>x[1]);
 
-    //Apply filters
+    //---Apply filters---
+    // If bar levels are not treated as phrasal, then we need to allow ternary XPs and CPs.
+    if(options.noBarLevels){
+      if(recursiveCategory ==! 'x0'){
+        options.maxBranching = 3;
+      }
+      sTreeList = sTreeList.filter(x => !threeXPs(x));
+    }
+
     if(options.allowClitic){
       var cliticTrees = getCliticTrees(terminalString, options);
       if(cliticTrees) {
@@ -72,9 +82,6 @@ function sTreeGEN(terminalString, options)
     }
     if(options.noMirrorImages){
       sTreeList = sTreeList.filter(x => !mirrorImages(x, sTreeList));
-    }
-    if(!options.noBarLevels){
-      sTreeList = sTreeList.filter(x => !threeXPs(x));
     }
     // console.log(sTree)
     return sTreeList;
