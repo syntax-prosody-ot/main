@@ -354,11 +354,14 @@ window.addEventListener('load', function(){
 						var categoryBox = constraintCatSet[j];
 						if(categoryBox.checked){
 							var category = categoryBox.value;
-							if(constraint === "alignLeftMorpheme") {
+							if(constraint === "alignLeftMorpheme" || constraint === 'alignRightMorpheme') {
 								category = category.split(' ').join(';');
 							}
+							if(constraint === "binMaxHead") {
+								constraintSet.push('binMaxHead-' + category + '-{"side" : "' + spotForm['genOptions-showHeads'].value + '"}')
+							}
 							//Figure out selected match options for the constraint
-							if(spotForm['option-'+constraint]){
+							else if(spotForm['option-'+constraint]){
 								var constraintOptionSet = spotForm['option-'+constraint];
 								var options = {};
 								if(constraintOptionSet.length){
@@ -485,7 +488,7 @@ window.addEventListener('load', function(){
 			tableauOptions.trimStree = true;
 		}
 		if(document.getElementById("showHeads").checked){
-			tableauOptions.showHeads= true;
+			tableauOptions.showHeads = spotForm['genOptions-showHeads'].value;
 		}
 
 
@@ -603,6 +606,15 @@ window.addEventListener('load', function(){
 
 	});
 
+	document.getElementById('showHeads').addEventListener('click', function(){
+		if (document.getElementById('headSideOptions').style.display === 'none' && document.getElementById('showHeads').checked){
+			document.getElementById('headSideOptions').style.display = '';
+		}
+		else{
+			document.getElementById('headSideOptions').style.display = 'none';
+		}
+	});
+
 	/*
 	document.getElementById("japaneseTonesInfo").addEventListener("click", toneInfoBlock("japanese"));
 	document.getElementById("irishTonesInfo").addEventListener("click", toneInfoBlock("irish"));
@@ -690,8 +702,8 @@ window.addEventListener('load', function(){
 			var autoInputOptions = {};
 			var optionBox = spotForm.autoInputOptions;
 			for(var j = 0; j < optionBox.length; j++) {
-				if(optionBox[j].value == "noAdjuncts") {
-					autoInputOptions[optionBox[j].value]=!optionBox[j].checked;
+				if(optionBox[j].value == "noAdjuncts" || optionBox[j].value == "noBarLevels") {
+					autoInputOptions[optionBox[j].value] =! optionBox[j].checked;
 				}
 				else {
 					autoInputOptions[optionBox[j].value]=optionBox[j].checked;
@@ -723,9 +735,6 @@ window.addEventListener('load', function(){
 				autoInputOptions.noAdjacentHeads = false;
 			}
 
-			if(autoInputOptions.noBarLevels) {
-				autoInputOptions.maxBranching = 3;
-			}
 			// console.log(autoInputOptions)
 
 			if(inputString !== "") {
@@ -761,6 +770,14 @@ window.addEventListener('load', function(){
 
 	// check for change in syntax parameters
 	document.getElementById('syntax-parameters').addEventListener('change', function(){
+		document.getElementById('autoDoneMessage').style.display = 'none';
+	});
+	// check for change in syntax parameters
+	document.getElementById('syntax-parameters-clitics').addEventListener('change', function(){
+		document.getElementById('autoDoneMessage').style.display = 'none';
+	});
+	// check for change in syntax parameters
+	document.getElementById('syntax-parameters-phonology').addEventListener('change', function(){
 		document.getElementById('autoDoneMessage').style.display = 'none';
 	});
 
@@ -980,7 +997,7 @@ window.addEventListener('load', function(){
 
 	document.getElementById("clearAllButton").addEventListener("click", function(){
 		clearAnalysis();
-		document.getElementById('treeUI').style.display = 'none';
+		document.getElementById('treeUIinner').style.display = 'none';
 		document.getElementById('built-in-dropdown').value = 'select';
 		document.getElementById('fileUpload').value = '';
 		document.getElementById('chooseFilePrompt').style = "font-size: 13px; color: #555";
@@ -993,6 +1010,7 @@ window.addEventListener('load', function(){
 	});
 
 	var x = document.getElementsByName("autoInputOptions");
+	console.log(x);
 	var i;
 	var noBarLevelsIndex;
 	for (i = 0; i < x.length; i++) {
@@ -1006,7 +1024,15 @@ window.addEventListener('load', function(){
 		if(document.getElementsByName('autoInputOptions-recursiveCategory')[2].checked == true) {
 			// console.log("xo checked")
 			var x = document.getElementsByName("autoInputOptions")[noBarLevelsIndex];
+			if(x.checked === true) {
+				x.checked = false;
+			}
 			x.disabled = true;
+			var y = document.getElementById('head-req').options;
+			y[1].disabled = true;
+			y[2].disabled = true;
+			y[3].disabled = true;
+			y[4].disabled = true;
 		}
 	});
 
@@ -1015,6 +1041,17 @@ window.addEventListener('load', function(){
 			// console.log("cp checked")
 			var x = document.getElementsByName("autoInputOptions")[noBarLevelsIndex];
 			x.disabled = false;
+			var y = document.getElementById('head-req').options;
+			y[1].disabled = false;
+			y[2].disabled = false;
+			if(x.checked) {
+				y[3].disabled = false;
+				y[4].disabled = false;
+			}
+			else {
+				y[3].disabled = true;
+				y[4].disabled = true;
+			}
 		}
 	});
 
@@ -1023,13 +1060,28 @@ window.addEventListener('load', function(){
 			// console.log("xp checked")
 			var x = document.getElementsByName("autoInputOptions")[noBarLevelsIndex];
 			x.disabled = false;
+			var y = document.getElementById('head-req').options;
+			y[1].disabled = false;
+			y[2].disabled = false;
+			if(x.checked) {
+				y[3].disabled = false;
+				y[4].disabled = false;
+			}
+			else {
+				y[3].disabled = true;
+				y[4].disabled = true;
+			}
 		}
 	});
 
 	document.getElementsByName("autoInputOptions")[noBarLevelsIndex].addEventListener('click', function() {
 		var x = document.getElementsByName("autoInputOptions")[noBarLevelsIndex];
-		if(x.checked === true) {
+		if(x.checked === false) {
 			var y = document.getElementById('head-req').options;
+			// Heads must be perfectly left-aligned
+			y[1].disabled = false;
+			// Heads must be perfectly right-aligned
+			y[2].disabled = false;
 			// Heads must be on the left edge
 			y[3].disabled = false;
 			// Heads must be on the right edge
@@ -1037,9 +1089,9 @@ window.addEventListener('load', function(){
 		}
 		else {
 			var y = document.getElementById('head-req').options;
-			// Heads must be on the left edge
+			y[1].disabled = false;
+			y[2].disabled = false;
 			y[3].disabled = true;
-			// Heads must be on the right edge
 			y[4].disabled = true;
 		}
 	});

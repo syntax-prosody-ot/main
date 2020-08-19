@@ -1,0 +1,61 @@
+<!-- Max Tarlov 6/27/2020 testing head marking for Japanese word compounds etc.-->
+<html>
+	<title>Head Marking Test</title>
+	<head>
+		<link rel="stylesheet" type="text/css" href="../spot.css">
+        <script src="../build/spot.js"></script>
+        <script src="../trees/headMarkingTests.js"></script>
+	</head>
+	<body>
+		<pre id="results-container"></pre>
+
+		<script>
+			window.addEventListener("load",function(){
+                writeTableau(makeTableau(GEN({}, "a b c"), ['binMaxHead-phi'], {showHeads: 'right'}));
+                revealNextSegment();
+                writeTableau(makeTableau(GEN({}, "a b c"), [], {showHeads: 'left'}));
+				revealNextSegment();
+            });
+
+            let currentBehavior = GEN({}, "a b c d");
+            for(let x = 0; x < currentBehavior.length; x++){
+                currentBehavior[x][1] = markHeads(currentBehavior[x][1], 'right');
+            }
+            let expected = headMarkingTestTrees
+            for(let y = 0; y < expected.length; y++){
+                console.log(checkIsomorphic(currentBehavior[y][1], expected[y][1]));
+            }
+            function checkIsomorphic(tree1, tree2){
+                if(!nodesIsomorphic(tree1, tree2)){
+                    return false;
+                }
+                else if(tree1.children && tree1.children.length){
+                    for(let x = 0; x < tree1.children.length; x++){
+                        if(!checkIsomorphic(tree1.children[x], tree2.children[x])){
+                            return false;
+                        }
+                    }
+                }
+                return true;
+
+                function nodesIsomorphic(tree1, tree2){
+                    try{
+                        if((tree1.head || tree2.head) && tree1.head !== tree2.head){
+                            return false;
+                        }
+                        if((tree1.children || tree2.children) && tree1.children.length !== tree2.children.length){
+                            return false;
+                        }
+                        if(tree1.cat !== tree2.cat){
+                            return false;
+                        }
+                    }
+                    catch{
+                        return false;
+                    }
+                    return true;
+                }
+            }
+		</script>
+	</body>
+</html>

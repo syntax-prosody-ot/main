@@ -69,7 +69,7 @@ function makeTableau(candidateSet, constraintSet, options){
 
 	for(var i = 1; i <= numCand; i++){
 		var candidate = candidateSet[numCand-i];
-		if(options.showHeads){candidate[1] = markHeadsJapanese(candidate[1]);}
+		if(options.showHeads){candidate[1] = markHeads(candidate[1], options.showHeads);}
 		var ptreeStr = options.inputTypeString ? candidate[1] : parenthesizeTree(globalNameOrDirect(candidate[1]), options);
 		var tableauRow = [ptreeStr];
 		// the last element is the getter function that retrieves the category pairings received from GEN in candidategenerator.js
