@@ -49,7 +49,12 @@ function sTreeGEN(terminalString, options)
       }
     }
     if(options.addClitics){
-        var outsideClitics = sTreeList.map(x => addCliticXP(x, options.addClitics, options.rootCategory));
+        if(options.rootCategory !== 'cp'){
+          var outsideClitics = sTreeList.map(x => addCliticXP(x, options.addClitics, options.rootCategory));
+        }
+        else {
+          var outsideClitics = [];
+        }
         var insideClitics = sTreeList.map(x => addCliticXP(x, options.addClitics, options.rootCategory, true));
         sTreeList = outsideClitics.concat(insideClitics);
     }
