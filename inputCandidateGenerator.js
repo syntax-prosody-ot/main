@@ -37,9 +37,9 @@ function sTreeGEN(terminalString, options)
     options.recursiveCategory = options.recursiveCategory || 'xp';
     options.terminalCategory = options.terminalCategory || 'x0';
     options.rootCategory = options.rootCategory || 'xp';
-    
+
     // If bar levels are not treated as phrasal, then we need to allow ternary XPs and CPs, but not ternary x0s.
-    if(options.recursiveCategory !== 'x0'){
+    if(options.noBarLevels && options.recursiveCategory !== 'x0'){
       options.maxBranching = 3;
     }
     //Otherwise, we want binary branching syntactic inputs.
