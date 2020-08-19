@@ -57,6 +57,9 @@ function sTreeGEN(terminalString, options)
         sTreeList = sTreeList.concat(cliticTrees);
       }
     }
+    if(options.noAdjuncts){
+        sTreeList = sTreeList.filter(x => !containsAdjunct(x));
+    }
     if(options.addClitics){
         var outsideClitics = sTreeList.map(x => addCliticXP(x, options.addClitics));
         var insideClitics = sTreeList.map(x => addCliticXP(x, options.addClitics, true));
@@ -65,18 +68,18 @@ function sTreeGEN(terminalString, options)
     if(options.noAdjacentHeads){
         sTreeList = sTreeList.filter(x => !x0Sisters(x, 'x0'));
     }
-    if(options.noAdjuncts){
-        sTreeList = sTreeList.filter(x => !containsAdjunct(x));
-    }
-    if(options.noBarLevels){
-      sTreeList = sTreeList.filter(x => !threeXPs(x));
-    }
+
     if(options.maxBranching > 0){
         sTreeList = sTreeList.filter(x=>!ternaryNodes(x, options.maxBranching));
     }
     if(options.minBranching > 0){
         sTreeList = sTreeList.filter(x=>!unaryNodes(x, options.minBranching));
     }
+  
+    if(options.noBarLevels){
+      sTreeList = sTreeList.filter(x => !threeXPs(x));
+    }
+  
     if(options.headSide){
         var side, strict;
         [side, strict] = options.headSide.split('-');
