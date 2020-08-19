@@ -690,8 +690,8 @@ window.addEventListener('load', function(){
 			var autoInputOptions = {};
 			var optionBox = spotForm.autoInputOptions;
 			for(var j = 0; j < optionBox.length; j++) {
-				if(optionBox[j].value == "noAdjuncts") {
-					autoInputOptions[optionBox[j].value]=!optionBox[j].checked;
+				if(optionBox[j].value == "noAdjuncts" || optionBox[j].value == "noBarLevels") {
+					autoInputOptions[optionBox[j].value] =! optionBox[j].checked;
 				}
 				else {
 					autoInputOptions[optionBox[j].value]=optionBox[j].checked;
@@ -723,9 +723,6 @@ window.addEventListener('load', function(){
 				autoInputOptions.noAdjacentHeads = false;
 			}
 
-			if(!autoInputOptions.noBarLevels) {
-				autoInputOptions.maxBranching = 3;
-			}
 			// console.log(autoInputOptions)
 
 			if(inputString !== "") {
