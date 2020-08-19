@@ -702,8 +702,8 @@ window.addEventListener('load', function(){
 			var autoInputOptions = {};
 			var optionBox = spotForm.autoInputOptions;
 			for(var j = 0; j < optionBox.length; j++) {
-				if(optionBox[j].value == "noAdjuncts") {
-					autoInputOptions[optionBox[j].value]=!optionBox[j].checked;
+				if(optionBox[j].value == "noAdjuncts" || optionBox[j].value == "noBarLevels") {
+					autoInputOptions[optionBox[j].value] =! optionBox[j].checked;
 				}
 				else {
 					autoInputOptions[optionBox[j].value]=optionBox[j].checked;
@@ -735,9 +735,6 @@ window.addEventListener('load', function(){
 				autoInputOptions.noAdjacentHeads = false;
 			}
 
-			if(autoInputOptions.noBarLevels) {
-				autoInputOptions.maxBranching = 3;
-			}
 			// console.log(autoInputOptions)
 
 			if(inputString !== "") {
@@ -773,6 +770,14 @@ window.addEventListener('load', function(){
 
 	// check for change in syntax parameters
 	document.getElementById('syntax-parameters').addEventListener('change', function(){
+		document.getElementById('autoDoneMessage').style.display = 'none';
+	});
+	// check for change in syntax parameters
+	document.getElementById('syntax-parameters-clitics').addEventListener('change', function(){
+		document.getElementById('autoDoneMessage').style.display = 'none';
+	});
+	// check for change in syntax parameters
+	document.getElementById('syntax-parameters-phonology').addEventListener('change', function(){
 		document.getElementById('autoDoneMessage').style.display = 'none';
 	});
 
@@ -1005,6 +1010,7 @@ window.addEventListener('load', function(){
 	});
 
 	var x = document.getElementsByName("autoInputOptions");
+	console.log(x);
 	var i;
 	var noBarLevelsIndex;
 	for (i = 0; i < x.length; i++) {
@@ -1040,7 +1046,7 @@ window.addEventListener('load', function(){
 
 	document.getElementsByName("autoInputOptions")[noBarLevelsIndex].addEventListener('click', function() {
 		var x = document.getElementsByName("autoInputOptions")[noBarLevelsIndex];
-		if(x.checked === true) {
+		if(x.checked === false) {
 			var y = document.getElementById('head-req').options;
 			// Heads must be on the left edge
 			y[3].disabled = false;
