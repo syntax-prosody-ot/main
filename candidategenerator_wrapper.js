@@ -71,18 +71,19 @@ window.GEN = function(sTree, words, options){
 		options.terminalCategory = options.terminalCategory|| categoryHierarchy.nextLower(options.recursiveCategory);
 	}
 	finally{
+		var novelCatWarning = " is not in SPOT's currently selected prosodic hierarchy. See PH_PHI and PH_MAJMIN in prosodicHierarchy.js for some predefined prosodic hierarchies.";
 		if(options.rootCategory && categoryHierarchy.indexOf(options.rootCategory)<0){
-			displayWarning(options.rootCategory+" is not in SPOT's pre-defined prosodic hierarchy (see pCat and sCat in prosodicHierarch.js)");
+			displayWarning(options.rootCategory+novelCatWarning);
 			novelCategories = true;
 			//throw new Error(options.rootCategory+" is not in SPOT's pre-defined prosodic hierarchy (see pCat in prosodicHierarch.js)");
 		}
 		if(categoryHierarchy.indexOf(options.recursiveCategory)<0){
-			displayWarning(options.recursiveCategory+" is not in SPOT's pre-defined prosodic hierarchy (see pCat and sCat in prosodicHierarch.js)");
+			displayWarning(options.recursiveCategory+novelCatWarning);
 			novelCategories = true;
 			//throw new Error(options.recursiveCategory+" is not in SPOT's pre-defined prosodic hierarchy (see pCat in prosodicHierarch.js)");
 		}
 		if(options.terminalCategory && categoryHierarchy.indexOf(options.terminalCategory)<0){
-			displayWarning(options.terminalCategory+" is not in SPOT's pre-defined prosodic hierarchy (see pCat and sCat in prosodicHierarch.js)");
+			displayWarning(options.terminalCategory+novelCatWarning);
 			novelCategories = true;
 			//throw new Error(options.terminalCategory+" is not in SPOT's pre-defined prosodic hierarchy (see pCat in prosodicHierarch.js)");
 		}
