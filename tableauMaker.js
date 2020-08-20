@@ -75,9 +75,12 @@ function makeTableau(candidateSet, constraintSet, options){
 		// the last element is the getter function that retrieves the category pairings received from GEN in candidategenerator.js
 		for(var j = 0; j < constraintSet.length; j++){
 			var [constraint, cat, conOptions] = constraintSet[j].split('-');
-			// check if the category argument is in pCat
-			if(!pCat.includes(cat)){
-				displayWarning("category argument " + cat + " is not in pCat.");
+			// check if the category argument is in pCat or sCat
+			if(!pCat.includes(cat) && !sCat.includes(cat)){
+				console.log(pCat);
+				var errorMsg = "Category argument " + cat + " is not in pCat. See console for current pCat specification.";
+				displayError(errorMsg);
+				throw new Error(errorMsg);
 			}
 			if(!conOptions){
 				conOptions = "{}";
@@ -152,26 +155,4 @@ function tableauToHtml(tableau) {
 	}
 	htmlChunks.push('</tbody></table>');
 	return htmlChunks.join('');
-}
-// check that every prosodic category in cateogry pairings is in pCat
-function checkProsodicHierarchy(pCat, categoryPairings){
-	ret = true;
-	for (category in categoryPairings){
-		// check if category maps to multiple pairings 
-		if (Array.isArray(categoryPairings[category])){
-			console.log(categoryPairings[category]);
-			for (pairing in categoryPairings[category]){
-				if (!pCat.includes(categoryPairings[category][pairing])){
-					console.log(categoryPairings[category][pairing]);
-					displayWarning("" + categoryPairings[category][pairing] + " from categoryPairings is not in pCat!");
-					ret = false;	
-				}
-			}
-		}
-		else if(!pCat.includes(categoryPairings[category])){
-			displayWarning("" + categoryPairings[category] + " from categoryPairings is not in pCat!");
-			ret = false;
-		}
-	}
-	return ret;
 }
