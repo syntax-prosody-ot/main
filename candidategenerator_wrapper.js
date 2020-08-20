@@ -19,23 +19,11 @@
 */
 window.GEN = function(sTree, words, options){
 	options = options || {}; // if options is undefined, set it to an empty object (so you can query its properties without crashing things)
-	// create the ph object if none was passed and set it the default PH object
-	if (!options.ph){
-		options.ph = PH_PHI;
-	}
-	// set default pCat if none exists
-	if (!options.ph.pCat){
-		options.ph.pCat = ["u", "i", "phi", "w", "Ft", "syll"];
-	}
-	// set default category pairings value if none exists
-	if (!options.ph.categoryPairings){
-		options.ph.categoryPairings = {
-			"clause": "i",
-			"cp": "i",
-			"xp": "phi",
-			"x0": "w"
-		};
 
+	// Create the ph object if none was passed or what was passed was incomplete, and set it the default PH object, defined in prosodicHierarchy.js
+	if (!(options.ph && options.ph.pCat && options.ph.categoryPairings)){
+		options.ph = PH_PHI;
+		console.log("The prosodic hierarchy input to GEN was missing or incomplete, so ph has been set by default to PH_PHI, defined in prosodicHierarchy.js");
 	}
 	
 	setPCat(options.ph.pCat);
@@ -71,21 +59,23 @@ window.GEN = function(sTree, words, options){
 		options.terminalCategory = options.terminalCategory|| categoryHierarchy.nextLower(options.recursiveCategory);
 	}
 	finally{
-		var novelCatWarning = " is not in SPOT's currently selected prosodic hierarchy. See PH_PHI and PH_MAJMIN in prosodicHierarchy.js for some predefined prosodic hierarchies.";
+		var pCatText = JSON.stringify(pCat);
+		var novelCatWarning = " is not in SPOT's currently selected prosodic hierarchy. See PH_PHI and PH_MAJMIN in prosodicHierarchy.js for some predefined prosodic hierarchies. \nThe current prosodic hierarchy is: "+pCatText;
 		if(options.rootCategory && categoryHierarchy.indexOf(options.rootCategory)<0){
-			displayWarning(options.rootCategory+novelCatWarning);
+			displayError(options.rootCategory+novelCatWarning);
 			novelCategories = true;
-			//throw new Error(options.rootCategory+" is not in SPOT's pre-defined prosodic hierarchy (see pCat in prosodicHierarch.js)");
+			console.log("Current prosodic hierarchy: ", pCat);
+			throw new Error(options.rootCategory+novelCatWarning);
 		}
 		if(categoryHierarchy.indexOf(options.recursiveCategory)<0){
-			displayWarning(options.recursiveCategory+novelCatWarning);
+			displayError(options.recursiveCategory+novelCatWarning);
 			novelCategories = true;
-			//throw new Error(options.recursiveCategory+" is not in SPOT's pre-defined prosodic hierarchy (see pCat in prosodicHierarch.js)");
+			throw new Error(options.recursiveCategory+novelCatWarning);
 		}
 		if(options.terminalCategory && categoryHierarchy.indexOf(options.terminalCategory)<0){
-			displayWarning(options.terminalCategory+novelCatWarning);
+			displayError(options.terminalCategory+novelCatWarning);
 			novelCategories = true;
-			//throw new Error(options.terminalCategory+" is not in SPOT's pre-defined prosodic hierarchy (see pCat in prosodicHierarch.js)");
+			throw new Error(options.terminalCategory+novelCatWarning);
 		}
 	}
 
