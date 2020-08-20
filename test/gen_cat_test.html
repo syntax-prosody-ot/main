@@ -28,71 +28,75 @@
 	/*A list of names for constraint sets.*/
 	var conNames = ['MatchSPMatchPS'];
 	
-	var customPCatList = ['i', 'MaP', 'MiP', 'w'];
-	var customPairings = {
-		"clause": "i",
-		"cp": "i",
-		"xp": ["MaP", "MiP"],
-		"x0": "w"
-	};
-	var customPairingsMissing = {
-		"clause": "i",
-		"cp": "i", 
-		"xp":"phi",
-		"x0":"w"
-	};
-
-	var ph = {pCat: customPCatList, categoryPairings: customPairings};	
-	var phMissing = {pCat: customPCatList, categoryPairings: customPairingsMissing} 
 	//Candidate sets are generated with the options below.
     	
-	
-	var i_phi_w = {rootCategory:'i', recursiveCategory:'phi', terminalCategory: 'w', ph:ph};
-	var phi_phi_w = {rootCategory:'phi', recursiveCategory:'phi', terminalCategory: 'w', ph:phMissing};
-	var phi_w_w = {rootCategory:'phi', recursiveCategory:'w', terminalCategory: 'w'};
-	var w_w_w = {rootCategory:'w', recursiveCategory:'w', terminalCategory: 'w'};
+	//Errors expected from GEN since phi isn't in the specified PH.
+	var i_phi_w = {rootCategory:'i', recursiveCategory:'phi', terminalCategory: 'w', ph:PH_MAJMIN};
 
-	//var majorPhrase = {obeysNonRecursivity: true, obeysExhaustivity: false, rootCategory: 'i', terminalCategory: 'w', recursiveCategory: 'MaP',ph:ph};
-	//var minorPhrase = {obeysNonRecursivity: true, obeysExhaustivity: false, rootCategory: 'i', terminalCategory: 'w', recursiveCategory: 'MiP', ph:ph};
+	//Error expected from checkProsodicHierarchy, called by GEN, since pCat doesn't match categoryPairings.
+	var phi_phi_w = {rootCategory:'phi', recursiveCategory:'phi', terminalCategory: 'w', ph:{pCat: PH_MAJMIN.pCat, categoryPairings: PH_PHI.categoryPairings}};
+
+	//No errors expected?
+	var phi_w_w = {rootCategory:'phi', recursiveCategory:'w', terminalCategory: 'w'};
+
+	//Errors expected since 
+	var majorPhrase = {rootCategory: 'i', terminalCategory: 'w', recursiveCategory: 'MaP',ph:PH_PHI};
+	var minorPhrase = {obeysNonRecursivity: true, rootCategory: 'i', terminalCategory: 'w', recursiveCategory: 'MiP', ph:PH_MAJMIN};
 		 
-	//GEN and constraints DO NOT match
-	// pCat that GEN recieves, categories from constraints
-	// i_phi_w has phi which is not in PHI_MAJMIN, expect category argument phi and xp is not in pCat
-	//pCat and categoryPairings DO NOT match
-	// phi_phi_w will use phMissing, phi is not in pCat
-	// expect phi from categoryPairings is not in pCat
-	//GEN and constraints DO match
-		//use default
-	//pCat and constraints DO match
-		//use default
-	    var myCategoryBrackets = {
-	"i": "{}",
-	"cp": "{}",
-	"xp": "[]",
-	"phi": "()",
-	"x0": ["[x0 ","]"],
-	"w": ["[", "]"],
-	"clitic": ["",""],
-	"syll": ["",""],
-	"Ft": ["", ""],
-	"u": ["{u ", "}"]
-};
-	var output_gen_opt_list = [i_phi_w, phi_phi_w, phi_w_w, w_w_w];
+	var myCategoryBrackets = {
+		"i": "{}",
+		"cp": "{}",
+		"xp": "[]",
+		"phi": "()",
+		"x0": ["[x0 ","]"],
+		"w": ["[", "]"],
+		"clitic": ["",""],
+		"syll": ["",""],
+		"Ft": ["", ""],
+		"u": ["{u ", "}"]
+	};
+	var output_gen_opt_list = [i_phi_w, phi_phi_w, phi_w_w, majorPhrase, minorPhrase];
 
 	
 	// ---- Functions that don't necessarily need to be customized ----
 	
-	/*Function that concatenates a bunch of tableaux for various candidate sets into one large tableau. It does not need to be modified if you are only comparing different constraint sets. But it can be modified to deal with your particular analysis. For example, to consider multiple possible input syntaxes, you can add an outer for-loop to iterate over the different tree sets, as well as interating over the trees in each set.*/
     function makeTableauCsvs(consName) {
         var csvSegs = [];	//List to accumulate tableaux in
 		
         //For each syntactic tree in sTreeList, make a tableau using the current constraint set
         for(var j=0; j<output_gen_opt_list.length; j++){
-            
-            //Make the candidate set using the GEN function (defined in candidategenerator.js)
+			
+			//Make the candidate set using the GEN function (defined in candidategenerator.js)
             //Leave the 2nd argument as an empty string to scrape words from the terminals of the syntactic tree.
-            var output_gen_options = output_gen_opt_list[j];
-            var candSet = GEN({}, 'a b', output_gen_options);
+			var output_gen_options = output_gen_opt_list[j];
+
+			if(resultsContainer){
+				var settingsDisp = document.createElement('div');
+				settingsDisp.innerText = "Creating tableau with GEN settings "+JSON.stringify(output_gen_options);
+				settingsDisp.style.width = "400px";
+				settingsDisp.style.fontStyle = "strong";
+				resultsContainer.appendChild(settingsDisp);
+				resultsContainer.appendChild(document.createElement('p'));
+			}
+
+			try{
+				var candSet = GEN({}, 'a b c', output_gen_options);
+			}
+            catch(err){
+				if(resultsContainer){
+					var catErrDisp = document.createElement('div');
+					catErrDisp.width = 300;
+					var t = ["This tableau could not be created due to incorrect GEN settings.", "Gen categories:", JSON.stringify(output_gen_options), "Current prosodic hierarchy:", JSON.stringify(pCat)]
+					for(var i in t){
+						var x = document.createElement('p');
+						x.innerText = t[i];
+						x.style.width = "400px";
+						catErrDisp.appendChild(x);
+					}
+					resultsContainer.appendChild(catErrDisp);
+				}
+				continue;
+			}
             
 			//Make the tableau using the makeTableau function (defined in tableauMaker.js)
 		var tabl = makeTableau(candSet, window[consName], {showTones: output_gen_options.addTones, parens: myCategoryBrackets});//, ph}); ph object goes to GEN instead of to tableauMaker
