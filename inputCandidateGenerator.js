@@ -68,7 +68,20 @@ function sTreeGEN(terminalString, options)
     if(options.headSide){
         var side, strict;
         [side, strict] = options.headSide.split('-');
-        sTreeList = sTreeList.filter(x => !headsOnWrongSide(x, side, strict));
+        // console.log(sTreeList)
+        console.log(side, strict)
+        // sTreeList = sTreeList.filter(x => !headsOnWrongSide(x, side, strict));
+        sTreeList = sTreeList.filter(function(x) {
+          var value = !headsOnWrongSide(x, side, strict);
+          console.log("tree: ")
+          console.log(parenthesizeTree(x))
+          console.log(x)
+          console.log("headsOnWrongSide: " , !value)
+          if(value) {
+            return x;
+          }
+        });
+        // console.log(sTreeList)
     }
     if(options.noMirrorImages){
       sTreeList = sTreeList.filter(x => !mirrorImages(x, sTreeList));
@@ -76,7 +89,7 @@ function sTreeGEN(terminalString, options)
     if(options.noBarLevels){
       sTreeList = sTreeList.filter(x => !threeXPs(x));
     }
-    // console.log(sTree)
+    // console.log(sTreeList)
     return sTreeList;
 }
 

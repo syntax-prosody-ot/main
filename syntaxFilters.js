@@ -57,7 +57,11 @@ function unaryNodes(sTree, minBr){
 
 function headsOnWrongSide(sTree, side, strict){
     var badHeadFound = false;
+		if(sTree.cat === 'cp' && sTree.id === 'root' && sTree.children.length === 1) {
+			sTree = sTree.children[0];
+		}
     if(sTree.children && sTree.children.length > 1){
+				console.log("in headsOnWrongSide()")
         var i = 0;
         while(!badHeadFound && i<sTree.children.length){
             var child = sTree.children[i];
