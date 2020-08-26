@@ -14,6 +14,8 @@
 *    the resulting syntactic trees. Default = 2
 *  - minBranching: determines the maximum number of branches that are tolerated in
 *    the resulting syntactic trees. Default = 2
+*  - noBarLevels: if false (default), bar levels are treated as phrasal. 
+*    If true, bar levels are not represented, and ternary branching is permitted.
 *  - addClitics: 'right' or 'left' determines whether clitics are added on the
 *    righthand-side or the left; true will default to right. false doesn't add any clitics.
 *    Default false.
@@ -30,41 +32,59 @@ function sTreeGEN(terminalString, options)
     if(options.noAdjacentHeads === undefined){
         options.noAdjacentHeads = true;
     }
-    options.maxBranching = options.maxBranching || 2;
+    
     options.syntactic = true;
     options.recursiveCategory = options.recursiveCategory || 'xp';
     options.terminalCategory = options.terminalCategory || 'x0';
     options.rootCategory = options.rootCategory || 'xp';
+
+    // If bar levels are not treated as phrasal, then we need to allow ternary XPs and CPs, but not ternary x0s.
+    if(options.noBarLevels && options.recursiveCategory !== 'x0'){
+      options.maxBranching = 3;
+    }
+    //Otherwise, we want binary branching syntactic inputs.
+    options.maxBranching = options.maxBranching || 2;
 
     //Run GEN on the provided terminal string
     var autoSTreePairs = GEN({}, terminalString, options);
     //Select just the generated trees
     var sTreeList = autoSTreePairs.map(x=>x[1]);
 
-    //Apply filters
+    //---Apply filters---
     if(options.allowClitic){
       var cliticTrees = getCliticTrees(terminalString, options);
       if(cliticTrees) {
         sTreeList = sTreeList.concat(cliticTrees);
       }
     }
+    if(options.noAdjuncts){
+        sTreeList = sTreeList.filter(x => !containsAdjunct(x));
+    }
     if(options.addClitics){
-        var outsideClitics = sTreeList.map(x => addCliticXP(x, options.addClitics));
-        var insideClitics = sTreeList.map(x => addCliticXP(x, options.addClitics, true));
+        if(options.rootCategory !== 'cp'){
+          var outsideClitics = sTreeList.map(x => addCliticXP(x, options.addClitics, options.rootCategory));
+        }
+        else {
+          var outsideClitics = [];
+        }
+        var insideClitics = sTreeList.map(x => addCliticXP(x, options.addClitics, options.rootCategory, true));
         sTreeList = outsideClitics.concat(insideClitics);
     }
     if(options.noAdjacentHeads){
         sTreeList = sTreeList.filter(x => !x0Sisters(x, 'x0'));
     }
-    if(options.noAdjuncts){
-        sTreeList = sTreeList.filter(x => !containsAdjunct(x));
-    }
+
     if(options.maxBranching > 0){
         sTreeList = sTreeList.filter(x=>!ternaryNodes(x, options.maxBranching));
     }
     if(options.minBranching > 0){
         sTreeList = sTreeList.filter(x=>!unaryNodes(x, options.minBranching));
     }
+  
+    if(options.noBarLevels){
+      sTreeList = sTreeList.filter(x => !threeXPs(x));
+    }
+  
     if(options.headSide){
         var side, strict;
         [side, strict] = options.headSide.split('-');
@@ -74,14 +94,11 @@ function sTreeGEN(terminalString, options)
     if(options.noMirrorImages){
       sTreeList = sTreeList.filter(x => !mirrorImages(x, sTreeList));
     }
-    if(options.noBarLevels){
-      sTreeList = sTreeList.filter(x => !threeXPs(x));
-    }
-    // console.log(sTreeList)
+
     return sTreeList;
 }
 
-function addCliticXP(sTree, side="right", inside){
+function addCliticXP(sTree, side="right", rootCategory, inside){
     var cliticXP = {id:'dp', cat: 'xp', children: [{id:'x', cat: 'clitic'}]};
     var tp;
     var sisters;
@@ -124,7 +141,7 @@ function addCliticXP(sTree, side="right", inside){
         displayError(err.message, err);
       }
     }
-    tp = {id: 'root', cat: 'xp', children: sisters};
+    tp = {id: 'root', cat: rootCategory, children: sisters};
     return tp;
 }
 

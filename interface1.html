@@ -106,7 +106,7 @@
 				resize: both;
 				border: 1px solid #a9a9a9;
 			}
-			#autoTreeBox {
+			#autoTreeBox, #genStringsBox {
 				width: fit-content;
 				height: 250px;
 				overflow: scroll;
@@ -212,6 +212,12 @@
 				margin: 5px;
 				color: #07203D;
 				font-weight: normal;
+			}
+			fieldset h4 {
+				margin: 0px;
+			}
+			h4 {
+				color: #07203D;
 			}
 
 			.constraint-selection-table {
@@ -331,6 +337,8 @@
 				display: inline-block;
 				width: 40px;
 				height: 24px;
+				margin-right: 10px;
+				vertical-align: middle;
 			}
 
 			/* Hide default HTML checkbox */
@@ -398,8 +406,8 @@
 			#autoDoneMessage {
 				display: none;
 				color: #555;
-				font-size: 13px;
-				margin-left: 10px;
+				font-size: 14px;
+				margin-top: 10px;
       }
 			#add-clitics-row{
 				display: none;
@@ -483,6 +491,23 @@
 				display: inline;
 			}
 
+			#listOfTerminals p {
+				margin-top: 10px;
+				margin-bottom: 10px;
+				margin-left: 0px;
+				color: black;
+			}
+			.genStringsNum {
+				margin-left: 15px !important;
+			}
+			.genStringsNumBox {
+				width: 25px;
+				text-align: center;
+			}
+			#inputOptions button {
+				margin-left: 0px;
+			}
+
 		</style>
 
 	</head>
@@ -547,7 +572,7 @@
 			<h2>GEN: Input parameters
 				<span class="info">
 					<span class="content">
-						To generate input syntactic trees using SPOT's algorithm, use the 'Automatic' tab. To build input syntactic trees yourself, use the 'Manual' tab. In the 'String of terminals' textboxes, type the words that you want to be included in the output prosodic trees, separating them with spaces.
+						To generate input syntactic trees using SPOT's algorithm, use the 'Automatic' tab. To build input syntactic trees yourself, use the 'Manual' tab.
 					</span>
 				</span>
 			</h2>
@@ -585,7 +610,7 @@
 									<div id="doneMessage">The trees in the analysis are up-to-date</div>
 
 									<div style="margin-top: 15px">
-										<label class="switch" style="margin-right: 10px; vertical-align: middle">
+										<label class="switch">
 											<input type="checkbox" id="tree-code-box" value="show-tree-code">
 											<span class="slider round"></span>
 										</label>
@@ -607,7 +632,7 @@
 			<!-- automatically generate syntax -->
 			<div id="inputOptions" style="display: none">
 
-				<fieldset id="syntax-parameters">
+				<fieldset id="syntax-parameters" class="open">
 					<legend><h2>Syntax parameters <span class="arrow"></h2></legend>
 						<div class="constraint-row"><span>Root syntactic tree in</span>
 							<div class="info">
@@ -637,48 +662,29 @@
 						</div>
 
 						<div class="constraint-row">
-							<span><input type="checkbox" name="autoInputOptions" value="noAdjuncts" checked="checked">Allow adjuncts</span>
-							<div class="info"><span class="content">If selected, nodes if the intermediate category may be sisters to other nodes of the intermediate category.</span></div>
+							<span><input type="checkbox" name="autoInputOptions" value="noAdjuncts" checked="checked">Include adjunction</span>
+							<div class="info"><span class="content">If selected, nodes are allowed to have only XP children. If not selected, every node must contain a child of category x0.</span></div>
 						</div>
-
-						<div class="constraint-row">
-							<span><input type="checkbox" name="autoInputOptions" value="noBarLevels">Bar levels (X', C') are invisible</span>
-							<div class="info"><span class="content">By default, SPOT treats bar level projections the same as phrase level projections, and labels them all as XP (or CP). This makes them visible to Match and Align constraints. On this setting, all syntactic trees are binary branching. To treat bar level projections as invisible to mapping constraints, check this box, which will allow GEN to also create ternary branching syntactic trees, in which X' (or C') are not represented at all. An example of a tree in which the X' level is not represented at all: [[spec] head [comp]]. Under default settings, this tree would instead be represented as: [[spec][head [comp]]].</span></div>
-						</div>
-
-						<div class="constraint-row">
-							<span><input type="checkbox" name="autoInputOptions" value="noUnary">Unary XPs are invisible</span>
-							<div class="info"><span class="content">If selected, all intermediate nodes must have at least two children.</span></div>
-						</div>
-
+						
 						<div class="constraint-row">
 							<span>Head requirements:
 								<select name="head-req" id="head-req">
 									<option value="select">Heads can be anywhere</option>
-									<option value="left-strict">Heads must be perfectly left-aligned</option>
-									<option value="right-strict">Heads must be perfectly right-aligned</option>
-									<option value="left" disabled>Heads must be on the left edge</option>
-									<option value="right" disabled>Heads must be on the right edge</option>
+									<option value="left-strict">Heads must be at the left edge of an XP</option>
+									<option value="right-strict">Heads must be at the right edge of an XP</option>
+									<option value="left" disabled>Heads cannot be on the right edge of an XP</option>
+									<option value="right" disabled>Heads cannot be on the left edge of an XP</option>
 								</select>
 							</span>
 							<div class="info">
 								<span class="content">
-									To require all X0s to be at the very left edge of their XP, select "Heads must be
-									perfectly left-aligned." This will admit [a [b]] and [[a][b]] but not [[a]b[c]] or
-									[[a]b]. To admit [[a]b[c]] while still excluding [[a]b], select "Heads must be
-									left-aligned." To require all X0s be at the very right edge of their XP, select
-									"Heads must be perfectly right-aligned." This will admit [[a]b] and [[a][b]], but
-									not [[a]b[c]] or [a[b]]. To admit [[a]b[c]] while still excluding [a[b]], select
-									"Heads must be right-aligned."
+									By default, trees are maximally binary-branching, and there is no distinction between “Heads must be at the left edge of an XP” and “Heads cannot be on the right edge of the XP.” This distinction is only relevant when ternary-branching structures are considered, which occurs when intermediate projections are not treated as phrasal (see: Visibility to Phonology). To require all X0s to be at the very left edge of their XP (specifiers and complements are both on the right), select "Heads must be at the left edge of an XP." This will admit [a [b]] and [[a][b]] but not [[a]b[c]] or [[a]b]. To admit [[a]b[c]] while still excluding [[a]b], select "Heads cannot be on the right edge of an XP." To require all X0s be at the very right edge of their XP, select "Heads must be at the right edge of an XP." This will admit [[a]b] and [[a][b]], but not [[a]b[c]] or [a[b]]. To admit [[a]b[c]] while still excluding [a[b]], select "Heads cannot be on the left edge of an XP."
 								</span>
 							</div>
 						</div>
-
-						<div class="constraint-row">
-							<span><input type="checkbox" name="autoInputOptions" value="noMirrorImages">Remove mirror images</span>
-							<div class="info"><span class="content">If selected, no mirror image pairs will be generated. E.g. [a [b [c]]] and [[[a] b] c] are mirror images of eachother; if this option is selected, [[[a] b] c] will be removed.</span></div>
-						</div>
-
+				</fieldset>
+				<fieldset id="syntax-parameters-clitics">
+					<legend><h2>Clitics <span class="arrow"></h2></legend>
 						<div class="constraint-row">
 							<span><input type="checkbox" name="autoInputOptions-addClitics" value="right" id="add-clitics">Add XP clitics directly under root</span>
 							<div class="info"><span class="content">info</span></div>
@@ -689,21 +695,76 @@
 						</div>
 
 						<div class="constraint-row">
-							<span><input type="checkbox" name="autoInputOptions" value="allowClitic">Allow clitic in terminal string</span>
+							<span><input type="checkbox" name="autoInputOptions" value="allowClitic">Label some terminals as clitics</span>
 							<div class="info"><span class="content">If checked, then for every clitic-free input tree with n terminals, there are n additional input trees of the same shape, in which one terminal is a clitic, such that every terminal is a clitic in exactly one of these trees.</span></div>
 						</div>
 				</fieldset>
+				<fieldset id="syntax-parameters-phonology">
+					<legend><h2>Visibility to phonology <span class="arrow"></h2></legend>
+						<div class="constraint-row">
+							<span><input type="checkbox" name="autoInputOptions" value="noUnary">Treat unary XPs as X0s</span>
+							<div class="info"><span class="content">If selected, all intermediate nodes must have at least two children.</span></div>
+						</div>
+
+						<div class="constraint-row">
+							<span><input type="checkbox" name="autoInputOptions" value="noBarLevels" checked="checked">Treat intermediate projections (bar levels) as phrasal</span>
+							<div class="info"><span class="content">By default, SPOT treats bar level projections the same as phrase level projections, and labels them all as XP (or CP). This makes them visible to Match and Align constraints. On this setting, all syntactic trees are binary branching. To treat bar level projections as invisible to mapping constraints, check this box, which will allow GEN to also create ternary branching syntactic trees, in which X' (or C') are not represented at all. An example of a tree in which the X' level is not represented at all: [[spec] head [comp]]. Under default settings, this tree would instead be represented as: [[spec][head [comp]]].</span></div>
+						</div>
+
+						
+						<div class="constraint-row">
+							<span><input type="checkbox" name="autoInputOptions" value="noMirrorImages">Remove mirror images</span>
+							<div class="info"><span class="content">If selected, no mirror image pairs will be generated. E.g. [a [b [c]]] and [[[a] b] c] are mirror images of eachother; if this option is selected, [[[a] b] c] will be removed.</span></div>
+						</div>
+
+				</fieldset>
+
+				<h3 style="margin-top: 15px; margin-bottom: -5px">Specify terminals
+					<span class="info">
+						<span class="content">
+							In the 'String of terminals' textboxes, type the words that you want to be included in the output prosodic trees, separating them with spaces. Under 'Generate combinations and permutations', in the 'List of terminals' textboxes, type the terminals you want to use to generate permutations and combinations that will serve as your input strings. Separate each list with spaces and specify the minimum and maximum number of terminals in the generated strings.
+						</span>
+					</span>
+				</h3>
 
 				<div id="terminalStrings">
 					<p id="str1">String of terminals 1: <input type="text" name="inputToGenAuto"></p>
 				</div>
-				<button id="addString" type="button">Add terminal string</button>
+				<button id="addString" type="button" style="margin-top: -5px">Add terminal string</button>
 
-				<button id="autoGenDoneButton" class="orange-button" type="button">Generate trees</button>
+				<fieldset id="" class="">
+					<legend><h4>Generate combinations and permutations <span class="arrow"></h4></legend>
+
+					<div id="listOfTerminals" style="margin-top: 10px">
+						<div id="list1">
+							List of terminals 1: <input type="text" name="genStringsInput">
+							<p>Number of terminals in generated strings:</p>
+							<p class="genStringsNum">Min: <input type="text" name="genStringsMin" class="genStringsNumBox" style="margin-left: 4px"></p>
+							<p class="genStringsNum">Max: <input type="text" name="genStringsMax" class="genStringsNumBox"></p>
+						</div>
+					</div>
+					<button id="addList" type="button">Add list of terminals</button>
+					<br>
+					<button id="genStringsDoneButton" class="orange-button" type="button">Generate terminal strings</button>
+					<div style="margin-top: 15px">
+						<label class="switch">
+							<input type="checkbox" id="gen-strings-switch" value="">
+							<span class="slider round"></span>
+						</label>
+						<p id="strings-switch-text" style="font-size: 15; vertical-align: middle; display: inline">Show generated terminal strings</p>
+					</div>
+
+					<div id="genStringsArea" style="display: none">
+						<br>
+						<div id="genStringsBox"></div>
+					</div>
+				</fieldset>
+
+				<button id="autoGenDoneButton" class="orange-button" type="button" style="margin-top: 15px">Generate trees</button>
 				<div id="autoDoneMessage">The trees in the analysis are up-to-date</div>
 
 				<div style="margin-top: 15px">
-					<label class="switch" style="margin-right: 10px; vertical-align: middle">
+					<label class="switch">
 						<input type="checkbox" id="syntax-tree-switch" value="show-syntax-tree-box">
 						<span class="slider round"></span>
 					</label>
@@ -1041,18 +1102,6 @@
 								<div class="custom-text">
 									<p>Enforce Match only for prosodic nodes that are...</p>
 								</div>
-								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchCustomPS" value="requireLexical">lexical</div>
-								<div class="info">
-									<span class="content custom-option-div">Match only prosodic nodes that are not labeled as functional.</span>
-								</div>
-							</div>
-							<div class="category-row">
-								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchCustomPS" value="requireOvertHead">overtly headed</div>
-								<div class="info">
-									<span class="content custom-option-div">Match only prosodic nodes that have a non-silent head.</span>
-								</div>
-							</div>
-							<div class="category-row">
 								<div class="option-selection-div custom-option-div">
 									<select name="option-matchCustomPS">
 										<option value="any">Any</option>
@@ -1078,8 +1127,20 @@
 							</div>
 							<div class="category-row">
 								<div class="custom-text">
-									<p>Syntactic categories must be...</p>
+									<p>Syntactic nodes must be...</p>
 								</div>
+								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchCustomPS" value="requireLexical">lexical</div>
+								<div class="info">
+									<span class="content custom-option-div">Only match prosodic nodes to syntactic nodes that are not labeled as functional.</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchCustomPS" value="requireOvertHead">overtly headed</div>
+								<div class="info">
+									<span class="content custom-option-div">Only match prosodic nodes to syntactic nodes that have a non-silent head.</span>
+								</div>
+							</div>
+							<div class="category-row">
 								<div class="option-selection-div custom-option-div">
 									<select name="option-matchCustomPS">
 										<option value="any">Any</option>
@@ -2050,7 +2111,7 @@
 								<p>Clicking "Get results" initiates a download of a tab-separated version of the resulting tableau.
 								The tab-separated version of the tableau will also appear in a text-area, from which it can be copy-pasted. (Use Control-A to select it if it's not already selected.)
 								An html version of the tableau will also display below. </p>
-								<p>Trees in the violation tableau are shown in bracket notation. Curly braces { } stand for CP boundaries in a syntactic tree, and for intonational phrase boundaries in a syntactic tree. Parentheses ( ) stand for phonological phrase boundaries. Square brackets [ ] in a syntactic tree stand for XP boundaries, and in a prosodic tree stand for prosodic word boundaries.</p> 
+								<p>Trees in the violation tableau are shown in bracket notation. Curly braces { } stand for CP boundaries in a syntactic tree, and for intonational phrase boundaries in a syntactic tree. Parentheses ( ) stand for phonological phrase boundaries. Square brackets [ ] in a syntactic tree stand for XP boundaries, and in a prosodic tree stand for prosodic word boundaries.</p>
 								<p>Features are shown with the following suffixed abbreviations: .f = functional; .a = has a lexical accent; .foc = focused; * = head of the phonological constituent.</p>
 							</span>
 						</span>
