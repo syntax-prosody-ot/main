@@ -97,7 +97,12 @@ function clearAnalysis(){
   }
   window.clearUTrees();
   document.getElementById("stree-textarea").value = '{}';
-
+  document.getElementById("autoTreeBox").innerHTML = '';
+  if(document.getElementById("syntax-tree-switch").checked){
+    document.getElementById("syntax-tree-switch").click();
+  }
+  changeInputTabs('inputButton', 'goButton');
+  
   clearInputs();
 
 }
