@@ -106,7 +106,7 @@
 				resize: both;
 				border: 1px solid #a9a9a9;
 			}
-			#autoTreeBox {
+			#autoTreeBox, #genStringsBox {
 				width: fit-content;
 				height: 250px;
 				overflow: scroll;
@@ -212,6 +212,12 @@
 				margin: 5px;
 				color: #07203D;
 				font-weight: normal;
+			}
+			fieldset h4 {
+				margin: 0px;
+			}
+			h4 {
+				color: #07203D;
 			}
 
 			.constraint-selection-table {
@@ -331,6 +337,8 @@
 				display: inline-block;
 				width: 40px;
 				height: 24px;
+				margin-right: 10px;
+				vertical-align: middle;
 			}
 
 			/* Hide default HTML checkbox */
@@ -398,8 +406,8 @@
 			#autoDoneMessage {
 				display: none;
 				color: #555;
-				font-size: 13px;
-				margin-left: 10px;
+				font-size: 14px;
+				margin-top: 10px;
       }
 			#add-clitics-row{
 				display: none;
@@ -483,6 +491,23 @@
 				display: inline;
 			}
 
+			#listOfTerminals p {
+				margin-top: 10px;
+				margin-bottom: 10px;
+				margin-left: 0px;
+				color: black;
+			}
+			.genStringsNum {
+				margin-left: 15px !important;
+			}
+			.genStringsNumBox {
+				width: 25px;
+				text-align: center;
+			}
+			#inputOptions button {
+				margin-left: 0px;
+			}
+
 		</style>
 
 	</head>
@@ -547,7 +572,7 @@
 			<h2>GEN: Input parameters
 				<span class="info">
 					<span class="content">
-						To generate input syntactic trees using SPOT's algorithm, use the 'Automatic' tab. To build input syntactic trees yourself, use the 'Manual' tab. In the 'String of terminals' textboxes, type the words that you want to be included in the output prosodic trees, separating them with spaces.
+						To generate input syntactic trees using SPOT's algorithm, use the 'Automatic' tab. To build input syntactic trees yourself, use the 'Manual' tab.
 					</span>
 				</span>
 			</h2>
@@ -585,7 +610,7 @@
 									<div id="doneMessage">The trees in the analysis are up-to-date</div>
 
 									<div style="margin-top: 15px">
-										<label class="switch" style="margin-right: 10px; vertical-align: middle">
+										<label class="switch">
 											<input type="checkbox" id="tree-code-box" value="show-tree-code">
 											<span class="slider round"></span>
 										</label>
@@ -694,16 +719,52 @@
 
 				</fieldset>
 
+				<h3 style="margin-top: 15px; margin-bottom: -5px">Specify terminals
+					<span class="info">
+						<span class="content">
+							In the 'String of terminals' textboxes, type the words that you want to be included in the output prosodic trees, separating them with spaces. Under 'Generate combinations and permutations', in the 'List of terminals' textboxes, type the terminals you want to use to generate permutations and combinations that will serve as your input strings. Separate each list with spaces and specify the minimum and maximum number of terminals in the generated strings.
+						</span>
+					</span>
+				</h3>
+
 				<div id="terminalStrings">
 					<p id="str1">String of terminals 1: <input type="text" name="inputToGenAuto"></p>
 				</div>
-				<button id="addString" type="button">Add terminal string</button>
+				<button id="addString" type="button" style="margin-top: -5px">Add terminal string</button>
 
-				<button id="autoGenDoneButton" class="orange-button" type="button">Generate trees</button>
+				<fieldset id="" class="">
+					<legend><h4>Generate combinations and permutations <span class="arrow"></h4></legend>
+
+					<div id="listOfTerminals" style="margin-top: 10px">
+						<div id="list1">
+							List of terminals 1: <input type="text" name="genStringsInput">
+							<p>Number of terminals in generated strings:</p>
+							<p class="genStringsNum">Min: <input type="text" name="genStringsMin" class="genStringsNumBox" style="margin-left: 4px"></p>
+							<p class="genStringsNum">Max: <input type="text" name="genStringsMax" class="genStringsNumBox"></p>
+						</div>
+					</div>
+					<button id="addList" type="button">Add list of terminals</button>
+					<br>
+					<button id="genStringsDoneButton" class="orange-button" type="button">Generate terminal strings</button>
+					<div style="margin-top: 15px">
+						<label class="switch">
+							<input type="checkbox" id="gen-strings-switch" value="">
+							<span class="slider round"></span>
+						</label>
+						<p id="strings-switch-text" style="font-size: 15; vertical-align: middle; display: inline">Show generated terminal strings</p>
+					</div>
+
+					<div id="genStringsArea" style="display: none">
+						<br>
+						<div id="genStringsBox"></div>
+					</div>
+				</fieldset>
+
+				<button id="autoGenDoneButton" class="orange-button" type="button" style="margin-top: 15px">Generate trees</button>
 				<div id="autoDoneMessage">The trees in the analysis are up-to-date</div>
 
 				<div style="margin-top: 15px">
-					<label class="switch" style="margin-right: 10px; vertical-align: middle">
+					<label class="switch">
 						<input type="checkbox" id="syntax-tree-switch" value="show-syntax-tree-box">
 						<span class="slider round"></span>
 					</label>
@@ -2050,7 +2111,7 @@
 								<p>Clicking "Get results" initiates a download of a tab-separated version of the resulting tableau.
 								The tab-separated version of the tableau will also appear in a text-area, from which it can be copy-pasted. (Use Control-A to select it if it's not already selected.)
 								An html version of the tableau will also display below. </p>
-								<p>Trees in the violation tableau are shown in bracket notation. Curly braces { } stand for CP boundaries in a syntactic tree, and for intonational phrase boundaries in a syntactic tree. Parentheses ( ) stand for phonological phrase boundaries. Square brackets [ ] in a syntactic tree stand for XP boundaries, and in a prosodic tree stand for prosodic word boundaries.</p> 
+								<p>Trees in the violation tableau are shown in bracket notation. Curly braces { } stand for CP boundaries in a syntactic tree, and for intonational phrase boundaries in a syntactic tree. Parentheses ( ) stand for phonological phrase boundaries. Square brackets [ ] in a syntactic tree stand for XP boundaries, and in a prosodic tree stand for prosodic word boundaries.</p>
 								<p>Features are shown with the following suffixed abbreviations: .f = functional; .a = has a lexical accent; .foc = focused; * = head of the phonological constituent.</p>
 							</span>
 						</span>

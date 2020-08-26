@@ -684,19 +684,15 @@ window.addEventListener('load', function(){
 
 	// automatically generate input tree
 	function autoGenInputTree() {
-		var length = spotForm.inputToGenAuto.length;
-		if(length === undefined) {
-			length = 1;
-		}
-		var inputString = spotForm.inputToGenAuto.value;
+		genTerminalStrings();
+		var strings = getStringsList();
+		var length = strings.length;
 
 		sTreeList = undefined;
 		document.getElementById('autoTreeBox').innerHTML = "";
 
 		for(var i=0; i<length; i++){
-			if(length > 1) {
-				inputString = spotForm.inputToGenAuto[i].value;
-			}
+			var inputString = strings[i];
 
 			// allow adjuncts and remove mirror images
 			var autoInputOptions = {};
@@ -781,6 +777,16 @@ window.addEventListener('load', function(){
 		document.getElementById('autoDoneMessage').style.display = 'none';
 	});
 
+	// check for change in 'string of terminals'
+	document.getElementById('terminalStrings').addEventListener('change', function(){
+		document.getElementById('autoDoneMessage').style.display = 'none';
+	});
+
+	// check for change in 'list of terminals'
+	document.getElementById('listOfTerminals').addEventListener('change', function(){
+		document.getElementById('autoDoneMessage').style.display = 'none';
+	});
+
 	// show/hide syntactic trees
 	document.getElementById('syntax-tree-switch').addEventListener('click', function(){
 		if (document.getElementById('autoTreeArea').style.display === 'none' && document.getElementById('syntax-tree-switch').checked){
@@ -815,6 +821,155 @@ window.addEventListener('load', function(){
 		return htmlChunks.join('');
 	}
 
+	// GENERATE TERMINAL STRINGS
+
+	// add list of terminals button
+	document.getElementById('addList').addEventListener('click', function(){
+		var length = spotForm.genStringsInput.length;
+		if(length === undefined) {
+			length = 1;
+		}
+		var newLength = length + 1;
+		length = length.toString();
+		newLength = newLength.toString();
+		document.getElementById('list'+length).insertAdjacentHTML('afterend', "<div id='list"+newLength+"'>List of terminals "+newLength+": <input type='text' name='genStringsInput'><p>Number of terminals in generated strings:</p><p class='genStringsNum'>Min: <input type='text' name='genStringsMin' class='genStringsNumBox' style='margin-left: 4px'></p><p class='genStringsNum'>Max: <input type='text' name='genStringsMax' class='genStringsNumBox'></p></div>");
+		document.getElementById('autoDoneMessage').style.display = 'none';
+	});
+
+	// show/hide generated terminal strings
+	document.getElementById('gen-strings-switch').addEventListener('click', function(){
+		if (document.getElementById('genStringsArea').style.display === 'none' && document.getElementById('gen-strings-switch').checked){
+			document.getElementById('genStringsArea').style.display = 'block';
+			document.getElementById('strings-switch-text').innerHTML = 'Hide generated terminals strings';
+		}
+		else{
+			document.getElementById('genStringsArea').style.display = 'none';
+			document.getElementById('strings-switch-text').innerHTML = 'Show generated terminals strings';
+		}
+	});
+
+	// done button for generate terminal strings
+	document.getElementById('genStringsDoneButton').addEventListener('click', function(){
+		deleteThickLine();
+		genTerminalStrings();
+		document.getElementById('genStringsArea').style.display = 'block';
+		document.getElementById('gen-strings-switch').checked = true;
+		document.getElementById('strings-switch-text').innerHTML = 'Hide generated terminals strings';
+	});
+
+	var genStringsList;
+
+	// generate and display terminal strings
+	function genTerminalStrings() {
+		document.getElementById('genStringsBox').innerHTML = "";
+
+		var length = spotForm.inputToGenAuto.length;
+		if(length === undefined) {
+			length = 1;
+		}
+		var inputString = spotForm.inputToGenAuto.value;
+		var fixedStringList = [];
+		genStringsList = undefined;
+
+		for(var i=0; i<length; i++){
+			if(length > 1) {
+				inputString = spotForm.inputToGenAuto[i].value;
+			}
+			if(inputString !== "") {
+				fixedStringList.push(inputString);
+			}
+		}
+		if(fixedStringList.length > 0) {
+			displayStringsTable(fixedStringList);
+			genStringsList = fixedStringList;
+		}
+
+		var length = spotForm.genStringsInput.length;
+		if(length === undefined) {
+			length = 1;
+		}
+		var inputList = spotForm.genStringsInput.value;
+		var min = spotForm.genStringsMin.value;
+		var max = spotForm.genStringsMax.value;
+
+		for(var i=0; i<length; i++){
+			if(length > 1) {
+				inputList = spotForm.genStringsInput[i].value;
+				min = spotForm.genStringsMin[i].value;
+				max = spotForm.genStringsMax[i].value;
+			}
+
+			if(inputList !== "") {
+				inputList = inputList.trim().split(' ');
+				var currGenStringsList = generateTerminalStrings(inputList, min, max)
+				displayStringsTable(currGenStringsList);
+
+				if(genStringsList) {
+					genStringsList = genStringsList.concat(currGenStringsList);
+				}
+				else {
+					genStringsList = currGenStringsList;
+				}
+			}
+		}
+		// console.log(genStringsList)
+	}
+
+	function getStringsList() {
+		return genStringsList;
+	}
+
+	// display generated terminal strings in table
+	function displayStringsTable(genStringsList) {
+		var tables = document.getElementsByClassName("string-table");
+		var index = tables.length + 1;
+		var stringsTable = stringToTable(genStringsList, index);
+		document.getElementById('genStringsBox').innerHTML += stringsTable;
+		addThickLine(genStringsList, index);
+	}
+
+	// create table from generated terminal strings list
+	function stringToTable(genStringsList, index) {
+		var htmlChunks = ['<table class="auto-table string-table" id="string-table-' + index + '"><tbody>'];
+		var i = 1;
+		for(var s in genStringsList) {
+			var string = genStringsList[s];
+			htmlChunks.push('<tr>');
+			htmlChunks.push('<td>' + i + "." + '</td>');
+			htmlChunks.push('<td>' + string + '</td>');
+			htmlChunks.push('</tr>');
+			i++;
+		}
+		htmlChunks.push('</tbody></table>');
+		return htmlChunks.join('');
+	}
+
+	// add thicker line between generated strings of different lengths
+	function addThickLine(genStringsList, index) {
+		var sheet = document.styleSheets[1];
+		for(var i = 0; i < genStringsList.length - 1; i++) {
+			var currString = genStringsList[i].split(' ');
+			var nextString = genStringsList[i + 1].split(' ');
+			if(currString.length < nextString.length) {
+				var row = i + 1;
+				sheet.addRule('#string-table-' + index + ' tbody > :nth-child(' + row + ')', 'border-bottom: 3px solid black;', 0);
+			}
+		}
+	}
+
+	// remove thicker line between generated strings of different lengths before regenerating strings
+	function deleteThickLine() {
+		var sheet = document.styleSheets[1];
+		var rules = 0;
+		for(var i = 0; i < sheet.cssRules.length; i++) {
+			if(sheet.cssRules[i].cssText.includes('#string-table')) {
+				rules++;
+			}
+		}
+		for(var i = 0; i < rules; i++) {
+			sheet.deleteRule(0);
+		}
+	}
 
 	// For testing only
 	/*
