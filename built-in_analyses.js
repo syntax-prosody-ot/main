@@ -16,8 +16,8 @@ function clearInputs(){
 
   spotForm['head-req'].value = 'select';
 
-  if(spotForm['autoInputOptions-addClitics'].checked){
-    spotForm['autoInputOptions-addClitics'].click();
+  if(document.getElementById('add-clitics')){
+    document.getElementById('add-clitics').click();
   }
 
   let inputStrings = spotForm['inputToGenAuto'];
