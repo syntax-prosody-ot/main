@@ -57,16 +57,14 @@ function unaryNodes(sTree, minBr){
 
 function headsOnWrongSide(sTree, side, strict){
     var badHeadFound = false;
-		if(sTree.cat === 'cp' && sTree.id === 'root' && sTree.children.length === 1) {
-			sTree = sTree.children[0];
-		}
-    if(sTree.children && sTree.children.length > 1){
-				console.log("in headsOnWrongSide()")
+	
+    if(sTree.children && sTree.children.length){
         var i = 0;
         while(!badHeadFound && i<sTree.children.length){
+            var numChildren = sTree.children.length;
             var child = sTree.children[i];
-            if(child.cat==='x0'){
-                if((side==='right' && i===0) || (side==='left' && i===sTree.children.length-1)){
+            if(child.cat==='x0' && numChildren > 1){
+                if((side==='right' && i===0) || (side==='left' && i===numChildren-1)){
                     badHeadFound = true;
                 }
                 if(strict==='strict'){
