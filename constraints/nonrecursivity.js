@@ -56,16 +56,11 @@ function nonRecTruckenbrodt(s, parent, cat){
 * TODO Modify this so that it doesn't make all the assumptions above concerning the relationship of x and y.
 */
 function leafDifferenceSize(x,y){
-	try {
 		if(!(x instanceof Array) || !(y instanceof Array)){
 			console.log("x: "+x);
 			console.log("y: "+y);
 			throw new Error("Either x or y is not an array");
 		}
-	}
-	catch(err) {
-		displayError(err.message, err);
-	}
 	return y.length-x.length;
 }
 

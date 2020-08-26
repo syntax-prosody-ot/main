@@ -4,11 +4,14 @@
 // trimStree option uses the trimmed version of the sTree
 // showHeads: marks and shows the heads of Japanese compound words
 	// in the future, this might get a string value specifying a language other than Japanese
-
+// ph: prosodic hierarchy object with elements as follows:
+// 	.pCat: custom pCat list to be passed to Gen
+// 	.categoryPairings: custom category pairings to be passed to constraints
 function makeTableau(candidateSet, constraintSet, options){
 	//all options passed to makeTableau are passed into parenthesizeTree, so make
 	//sure your options in dependent functions have unique names from other funcs
 	options = options || {};
+	
 	var tableau = [];
 	//Make a header for the tableau, containing all the constraint names.
 	//First element is empty, to correspond to the column of candidates.
@@ -60,17 +63,25 @@ function makeTableau(candidateSet, constraintSet, options){
 	tableau.push(header);
 
 	var getCandidate = options.inputTypeString ? function(candidate) {return candidate;} : globalNameOrDirect;
-
+	
 	//Assess violations for each candidate.
 	var numCand = candidateSet.length;
+
 	for(var i = 1; i <= numCand; i++){
 		var candidate = candidateSet[numCand-i];
 		if(options.showHeads){candidate[1] = markHeads(candidate[1], options.showHeads);}
 		var ptreeStr = options.inputTypeString ? candidate[1] : parenthesizeTree(globalNameOrDirect(candidate[1]), options);
 		var tableauRow = [ptreeStr];
+		// the last element is the getter function that retrieves the category pairings received from GEN in candidategenerator.js
 		for(var j = 0; j < constraintSet.length; j++){
-
 			var [constraint, cat, conOptions] = constraintSet[j].split('-');
+			// check if the category argument is in pCat or sCat
+			if(!pCat.includes(cat) && !sCat.includes(cat)){
+				console.log(pCat);
+				var errorMsg = "Category argument " + cat + " is not a valid category with the current settings.\nCurrently valid prosodic categories: " + JSON.stringify(pCat) + "\nValid syntactic categories: " + JSON.stringify(sCat);
+				displayError(errorMsg);
+				throw new Error(errorMsg);
+			}
 			if(!conOptions){
 				conOptions = "{}";
 			}
@@ -78,7 +89,12 @@ function makeTableau(candidateSet, constraintSet, options){
 			var oldDebugOn = logreport.debug.on;
 			logreport.debug.on = false;
 			trimmedTree = options.trimStree ? trimRedundantNodes(getCandidate(candidate[0])) : getCandidate(candidate[0]);
-			var numViolations = globalNameOrDirect(constraint)(trimmedTree, getCandidate(candidate[1]), cat, JSON.parse(conOptions)); logreport.debug.on = oldDebugOn; // don't show the log of each constraint run
+			//if options.catsMatch --> add it to myConOptions
+
+			//options for this constraint:
+			var myConOptions = JSON.parse(conOptions);
+			
+			var numViolations = globalNameOrDirect(constraint)(trimmedTree, getCandidate(candidate[1]), cat, myConOptions); logreport.debug.on = oldDebugOn; // don't show the log of each constraint run
 			tableauRow.push(numViolations);
 		}
 		tableau.push(tableauRow);

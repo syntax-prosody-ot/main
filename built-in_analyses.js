@@ -668,7 +668,7 @@ function loadAnalysis(file){
         document.getElementById("chooseFilePrompt").style = "display: none";
       }
       catch(err){
-        //error handeling:
+        //error handling:
         displayError('File does not follow SPOT format: ' + err.message, err);
         return;
       }
