@@ -33,13 +33,10 @@
 	//Errors expected from GEN since phi isn't in the specified PH.
 	var i_phi_w = {rootCategory:'i', recursiveCategory:'phi', terminalCategory: 'w', ph:PH_MAJMIN};
 
-	//Error expected from checkProsodicHierarchy, called by GEN, since pCat doesn't match categoryPairings.
+	//Warning expected from checkProsodicHierarchy, called by GEN, since pCat doesn't match categoryPairings.
 	var phi_phi_w = {rootCategory:'phi', recursiveCategory:'phi', terminalCategory: 'w', ph:{pCat: PH_MAJMIN.pCat, categoryPairings: PH_PHI.categoryPairings}};
 
-	//No errors expected?
-	var phi_w_w = {rootCategory:'phi', recursiveCategory:'w', terminalCategory: 'w'};
-
-	//Errors expected since 
+	//Errors expected since there is a mismatch between recursive category and provided PH object
 	var majorPhrase = {rootCategory: 'i', terminalCategory: 'w', recursiveCategory: 'MaP',ph:PH_PHI};
 	var minorPhrase = {obeysNonRecursivity: true, rootCategory: 'i', terminalCategory: 'w', recursiveCategory: 'MiP', ph:PH_MAJMIN};
 		 
@@ -55,8 +52,16 @@
 		"Ft": ["", ""],
 		"u": ["{u ", "}"]
 	};
-	var output_gen_opt_list = [i_phi_w, phi_phi_w, phi_w_w, majorPhrase, minorPhrase];
+	//all of these should yield errors
+	var bad_gen_opt_list = [i_phi_w, phi_phi_w, majorPhrase, minorPhrase];
 
+	//these shouldn't yield errors
+	var phi_w_w = {rootCategory:'phi', recursiveCategory:'w', terminalCategory: 'w'};
+	var goodMajP = {recursiveCategory: 'MaP', terminalCategory: 'w', ph:PH_MAJMIN}; //oops, this one still has a problem bc the constraint set includes phi
+	var goodPhi = {recursiveCategory: 'phi', ph:PH_PHI};
+	var good_gen_opt_list = [phi_w_w, goodMajP, goodPhi];
+
+	var output_gen_opt_list = bad_gen_opt_list.concat(good_gen_opt_list);
 	
 	// ---- Functions that don't necessarily need to be customized ----
 	
@@ -65,6 +70,13 @@
 		
         //For each syntactic tree in sTreeList, make a tableau using the current constraint set
         for(var j=0; j<output_gen_opt_list.length; j++){
+
+			if(j===bad_gen_opt_list.length){
+				console.log("starting good settings");
+				var goodLabel = document.createElement('div');
+				goodLabel.innerHTML = "<br/><p><b>The remaining tableaux should display without errors</b><p><p></p>";
+				resultsContainer.appendChild(goodLabel);
+			}
 			
 			//Make the candidate set using the GEN function (defined in candidategenerator.js)
             //Leave the 2nd argument as an empty string to scrape words from the terminals of the syntactic tree.
