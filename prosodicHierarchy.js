@@ -1,26 +1,155 @@
-//An array of pairs to define which syntactic categories "match" which prosodic categories.
-//For theory comparison, we'll want one array for each theory.
-var categoryPairings = {
-	"clause": "i",
-	"cp": "i",
-	"xp": "phi",
-	"x0": "w"
-};
+/* TWO POSSIBLE PROSODIC HIERARCHY THEORIES */
+PH_PHI = {
+	// Defines the prosodic hierarchy. Lower index = higher category.
+	pCat : ["u", "i", "phi", "w", "Ft", "syll"],
 
-function resetCategoryPairings(){
-	categoryPairings = {
+	//An array of pairs to define which syntactic categories "match" which prosodic categories.
+	categoryPairings : {
 		"clause": "i",
 		"cp": "i",
 		"xp": "phi",
 		"x0": "w"
-	};
+	}
+};
 
 
+PH_MAJMIN = {
+	pCat : ["i", "MaP", "MiP", "w"],
+	categoryPairings : {
+		"clause": "i",
+		"cp": "i",
+		"xp": ["MaP", "MiP"],
+		"x0": "w"
+	}
+};
+
+//Defines the syntactic category hierarchy. Lower index = higher category.
+var sCat = ["cp", "xp", "x0"];
+
+
+// The global variable pCat can get overwritten using the setPCat function. 
+// The function resetPCat restores it to this default value.
+var pCat = PH_PHI.pCat;
+var categoryPairings = PH_PHI.categoryPairings;
+
+
+/** SETTERS AND RESETTERS **/
+function setPCat(newPCat){
+	pCat = newPCat;
+	pCat.isHigher = function(cat1, cat2){	return (isHigher(pCat, cat1, cat2));	}
+	pCat.isLower = function (cat1, cat2){	return (isLower(pCat, cat1, cat2));	}
+	pCat.nextLower = function(cat) 		{	return nextLower(pCat, cat); }
+	pCat.nextHigher = function(cat)		{	return nextHigher(pCat, cat);}
 }
+
+function resetPCat(){
+	setPCat(PH_PHI.pCat);
+}
+
 function setCategoryPairings(newCategoryPairings){
 	categoryPairings = newCategoryPairings;
-
 }
+
+function resetCategoryPairings(){
+	categoryPairings = PH_PHI.categoryPairings;
+}
+/**End of setters / resetters**/
+
+
+
+
+
+//Function that compares two prosodic categories and returns whether cat1 is higher in the prosodic hierarchy than cat2
+function isHigher(pCat, cat1, cat2){
+	if(pCat.indexOf(cat1) < 0 || pCat.indexOf(cat2) < 0){
+		let prosodicMismatchMsg = cat1 + " or "+cat2 + " is not in the current prosodic hierarchy "+pCat;
+		throw new Error(prosodicMismatchMsg);
+	}
+	return (pCat.indexOf(cat1) < pCat.indexOf(cat2));
+}
+pCat.isHigher = function(cat1, cat2){
+	return (isHigher(pCat, cat1, cat2));
+}
+sCat.isHigher = function(cat1, cat2){
+	return (isHigher(sCat, cat1, cat2));
+}
+
+
+// Functions that compare two prosodic/syntactic categories and returns true if cat 1 is lower in the prosodic hierarchy than cat2
+function isLower(pCat, cat1, cat2){
+	if(pCat.indexOf(cat1) < 0 || pCat.indexOf(cat2) < 0){
+		let prosodicMismatchMsg = cat1 + " or "+cat2 + "is not in the current prosodic hierarchy "+pCat;
+		throw new Error(prosodicMismatchMsg);
+	}
+	return (pCat.indexOf(cat1) > pCat.indexOf(cat2));
+}
+pCat.isLower = function (cat1, cat2){
+	return (isLower(pCat, cat1, cat2));
+}
+sCat.isLower = function (cat1, cat2){
+	return (isLower(sCat, cat1, cat2));
+}
+//=================================
+
+// Function that returns the prosodic category that is one level lower than the given category
+function nextLower(pCat, cat){
+	var i = pCat.indexOf(cat);
+	if (i < 0){
+		var errMsg = cat + ' is not a prosodic category in the currently defined prosodic hierarchy, '+pCat;
+		displayError(errMsg);
+		throw new Error(errMsg);
+	}
+	else if(i===pCat.length-1){
+		displayError(cat + ' is the lowest category defined in the prosodic hierarchy; returning category '+cat);
+		return cat;
+	}
+	return pCat[i+1];
+}
+
+pCat.nextLower = function(cat) {
+	return nextLower(pCat, cat);
+}
+sCat.nextLower = function(cat) {
+	return nextLower(sCat, cat);
+}
+//=================================
+
+
+//Function that returns the prosodic category that is one level higher than the given category
+function nextHigher(pCat, cat){
+	var i = pCat.indexOf(cat);
+	if (i < 0){
+		var errMsg = cat + ' is not a prosodic category in the currently defined prosodic hierarchy, '+pCat;
+		displayError(errMsg);
+		throw new Error(errMsg);
+	}
+	if (i === 0){
+		displayError(cat + ' is the highest category defined in the prosodic hierarchy; returning category '+cat);
+		return cat;
+	}
+	return pCat[i-1];
+}
+
+pCat.nextHigher = function(cat){
+	return nextHigher(pCat, cat);
+}
+
+sCat.nextHigher = function(cat){
+	return nextHigher(sCat, cat);
+}
+//=================================
+
+
+function nodeHasLowerCat(node1, node2){
+	if(pCat.isLower(node1.cat, node2.cat)){
+		return true;
+	}
+	else if(node1.cat===node2.cat && isMinimal(node1) && !isMinimal(node2)){
+		return true;
+	}
+	else return false;
+}
+
 //Evaluates whether two nodes have corresponding categories.
 function catsMatch(aCat, bCat){
 	if(aCat === undefined && bCat === undefined)
@@ -53,136 +182,6 @@ function catsMatch(aCat, bCat){
 	}
 }
 
-//defines the syntactic category hierarchy that we are working with
-var sCat = ["cp", "xp", "x0"];
-
-//defines the prosodic hierarchy
-var pCat = ["u", "i", "phi", "w", "Ft", "syll"];
-
-PH_PHI = {
-	pCat : ["u", "i", "phi", "w", "Ft", "syll"],
-	categoryPairings : {
-		"clause": "i",
-		"cp": "i",
-		"xp": "phi",
-		"x0": "w"
-	}
-
-};
-PH_MAJMIN = {
-	pCat : ["i", "MaP", "MiP", "w"],
-	categoryPairings : {
-		"clause": "i",
-		"cp": "i",
-		"xp": ["MaP", "MiP"],
-		"x0": "w"
-	}
-
-};
-//defines Major Minor Phrase prosodic hierarchy
-var MaPMiPpCat = ["i", "MaP", "MiP", "w"];
-
-function setPCat(newPCat){
-	pCat = newPCat;
-
-	pCat.isHigher = function(cat1, cat2){
-		return (isHigher(pCat, cat1, cat2));
-	}
-	pCat.isLower = function (cat1, cat2){
-		return (isLower(pCat, cat1, cat2));
-	}
-	pCat.nextLower = function(cat) {
-		return nextLower(pCat, cat);
-	}
-	pCat.nextHigher = function(cat){
-		return nextHigher(pCat, cat);
-	}
-}
-
-function resetPCat(){
-	//pCat = ["u", "i", "phi", "w", "Ft", "syll"];
-	setPCat(["u", "i", "phi", "w", "Ft", "syll"]);
-}
-//Function that compares two prosodic categories and returns whether cat1 is higher in the prosodic hierarchy than cat2
-function isHigher(pCat, cat1, cat2){
-	return (pCat.indexOf(cat1) < pCat.indexOf(cat2));
-}
-pCat.isHigher = function(cat1, cat2){
-	return (isHigher(pCat, cat1, cat2));
-}
-sCat.isHigher = function(cat1, cat2){
-	return (isHigher(sCat, cat1, cat2));
-}
-
-
-// Functions that compare two prosodic/syntactic categories and returns true if cat 1 is lower in the prosodic hierarchy than cat2
-function isLower(pCat, cat1, cat2){
-	return (pCat.indexOf(cat1) > pCat.indexOf(cat2));
-}
-pCat.isLower = function (cat1, cat2){
-	return (isLower(pCat, cat1, cat2));
-}
-sCat.isLower = function (cat1, cat2){
-	return (isLower(sCat, cat1, cat2));
-}
-
-// Function that returns the prosodic category that is one level lower than the given category
-pCat.nextLower = function(cat) {
-	return nextLower(pCat, cat);
-}
-sCat.nextLower = function(cat) {
-	return nextLower(sCat, cat);
-}
-
-function nextLower(pCat, cat){
-	var i = pCat.indexOf(cat);
-	if (i < 0){
-		var errMsg = cat + ' is not a prosodic category in the currently defined prosodic hierarchy, '+pCat;
-		displayError(errMsg);
-		throw new Error(errMsg);
-	}
-	else if(i===pCat.length-1){
-		displayError(cat + ' is the lowest category defined in the prosodic hierarchy; returning category '+cat);
-		return cat;
-	}
-	return pCat[i+1];
-}
-
-//function that returns the prosodic category that is one level higher than the given category
-pCat.nextHigher = function(cat){
-	return nextHigher(pCat, cat);
-}
-
-sCat.nextHigher = function(cat){
-	return nextHigher(sCat, cat);
-}
-
-function nextHigher(pCat, cat){
-	var i = pCat.indexOf(cat);
-	if (i < 0){
-		var errMsg = cat + ' is not a prosodic category in the currently defined prosodic hierarchy, '+pCat;
-		displayError(errMsg);
-		throw new Error(errMsg);
-	}
-	if (i === 0){
-		displayError(cat + ' is the highest category defined in the prosodic hierarchy; returning category '+cat);
-		return cat;
-	}
-	return pCat[i-1];
-}
-
-//pCat(type1).isHigherThan(type2)
-
-function nodeHasLowerCat(node1, node2){
-	if(pCat.isLower(node1.cat, node2.cat)){
-		return true;
-	}
-	else if(node1.cat===node2.cat && isMinimal(node1) && !isMinimal(node2)){
-		return true;
-	}
-	else return false;
-}
-
 /* A function to return the paired category as defined in categoryPairings.
  * categoryPairings only returns prosodic categories given a syntactic category.
  * reversibleCatPairings also returns a syntactic category given a prosodic
@@ -213,6 +212,8 @@ function reversibleCatPairings(cat){
     }
   }
 }
+
+
 
 // Function to check that every prosodic category in categoryPairings is in pCat
 function checkProsodicHierarchy(pCat, categoryPairings){
