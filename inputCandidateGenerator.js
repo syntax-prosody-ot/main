@@ -88,12 +88,13 @@ function sTreeGEN(terminalString, options)
     if(options.headSide){
         var side, strict;
         [side, strict] = options.headSide.split('-');
+        // console.log(sTreeList)
         sTreeList = sTreeList.filter(x => !headsOnWrongSide(x, side, strict));
     }
     if(options.noMirrorImages){
       sTreeList = sTreeList.filter(x => !mirrorImages(x, sTreeList));
     }
-    // console.log(sTree)
+
     return sTreeList;
 }
 
