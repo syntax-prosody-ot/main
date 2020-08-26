@@ -672,6 +672,7 @@ window.addEventListener('load', function(){
 
 	// automatically generate input tree
 	function autoGenInputTree() {
+		genTerminalStrings();
 		var strings = getStringsList();
 		var length = strings.length;
 

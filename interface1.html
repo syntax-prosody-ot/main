@@ -744,24 +744,24 @@
 						</div>
 					</div>
 					<button id="addList" type="button">Add list of terminals</button>
+					<br>
+					<button id="genStringsDoneButton" class="orange-button" type="button">Generate terminal strings</button>
+					<div style="margin-top: 15px">
+						<label class="switch">
+							<input type="checkbox" id="gen-strings-switch" value="">
+							<span class="slider round"></span>
+						</label>
+						<p id="strings-switch-text" style="font-size: 15; vertical-align: middle; display: inline">Show generated terminal strings</p>
+					</div>
+
+					<div id="genStringsArea" style="display: none">
+						<br>
+						<div id="genStringsBox"></div>
+					</div>
 				</fieldset>
 
-				<button id="genStringsDoneButton" class="orange-button" type="button" style="margin-top: 10px">Generate terminal strings</button>
 				<button id="autoGenDoneButton" class="orange-button" type="button" style="margin-top: 15px">Generate trees</button>
 				<div id="autoDoneMessage">The trees in the analysis are up-to-date</div>
-
-				<div style="margin-top: 15px">
-					<label class="switch">
-						<input type="checkbox" id="gen-strings-switch" value="">
-						<span class="slider round"></span>
-					</label>
-					<p id="strings-switch-text" style="font-size: 15; vertical-align: middle; display: inline">Show generated terminal strings</p>
-				</div>
-
-				<div id="genStringsArea" style="display: none">
-					<br>
-					<div id="genStringsBox"></div>
-				</div>
 
 				<div style="margin-top: 15px">
 					<label class="switch">
