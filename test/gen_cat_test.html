@@ -72,9 +72,7 @@
 
 			if(resultsContainer){
 				var settingsDisp = document.createElement('div');
-				settingsDisp.innerText = "Creating tableau with GEN settings "+JSON.stringify(output_gen_options);
-				settingsDisp.style.width = "400px";
-				settingsDisp.style.fontStyle = "strong";
+				settingsDisp.innerHTML = '<p style = "width:400px"><b>Creating tableau with GEN settings '+JSON.stringify(output_gen_options)+"</b></p>";
 				resultsContainer.appendChild(settingsDisp);
 				resultsContainer.appendChild(document.createElement('p'));
 			}
@@ -83,10 +81,10 @@
 				var candSet = GEN({}, 'a b c', output_gen_options);
 			}
             catch(err){
+				console.log(err);
 				if(resultsContainer){
 					var catErrDisp = document.createElement('div');
-					catErrDisp.width = 300;
-					var t = ["This tableau could not be created due to incorrect GEN settings.", "Gen categories:", JSON.stringify(output_gen_options), "Current prosodic hierarchy:", JSON.stringify(pCat)]
+					var t = ["This tableau could not be created due to incorrect GEN settings.", "Gen categories: " + [output_gen_options.rootCategory, output_gen_options.recursiveCategory, output_gen_options.terminalCategory], "Current prosodic hierarchy: "+JSON.stringify(pCat), "Current category pairings: "+JSON.stringify(categoryPairings)];
 					for(var i in t){
 						var x = document.createElement('p');
 						x.innerText = t[i];
@@ -99,15 +97,33 @@
 			}
             
 			//Make the tableau using the makeTableau function (defined in tableauMaker.js)
-		var tabl = makeTableau(candSet, window[consName], {showTones: output_gen_options.addTones, parens: myCategoryBrackets});//, ph}); ph object goes to GEN instead of to tableauMaker
-			
+			var tabl;
+			try{
+				tabl = makeTableau(candSet, window[consName], {showTones: output_gen_options.addTones, parens: myCategoryBrackets});//, ph}); ph object goes to GEN instead of to tableauMaker
+				
+			} 
+			catch(err){
+				console.log(err);
+				if(resultsContainer){
+					var catErrDisp = document.createElement('div');
+					var t = ["This tableau could not be created due to problems in makeTableau().", window[consName], "Current prosodic hierarchy: "+JSON.stringify(pCat), "Current category pairings: "+JSON.stringify(categoryPairings)];
+					for(var i in t){
+						var x = document.createElement('p');
+						x.innerText = t[i];
+						x.style.width = "400px";
+						catErrDisp.appendChild(x);
+					}
+					resultsContainer.appendChild(catErrDisp);
+				}
+				continue;
+			}
 			//Write the tableau to the screen and reveal it -- only uncomment this if you don't have too many tableaux!
 			writeTableau(tabl, {});
-			revealNextSegment();
-			lastSegmentId++;
-			
-			//Add the tableau from the current stree to cumulative tableau that is being built in csvSegs.
-            csvSegs.push(tableauToCsv(tabl, '\t', {noHeader: j}));
+				revealNextSegment();
+				lastSegmentId++;
+				
+				//Add the tableau from the current stree to cumulative tableau that is being built in csvSegs.
+				csvSegs.push(tableauToCsv(tabl, '\t', {noHeader: j}));
         }
 		
 		//Save the tableau as a tab-separated file, named after consName

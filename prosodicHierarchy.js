@@ -95,19 +95,7 @@ function setPCat(newPCat){
 		return nextLower(pCat, cat);
 	}
 	pCat.nextHigher = function(cat){
-		var i = pCat.indexOf(cat);
-		try {
-			if (i < 0)
-				throw new Error(cat + ' is not a prosodic category');
-		}
-		catch(err) {
-			displayError(err.message, err);
-		}
-		if (i === 0){
-			displayError(cat + ' is the highest prosodic category');
-			return cat;
-		}
-		return pCat[i-1];
+		return nextHigher(pCat, cat);
 	}
 }
 
@@ -148,28 +136,36 @@ sCat.nextLower = function(cat) {
 
 function nextLower(pCat, cat){
 	var i = pCat.indexOf(cat);
-	try {
-		if (i < 0)
-			throw new Error(cat + ' is not a prosodic category');
+	if (i < 0){
+		var errMsg = cat + ' is not a prosodic category in the currently defined prosodic hierarchy, '+pCat;
+		displayError(errMsg);
+		throw new Error(errMsg);
 	}
-	catch(err) {
-		displayError(err.message, err);
+	else if(i===pCat.length-1){
+		displayError(cat + ' is the lowest category defined in the prosodic hierarchy; returning category '+cat);
+		return cat;
 	}
 	return pCat[i+1];
 }
 
 //function that returns the prosodic category that is one level higher than the given category
 pCat.nextHigher = function(cat){
+	return nextHigher(pCat, cat);
+}
+
+sCat.nextHigher = function(cat){
+	return nextHigher(sCat, cat);
+}
+
+function nextHigher(pCat, cat){
 	var i = pCat.indexOf(cat);
-	try {
-		if (i < 0)
-			throw new Error(cat + ' is not a prosodic category');
-	}
-	catch(err) {
-		displayError(err.message, err);
+	if (i < 0){
+		var errMsg = cat + ' is not a prosodic category in the currently defined prosodic hierarchy, '+pCat;
+		displayError(errMsg);
+		throw new Error(errMsg);
 	}
 	if (i === 0){
-		displayError(cat + ' is the highest prosodic category');
+		displayError(cat + ' is the highest category defined in the prosodic hierarchy; returning category '+cat);
 		return cat;
 	}
 	return pCat[i-1];
@@ -227,15 +223,19 @@ function checkProsodicHierarchy(pCat, categoryPairings){
 			console.log(categoryPairings[category]);
 			for (pairing in categoryPairings[category]){
 				if (!pCat.includes(categoryPairings[category][pairing])){
+					ret = false;
 					console.log(categoryPairings[category][pairing]);
-					displayError("From checkProsodicHierarchy() (tableauMaker.js). \nThe category " + categoryPairings[category][pairing] + " from categoryPairings is not in pCat!\nCurrent pCat: "+JSON.stringify(pCat));
-					ret = false;	
+					var prosodicMismatchMsg = "The category " + categoryPairings[category][pairing] + " from categoryPairings is not in pCat!\nCurrent pCat: "+pCat;
+					displayError(prosodicMismatchMsg);
+					//throw new Error(prosodicMismatchMsg);
 				}
 			}
 		}
 		else if(!pCat.includes(categoryPairings[category])){
-			displayError("From checkProsodicHierarchy() (tableauMaker.js). \nThe category " + categoryPairings[category] + " from categoryPairings is not in pCat!\nCurrent pCat: "+JSON.stringify(pCat));
+			var errMsg = "The category " + categoryPairings[category] + " from categoryPairings is not in pCat!\nCurrent pCat: "+pCat;
 			ret = false;
+			displayError(errMsg);
+			//throw new Error(errMsg);
 		}
 	}
 	return ret;
