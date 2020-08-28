@@ -1,3 +1,8 @@
+//Modifications:
+//8-28-2020 Edward Shingler created functions ["notMutualCommand","dominates","pairExists","areAdjacent"] and constraints ["ccPhi","antiCCPhi","mutualSplit"]
+//These constraints take an boolean argument called "adjacent" defaulted to false. If true, then each function only looks at adjacent words that would cause violations.
+
+//DON'T FORGET TO INCLUDE ADJACENCY FOR ccPhi, antiCCPhi, mutualSplit
 function isInArray(myArray, x)
 {
 	var answer = false;
@@ -201,6 +206,29 @@ function sharePhi(ptree,x,y)
 	return answer;
 };
 
+function dominates(node,x)
+{
+	var check = false;
+	if(node.children && node.children.length)
+	{
+		for(var i = 0; i < node.children.length; i++)
+		{
+			var currentKid = node.children[i];
+			if(currentKid.id == x.id)
+			{
+				var check = true;
+				break;
+			}
+			else
+			{
+				var check = dominates(currentKid,x);
+				if(check==true){break;};
+			}
+		}
+	};
+	return check;
+};
+
 function group(sTree,pTree)
 {
 	var vcount = 0;
@@ -273,6 +301,21 @@ function mutualNonCommand(tree,x,y)
 	};
 };
 
+//Returns true if EITHER node does not command the other.
+function notMutualCommand(tree,x,y)
+{
+	var cx = commands(tree,x);
+	var cy = commands(tree,y);
+	if(!isInArray(cx,y) || !isInArray(cy,x))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	};
+};
+
 function splitNMC(sTree,pTree)
 {
 	var vcount = 0;
@@ -308,5 +351,183 @@ function splitNMCmin(sTree,pTree)
 			}
 		}
 	}
+	return vcount;
+};
+
+//Checks if two leaves are adjacent
+function areAdjacent(tree, x, y)
+{
+	if(nextLeaf(tree,x)[0]==y)
+	{
+		return true;
+	};
+	if(nextLeaf(tree,y)[0]==x)
+	{
+		return true;
+	};
+	return false;
+};
+
+//Checks if an array has a pair of items
+function pairExists(pairs, x, y)
+{
+			var check = false;
+			for(var t = 0; t < pairs.length; t++)
+			{
+				var hasX = false;
+				var hasY = false;
+				for(var q = 0; q < pairs[t].length; q++)
+				{
+					if(x == pairs[t][q])
+					{
+						var hasX = true;
+					}
+					if(y == pairs[t][q])
+					{
+						var hasY = true;
+					}
+					if(hasX && hasY)
+					{
+						var check = true;
+						return check;
+					}
+				}
+			}
+			return false;
+};
+
+//Reflects CC-ϕ constraint (Kalivoda 2018). Argument "adjacent" refers to whether or not violations apply to only adjacent words or words throughout the tree.
+//cPair order is reversible, so is situations where two leaves mutually command, there is only one cPair.
+//if adjacent == true then violations are only added if it occurs between adjacent words. This is reflective of Kalivoda (2018) constraint wording, but Kalivoda has expressed uncertainty about the significance of this adjacency specification.
+function ccPhi(sTree,pTree,adjacent=false)
+{
+	var vcount = 0;
+	var sLeaves = getLeaves(sTree);
+	var phis = getPhis(pTree);
+	cPairs = [];
+	for(var i = 0; i < sLeaves.length; i++)
+	{
+		var currentLeaf = sLeaves[i];
+		var comSet = commands(sTree,currentLeaf);
+		for(var j = 0; j < comSet.length; j++)
+		{
+			if(!pairExists(cPairs, currentLeaf, comSet[j]))
+			{
+				if(adjacent == false || areAdjacent(sTree, currentLeaf, comSet[j]))
+				{
+					cPairs.push([currentLeaf, comSet[j]]);
+				}
+			}
+		}
+	};
+	for(var k = 0; k < cPairs.length; k++)
+	{
+		for(var p = 0; p < phis.length; p++)
+		{
+			if(dominates(phis[p], cPairs[k][0]) && !dominates(phis[p], cPairs[k][1]))
+			{
+				vcount++;
+			}
+			if(!dominates(phis[p], cPairs[k][0]) && dominates(phis[p], cPairs[k][1]))
+			{
+				vcount++;
+			}
+		}
+	};
+	return vcount;
+};
+
+//Reflects ANTI-CC-ϕ constraint (Kalivoda 2018). Differs from MutualSplit in that violations apply when two nodes are mutually non-commanding. This is checked by the "mutualNonCommand" function, the only distinction between the two constraints.
+//nonCPairs order is reversible, so is situations where two leaves mutually command, there is only one cPair.
+function antiCCPhi(sTree,pTree,adjacent=false)
+{
+	var vcount = 0;
+	var sLeaves = getLeaves(sTree);
+	var phis = getPhis(pTree);
+	nonCPairs = [];
+	for(var i = 0; i < sLeaves.length; i++)
+	{
+		for(var p = 0; p < sLeaves.length; p++)
+		{
+			if(sLeaves[i] != sLeaves[p] && !pairExists(nonCPairs, sLeaves[i], sLeaves[p]) && mutualNonCommand(sTree, sLeaves[i], sLeaves[p]))
+			{
+				if(adjacent == false || areAdjacent(sTree, sLeaves[i], sLeaves[p]))
+				{
+					nonCPairs.push([sLeaves[i], sLeaves[p]]);
+				}
+			}
+		}
+	};
+	for(var k = 0; k < nonCPairs.length; k++)
+	{
+		var splitx = false;
+		var splity = false;
+		for(var p = 0; p < phis.length; p++)
+		{
+			if(dominates(phis[p], nonCPairs[k][0]) && !dominates(phis[p], nonCPairs[k][1]))
+			{
+				splitx = true;
+			}
+			if(!dominates(phis[p], nonCPairs[k][0]) && dominates(phis[p], nonCPairs[k][1]))
+			{
+				splity = true;
+			}
+		}
+		if(!splitx)
+		{
+			vcount++;
+		}
+		if(!splity)
+		{
+			vcount++;
+		}
+	};
+	return vcount;
+};
+
+//Reflects MutualSplit constraint (Kalivoda 2018). Differs from ANTI-CC-ϕ in that violations apply if EITHER of two node does not command the other. This is checked by the "notMutualCommand" function, the only distinction between the two constraints.
+function mutualSplit(sTree,pTree,adjacent=false)
+{
+	var vcount = 0;
+	var sLeaves = getLeaves(sTree);
+	var phis = getPhis(pTree);
+	nonCPairs = [];
+	for(var i = 0; i < sLeaves.length; i++)
+	{
+		for(var p = 0; p < sLeaves.length; p++)
+		{
+			if(sLeaves[i] != sLeaves[p] && !pairExists(nonCPairs, sLeaves[i], sLeaves[p]) && notMutualCommand(sTree, sLeaves[i], sLeaves[p]))
+			{
+				if(adjacent == false || areAdjacent(sTree, sLeaves[i], sLeaves[p]))
+				{
+					nonCPairs.push([sLeaves[i], sLeaves[p]]);
+				}
+			}
+		}
+	};
+	for(var k = 0; k < nonCPairs.length; k++)
+	{
+		var splitx = false;
+		var splity = false;
+		for(var p = 0; p < phis.length; p++)
+		{
+			if(dominates(phis[p], nonCPairs[k][0]) && !dominates(phis[p], nonCPairs[k][1]))
+			{
+				splitx = true;
+			}
+			if(!dominates(phis[p], nonCPairs[k][0]) && dominates(phis[p], nonCPairs[k][1]))
+			{
+				splity = true;
+			}
+		}
+		if(!splitx)
+		{
+			vcount++;
+		}
+		if(!splity)
+		{
+			vcount++;
+		}
+	};
 	return vcount;
 };
