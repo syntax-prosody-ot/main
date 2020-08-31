@@ -16,7 +16,7 @@ function clearInputs(){
 
   spotForm['head-req'].value = 'select';
 
-  if(document.getElementById('add-clitics')){
+  if(document.getElementById('add-clitics').checked){
     document.getElementById('add-clitics').click();
   }
 
