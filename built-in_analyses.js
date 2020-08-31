@@ -287,6 +287,10 @@ function my_built_in_analysis(myGEN, showTones, myTrees, myCon){
     if(optVal===true){
       genBoxes[box].checked = true;
     }
+    if(genBoxes[box].value==='maxBranching' && typeof(optVal) == "string"){
+      genBoxes[box].click();
+      spotForm['maxBranchingValue'].value = optVal;
+    }
     if(optVal instanceof Array && genBoxes[box].value==='obeysExhaustivity'){
       var exhaustivityBox = document.getElementById("exhaustivityBox");
       //exhaustivityBox.click();
@@ -519,6 +523,9 @@ function record_analysis(){
     //make sure "showTones" has a string value
     else if(option.value === "usesTones" && option.checked){
       analysis.showTones = spotForm.toneOptions.value;
+    }
+    else if(option.value === 'maxBranching' && option.checked){
+      analysis.myGEN.maxBranching = spotForm['maxBranchingValue'].value;
     }
     else if(option.checked){
       analysis.myGEN[option.value] = true;
