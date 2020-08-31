@@ -1169,10 +1169,11 @@ function displayWarning(warnMsg) {
 
 function showMaxBranching() {
 	var text = document.getElementById('maxBranchingText');
-	if(text.style.display === 'none') {
+	var checkBox = document.getElementById('maxBranchingBox')
+	if(checkBox.checked) {
 		text.style.display = 'inline';
 	}
-	else if(text.style.display === 'inline') {
+	else{
 		text.style.display = 'none';
 	}
 }
