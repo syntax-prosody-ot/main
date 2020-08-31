@@ -48,7 +48,7 @@ function clearAnalysis(){
   var showMoreDivs = document.getElementsByClassName('more-constraints');
 
   //restrict branches text should default to 2, I think
-  document.getElementById('maxBranchingText').children[0].value = 2;
+  spotForm['maxBranchingValue'].value = 2;
 
   //reset gen options
   for(var i = 0; i<genOptions.length; i++){
