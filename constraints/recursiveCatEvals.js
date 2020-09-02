@@ -68,8 +68,7 @@ function markMinMax(mytree, options){
 	}
 
 	//mark maximal nodes
-	if (mytree.func == false && (options.requireLexical === true || options.requireOverthead === true))
-	{
+	if (!(options.requireLexical && mytree.func) || !(options.requireOvertHead && mytree.silentHead)){
 		mytree.isMax = (mytree.cat !== mytree.parentCat);
 	};
 
