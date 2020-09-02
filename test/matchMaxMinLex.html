@@ -2,13 +2,11 @@
 <head>
 	<title>Match SP Max/Min Bug</title>
 
-	<link rel="stylesheet" type="text/css" href="spot.css">
-
-	<script src="lib/jszip.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../spot.css">
 
 	<!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
 	(open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
-	<script src="build/spot.js"></script>	
+	<script src="../build/spot.js"></script>	
 	
 
 	<!--Change "YOUR_TREES_HERE" to the name of your tree file on the following line. Make sure your file is in main/trees-->
@@ -232,7 +230,7 @@
 	<pre id="results-container"></pre>
 
 <script>
-	var sTreeLists = [stree0, stree1, stree2, stree3];
+	var sTreeList = [stree0, stree1, stree2, stree3];
 
 	//Option 2: Define trees manually
 	//var sTreeList = [sTree1, sTree2];
@@ -256,7 +254,7 @@
 
             //Make the candidate set using the GEN function (defined in candidategenerator.js)
 			//Leave the 2nd argument as an empty string to scrape words from the terminals of the syntactic tree.
-            var candSet = GEN(sTreeList[j], '', gen_options);
+            var candSet = [[currentSTree, ptree0], [currentSTree, ptree1], [currentSTree, ptree2]]
             
 			writeTableau(makeTableau(candSet, window[consName]));
 			revealNextSegment();
