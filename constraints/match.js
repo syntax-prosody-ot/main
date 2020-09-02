@@ -164,7 +164,7 @@ function hasMatch(sNode, pTree, options)
 {
 
 	var sLeaves = getLeaves(sNode);
-	markMinMax(pTree);
+	markMinMax(pTree, options);
 	if((options.anyPCat || catsMatch(sNode.cat, pTree.cat))
 	&& sameIds(getLeaves(pTree), sLeaves)
 	&& !(options.requireLexical && pTree.func)
