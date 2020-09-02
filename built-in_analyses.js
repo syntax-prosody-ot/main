@@ -16,8 +16,8 @@ function clearInputs(){
 
   spotForm['head-req'].value = 'select';
 
-  if(spotForm['autoInputOptions-addClitics'].checked){
-    spotForm['autoInputOptions-addClitics'].click();
+  if(document.getElementById('add-clitics').checked){
+    document.getElementById('add-clitics').click();
   }
 
   let inputStrings = spotForm['inputToGenAuto'];
@@ -46,6 +46,9 @@ function clearAnalysis(){
   var conOptions;
   var fieldsets = document.getElementsByTagName("fieldset");
   var showMoreDivs = document.getElementsByClassName('more-constraints');
+
+  //restrict branches text should default to 2, I think
+  spotForm['maxBranchingValue'].value = 2;
 
   //reset gen options
   for(var i = 0; i<genOptions.length; i++){
@@ -97,7 +100,12 @@ function clearAnalysis(){
   }
   window.clearUTrees();
   document.getElementById("stree-textarea").value = '{}';
-
+  document.getElementById("autoTreeBox").innerHTML = '';
+  if(document.getElementById("syntax-tree-switch").checked){
+    document.getElementById("syntax-tree-switch").click();
+  }
+  changeInputTabs('inputButton', 'goButton');
+  
   clearInputs();
 
 }
@@ -278,6 +286,10 @@ function my_built_in_analysis(myGEN, showTones, myTrees, myCon){
     var optVal = myGEN[genBoxes[box].value];
     if(optVal===true){
       genBoxes[box].checked = true;
+    }
+    if(genBoxes[box].value==='maxBranching' && typeof(optVal) == "string"){
+      genBoxes[box].click();
+      spotForm['maxBranchingValue'].value = optVal;
     }
     if(optVal instanceof Array && genBoxes[box].value==='obeysExhaustivity'){
       var exhaustivityBox = document.getElementById("exhaustivityBox");
@@ -511,6 +523,9 @@ function record_analysis(){
     //make sure "showTones" has a string value
     else if(option.value === "usesTones" && option.checked){
       analysis.showTones = spotForm.toneOptions.value;
+    }
+    else if(option.value === 'maxBranching' && option.checked){
+      analysis.myGEN.maxBranching = spotForm['maxBranchingValue'].value;
     }
     else if(option.checked){
       analysis.myGEN[option.value] = true;
