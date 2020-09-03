@@ -1847,6 +1847,98 @@
 
 				<fieldset>
 
+					<legend><h2>Command <span class="arrow"></h2></legend>
+
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="ccPhi">C-Command-to-&phi;</span>
+							<div class="info">
+								<span class="content">For every c-pair (x, y), assign a violation for every &phi; that dominates x but not y, and for every &phi; that dominates y but not x. SPOT function: ccPhi(). (Kalivoda 2018)</span>
+							</div>
+						</div>
+						<div class="category-row">
+							<div class="category-selection-div"><input type="checkbox" name="category-ccPhi" value="i">&iota;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-ccPhi" value="phi" checked="checked">&phi;</div>
+						</div>
+						<div class="category-row">
+							<div class="custom-text">
+								<p>Enforce Command only for syntactic nodes that are...</p>
+							</div>
+							<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-ccPhi" value="requireAdjacent">adjacent</div>
+							<div class="info">
+								<span class="content custom-option-div">Only apply constraint to linearly adjacent words.</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="antiCCPhi">Anti-C-Command-to-&phi;</span>
+							<div class="info">
+								<span class="content">If ω<sub>x</sub> and ω<sub>y</sub> are not mutually commanding, then assign a violation if there is no &phi; containing ω<sub>x</sub> and excluding ω<sub>y</sub>, and a violation if there is no &phi; containing ω<sub>y</sub> and excluding ω<sub>x</sub>. SPOT function: antiCCPhi(). (Kalivoda 2018)</span>
+							</div>
+						</div>
+						<div class="category-row">
+							<div class="category-selection-div"><input type="checkbox" name="category-antiCCPhi" value="i">&iota;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-antiCCPhi" value="phi" checked="checked">&phi;</div>
+						</div>
+						<div class="category-row">
+							<div class="custom-text">
+								<p>Enforce Command only for syntactic nodes that are...</p>
+							</div>
+							<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-antiCCPhi" value="requireAdjacent">adjacent</div>
+							<div class="info">
+								<span class="content custom-option-div">Only apply constraint to linearly adjacent words.</span>
+							</div>
+						</div>
+						<div class="category-row">
+								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-group" value="requireMutual">mutually non-commanding</div>
+								<div class="info">
+									<span class="content">Only apply constraint when words are mutually commanding. (Kalivoda 2018)</span>
+								</div>
+							</div>
+					</div>
+
+					<div onclick="showMore('moreCommandConstraints')" class="show-more" id="moreCommandConstraintsShow">Show more...</div>
+
+					<div id="moreCommandConstraints" class="more-constraints">
+
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="group">Group</span>
+								<div class="info">
+									<span class="content">Assign a violation for every c-pair that is not contained in at least one &phi;. SPOT function: group(). (Kalivoda 2018)</span>
+								</div>
+							</div>
+							<div class="category-row">
+							<div class="category-selection-div"><input type="checkbox" name="category-group" value="i">&iota;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-group" value="phi" checked="checked">&phi;</div>
+						</div>
+							<div class="category-row">
+								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-group" value="requireMinimal">Require minimal</div>
+								<div class="info">
+									<span class="content">Assign a violation for every c-pair that does have the same parent &phi;. (Kalivoda 2018)</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="custom-text">
+									<p>Enforce Command only for syntactic nodes that are...</p>
+								</div>
+								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-antiCCPhi" value="requireAdjacent">adjacent</div>
+								<div class="info">
+									<span class="content custom-option-div">Only apply constraint to linearly adjacent words.</span>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+				</fieldset>
+
+				<br/>
+
+				<fieldset>
+
 					<legend><h2>Sisterhood <span class="arrow"></h2></legend>
 
 					<div class="constraint-selection-table">
