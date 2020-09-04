@@ -230,31 +230,10 @@ function dominates(node,x)
 	return check;
 };
 
-//Wrapper function to deal with categories and options correctly.
+//Assigns a violation for each c-pair whose elements do not reside together in at least one phi.
 function group(sTree,pTree,cat,options)
 {
 	options = options || {};
-	if(options.adjacent == true)
-	{
-		if(options.requireMin)
-		{
-			return groupMin(sTree,pTree,cat,adjacent=true)
-		} else {
-			return groupInner(sTree,pTree,cat,adjacent=true)
-		};
-	} else {
-		if(options.requireMin)
-		{
-			return groupMin(sTree,pTree,cat)
-		} else {
-			return groupInner(sTree,pTree,cat)
-		};
-	}
-};
-
-//Assigns a violation for each c-pair whose elements do not reside together in at least one phi.
-function groupInner(sTree,pTree,cat,adjacent=false)
-{
 	var vcount = 0;
 	var sLeaves = getLeaves(sTree);
 	var phis = getPhis(pTree,cat);
@@ -267,7 +246,7 @@ function groupInner(sTree,pTree,cat,adjacent=false)
 		{
 			if(!pairExists(cPairs, currentLeaf, comSet[j]))
 			{
-				if(adjacent == false || areAdjacent(sTree, currentLeaf, comSet[j]))
+				if(!options.requireAdjacent || areAdjacent(sTree, currentLeaf, comSet[j], options))
 				{
 					cPairs.push([currentLeaf, comSet[j]]);
 				}
@@ -276,43 +255,14 @@ function groupInner(sTree,pTree,cat,adjacent=false)
 	};
 	for(var i = 0; i < cPairs.length; i++)
 	{
-		if(!sharePhi(pTree,cat,cPairs[i][0],cPairs[i][1]))
+		if(options.requireMin && !phiMates(pTree,cat,cPairs[i][0],cPairs[i][1]))
 		{
-			vcount++;
-		}
-	}
-	return vcount;
-};
 
-//Assigns a violation for each c-pair whose elements do not reside as children of the same phi.
-function groupMin(sTree,pTree,cat,adjacent=false)
-{
-	var vcount = 0;
-	var sLeaves = getLeaves(sTree);
-	var phis = getPhis(pTree,cat);
-	cPairs = [];
-	for(var i = 0; i < sLeaves.length; i++)
-	{
-		var currentLeaf = sLeaves[i];
-		var comSet = commands(sTree,currentLeaf);
-		for(var j = 0; j < comSet.length; j++)
-		{
-			if(!pairExists(cPairs, currentLeaf, comSet[j]))
-			{
-				if(adjacent == false || areAdjacent(sTree, currentLeaf, comSet[j]))
-				{
-					cPairs.push([currentLeaf, comSet[j]]);
-				}
-			}
-		}
-	};
-	for(var i = 0; i < cPairs.length; i++)
-	{
-		if(!phiMates(pTree,cat,cPairs[i][0],cPairs[i][1]))
+		} else if(!sharePhi(pTree,cat,cPairs[i][0],cPairs[i][1]))
 		{
 			vcount++;
 		}
-	}
+	};
 	return vcount;
 };
 
@@ -404,11 +354,7 @@ function splitNMCmin(sTree,pTree)
 //Checks if two leaves are adjacent
 function areAdjacent(tree, x, y)
 {
-	if(nextLeaf(tree,x)[0]==y)
-	{
-		return true;
-	};
-	if(nextLeaf(tree,y)[0]==x)
+	if(nextLeaf(tree,x)[0]==y || nextLeaf(tree,y)[0]==x)
 	{
 		return true;
 	};
@@ -443,23 +389,12 @@ function pairExists(pairs, x, y)
 			return false;
 };
 
-//Wrapper function to integrate interface and functions.
-function ccPhi(sTree,pTree,cat,options)
-{
-	options = options || {};
-	if(options.requireAdjacent)
-	{
-		return ccPhiInner(sTree,pTree,cat,adjacent=true)
-	} else {
-		return ccPhiInner(sTree,pTree,cat)
-	};
-};
-
 //Reflects CC-ϕ constraint (Kalivoda 2018). Argument "adjacent" refers to whether or not violations apply to only adjacent words or words throughout the tree.
 //cPair order is reversible, so is situations where two leaves mutually command, there is only one cPair.
 //if adjacent == true then violations are only added if it occurs between adjacent words. This is reflective of Kalivoda (2018) constraint wording, but Kalivoda has expressed uncertainty about the significance of this adjacency specification.
-function ccPhiInner(sTree,pTree,cat,adjacent=false)
+function ccPhi(sTree,pTree,cat,options)
 {
+	options = options || {};
 	var vcount = 0;
 	var sLeaves = getLeaves(sTree);
 	var phis = getPhis(pTree,cat);
@@ -473,7 +408,7 @@ function ccPhiInner(sTree,pTree,cat,adjacent=false)
 		{
 			if(!pairExists(cPairs, currentLeaf, comSet[j]))
 			{
-				if(adjacent == false || areAdjacent(sTree, currentLeaf, comSet[j]))
+				if(!options.requireAdjacent || areAdjacent(sTree, currentLeaf, comSet[j]))
 				{
 					cPairs.push([currentLeaf, comSet[j]]);
 				}
@@ -498,83 +433,11 @@ function ccPhiInner(sTree,pTree,cat,adjacent=false)
 	return vcount;
 };
 
-
-//Wrapper function to integrate interface and functions.
+//Reflects ANTI-CC-ϕ constraint (Kalivoda 2018). Differs from MutualSplit in that violations apply when two nodes are mutually non-commanding. This is checked by the "mutualNonCommand" function, the only distinction between the two constraints.
+//nonCPairs order is reversible, so is situations where two leaves mutually command, there is only one cPair.
 function antiCCPhi(sTree,pTree,cat,options)
 {
 	options = options || {};
-	if(options.requireMutual)
-	{
-		if(options.requireAdjacent)
-		{
-			return antiCCPhiInner(sTree,pTree,cat,adjacent=true)
-		} else {
-			return antiCCPhiInner(sTree,pTree,cat)
-		}
-	}
-	else
-	{
-		if(options.requireAdjacent)
-		{
-			return mutualSplit(sTree,pTree,cat,adjacent=true)
-		} else {
-			return mutualSplit(sTree,pTree,cat)
-		}
-	}
-	
-};
-//Reflects ANTI-CC-ϕ constraint (Kalivoda 2018). Differs from MutualSplit in that violations apply when two nodes are mutually non-commanding. This is checked by the "mutualNonCommand" function, the only distinction between the two constraints.
-//nonCPairs order is reversible, so is situations where two leaves mutually command, there is only one cPair.
-function antiCCPhiInner(sTree,pTree,cat,adjacent=false)
-{
-		var vcount = 0;
-	var sLeaves = getLeaves(sTree);
-	var phis = getPhis(pTree,cat);
-	nonCPairs = [];
-	for(var i = 0; i < sLeaves.length; i++)
-	{
-		for(var p = 0; p < sLeaves.length; p++)
-		{
-			if(sLeaves[i] != sLeaves[p] && !pairExists(nonCPairs, sLeaves[i], sLeaves[p]) && mutualNonCommand(sTree, sLeaves[i], sLeaves[p]))
-			{
-				if(adjacent == false || areAdjacent(sTree, sLeaves[i], sLeaves[p]))
-				{
-					nonCPairs.push([sLeaves[i], sLeaves[p]]);
-				}
-			}
-		}
-	};
-	for(var k = 0; k < nonCPairs.length; k++)
-	{
-		var splitx = false;
-		var splity = false;
-		for(var p = 0; p < phis.length; p++)
-		{
-			if(dominates(phis[p], nonCPairs[k][0]) && !dominates(phis[p], nonCPairs[k][1]))
-			{
-				splitx = true;
-			}
-			if(!dominates(phis[p], nonCPairs[k][0]) && dominates(phis[p], nonCPairs[k][1]))
-			{
-				splity = true;
-			}
-		}
-		if(!splitx)
-		{
-			vcount++;
-		}
-		if(!splity)
-		{
-			vcount++;
-		}
-	};
-	return vcount;
-	return vcount;
-};
-
-//Reflects MutualSplit constraint (Kalivoda 2018). Differs from ANTI-CC-ϕ in that violations apply if EITHER of two node does not command the other. This is checked by the "notMutualCommand" function, the only distinction between the two constraints.
-function mutualSplit(sTree,pTree,cat,adjacent=false)
-{
 	var vcount = 0;
 	var sLeaves = getLeaves(sTree);
 	var phis = getPhis(pTree,cat);
@@ -583,9 +446,11 @@ function mutualSplit(sTree,pTree,cat,adjacent=false)
 	{
 		for(var p = 0; p < sLeaves.length; p++)
 		{
-			if(sLeaves[i] != sLeaves[p] && !pairExists(nonCPairs, sLeaves[i], sLeaves[p]) && notMutualCommand(sTree, sLeaves[i], sLeaves[p]))
+			if(sLeaves[i] != sLeaves[p] && !pairExists(nonCPairs, sLeaves[i], sLeaves[p]) 
+			&& !(options.requireMutual && !mutualNonCommand(sTree, sLeaves[i], sLeaves[p]))
+			&& !(!options.requireMutual && !notMutualCommand(sTree, sLeaves[i], sLeaves[p])))
 			{
-				if(adjacent == false || areAdjacent(sTree, sLeaves[i], sLeaves[p]))
+				if(!options.requireAdjacent || areAdjacent(sTree, sLeaves[i], sLeaves[p]))
 				{
 					nonCPairs.push([sLeaves[i], sLeaves[p]]);
 				}
@@ -616,5 +481,6 @@ function mutualSplit(sTree,pTree,cat,adjacent=false)
 			vcount++;
 		}
 	};
+	return vcount;
 	return vcount;
 };
