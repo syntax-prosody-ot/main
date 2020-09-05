@@ -121,26 +121,10 @@ function hasParent(myTree, x)
 	}
 };
 
-//Gets all of the phrases of category cat
-function getPhis(pTree, cat)
-{
-	var phiArray = [];
-	var nodes = getNodes(pTree);
-	for(var i = 0; i < nodes.length; i++)
-	{
-		var current = nodes[i];
-		if(current.cat == cat)
-		{
-			phiArray.push(current);
-		}
-	};
-	return phiArray;
-};
-
 function phiMates(ptree,cat,x,y)
 {
 	var answer = false;
-	var phis = getPhis(ptree,cat);
+	var phis = getDescendentsOfCat(ptree,cat);
 	for(var i = 0; i < phis.length; i++)
 	{
 		var currentPhi = phis[i];
@@ -175,7 +159,7 @@ function phiMates(ptree,cat,x,y)
 function sharePhi(ptree,cat,x,y)
 {
 	var answer = false;
-	var phis = getPhis(ptree,cat);
+	var phis = getDescendentsOfCat(ptree,cat);
 	for(var i = 0; i < phis.length; i++)
 	{
 		var currentPhi = phis[i];
@@ -236,7 +220,6 @@ function group(sTree,pTree,cat,options)
 	options = options || {};
 	var vcount = 0;
 	var sLeaves = getLeaves(sTree);
-	var phis = getPhis(pTree,cat);
 	cPairs = [];
 	for(var i = 0; i < sLeaves.length; i++)
 	{
@@ -313,44 +296,6 @@ function notMutualCommand(tree,x,y)
 	};
 };
 
-function splitNMC(sTree,pTree)
-{
-	var vcount = 0;
-	var sLeaves = getLeaves(sTree);
-	for(var i = 0; i < sLeaves.length; i++)
-	{
-		var current = sLeaves[i];
-		if(nextLeaf(sTree,current).length)
-		{
-			var next = nextLeaf(sTree,current)[0];
-			if(mutualNonCommand(sTree,current,next) && sharePhi(pTree,current,next))
-			{
-				vcount++;
-			}
-		}
-	}
-	return vcount;
-};
-
-function splitNMCmin(sTree,pTree)
-{
-	var vcount = 0;
-	var sLeaves = getLeaves(sTree);
-	for(var i = 0; i < sLeaves.length; i++)
-	{
-		var current = sLeaves[i];
-		if(nextLeaf(sTree,current).length)
-		{
-			var next = nextLeaf(sTree,current)[0];
-			if(mutualNonCommand(sTree,current,next) && phiMates(pTree,current,next))
-			{
-				vcount++;
-			}
-		}
-	}
-	return vcount;
-};
-
 //Checks if two leaves are adjacent
 function areAdjacent(tree, x, y)
 {
@@ -397,7 +342,7 @@ function ccPhi(sTree,pTree,cat,options)
 	options = options || {};
 	var vcount = 0;
 	var sLeaves = getLeaves(sTree);
-	var phis = getPhis(pTree,cat);
+	var phis = getDescendentsOfCat(pTree,cat);
 	cPairs = [];
 	//Create list of c-pairs
 	for(var i = 0; i < sLeaves.length; i++)
@@ -440,7 +385,7 @@ function antiCCPhi(sTree,pTree,cat,options)
 	options = options || {};
 	var vcount = 0;
 	var sLeaves = getLeaves(sTree);
-	var phis = getPhis(pTree,cat);
+	var phis = getDescendentsOfCat(pTree,cat);
 	nonCPairs = [];
 	for(var i = 0; i < sLeaves.length; i++)
 	{
