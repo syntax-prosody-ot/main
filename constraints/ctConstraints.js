@@ -220,7 +220,6 @@ function group(sTree,pTree,cat,options)
 	options = options || {};
 	var vcount = 0;
 	var sLeaves = getLeaves(sTree);
-	var phis = getDescendentsOfCat(pTree,cat);
 	cPairs = [];
 	for(var i = 0; i < sLeaves.length; i++)
 	{
