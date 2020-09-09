@@ -105,22 +105,26 @@ function addCliticXP(sTree, side="right", rootCategory, inside){
     //Make the clitic a daughter of sTree
     if(inside){
         //console.log("inside");
-        if(side==="right"){
-            sisters = sTree.children.concat(cliticXP);
+        try {
+          if(side==="right"){
+              sisters = sTree.children.concat(cliticXP);
+          }
+          else if(side==="left"){
+              sisters = [cliticXP].concat(sTree.children);
+              //console.log(tp);
+          }
+          else{
+              var errorMsg = "addCliticXP(): The provided side " + side + " is not valid. Side must be specified as 'left' or 'right'.";
+              throw new Error(errorMsg)
+          }
         }
-        else if(side==="left"){
-            sisters = [cliticXP].concat(sTree.children);
-            //console.log(tp);
+        catch(err) {
+          displayError(err.message, err);
         }
-        else{
-            var errorMsg = "addCliticXP(): The provided side " + side + " is not valid. Side must be specified as 'left' or 'right'.";
-            displayError(err.message, err);
-            throw new Error(errorMsg)
-        }
-        
     }
     //Make the clitic sister to sTree's root, and root the whole thing elsewhere
     else{
+      try {
         var sisters;
         if(side==="right"){
             sisters = [sTree, cliticXP];
@@ -130,9 +134,12 @@ function addCliticXP(sTree, side="right", rootCategory, inside){
         }
         else{
             var errorMsg = "addCliticXP(): The provided side " + side + " is not valid. Side must be specified as 'left' or 'right'.";
-            displayError(err.message, err);
             throw new Error(errorMsg)
         }
+      }
+      catch(err) {
+        displayError(err.message, err);
+      }
     }
     tp = {id: 'root', cat: rootCategory, children: sisters};
     return tp;
