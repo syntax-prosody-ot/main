@@ -1,6 +1,7 @@
 (function() {
 
   window.GEN_impl = function(sTree, leaves, options) {
+
     var recursiveOptions = {};
     for (var k in options) {
       if (options.hasOwnProperty(k) && k !== 'requireRecWrapper')
@@ -28,10 +29,8 @@
 			}
       candidates.push([sTree, pRoot]);
     }
-	// add getter functions that returns the category pairinig and pCat so make tableau can access them
-	candidates.getCategoryPairings = function(){return options.ph.categoryPairings};
-	candidates.getPCat = function(){return options.ph.pCat};
-  return candidates;
+
+    return candidates;
   }
 
   /* Function to check if a tree obeys headedness. Each node must either be be
@@ -109,6 +108,7 @@
    * Format: returns an array of parenthesizations, where each parenthesization
    *	is an array of children, where each child is
    *	either a phi node (with descendant nodes attached) or a leaf
+   * Options:
    */
   function gen(leaves, options) {
     var candidates = []; //each candidate will be an array of siblings

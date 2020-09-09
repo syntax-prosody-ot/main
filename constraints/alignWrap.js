@@ -20,13 +20,10 @@ the first leaf dominated by p.
 *	maxProsody: If true, the prosodic match needs to be maximal. Passed to hasMatch.
 *	minProsody: If true, the prosodic match needs to be minimal. Passed to hasMatch.
 *	nonMaxProsody: If true, the prosodic match must be non-maximal. Passed to hasMatch.
-*	nonMinProsody: If true, the prosodic match must be non-minimal. Passed to hasMatch.
-*	customPairings: A mapping of custom pairings. Passed to catsMatch.
-*	*/
+*	nonMinProsody: If true, the prosodic match must be non-minimal. Passed to hasMatch.*/
 function alignSP(sTree, pTree, sCat, d, options){
 	options = options || {};
-	console.log("align options");
-	console.log(options);
+
 	var getEdge = (d==="left") ? getLeftEdge : getRightEdge;
 	var vCount = 0;
 	
@@ -164,7 +161,6 @@ function alignFocRight(sTree, pTree, cat){
 	return alignFocus(sTree, pTree, cat, 'right');
 }
 function wrap(sTree, pTree, cat){
-	options = options || {};
 	var vCount = 0;
 	walkTree(sTree, function(sNode){
 		if(sNode.cat !== cat)
