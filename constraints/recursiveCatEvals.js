@@ -57,33 +57,29 @@ var sCat = ["cp", "xp", "x0"];
  */
 
 function markMinMax(mytree, options){
-	return markMinMaxInner(mytree, options, 'is root');
-}
-
-function markMinMaxInner(mytree, options, parentCat){
 	/* If parentCat property is not already defined for this node, it is probably
 	 * the root node. Non-root nodes get the property parentCat when this node's
 	 * children are marked below.
 	 */
 	options = options || {};
 
-	//mark maximal nodes
-	if (!(options.requireLexical && mytree.func) || !(options.requireOvertHead && mytree.silentHead)){
-		var isFunSH = false;
-		mytree.isMax = (mytree.cat !== parentCat);
+	if (!mytree.hasOwnProperty('parentCat')){
+		mytree.parentCat = "is root"; //marks the root node
 	}
 
-	else {
-		var isFunSH = true;
-		mytree.isMax = false;
-	}
+	//mark maximal nodes
+	if (!(options.requireLexical && mytree.func) || !(options.requireOvertHead && mytree.silentHead)){
+		mytree.isMax = (mytree.cat !== mytree.parentCat);
+	};
 
 	//mark minimality (relies on isMinimal above)
 	mytree.isMin = isMinimal(mytree);
 
 	if(mytree.children && mytree.children.length){
 		for(var i = 0; i < mytree.children.length; i++){
-			markMinMaxInner(mytree.children[i], options, isFunSH ? 'func/silentHead' : mytree.cat);
+			var child = mytree.children[i];
+			child.parentCat = mytree.cat; // set the property parentCat
+			mytree.children[i] = markMinMax(mytree.children[i]);
 		}
 	}
 	return mytree;
