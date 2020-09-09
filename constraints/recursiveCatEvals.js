@@ -68,9 +68,15 @@ function markMinMax(mytree, options){
 	}
 
 	//mark maximal nodes
-	if (!(options.requireLexical && mytree.func) || !(options.requireOvertHead && mytree.silentHead)){
+	if (!(options.requireLexical && mytree.func) && !(options.requireOvertHead && mytree.silentHead)){
 		mytree.isMax = (mytree.cat !== mytree.parentCat);
-	};
+		mytree.isFSH = false;
+	}
+	//mark when node should be ignored for maximality
+	if((options.requireLexical && mytree.func) || (options.requireOvertHead && mytree.silentHead)){
+		mytree.isMax = false;
+		mytree.isFSH = true;
+	}
 
 	//mark minimality (relies on isMinimal above)
 	mytree.isMin = isMinimal(mytree);
@@ -78,8 +84,12 @@ function markMinMax(mytree, options){
 	if(mytree.children && mytree.children.length){
 		for(var i = 0; i < mytree.children.length; i++){
 			var child = mytree.children[i];
-			child.parentCat = mytree.cat; // set the property parentCat
-			mytree.children[i] = markMinMax(mytree.children[i]);
+			if(mytree.isFSH == true){
+				child.parentCat = "isFSH"; //tells child node that current node was ignored
+			} else {
+				child.parentCat = mytree.cat; // set the property parentCat
+			}
+			mytree.children[i] = markMinMax(mytree.children[i], options);
 		}
 	}
 	return mytree;
