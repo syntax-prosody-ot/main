@@ -99,3 +99,29 @@ function trimRedundantNodes(inputTree){
 	}
 	return trimInner(tree);
 }
+
+function trimAttributedNodes(inputTree, attribute){
+	/*call the other two tree trimming functions first, because they might create
+	redundant nodes. trimSilentTerminals() might create dead-end terminals,
+	so call that inside of trim deadEndTerminals(). trimSilentTerminals()
+	creates a copy of the tree*/
+	var tree = copyTree(inputTree);
+	function trimInner(node){
+		if(node.children && node.children.length){
+			for(var i = 0; i<node.children.length; i++){
+				var child = node.children[i];
+				if(child.children && child.children.length){
+					if(node[attribute]){
+						//node is redundant, get rid of it\
+						node = trimInner(child); //recursive function call
+					}
+					else {
+						node.children[i] = trimInner(node.children[i]); //recursive function call
+					}
+				}
+			}
+		}
+		return node;
+	}
+	return trimInner(tree);
+}
