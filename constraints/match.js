@@ -118,7 +118,7 @@ function matchSP(inputTree, pTree, sCat, options)
 {
 	options = options || {};
 	var sParent = inputTree;
-	markMinMax(sParent);
+	markMinMax(sParent, options);
 	if(sParent.cat === sCat)
 		logreport.debug("\tSeeking match for "+sParent.id + " in tree rooted in "+pTree.id);
 	var vcount = 0;
@@ -164,7 +164,7 @@ function hasMatch(sNode, pTree, options)
 {
 
 	var sLeaves = getLeaves(sNode);
-	markMinMax(pTree);
+	markMinMax(pTree, options);
 	if((options.anyPCat || catsMatch(sNode.cat, pTree.cat))
 	&& sameIds(getLeaves(pTree), sLeaves)
 	&& !(options.requireLexical && pTree.func)

@@ -1,0 +1,321 @@
+<html>
+<head>
+	<title>Match SP Max/Min Bug</title>
+
+	<link rel="stylesheet" type="text/css" href="../spot.css">
+
+	<!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
+	(open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
+	<script src="../build/spot.js"></script>	
+	
+
+	<!--Change "YOUR_TREES_HERE" to the name of your tree file on the following line. Make sure your file is in main/trees-->
+	<script>
+		//[FuncP X [LexP1 Y [LexP2 Z ]]]
+		stree0 = {
+			cat: "xp",
+			func: true,
+			id: 'FuncP',
+			children: [
+				{
+					cat: 'x0',
+					id: 'X'
+				},
+				{
+					cat: 'xp',
+					id: 'LexP1',
+					children: [
+						{
+							cat: 'x0',
+							id: 'Y'
+						},
+						{
+							cat: 'xp',
+							id: 'LexP2',
+							children: [
+								{
+									cat: 'x0',
+									id: 'Z'
+								}
+							]
+						}
+					]
+				}
+			]
+		};
+		stree1 = {
+			cat: "xp",
+			silentHead: true,
+			id: 'FuncP',
+			children: [
+				{
+					cat: 'x0',
+					id: 'X'
+				},
+				{
+					cat: 'xp',
+					id: 'LexP1',
+					children: [
+						{
+							cat: 'x0',
+							id: 'Y'
+						},
+						{
+							cat: 'xp',
+							id: 'LexP2',
+							children: [
+								{
+									cat: 'x0',
+									id: 'Z'
+								}
+							]
+						}
+					]
+				}
+			]
+		};
+		stree2 = {
+			cat: "xp",
+			func: true,
+			silentHead: true,
+			id: 'FuncP',
+			children: [
+				{
+					cat: 'x0',
+					id: 'X'
+				},
+				{
+					cat: 'xp',
+					id: 'LexP1',
+					children: [
+						{
+							cat: 'x0',
+							id: 'Y'
+						},
+						{
+							cat: 'xp',
+							id: 'LexP2',
+							children: [
+								{
+									cat: 'x0',
+									id: 'Z'
+								}
+							]
+						}
+					]
+				}
+			]
+		};
+		stree3 = {
+			cat: "xp",
+			id: 'LexP0',
+			children: [
+				{
+					cat: 'x0',
+					id: 'X'
+				},
+				{
+					cat: 'xp',
+					id: 'LexP1',
+					children: [
+						{
+							cat: 'x0',
+							id: 'Y'
+						},
+						{
+							cat: 'xp',
+							id: 'LexP2',
+							children: [
+								{
+									cat: 'x0',
+									id: 'Z'
+								}
+							]
+						}
+					]
+				}
+			]
+		};
+		ptree0 = {
+			cat: 'i',
+			id: 'root',
+			children: [
+				{
+					cat: 'w',
+					id: 'X'
+				},
+				{
+					cat: 'phi',
+					id: 'phi1',
+					children: [
+						{
+							cat: 'w',
+							id: 'Y'
+						},
+						{
+							cat: 'w',
+							id: 'Z'
+						}
+					]
+				}
+			]
+		};
+		ptree1 = {
+			cat: 'i',
+			id: 'root',
+			children: [
+				{
+					cat: 'w',
+					id: 'X'
+				},
+				{
+					cat: 'phi',
+					id: 'phi1',
+					children: [
+						{
+							cat: 'w',
+							id: 'Y'
+						},
+						{
+							cat: 'phi',
+							id: 'phi2',
+							children: [
+								{
+									cat: 'w',
+									id: 'Z'
+								}
+							]
+						}
+					]
+				}
+			]
+		};
+		ptree2 = {
+			cat: 'phi',
+			id: 'root',
+			children: [
+				{
+					cat: 'w',
+					id: 'X'
+				},
+				{
+					cat: 'phi',
+					id: 'phi1',
+					children: [
+						{
+							cat: 'w',
+							id: 'Y'
+						},
+						{
+							cat: 'phi',
+							id: 'phi2',
+							children: [
+								{
+									cat: 'w',
+									id: 'Z'
+								}
+							]
+						}
+					]
+				}
+			]
+		};
+		ptree3 = {
+			cat: 'i',
+			id: 'root',
+			children: [
+				{
+					cat: 'w',
+					id: 'X'
+				},
+				{
+					cat: 'i',
+					id: 'phi1',
+					children: [
+						{
+							cat: 'w',
+							id: 'Y'
+						},
+						{
+							cat: 'phi',
+							id: 'phi2',
+							children: [
+								{
+									cat: 'w',
+									id: 'Z'
+								}
+							]
+						}
+					]
+				}
+			]
+		};
+	</script>
+	
+			
+</head>
+
+<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+	<h2>MY ANALYSIS: investigation using SPOT</h2>
+	<pre id="results-container"></pre>
+
+<script>
+	var sTreeList = [stree0, stree1, stree2, stree3];
+
+	//Option 2: Define trees manually
+	//var sTreeList = [sTree1, sTree2];
+	
+	/*Constraint sets are defined below. You can change these or add your own. A constraint set is a list of constraint function names (refer to the files in constraints.js for names) + category arguments (separated from constraint names with -; refer to prosodicHierarchy.js for a list of defined categories).*/
+	var conMatchSP = ['matchSP-xp-{"maxSyntax": true}', 'matchSP-xp-{"maxSyntax": true, "requireLexical": true}', 'matchSP-xp-{"maxSyntax": true, "requireOvertHead": true}', 'matchSP-xp-{"maxSyntax": true, "requireLexical": true, "requireOvertHead": true}'];
+	var conMatchPS = ['matchPS-phi-{"maxSyntax": true}', 'matchPS-phi-{"maxSyntax": true, "requireLexical": true}', 'matchPS-phi-{"maxSyntax": true, "requireOvertHead": true}', 'matchPS-phi-{"maxSyntax": true, "requireLexical": true, "requireOvertHead": true}'];
+
+	/*A list of names for your constraint sets. These are used for naming the tableau csv files and finding the lists of constraint names. They need to match the variable names above.*/
+    var conNames = ['conMatchSP', 'conMatchPS'];
+	
+	// ---- Functions that don't necessarily need to be customized ----
+	
+	/*Function that concatenates a bunch of tableaux for various candidate sets into one large tableau. It does not need to be modified if you are only comparing different constraint sets. But it can be modified to deal with your particular analysis. For example, to consider multiple possible input syntaxes, you can add an outer for-loop to iterate over the different tree sets, as well as interating over the trees in each set.*/
+    function makeTableauCsvs(consName) {
+        var csvSegs = [];	//List to accumulate tableaux in
+		
+        //For each syntactic tree in sTreeList, make a tableau using the current constraint set
+        for(var j=0; j<sTreeList.length; j++){
+            var currentSTree = globalNameOrDirect(sTreeList[j]); 
+
+            //Make the candidate set using the GEN function (defined in candidategenerator.js)
+			//Leave the 2nd argument as an empty string to scrape words from the terminals of the syntactic tree.
+            var candSet = [[currentSTree, ptree0], [currentSTree, ptree1], [currentSTree, ptree2], [currentSTree, ptree3]]
+            
+			writeTableau(makeTableau(candSet, window[consName]));
+			revealNextSegment();
+        }
+    }
+	
+	/*This function executes automatically when the page is reloaded. It calls all the other functions.*/
+    function runDemo() {
+	//Iterate over the different constraint sets. Make a tableau for each one.
+		for(var i = 0; i<conNames.length; i++){
+			makeTableauCsvs(conNames[i]);
+		}
+    }
+    
+    /*Utilities for saving files.*/
+    function saveAs(blob, name) {
+        var a = document.createElement("a");
+        a.display = "none";
+        a.href = URL.createObjectURL(blob);
+        a.download = name;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+   
+    function saveTextAs(text, name) {
+        saveAs(new Blob([text], {type: "text/csv", encoding: 'utf-8'}), name);
+    }
+
+</script>
+
+</body>
+
+</html>
