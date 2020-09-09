@@ -123,5 +123,8 @@ function trimAttributedNodes(inputTree, attribute){
 		}
 		return node;
 	}
+	if(tree[attribute]){
+		tree.cat = NaN;
+	}
 	return trimInner(tree);
 }
