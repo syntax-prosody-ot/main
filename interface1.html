@@ -1650,8 +1650,7 @@
 							</div>
 						</div>
 						<div class="category-row">
-							<div>Enforce only for linearly adjacent words</div>
-							<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-ccPhi" value="requireAdjacent"></div>
+							<div style="white-space: nowrap;" class="option-selection-div custom-option-div"><input type="checkbox" name="option-ccPhi" value="requireAdjacent">Enforce only for linearly adjacent words</div>
 						</div>
 					</div>
 
@@ -1665,7 +1664,7 @@
 						</div>
 						<div class="category-row">
 							<div class="custom-text">
-								<p>Enforce Command only for syntactic nodes that are...</p>
+								<p>Enforce only for syntactic nodes that are...</p>
 							</div>
 							<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-antiCCPhi" value="requireAdjacent">adjacent</div>
 							<div class="info">
@@ -1673,10 +1672,10 @@
 							</div>
 						</div>
 						<div class="category-row">
-								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-antiCCPhi" value="requireMutual">mutually non-commanding</div>
-								<div class="info">
-									<span class="content">Only apply constraint when words are mutually commanding. (Kalivoda 2018)</span>
-								</div>
+							<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-antiCCPhi" value="requireMutual">mutually non-commanding</div>
+							<div class="info">
+								<span class="content">Only apply constraint when words are mutually non-commanding. (Kalivoda 2018)</span>
+							</div>
 						</div>
 					</div>
 					<div class="constraint-selection-table">
@@ -1688,15 +1687,14 @@
 							</div>
 						</div>
 						<div class="category-row">
-							<div>Require same parent &phi;</div>
-							<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-group" value="requireMinimal"></div>
-							<div class="info">
-								<span class="content">Assign a violation for every c-pair that is not directly dominated by the same parent &phi;. (Kalivoda 2018)</span>
+							<div style="white-space:nowrap;" class="option-selection-div custom-option-div"><input type="checkbox" name="option-group" value="requireMinimal">Require same parent &phi;
+								<div class="info">
+									<span class="content">Assign a violation for every c-pair<br/>that is not directly dominated by<br/>the same parent &phi;. (Kalivoda 2018)</span>
+								</div>
 							</div>
 						</div>
 						<div class="category-row">
-							<div>Enforce only for linearly adjacent words</div>
-							<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-group" value="requireAdjacent"></div>
+							<div style="white-space:nowrap;" class="option-selection-div custom-option-div"><input type="checkbox" name="option-group" value="requireAdjacent">Enforce only for linearly adjacent words</div>
 						</div>
 					</div>
 
