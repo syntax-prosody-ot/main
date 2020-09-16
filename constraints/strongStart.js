@@ -149,26 +149,33 @@ function strongStartClitic(s, ptree, cat){
  * k+2 and sister to a node of category k+1
  */
 function strongStart_catInit(stree, ptree, cat){
-	vcount = 0;
-	kPlus2 = pCat.nextHigher(pCat.nextHigher(cat));
-	if(ptree.children && ptree.children.length){
-		if(ptree.cat === kPlus2 && ptree.children[0].cat !== kPlus2){
-			//if one w is initial in two iotas, we only want one v, so the higher of two iotas
-				vcount += leftDescender(ptree, cat);
-			}
-		for(var i = 0; i < ptree.children.length; i++){
-			vcount += strongStart_catInit(stree, ptree.children[i], cat);
-		}
+	let offendingNodes = totalDescender(ptree, cat);
+	let result = [];
+	for(var i = 0; i < offendingNodes.length; i++){
+		if(result.indexOf(offendingNodes[i]) < 0){result.push(offendingNodes[i]);}
 	}
-	return vcount;
-	function leftDescender(tree, category){
-		result = 0;
+	return result.length;
+
+	function totalDescender(tree, category){
+		let result = [];
 		if(tree.children && tree.children.length){
+			if(tree.cat === pCat.nextHigher(pCat.nextHigher(category))){
+				result = result.concat(leftDescender(tree, category));
+			}
+			for(var i = 0; i < tree.children.length; i++){
+				result = result.concat(totalDescender(tree.children[i], category));
+			}
+		}
+		return result;
+	}
+	function leftDescender(tree, category){
+		let result = [];
+		if(tree.children && tree.children.length){
+			result = result.concat(leftDescender(tree.children[0], category));
 			if(tree.children.length > 1 && tree.children[0].cat === category
 				&& tree.children[1].cat === pCat.nextHigher(category)){
-					result ++;
+					result.push(tree.children[0]);
 				}
-			result += leftDescender(tree.children[0], category);
 		}
 		return result;
 	}
