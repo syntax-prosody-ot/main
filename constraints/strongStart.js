@@ -144,13 +144,17 @@ function strongStartClitic(s, ptree, cat){
 	return vcount;
 }
 
+/* Strong start (cat init)
+ * Assign one violation for every node of category k that is initial in a node of category
+ * k+2 and sister to a node of category k+1
+ */
 function strongStart_catInit(stree, ptree, cat){
 	vcount = 0;
 	if(ptree.children && ptree.children.length){
 		if(ptree.children.length > 1
-			&& ptree.cat === cat
-			&& ptree.children[1].cat === pCat.nextLower(cat)
-			&& ptree.children[0].cat === pCat.nextLower(pCat.nextLower(cat))){
+			&& ptree.cat === pCat.nextHigher(pCat.nextHigher(cat))
+			&& ptree.children[1].cat === pCat.nextHigher(cat)
+			&& ptree.children[0].cat === cat){
 				vcount ++;
 			}
 		for(var i = 0; i < ptree.children.length; i++){
