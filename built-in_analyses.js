@@ -447,7 +447,7 @@ function built_in_Chamorro_RB(){
 /*Nick Kalivoda and Jennifer Bellik's Irish analysis for AMP 2020*/
 function built_in_Irish_AMP2020(){
   var gen = {rootCategory: 'phi', obeysExhaustivity: true, noUnary: true};
-  var con = [{name: 'matchSP', cat: 'xp'}, {"name":"matchCustomSP","cat":"xp","options":{"requireLexical":false,"requireOvertHead":true}},{"name":"binMaxBranches","cat":"phi"}, {"name":"strongStart_catInit","cat":"w"}];
+  var con = [{name: 'matchSP', cat: 'xp'}, {"name":"matchCustomSP","cat":"xp","options":{"requireLexical":false,"requireOvertHead":true}},{"name":"binMaxBranches","cat":"phi"}, {"name":"strongStart_catInit","cat":"i"}];
   var irishTrees = amp2020_treelist;
   //displayError("Missing Irish Trees!");
   //throw(new Error("Missing Trees!"));
