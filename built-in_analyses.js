@@ -444,12 +444,25 @@ function built_in_Chamorro_RB(){
   my_built_in_analysis(gen, false, chamorrotrees, con);
 }
 
+/*Nick Kalivoda and Jennifer Bellik's Irish analysis for AMP 2020*/
+function built_in_Irish_AMP2020(){
+  var gen = {rootCategory: 'phi', obeysExhaustivity: true, noUnary: true};
+  var con = [{name: 'matchSP', cat: 'xp'}, {"name":"matchCustomSP","cat":"xp","options":{"requireLexical":false,"requireOvertHead":true}},{"name":"binMaxBranches","cat":"phi"}];
+  var irishTrees = [];
+  displayError("Missing Irish Trees!");
+  throw(new Error("Missing Trees!"));
+  my_built_in_analysis(gen, false, irishTrees, con);
+}
+
 function built_in(analysis) {
   if(analysis === "irish") {
     built_in_Irish();
   }
   if(analysis === "kinyambo") {
     built_in_Kinyambo();
+  }
+  if(analysis === "irish_AMP2020"){
+    built_in_Irish_AMP2020();
   }
   if(analysis === "ito&mester2017"){
     built_in_Japanese_IM2017();

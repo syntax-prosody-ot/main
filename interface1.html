@@ -548,6 +548,7 @@
 				<select class="dropdown" name="analysis" id="built-in-dropdown" onchange=built_in(this.value)>
 					<option value="select">Select</option>
 					<option value="irish">Irish Phrasing (Elfner 2012)</option>
+					<option value="irish_AMP2020">Irish Phrasing (Bellik & Kalivoda 2020)</option>
 					<option value="kinyambo">Kinyambo (Bellik & Kalivoda 2016)</option>
 					<option value="ito&mester2017">Japanese (Ito & Mester 2017)</option>
 					<optgroup label="ICPP2019 systems">
@@ -1938,6 +1939,20 @@
 								<div class="info">
 									<span class="content">For each set of sisters, assign one violation for every child whose prosodic category is lower than that of a non-minimal sister. E.g., assign a violation for &omega; that is adjacent to a non-minimal &phi;, but don't assign a violation for &omega; that is adjecent to a minimal &phi;. SPOT function: equalSisters2. Ito & Mester 2017.</span>
 								</div>
+							</div>
+						</div>
+
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="strongStart_catInit">StrongStart (Cat Init)</span>
+								<div class="info">
+									<span class="content">Assign one violation for every node of category k that is initial in a node of category k+2 and sister to a node of category k+1</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-strongStart_catInit" value="i" checked>&iota;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-strongStart_catInit" value="phi">&phi;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-strongStart_catInit" value="w">&omega;</div>
 							</div>
 						</div>
 
