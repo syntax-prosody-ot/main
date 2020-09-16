@@ -143,3 +143,19 @@ function strongStartClitic(s, ptree, cat){
 	
 	return vcount;
 }
+
+function strongStart_catInit(stree, ptree, cat){
+	vcount = 0;
+	if(ptree.children && ptree.children.length){
+		if(ptree.children.length > 1
+			&& ptree.cat === cat
+			&& ptree.children[1].cat === pCat.nextLower(cat)
+			&& ptree.children[0].cat === pCat.nextLower(pCat.nextLower(cat))){
+				vcount ++;
+			}
+		for(var i = 0; i < ptree.children.length; i++){
+			vcount += strongStart_catInit(stree, ptree.children[i], cat);
+		}
+	}
+	return vcount;
+}

@@ -1,0 +1,39 @@
+<html>
+<head>
+	<title>StrongStart(cat init) test</title>
+
+	<link rel="stylesheet" type="text/css" href="../spot.css">
+
+	<script src="../lib/jszip.min.js"></script>
+
+	<!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
+	(open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
+	<script src="../build/spot.js"></script>
+		
+</head>
+
+<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+	<h2>StrongStart(cat init) Test:</h2>
+	<pre id="results-container"></pre>
+
+<script>
+	
+	var ptreelist=[{id:"CP1",cat:"i",children:[{id:"a",cat:"w"},{id:"b",cat:"w"},{id:"c",cat:"w"}]},
+		{id:"CP1",cat:"i",children:[{id:"a",cat:"w"},{cat:"phi",id:"XP_4",children:[{id:"b",cat:"w"},{id:"c",cat:"w"}]}]},
+		{id:"CP1",cat:"phi",children:[{id:"a",cat:"Ft"},{cat:"w",id:"XP_4",children:[{id:"b",cat:"w"},{id:"c",cat:"w"}]}]},
+		{id:"CP1",cat:"i",children:[{id:"a",cat:"w"},{cat:"i",id:"XP_4",children:[{id:"b",cat:"w"},{id:"c",cat:"w"}]}]},
+		{id:"CP1",cat:"i",children:[{cat:"phi",id:"XP_4",children:[{id:"a",cat:"w"},{id:"b",cat:"w"}]},{id:"c",cat:"w"}]},
+		{id:"CP1",cat:"i",children:[{id:"a",cat:"w"},{cat:"phi",id:"XP_5",children:[{id:"b",cat:"w"}]},{cat:"i",id:"XP_6",children:[{id:"c",cat:"w"},{cat:"phi",id:"XP_7",children:[{id:"d",cat:"w"}]}]}]}];
+	ptreelist = ptreelist.map(x => [{id: "StrongStart(cat init) testing", cat: "x0"}, x])
+
+	/*This function executes automatically when the page is reloaded. It calls all the other functions.*/
+    window.addEventListener('load', function() {
+        writeTableau(makeTableau(ptreelist, ["strongStart_catInit-i", "strongStart_catInit-phi"]));
+        revealNextSegment();
+    });
+
+</script>
+
+</body>
+
+</html>
