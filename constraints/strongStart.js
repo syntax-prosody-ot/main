@@ -150,16 +150,26 @@ function strongStartClitic(s, ptree, cat){
  */
 function strongStart_catInit(stree, ptree, cat){
 	vcount = 0;
+	kPlus2 = pCat.nextHigher(pCat.nextHigher(cat));
 	if(ptree.children && ptree.children.length){
-		if(ptree.children.length > 1
-			&& ptree.cat === pCat.nextHigher(pCat.nextHigher(cat))
-			&& ptree.children[1].cat === pCat.nextHigher(cat)
-			&& ptree.children[0].cat === cat){
-				vcount ++;
+		if(ptree.cat === kPlus2 && ptree.children[0].cat !== kPlus2){
+			//if one w is initial in two iotas, we only want one v, so the higher of two iotas
+				vcount += leftDescender(ptree, cat);
 			}
 		for(var i = 0; i < ptree.children.length; i++){
 			vcount += strongStart_catInit(stree, ptree.children[i], cat);
 		}
 	}
 	return vcount;
+	function leftDescender(tree, category){
+		result = 0;
+		if(tree.children && tree.children.length){
+			if(tree.children.length > 1 && tree.children[0].cat === category
+				&& tree.children[1].cat === pCat.nextHigher(category)){
+					result ++;
+				}
+			result += leftDescender(tree.children[0], category);
+		}
+		return result;
+	}
 }
