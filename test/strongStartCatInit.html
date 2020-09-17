@@ -19,20 +19,20 @@
 <script>
 	
 	var ptreelist=[{id:"CP1",cat:"i",children:[{id:"a",cat:"w"},{id:"b",cat:"w"},{id:"c",cat:"w"}]},
+		{id:"root", cat:'i', children:[{cat:'Ft', id:'syllable'}, {cat:'phi', id:'phi', children:[{cat:'w', id:'word'}]}]},
+		{id:"CP1",cat:"phi",children:[{id:"a",cat:"Ft"},{cat:"w",id:"XP_4",children:[{id:"b",cat:"w"},{id:"c",cat:"w"}]}]},
 		{id:"CP1",cat:"i",children:[{id:"a",cat:"w"},{cat:"phi",id:"XP_4",children:[{id:"b",cat:"w"},{id:"c",cat:"w"}]}]},
 		{id:"root",cat:"i",children:[{id:"CP1",cat:"i",children:[{id:"a",cat:"w"},{cat:"phi",id:"XP_4",children:[{id:"b",cat:"w"},{id:"c",cat:"w"}]}]}]},
 		{id:"root",cat:"i",children:[{id:"CP1",cat:"phi",children:[{id:"a",cat:"w"},{cat:"phi",id:"XP_4",children:[{id:"b",cat:"w"},{id:"c",cat:"w"}]}]}]},
-		{id:"CP1",cat:"phi",children:[{id:"a",cat:"Ft"},{cat:"w",id:"XP_4",children:[{id:"b",cat:"w"},{id:"c",cat:"w"}]}]},
 		{id:"CP1",cat:"i",children:[{id:"a",cat:"w"},{cat:"i",id:"XP_4",children:[{id:"b",cat:"w"},{id:"c",cat:"w"}]}]},
 		{id:"CP1",cat:"i",children:[{cat:"phi",id:"XP_4",children:[{id:"a",cat:"w"},{id:"b",cat:"w"}]},{id:"c",cat:"w"}]},
 		{id:"CP1",cat:"i",children:[{id:"a",cat:"w"},{cat:"phi",id:"XP_5",children:[{id:"b",cat:"w"}]},{cat:"i",id:"XP_6",children:[{id:"c",cat:"w"},{cat:"phi",id:"XP_7",children:[{id:"d",cat:"w"}]}]}]},
-		{id:"root", cat:'i', children:[{cat:'Ft', id:'syllable'}, {cat:'phi', id:'phi', children:[{cat:'w', id:'word'}]}]},
 		{"id":"CP1","cat":"i","children":[{"cat":"phi","id":"XP_5","children":[{"cat":"i","id":"XP_6","children":[{"id":"b","cat":"w"},{"cat":"phi","id":"XP_7","children":[{"id":"c","cat":"w"},{"id":"d","cat":"w"}]}]}]}]}];
 	ptreelist = ptreelist.map(x => [{id: "StrongStart(cat init) testing", cat: "x0"}, x])
 
 	/*This function executes automatically when the page is reloaded. It calls all the other functions.*/
     window.addEventListener('load', function() {
-        writeTableau(makeTableau(ptreelist, ["strongStart_catInit-w", "strongStart_catInit-Ft", "strongStart_catInit_redux-w", "strongStart_catInit_redux-Ft"]));
+        writeTableau(makeTableau(ptreelist, ["strongStart_catInit-w", "strongStart_catInit-Ft"]));
         revealNextSegment();
     });
 

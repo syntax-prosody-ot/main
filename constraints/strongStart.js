@@ -149,39 +149,6 @@ function strongStartClitic(s, ptree, cat){
  * k+2 and sister to a node of category k+1
  */
 function strongStart_catInit(stree, ptree, cat){
-	let offendingNodes = totalDescender(ptree, cat);
-	let result = [];
-	for(var i = 0; i < offendingNodes.length; i++){
-		if(result.indexOf(offendingNodes[i]) < 0){result.push(offendingNodes[i]);}
-	}
-	return result.length;
-
-	function totalDescender(tree, category){
-		let result = [];
-		if(tree.children && tree.children.length){
-			if(tree.cat === pCat.nextHigher(pCat.nextHigher(category))){
-				result = result.concat(leftDescender(tree, category));
-			}
-			for(var i = 0; i < tree.children.length; i++){
-				result = result.concat(totalDescender(tree.children[i], category));
-			}
-		}
-		return result;
-	}
-	function leftDescender(tree, category){
-		let result = [];
-		if(tree.children && tree.children.length){
-			result = result.concat(leftDescender(tree.children[0], category));
-			if(tree.children.length > 1 && tree.children[0].cat === category
-				&& tree.children[1].cat === pCat.nextHigher(category)){
-					result.push(tree.children[0]);
-				}
-		}
-		return result;
-	}
-}
-
-function strongStart_catInit_redux(stree, ptree, cat){
 	let offendingNodes = totalDescender(ptree, cat, false);
 	let result = [];
 	for(var i = 0; i < offendingNodes.length; i++){
