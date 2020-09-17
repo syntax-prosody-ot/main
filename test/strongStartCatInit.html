@@ -29,7 +29,7 @@
 <script>
 	
 	var ptreelist=[{id:"CP1",cat:"i",children:[{id:"a",cat:"w"},{id:"b",cat:"w"},{id:"c",cat:"w"}]},
-		{id:"root", cat:'i', children:[{cat:'Ft', id:'syllable'}, {cat:'phi', id:'phi', children:[{cat:'w', id:'word'}]}]},
+		{id:"root", cat:'i', children:[{cat:'Ft', id:'a'}, {cat:'phi', id:'phi', children:[{cat:'w', id:'b'}]}]},
 		{id:"CP1",cat:"phi",children:[{id:"a",cat:"Ft"},{cat:"w",id:"XP_4",children:[{id:"b",cat:"w"},{id:"c",cat:"w"}]}]},
 		{id:"CP1",cat:"i",children:[{id:"a",cat:"w"},{cat:"phi",id:"XP_4",children:[{id:"b",cat:"w"},{id:"c",cat:"w"}]}]},
 		{id:"root",cat:"i",children:[{id:"CP1",cat:"i",children:[{id:"a",cat:"w"},{cat:"phi",id:"XP_4",children:[{id:"b",cat:"w"},{id:"c",cat:"w"}]}]}]},
@@ -42,7 +42,15 @@
 
 	let assert = chai.assert;
 	let testW = (tree, val) => it(parenthesizeTree(tree), function(){assert.equal(strongStart_catInit({}, tree, 'w'), val)});
-	let testFt = (tree, val) => it(parenthesizeTree(tree), function(){assert.equal(strongStart_catInit({}, tree, 'Ft'), val)});
+	
+	describe("StrongStart(Ft init) with one violation", function(){
+		it("No level skipping: (a.Ft (w b c))", function(){
+			assert.equal(strongStart_catInit({}, ptreelist[2][1], 'Ft'), 1);
+		})
+		it("Level skipping: {a.Ft (b)}", function(){
+			assert.equal(strongStart_catInit({}, ptreelist[1][1], 'Ft'), 1);
+		});
+	});
 
 	describe("StrongStart(w init) with no violations", function(){
 		testW(ptreelist[0][1], 0);
@@ -59,11 +67,6 @@
 
 	describe("StrongStart(w init) with two violations", function(){
 		testW(ptreelist[8][1], 2);
-	});
-
-	describe("StrongStart(syll init) with one violation", function(){
-		testFt(ptreelist[1][1], 1);
-		testFt(ptreelist[2][1], 1);
 	});
 
 	/*This function executes automatically when the page is reloaded. It calls all the other functions.*/
