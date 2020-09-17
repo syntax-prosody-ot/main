@@ -180,3 +180,45 @@ function strongStart_catInit(stree, ptree, cat){
 		return result;
 	}
 }
+
+function strongStart_catInit_redux(stree, ptree, cat){
+	let offendingNodes = totalDescender(ptree, cat, false);
+	let result = [];
+	for(var i = 0; i < offendingNodes.length; i++){
+		if(result.indexOf(offendingNodes[i]) < 0){result.push(offendingNodes[i]);}
+	}
+	return result.length;
+
+	function totalDescender(tree, category, catInitial){
+		let result = [];
+		kPlus2 = pCat.isHigher(tree.cat, pCat.nextHigher(category));
+		if(tree.children && tree.children.length){
+			if(violation()){
+				result.push(tree.children[0]);
+			}
+			if(!catInitial && kPlus2){
+				result = result.concat(totalDescender(tree.children[0], category, tree.cat));
+			}
+			else{
+				result = result.concat(totalDescender(tree.children[0], category, catInitial));
+			}
+			for(var i = 1; i < tree.children.length; i++){
+				result = result.concat(totalDescender(tree.children[i], category, false));
+			}
+		}
+		return result;
+		function violation(){
+			let bool = true;
+			let parent = tree;
+			let init = tree.children[0];
+			let peninit = tree.children[1];
+			if(init && init.cat !== category){bool = false;}
+			if(peninit && !pCat.isHigher(peninit.cat, init.cat)){bool = false;}
+			if(!pCat.isHigher(parent.cat, pCat.nextHigher(category)) && !catInitial){bool = false;}
+			if((!catInitial && peninit && peninit.cat === parent.cat) || (catInitial && peninit && !pCat.isHigher(catInitial, peninit.cat))){
+				bool = false;
+			}
+			return bool;
+		}
+	}
+}
