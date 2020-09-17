@@ -3,6 +3,7 @@
 	<title>StrongStart(cat init) test</title>
 
 	<link rel="stylesheet" type="text/css" href="../spot.css">
+	<link rel="stylesheet" href="https://unpkg.com/mocha/mocha.css">
 
 	<script src="../lib/jszip.min.js"></script>
 
@@ -15,6 +16,15 @@
 <body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
 	<h2>StrongStart(cat init) Test:</h2>
 	<pre id="results-container"></pre>
+
+<script src="https://unpkg.com/chai/chai.js"></script>
+<script src="https://unpkg.com/mocha/mocha.js"></script>
+<div id="mocha"></div>
+
+<script class="mocha-init">
+	mocha.setup('bdd');
+	mocha.checkLeaks();
+</script>
 
 <script>
 	
@@ -30,11 +40,38 @@
 		{"id":"CP1","cat":"i","children":[{"cat":"phi","id":"XP_5","children":[{"cat":"i","id":"XP_6","children":[{"id":"b","cat":"w"},{"cat":"phi","id":"XP_7","children":[{"id":"c","cat":"w"},{"id":"d","cat":"w"}]}]}]}]}];
 	ptreelist = ptreelist.map(x => [{id: "StrongStart(cat init) testing", cat: "x0"}, x])
 
+	let assert = chai.assert;
+	let testW = (tree, val) => it(parenthesizeTree(tree), function(){assert.equal(strongStart_catInit({}, tree, 'w'), val)});
+	let testFt = (tree, val) => it(parenthesizeTree(tree), function(){assert.equal(strongStart_catInit({}, tree, 'Ft'), val)});
+
+	describe("StrongStart(w init) with no violations", function(){
+		testW(ptreelist[0][1], 0);
+		testW(ptreelist[6][1], 0);
+		testW(ptreelist[7][1], 0);
+	});
+
+	describe("StrongStart(w init) with one violation", function(){
+		testW(ptreelist[3][1], 1);
+		testW(ptreelist[4][1], 1);
+		testW(ptreelist[5][1], 1);
+		testW(ptreelist[9][1], 1);
+	});
+
+	describe("StrongStart(w init) with two violations", function(){
+		testW(ptreelist[8][1], 2);
+	});
+
+	describe("StrongStart(syll init) with one violation", function(){
+		testFt(ptreelist[1][1], 1);
+		testFt(ptreelist[2][1], 1);
+	});
+
 	/*This function executes automatically when the page is reloaded. It calls all the other functions.*/
     window.addEventListener('load', function() {
         writeTableau(makeTableau(ptreelist, ["strongStart_catInit-w", "strongStart_catInit-Ft"]));
-        revealNextSegment();
-    });
+		revealNextSegment();
+		mocha.run();
+	});
 
 </script>
 
