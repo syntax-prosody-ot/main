@@ -41,14 +41,14 @@
 	ptreelist = ptreelist.map(x => [{id: "StrongStart(cat init) testing", cat: "x0"}, x])
 
 	let assert = chai.assert;
-	let testW = (tree, val) => it(parenthesizeTree(tree), function(){assert.equal(strongStart_catInit({}, tree, 'w'), val)});
+	let testW = (tree, val) => it(parenthesizeTree(tree), function(){assert.equal(strongStartInit({}, tree, 'w'), val)});
 	
 	describe("StrongStart(Ft init) with one violation", function(){
 		it("No level skipping: (a.Ft (w b c))", function(){
-			assert.equal(strongStart_catInit({}, ptreelist[2][1], 'Ft'), 1);
+			assert.equal(strongStartInit({}, ptreelist[2][1], 'Ft'), 1);
 		});
 		it("Level skipping: {a.Ft (b)}", function(){
-			assert.equal(strongStart_catInit({}, ptreelist[1][1], 'Ft'), 1);
+			assert.equal(strongStartInit({}, ptreelist[1][1], 'Ft'), 1);
 		});
 	});
 
@@ -71,7 +71,7 @@
 
 	/*This function executes automatically when the page is reloaded. It calls all the other functions.*/
     window.addEventListener('load', function() {
-        writeTableau(makeTableau(ptreelist, ["strongStart_catInit-w", "strongStart_catInit-Ft"]));
+        writeTableau(makeTableau(ptreelist, ["strongStartInit-w", "strongStartInit-Ft"]));
 		revealNextSegment();
 		mocha.run();
 	});
