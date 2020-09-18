@@ -182,9 +182,6 @@ function strongStart_catInit(stree, ptree, cat){
 			if(init && init.cat !== category){bool = false;}
 			if(peninit && !pCat.isHigher(peninit.cat, init.cat)){bool = false;}
 			if(!pCat.isHigher(parent.cat, pCat.nextHigher(category)) && !catInitial){bool = false;}
-			if((!catInitial && peninit && peninit.cat === parent.cat) || (catInitial && peninit && !pCat.isHigher(catInitial, peninit.cat))){
-				bool = false;
-			}
 			return bool;
 		}
 	}
