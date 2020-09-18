@@ -148,7 +148,7 @@ function strongStartClitic(s, ptree, cat){
  * Assign one violation for every node of category k that is initial in a node of category
  * k+2 and sister to a node of category k+1
  */
-function strongStart_catInit(stree, ptree, cat){
+function strongStartInit(stree, ptree, cat){
 	let offendingNodes = totalDescender(ptree, cat, false);
 	let result = [];
 	for(var i = 0; i < offendingNodes.length; i++){
