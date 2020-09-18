@@ -446,7 +446,7 @@ function built_in_Chamorro_RB(){
 
 /*Nick Kalivoda and Jennifer Bellik's Irish analyses for AMP 2020*/
 function built_in_Irish_AMP2020(options){
-  var gen = {rootCategory: 'i', requireRecWrapper: true, obeysExhaustivity: true, noUnary: true};
+  var gen = {"obeysExhaustivity":["i","phi"],"noUnary":true,"requireRecWrapper":true,"rootCategory":"i","recursiveCategory":"phi","terminalCategory":"w","invisibleCategories":[]};
   //This is the working constraint set
   var con = [{name: 'matchSP', cat: 'xp'}, {"name":"matchCustomSP","cat":"xp","options":{"requireLexical":false,"requireOvertHead":true}},{"name":"binMaxBranches","cat":"phi"}, {"name":"strongStart_catInit","cat":"w"}];
 
