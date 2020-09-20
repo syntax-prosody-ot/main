@@ -41,9 +41,13 @@ function strongStart_Elfner(s, ptree, k){
 *  (intuitive strong start, according to the intuition of Bellik & Kalivoda 2019) 
 *  Updated Jan 2020 to penalize structures like (a b (c)) as well as (a (b c)). 
 *  The previous definition only looked at the first and second sisters.
+*  Updated Sept. 2020 to include an option to restrict this to the maximal node of category cat
 */
 
-function strongStart(s, ptree, cat){
+function strongStart(s, ptree, cat, options){
+
+	options = options || {};
+	markMinMax(ptree);
 
 	//base case: ptree is a leaf or only has one child
 	if(!ptree.children){
@@ -52,7 +56,9 @@ function strongStart(s, ptree, cat){
 	
 	var vcount = 0;
 	
-	if(ptree.cat === cat && ptree.children.length>1){		
+	if(ptree.cat === cat && ptree.children.length>1 && !(options.maximal && !ptree.isMax)){
+		//If we only want to look at maximal nodes and this one isn't maximal, then don't evaluate it further.
+		
 		var leftmostCat = ptree.children[0].cat;
 		for(var i = 1; i<ptree.children.length; i++){
 			var sisterCat = ptree.children[i].cat;
@@ -69,7 +75,7 @@ function strongStart(s, ptree, cat){
 	// Recurse
 	for(var i=0; i<ptree.children.length; i++){
 		child = ptree.children[i];
-		vcount += strongStart(s, child, cat);
+		vcount += strongStart(s, child, cat, options);
 	}
 	
 	return vcount;
