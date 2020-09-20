@@ -142,6 +142,7 @@ function strongStartClitic(s, ptree, cat){
 	}
 	
 	return vcount;
+
 }
 
 /* Strong start (cat init)
@@ -205,3 +206,5 @@ function strongStartInit(stree, ptree, cat){
 		}
 	}
 }
+
+
