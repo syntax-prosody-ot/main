@@ -1976,16 +1976,16 @@
 
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
-							<span><input type="checkbox" name="constraints" value="exhaustChild">Exhaustivity</span>
+							<span><input type="checkbox" name="constraints" value="exhaustChild">Exhaustivity (child)</span>
 							<div class="info">
-								<span class="content">Assign one violation for every parent-child pair such that the child’s prosodic category is more than one level lower than the parent’s prosodic category. E.g., &phi; with a syllable child, &iota; with an &omega; child. SPOT function: exhaustChild(). For Exhaustivity as a violable constraint, see Selkirk 1995 “The prosodic structure of function words”</span>
+								<span class="content">Assign one violation for every parent-child pair such that the child’s prosodic category is more than one level lower than the parent’s prosodic category. E.g., &phi; with a syllable child, &iota; with an &omega; child. {&omega; &omega;} receives two violations. SPOT function: exhaustChild(). For Exhaustivity as a violable constraint, see Selkirk 1995 “The prosodic structure of function words”</span>
 							</div>
 						</div>
 					</div>
 
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
-							<span><input type="checkbox" name="constraints" value="nonRecParent">Non-recursivity, assessed by dominating node (nonRecParent)</span>
+							<span><input type="checkbox" name="constraints" value="nonRecParent">Non-recursivity (parent)</span>
 							<div class="info">
 								<span class="content">Assign one violation for every node of category K that immediately dominates a node of category K in the prosodic tree. SPOT function: nonRecParent(). For Non-Recursivity as a violable constraint, see Selkirk 1995, Zec 2005. For this specific implementation & implications, see Bellik & Kalivoda 2017 (SPOT1 Workshop slides)</span>
 							</div>
@@ -2002,7 +2002,7 @@
 					<div id="moreLayeringConstraints" class="more-constraints">
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
-								<span><input type="checkbox" name="constraints" value="nonRecTruckenbrodt">Non-recursivity, assessed by non-overlapping leaves (nonRecTruckenbrodt)</span>
+								<span><input type="checkbox" name="constraints" value="nonRecTruckenbrodt">Non-recursivity, assessed by non-overlapping leaves (Truckenbrodt)</span>
 								<div class="info">
 									<span class="content">For every node X of category K dominated by another node Y of category K in the prosodic tree, assign one violation for every leaf dominated by Y that is not also dominated by X. SPOT function: nonRecTruckenbrodt(). (Truckenbrodt 1995, 1999)</span>
 								</div>
@@ -2016,7 +2016,7 @@
 
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
-								<span><input type="checkbox" name="constraints" value="nonRecChild">Non-recursivity, assessed by dominated node (nonRecChild)</span>
+								<span><input type="checkbox" name="constraints" value="nonRecChild">Non-recursivity (child)</span>
 								<div class="info">
 									<span class="content">Assign one violation for every node of category K immediately dominated by another node of category K. SPOT function: nonRecChild(). For Non-Recursivity as a violable constraint, see Selkirk 1995, Zec 2005. For this specific implementation & implications, see Bellik & Kalivoda 2017 (SPOT1 Workshop slides)</span>
 								</div>
@@ -2032,7 +2032,7 @@
 							<div class="constraint-row">
 								<span><input type="checkbox" name=constraints value="nonRecPairs">Non-recursivity, pairwise</span>
 								<div class="info">
-									<span class="content">Assign one violation for every pair of nodes X and Y in the prosodic tree such that X and Y are both of category K and X dominates Y. SPOT function: nonRecPairs(). For Non-Recursivity as a violable constraint, see Selkirk 1995, Zec 2005. For this specific implementation & implications, see Bellik & Kalivoda 2017 (SPOT1 Workshop slides)</span>
+									<span class="content">Assign one violation for every pair of nodes X and Y in the prosodic tree such that X and Y are both of category K and X dominates (contains at any level) Y. SPOT function: nonRecPairs(). For Non-Recursivity as a violable constraint, see Selkirk 1995, Zec 2005. For this specific implementation & implications, see Bellik & Kalivoda 2017 (SPOT1 Workshop slides)</span>
 								</div>
 							</div>
 								<div class="category-row">
@@ -2040,6 +2040,15 @@
 									<div class="category-selection-div"><input type="checkbox" name="category-nonRecPairs" value="phi" checked="checked">&phi;</div>
 									<div class="category-selection-div"><input type="checkbox" name="category-nonRecPairs" value="w">&omega;</div>
 								</div>
+						</div>
+
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="exhaustParent">Exhaustivity (parent) </span>
+								<div class="info">
+									<span class="content">Assign a violation for every node of category k that has one or more children of category less than (k-1), for every k. E.g., &phi; with a syllable child, &iota; with an &omega; child. {&omega; &omega;} receives one violation. SPOT function: exhaustParent(). For Exhaustivity as a violable constraint, see Selkirk 1995 “The prosodic structure of function words”</span>
+								</div>
+							</div>
 						</div>
 
 						<div class="constraint-selection-table">
