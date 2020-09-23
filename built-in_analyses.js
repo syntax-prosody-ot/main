@@ -444,12 +444,83 @@ function built_in_Chamorro_RB(){
   my_built_in_analysis(gen, false, chamorrotrees, con);
 }
 
+/*Nick Kalivoda and Jennifer Bellik's Irish analyses for AMP 2020*/
+function built_in_Irish_AMP2020(options){
+  var gen = {"obeysExhaustivity":["i","phi"],"noUnary":true, "rootCategory":"i","recursiveCategory":"phi","terminalCategory":"w","invisibleCategories":[]};
+  //This is the working constraint set
+  var con = [{name: 'matchSP', cat: 'xp'}, {"name":"matchCustomSP","cat":"xp","options":{"requireLexical":false,"requireOvertHead":true}},{"name":"binMaxBranches","cat":"phi"}, {"name":"strongStartInit","cat":"w"}];
+
+  //Options allow us to minimally change CON to demonstrate that both novel constraints are essential.
+  //assumes we're only removing / replacing one item
+  if(options && options.rm){
+    var rmFrom = -1;
+    for(var i = 0; i<con.length; i++){
+      if(deepEqual(options.rm, con[i])){
+        var rmFrom = i;
+        break;
+      }
+    }
+    if(rmFrom > -1){
+      if(options.add){
+        con[rmFrom] = options.add;
+      }
+      else con.splice(rmFrom, 1);
+    }
+
+  }
+
+  var irishTrees = amp2020_treelist;
+  //displayError("Missing Irish Trees!");
+  //throw(new Error("Missing Trees!"));
+  my_built_in_analysis(gen, false, irishTrees, con);
+}
+
+//Utilities for comparing objects; used by built_in_Irish_AMP2020
+function deepEqual(object1, object2) {
+  const keys1 = Object.keys(object1);
+  const keys2 = Object.keys(object2);
+
+  if (keys1.length !== keys2.length) {
+    return false;
+  }
+
+  for (const key of keys1) {
+    const val1 = object1[key];
+    const val2 = object2[key];
+    const areObjects = isObject(val1) && isObject(val2);
+    if (
+      areObjects && !deepEqual(val1, val2) ||
+      !areObjects && val1 !== val2
+    ) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function isObject(object) {
+  return object != null && typeof object === 'object';
+}
+
 function built_in(analysis) {
   if(analysis === "irish") {
     built_in_Irish();
   }
   if(analysis === "kinyambo") {
     built_in_Kinyambo();
+  }
+  if(analysis === "irish_AMP2020"){
+    built_in_Irish_AMP2020();
+  }
+  if(analysis === "irish_AMP2020_MOh_only"){
+    built_in_Irish_AMP2020({rm:{name:'strongStartInit', cat:'w'}, add:{name: 'strongStart_Elfner', cat: 'w'}});
+  }
+  if(analysis === "irish_AMP2020_SSInit_only"){
+    built_in_Irish_AMP2020({rm:{
+      name:'matchCustomSP', 
+      cat: 'xp', 
+      options:{requireLexical: false, requireOvertHead:true}}});
   }
   if(analysis === "ito&mester2017"){
     built_in_Japanese_IM2017();

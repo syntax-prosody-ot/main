@@ -8,6 +8,7 @@
 		<script src="./trees/abstractMatchTrees.js"></script>
 		<script src="./trees/chamorro_clitic_trees.js"></script>
 		<script src='./trees/Italian_BuiltIn_Trees.js'></script>
+		<script src='./trees/AMP2020_irish_trees.js'></script>
 		<link rel="stylesheet" type="text/css" href="spot.css">
 		<link rel="icon" type="image/x-icon" href="images/favicon.ico">
 
@@ -547,10 +548,20 @@
 				<span class="info"><span class="content" style="font-weight: normal;">To try an analysis from the syntax-prosody literature, select a built-in analysis from the menu, then scroll to the bottom and hit "Get results"</span></span></h3>
 				<select class="dropdown" name="analysis" id="built-in-dropdown" onchange=built_in(this.value)>
 					<option value="select">Select</option>
-					<option value="irish">Irish Phrasing (Elfner 2012)</option>
-					<option value="kinyambo">Kinyambo (Bellik & Kalivoda 2016)</option>
-					<option value="ito&mester2017">Japanese (Ito & Mester 2017)</option>
-					<optgroup label="ICPP2019 systems">
+					
+					<optgroup label = "Irish from Bellik & Kalivoda, AMP2020">
+						<option value="irish_AMP2020">with Match(OhP) & StrongStartInit &#10004;</option>
+						<option value="irish_AMP2020_MOh_only">with Match(OhP) only &#x2717;</option>
+						<option value="irish_AMP2020_SSInit_only">with StrongStartInit only &#x2717;</option>
+					</optgroup>
+					
+					<optgroup label = "From published literature">
+						<option value="ito&mester2017">Japanese (Ito & Mester 2017/2020)</option>
+						<option value="irish">Irish Phrasing (Elfner 2012)</option>
+						<option value="kinyambo">Kinyambo (Bellik & Kalivoda 2016)</option>
+					</optgroup>
+
+					<optgroup label="Presented at ICPP2019">
 						<option value="japanese_rebracketing_1">Japanese &#x2717;: Match only</option>
 						<option value="japanese_rebracketing_2">Japanese &#x2717;: Align only</option>
 						<option value="japanese_rebracketing_3">Japanese &#10004;: Match SP, Align SP</option>
@@ -560,14 +571,15 @@
 						<option value="japanese_BK_2019">Japanese/Basque accents (Bellik & Kalivoda)</option>
 						<option value="italian">Italian (Nick Van Handel)</option>
 						<option value="chamorro">Chamorro (Richard Bibbs)</option>
-					<optgroup>
+					</optgroup>
+
 				</select>
 
 			</div>
 
 			<form id="spotForm">
 
-			<!--INPUT-->
+			<!--GEN INPUT -- manual tree building-->
 			<div class="spotBlock input">
 			<h2>GEN: Input parameters
 				<span class="info">
@@ -629,7 +641,7 @@
 				</div>
 			</div>
 
-			<!-- automatically generate syntax -->
+			<!-- GEN INPUT: automatically generate syntax -->
 			<div id="inputOptions" style="display: none">
 
 				<fieldset id="syntax-parameters" class="open">
@@ -780,7 +792,7 @@
 
 		</div>
 
-		<!--GEN OPTIONS-->
+		<!--GEN OUTPUT OPTIONS-->
 		<div class="spotBlock">
 		<legend><h2>GEN: Output parameters</h2></legend>
 
@@ -843,22 +855,29 @@
 				<div class="category-selection-div"><input type="radio" name="genOptions-rootCategory" value="phi">&phi;</div>
 				<div class="category-selection-div"><input type="radio" name="genOptions-rootCategory" value="w">&omega;</div>
 			</div>
-		<div class="constraint-row"><span>Intermediate nodes are</span>
-			<div class="info"><span class="content">Specify the category of the nodes below the root and above the terminals. This is the category where GEN will create recursion.</span></div>
-		</div>
-		<div class="category-row">
-				<div class="category-selection-div"><input type="radio" name="genOptions-recursiveCategory" value="i">&iota;</div>
-				<div class="category-selection-div"><input type="radio" name="genOptions-recursiveCategory" value="phi" checked="checked">&phi;</div>
-				<div class="category-selection-div"><input type="radio" name="genOptions-recursiveCategory" value="w">&omega;</div>
-		</div>
-		<div class="constraint-row"><span>Prosodic terminals are</span>
-			<div class="info">
-				<span class="content">Specify the category of the terminal nodes for the trees GEN will create. N.B. GEN will always map terminals marked with "-clitic" to syllables.</span></div>
+			<div class="constraint-row"><span>Intermediate nodes are</span>
+				<div class="info"><span class="content">Specify the category of the nodes below the root and above the terminals. This is the category where GEN will create recursion.</span></div>
 			</div>
 			<div class="category-row">
-				<div class="category-selection-div"><input type="radio" name="genOptions-terminalCategory" value="phi">&phi;</div>
-				<div class="category-selection-div"><input type="radio" name="genOptions-terminalCategory" value="w" checked="checked">&omega;</div>
-				<div class="category-selection-div"><input type="radio" name="genOptions-terminalCategory" value="Ft">Ft</div>
+					<div class="category-selection-div"><input type="radio" name="genOptions-recursiveCategory" value="i">&iota;</div>
+					<div class="category-selection-div"><input type="radio" name="genOptions-recursiveCategory" value="phi" checked="checked">&phi;</div>
+					<div class="category-selection-div"><input type="radio" name="genOptions-recursiveCategory" value="w">&omega;</div>
+			</div>
+			<div class="constraint-row"><span>Prosodic terminals are</span>
+				<div class="info">
+					<span class="content">Specify the category of the terminal nodes for the trees GEN will create. N.B. GEN will always map terminals marked with "-clitic" to syllables.</span></div>
+			</div>
+			<div class="category-row">
+					<div class="category-selection-div"><input type="radio" name="genOptions-terminalCategory" value="phi">&phi;</div>
+					<div class="category-selection-div"><input type="radio" name="genOptions-terminalCategory" value="w" checked="checked">&omega;</div>
+					<div class="category-selection-div"><input type="radio" name="genOptions-terminalCategory" value="Ft">Ft</div>
+			</div>
+
+			<div class="constraint-row">
+				<span><input type="checkbox" name="genOptions" value="requireRecWrapper">Require a wrapper of the intermediate category.</span>
+				<div class="info">
+					<span class="content">If selected, all candidates will contain a single node of the intermediate category that is coextensive with the root node and thus dominates all the terminals in the tree. E.g., {(a b c)} will be a possible parse if this option is checked, but {(a)(b c)} will not. This halves your candidate set if the root and intermediate categories differ and recursion is allowed.</span>
+				</div>
 			</div>
 		</fieldset>
 
@@ -1877,7 +1896,7 @@
 
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
-							<span><input type="checkbox" name="constraints" value="strongStart">StrongStart (any sister)</span>
+							<span><input type="checkbox" name="constraints" value="strongStart">StrongStart (categorical)</span>
 							<div class="info">
 								<span class="content">Assign a violation for every node of the selected category such that its leftmost daughter is of a lower category than some sister to its right.</span>
 							</div>
@@ -1895,11 +1914,11 @@
 								<span class="content">Assign one violation for every node in the prosodic tree whose leftmost daughter is of the selected category, and is lower in the prosodic hierarchy than its sister constituent immediately to its right. (Elfner's StrongStart) SPOT function: strongStart_Elfner(). (Selkirk 2011, Elfner 2012.)</span>
 							</div>
 						</div>
-						<!---<div class="category-row">
+						<div class="category-row">
 							<div class="category-selection-div"><input type="checkbox" name="category-strongStart_Elfner" value="phi">&phi;</div>
 							<div class="category-selection-div"><input type="checkbox" name="category-strongStart_Elfner" value="w" checked="checked">&omega;</div>
 							<div class="category-selection-div"><input type="checkbox" name="category-strongStart_Elfner" value="syll">&sigma;</div>
-						</div>-->
+						</div>
 					</div>
 
 					<div onclick="showMore('moreSisterhoodConstraints')" class="show-more" id="moreSisterhoodConstraintsShow">Show more...</div>
@@ -1943,6 +1962,19 @@
 
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="strongStartInit">StrongStart<sub>Initial</sub> </span>
+								<div class="info">
+									<span class="content">Assign one violation for every node of category k that is initial in a node of category k+2 and sister to a node of category >k</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-strongStartInit" value="w" checked>&omega;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-strongStartInit" value="syll">&sigma;</div>
+							</div>
+						</div>
+
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="strongStart_SubCat">StrongStart (Sub-categories)</span>
 								<div class="info">
 									<span class="content">Assign a violation for every node whose leftmost daughter constituent is lower in the prosodic hierarchy than its sister constituent immediately to its right. Sensitive to whether nodes are (non)minimal: &phi;-min is lower than &phi; non-min. Not sensitive to the category of the parent. (Van Handel's strongStart from SPOT2 2019)</span>
@@ -1954,14 +1986,14 @@
 							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="strongStartClitic">StrongStartClitic</span>
 								<div class="info">
-									<span class="content">Assign a violation for every node whose leftmost daughter constituent is of category < w (a syllable or foot) (Bennett, Elfner & McCloskey 2016).</span>
+									<span class="content">Assign a violation for every node of category cat whose leftmost daughter constituent is of category < w (a syllable or foot) (Bennett, Elfner & McCloskey 2016).</span>
 								</div>
 							</div>
-							<!--<div class="category-row">
+							<div class="category-row">
 								<div class="category-selection-div"><input type="checkbox" name="category-strongStartClitic" value="i">&iota;</div>
 								<div class="category-selection-div"><input type="checkbox" name="category-strongStartClitic" value="phi">&phi;</div>
 
-							</div>-->
+							</div>
 						</div>
 					</div>
 
