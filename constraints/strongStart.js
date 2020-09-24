@@ -150,10 +150,47 @@ function strongStartClitic(s, ptree, cat){
 	return vcount;
 }
 
-/* Strong start (cat init)
- * Assign one violation for every node of category k that is initial in a node of category
- * k+2 and sister to a node of category k+1
+/* StrongStartDeep
+ * Assign one violation for every node of category k whose first child is or *contains* a node of category < k-1 that is sister to a node of category >= k-1
+ Examples of structures that violate strongStartInit(cat = i): {a (b)}, {(a (b))}, {a.ft (b)}
  */
+function strongStartDeep(stree, ptree, cat, options){
+	options = options || {};
+
+	vcount = 0;
+	if(ptree.children && ptree.children.length){
+		var firstChild = ptree.children[0];
+		var strongCat = pCat.nextLower(cat);
+
+		//Base case: We're looking at a node of category cat that has more than one child
+		//or we're already recursing within a node of category cat and don't need to check the parent category
+		if(ptree.children.length > 1 && (ptree.cat === cat || options.recursive)){
+			
+			//firstChild is more than 1 category down from cat
+			if(pCat.isLower(firstChild.cat, strongCat)){
+				for(var j = 1; j<ptree.children.length; j++){
+					var sisterCat = ptree.children[j].cat;
+					if(pCat.isLower(firstChild.cat, sisterCat)){
+						vcount++;
+						break;
+					}
+				}
+			}
+		}
+
+		//firstChild is not itself "weak", but may contain a node that violates strongStart, so recurse here
+		if(!pCat.isLower(firstChild.cat, strongCat)){
+			vcount += strongStartDeep(stree, firstChild, cat, {recursive:true});
+		}
+
+		//Recursive case: look at all childen
+		for(var i = 0; i < ptree.children.length; i++){
+			vcount += strongStartDeep(stree, ptree.children[i], cat);
+		}
+	}
+	return vcount;
+}
+
 function strongStartInit(stree, ptree, cat){
 	let offendingNodes = totalDescender(ptree, cat, false);
 	let result = [];
