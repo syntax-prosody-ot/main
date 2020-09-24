@@ -448,7 +448,7 @@ function built_in_Chamorro_RB(){
 function built_in_Irish_AMP2020(options){
   var gen = {"obeysExhaustivity":["i","phi"],"noUnary":true, "rootCategory":"i","recursiveCategory":"phi","terminalCategory":"w","invisibleCategories":[]};
   //This is the working constraint set
-  var con = [{name: 'matchSP', cat: 'xp'}, {"name":"matchCustomSP","cat":"xp","options":{"requireLexical":false,"requireOvertHead":true}},{"name":"binMaxBranches","cat":"phi"}, {"name":"strongStart","cat":"phi", "options":{"maximal":true}}];
+  var con = [{name: 'matchSP', cat: 'xp'}, {"name":"matchCustomSP","cat":"xp","options":{"requireLexical":false,"requireOvertHead":true}},{"name":"binMaxBranches","cat":"phi"}, {"name":"strongStartDeep","cat":"i"}];
 
   //Options allow us to minimally change CON to demonstrate that both novel constraints are essential.
   //assumes we're only removing / replacing one item
@@ -514,7 +514,7 @@ function built_in(analysis) {
     built_in_Irish_AMP2020();
   }
   if(analysis === "irish_AMP2020_MOh_only"){
-    built_in_Irish_AMP2020({rm:{name:'strongStart', cat:'phi', options:{'maximal':true}}, add:{name: 'strongStart_Elfner', cat: 'w'}});
+    built_in_Irish_AMP2020({rm:{name:'strongStartDeep', cat:'i'}, add:{name: 'strongStart_Elfner', cat: 'w'}});
   }
   if(analysis === "irish_AMP2020_SSInit_only"){
     built_in_Irish_AMP2020({rm:{
