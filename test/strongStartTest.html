@@ -129,15 +129,66 @@
 			}
 		]		
 	};
+
+	var aBcD = {
+        "id": "CP1",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "XP_5",
+                "children": [
+                    {
+                        "id": "a",
+                        "cat": "w"
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "XP_6",
+                        "children": [
+                            {
+                                "id": "b",
+                                "cat": "w"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "cat": "phi",
+                "id": "XP_7",
+                "children": [
+                    {
+                        "id": "c",
+                        "cat": "w"
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "XP_8",
+                        "children": [
+                            {
+                                "id": "d",
+                                "cat": "w"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
 	
 	var emptyTree = {};
 	
-	var constraintSet = ['strongStart_Elfner-w', 'strongStart_Elfner-syll', 'strongStart-phi', 'strongStart-i', 'strongStartClitic-i', 'strongStartClitic-phi', 'strongStart-phi-{"maximal":true}'];
-	var candidateSet = [['emptyTree','abtree_syll'],['emptyTree', 'abtree'], ['emptyTree', 'oneVtree1_clitic'],['emptyTree', 'zeroVtree1'], ['emptyTree', 'zeroVtree2'], ['emptyTree', 'oneVtree1'], ['emptyTree', 'twoVtree1']];
+	var constraintSet = ['strongStart-phi-{"maximal":true}', 'strongStart_Elfner-w', 'strongStart_Elfner-syll', 'strongStart-phi', 'strongStart-i', 'strongStartClitic-i', 'strongStartClitic-phi'];
+	var candidateSet = [[{}, aBcD],['emptyTree','abtree_syll'],['emptyTree', 'abtree'], ['emptyTree', 'oneVtree1_clitic'],['emptyTree', 'zeroVtree1'], ['emptyTree', 'zeroVtree2'], ['emptyTree', 'oneVtree1'], ['emptyTree', 'twoVtree1']];
 		
 	function runDemo() {
 		
 		writeTableau(makeTableau(candidateSet, constraintSet));
+		revealNextSegment();
+		lastSegmentId++;
+
+		writeTableau(makeTableau(GEN({}, 'a b c'), constraintSet));
 		revealNextSegment();
 		lastSegmentId++;
 	}
