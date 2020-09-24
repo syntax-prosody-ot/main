@@ -550,9 +550,9 @@
 					<option value="select">Select</option>
 					
 					<optgroup label = "Irish from Bellik & Kalivoda, AMP2020">
-						<option value="irish_AMP2020">with Match(OhP) & StrongStartInit &#10004;</option>
+						<option value="irish_AMP2020">with Match(OhP) & StrongStartPhiMax &#10004;</option>
 						<option value="irish_AMP2020_MOh_only">with Match(OhP) only &#x2717;</option>
-						<option value="irish_AMP2020_SSInit_only">with StrongStartInit only &#x2717;</option>
+						<option value="irish_AMP2020_SSInit_only">with StrongStartPhiMax only &#x2717;</option>
 					</optgroup>
 					
 					<optgroup label = "From published literature">
@@ -1905,6 +1905,12 @@
 							<div class="category-selection-div"><input type="checkbox" name="category-strongStart" value="phi">&phi;</div>
 							<div class="category-selection-div"><input type="checkbox" name="category-strongStart" value="w" checked="checked">&omega;</div>
 							<div class="category-selection-div"><input type="checkbox" name="category-strongStart" value="syll">&sigma;</div>
+						</div>
+						<div class="category-row">
+							<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-strongStart" value="maximal">Maximal nodes only</div>
+							<div class="info">
+								<span class="content custom-option-div">Only enforce StrongStart for nodes of the specified category if they are maximal (i.e., not dominated by any node of the same category).</span>
+							</div>
 						</div>
 					</div>
 					<div class="constraint-selection-table">
