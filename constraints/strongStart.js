@@ -56,8 +56,11 @@ function strongStart(s, ptree, cat, options){
 	
 	var vcount = 0;
 	
-	if(ptree.cat === cat && ptree.children.length>1 && !(options.maximal && !ptree.isMax)){
-		//If we only want to look at maximal nodes and this one isn't maximal, then don't evaluate it further.
+	if(!pCat.isLower(ptree.cat, cat) && ptree.children.length>1 
+	&& !(options.maximal && !ptree.isMax && !pCat.isHigher(ptree.cat, cat))){
+		//TEST with {{w (w (w (w)))} w}: 2 violations for SS-phimax, one for 
+		// {w {w (w (w (w)))}} --> 3 violations
+		//If we only want to look at maximal nodes and this one isn't maximal and isn't a higher category than the one specified, then don't evaluate it further.
 		
 		var leftmostCat = ptree.children[0].cat;
 		for(var i = 1; i<ptree.children.length; i++){
@@ -151,7 +154,7 @@ function strongStartClitic(s, ptree, cat){
 }
 
 /* StrongStartDeep
- * Assign one violation for every node of category k whose first child is or *contains* a node of category < k-1 that is sister to a node of category >= k-1
+ * Assign one violation for every node of category k or higher that contains at its left edge a node of category < k-1 that is sister to a node of category >= k-1
  Examples of structures that violate strongStartInit(cat = i): {a (b)}, {(a (b))}, {a.ft (b)}
  */
 function strongStartDeep(stree, ptree, cat, options){
@@ -162,9 +165,9 @@ function strongStartDeep(stree, ptree, cat, options){
 		var firstChild = ptree.children[0];
 		var strongCat = pCat.nextLower(cat);
 
-		//Base case: We're looking at a node of category cat that has more than one child
-		//or we're already recursing within a node of category cat and don't need to check the parent category
-		if(ptree.children.length > 1 && (ptree.cat === cat || options.recursive)){
+		//Base case: We're looking at a node of category cat or higher that has more than one child
+		//or we're already recursing within a node of category cat or higher and don't need to check the parent category
+		if(ptree.children.length > 1 && (!pCat.isLower(ptree.cat, cat) || options.recursive)){
 			
 			//firstChild is more than 1 category down from cat
 			if(pCat.isLower(firstChild.cat, strongCat)){
@@ -191,6 +194,9 @@ function strongStartDeep(stree, ptree, cat, options){
 	return vcount;
 }
 
+/* Assign a violation for every node of category cat or lower that is initial in a node of category cat+2 or higher, at any level, and has a sister (not necessarily adjacent) of a higher category.
+Question: Is the sister specification really necessary?
+*/
 function strongStartInit(stree, ptree, cat){
 	let offendingNodes = totalDescender(ptree, cat, false);
 	let result = [];
@@ -205,14 +211,14 @@ function strongStartInit(stree, ptree, cat){
 	// catInitial -- what is this?
 	function totalDescender(tree, category, catInitial){
 		let result = [];
-		kPlus2 = pCat.isHigher(tree.cat, pCat.nextHigher(category));
+		let kPlus2 = pCat.isHigher(tree.cat, pCat.nextHigher(category));
 		if(tree.children && tree.children.length){
 			//Base case: evaluate current node for violation
 			if(violation()){
 				result.push(tree.children[0]);
 			}
 
-			//If catInitial is false and there is a category two steps up the prosodic hierarchy
+			//If catInitial is false and the current category is two steps up the prosodic hierarchy from the specified child category
 			if(!catInitial && kPlus2){
 				result = result.concat(totalDescender(tree.children[0], category, tree.cat));
 				//Add violations from a recursive call on the first child
@@ -234,16 +240,25 @@ function strongStartInit(stree, ptree, cat){
 		function violation(){
 			let bool = true;
 			let parent = tree;
-			let init = tree.children[0];
-			let peninit = tree.children[1];
-			// No violation if the category of the initial child isn't the specified category.
-			// We should consider whether this should actually be: the specified category *or lower*. i.e., if you get a violation for {w phi}, you would certainly also get a violation for {ft phi}
-			if(init && init.cat !== category){bool = false;}
-			// No violation if the immediate sister to the initial node is not of a higher category
-			// This definitely needs to be revised to look at all sisters.
-			if(peninit && !pCat.isHigher(peninit.cat, init.cat)){bool = false;}
-			// No violation if the tree's category isn't at least 2 categories up from the specified category AND catInitial (passed in from calling function totalDescender)
-			if(!pCat.isHigher(parent.cat, pCat.nextHigher(category)) && !catInitial){bool = false;}
+			let init = parent.children[0];
+			let i = 0;
+			while(bool==true && i<parent.children.length-1){
+				let peninit = parent.children[i+1];
+
+				// No violation if the category of the initial child is higher than the specified category.
+				// If you get a violation for {w phi}, you would also get a violation for {ft phi}
+				if(init && pCat.isHigher(init.cat, category)){bool = false;}
+				
+				// No violation if the immediate sister to the initial node is not of a higher category
+				// This definitely needs to be revised to look at all sisters.
+				if(peninit && !pCat.isHigher(peninit.cat, init.cat)){bool = false;}
+				
+				// No violation if the tree's category isn't at least 2 categories up from the specified category AND catInitial (passed in from calling function totalDescender)
+				if(!pCat.isHigher(parent.cat, pCat.nextHigher(category)) && !catInitial){bool = false;}
+
+				i++;
+			}
+			
 			return bool;
 		}
 	}
