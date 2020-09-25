@@ -242,7 +242,7 @@ function strongStartInit(stree, ptree, cat){
 			let parent = tree;
 			let init = parent.children[0];
 			let i = 0;
-			while(bool==true && i<parent.children.length-1){
+			while(bool==true && i<parent.children.length){
 				let peninit = parent.children[i+1];
 
 				// No violation if the category of the initial child is higher than the specified category.
