@@ -24,14 +24,28 @@ function clearInputs(){
 
   if(inputStrings.length){
     for(let i = 0; i<inputStrings.length; i++){
-      inputStrings[i].value = ''
+      inputStrings[i].value = '';
       if(i>0){
         inputStrings[i].parentElement.remove();
       }
     }
   }
   else{
-    inputStrings.value = ''
+    inputStrings.value = '';
+  }
+
+  let inputTerminals = spotForm['genStringsInput'];
+
+  if(inputTerminals.length){
+    for(let i = 0; i<inputTerminals.length; i++){
+      inputTerminals[i].value = '';
+      if(i>0){
+        inputTerminals[i].parentElement.remove();
+      }
+    }
+  }
+  else{
+    inputTerminals.value = '';
   }
 
   changeInputTabs('inputButton', 'goButton');
