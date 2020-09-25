@@ -242,6 +242,9 @@ function strongStartInit(stree, ptree, cat){
 			let parent = tree;
 			let init = parent.children[0];
 			let i = 0;
+
+			if(parent.children.length < 2){bool = false;}
+
 			while(bool==true && i<parent.children.length){
 				let peninit = parent.children[i+1];
 

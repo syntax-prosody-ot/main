@@ -55,6 +55,10 @@
 	describe("StrongStart(w init) with no violations", function(){
 		testW(ptreelist[0][1], 0);
 		testW(ptreelist[7][1], 0);
+		it("{a}", function(){
+			let tree = {id: "root", cat: "i", children: [{id: "child", cat: "w"}]};
+			assert.equal(strongStartInit({}, tree, 'w'), 0);
+		});
 	});
 
 	describe("StrongStart(w init) with one violation", function(){
