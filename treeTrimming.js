@@ -171,7 +171,7 @@ function createDummies(inputTree, attribute){
 			for(var i = 0; i<node.children.length; i++){
 				var child = node.children[i];
 				if(child.children && child.children.length){
-					node = createDummyInner(child);
+					node.children[i] = createDummyInner(child);
 				}
 			}
 		}
