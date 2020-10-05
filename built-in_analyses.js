@@ -590,6 +590,24 @@ function record_analysis(){
     else {
       analysis.myTrees.inputToGenAuto = [spotForm.inputToGenAuto.value];
     }
+
+    // GEN input strings
+
+    let listify = function(nodeList){
+      return Array.prototype.slice.call(nodeList);
+    }
+
+    strGENboxes = listify(document.getElementsByName('genStringsInput')).concat(
+      listify(document.getElementsByName('genStringsMin')).concat(
+      listify(document.getElementsByName('genStringsMax'))));
+
+    for(const strGENbox of strGENboxes){
+        if(strGENbox.value.length){
+          analysis.myGEN[strGENbox.name] = analysis.myGEN[strGENbox.name] || [];
+          analysis.myGEN[strGENbox.name].push(strGENbox.value);
+        };
+    };
+
   }
   else {
     displayError('GEN input not found');
