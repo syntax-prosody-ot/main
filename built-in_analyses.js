@@ -593,20 +593,35 @@ function record_analysis(){
 
     // GEN input strings
 
-    let listify = function(nodeList){
-      return Array.prototype.slice.call(nodeList);
+    strGENboxes = document.getElementsByName('genStringsInput');
+    strMinBoxes = document.getElementsByName('genStringsMin');
+    strMaxBoxes = document.getElementsByName('genStringsMax');
+
+    //if there are a different number of these boxes, you will get weird results
+    //this should never happen, though, unless the interface is broken
+    if(strGENboxes.length !== strMinBoxes.length || strGENboxes.length !== strMaxBoxes.length){
+      const err = new Error("Missing inerface element");
+      displayError("Error: " + err.message + '. Interface is broken at "Generate Combinations and \
+      Permutations and cannot be saved at this time.');
+      throw err;
     }
 
-    strGENboxes = listify(document.getElementsByName('genStringsInput')).concat(
-      listify(document.getElementsByName('genStringsMin')).concat(
-      listify(document.getElementsByName('genStringsMax'))));
+    analysis.myGEN.terminalStrings = [];
 
-    for(const strGENbox of strGENboxes){
-        if(strGENbox.value.length){
-          analysis.myGEN[strGENbox.name] = analysis.myGEN[strGENbox.name] || [];
-          analysis.myGEN[strGENbox.name].push(strGENbox.value);
-        };
-    };
+    for(let i = 0; i < strGENboxes.length; i++){
+
+      const terminals = strGENboxes[i].value;
+      const min = strMinBoxes[i].value;
+      const max = strMaxBoxes[i].value;
+
+      if(terminals || min || max){
+        analysis.myGEN.terminalStrings.push({
+          genStringsInput: terminals,
+          genStringsMin: min,
+          getStringsMax: max,
+        });
+      }
+    }
 
   }
   else {
