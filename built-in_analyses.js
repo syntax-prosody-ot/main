@@ -34,18 +34,14 @@ function clearInputs(){
     inputStrings.value = '';
   }
 
-  let inputTerminals = spotForm['genStringsInput'];
+  let inputTerminals = document.getElementsByName('genStringsInput');
 
-  if(inputTerminals.length){
-    for(let i = 0; i<inputTerminals.length; i++){
-      inputTerminals[i].value = '';
-      if(i>0){
-        inputTerminals[i].parentElement.remove();
-      }
-    }
-  }
-  else{
-    inputTerminals.value = '';
+  inputTerminals[0].value = '';
+  document.getElementsByName('genStringsMin')[0].value = '';
+  document.getElementsByName('genStringsMax')[0].value = '';
+
+  while(inputTerminals.length > 1) {
+    inputTerminals[inputTerminals.length - 1].parentElement.remove();
   }
 
   changeInputTabs('inputButton', 'goButton');
