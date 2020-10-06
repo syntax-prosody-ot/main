@@ -276,6 +276,26 @@ function built_in_input(myTrees){
       }
     }
 
+    if(myTrees.terminalStrings && myTrees.terminalStrings.length){
+      document.getElementById("stringGeneration").setAttribute('class', 'open');
+
+      const terminalStrings = myTrees.terminalStrings;
+
+      const strGENboxes = document.getElementsByName('genStringsInput');
+      const strMinBoxes = document.getElementsByName('genStringsMin');
+      const strMaxBoxes = document.getElementsByName('genStringsMax');
+
+      //clicks 'add list of terminals' until there enough divs for the analysis at hand
+      while(document.getElementsByName('genStringsInput').length < terminalStrings.length){
+        document.getElementById('addList').click();
+      }
+      for(let i = 0; i < terminalStrings.length; i++){
+        strGENboxes[i].value = terminalStrings[i].genStringsInput;
+        strMinBoxes[i].value = terminalStrings[i].genStringsMin;
+        strMaxBoxes[i].value = terminalStrings[i].genStringsMax
+      }
+    }
+
     document.getElementById('autoGenDoneButton').click();
   }
 }
@@ -593,9 +613,9 @@ function record_analysis(){
 
     // GEN input strings
 
-    strGENboxes = document.getElementsByName('genStringsInput');
-    strMinBoxes = document.getElementsByName('genStringsMin');
-    strMaxBoxes = document.getElementsByName('genStringsMax');
+    const strGENboxes = document.getElementsByName('genStringsInput');
+    const strMinBoxes = document.getElementsByName('genStringsMin');
+    const strMaxBoxes = document.getElementsByName('genStringsMax');
 
     //if there are a different number of these boxes, you will get weird results
     //this should never happen, though, unless the interface is broken
@@ -606,7 +626,7 @@ function record_analysis(){
       throw err;
     }
 
-    analysis.myGEN.terminalStrings = [];
+    analysis.myTrees.terminalStrings = [];
 
     for(let i = 0; i < strGENboxes.length; i++){
 
@@ -615,10 +635,10 @@ function record_analysis(){
       const max = strMaxBoxes[i].value;
 
       if(terminals || min || max){
-        analysis.myGEN.terminalStrings.push({
-          genStringsInput: terminals,
-          genStringsMin: min,
-          getStringsMax: max,
+        analysis.myTrees.terminalStrings.push({
+          genStringsInput: terminals ?? '',
+          genStringsMin: min ?? '',
+          genStringsMax: max ?? '',
         });
       }
     }
