@@ -2,4 +2,5 @@
 
 function headedness(stree, ptree, cat){
     //code here
+    //should return integer
 }
