@@ -20,14 +20,14 @@ function headedness(stree, ptree, cat){
     }
 
     let violations = 0;
-    let cat = cat || true;
+    cat = cat || true;
 
     if(ptree.children && ptree.children.length && getsViolation(ptree, cat)) {
         violations ++;
     }
 
     if(ptree.children && ptree.children.length){
-        for(child of ptree){
+        for(child of ptree.children){
             violations += headedness(stree, child, cat);
         }
     }

@@ -1,0 +1,47 @@
+<html>
+<head> 
+	<title>Syntax prosody interface application</title>
+
+	<link rel="stylesheet" type="text/css" href="../spot.css">
+
+	<script src="../lib/jszip.min.js"></script>
+
+	<!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
+	(open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
+	<script src="../build/spot.js"></script>	
+	<script>
+	/*Custom constraints can be defined inside <script> tags, as here, or in a separate file which you can load, also using a script tag*/
+	function constraint1(stree, ptree, cat){
+		var vcount = 0;
+		//Code for going through the tree and evaluate for some structure goes here
+		return vcount;
+	}
+	</script>
+	
+			
+</head>
+
+<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+	<h2>MY ANALYSIS: investigation using SPOT</h2>
+	<pre id="results-container"></pre>
+
+<script>
+	
+	/*Constraint sets are defined below. You can change these or add your own. A constraint set is a list of constraint function names (refer to the files in constraints.js for names) + category arguments (separated from constraint names with -; refer to prosodicHierarchy.js for a list of defined categories).*/
+	var conMatch = ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj-phi'];
+	var conAlign = ['alignRight-xp', 'alignLeft-xp', 'wrap-xp', 'equalSistersAdj-phi'];
+	//var conOther = ['constraint1-xp','constraint2-phi', 'constraint3-w', 'etc-i'];
+	
+	/*A list of names for your constraint sets. These are used for naming the tableau csv files and finding the lists of constraint names. They need to match the variable names above.*/
+    var conNames = ['conMatch', 'conAlign'];
+	
+	//Candidate sets are generated with the options below.
+    var gen_options = {obeysNonrecursivity: false, obeysExhaustivity: false};
+    
+    //writeTableau(makeTableau(gen()))
+
+</script>
+
+</body>
+
+</html>
