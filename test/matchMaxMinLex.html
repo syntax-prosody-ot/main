@@ -282,6 +282,26 @@
 				}
 			]
 		};
+		pTree4 = {
+			cat: 'phi',
+			id: 'root',
+			children: [
+				{
+					cat: 'w',
+					id: 'X'
+				},
+				{
+					cat: 'phi',
+					id: 'phi1',
+					children: [
+						{
+							cat: 'w',
+							id: 'Z'
+						}
+					]
+				}
+			]
+		};
 	</script>
 	
 			
@@ -316,7 +336,7 @@
 
             //Make the candidate set using the GEN function (defined in candidategenerator.js)
 			//Leave the 2nd argument as an empty string to scrape words from the terminals of the syntactic tree.
-            var candSet = [[currentSTree, ptree0], [currentSTree, ptree1], [currentSTree, ptree2], [currentSTree, ptree3]]
+            var candSet = [[currentSTree, ptree0], [currentSTree, ptree1], [currentSTree, ptree2], [currentSTree, ptree3], [currentSTree, pTree4]]
             
 			writeTableau(makeTableau(candSet, window[consName]));
 			revealNextSegment();
