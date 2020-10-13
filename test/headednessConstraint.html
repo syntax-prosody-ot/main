@@ -20,7 +20,24 @@
 	
     
     window.addEventListener("load", function(){
-        writeTableau(makeTableau(GEN({cat: 'x0', id: 'Headedness constraint test'}, 'a b c-clitic'), ['headedness', 'headedness-i', 'headedness-phi']));
+		// GEN is defined in candidategenerator.js
+		// Arguments: 
+		// - syntactic tree object, which appears in the first cell of the table
+		// - a string consisting of a space separated list of terminals
+		// Returns: an array of pairs <stree, ptree>
+		var myCandSet = GEN({cat: 'x0', id: 'Headedness constraint test'}, 'a b c-clitic');
+
+		// Array of string versions of function names
+		// Category arguments for the functions appear after a hyphen
+		var myConstraintSet = ['headedness', 'headedness-i', 'headedness-phi'];
+
+		// makeTableau() is defined in tableauMaker.js
+		var myTableau = makeTableau(myCandSet, myConstraintSet);
+
+		//Defined in prototypeInterface.js
+		writeTableau(myTableau);
+		
+		//Unhide the tableau div in the html
         revealNextSegment();
     });
 
