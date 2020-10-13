@@ -1646,7 +1646,7 @@
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="ccPhi">C-Command-to-&phi;</span>
 							<div class="info">
-								<span class="content">For every c-pair (x, y), assign a violation for every &phi; that dominates x but not y, and for every &phi; that dominates y but not x. SPOT function: ccPhi(). (Kalivoda 2018)</span>
+								<span class="content">For every c-pair (x<sup>0</sup>, y<sup>0</sup>), assign a violation for every &phi; that dominates ω<sub>x</sub> but not ω<sub>y</sub>, and for every &phi; that dominates ω<sub>y</sub> but not ω<sub>x</sub>. SPOT function: ccPhi(). (Kalivoda 2018)</span>
 							</div>
 						</div>
 						<div class="category-row">
@@ -1659,12 +1659,12 @@
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="antiCCPhi">Anti-C-Command-to-&phi;</span>
 							<div class="info">
-								<span class="content">If ω<sub>x</sub> and ω<sub>y</sub> are not mutually commanding, then assign a violation if there is no &phi; containing ω<sub>x</sub> and excluding ω<sub>y</sub>, and a violation if there is no &phi; containing ω<sub>y</sub> and excluding ω<sub>x</sub>. SPOT function: antiCCPhi(). (Kalivoda 2018)</span>
+								<span class="content">If x<sup>0</sup> and y<sup>0</sup> are mutually non-commanding, then assign a violation if there is no &phi; containing ω<sub>x</sub> and excluding ω<sub>y</sub>, and a violation if there is no &phi; containing ω<sub>y</sub> and excluding ω<sub>x</sub>. SPOT function: antiCCPhi(). (Kalivoda 2018)</span>
 							</div>
 						</div>
 						<div class="category-row">
 							<div class="custom-text">
-								<p>Enforce only for syntactic nodes that are...</p>
+								<p>Enforcement options...</p>
 							</div>
 							<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-antiCCPhi" value="requireAdjacent">adjacent</div>
 							<div class="info">
@@ -1672,9 +1672,9 @@
 							</div>
 						</div>
 						<div class="category-row">
-							<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-antiCCPhi" value="requireMutual">mutually non-commanding</div>
+							<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-antiCCPhi" value="requireStrict">strict</div>
 							<div class="info">
-								<span class="content">Only apply constraint when words are mutually non-commanding. (Kalivoda 2018)</span>
+								<span class="content">Apply constraint any time words are not mutually commanding (as opposed to mutually non-commanding). (Kalivoda 2018)</span>
 							</div>
 						</div>
 					</div>
