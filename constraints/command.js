@@ -392,8 +392,8 @@ function antiCCPhi(sTree,pTree,cat,options)
 		for(var p = 0; p < sLeaves.length; p++)
 		{
 			if(sLeaves[i] != sLeaves[p] && !pairExists(nonCPairs, sLeaves[i], sLeaves[p]) 
-			&& !(options.requireMutual && !mutualNonCommand(sTree, sLeaves[i], sLeaves[p]))
-			&& !(!options.requireMutual && !notMutualCommand(sTree, sLeaves[i], sLeaves[p])))
+			&& !(options.requireStrict && !notMutualCommand(sTree, sLeaves[i], sLeaves[p]))
+			&& !(!options.requireStrict && !mutualNonCommand(sTree, sLeaves[i], sLeaves[p])))
 			{
 				if(!options.requireAdjacent || areAdjacent(sTree, sLeaves[i], sLeaves[p]))
 				{

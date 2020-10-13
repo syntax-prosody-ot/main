@@ -26,7 +26,7 @@
 	var sTreeList = [tree_31, tree_32, tree_41, tree_42, tree_21, tree_51];
 	
 	/*Constraint sets are defined below. You can change these or add your own. A constraint set is a list of constraint function names (refer to the files in constraints.js for names) + category arguments (separated from constraint names with -; refer to prosodicHierarchy.js for a list of defined categories).*/
-	var ctCon = ['group-i','group-i-{"requireMin": true}','ccPhi-i','ccPhi-i-{"requireAdjacent": true}','antiCCPhi-i','antiCCPhi-i-{"requireMutual": true}','antiCCPhi-i-{"requireAdjacent": true}','antiCCPhi-i-{"requireAdjacent": true, "requireMutual": true}'];
+	var ctCon = ['group-i','group-i-{"requireMin": true}','ccPhi-i','ccPhi-i-{"requireAdjacent": true}','antiCCPhi-i','antiCCPhi-i-{"requireStrict": true}','antiCCPhi-i-{"requireAdjacent": true}','antiCCPhi-i-{"requireAdjacent": true, "requireStrict": true}'];
 	//var conOther = ['constraint1-xp','constraint2-phi', 'constraint3-w', 'etc-i'];
 	
 	/*A list of names for your constraint sets. These are used for naming the tableau csv files and finding the lists of constraint names. They need to match the variable names above.*/
