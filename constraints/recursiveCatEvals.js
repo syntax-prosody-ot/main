@@ -5,9 +5,16 @@ Assumes all nodes have valid and relevant categories
 (i.e., this is designed for prosodic trees and won't give the desired results
 if run on a syntactic tree that contains, e.g., bar levels).
 */
-function isMinimal(node){
-	var cat = node.cat;
+function isMinimal(node, lastCat){
+	//use the lastCat argument as the cat under question if it exists.
+	if(lastCat){
+		var cat = lastCat;
+	} else {
+		var cat = node.cat;
+	}
+	
 	var isMin = true;
+
 	//If the node is a leaf, it's minimal.
 	if(!node.children || !node.children.length)
 		return isMin;
@@ -15,8 +22,12 @@ function isMinimal(node){
 	var i = 0;
 	var chil = node.children;
 	while(isMin && i<chil.length){
-		if(chil[i].cat===cat)
+		//if a child is a dummy, we will have to see skip over that dummy to see if any of its children have the same category.
+		if(chil[i].cat == "dummy"){
+			isMin = isMinimal(chil[i], cat)
+		} else if(chil[i].cat===cat){
 			isMin = false;
+		}
 		i++;
 	}
 	return isMin;
@@ -57,6 +68,16 @@ var sCat = ["cp", "xp", "x0"];
  */
 
 function markMinMax(mytree, options){
+	if(options.requireLexical){
+		mytree = removeSpecifiedNodes(mytree, 'func');
+	}
+	if(options.requireOvertHead){
+		mytree = removeSpecifiedNodes(mytree, 'silent');
+	}
+	return markMinMaxInner(mytree, options)
+}
+
+function markMinMaxInner(mytree, options){
 	/* If parentCat property is not already defined for this node, it is probably
 	 * the root node. Non-root nodes get the property parentCat when this node's
 	 * children are marked below.
@@ -67,29 +88,32 @@ function markMinMax(mytree, options){
 		mytree.parentCat = "is root"; //marks the root node
 	}
 
-	//mark maximal nodes
-	if (!(options.requireLexical && mytree.func) && !(options.requireOvertHead && mytree.silentHead)){
-		mytree.isMax = (mytree.cat !== mytree.parentCat);
-		mytree.isFSH = false;
-	}
-	//mark when node should be ignored for maximality
-	if((options.requireLexical && mytree.func) || (options.requireOvertHead && mytree.silentHead)){
+	//store the info of the most recent cat in order to skip over dummy nodes
+	//except if there is a dummy chain, then lastcat should be passed on the same
+	if(mytree.cat == "dummy"){
 		mytree.isMax = false;
-		mytree.isFSH = true;
+		mytree.isMin = false;
+		if(mytree.parentCat != "dummy"){
+			mytree.lastCat = mytree.parentCat;
+		}
 	}
 
-	//mark minimality (relies on isMinimal above)
-	mytree.isMin = isMinimal(mytree);
+	//recall stored parentCat after dummies are skipped
+	if(mytree.parentCat == "dummy" && mytree.cat != "dummy"){
+		mytree.parentCat = mytree.lastCat;
+	}
+
+	//mark maximality and minimality for node
+	if(mytree.cat != 'dummy'){
+		mytree.isMax = (mytree.cat !== mytree.parentCat);
+		mytree.isMin = isMinimal(mytree);
+	}
 
 	if(mytree.children && mytree.children.length){
 		for(var i = 0; i < mytree.children.length; i++){
-			var child = mytree.children[i];
-			if(mytree.isFSH == true){
-				child.parentCat = "isFSH"; //tells child node that current node was ignored
-			} else {
-				child.parentCat = mytree.cat; // set the property parentCat
-			}
-			mytree.children[i] = markMinMax(mytree.children[i], options);
+			mytree.children[i].parentCat = mytree.cat; // set the property parentCat
+			mytree.children[i].lastCat = mytree.lastCat; //pass on lastCat
+			mytree.children[i] = markMinMaxInner(mytree.children[i], options);
 		}
 	}
 	return mytree;

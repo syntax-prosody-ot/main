@@ -162,8 +162,8 @@ function createDummies(inputTree, attribute){
 	/*finds xp's with specified attribute and replaces their cat with "dummy"*/
 	tree = copyTree(inputTree)
 	function createDummyInner(node, attribute){
-		if((attribute="silent" && node.silentHead)
-			|| (attribute="func" && node.func))
+		if((attribute==="silent" && node.silentHead)
+			|| (attribute==="func" && node.func))
 			{
 				node.cat = "dummy";
 		}

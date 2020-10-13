@@ -136,6 +136,38 @@
 				}
 			]
 		};
+		stree4 = {
+			cat: "xp",
+			id: 'LexP0',
+			children: [
+				{
+					cat: 'x0',
+					id: 'X'
+				},
+				{
+					cat: 'xp',
+					id: 'FuncP0',
+					func: true,
+					children: [
+						{
+							cat: 'x0',
+							id: 'Y',
+							func: true
+						},
+						{
+							cat: 'xp',
+							id: 'LexP1',
+							children: [
+								{
+									cat: 'x0',
+									id: 'Z'
+								}
+							]
+						}
+					]
+				}
+			]
+		};
 		ptree0 = {
 			cat: 'i',
 			id: 'root',
@@ -260,7 +292,7 @@
 	<pre id="results-container"></pre>
 
 <script>
-	var sTreeList = [stree0, stree1, stree2, stree3];
+	var sTreeList = [stree0, stree1, stree2, stree3, stree4];
 
 	//Option 2: Define trees manually
 	//var sTreeList = [sTree1, sTree2];
