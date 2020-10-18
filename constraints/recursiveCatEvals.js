@@ -69,10 +69,10 @@ var sCat = ["cp", "xp", "x0"];
 
 function markMinMax(mytree, options){
 	if(options.requireLexical){
-		mytree = removeSpecifiedNodes(mytree, 'func');
+		mytree = createDummies(mytree, 'func');
 	}
 	if(options.requireOvertHead){
-		mytree = removeSpecifiedNodes(mytree, 'silent');
+		mytree = createDummies(mytree, 'silent');
 	}
 	return markMinMaxInner(mytree, options)
 }

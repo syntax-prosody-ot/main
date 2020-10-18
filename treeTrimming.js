@@ -177,7 +177,7 @@ function createDummies(inputTree, attribute){
 		}
 		return node;
 	}
-	return createDummyInner(inputTree, attribute);
+	return createDummyInner(tree, attribute);
 }
 
 function removeSpecifiedNodes(inputTree, attribute){
