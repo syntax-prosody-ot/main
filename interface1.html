@@ -1983,6 +1983,24 @@
 						</div>
 					</div>
 
+					<!--Headedness Constraint-->
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="headedness">HeadednessConstraint (categorical)</span>
+							<div class="info">
+								<span class="content">Category insensitive: "For every category k in pCat (defined in prosodicHierarchy.js), assign a violation for every node of category k in the prosodic tree ptree that is a) non-terminal and b) does not contain any nodes of category > k-2."
+									Category insensitive, for category k: "Assign a violation for every node of category k in the prosodic tree ptree that is a) non-terminal and b) does not contain any nodes of category > k-2."</span>
+							</div>
+						</div>
+						<div class="category-row">
+							<div class="category-selection-div"><input type="checkbox" name="category-headedness" value="i">&iota;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-headedness" value="phi" checked="checked">&phi;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-headedness" value="w">&omega;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-headedness" value="">all</div>     <!--may have to edit this line, don't know what to put for all value-->
+						</div>
+					</div>
+					<!--End Headedness Constraint-->
+
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="nonRecParent">Non-recursivity (parent)</span>
