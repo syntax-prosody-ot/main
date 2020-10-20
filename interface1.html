@@ -1639,6 +1639,71 @@
 
 				<fieldset>
 
+					<legend><h2>Command <span class="arrow"></h2></legend>
+
+					<div class="constraint-selection-table">
+						<input class="checkbox" checked="true" name="category-ccPhi" value="phi" style="display:none;"/>
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="ccPhi">C-Command-to-&phi;</span>
+							<div class="info">
+								<span class="content">For every c-pair (x<sup>0</sup>, y<sup>0</sup>), assign a violation for every &phi; that dominates ω<sub>x</sub> but not ω<sub>y</sub>, and for every &phi; that dominates ω<sub>y</sub> but not ω<sub>x</sub>. SPOT function: ccPhi(). (Kalivoda 2018)</span>
+							</div>
+						</div>
+						<div class="category-row">
+							<div style="white-space: nowrap;" class="option-selection-div custom-option-div"><input type="checkbox" name="option-ccPhi" value="requireAdjacent">Enforce only for linearly adjacent words</div>
+						</div>
+					</div>
+
+					<div class="constraint-selection-table">
+						<input class="checkbox" checked="true" name="category-antiCCPhi" value="phi" style="display:none;"/>
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="antiCCPhi">Anti-C-Command-to-&phi;</span>
+							<div class="info">
+								<span class="content">If x<sup>0</sup> and y<sup>0</sup> are mutually non-commanding, then assign a violation if there is no &phi; containing ω<sub>x</sub> and excluding ω<sub>y</sub>, and a violation if there is no &phi; containing ω<sub>y</sub> and excluding ω<sub>x</sub>. SPOT function: antiCCPhi(). (Kalivoda 2018)</span>
+							</div>
+						</div>
+						<div class="category-row">
+							<div class="custom-text">
+								<p>Enforcement options...</p>
+							</div>
+							<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-antiCCPhi" value="requireAdjacent">adjacent</div>
+							<div class="info">
+								<span class="content custom-option-div">Only apply constraint to linearly adjacent words.</span>
+							</div>
+						</div>
+						<div class="category-row">
+							<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-antiCCPhi" value="requireStrict">strict</div>
+							<div class="info">
+								<span class="content">Apply constraint any time words are not mutually commanding (as opposed to mutually non-commanding). (Kalivoda 2018)</span>
+							</div>
+						</div>
+					</div>
+					<div class="constraint-selection-table">
+						<input class="checkbox" checked="true" name="category-group" value="phi" style="display:none;"/>
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="group">Group</span>
+							<div class="info">
+								<span class="content">Assign a violation for every c-pair that is not contained in at least one &phi;. SPOT function: group(). (Kalivoda 2018)</span>
+							</div>
+						</div>
+						<div class="category-row">
+							<div style="white-space:nowrap;" class="option-selection-div custom-option-div"><input type="checkbox" name="option-group" value="requireMinimal">Require same parent &phi;
+								<div class="info">
+									<span class="content">Assign a violation for every c-pair<br/>that is not directly dominated by<br/>the same parent &phi;. (Kalivoda 2018)</span>
+								</div>
+							</div>
+						</div>
+						<div class="category-row">
+							<div style="white-space:nowrap;" class="option-selection-div custom-option-div"><input type="checkbox" name="option-group" value="requireAdjacent">Enforce only for linearly adjacent words</div>
+						</div>
+					</div>
+
+				</fieldset>
+
+				<br/>
+
+				<fieldset>
+
 					<legend><h2>Ordering <span class="arrow"></h2></legend>
 
 					<div class="constraint-selection-table">
