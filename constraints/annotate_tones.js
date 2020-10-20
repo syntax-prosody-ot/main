@@ -44,7 +44,9 @@ function addJapaneseTones(ptree){
 		else if(ptree.cat === 'w'){
 			//Unaccented w
 			if(!ptree.accent){
-				ptree.accent = ptree.id.split('_')[0];
+				//ptree.accent = ptree.id.split('_')[0];
+				//accentFromId() is defined in japaneseAccent.js
+				ptree = accentFromId(ptree);
 			}
 			if(ptree.accent === 'A' || ptree.accent === 'a'){
 				ptree.tones = 'H*L';

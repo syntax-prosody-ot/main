@@ -164,7 +164,7 @@ function alignFocRight(sTree, pTree, cat){
 	return alignFocus(sTree, pTree, cat, 'right');
 }
 function wrap(sTree, pTree, cat){
-	options = options || {};
+	//options = options || {};
 	var vCount = 0;
 	walkTree(sTree, function(sNode){
 		if(sNode.cat !== cat)
