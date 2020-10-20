@@ -14,7 +14,10 @@
 </head>
 
 <body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
-	<h2>StrongStart(cat init) Test:</h2>
+	<h2>StrongStartDeep Test:</h2>
+	<p>Assign one violation for every node of category k or higher that contains at its left edge a node of category &lt; k-1 that is sister to a node of category &GreaterEqual; k-1</p>
+	<p>Note that category for this constraint refers to the category of the *parent*; for a similar constraint that refers instead to the category of the child, see strongStartCatInit</p>
+	<p>Examples of structures that violate strongStartDeep(cat = i): {a (b)}, {(a (b))}, {a.ft (b)}</p>
 	<pre id="results-container"></pre>
 
 <script src="https://unpkg.com/chai/chai.js"></script>
@@ -38,12 +41,12 @@
 		{id:"CP1",cat:"i",children:[{cat:"phi",id:"XP_4",children:[{id:"a",cat:"w"},{id:"b",cat:"w"}]},{id:"c",cat:"w"}]},
 		{id:"CP1",cat:"i",children:[{id:"a",cat:"w"},{cat:"phi",id:"XP_5",children:[{id:"b",cat:"w"}]},{cat:"i",id:"XP_6",children:[{id:"c",cat:"w"},{cat:"phi",id:"XP_7",children:[{id:"d",cat:"w"}]}]}]},
 		{"id":"CP1","cat":"i","children":[{"cat":"phi","id":"XP_5","children":[{"cat":"i","id":"XP_6","children":[{"id":"b","cat":"w"},{"cat":"phi","id":"XP_7","children":[{"id":"c","cat":"w"},{"id":"d","cat":"w"}]}]}]}]}];
-	ptreelist = ptreelist.map(x => [{id: "StrongStart(cat init) testing", cat: "x0"}, x])
+	ptreelist = ptreelist.map(x => [{id: "StrongStartDeep testing", cat: "x0"}, x])
 
 	let assert = chai.assert;
 	let testW = (tree, val) => it(parenthesizeTree(tree), function(){assert.equal(strongStartDeep({}, tree, 'i'), val)});
 	
-	describe("StrongStart with one violation, initial foot", function(){
+	describe("StrongStartDeep with one violation, initial foot", function(){
 		it("Cat = phi: (a.Ft (w b c))", function(){
 			assert.equal(strongStartDeep({}, ptreelist[2][1], 'phi'), 1);
 		});
@@ -52,12 +55,12 @@
 		});
 	});
 
-	describe("StrongStart(i) with no violations", function(){
+	describe("StrongStartDeep(i) with no violations", function(){
 		testW(ptreelist[0][1], 0);
 		testW(ptreelist[7][1], 0);
 	});
 
-	describe("StrongStart(i) with one violation", function(){
+	describe("StrongStartDeep(i) with one violation", function(){
 		testW(ptreelist[3][1], 1);
 		
 		testW(ptreelist[5][1], 1);
