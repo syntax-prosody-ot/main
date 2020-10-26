@@ -23,20 +23,22 @@ function runStringTest() {
         var numOfInputs = 0;
         const arbitraryStrings = ["Lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipiscing", 
             "elit", "sed", "do", "eiusmod", "tempor", "incididunt", "ut", "labore", "et", "dolore",
-            "magna", "aliqua"];
-        var unusedStrings, listDiv, inputs;
+            "magna", "aliqua"]; //strings you would not find anywhere else in the saved analysis
+        var unusedStrings, listDiv, inputs; //assigned beforeEach below
 
 
         beforeEach(function() {
-            unusedStrings = arbitraryStrings.slice();
+            //runs before each "it" block (hence, beforeEach)
+            unusedStrings = arbitraryStrings.slice(); //shalow copy, fyi
             listDiv = document.getElementById("listOfTerminals");
-            inputs = listDiv.getElementsByTagName("input");
+            inputs = listDiv.getElementsByTagName("input"); //reset b/c inputs added/removed
 
             changeInputTabs('goButton', 'inputButton');
         });
 
         it("Save with one string", function(){
             for(let input of inputs) {
+                // assign an arbitrary string to each input
                 if(input.type === 'text') {
                     numOfInputs ++;
                     input.value = unusedStrings.pop();
@@ -44,8 +46,10 @@ function runStringTest() {
             }
             let savedString = record_analysis();
             testSettings = JSON.parse(savedString).myTrees;
+            //object is more usefull than string later on. should not change until "two strings" tests
 
             for(let i = 0; i < numOfInputs.length; i++){
+                //all we need to know now is that the arbitrary strings all ended up in the saved analysis
                 let regex = new RegExp(arbitraryStrings[arbitraryStrings.length - i]);
                 assert(savedString.search(regex) > 0, "Input number " + i + " was not saved");
             }
@@ -59,13 +63,20 @@ function runStringTest() {
         });
 
         it("Load with one string", function() {
+            //load earlier saved string
             my_built_in_analysis({}, false, testSettings, []);
             for(let input of inputs) {
+                //we know the order arbitraryStrings were assigned, check that the same order is preserved
                 assert(input.value === unusedStrings.pop(), input.name + " did not load correctly");
             }
         });
 
         it("Save with two strings", function() {
+            /* All we have to do now is click the "add list of terminals" button to get
+               more terminal string inputs and run the exact same three testcases above.
+               I don't want to factor out the copied code, though, because then clicking
+               on the test case in mocha would be less useful.
+            */
             document.getElementById("addList").click();
             for(let input of inputs) {
                 if(input.type === 'text') {
