@@ -29,7 +29,7 @@ function runStringTest() {
 
         beforeEach(function() {
             //runs before each "it" block (hence, beforeEach)
-            unusedStrings = arbitraryStrings.slice(); //shalow copy, fyi
+            unusedStrings = arbitraryStrings.slice(); //shallow copy, fyi
             listDiv = document.getElementById("listOfTerminals");
             inputs = listDiv.getElementsByTagName("input"); //reset b/c inputs added/removed
 
@@ -92,14 +92,14 @@ function runStringTest() {
                 assert(savedString.search(regex) > 0, "Input number " + i + " was not saved");
             }
         });
-        it("Clear with two string", function() {
+        it("Clear with two strings", function() {
             clearAnalysis();
             for(let input of inputs) {
                 assert(input.value == '', input.name + " is not cleared");
             }
         });
 
-        it("Load with two string", function() {
+        it("Load with two strings", function() {
             my_built_in_analysis({}, false, testSettings, []);
             for(let input of inputs) {
                 assert(input.value === unusedStrings.pop(), input.name + " did not load correctly");
