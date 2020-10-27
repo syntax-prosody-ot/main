@@ -290,6 +290,8 @@ function built_in_input(myTrees){
         strMinBoxes[i].value = terminalStrings[i].genStringsMin;
         strMaxBoxes[i].value = terminalStrings[i].genStringsMax
       }
+
+      document.getElementById("genStringsDoneButton").click();
     }
 
     document.getElementById('autoGenDoneButton').click();

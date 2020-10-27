@@ -21,9 +21,8 @@ function runStringTest() {
     describe("String Generation save/load/clear test", function(){
         var testSettings = '';
         var numOfInputs = 0;
-        const arbitraryStrings = ["Lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipiscing", 
-            "elit", "sed", "do", "eiusmod", "tempor", "incididunt", "ut", "labore", "et", "dolore",
-            "magna", "aliqua"]; //strings you would not find anywhere else in the saved analysis
+        const arbitraryStrings = ["9000", "9001", "9002", "9003", "9004", "9005",
+         "9006", "9007", "9008", "9009"]; //strings you would not find anywhere else in the saved analysis
         var unusedStrings, listDiv, inputs; //assigned beforeEach below
 
 
