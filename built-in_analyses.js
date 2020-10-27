@@ -618,7 +618,7 @@ function record_analysis(){
     //if there are a different number of these boxes, you will get weird results
     //this should never happen, though, unless the interface is broken
     if(strGENboxes.length !== strMinBoxes.length || strGENboxes.length !== strMaxBoxes.length){
-      const err = new Error("Missing inerface element");
+      const err = new Error("Missing interface element");
       displayError("Error: " + err.message + '. Interface is broken at "Generate Combinations and \
       Permutations and cannot be saved at this time.');
       throw err;
