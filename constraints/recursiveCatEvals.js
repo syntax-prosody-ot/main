@@ -6,7 +6,11 @@ Assumes all nodes have valid and relevant categories
 if run on a syntactic tree that contains, e.g., bar levels).
 */
 function isMinimal(node, lastCat){
-	//use the lastCat argument as the cat under question if it exists.
+	//If a node and one of its children have the same category then the node is not minimal.
+	//The "lastCat" argument is only included in the function-internal call of isMinimal.  If one of 
+	//the children of the node-in-question is a "dummy" node, then it should be skipped and its children checked instead.
+	//isMinimal is called on the dummy node to check its children against "lastCat", the category of the node-in-question.
+
 	if(lastCat){
 		var cat = lastCat;
 	} else {
@@ -22,7 +26,7 @@ function isMinimal(node, lastCat){
 	var i = 0;
 	var chil = node.children;
 	while(isMin && i<chil.length){
-		//if a child is a dummy, we will have to see skip over that dummy to see if any of its children have the same category.
+		//if a child is a dummy, we will have to skip over that dummy to see if any of its children have the same category.
 		if(chil[i].cat == "dummy"){
 			isMin = isMinimal(chil[i], cat)
 		} else if(chil[i].cat===cat){
@@ -55,6 +59,24 @@ var sCat = ["cp", "xp", "x0"];
  * and layering is assumed (a node of category level k will never be dominated
  * by a node of category < k).
  *
+ * There are two options: options.requireLexical and options.requireOvertHead
+ *
+ * In the case that markMinMax is called with the option "requireLexical" or
+ * "requireOvertHead", nodes with the attribute "func" or "silentHead" are given
+ * a new category "dummy". These nodes are ignored when checking for maximality or
+ * minimality, only their children and parents are significant to the check.
+ *
+ * When checking for minimality, a node's category is checked against its children's.
+ * If all children have a different category from the node's, then it is minimal.
+ * If a child has the "dummy" category, then that dummy's children are checked as well.
+ *
+ * When checking for maximality, a node's category is checked against its parent's.
+ * If the node and its parent have different categories then it is maximal. The
+ * category of each node's parent is inherited as an attribute node.parentCat.
+ * If a child has the "dummy" category, then that dummy will be given the attribute
+ * node.lastCat in order to store the value of the parent. Every child of a dummy will
+ * inherit node.lastCat as it's node.parentCat instead of "dummy".
+ *
  * This can be called in a recursive function and is compatable with GEN's
  * re-use of certain prosodic subtrees, but when testing something that relies
  * on this function and GEN, it is best to use one tree at a time since JS is a
@@ -64,7 +86,7 @@ var sCat = ["cp", "xp", "x0"];
  * ancestors before its maximality or minimality is used, your function will be
  * working with the correct values of isMin, isMax and parentCat.
  *
- * 7/29/19 refactor of an earlier version
+ * 10/26/20 update of an earlier version, now includes dummies.
  */
 
 function markMinMax(mytree, options){
@@ -88,25 +110,25 @@ function markMinMaxInner(mytree, options){
 		mytree.parentCat = "is root"; //marks the root node
 	}
 
-	//store the info of the most recent cat in order to skip over dummy nodes
-	//except if there is a dummy chain, then lastcat should be passed on the same
-	if(mytree.cat == "dummy"){
+	//Store the info of the most recent cat in order to skip over dummy nodes
+	//except when the dummy node's parent is ALSO a dummy node, then lastcat should be passed
+	//down dummy generation after dummy generation until a normal node is reached to inherit
+	//it as the parentCat.
+	if(mytree.cat === "dummy"){
 		mytree.isMax = false;
 		mytree.isMin = false;
-		if(mytree.parentCat != "dummy"){
+		if(mytree.parentCat !== "dummy"){
 			mytree.lastCat = mytree.parentCat;
 		}
-	}
-
-	//recall stored parentCat after dummies are skipped
-	if(mytree.parentCat == "dummy" && mytree.cat != "dummy"){
-		mytree.parentCat = mytree.lastCat;
-	}
-
-	//mark maximality and minimality for node
-	if(mytree.cat != 'dummy'){
+	} else {
+		//mark maximality and minimality for node
 		mytree.isMax = (mytree.cat !== mytree.parentCat);
 		mytree.isMin = isMinimal(mytree);
+
+		//recall stored parentCat after dummies are skipped
+		if(mytree.parentCat === "dummy"){
+			mytree.parentCat = mytree.lastCat;
+		}
 	}
 
 	if(mytree.children && mytree.children.length){
