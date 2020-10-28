@@ -89,9 +89,10 @@
 
 	let assert = chai.assert;
 	describe("accentFromId converts id to boolean accent attribute", function(){
+
 		it("id:'a' results in accent:true", function(){
 			let x = {id:'a', cat:'w'};
-			assert.equal(accentFromId(x).accent, true);
+			assert(accentFromId(x).accent, "accentFromId(x) did not set accent:true");
 		});
 		it("id: 'a_2' results in accent:true", function(){
 			let x = {id:'a_2', cat:'w'};
