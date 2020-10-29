@@ -1,0 +1,48 @@
+<html>
+<head> 
+	<title>Syntax prosody interface application</title>
+
+	<link rel="stylesheet" type="text/css" href="../spot.css">
+
+	<script src="../lib/jszip.min.js"></script>
+
+	<!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
+	(open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
+	<script src="../build/spot.js"></script>
+		
+</head>
+
+<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+	<h2>Headedness Constraint Test</h2>
+	<pre id="results-container"></pre>
+
+<script>
+	
+    
+    window.addEventListener("load", function(){
+		// GEN is defined in candidategenerator.js
+		// Arguments: 
+		// - syntactic tree object, which appears in the first cell of the table
+		// - a string consisting of a space separated list of terminals
+		// Returns: an array of pairs <stree, ptree>
+		var myCandSet = GEN({cat: 'x0', id: 'Headedness constraint test'}, 'a b c-clitic');
+
+		// Array of string versions of function names
+		// Category arguments for the functions appear after a hyphen
+		var myConstraintSet = ['headedness', 'headedness-i', 'headedness-phi'];
+
+		// makeTableau() is defined in tableauMaker.js
+		var myTableau = makeTableau(myCandSet, myConstraintSet);
+
+		//Defined in prototypeInterface.js
+		writeTableau(myTableau);
+		
+		//Unhide the tableau div in the html
+        revealNextSegment();
+    });
+
+</script>
+
+</body>
+
+</html>

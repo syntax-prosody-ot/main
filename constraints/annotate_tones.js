@@ -43,6 +43,7 @@ function addJapaneseTones(ptree){
 		
 		else if(ptree.cat === 'w'){
 			//Unaccented w
+
 			if(!ptree.hasOwnProperty('accent')){
 				//ptree.accent = ptree.id.split('_')[0];
 				//accentFromId() is defined in japaneseAccent.js

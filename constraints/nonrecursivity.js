@@ -98,8 +98,8 @@ function nonRecPairs(s, parent, c){ //markedness constraint, s argument is for c
 				/*
 				If the parent node is of the category c, count the number of nodes
 				dominated by this child that are also of the category c, including this
-				child itself, and add that number to the violatin count. This is where
-				violations are actually incured.
+				child itself, and add that number to the violation count. This is where
+				violations are actually incurred.
 				*/
 				vcount += numOfCats(child, c);
 			}

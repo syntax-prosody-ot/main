@@ -152,6 +152,7 @@
 			}
 			.treeUI-tree {
 				margin-top: 15px;
+				display: inline-block;
 			}
 			button {
 				color: #ffffff;
@@ -1640,6 +1641,71 @@
 
 				<fieldset>
 
+					<legend><h2>Command <span class="arrow"></h2></legend>
+
+					<div class="constraint-selection-table">
+						<input class="checkbox" checked="true" name="category-ccPhi" value="phi" style="display:none;"/>
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="ccPhi">C-Command-to-&phi;</span>
+							<div class="info">
+								<span class="content">For every c-pair (x<sup>0</sup>, y<sup>0</sup>), assign a violation for every &phi; that dominates ω<sub>x</sub> but not ω<sub>y</sub>, and for every &phi; that dominates ω<sub>y</sub> but not ω<sub>x</sub>. SPOT function: ccPhi(). (Kalivoda 2018)</span>
+							</div>
+						</div>
+						<div class="category-row">
+							<div style="white-space: nowrap;" class="option-selection-div custom-option-div"><input type="checkbox" name="option-ccPhi" value="requireAdjacent">Enforce only for linearly adjacent words</div>
+						</div>
+					</div>
+
+					<div class="constraint-selection-table">
+						<input class="checkbox" checked="true" name="category-antiCCPhi" value="phi" style="display:none;"/>
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="antiCCPhi">Anti-C-Command-to-&phi;</span>
+							<div class="info">
+								<span class="content">If x<sup>0</sup> and y<sup>0</sup> are mutually non-commanding, then assign a violation if there is no &phi; containing ω<sub>x</sub> and excluding ω<sub>y</sub>, and a violation if there is no &phi; containing ω<sub>y</sub> and excluding ω<sub>x</sub>. SPOT function: antiCCPhi(). (Kalivoda 2018)</span>
+							</div>
+						</div>
+						<div class="category-row">
+							<div class="custom-text">
+								<p>Enforcement options...</p>
+							</div>
+							<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-antiCCPhi" value="requireAdjacent">adjacent</div>
+							<div class="info">
+								<span class="content custom-option-div">Only apply constraint to linearly adjacent words.</span>
+							</div>
+						</div>
+						<div class="category-row">
+							<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-antiCCPhi" value="requireStrict">strict</div>
+							<div class="info">
+								<span class="content">Apply constraint any time words are not mutually commanding (as opposed to mutually non-commanding). (Kalivoda 2018)</span>
+							</div>
+						</div>
+					</div>
+					<div class="constraint-selection-table">
+						<input class="checkbox" checked="true" name="category-group" value="phi" style="display:none;"/>
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="group">Group</span>
+							<div class="info">
+								<span class="content">Assign a violation for every c-pair that is not contained in at least one &phi;. SPOT function: group(). (Kalivoda 2018)</span>
+							</div>
+						</div>
+						<div class="category-row">
+							<div style="white-space:nowrap;" class="option-selection-div custom-option-div"><input type="checkbox" name="option-group" value="requireMinimal">Require same parent &phi;
+								<div class="info">
+									<span class="content">Assign a violation for every c-pair<br/>that is not directly dominated by<br/>the same parent &phi;. (Kalivoda 2018)</span>
+								</div>
+							</div>
+						</div>
+						<div class="category-row">
+							<div style="white-space:nowrap;" class="option-selection-div custom-option-div"><input type="checkbox" name="option-group" value="requireAdjacent">Enforce only for linearly adjacent words</div>
+						</div>
+					</div>
+
+				</fieldset>
+
+				<br/>
+
+				<fieldset>
+
 					<legend><h2>Ordering <span class="arrow"></h2></legend>
 
 					<div class="constraint-selection-table">
@@ -1856,15 +1922,16 @@
 							<div class="info"><span class="content">Assign one violation for every set sisters with a parent of category K that do not have the same number of (immediate) children. (For concept of Uniformity, see Ghini 1993; for OT constraint, see Bellik 2019)</span></div>
 						</div>
 						<div class="category-row">
-							<div class="category-selection-div"><input type="checkbox" value=i name="category-balancedSisters">&iota;</div>
-							<div class="category-selection-div"><input type="checkbox" value=phi name="category-balancedSisters" checked="checked">&phi;</div>
-							<div class="category-selection-div"><input type="checkbox" value=w name="category-balancedSisters">&omega;</div>
+							<div class="category-selection-div"><input type="checkbox" value="i" name="category-balancedSisters">&iota;</div>
+							<div class="category-selection-div"><input type="checkbox" value="phi" name="category-balancedSisters" checked="checked">&phi;</div>
+							<div class="category-selection-div"><input type="checkbox" value="w" name="category-balancedSisters">&omega;</div>
+							<div class="category-selection-div"><input type="checkbox" value="" name="category-balancedSisters">all</div>
 						</div>
 					</div>
 
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
-							<span><input type="checkbox" name="constraints" value="eqSis">EqualSisters (categorical)</span>
+							<span><input type="checkbox" name="constraints" value="eqSis">EqualSisters (by parent)</span>
 							<div class="info">
 								<span class="content">Assign a violation for every node of the specified category whose daughters are not all of the same category as each other.</span>
 							</div>
@@ -1873,6 +1940,7 @@
 							<div class="category-selection-div"><input type="checkbox" name="category-eqSis" value="i">&iota;</div>
 							<div class="category-selection-div"><input type="checkbox" name="category-eqSis" value="phi" checked="checked">&phi;</div>
 							<div class="category-selection-div"><input type="checkbox" name="category-eqSis" value="w">&omega;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-eqSis" value="">all</div>
 						</div>
 					</div>
 
@@ -1884,9 +1952,10 @@
 							</div>
 						</div>
 						<div class="category-row">
-							<div class="category-selection-div"><input type="checkbox" name="category-strongStart" value="phi">&phi;</div>
-							<div class="category-selection-div"><input type="checkbox" name="category-strongStart" value="w" checked="checked">&omega;</div>
-							<div class="category-selection-div"><input type="checkbox" name="category-strongStart" value="syll">&sigma;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-strongStart" value="syll">&iota;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-strongStart" value="phi" checked="checked">&phi;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-strongStart" value="w">&omega;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-strongStart" value="">all</div>
 						</div>
 					</div>
 					<div class="constraint-selection-table">
@@ -1977,16 +2046,34 @@
 
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
-							<span><input type="checkbox" name="constraints" value="exhaustChild">Exhaustivity</span>
+							<span><input type="checkbox" name="constraints" value="exhaustChild">Exhaustivity (child)</span>
 							<div class="info">
-								<span class="content">Assign one violation for every parent-child pair such that the child’s prosodic category is more than one level lower than the parent’s prosodic category. E.g., &phi; with a syllable child, &iota; with an &omega; child. SPOT function: exhaust1(). For Exhaustivity as a violable constraint, see Selkirk 1995 “The prosodic structure of function words”</span>
+								<span class="content">Assign one violation for every parent-child pair such that the child’s prosodic category is more than one level lower than the parent’s prosodic category. E.g., &phi; with a syllable child, &iota; with an &omega; child. {&omega; &omega;} receives two violations. SPOT function: exhaustChild(). For Exhaustivity as a violable constraint, see Selkirk 1995 “The prosodic structure of function words”</span>
 							</div>
 						</div>
 					</div>
 
+					<!--Headedness Constraint-->
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
-							<span><input type="checkbox" name="constraints" value="nonRecParent">Non-recursivity, assessed by dominating node (nonRecParent)</span>
+							<span><input type="checkbox" name="constraints" value="headedness">Headedness</span>
+							<div class="info">
+								<span class="content">Category insensitive: "For every category k in the prosodic hierarchy, assign a violation for every node of category k in the prosodic tree that is a) non-terminal and b) does not contain any nodes of category > k-2."
+								Category sensitive, for category k: "Assign a violation for every node of category k in the prosodic tree ptree that is a) non-terminal and b) does not contain any nodes of category > k-2."</span>
+							</div>
+						</div>
+						<div class="category-row">
+							<div class="category-selection-div"><input type="checkbox" name="category-headedness" value="i">&iota;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-headedness" value="phi" checked="checked">&phi;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-headedness" value="w">&omega;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-headedness" value="">all</div>     <!--may have to edit this line, don't know what to put for all value-->
+						</div>
+					</div>
+					<!--End Headedness Constraint-->
+
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="nonRecParent">Non-recursivity (parent)</span>
 							<div class="info">
 								<span class="content">Assign one violation for every node of category K that immediately dominates a node of category K in the prosodic tree. SPOT function: nonRecParent(). For Non-Recursivity as a violable constraint, see Selkirk 1995, Zec 2005. For this specific implementation & implications, see Bellik & Kalivoda 2017 (SPOT1 Workshop slides)</span>
 							</div>
@@ -2003,7 +2090,7 @@
 					<div id="moreLayeringConstraints" class="more-constraints">
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
-								<span><input type="checkbox" name="constraints" value="nonRecTruckenbrodt">Non-recursivity, assessed by non-overlapping leaves (nonRecTruckenbrodt)</span>
+								<span><input type="checkbox" name="constraints" value="nonRecTruckenbrodt">Non-recursivity, assessed by non-overlapping leaves (Truckenbrodt)</span>
 								<div class="info">
 									<span class="content">For every node X of category K dominated by another node Y of category K in the prosodic tree, assign one violation for every leaf dominated by Y that is not also dominated by X. SPOT function: nonRecTruckenbrodt(). (Truckenbrodt 1995, 1999)</span>
 								</div>
@@ -2017,7 +2104,7 @@
 
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
-								<span><input type="checkbox" name="constraints" value="nonRecChild">Non-recursivity, assessed by dominated node (nonRecChild)</span>
+								<span><input type="checkbox" name="constraints" value="nonRecChild">Non-recursivity (child)</span>
 								<div class="info">
 									<span class="content">Assign one violation for every node of category K immediately dominated by another node of category K. SPOT function: nonRecChild(). For Non-Recursivity as a violable constraint, see Selkirk 1995, Zec 2005. For this specific implementation & implications, see Bellik & Kalivoda 2017 (SPOT1 Workshop slides)</span>
 								</div>
@@ -2033,7 +2120,7 @@
 							<div class="constraint-row">
 								<span><input type="checkbox" name=constraints value="nonRecPairs">Non-recursivity, pairwise</span>
 								<div class="info">
-									<span class="content">Assign one violation for every pair of nodes X and Y in the prosodic tree such that X and Y are both of category K and X dominates Y. SPOT function: nonRecPairs(). For Non-Recursivity as a violable constraint, see Selkirk 1995, Zec 2005. For this specific implementation & implications, see Bellik & Kalivoda 2017 (SPOT1 Workshop slides)</span>
+									<span class="content">Assign one violation for every pair of nodes X and Y in the prosodic tree such that X and Y are both of category K and X dominates (contains at any level) Y. SPOT function: nonRecPairs(). For Non-Recursivity as a violable constraint, see Selkirk 1995, Zec 2005. For this specific implementation & implications, see Bellik & Kalivoda 2017 (SPOT1 Workshop slides)</span>
 								</div>
 							</div>
 								<div class="category-row">
@@ -2045,9 +2132,18 @@
 
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="exhaustParent">Exhaustivity (parent) </span>
+								<div class="info">
+									<span class="content">Assign a violation for every node of category k that has one or more children of category less than (k-1), for every k. E.g., &phi; with a syllable child, &iota; with an &omega; child. {&omega; &omega;} receives one violation. SPOT function: exhaustParent(). For Exhaustivity as a violable constraint, see Selkirk 1995 “The prosodic structure of function words”</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
 								<span><input type="checkbox" name=constraints value="starCat">*pCat</span>
 								<div class="info">
-									<span class="content">Assign one violation for every node of category K in the prosodic tree. SPOT function: starCat(). See Prince & Smolensky 2004 [1993], Zoll 1993, 1996</span>
+									<span class="content">Assign one violation for every node of category K in the prosodic tree. SPOT function: starCat(). See Prince & Smolensky 1993/2004; Zoll 1993, 1996; Truckenbrodt 1995, 1999</span>
 								</div>
 							</div>
 								<div class="category-row">
@@ -2069,7 +2165,7 @@
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="accentAsHead">AccentAsHead</span>
 							<div class="info">
-								<span class="content">Every accent is the head of a minimal &phi;. Assign a violation for every accented word (A) that is not the sole accented word in its minimal &phi; (Ito & Mester 2013).</span>
+								<span class="content">Every accent is the head of a minimal &phi;. Assign a violation for every accented word (A) that is not the sole accented word in a minimal &phi; (Ito & Mester 2013).</span>
 							</div>
 						</div>
 					</div>
