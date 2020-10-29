@@ -946,7 +946,7 @@ window.addEventListener('load', function(){
 
 	// add thicker line between generated strings of different lengths
 	function addThickLine(genStringsList, index) {
-		var sheet = document.styleSheets[1];
+		var sheet = document.styleSheets[document.styleSheets.length - 1];
 		for(var i = 0; i < genStringsList.length - 1; i++) {
 			var currString = genStringsList[i].split(' ');
 			var nextString = genStringsList[i + 1].split(' ');
@@ -959,7 +959,7 @@ window.addEventListener('load', function(){
 
 	// remove thicker line between generated strings of different lengths before regenerating strings
 	function deleteThickLine() {
-		var sheet = document.styleSheets[1];
+		var sheet = document.styleSheets[document.styleSheets.length - 1];
 		var rules = 0;
 		for(var i = 0; i < sheet.cssRules.length; i++) {
 			if(sheet.cssRules[i].cssText.includes('#string-table')) {
