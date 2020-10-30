@@ -37,20 +37,6 @@ function isMinimal(node, lastCat){
 	return isMin;
 }
 
-/*
-Returns true even if parent.cat is of a higher level than child.cat
-(i.e, assumes layering)
-To be revised!!!
-For the long run, Ozan suggests pre-processing trees to mark every node as minimal/maximal.
-*/
-function isMaximal(parent, child){
-	if(parent.cat===child.cat)
-		return false;
-	else return true;
-}
-
-// Move this to the prosodic hierarchy file probably?
-var sCat = ["cp", "xp", "x0"];
 
 /* Function that takes a tree and labels all the nodes in the tree as being
  * a minimal or maximal instance of whatever category k they are, where:
