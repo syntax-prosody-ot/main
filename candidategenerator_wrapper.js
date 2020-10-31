@@ -118,8 +118,7 @@ window.GEN = function(sTree, words, options){
 				}
 				var accentSuffix = '';
 				if(words[i].accent){
-					var accentVal = (words[i].accent && words[i].accent !== 'u') ? "accented": "unaccented";
-					accentSuffix = '-'+ accentVal;
+					accentSuffix = '-accent';
 				}
 				words[i] = words[i].id+catSuffix+accentSuffix;
 			}
@@ -164,23 +163,22 @@ function deduplicateTerminals(terminalList) {
 }
 
 function wrapInLeafCat(word, cat, syntactic){
+	//by default, the leaf category is 'w'
 	var myCat = cat || 'w';
 	var wordId = word;
+
+	//check if the input specifies this is a clitic and set category appropriately
 	var isClitic = word.indexOf('-clitic')>=0;
 	if (isClitic){
 		myCat = syntactic ? 'clitic' : 'syll'; //syntactic tree vs prosodic trees
 		wordId = wordId.split('-clitic')[0];
 	}
 	var wordObj = {cat: myCat};
-	var accented = word.indexOf('-accented') >= 0;
-	var	unaccented = word.indexOf('-unaccented') >= 0;
-	if(accented){
-		wordObj.accent = 'a';
-		wordId = wordId.split('-accented')[0];
-	}
-	else if(unaccented){
-		wordObj.accent = 'u';
-		wordId = wordId.split('-unaccented')[0];
+
+	//check if the input specifies this is an accented word, and set accent to true if so
+	if(word.indexOf('-accent') >= 0){
+		wordObj.accent = true;
+		wordId = wordId.split('-accent')[0];
 	}
 	wordObj.id = wordId;
 	return wordObj;

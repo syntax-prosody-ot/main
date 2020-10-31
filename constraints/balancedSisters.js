@@ -39,6 +39,8 @@ function balancedSistersAdj(stree, ptree, cat){
 
 /* Assign a violation for every set of sisters dominated by a node of category cat 
    that do not all have the same number of children.
+
+   Update Oct. 2020: make category specification optional
 */
 function balancedSisters(stree, ptree, cat){
     var vcount = 0;
@@ -49,7 +51,7 @@ function balancedSisters(stree, ptree, cat){
     }
 
     else{
-        if(ptree.cat===cat){
+        if(!cat || ptree.cat===cat){
             
             // Base case: violation if the children have differing numbers of children
             var imbalanceFound = false;

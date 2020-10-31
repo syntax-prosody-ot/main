@@ -24,14 +24,24 @@ function clearInputs(){
 
   if(inputStrings.length){
     for(let i = 0; i<inputStrings.length; i++){
-      inputStrings[i].value = ''
+      inputStrings[i].value = '';
       if(i>0){
         inputStrings[i].parentElement.remove();
       }
     }
   }
   else{
-    inputStrings.value = ''
+    inputStrings.value = '';
+  }
+
+  let inputTerminals = document.getElementsByName('genStringsInput');
+
+  inputTerminals[0].value = '';
+  document.getElementsByName('genStringsMin')[0].value = '';
+  document.getElementsByName('genStringsMax')[0].value = '';
+
+  while(inputTerminals.length > 1) {
+    inputTerminals[inputTerminals.length - 1].parentElement.remove();
   }
 
   changeInputTabs('inputButton', 'goButton');
@@ -260,6 +270,28 @@ function built_in_input(myTrees){
       if(typeof myTrees[i] === 'string'){
         spotForm[i].value = myTrees[i];
       }
+    }
+
+    if(myTrees.terminalStrings && myTrees.terminalStrings.length){
+      document.getElementById("stringGeneration").setAttribute('class', 'open');
+
+      const terminalStrings = myTrees.terminalStrings;
+
+      const strGENboxes = document.getElementsByName('genStringsInput');
+      const strMinBoxes = document.getElementsByName('genStringsMin');
+      const strMaxBoxes = document.getElementsByName('genStringsMax');
+
+      //clicks 'add list of terminals' until there enough divs for the analysis at hand
+      while(document.getElementsByName('genStringsInput').length < terminalStrings.length){
+        document.getElementById('addList').click();
+      }
+      for(let i = 0; i < terminalStrings.length; i++){
+        strGENboxes[i].value = terminalStrings[i].genStringsInput;
+        strMinBoxes[i].value = terminalStrings[i].genStringsMin;
+        strMaxBoxes[i].value = terminalStrings[i].genStringsMax
+      }
+
+      document.getElementById("genStringsDoneButton").click();
     }
 
     document.getElementById('autoGenDoneButton').click();
@@ -576,6 +608,39 @@ function record_analysis(){
     else {
       analysis.myTrees.inputToGenAuto = [spotForm.inputToGenAuto.value];
     }
+
+    // GEN input strings
+
+    const strGENboxes = document.getElementsByName('genStringsInput');
+    const strMinBoxes = document.getElementsByName('genStringsMin');
+    const strMaxBoxes = document.getElementsByName('genStringsMax');
+
+    //if there are a different number of these boxes, you will get weird results
+    //this should never happen, though, unless the interface is broken
+    if(strGENboxes.length !== strMinBoxes.length || strGENboxes.length !== strMaxBoxes.length){
+      const err = new Error("Missing interface element");
+      displayError("Error: " + err.message + '. Interface is broken at "Generate Combinations and \
+      Permutations and cannot be saved at this time.');
+      throw err;
+    }
+
+    analysis.myTrees.terminalStrings = [];
+
+    for(let i = 0; i < strGENboxes.length; i++){
+
+      const terminals = strGENboxes[i].value;
+      const min = strMinBoxes[i].value;
+      const max = strMaxBoxes[i].value;
+
+      if(terminals || min || max){
+        analysis.myTrees.terminalStrings.push({
+          genStringsInput: terminals ?? '',
+          genStringsMin: min ?? '',
+          genStringsMax: max ?? '',
+        });
+      }
+    }
+
   }
   else {
     displayError('GEN input not found');

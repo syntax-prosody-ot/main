@@ -23,21 +23,26 @@
 	/*Let's list our constraints: get the names out of the constraint definition js files
 	Category name should be separated from constraint name by -
 	*/
-	var constraintSet = ['accentAsHead']//['matchSP-xp', 'matchPS-phi', 'binMinBranches-phi', 'binMaxBranches-phi', 'binMax2Words-phi', 'binMin2Words-phi', 'equalSistersAdj-phi'];
+	var constraintSet = ['accentAsHead', 'noLapseL']//['matchSP-xp', 'matchPS-phi', 'binMinBranches-phi', 'binMaxBranches-phi', 'binMax2Words-phi', 'binMin2Words-phi', 'equalSistersAdj-phi'];
 	
 	/*Here we generate all the possible prosodic parses of the string consisting of 
 	terminals [a a a]
 	This call to GEN does require obedience to headedness or exhaustivity.
 	*/
-
-	var candidateSet = GEN(sTreeLaaa, 'a a a', {obeysHeadedness: true, obeysExhaustivity: true});
+	var terminalStrings = generateTerminalStrings(['a','u'], 2, 3);
+	//var candidateSet = GEN(sTreeLaaa, 'a a a', {obeysHeadedness: true, obeysExhaustivity: true});
 
 		
 	function runDemo() {
+		for(let i=0; i<terminalStrings.length; i++){
+			let currentString = terminalStrings[i];
+			candidateSet = GEN({id:currentString, cat:'cp'}, currentString, {obeysExhaustivity: true, noUnary:true});
+
+			writeTableau(makeTableau(candidateSet, constraintSet));
+			revealNextSegment();
+			lastSegmentId++;
+		}
 		
-		writeTableau(makeTableau(candidateSet, constraintSet));
-		revealNextSegment();
-		lastSegmentId++;
 	}
 
 	</script>
