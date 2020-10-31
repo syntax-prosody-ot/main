@@ -158,6 +158,8 @@ function trimAttributedNodes(inputTree, attribute){
 	return trimInner(tree);
 }
 
+/* Helper function for markMinMax() in recursiveCatEvals.js
+*/
 function createDummies(inputTree, attribute){
 	/*finds xp's with specified attribute and replaces their cat with "dummy"*/
 	tree = copyTree(inputTree)

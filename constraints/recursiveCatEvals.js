@@ -45,12 +45,19 @@ function isMinimal(node, lastCat){
  * and layering is assumed (a node of category level k will never be dominated
  * by a node of category < k).
  *
- * There are two options: options.requireLexical and options.requireOvertHead
+ * There are two boolean options: 
+ * - options.requireLexical
+ * - options.requireOvertHead
  *
  * In the case that markMinMax is called with the option "requireLexical" or
  * "requireOvertHead", nodes with the attribute "func" or "silentHead" are given
  * a new category "dummy". These nodes are ignored when checking for maximality or
  * minimality, only their children and parents are significant to the check.
+ * 
+ * Ex: given the syntax: [FuncP X [LexP1 Y [LexP2 Z ]]]
+ * When options.requireLexical===true, LexP1 will be labeled maximal 
+ * because it is the highest lexical phrase (i.e., it is the highest 
+ * XP within the set of lexical XPs that are visible to MatchXP-Lex)
  *
  * When checking for minimality, a node's category is checked against its children's.
  * If all children have a different category from the node's, then it is minimal.
@@ -61,7 +68,7 @@ function isMinimal(node, lastCat){
  * category of each node's parent is inherited as an attribute node.parentCat.
  * If a child has the "dummy" category, then that dummy will be given the attribute
  * node.lastCat in order to store the value of the parent. Every child of a dummy will
- * inherit node.lastCat as it's node.parentCat instead of "dummy".
+ * inherit node.lastCat as its node.parentCat instead of "dummy".
  *
  * This can be called in a recursive function and is compatable with GEN's
  * re-use of certain prosodic subtrees, but when testing something that relies
