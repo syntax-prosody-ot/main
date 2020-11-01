@@ -44,6 +44,30 @@
                 assert.equal(matchSP(stree1, ptree2, "xp", {"nonMaxSyntax": true}), 2);
                 assert.equal(matchSP(stree1, ptree1, "xp", {"nonMaxSyntax": true}), 0);
             });
+            it('match SP min', function() {
+                assert.equal(matchSP(stree1, ptree2, "xp", {"minSyntax": true}), 2);
+                assert.equal(matchSP(stree1, ptree1, "xp", {"minSyntax": true}), 0);
+            });
+            it('match SP minmax', function() {
+                assert.equal(matchSP(stree1, ptree2, "xp", {"maxSyntax": true, "minSyntax": true}), 1);
+                assert.equal(matchSP(stree1, ptree1, "xp", {"maxSyntax": true, "minSyntax": true}), 0);
+            });
+            it('match SP min nonMax', function() {
+                assert.equal(matchSP(stree1, ptree2, "xp", {"nonMaxSyntax": true, "minSyntax": true}), 1);
+                assert.equal(matchSP(stree1, ptree1, "xp", {"nonMaxSyntax": true, "minSyntax": true}), 0);
+            });
+            it('match SP nonmin', function() {
+                assert.equal(matchSP(stree1, ptree2, "xp", {"nonMinSyntax": true}), 2);
+                assert.equal(matchSP(stree1, ptree1, "xp", {"nonMinSyntax": true}), 0);
+            });
+            it('match SP max nonMin', function() {
+                assert.equal(matchSP(stree1, ptree2, "xp", {"nonMinSyntax": true, "maxSyntax": true}), 1);
+                assert.equal(matchSP(stree1, ptree1, "xp", {"nonMinSyntax": true, "maxSyntax": true}), 0);
+            });
+            it('match SP nonMax nonMin', function() {
+                assert.equal(matchSP(stree1, ptree2, "xp", {"nonMinSyntax": true, "nonMaxSyntax": true}), 1);
+                assert.equal(matchSP(stree1, ptree1, "xp", {"nonMinSyntax": true, "nonMaxSyntax": true}), 0);
+            });
         });
 
         describe('Prosodic Sub-category', function() {
