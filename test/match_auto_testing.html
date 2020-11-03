@@ -37,36 +37,44 @@
                 assert.equal(matchSP(stree1, ptree2, "xp"), 4);
             });
             it('maxSyntax', function() {
-                assert.equal(matchSP(stree1, ptree1, "xp", {"maxSyntax": true}), 0);
-                assert.equal(matchSP(stree1, ptree2, "xp", {"maxSyntax": true}), 2);
+                let options = {"maxSyntax": true};
+                assert.equal(matchSP(stree1, ptree1, "xp", options), 0);
+                assert.equal(matchSP(stree1, ptree2, "xp", options), 2);
             });
             it('nonMaxSyntax', function() {
-                assert.equal(matchSP(stree1, ptree1, "xp", {"nonMaxSyntax": true}), 0);
-                assert.equal(matchSP(stree1, ptree2, "xp", {"nonMaxSyntax": true}), 2);
+                let options = {"nonMaxSyntax": true};
+                assert.equal(matchSP(stree1, ptree1, "xp", options), 0);
+                assert.equal(matchSP(stree1, ptree2, "xp", options), 2);
             });
             it('minSyntax', function() {
-                assert.equal(matchSP(stree1, ptree1, "xp", {"minSyntax": true}), 0);
-                assert.equal(matchSP(stree1, ptree2, "xp", {"minSyntax": true}), 2);
+                let options = {"minSyntax": true};
+                assert.equal(matchSP(stree1, ptree1, "xp", options), 0);
+                assert.equal(matchSP(stree1, ptree2, "xp", options), 2);
             });
             it('minSyntax maxSyntax', function() {
-                assert.equal(matchSP(stree1, ptree1, "xp", {"maxSyntax": true, "minSyntax": true}), 0);
-                assert.equal(matchSP(stree1, ptree2, "xp", {"maxSyntax": true, "minSyntax": true}), 1);
+                let options = {"maxSyntax": true, "minSyntax": true};
+                assert.equal(matchSP(stree1, ptree1, "xp", options), 0);
+                assert.equal(matchSP(stree1, ptree2, "xp", options), 1);
             });
             it('minSyntax nonMaxSyntax', function() {
-                assert.equal(matchSP(stree1, ptree1, "xp", {"nonMaxSyntax": true, "minSyntax": true}), 0);
-                assert.equal(matchSP(stree1, ptree2, "xp", {"nonMaxSyntax": true, "minSyntax": true}), 1);
+                let options = {"nonMaxSyntax": true, "minSyntax": true};
+                assert.equal(matchSP(stree1, ptree1, "xp", options), 0);
+                assert.equal(matchSP(stree1, ptree2, "xp", options), 1);
             });
             it('nonMinSyntax', function() {
-                assert.equal(matchSP(stree1, ptree1, "xp", {"nonMinSyntax": true}), 0);
-                assert.equal(matchSP(stree1, ptree2, "xp", {"nonMinSyntax": true}), 2);
+                let options = {"nonMinSyntax": true};
+                assert.equal(matchSP(stree1, ptree1, "xp", options), 0);
+                assert.equal(matchSP(stree1, ptree2, "xp", options), 2);
             });
             it('maxSyntax nonMinSyntax', function() {
-                assert.equal(matchSP(stree1, ptree1, "xp", {"nonMinSyntax": true, "maxSyntax": true}), 0);
-                assert.equal(matchSP(stree1, ptree2, "xp", {"nonMinSyntax": true, "maxSyntax": true}), 1);
+                let options = {"nonMinSyntax": true, "maxSyntax": true};
+                assert.equal(matchSP(stree1, ptree1, "xp", options), 0);
+                assert.equal(matchSP(stree1, ptree2, "xp", options), 1);
             });
             it('nonMaxSyntax nonMinSyntax', function() {
-                assert.equal(matchSP(stree1, ptree1, "xp", {"nonMinSyntax": true, "nonMaxSyntax": true}), 0);
-                assert.equal(matchSP(stree1, ptree2, "xp", {"nonMinSyntax": true, "nonMaxSyntax": true}), 1);
+                let options = {"nonMinSyntax": true, "nonMaxSyntax": true};
+                assert.equal(matchSP(stree1, ptree1, "xp", options), 0);
+                assert.equal(matchSP(stree1, ptree2, "xp", options), 1);
             });
         });
 
