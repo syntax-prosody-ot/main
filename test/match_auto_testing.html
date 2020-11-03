@@ -37,7 +37,7 @@
             \n\t${parenthesizeTree(stree1)} --> ${parenthesizeTree(ptree)}`;
         }
 
-        describe('Tableau 1: Syntactic Subcategories', function() {
+        describe('Tableau 1: Tests all/only Syntactic Subcategories', function() {
             it('matchSP', function() {
                 assert.equal(matchSP(stree1, ptree1, "xp"), 0, message(ptree1));
                 assert.equal(matchSP(stree1, ptree2, "xp"), 4, message(ptree2));
@@ -84,7 +84,7 @@
             });
         });
 
-        describe('Tableau 2: Prosodic Subcategories', function() {
+        describe('Tableau 2: Tests all/only Prosodic Subcategories', function() {
             it('maxProsody', function() {
                 assert.equal(matchSP(stree1, ptree1, "xp", {"maxProsody": true}), 2);
                 assert.equal(matchSP(stree1, ptree2, "xp", {"maxProsody": true}), 4);
@@ -119,7 +119,7 @@
             });
         });
         
-        describe('Tableau 3: maxSyntax minSyntax', function() {
+        describe('Tableau 3: maxSyntax, minSyntax', function() {
             it('maxProsody', function() {
                 assert.equal(matchSP(stree1, ptree6, "xp", {"maxSyntax": true, "minSyntax": true, "maxProsody":true}), 1);
                 assert.equal(matchSP(stree1, ptree5, "xp", {"maxSyntax": true, "minSyntax": true, "maxProsody":true}), 1);
