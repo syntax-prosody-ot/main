@@ -31,7 +31,7 @@
     </div>
     <!--Mocha is set up now, you just need to write and run tests-->
     <script>
-        describe('Syntactic Subcategories', function() {
+        describe('Tableau 1: Syntactic Subcategories', function() {
             it('matchSP', function() {
                 assert.equal(matchSP(stree1, ptree1, "xp"), 0);
                 assert.equal(matchSP(stree1, ptree2, "xp"), 4);
@@ -70,7 +70,7 @@
             });
         });
 
-        describe('Prosodic Subcategories', function() {
+        describe('Tableau 2: Prosodic Subcategories', function() {
             it('maxProsody', function() {
                 assert.equal(matchSP(stree1, ptree1, "xp", {"maxProsody": true}), 2);
                 assert.equal(matchSP(stree1, ptree2, "xp", {"maxProsody": true}), 4);
@@ -104,7 +104,8 @@
                 assert.equal(matchSP(stree1, ptree2, "xp", {"nonMaxProsody": true, "nonMinProsody": true}), 4);
             });
         });
-        describe('Tableau 3', function() {
+        
+        describe('Tableau 3: maxSyntax minSyntax', function() {
             it('maxSyntax minSyntax maxProsody', function() {
                 assert.equal(matchSP(stree1, ptree6, "xp", {"maxSyntax": true, "minSyntax": true, "maxProsody":true}), 1);
                 assert.equal(matchSP(stree1, ptree5, "xp", {"maxSyntax": true, "minSyntax": true, "maxProsody":true}), 1);
@@ -162,7 +163,8 @@
                 assert.equal(matchSP(stree1, ptree2, "xp", {"maxSyntax": true, "minSyntax": true, "nonMaxProsody":true, "nonMinProsody":true}), 1);
             });
         });    
-        describe('Tableau 4', function() {
+        
+        describe('Tableau 4: maxSyntax nonMinSyntax', function() {
             it('maxSyntax nonMinSyntax maxProsody', function() {
                 assert.equal(matchSP(stree1, ptree10, "xp", {"maxSyntax": true, "nonMinSyntax": true, "maxProsody":true}), 1);
                 assert.equal(matchSP(stree1, ptree9, "xp", {"maxSyntax": true, "nonMinSyntax": true, "maxProsody":true}), 1);
@@ -220,7 +222,8 @@
                 assert.equal(matchSP(stree1, ptree2, "xp", {"maxSyntax": true, "nonMinSyntax": true, "nonMaxProsody":true, "minProsody":true}), 1);
             });
         }); 
-        describe('Tableau 5', function() {
+        
+        describe('Tableau 5: maxSyntax', function() {
             it('maxSyntax maxProsody', function() {
                 assert.equal(matchSP(stree1, ptree14, "xp", {"maxSyntax": true, "maxProsody":true}), 2);
                 assert.equal(matchSP(stree1, ptree13, "xp", {"maxSyntax": true, "maxProsody":true}), 2);
@@ -278,7 +281,8 @@
                 assert.equal(matchSP(stree1, ptree2, "xp", {"maxSyntax": true, "nonMaxProsody":true, "minProsody":true}), 2);
             });
         }); 
-        describe('Tableau 6', function() {
+        
+        describe('Tableau 6: nonMaxSyntax minSyntax', function() {
             it('nonMaxSyntax minSyntax maxProsody', function() {
                 assert.equal(matchSP(stree1, ptree18, "xp", {"nonMaxSyntax": true, "minSyntax": true, "maxProsody":true}), 1);
                 assert.equal(matchSP(stree1, ptree17, "xp", {"nonMaxSyntax": true, "minSyntax": true, "maxProsody":true}), 1);
@@ -336,6 +340,7 @@
                 assert.equal(matchSP(stree1, ptree2, "xp", {"nonMaxSyntax": true, "minSyntax": true, "nonMaxProsody":true, "nonMinProsody":true}), 1);
             });
         });
+        
         describe("Tableau 7: nonMaxSyntax nonMinSyntax", function() {
             it("maxProsody", function () {
                 assert.equal(matchSP(stree1, ptree22, "xp", {"nonMaxSyntax": true, "nonMinSyntax": true, "maxProsody": true}), 1);
@@ -394,6 +399,7 @@
                 assert.equal(matchSP(stree1, ptree2, "xp",  {"nonMaxSyntax": true, "nonMinSyntax": true, "nonMaxProsody": true, "nonMinProsody": true}), 1);
             });
         });
+        
         describe("Tableau 8: nonMaxSyntax", function() {
             it("maxProsody", function () {
                 assert.equal(matchSP(stree1, ptree22, "xp", {"nonMaxSyntax": true, "maxProsody": true}), 2);
@@ -452,6 +458,7 @@
                 assert.equal(matchSP(stree1, ptree2, "xp",  {"nonMaxSyntax": true, "nonMaxProsody": true, "nonMinProsody": true}), 2);
             });
         });
+        
         describe("Tableau 9: minSyntax", function() {
             it("maxProsody", function () {
                 assert.equal(matchSP(stree1, ptree26, "xp", {"minSyntax": true, "maxProsody": true}), 2);
@@ -510,6 +517,7 @@
                 assert.equal(matchSP(stree1, ptree2, "xp",  {"minSyntax": true, "nonMaxProsody": true, "nonMinProsody": true}), 2);
             });
         });
+        
         describe("Tableau 10: nonMinSyntax", function() {
             it("maxProsody", function () {
                 assert.equal(matchSP(stree1, ptree10, "xp", {"nonMinSyntax": true, "maxProsody": true}), 2);
