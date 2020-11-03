@@ -2,15 +2,15 @@
 <head>
 	<title>Syntax prosody interface application</title>
 
-	<link rel="stylesheet" type="text/css" href="spot.css">
+	<link rel="stylesheet" type="text/css" href="../../spot.css">
 
-	<script src="lib/jszip.min.js"></script>
+	<script src="../../lib/jszip.min.js"></script>
 
 	<!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
 	(open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
-	<script src="build/spot.js"></script>	
-	<script src="constraints/binarity.js"></script>
-	<script src="../trees/binaritytesttrees.js"></script>		
+	<script src="../../build/spot.js"></script>	
+	<script src="../../constraints/binarity.js"></script>
+	<script src="../../trees/binaritytesttrees.js"></script>		
 	<script>
 	/*Custom constraints can be defined inside <script> tags, as here, or in a separate file which you can load, also using a script tag*/
 	function constraint1(stree, ptree, cat){
@@ -22,7 +22,7 @@
 	
 
 	<!--Change "YOUR_TREES_HERE" to the name of your tree file on the following line. Make sure your file is in main/trees-->
-	<script src="trees/YOUR_TREES_HERE.js"></script>
+	<!--<script src="trees/YOUR_TREES_HERE.js"></script>-->
 	
 			
 </head>
@@ -35,7 +35,7 @@
 	// ---- Variables that need to be customized ----
 	
 	/*sTreeList is an array of variable names of syntactic trees, either from your tree file (trees/YOUR_TREES_HERE.js) or defined in this document.*/
-	var sTreeList = [sTree1, sTree2];
+	var sTreeList = [good, bad];
 	
 	/*Constraint sets are defined below. You can change these or add your own. A constraint set is a list of constraint function names (refer to the files in constraints.js for names) + category arguments (separated from constraint names with -; refer to prosodicHierarchy.js for a list of defined categories).*/
 	var conMatch = ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj-phi'];
