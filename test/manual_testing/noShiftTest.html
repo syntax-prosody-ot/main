@@ -12,17 +12,17 @@ Test Checklist:
 <head>
 	<title>NoShift Test</title>
 
-	<link rel="stylesheet" type="text/css" href="spot.css">
+	<link rel="stylesheet" type="text/css" href="../../spot.css">
 
-	<script src="../lib/jszip.min.js"></script>
+	<script src="../../lib/jszip.min.js"></script>
 
 	<!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
 	(open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
-	<script src="../build/spot.js"></script>
+	<script src="../../build/spot.js"></script>
 
 
 	<!--Change "YOUR_TREES_HERE" to the name of your tree file on the following line. Make sure your file is in main/trees-->
-	<script src="../trees/noShiftTrees.js"></script>
+	<script src="../../trees/noShiftTrees.js"></script>
 
 
 </head>
@@ -65,19 +65,9 @@ Test Checklist:
             var candSet = GENwithCliticMovement(sTreeList[j], '', gen_options);
 
 			//Make the tableau using the makeTableau function (defined in tableauMaker.js)
-            var tabl = makeTableau(candSet, window[consName]);
-
-			//Write the tableau to the screen and reveal it -- only uncomment this if you don't have too many tableaux!
-			//writeTableau(tabl)
-			//revealNextSegment();
-			//lastSegmentId++;
-
-			//Add the tableau from the current stree to cumulative tableau that is being built in csvSegs.
-            csvSegs.push(tableauToCsv(tabl, '\t', {noHeader: j}));
+			writeTableau(makeTableau(candSet, window[consName]));
+			revealNextSegment();
         }
-
-		//Save the tableau as a tab-separated file, named after consName
-        saveTextAs(csvSegs.join('\n'),"tableau_"+consName+".csv");
     }
 
 	/*This function executes automatically when the page is reloaded. It calls all the other functions.*/
@@ -86,22 +76,10 @@ Test Checklist:
 		for(var i = 0; i<conNames.length; i++){
 			makeTableauCsvs(conNames[i]);
 		}
-    }
-
-    /*Utilities for saving files.*/
-    function saveAs(blob, name) {
-        var a = document.createElement("a");
-        a.display = "none";
-        a.href = URL.createObjectURL(blob);
-        a.download = name;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-    }
-
-    function saveTextAs(text, name) {
-        saveAs(new Blob([text], {type: "text/csv", encoding: 'utf-8'}), name);
-    }
+	}
+	window.onload(function() {
+		runDemo();
+	});
 
 </script>
 
