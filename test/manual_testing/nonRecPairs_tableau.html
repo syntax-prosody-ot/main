@@ -2,10 +2,10 @@
 <html>
 	<title>nonRecPairs Test</title>
 	<head>
-		<link rel="stylesheet" type="text/css" href="../spot.css">
-		<script src="../build/spot.js"></script>
-		<script src="../build/constraints.js"></script>
-		<script src="../candidategenerator.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../spot.css">
+		<script src="../../build/spot.js"></script>
+		<script src="../../build/constraints.js"></script>
+		<script src="../../candidategenerator.js"></script>
 	</head>
 	<body>
 		<pre id="results-container"></pre>
@@ -35,7 +35,7 @@
 			and nonRecParis returns <b id=testFive>?</b> violations.</p>
 		<p>The way Pairwise Non-recursivity is written, immediate domination is not
 			necessary to incur violations. The nonRecPairs function handles this, as
-			shown if we input a tree like this one, where a phi dominates an iota, which
+			shown if we input a tree like this one, where a phi dominates an , which
 			dominates a phi: ((first)[((second)(third))(fourth)]). If all is functioning
 			properly, nonRecPais should return 7 violations. It returns <b id=testSix>?</b>.</p>
 			<p>Finally, I couldn't quite get the writeTableau finction to work, but
@@ -225,7 +225,7 @@
 					            		"cat": "phi"
 					        		},
 					        		{
-					            		"cat": "iota",
+					            		"cat": "i",
 					            		"id": "three",
 					            		"children": [
 					                		{
@@ -309,7 +309,7 @@
 					}
 
 				var theCandidates = GEN(sTree, 'first second third fourth', {"obeysExhaustivity":false});
-				var con = ["nonRecPairs-phi", "nonRecPairs-w", "nonRecPairs-iota"];
+				var con = ["nonRecPairs-phi", "nonRecPairs-w", "nonRecPairs-i"];
 				window.addEventListener("load",function(){
 					writeTableau(makeTableau(theCandidates, con));
 					revealNextSegment();
