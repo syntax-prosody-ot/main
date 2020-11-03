@@ -2,13 +2,13 @@
 <head>
 	<title>Syntax-prosody interface application</title>
 
-	<link rel="stylesheet" type="text/css" href="../spot.css">
+	<link rel="stylesheet" type="text/css" href="../../spot.css">
 
 	<!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
 	(open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
-	<script src="../build/spot.js"></script>
-	<script src="../constraints/binRightmost.js"></script>
-	<script src="../trees/binRightmostTrees.js"></script>
+	<script src="../../build/spot.js"></script>
+	<script src="../../constraints/binRightmost.js"></script>
+	<script src="../../trees/binRightmostTrees.js"></script>
 	
 </head>
 
@@ -25,6 +25,8 @@
 	var pTree3 = {};
 	var pTree4 = {};
 	var pTree5 = {};
+
+	pCat = ["iota", "phi", "w"];
 	
 	var constraintSet = ['binMaxRightmostBranches-iota', 'binMaxRightmostLeaves-phi'];
 	var candidateSet = [[syntree1, ptree_2phi_0v], [syntree1, ptree_3phi_1v], [syntree1, ptree_2phi_1v], [syntree1, ptree_recurphi_0v], [syntree1, ptree_recurphi_0v_2], [syntree1, ptree_recurphi_1v],[syntree1,ptree_multi_same_level_iotas],[syntree1, ptree_multi_iotas_recursive],[syntree1, ptree_no_iota],[syntree1, ptree_no_children],[syntree1, empty],[syntree1,ptree_multi_same_level_phis],[syntree1, ptree_multi_phis_recursive],[syntree1, Jenny],[syntree1, jenny_2]];
