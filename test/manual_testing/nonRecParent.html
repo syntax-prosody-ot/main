@@ -1,0 +1,103 @@
+<!-- Max Tarlov 7/5/19 testing nonRecParent -->
+<html>
+	<title>nonRecPairs Test</title>
+	<head>
+		<link rel="stylesheet" type="text/css" href="../../spot.css">
+		<script src="../../build/spot.js"></script>
+		<script src="../../build/constraints.js"></script>
+		<script src="../../candidategenerator.js"></script>
+	</head>
+	<body>
+		<p>This is the test document for the SPOT implementation of Non-Recursivity,
+			Assessed by Parent. To get rid of the bolded question marks, pres the
+			button below.</p>
+		<p><button type="button" onclick="fill()">Test</button></p>
+		<p>Non-Recursivity Assessed by Parents will assign a violation for every
+		parent node which immidiately dominates at least one node of the same
+		prosodic category. This means that, if a phi immidately dominates more than
+		one phi, the structure wil incur only one violation. When ((first)(second))
+		is fed into nonRecParent, <b id="testOne">?</b> violation is returned.</p>
+		<p>nonRecParent should not return a violation when no node *immidately*
+		dominates another node of the same category. Although SPOT doesn't generate
+		trees like this, nonRecParent should return zero violations if the tree
+		consists only of a phi dominating an iota dominating a phi. The function
+		returns <b id="testTwo">?</b> violations for the tree ([(terminal)]). This
+		is the only way to know that the function is not counting these violations
+		since a parent dominating multiple properly layered nodes of the same
+		category will only ever return one violation.</p>
+		<p>The function should return two violations for the tree ((first)((second)(third)))
+		since there are only two parents which immidiately dominate a node of the
+		same category. nonRecParent returns <b id="testThree">?</b> violations.</p>
+		<pre id="results-container"></pre>
+		<script>
+			var testTreeOne = {
+				"id" : "one",
+				"cat" : "phi",
+				"children" : [
+					{
+						"id" : "two",
+						"cat" : "phi"
+					},
+					{
+						"id" : "three",
+						"cat" : "phi"
+					}
+				]
+			}
+				var testTreeTwo ={
+	    		"id": "one",
+	    		"cat": "phi",
+	    		"children": [
+	        		{
+	            	"id": "two",
+	            	"cat": "iota",
+								"children" : [
+									{
+										"id" : "three",
+										"cat" : "phi"
+									}
+								]
+	        		}
+	    			]
+					}
+					var testTreeThree ={
+		    		"id": "one",
+		    		"cat": "phi",
+		    		"children": [
+		        		{
+		            	"id": "two",
+		            	"cat": "phi"
+		        		},
+		        		{
+									"id" : "three",
+									"cat" : "phi",
+									"children" : [
+										{
+				            	"id": "four",
+				            	"cat": "phi"
+				        		},
+										{
+				            	"id": "five",
+				            	"cat": "phi"
+				        		}
+									]
+								}
+		    		]
+					}
+				function fill(){
+					document.getElementById("testOne").innerHTML = nonRecParent("sTree", testTreeOne, "phi");
+					document.getElementById("testTwo").innerHTML = nonRecParent("sTree", testTreeTwo, "phi");
+					document.getElementById("testThree").innerHTML = nonRecParent("sTree", testTreeThree, "phi");
+				}
+
+
+
+				var theCandidates = GEN("sTree", 'first second third fourth', {"obeysExhaustivity":false});
+				var con = ["nonRecParent-phi", "nonRecParent-w"];
+				window.addEventListener("load",function(){
+					writeTableau(makeTableau(theCandidates, con));
+					revealNextSegment();
+				});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,32 @@
+<html>
+<head>
+	<title>Japanese Head Marking test</title>
+	<link rel="stylesheet" type="text/css" href="../../spot.css">
+	<script src="../../lib/jszip.min.js"></script>
+	<!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
+	(open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
+	<script src="../../build/spot.js"></script>
+
+
+</head>
+
+<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+	<h2>Japanese Head Marking test 2/2020</h2>
+	<pre id="results-container"></pre>
+
+<script>
+	var someTrees = GEN('', 'F FF FFF');
+	window.addEventListener("load", function(){
+		writeTableau(makeTableau(someTrees, ['binMaxHead-w', 'binMaxHead-phi', 'binMaxHead-i'], {showHeads: true}));
+		revealNextSegment();
+	});
+	/*
+	var results = document.getElementById("results-container");
+	for(var x = 0; x < someTrees.length; x++){
+		someTrees[x][1] = markHeadsJapanese(someTrees[x][1]);
+		results.innerHTML = results.innerHTML + "<p>" + parenthesizeTree(someTrees[x][1]) + "</p>";
+	}
+	*/
+</script>
+</body>
+</html>

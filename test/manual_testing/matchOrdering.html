@@ -1,0 +1,66 @@
+<!-- Max Tarlov 8/1/19 testing order-insensitive match updates -->
+<html>
+	<title>matchMax Constraints Test</title>
+	<head>
+		<link rel="stylesheet" type="text/css" href="../../spot.css">
+		<script src="../../build/spot.js"></script>
+		<script src="../../build/constraints.js"></script>
+		<script src="../../candidategenerator.js"></script>
+	</head>
+	<body>
+		<pre id="results-container"></pre>
+
+		<script>
+
+				var sTree ={
+    "id": "CP1",
+    "cat": "cp",
+    "children": [
+        {
+            "cat": "cp",
+            "id": "XP_5",
+            "children": [
+                {
+                    "cat": "xp",
+                    "id": "XP_4",
+                    "children": [
+                        {
+                            "id": "first",
+                            "cat": "x0"
+                        },
+                        {
+                            "id": "second",
+                            "cat": "x0"
+                        }
+                    ]
+                },
+                {
+                    "id": "third",
+                    "cat": "x0"
+                }
+            ]
+        }
+    ]
+}
+
+				var theCandidates = GEN(sTree, 'first second third', {"obeysNonrecursivity":false});
+				var zero = theCandidates[45];
+				var one = GEN(sTree, 'second first third')[45];
+				var two = GEN(sTree, 'second third first')[45];
+				var three = GEN(sTree, 'first third second')[45];
+				var four = GEN(sTree, 'third second first')[45];
+				var six = GEN(sTree, 'second first third')[15];
+				var seven = GEN(sTree, 'second third first')[15];
+				var eight = GEN(sTree, 'first third second')[15];
+				var nine = GEN(sTree, 'third second first')[15];
+				var suspects = [zero, one, two, three, four, six, seven, eight, nine];
+
+				var con = ["matchMaxSP-xp", "matchMaxPS-phi", "matchSP-xp", "matchPS-phi"];
+				window.addEventListener("load",function(){
+					writeTableau(makeTableau(suspects, con));
+					revealNextSegment();
+				});
+
+		</script>
+	</body>
+</html>

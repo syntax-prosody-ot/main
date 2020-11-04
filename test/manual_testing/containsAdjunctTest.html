@@ -1,0 +1,114 @@
+<html>
+<body>
+<script src="../../build/spot.js"></script>
+<script>
+
+var x = {
+        "id": "root",
+        "cat": "xp",
+        "children": [
+            {
+                "cat": "x0",
+                "id": "a"
+            },
+            {
+                "cat": "xp",
+                "id": "xp2",
+                "children": [
+                    {
+                        "id": "b",
+                        "cat": "x0"
+                    },
+                    {
+                        "id": "c",
+                        "cat": "x0"
+                    }
+                ]
+            }
+        ]
+    }
+
+console.log('[a [b [c]]]')
+console.log('expected: false')
+console.log('actual: ' + containsAdjunct(x))
+
+var y = {
+        "id": "root",
+        "cat": "xp",
+        "children": [
+            {
+                "cat": "xp",
+                "id": "xp6",
+                "children": [
+                    {
+                        "id": "a",
+                        "cat": "x0"
+                    }
+                ]
+            },
+            {
+                "cat": "xp",
+                "id": "xp2",
+                "children": [
+                    {
+                        "id": "b",
+                        "cat": "x0"
+                    },
+                    {
+                        "id": "xp0",
+                        "cat": "xp",
+                        "children": [
+                          {
+                              "id": "c",
+                              "cat": "x0"
+                          }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+
+console.log('[[a] [b [c]]]')
+console.log('expected: true')
+console.log('actual: ' + containsAdjunct(y))
+
+var z = {
+        "id": "root",
+        "cat": "xp",
+        "children": [
+            {
+                "cat": "xp",
+                "id": "xp6",
+                "children": [
+                    {
+                        "id": "a",
+                        "cat": "x0"
+                    }
+                ]
+            },
+            {
+                "cat": "x0",
+                "id": "b"
+            },
+            {
+                "cat": "xp",
+                "id": "xp0",
+                "children": [
+                    {
+                        "id": "c",
+                        "cat": "x0"
+                    }
+                ]
+            }
+        ]
+    }
+
+console.log('[[a] b [c]]')
+console.log('expected: false')
+console.log('actual: ' + containsAdjunct(z))
+
+</script>
+
+</body>
+</html>

@@ -2,8 +2,10 @@
 <head>
 	<title>Syntax-prosody interface application</title>
 
+    <meta charset="UTF-8">
+
 	<link rel="stylesheet" type="text/css" href="../spot.css">
-	<link rel="stylesheet" href="https://unpkg.com/mocha/mocha.css">
+	<link rel="stylesheet" href="../lib/test/mocha.css">
 
 	<!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
 	(open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
@@ -16,8 +18,8 @@
 	<h2>SPOT test tone annotation for Japanese/Basque phonological phrasing</h2>
 	<pre id="results-container"></pre>
 
-	<script src="https://unpkg.com/chai/chai.js"></script>
-	<script src="https://unpkg.com/mocha/mocha.js"></script>
+	<script src="../lib/test/chai.min.js"></script>
+	<script src="../lib/test/mocha.min.js"></script>
 	<div id="mocha"></div>
 	
 	<script class="mocha-init">
