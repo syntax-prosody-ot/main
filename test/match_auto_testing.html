@@ -87,579 +87,579 @@
         describe('Tableau 2: Tests all/only Prosodic Subcategories', function() {
             it('maxProsody', function() {
                 let options = {"maxProsody": true};
-                assert.equal(matchSP(stree1, ptree1, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree2, "xp", options), 4);
+                assert.equal(matchSP(stree1, ptree1, "xp", options), 2, message(ptree1, options));
+                assert.equal(matchSP(stree1, ptree2, "xp", options), 4, message(ptree2, options));
             });
             it('nonMaxProsody', function() {
                 let options = {"nonMaxProsody": true};
-                assert.equal(matchSP(stree1, ptree1, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree2, "xp", options), 4);
+                assert.equal(matchSP(stree1, ptree1, "xp", options), 2, message(ptree1, options));
+                assert.equal(matchSP(stree1, ptree2, "xp", options), 4, message(ptree2, options));
             });
             it('minProsody', function() {
                 let options = {"minProsody": true};
-                assert.equal(matchSP(stree1, ptree1, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree2, "xp", options), 4);
+                assert.equal(matchSP(stree1, ptree1, "xp", options), 2, message(ptree1, options));
+                assert.equal(matchSP(stree1, ptree2, "xp", options), 4, message(ptree2, options));
             });
             it('maxProsody minProsody', function() {
                 let options = {"maxProsody": true, "minProsody": true};
-                assert.equal(matchSP(stree1, ptree1, "xp", options), 3);
-                assert.equal(matchSP(stree1, ptree2, "xp", options), 4);
+                assert.equal(matchSP(stree1, ptree1, "xp", options), 3, message(ptree1, options));
+                assert.equal(matchSP(stree1, ptree2, "xp", options), 4, message(ptree2, options));
             });
             it('nonMProsody minProsody', function() {
                 let options = {"nonMaxProsody": true, "minProsody": true};
-                assert.equal(matchSP(stree1, ptree1, "xp", options), 3);
-                assert.equal(matchSP(stree1, ptree2, "xp", options), 4);
+                assert.equal(matchSP(stree1, ptree1, "xp", options), 3, message(ptree1, options));
+                assert.equal(matchSP(stree1, ptree2, "xp", options), 4, message(ptree2, options));
             });
             it('minProsody', function() {
                 let options = {"minProsody": true};
-                assert.equal(matchSP(stree1, ptree1, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree2, "xp", options), 4);
+                assert.equal(matchSP(stree1, ptree1, "xp", options), 2, message(ptree1, options));
+                assert.equal(matchSP(stree1, ptree2, "xp", options), 4, message(ptree2, options));
             });
             it('maxProsody nonMinProsody', function() {
                 let options = {"maxProsody": true, "nonMinProsody": true};
-                assert.equal(matchSP(stree1, ptree1, "xp", options), 3);
-                assert.equal(matchSP(stree1, ptree2, "xp", options), 4);
+                assert.equal(matchSP(stree1, ptree1, "xp", options), 3, message(ptree1, options));
+                assert.equal(matchSP(stree1, ptree2, "xp", options), 4, message(ptree2, options));
             });
             it('nonMaxProsody nonMinProsody', function() {
                 let options = {"nonMaxProsody": true, "nonMinProsody": true};
-                assert.equal(matchSP(stree1, ptree1, "xp", options), 3);
-                assert.equal(matchSP(stree1, ptree2, "xp", options), 4);
+                assert.equal(matchSP(stree1, ptree1, "xp", options), 3, message(ptree1, options));
+                assert.equal(matchSP(stree1, ptree2, "xp", options), 4, message(ptree2, options));
             });
         });
         
         describe('Tableau 3: maxSyntax, minSyntax', function() {
             it('maxProsody', function() {
                 let options = {"maxSyntax": true, "minSyntax": true, "maxProsody":true};
-                assert.equal(matchSP(stree1, ptree6, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree5, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree4, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree3, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree2, "xp", options), 1);
+                assert.equal(matchSP(stree1, ptree6, "xp", options), 1, message(ptree6, options));
+                assert.equal(matchSP(stree1, ptree5, "xp", options), 1, message(ptree5, options));
+                assert.equal(matchSP(stree1, ptree4, "xp", options), 0, message(ptree4, options));
+                assert.equal(matchSP(stree1, ptree3, "xp", options), 0, message(ptree3, options));
+                assert.equal(matchSP(stree1, ptree2, "xp", options), 1, message(ptree2, options));
             });
             it('nonMaxProsody', function() {
                 let options = {"maxSyntax": true, "minSyntax": true, "nonMaxProsody":true};
-                assert.equal(matchSP(stree1, ptree6, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree5, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree4, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree3, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree2, "xp", options), 1);
+                assert.equal(matchSP(stree1, ptree6, "xp", options), 0, message(ptree6, options));
+                assert.equal(matchSP(stree1, ptree5, "xp", options), 0, message(ptree5, options));
+                assert.equal(matchSP(stree1, ptree4, "xp", options), 1, message(ptree4, options));
+                assert.equal(matchSP(stree1, ptree3, "xp", options), 1, message(ptree3, options));
+                assert.equal(matchSP(stree1, ptree2, "xp", options), 1, message(ptree2, options));
             });
             it('minProsody', function() {
                 let options = {"maxSyntax": true, "minSyntax": true, "minProsody":true};
-                assert.equal(matchSP(stree1, ptree6, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree5, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree4, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree3, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree2, "xp", options), 1);
+                assert.equal(matchSP(stree1, ptree6, "xp", options), 1, message(ptree6, options));
+                assert.equal(matchSP(stree1, ptree5, "xp", options), 0, message(ptree5, options));
+                assert.equal(matchSP(stree1, ptree4, "xp", options), 1, message(ptree4, options));
+                assert.equal(matchSP(stree1, ptree3, "xp", options), 0, message(ptree3, options));
+                assert.equal(matchSP(stree1, ptree2, "xp", options), 1, message(ptree2, options));
             });
             it('maxProsody minProsody', function() {
                 let options = {"maxSyntax": true, "minSyntax": true, "maxProsody":true, "minProsody":true};
-                assert.equal(matchSP(stree1, ptree6, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree5, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree4, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree3, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree2, "xp", options), 1);
+                assert.equal(matchSP(stree1, ptree6, "xp", options), 1, message(ptree6, options));
+                assert.equal(matchSP(stree1, ptree5, "xp", options), 1, message(ptree5, options));
+                assert.equal(matchSP(stree1, ptree4, "xp", options), 1, message(ptree4, options));
+                assert.equal(matchSP(stree1, ptree3, "xp", options), 0, message(ptree3, options));
+                assert.equal(matchSP(stree1, ptree2, "xp", options), 1, message(ptree2, options));
             });
             it('nonMaxProsody minProsody', function() {
                 let options = {"maxSyntax": true, "minSyntax": true, "nonMaxProsody":true, "minProsody":true};
-                assert.equal(matchSP(stree1, ptree6, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree5, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree4, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree3, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree2, "xp", options), 1);
+                assert.equal(matchSP(stree1, ptree6, "xp", options), 1, message(ptree6, options));
+                assert.equal(matchSP(stree1, ptree5, "xp", options), 0, message(ptree5, options));
+                assert.equal(matchSP(stree1, ptree4, "xp", options), 1, message(ptree4, options));
+                assert.equal(matchSP(stree1, ptree3, "xp", options), 1, message(ptree3, options));
+                assert.equal(matchSP(stree1, ptree2, "xp", options), 1, message(ptree2, options));
             });
             it('nonMinProsody', function() {
                 let options = {"maxSyntax": true, "minSyntax": true, "nonMinProsody":true};
-                assert.equal(matchSP(stree1, ptree6, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree5, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree4, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree3, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree2, "xp", options), 1);
+                assert.equal(matchSP(stree1, ptree6, "xp", options), 0, message(ptree6, options));
+                assert.equal(matchSP(stree1, ptree5, "xp", options), 1, message(ptree5, options));
+                assert.equal(matchSP(stree1, ptree4, "xp", options), 0, message(ptree4, options));
+                assert.equal(matchSP(stree1, ptree3, "xp", options), 1, message(ptree3, options));
+                assert.equal(matchSP(stree1, ptree2, "xp", options), 1, message(ptree2, options));
             });
             it('maxProsody nonMinProsody', function() {
                 let options = {"maxSyntax": true, "minSyntax": true, "nonMinProsody":true, "maxProsody":true};
-                assert.equal(matchSP(stree1, ptree6, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree5, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree4, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree3, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree2, "xp", options), 1);
+                assert.equal(matchSP(stree1, ptree6, "xp", options), 1, message(ptree6, options));
+                assert.equal(matchSP(stree1, ptree5, "xp", options), 1, message(ptree5, options));
+                assert.equal(matchSP(stree1, ptree4, "xp", options), 0, message(ptree4, options));
+                assert.equal(matchSP(stree1, ptree3, "xp", options), 1, message(ptree3, options));
+                assert.equal(matchSP(stree1, ptree2, "xp", options), 1, message(ptree2, options));
             });
             it('nonMaxProsody nonMinProsody', function() {
                 let options = {"maxSyntax": true, "minSyntax": true, "nonMaxProsody":true, "nonMinProsody":true};
-                assert.equal(matchSP(stree1, ptree6, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree5, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree4, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree3, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree2, "xp", options), 1);
+                assert.equal(matchSP(stree1, ptree6, "xp", options), 0, message(ptree6, options));
+                assert.equal(matchSP(stree1, ptree5, "xp", options), 1, message(ptree5, options));
+                assert.equal(matchSP(stree1, ptree4, "xp", options), 1, message(ptree4, options));
+                assert.equal(matchSP(stree1, ptree3, "xp", options), 1, message(ptree3, options));
+                assert.equal(matchSP(stree1, ptree2, "xp", options), 1, message(ptree2, options));
             });
         });    
         
         describe('Tableau 4: maxSyntax nonMinSyntax', function() {
             it('maxProsody', function() {
                 let options = {"maxSyntax": true, "nonMinSyntax": true, "maxProsody":true};
-                assert.equal(matchSP(stree1, ptree10, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree9, "xp",  options), 1);
-                assert.equal(matchSP(stree1, ptree8, "xp",  options), 0);
-                assert.equal(matchSP(stree1, ptree7, "xp",  options), 0);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1);
+                assert.equal(matchSP(stree1, ptree10, "xp", options), 1, message(ptree10, options));
+                assert.equal(matchSP(stree1, ptree9, "xp",  options), 1, message(ptree9,  options));
+                assert.equal(matchSP(stree1, ptree8, "xp",  options), 0, message(ptree8,  options));
+                assert.equal(matchSP(stree1, ptree7, "xp",  options), 0, message(ptree7,  options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1, message(ptree2,  options));
             });
             it('nonMaxProsody', function() {
                 let options = {"maxSyntax": true, "nonMinSyntax": true, "nonMaxProsody":true};
-                assert.equal(matchSP(stree1, ptree10, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree9, "xp",  options), 0);
-                assert.equal(matchSP(stree1, ptree8, "xp",  options), 1);
-                assert.equal(matchSP(stree1, ptree7, "xp",  options), 1);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1);
+                assert.equal(matchSP(stree1, ptree10, "xp", options), 0, message(ptree10, options));
+                assert.equal(matchSP(stree1, ptree9, "xp",  options), 0, message(ptree9,  options));
+                assert.equal(matchSP(stree1, ptree8, "xp",  options), 1, message(ptree8,  options));
+                assert.equal(matchSP(stree1, ptree7, "xp",  options), 1, message(ptree7,  options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1, message(ptree2,  options));
             });
             it('minProsody', function() {
                 let options = {"maxSyntax": true, "nonMinSyntax": true, "minProsody":true};
-                assert.equal(matchSP(stree1, ptree10, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree9, "xp",  options), 0);
-                assert.equal(matchSP(stree1, ptree8, "xp",  options), 1);
-                assert.equal(matchSP(stree1, ptree7, "xp",  options), 0);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1);
+                assert.equal(matchSP(stree1, ptree10, "xp", options), 1, message(ptree10, options));
+                assert.equal(matchSP(stree1, ptree9, "xp",  options), 0, message(ptree9,  options));
+                assert.equal(matchSP(stree1, ptree8, "xp",  options), 1, message(ptree8,  options));
+                assert.equal(matchSP(stree1, ptree7, "xp",  options), 0, message(ptree7,  options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1, message(ptree2,  options));
             });
             it('maxProsody minProsody', function() {
                 let options = {"maxSyntax": true, "nonMinSyntax": true, "maxProsody":true, "minProsody":true};
-                assert.equal(matchSP(stree1, ptree10, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree9, "xp",  options), 1);
-                assert.equal(matchSP(stree1, ptree8, "xp",  options), 1);
-                assert.equal(matchSP(stree1, ptree7, "xp",  options), 0);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1);
+                assert.equal(matchSP(stree1, ptree10, "xp", options), 1, message(ptree10, options));
+                assert.equal(matchSP(stree1, ptree9, "xp",  options), 1, message(ptree9,  options));
+                assert.equal(matchSP(stree1, ptree8, "xp",  options), 1, message(ptree8,  options));
+                assert.equal(matchSP(stree1, ptree7, "xp",  options), 0, message(ptree7,  options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1, message(ptree2,  options));
             });
             it('nonMaxProsody minProsody', function() {
                 let options = {"maxSyntax": true, "nonMinSyntax": true, "nonMaxProsody":true, "minProsody":true};
-                assert.equal(matchSP(stree1, ptree10, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree9, "xp",  options), 0);
-                assert.equal(matchSP(stree1, ptree8, "xp",  options), 1);
-                assert.equal(matchSP(stree1, ptree7, "xp",  options), 1);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1);
+                assert.equal(matchSP(stree1, ptree10, "xp", options), 1, message(ptree10, options));
+                assert.equal(matchSP(stree1, ptree9, "xp",  options), 0, message(ptree9,  options));
+                assert.equal(matchSP(stree1, ptree8, "xp",  options), 1, message(ptree8,  options));
+                assert.equal(matchSP(stree1, ptree7, "xp",  options), 1, message(ptree7,  options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1, message(ptree2,  options));
             });
             it('nonMinProsody', function() {
                 let options = {"maxSyntax": true, "nonMinSyntax": true, "nonMinProsody":true};
-                assert.equal(matchSP(stree1, ptree10, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree9, "xp",  options), 1);
-                assert.equal(matchSP(stree1, ptree8, "xp",  options), 0);
-                assert.equal(matchSP(stree1, ptree7, "xp",  options), 1);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1);
+                assert.equal(matchSP(stree1, ptree10, "xp", options), 0, message(ptree10, options));
+                assert.equal(matchSP(stree1, ptree9, "xp",  options), 1, message(ptree9,  options));
+                assert.equal(matchSP(stree1, ptree8, "xp",  options), 0, message(ptree8,  options));
+                assert.equal(matchSP(stree1, ptree7, "xp",  options), 1, message(ptree7,  options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1, message(ptree2,  options));
             });
             it('maxProsody nonMinProsody', function() {
                 let options = {"maxSyntax": true, "nonMinSyntax": true, "nonMinProsody":true, "maxProsody":true};
-                assert.equal(matchSP(stree1, ptree10, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree9, "xp",  options), 1);
-                assert.equal(matchSP(stree1, ptree8, "xp",  options), 0);
-                assert.equal(matchSP(stree1, ptree7, "xp",  options), 1);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1);
+                assert.equal(matchSP(stree1, ptree10, "xp", options), 1, message(ptree10, options));
+                assert.equal(matchSP(stree1, ptree9, "xp",  options), 1, message(ptree9,  options));
+                assert.equal(matchSP(stree1, ptree8, "xp",  options), 0, message(ptree8,  options));
+                assert.equal(matchSP(stree1, ptree7, "xp",  options), 1, message(ptree7,  options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1, message(ptree2,  options));
             });
             it('nonMaxProsody minProsody', function() {
                 let options = {"maxSyntax": true, "nonMinSyntax": true, "nonMaxProsody":true, "minProsody":true};
-                assert.equal(matchSP(stree1, ptree10, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree9, "xp",  options), 0);
-                assert.equal(matchSP(stree1, ptree8, "xp",  options), 1);
-                assert.equal(matchSP(stree1, ptree7, "xp",  options), 1);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1);
+                assert.equal(matchSP(stree1, ptree10, "xp", options), 1, message(ptree10, options));
+                assert.equal(matchSP(stree1, ptree9, "xp",  options), 0, message(ptree9,  options));
+                assert.equal(matchSP(stree1, ptree8, "xp",  options), 1, message(ptree8,  options));
+                assert.equal(matchSP(stree1, ptree7, "xp",  options), 1, message(ptree7,  options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1, message(ptree2,  options));
             });
         }); 
         
         describe('Tableau 5: maxSyntax', function() {
             it('maxProsody', function() {
                 let options = {"maxSyntax": true, "maxProsody":true};
-                assert.equal(matchSP(stree1, ptree14, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree13, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree12, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree11, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2);
+                assert.equal(matchSP(stree1, ptree14, "xp", options), 2, message(ptree14, options));
+                assert.equal(matchSP(stree1, ptree13, "xp", options), 2, message(ptree13, options));
+                assert.equal(matchSP(stree1, ptree12, "xp", options), 0, message(ptree12, options));
+                assert.equal(matchSP(stree1, ptree11, "xp", options), 0, message(ptree11, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2, message(ptree2,  options));
             });
             it('nonMaxProsody', function() {
                 let options = {"maxSyntax": true, "nonMaxProsody":true};
-                assert.equal(matchSP(stree1, ptree14, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree13, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree12, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree11, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2);
+                assert.equal(matchSP(stree1, ptree14, "xp", options), 0, message(ptree14, options));
+                assert.equal(matchSP(stree1, ptree13, "xp", options), 0, message(ptree13, options));
+                assert.equal(matchSP(stree1, ptree12, "xp", options), 2, message(ptree12, options));
+                assert.equal(matchSP(stree1, ptree11, "xp", options), 2, message(ptree11, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2, message(ptree2,  options));
             });
             it('minProsody', function() {
                 let options = {"maxSyntax": true, "minProsody":true};
-                assert.equal(matchSP(stree1, ptree14, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree13, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree12, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree11, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2);
+                assert.equal(matchSP(stree1, ptree14, "xp", options), 2, message(ptree14, options));
+                assert.equal(matchSP(stree1, ptree13, "xp", options), 0, message(ptree13, options));
+                assert.equal(matchSP(stree1, ptree12, "xp", options), 2, message(ptree12, options));
+                assert.equal(matchSP(stree1, ptree11, "xp", options), 0, message(ptree11, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2, message(ptree2,  options));
             });
             it('maxProsody minProsody', function() {
                 let options = {"maxSyntax": true, "maxProsody":true, "minProsody":true};
-                assert.equal(matchSP(stree1, ptree14, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree13, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree12, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree11, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2);
+                assert.equal(matchSP(stree1, ptree14, "xp", options), 2, message(ptree14, options));
+                assert.equal(matchSP(stree1, ptree13, "xp", options), 2, message(ptree13, options));
+                assert.equal(matchSP(stree1, ptree12, "xp", options), 2, message(ptree12, options));
+                assert.equal(matchSP(stree1, ptree11, "xp", options), 0, message(ptree11, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2, message(ptree2,  options));
             });
             it('nonMaxProsody minProsody', function() {
                 let options = {"maxSyntax": true, "nonMaxProsody":true, "minProsody":true};
-                assert.equal(matchSP(stree1, ptree14, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree13, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree12, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree11, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2);
+                assert.equal(matchSP(stree1, ptree14, "xp", options), 2, message(ptree14, options));
+                assert.equal(matchSP(stree1, ptree13, "xp", options), 0, message(ptree13, options));
+                assert.equal(matchSP(stree1, ptree12, "xp", options), 2, message(ptree12, options));
+                assert.equal(matchSP(stree1, ptree11, "xp", options), 2, message(ptree11, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2, message(ptree2,  options));
             });
             it('nonMinProsody', function() {
                 let options = {"maxSyntax": true, "nonMinProsody":true};
-                assert.equal(matchSP(stree1, ptree14, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree13, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree12, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree11, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2);
+                assert.equal(matchSP(stree1, ptree14, "xp", options), 0, message(ptree14, options));
+                assert.equal(matchSP(stree1, ptree13, "xp", options), 2, message(ptree13, options));
+                assert.equal(matchSP(stree1, ptree12, "xp", options), 0, message(ptree12, options));
+                assert.equal(matchSP(stree1, ptree11, "xp", options), 2, message(ptree11, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2, message(ptree2,  options));
             });
             it('maxProsody nonMinProsody', function() {
                 let options = {"maxSyntax": true, "nonMinProsody":true, "maxProsody":true};
-                assert.equal(matchSP(stree1, ptree14, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree13, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree12, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree11, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2);
+                assert.equal(matchSP(stree1, ptree14, "xp", options), 2, message(ptree14, options));
+                assert.equal(matchSP(stree1, ptree13, "xp", options), 2, message(ptree13, options));
+                assert.equal(matchSP(stree1, ptree12, "xp", options), 0, message(ptree12, options));
+                assert.equal(matchSP(stree1, ptree11, "xp", options), 2, message(ptree11, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2, message(ptree2,  options));
             });
             it(' nonMaxProsody minProsody', function() {
                 let options = {"maxSyntax": true, "nonMaxProsody":true, "minProsody":true};
-                assert.equal(matchSP(stree1, ptree14, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree13, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree12, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree11, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2);
+                assert.equal(matchSP(stree1, ptree14, "xp", options), 2, message(ptree14, options));
+                assert.equal(matchSP(stree1, ptree13, "xp", options), 0, message(ptree13, options));
+                assert.equal(matchSP(stree1, ptree12, "xp", options), 2, message(ptree12, options));
+                assert.equal(matchSP(stree1, ptree11, "xp", options), 2, message(ptree11, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2, message(ptree2,  options));
             });
         }); 
         
         describe('Tableau 6: nonMaxSyntax minSyntax', function() {
             it('maxProsody', function() {
                 let options = {"nonMaxSyntax": true, "minSyntax": true, "maxProsody":true};
-                assert.equal(matchSP(stree1, ptree18, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree17, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree16, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree15, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1);
+                assert.equal(matchSP(stree1, ptree18, "xp", options), 1, message(ptree18, options));
+                assert.equal(matchSP(stree1, ptree17, "xp", options), 1, message(ptree17, options));
+                assert.equal(matchSP(stree1, ptree16, "xp", options), 0, message(ptree16, options));
+                assert.equal(matchSP(stree1, ptree15, "xp", options), 0, message(ptree15, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1, message(ptree2,  options));
             });
             it('nonMaxProsody', function() {
                 let options = {"nonMaxSyntax": true, "minSyntax": true, "nonMaxProsody":true};
-                assert.equal(matchSP(stree1, ptree18, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree17, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree16, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree15, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1);
+                assert.equal(matchSP(stree1, ptree18, "xp", options), 0, message(ptree18, options));
+                assert.equal(matchSP(stree1, ptree17, "xp", options), 0, message(ptree17, options));
+                assert.equal(matchSP(stree1, ptree16, "xp", options), 1, message(ptree16, options));
+                assert.equal(matchSP(stree1, ptree15, "xp", options), 1, message(ptree15, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1, message(ptree2,  options));
             });
             it('minProsody', function() {
                 let options = {"nonMaxSyntax": true, "minSyntax": true, "minProsody":true};
-                assert.equal(matchSP(stree1, ptree18, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree17, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree16, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree15, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1);
+                assert.equal(matchSP(stree1, ptree18, "xp", options), 1, message(ptree18, options));
+                assert.equal(matchSP(stree1, ptree17, "xp", options), 0, message(ptree17, options));
+                assert.equal(matchSP(stree1, ptree16, "xp", options), 1, message(ptree16, options));
+                assert.equal(matchSP(stree1, ptree15, "xp", options), 0, message(ptree15, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1, message(ptree2,  options));
             });
             it('maxProsody minProsody', function() {
                 let options = {"nonMaxSyntax": true, "minSyntax": true, "maxProsody":true, "minProsody":true};
-                assert.equal(matchSP(stree1, ptree18, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree17, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree16, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree15, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1);
+                assert.equal(matchSP(stree1, ptree18, "xp", options), 1, message(ptree18, options));
+                assert.equal(matchSP(stree1, ptree17, "xp", options), 1, message(ptree17, options));
+                assert.equal(matchSP(stree1, ptree16, "xp", options), 1, message(ptree16, options));
+                assert.equal(matchSP(stree1, ptree15, "xp", options), 0, message(ptree15, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1, message(ptree2,  options));
             });
             it('nonMaxProsody minProsody', function() {
                 let options = {"nonMaxSyntax": true, "minSyntax": true, "nonMaxProsody":true, "minProsody":true};
-                assert.equal(matchSP(stree1, ptree18, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree17, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree16, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree15, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1);
+                assert.equal(matchSP(stree1, ptree18, "xp", options), 1, message(ptree18, options));
+                assert.equal(matchSP(stree1, ptree17, "xp", options), 0, message(ptree17, options));
+                assert.equal(matchSP(stree1, ptree16, "xp", options), 1, message(ptree16, options));
+                assert.equal(matchSP(stree1, ptree15, "xp", options), 1, message(ptree15, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1, message(ptree2,  options));
             });
             it('nonMinProsody', function() {
                 let options = {"nonMaxSyntax": true, "minSyntax": true, "nonMinProsody":true};
-                assert.equal(matchSP(stree1, ptree18, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree17, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree16, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree15, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1);
+                assert.equal(matchSP(stree1, ptree18, "xp", options), 0, message(ptree18, options));
+                assert.equal(matchSP(stree1, ptree17, "xp", options), 1, message(ptree17, options));
+                assert.equal(matchSP(stree1, ptree16, "xp", options), 0, message(ptree16, options));
+                assert.equal(matchSP(stree1, ptree15, "xp", options), 1, message(ptree15, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1, message(ptree2,  options));
             });
             it('maxProsody nonMinProsody', function() {
                 let options = {"nonMaxSyntax": true, "minSyntax": true, "nonMinProsody":true, "maxProsody":true};
-                assert.equal(matchSP(stree1, ptree18, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree17, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree16, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree15, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1);
+                assert.equal(matchSP(stree1, ptree18, "xp", options), 1, message(ptree18, options));
+                assert.equal(matchSP(stree1, ptree17, "xp", options), 1, message(ptree17, options));
+                assert.equal(matchSP(stree1, ptree16, "xp", options), 0, message(ptree16, options));
+                assert.equal(matchSP(stree1, ptree15, "xp", options), 1, message(ptree15, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1, message(ptree2,  options));
             });
             it('nonMaxProsody nonMinProsody', function() {
                 let options = {"nonMaxSyntax": true, "minSyntax": true, "nonMaxProsody":true, "nonMinProsody":true};
-                assert.equal(matchSP(stree1, ptree18, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree17, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree16, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree15, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1);
+                assert.equal(matchSP(stree1, ptree18, "xp", options), 0, message(ptree18, options));
+                assert.equal(matchSP(stree1, ptree17, "xp", options), 1, message(ptree17, options));
+                assert.equal(matchSP(stree1, ptree16, "xp", options), 1, message(ptree16, options));
+                assert.equal(matchSP(stree1, ptree15, "xp", options), 1, message(ptree15, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1, message(ptree2,  options));
             });
         });
         
         describe("Tableau 7: nonMaxSyntax nonMinSyntax", function() {
             it("maxProsody", function() {
                 let options = {"nonMaxSyntax": true, "nonMinSyntax": true, "maxProsody": true};
-                assert.equal(matchSP(stree1, ptree22, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree21, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree20, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree19, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1);
+                assert.equal(matchSP(stree1, ptree22, "xp", options), 1, message(ptree22, options));
+                assert.equal(matchSP(stree1, ptree21, "xp", options), 1, message(ptree21, options));
+                assert.equal(matchSP(stree1, ptree20, "xp", options), 0, message(ptree20, options));
+                assert.equal(matchSP(stree1, ptree19, "xp", options), 0, message(ptree19, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1, message(ptree2,  options));
             });
             it("nonMaxProsody", function() {
                 let options = {"nonMaxSyntax": true, "nonMinSyntax": true, "nonMaxProsody": true};
-                assert.equal(matchSP(stree1, ptree22, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree21, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree20, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree19, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1);
+                assert.equal(matchSP(stree1, ptree22, "xp", options), 0, message(ptree22, options));
+                assert.equal(matchSP(stree1, ptree21, "xp", options), 0, message(ptree21, options));
+                assert.equal(matchSP(stree1, ptree20, "xp", options), 1, message(ptree20, options));
+                assert.equal(matchSP(stree1, ptree19, "xp", options), 1, message(ptree19, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1, message(ptree2,  options));
             });
             it("minProsody", function() {
                 let options = {"nonMaxSyntax": true, "nonMinSyntax": true, "minProsody": true};
-                assert.equal(matchSP(stree1, ptree22, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree21, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree20, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree19, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1);
+                assert.equal(matchSP(stree1, ptree22, "xp", options), 1, message(ptree22, options));
+                assert.equal(matchSP(stree1, ptree21, "xp", options), 0, message(ptree21, options));
+                assert.equal(matchSP(stree1, ptree20, "xp", options), 1, message(ptree20, options));
+                assert.equal(matchSP(stree1, ptree19, "xp", options), 0, message(ptree19, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1, message(ptree2,  options));
             });
             it("maxProsody minProsody", function() {
                 let options = {"nonMaxSyntax": true, "nonMinSyntax": true, "maxProsody": true, "minProsody": true};
-                assert.equal(matchSP(stree1, ptree22, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree21, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree20, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree19, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1);
+                assert.equal(matchSP(stree1, ptree22, "xp", options), 1, message(ptree22, options));
+                assert.equal(matchSP(stree1, ptree21, "xp", options), 1, message(ptree21, options));
+                assert.equal(matchSP(stree1, ptree20, "xp", options), 1, message(ptree20, options));
+                assert.equal(matchSP(stree1, ptree19, "xp", options), 0, message(ptree19, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1, message(ptree2,  options));
             });
             it("nonMaxProsody minProsody", function() {
                 let options = {"nonMaxSyntax": true, "nonMinSyntax": true, "nonMaxProsody": true, "minProsody": true};
-                assert.equal(matchSP(stree1, ptree22, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree21, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree20, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree19, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1);
+                assert.equal(matchSP(stree1, ptree22, "xp", options), 1, message(ptree22, options));
+                assert.equal(matchSP(stree1, ptree21, "xp", options), 0, message(ptree21, options));
+                assert.equal(matchSP(stree1, ptree20, "xp", options), 1, message(ptree20, options));
+                assert.equal(matchSP(stree1, ptree19, "xp", options), 1, message(ptree19, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1, message(ptree2,  options));
             });
             it("nonMinProsody", function() {
                 let options = {"nonMaxSyntax": true, "nonMinSyntax": true, "nonMinProsody": true};
-                assert.equal(matchSP(stree1, ptree22, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree21, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree20, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree19, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1);
+                assert.equal(matchSP(stree1, ptree22, "xp", options), 0, message(ptree22, options));
+                assert.equal(matchSP(stree1, ptree21, "xp", options), 1, message(ptree21, options));
+                assert.equal(matchSP(stree1, ptree20, "xp", options), 0, message(ptree20, options));
+                assert.equal(matchSP(stree1, ptree19, "xp", options), 1, message(ptree19, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1, message(ptree2,  options));
             });
             it("maxProsody nonMinProsody", function() {
                 let options = {"nonMaxSyntax": true, "nonMinSyntax": true, "maxProsody": true, "nonMinProsody": true};
-                assert.equal(matchSP(stree1, ptree22, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree21, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree20, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree19, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1);
+                assert.equal(matchSP(stree1, ptree22, "xp", options), 1, message(ptree22, options));
+                assert.equal(matchSP(stree1, ptree21, "xp", options), 1, message(ptree21, options));
+                assert.equal(matchSP(stree1, ptree20, "xp", options), 0, message(ptree20, options));
+                assert.equal(matchSP(stree1, ptree19, "xp", options), 1, message(ptree19, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1, message(ptree2,  options));
             });
             it("nonMaxProsody nonMinProsody", function() {
                 let options = {"nonMaxSyntax": true, "nonMinSyntax": true, "nonMaxProsody": true, "nonMinProsody": true};
-                assert.equal(matchSP(stree1, ptree22, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree21, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree20, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree19, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1);
+                assert.equal(matchSP(stree1, ptree22, "xp", options), 0, message(ptree22, options));
+                assert.equal(matchSP(stree1, ptree21, "xp", options), 1, message(ptree21, options));
+                assert.equal(matchSP(stree1, ptree20, "xp", options), 1, message(ptree20, options));
+                assert.equal(matchSP(stree1, ptree19, "xp", options), 1, message(ptree19, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 1, message(ptree2,  options));
             });
         });
         
         describe("Tableau 8: nonMaxSyntax", function() {
             it("maxProsody", function() {
                 let options = {"nonMaxSyntax": true, "maxProsody": true};
-                assert.equal(matchSP(stree1, ptree22, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree21, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree20, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree19, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2);
+                assert.equal(matchSP(stree1, ptree22, "xp", options), 2, message(ptree22, options));
+                assert.equal(matchSP(stree1, ptree21, "xp", options), 2, message(ptree21, options));
+                assert.equal(matchSP(stree1, ptree20, "xp", options), 1, message(ptree20, options));
+                assert.equal(matchSP(stree1, ptree19, "xp", options), 1, message(ptree19, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2, message(ptree2,  options));
             });
             it("nonMaxProsody", function() {
                 let options = {"nonMaxSyntax": true, "nonMaxProsody": true};
-                assert.equal(matchSP(stree1, ptree22, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree21, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree20, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree19, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2);
+                assert.equal(matchSP(stree1, ptree22, "xp", options), 0, message(ptree22, options));
+                assert.equal(matchSP(stree1, ptree21, "xp", options), 1, message(ptree21, options));
+                assert.equal(matchSP(stree1, ptree20, "xp", options), 1, message(ptree20, options));
+                assert.equal(matchSP(stree1, ptree19, "xp", options), 2, message(ptree19, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2, message(ptree2,  options));
             });
             it("minProsody", function() {
                 let options = {"nonMaxSyntax": true, "minProsody": true};
-                assert.equal(matchSP(stree1, ptree22, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree21, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree20, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree19, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2);
+                assert.equal(matchSP(stree1, ptree22, "xp", options), 1, message(ptree22, options));
+                assert.equal(matchSP(stree1, ptree21, "xp", options), 1, message(ptree21, options));
+                assert.equal(matchSP(stree1, ptree20, "xp", options), 1, message(ptree20, options));
+                assert.equal(matchSP(stree1, ptree19, "xp", options), 1, message(ptree19, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2, message(ptree2,  options));
             });
             it("maxProsody minProsody", function() {
                 let options = {"nonMaxSyntax": true, "maxProsody": true, "minProsody": true};
-                assert.equal(matchSP(stree1, ptree22, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree21, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree20, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree19, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2);
+                assert.equal(matchSP(stree1, ptree22, "xp", options), 2, message(ptree22, options));
+                assert.equal(matchSP(stree1, ptree21, "xp", options), 2, message(ptree21, options));
+                assert.equal(matchSP(stree1, ptree20, "xp", options), 2, message(ptree20, options));
+                assert.equal(matchSP(stree1, ptree19, "xp", options), 1, message(ptree19, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2, message(ptree2,  options));
             });
             it("nonMaxProsody minProsody", function() {
                 let options = {"nonMaxSyntax": true, "nonMaxProsody": true, "minProsody": true};
-                assert.equal(matchSP(stree1, ptree22, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree21, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree20, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree19, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2);
+                assert.equal(matchSP(stree1, ptree22, "xp", options), 1, message(ptree22, options));
+                assert.equal(matchSP(stree1, ptree21, "xp", options), 1, message(ptree21, options));
+                assert.equal(matchSP(stree1, ptree20, "xp", options), 1, message(ptree20, options));
+                assert.equal(matchSP(stree1, ptree19, "xp", options), 2, message(ptree19, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2, message(ptree2,  options));
             });
             it("nonMinProsody", function() {
                 let options = {"nonMaxSyntax": true, "nonMinProsody": true};
-                assert.equal(matchSP(stree1, ptree22, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree21, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree20, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree19, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2);
+                assert.equal(matchSP(stree1, ptree22, "xp", options), 1, message(ptree22, options));
+                assert.equal(matchSP(stree1, ptree21, "xp", options), 2, message(ptree21, options));
+                assert.equal(matchSP(stree1, ptree20, "xp", options), 1, message(ptree20, options));
+                assert.equal(matchSP(stree1, ptree19, "xp", options), 2, message(ptree19, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2, message(ptree2,  options));
             });
             it("maxProsody nonMinProsody", function() {
                 let options = {"nonMaxSyntax": true, "maxProsody": true, "nonMinProsody": true};
-                assert.equal(matchSP(stree1, ptree22, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree21, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree20, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree19, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2);
+                assert.equal(matchSP(stree1, ptree22, "xp", options), 2, message(ptree22, options));
+                assert.equal(matchSP(stree1, ptree21, "xp", options), 2, message(ptree21, options));
+                assert.equal(matchSP(stree1, ptree20, "xp", options), 1, message(ptree20, options));
+                assert.equal(matchSP(stree1, ptree19, "xp", options), 2, message(ptree19, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2, message(ptree2,  options));
             });
             it("nonMaxProsody nonMinProsody", function() {
                 let options = {"nonMaxSyntax": true, "nonMaxProsody": true, "nonMinProsody": true};
-                assert.equal(matchSP(stree1, ptree22, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree21, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree20, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree19, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2);
+                assert.equal(matchSP(stree1, ptree22, "xp", options), 1, message(ptree22, options));
+                assert.equal(matchSP(stree1, ptree21, "xp", options), 2, message(ptree21, options));
+                assert.equal(matchSP(stree1, ptree20, "xp", options), 2, message(ptree20, options));
+                assert.equal(matchSP(stree1, ptree19, "xp", options), 2, message(ptree19, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2, message(ptree2,  options));
             });
         });
         
         describe("Tableau 9: minSyntax", function() {
             it("maxProsody", function() {
                 let options = {"minSyntax": true, "maxProsody": true};
-                assert.equal(matchSP(stree1, ptree26, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree25, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree24, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree23, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2);
+                assert.equal(matchSP(stree1, ptree26, "xp", options), 2, message(ptree26, options));
+                assert.equal(matchSP(stree1, ptree25, "xp", options), 2, message(ptree25, options));
+                assert.equal(matchSP(stree1, ptree24, "xp", options), 0, message(ptree24, options));
+                assert.equal(matchSP(stree1, ptree23, "xp", options), 0, message(ptree23, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2, message(ptree2,  options));
             });
             it("nonMaxProsody", function() {
                 let options = {"minSyntax": true, "nonMaxProsody": true};
-                assert.equal(matchSP(stree1, ptree26, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree25, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree24, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree23, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2);
+                assert.equal(matchSP(stree1, ptree26, "xp", options), 0, message(ptree26, options));
+                assert.equal(matchSP(stree1, ptree25, "xp", options), 0, message(ptree25, options));
+                assert.equal(matchSP(stree1, ptree24, "xp", options), 2, message(ptree24, options));
+                assert.equal(matchSP(stree1, ptree23, "xp", options), 2, message(ptree23, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2, message(ptree2,  options));
             });
             it("minProsody", function() {
                 let options = {"minSyntax": true, "minProsody": true};
-                assert.equal(matchSP(stree1, ptree26, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree25, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree24, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree23, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2);
+                assert.equal(matchSP(stree1, ptree26, "xp", options), 2, message(ptree26, options));
+                assert.equal(matchSP(stree1, ptree25, "xp", options), 0, message(ptree25, options));
+                assert.equal(matchSP(stree1, ptree24, "xp", options), 2, message(ptree24, options));
+                assert.equal(matchSP(stree1, ptree23, "xp", options), 0, message(ptree23, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2, message(ptree2,  options));
             });
             it("maxProsody minProsody", function() {
                 let options = {"minSyntax": true, "maxProsody": true, "minProsody": true};
-                assert.equal(matchSP(stree1, ptree26, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree25, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree24, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree23, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2);
+                assert.equal(matchSP(stree1, ptree26, "xp", options), 2, message(ptree26, options));
+                assert.equal(matchSP(stree1, ptree25, "xp", options), 2, message(ptree25, options));
+                assert.equal(matchSP(stree1, ptree24, "xp", options), 2, message(ptree24, options));
+                assert.equal(matchSP(stree1, ptree23, "xp", options), 0, message(ptree23, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2, message(ptree2,  options));
             });
             it("nonMaxProsody minProsody", function() {
                 let options = {"minSyntax": true, "nonMaxProsody": true, "minProsody": true};
-                assert.equal(matchSP(stree1, ptree26, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree25, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree24, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree23, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2);
+                assert.equal(matchSP(stree1, ptree26, "xp", options), 2, message(ptree26, options));
+                assert.equal(matchSP(stree1, ptree25, "xp", options), 0, message(ptree25, options));
+                assert.equal(matchSP(stree1, ptree24, "xp", options), 2, message(ptree24, options));
+                assert.equal(matchSP(stree1, ptree23, "xp", options), 2, message(ptree23, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2, message(ptree2,  options));
             });
             it("nonMinProsody", function() {
                 let options = {"minSyntax": true, "nonMinProsody": true};
-                assert.equal(matchSP(stree1, ptree26, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree25, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree24, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree23, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2);
+                assert.equal(matchSP(stree1, ptree26, "xp", options), 0, message(ptree26, options));
+                assert.equal(matchSP(stree1, ptree25, "xp", options), 2, message(ptree25, options));
+                assert.equal(matchSP(stree1, ptree24, "xp", options), 0, message(ptree24, options));
+                assert.equal(matchSP(stree1, ptree23, "xp", options), 2, message(ptree23, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2, message(ptree2,  options));
             });
             it("maxProsody nonMinProsody", function() {
                 let options = {"minSyntax": true, "maxProsody": true, "nonMinProsody": true};
-                assert.equal(matchSP(stree1, ptree26, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree25, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree24, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree23, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2);
+                assert.equal(matchSP(stree1, ptree26, "xp", options), 2, message(ptree26, options));
+                assert.equal(matchSP(stree1, ptree25, "xp", options), 2, message(ptree25, options));
+                assert.equal(matchSP(stree1, ptree24, "xp", options), 0, message(ptree24, options));
+                assert.equal(matchSP(stree1, ptree23, "xp", options), 2, message(ptree23, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2, message(ptree2,  options));
             });
             it("nonMaxProsody nonMinProsody", function() {
                 let options = {"minSyntax": true, "nonMaxProsody": true, "nonMinProsody": true};
-                assert.equal(matchSP(stree1, ptree26, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree25, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree24, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree23, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2);
+                assert.equal(matchSP(stree1, ptree26, "xp", options), 0, message(ptree26, options));
+                assert.equal(matchSP(stree1, ptree25, "xp", options), 2, message(ptree25, options));
+                assert.equal(matchSP(stree1, ptree24, "xp", options), 2, message(ptree24, options));
+                assert.equal(matchSP(stree1, ptree23, "xp", options), 2, message(ptree23, options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2, message(ptree2,  options));
             });
         });
         
         describe("Tableau 10: nonMinSyntax", function() {
             it("maxProsody", function() {
                 let options = {"nonMinSyntax": true, "maxProsody": true};
-                assert.equal(matchSP(stree1, ptree10, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree9,  "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree8,  "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree7,  "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2);
+                assert.equal(matchSP(stree1, ptree10, "xp", options), 2, message(ptree10, options));
+                assert.equal(matchSP(stree1, ptree9,  "xp", options), 2, message(ptree9,  options));
+                assert.equal(matchSP(stree1, ptree8,  "xp", options), 1, message(ptree8,  options));
+                assert.equal(matchSP(stree1, ptree7,  "xp", options), 1, message(ptree7,  options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2, message(ptree2,  options));
             });
             it("nonMaxProsody", function() {
                 let options = {"nonMinSyntax": true, "nonMaxProsody": true};
-                assert.equal(matchSP(stree1, ptree10, "xp", options), 0);
-                assert.equal(matchSP(stree1, ptree9,  "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree8,  "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree7,  "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2);
+                assert.equal(matchSP(stree1, ptree10, "xp", options), 0, message(ptree10, options));
+                assert.equal(matchSP(stree1, ptree9,  "xp", options), 1, message(ptree9,  options));
+                assert.equal(matchSP(stree1, ptree8,  "xp", options), 1, message(ptree8,  options));
+                assert.equal(matchSP(stree1, ptree7,  "xp", options), 2, message(ptree7,  options));
+                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2, message(ptree2,  options));
             });
             it("minProsody", function() {
                 let options = {"nonMinSyntax": true, "minProsody": true};
-                assert.equal(matchSP(stree1, ptree10, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree9,  "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree8,  "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree7,  "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2);
+                assert.equal(matchSP(stree1, ptree10, "xp", options), 1, message(ptree10, options));
+                assert.equal(matchSP(stree1, ptree9,  "xp", options), 1, message(ptree9,  options));
+                assert.equal(matchSP(stree1, ptree8,  "xp", options), 1, message(ptree8,  options));
+                assert.equal(matchSP(stree1, ptree7,  "xp", options), 1, message(ptree7,  options));
+                assert.equal(matchSP(stree1, ptree2,  "xp", options), 2, message(ptree2,  options));
             });
             it("maxProsody minProsody", function() {
                 let options = {"nonMinSyntax": true, "maxProsody": true, "minProsody": true};
-                assert.equal(matchSP(stree1, ptree10, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree9,  "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree8,  "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree7,  "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2);
+                assert.equal(matchSP(stree1, ptree10, "xp", options), 2, message(ptree10, options));
+                assert.equal(matchSP(stree1, ptree9,  "xp", options), 2, message(ptree9,  options));
+                assert.equal(matchSP(stree1, ptree8,  "xp", options), 2, message(ptree8,  options));
+                assert.equal(matchSP(stree1, ptree7,  "xp", options), 1, message(ptree7,  options));
+                assert.equal(matchSP(stree1, ptree2,  "xp", options), 2, message(ptree2,  options));
             });
             it("nonMaxProsody minProsody", function() {
                 let options = {"nonMinSyntax": true, "nonMaxProsody": true, "minProsody": true};
-                assert.equal(matchSP(stree1, ptree10, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree9,  "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree8,  "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree7,  "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2);
+                assert.equal(matchSP(stree1, ptree10, "xp", options), 1, message(ptree10, options));
+                assert.equal(matchSP(stree1, ptree9,  "xp", options), 1, message(ptree9,  options));
+                assert.equal(matchSP(stree1, ptree8,  "xp", options), 1, message(ptree8,  options));
+                assert.equal(matchSP(stree1, ptree7,  "xp", options), 2, message(ptree7,  options));
+                assert.equal(matchSP(stree1, ptree2,  "xp", options), 2, message(ptree2,  options));
             });
             it("nonMinProsody", function() {
                 let options = {"nonMinSyntax": true, "nonMinProsody": true};
-                assert.equal(matchSP(stree1, ptree10, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree9,  "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree8,  "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree7,  "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2);
+                assert.equal(matchSP(stree1, ptree10, "xp", options), 1, message(ptree10, options));
+                assert.equal(matchSP(stree1, ptree9,  "xp", options), 2, message(ptree9,  options));
+                assert.equal(matchSP(stree1, ptree8,  "xp", options), 1, message(ptree8,  options));
+                assert.equal(matchSP(stree1, ptree7,  "xp", options), 2, message(ptree7,  options));
+                assert.equal(matchSP(stree1, ptree2,  "xp", options), 2, message(ptree2,  options));
             });
             it("maxProsody nonMinProsody", function() {
                 let options = {"nonMinSyntax": true, "maxProsody": true, "nonMinProsody": true};
-                assert.equal(matchSP(stree1, ptree10, "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree9,  "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree8,  "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree7,  "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree2, "xp",  options), 2);
+                assert.equal(matchSP(stree1, ptree10, "xp", options), 2, message(ptree10, options));
+                assert.equal(matchSP(stree1, ptree9,  "xp", options), 2, message(ptree9,  options));
+                assert.equal(matchSP(stree1, ptree8,  "xp", options), 1, message(ptree8,  options));
+                assert.equal(matchSP(stree1, ptree7,  "xp", options), 2, message(ptree7,  options));
+                assert.equal(matchSP(stree1, ptree2,  "xp", options), 2, message(ptree2,  options));
             });
             it("nonMaxProsody nonMinProsody", function() {
                 let options = {"nonMinSyntax": true, "nonMaxProsody": true, "nonMinProsody": true};
-                assert.equal(matchSP(stree1, ptree10, "xp", options), 1);
-                assert.equal(matchSP(stree1, ptree9,  "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree8,  "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree7,  "xp", options), 2);
-                assert.equal(matchSP(stree1, ptree2,  "xp", options), 2);
+                assert.equal(matchSP(stree1, ptree10, "xp", options), 1, message(ptree10, options));
+                assert.equal(matchSP(stree1, ptree9,  "xp", options), 2, message(ptree9,  options));
+                assert.equal(matchSP(stree1, ptree8,  "xp", options), 2, message(ptree8,  options));
+                assert.equal(matchSP(stree1, ptree7,  "xp", options), 2, message(ptree7,  options));
+                assert.equal(matchSP(stree1, ptree2,  "xp", options), 2, message(ptree2,  options));
             });
         });
 
