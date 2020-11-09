@@ -28,60 +28,25 @@
         var assert = chai.assert; //no one wants to type out "chai.assert" every time
     </script>
     <div id="mocha">
-        This is where test results should show up
+        Binarity Automated Testing
     </div>
     <!--Mocha is set up now, you just need to write and run tests-->
 
     <script src="../constraints/binarity.js"></script>
     <script>
      
-     describe('"Describe" blocks show up as headers', function() {
-
-it('"It" blocks show up as individual tests', function() {
-    assert.equal(binMaxLeaves({},timAndMaxTree1,'phi'), 1);
-    assert.equal(binMaxBranches({},timAndMaxTree1,'phi'),0);
-    assert.equal(binMinLeaves({},timAndMaxTree1,'phi'), 0);
-    assert.equal(binMinBranches({},timAndMaxTree1,'phi'), 0);
-});
-
-it('"It" blocks show up as individual tests', function() {
-    assert.equal(binMaxLeaves({},ptree2,'phi'), 2);
-    assert.equal(binMaxBranches({},ptree2,'phi'),0);
-    assert.equal(binMinLeaves({},ptree2,'phi'), 1);
-    assert.equal(binMinBranches({},ptree2,'phi'), 1);
-});
-
-it('"It" blocks show up as individual tests', function() {
-    assert.equal(binMaxLeaves({},ptree3,'phi'), 0);
-    assert.equal(binMaxBranches({},ptree3,'phi'),0);
-    assert.equal(binMinLeaves({},ptree3,'phi'), 0);
-    assert.equal(binMinBranches({},ptree3,'phi'), 0);
-});
-
-it('"It" blocks show up as individual tests', function() {
-    assert.equal(binMaxLeaves({},ptree4,'phi'), 3);
-    assert.equal(binMaxBranches({},ptree4,'phi'),2);
-    assert.equal(binMinLeaves({},ptree4,'phi'), 0);
-    assert.equal(binMinBranches({},ptree4,'phi'), 0);
-});
-
-it('"It" blocks show up as individual tests', function() {
-    assert.equal(binMaxLeaves({},ptree5,'phi'), 0);
-    assert.equal(binMaxBranches({},ptree5,'phi'),0);
-    assert.equal(binMinLeaves({},ptree5,'phi'), 3);
-    assert.equal(binMinBranches({},ptree5,'phi'), 3);
-});
-});
 
 // For ptree = ((a b)(c d)),
-    var timAndMaxTree1 =    {
+    var ptree1 =    {
         "id": "root",
-        "cat": "phi",
+        "cat": "i",
         "children": [
             {
+                "id": "sub-root",
                 "cat": "phi",
-                "children:": [
+                "children": [
                     {
+                        "id": "super-terminal1",
                         "cat": "phi",
                         "children": [
                             {
@@ -96,6 +61,7 @@ it('"It" blocks show up as individual tests', function() {
                         ]
                     }, 
                     {
+                        id: "super-terminal2",
                         "cat": "phi",
                         "children": [
                             {
@@ -114,10 +80,10 @@ it('"It" blocks show up as individual tests', function() {
         ]
     }
 
-    // ((((a)b)c)d))    //double check 
+    //((((a)b)c)d))    //double check 
     var ptree2 = {
         "id": "root",
-        "cat": "phi",
+        "cat": "i",
         "children": [
             {
                 "cat": "phi",
@@ -133,26 +99,26 @@ it('"It" blocks show up as individual tests', function() {
                                         "children": [
                                             {
                                                 "id": "a",
-                                                "cat": "phi"
+                                                "cat": "w"
                                             },
                                         ]
                                     },
                                     {
                                         "id": "b",
-                                        "cat": "phi"
+                                        "cat": "w"
                                     },
                                 ]
                             },
                             {
                                 "id": "c",
-                                "cat": "phi"
+                                "cat": "w"
                             },
 
                         ]
                     },
                     {
                         "id": "d",
-                        "cat": "phi"
+                        "cat": "w"
                     },
             ]
         }
@@ -165,33 +131,33 @@ it('"It" blocks show up as individual tests', function() {
         "cat": "i",
         "children": [
             {
-                "cat": "phi",
+                "cat": "i",
                 "children": [
                     {
                         "id": "a",
-                        "cat": "phi"
+                        "cat": "w"
                     },
                     {
                         "id": "b",
-                        "cat": "phi"
+                        "cat": "w"
                     },
                     {
                         "id": "c",
-                        "cat": "phi"
+                        "cat": "w"
                     },
                     {
                         "id": "d",
-                        "cat": "phi"
+                        "cat": "w"
                     }
                 ]
             }
         ]
     };
 
-    // ((abc)(def))
+    //((abc)(def))
     var ptree4 = {
         "id": "root",
-        "cat": "phi",
+        "cat": "i",
         "children": [
             {
                 "cat": "phi",
@@ -201,15 +167,15 @@ it('"It" blocks show up as individual tests', function() {
                         "children": [
                             {
                                 "id": "a",
-                                "cat": "phi"
+                                "cat": "w"
                             },
                             {
                                 "id": "b",
-                                "cat": "phi"
+                                "cat": "w"
                             },
                             {
                                 "id": "c",
-                                "cat": "phi"
+                                "cat": "w"
                             }
                         ]
                     },
@@ -218,15 +184,15 @@ it('"It" blocks show up as individual tests', function() {
                         "children": [
                             {
                                 "id": "d",
-                                "cat": "phi"
+                                "cat": "w"
                             },
                             {
                                 "id": "e",
-                                "cat": "phi"
+                                "cat": "w"
                             },
                             {
                                 "id": "f",
-                                "cat": "phi"
+                                "cat": "w"
                             }
                         ]
                     },
@@ -235,10 +201,10 @@ it('"It" blocks show up as individual tests', function() {
         ]
     };
 
-    // {(a)(b)(c)}
+    //{(a)(b)(c)}
     var ptree5 = {
         "id": "root",
-        "cat": "phi",
+        "cat": "i",
         "children": [
             {
                 "cat": "i",
@@ -248,7 +214,7 @@ it('"It" blocks show up as individual tests', function() {
                         "children": [
                             {
                                 "id": "a",
-                                "cat": "phi"
+                                "cat": "w"
                             }
                         ]
                     },
@@ -257,7 +223,7 @@ it('"It" blocks show up as individual tests', function() {
                         "children": [
                             {
                                 "id": "b",
-                                "cat": "phi"
+                                "cat": "w"
                             }
                         ]
                     },
@@ -266,7 +232,7 @@ it('"It" blocks show up as individual tests', function() {
                         "children": [
                             {
                                 "id": "c",
-                                "cat": "phi"
+                                "cat": "w"
                             }
                         ]
                     }
@@ -274,10 +240,47 @@ it('"It" blocks show up as individual tests', function() {
             }
         ]
     };
-      
+        describe('Binarity Testing', function() {
+
+            console.log(ptree1);
+            console.log(parenthesizeTree(ptree1));
+
+            it('binMaxLeaves Test', function() {
+                assert.equal(binMaxLeaves({},ptree1,'phi'), 1);
+                assert.equal(binMaxLeaves({},ptree2,'phi'), 2);
+                assert.equal(binMaxLeaves({},ptree3,'phi'), 0);
+                assert.equal(binMaxLeaves({},ptree4,'phi'), 3);
+                assert.equal(binMaxLeaves({},ptree5,'phi'), 0);
+            });
+
+            it('binMaxBranches Test', function() {
+                assert.equal(binMaxBranches({},ptree1,'phi'),0);
+                assert.equal(binMaxBranches({},ptree2,'phi'),0);
+                assert.equal(binMaxBranches({},ptree3,'phi'),0);
+                assert.equal(binMaxBranches({},ptree4,'phi'),2);
+                assert.equal(binMaxBranches({},ptree5,'phi'),0);
+            });
+
+            it('binMinLeaves Test', function() {
+                assert.equal(binMinLeaves({},ptree1,'phi'), 0);
+                assert.equal(binMinLeaves({},ptree2,'phi'), 1);
+                assert.equal(binMinLeaves({},ptree3,'phi'), 0);
+                assert.equal(binMinLeaves({},ptree4,'phi'), 0);
+                assert.equal(binMinLeaves({},ptree5,'phi'), 3);
+            });
+
+            it('binMinBranches Test', function() {
+                assert.equal(binMinBranches({},ptree1,'phi'), 0);
+                assert.equal(binMinBranches({},ptree2,'phi'), 1);
+                assert.equal(binMinBranches({},ptree3,'phi'), 0);
+                assert.equal(binMinBranches({},ptree4,'phi'), 0);
+                assert.equal(binMinBranches({},ptree5,'phi'), 3);
+            });
+        });
        
         mocha.run(); //don't forget to run the test!!!
     </script>
     <!--That's all you need for testing with mocha and chai-->
     </body>
 </html>
+
