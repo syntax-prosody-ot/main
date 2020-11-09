@@ -2,29 +2,39 @@
 
 function runConstraintTest(skipSetUp) {
     if(!skipSetUp) {setUpInterfaceTest();}
-    describe("Pitch accent Save/Load/Clear", function() {
-        let savedConstraints, constraints;
+    let savedConstraints, constraints;
 
+    function constraintSaveTest(inputs) {
+        let values = [];
+        for(let input of inputs) {
+            input.click();
+            values.push(input.value);
+        }
+
+        let savedString = record_analysis();
+        let saveObject = JSON.parse(savedString);
+        //object is more usefull than string later on
+
+        for(let value of values){
+            let regex = new RegExp(value);
+            assert(savedString.search(regex) > 0, value + " was not saved!");
+        }
+
+        return saveObject;
+    }
+
+    describe("Layering and Structure Save/Load/Clear", function() {
+        //nothing yet
+    });
+
+    describe("Pitch accent Save/Load/Clear", function() {
         beforeEach(function() {
             constraints = document.getElementById("pitch_accent_fieldset")
                 .querySelectorAll('[name="constraints"]');
         });
-        
+
         it("Save", function() {
-            let values = [];
-            for(let constraint of constraints) {
-                constraint.click();
-                values.push(constraint.value);
-            }
-
-            let savedString = record_analysis();
-            savedConstraints = JSON.parse(savedString).myCon;
-            //object is more usefull than string later on
-
-            for(let value of values){
-                let regex = new RegExp(value);
-                assert(savedString.search(regex) > 0, value + " was not saved!");
-            }
+            savedConstraints = constraintSaveTest(constraints).myCon;
         });
         
         it("Clear", function () {
