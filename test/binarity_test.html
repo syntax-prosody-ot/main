@@ -76,11 +76,11 @@ it('"It" blocks show up as individual tests', function() {
 // For ptree = ((a b)(c d)),
     var timAndMaxTree1 =    {
         "id": "root",
-        "cat": "phi",
+        "cat": "i",
         "children": [
             {
                 "cat": "phi",
-                "children:": [
+                "children": [
                     {
                         "cat": "phi",
                         "children": [
@@ -117,7 +117,7 @@ it('"It" blocks show up as individual tests', function() {
     // ((((a)b)c)d))    //double check 
     var ptree2 = {
         "id": "root",
-        "cat": "phi",
+        "cat": "i",
         "children": [
             {
                 "cat": "phi",
@@ -133,26 +133,26 @@ it('"It" blocks show up as individual tests', function() {
                                         "children": [
                                             {
                                                 "id": "a",
-                                                "cat": "phi"
+                                                "cat": "w"
                                             },
                                         ]
                                     },
                                     {
                                         "id": "b",
-                                        "cat": "phi"
+                                        "cat": "w"
                                     },
                                 ]
                             },
                             {
                                 "id": "c",
-                                "cat": "phi"
+                                "cat": "w"
                             },
 
                         ]
                     },
                     {
                         "id": "d",
-                        "cat": "phi"
+                        "cat": "w"
                     },
             ]
         }
@@ -161,37 +161,32 @@ it('"It" blocks show up as individual tests', function() {
 
  // ptree {a b c d}
  var ptree3 =     {
-        "id": "root",
-        "cat": "i",
-        "children": [
-            {
-                "cat": "phi",
-                "children": [
-                    {
-                        "id": "a",
-                        "cat": "phi"
-                    },
-                    {
-                        "id": "b",
-                        "cat": "phi"
-                    },
-                    {
-                        "id": "c",
-                        "cat": "phi"
-                    },
-                    {
-                        "id": "d",
-                        "cat": "phi"
-                    }
-                ]
-            }
-        ]
+    "id": "root",
+    "cat": "i",
+    "children": [
+                {
+                    "id": "a",
+                    "cat": "w"
+                },
+                {
+                    "id": "b",
+                    "cat": "w"
+                },
+                {
+                    "id": "c",
+                    "cat": "w"
+                },
+                {
+                    "id": "d",
+                    "cat": "w"
+                }
+            ]
     };
 
     // ((abc)(def))
     var ptree4 = {
         "id": "root",
-        "cat": "phi",
+        "cat": "i",
         "children": [
             {
                 "cat": "phi",
@@ -201,15 +196,15 @@ it('"It" blocks show up as individual tests', function() {
                         "children": [
                             {
                                 "id": "a",
-                                "cat": "phi"
+                                "cat": "w"
                             },
                             {
                                 "id": "b",
-                                "cat": "phi"
+                                "cat": "w"
                             },
                             {
                                 "id": "c",
-                                "cat": "phi"
+                                "cat": "w"
                             }
                         ]
                     },
@@ -218,15 +213,15 @@ it('"It" blocks show up as individual tests', function() {
                         "children": [
                             {
                                 "id": "d",
-                                "cat": "phi"
+                                "cat": "w"
                             },
                             {
                                 "id": "e",
-                                "cat": "phi"
+                                "cat": "w"
                             },
                             {
                                 "id": "f",
-                                "cat": "phi"
+                                "cat": "w"
                             }
                         ]
                     },
@@ -238,7 +233,7 @@ it('"It" blocks show up as individual tests', function() {
     // {(a)(b)(c)}
     var ptree5 = {
         "id": "root",
-        "cat": "phi",
+        "cat": "i",
         "children": [
             {
                 "cat": "i",
@@ -248,7 +243,7 @@ it('"It" blocks show up as individual tests', function() {
                         "children": [
                             {
                                 "id": "a",
-                                "cat": "phi"
+                                "cat": "w"
                             }
                         ]
                     },
@@ -257,7 +252,7 @@ it('"It" blocks show up as individual tests', function() {
                         "children": [
                             {
                                 "id": "b",
-                                "cat": "phi"
+                                "cat": "w"
                             }
                         ]
                     },
@@ -266,7 +261,7 @@ it('"It" blocks show up as individual tests', function() {
                         "children": [
                             {
                                 "id": "c",
-                                "cat": "phi"
+                                "cat": "w"
                             }
                         ]
                     }
