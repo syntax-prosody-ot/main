@@ -15,8 +15,8 @@ function setUpInterfaceTest(){
     notResults.insertBefore(mochaDiv, notResults.firstChild);
 }
 
-function runStringTest() {
-    setUpInterfaceTest();
+function runStringTest(skipSetUp) {
+    if(!skipSetUp){setUpInterfaceTest();}
 
     describe("String Generation save/load/clear test", function(){
         var testSettings = '';
