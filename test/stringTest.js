@@ -2,7 +2,7 @@
 
 var assert;
 
-function setUpStringTest(){
+function setUpInterfaceTest(){
     mocha.setup('bdd');
     mocha.checkLeaks();
     assert = chai.assert;
@@ -16,7 +16,7 @@ function setUpStringTest(){
 }
 
 function runStringTest() {
-    setUpStringTest();
+    setUpInterfaceTest();
 
     describe("String Generation save/load/clear test", function(){
         var testSettings = '';
