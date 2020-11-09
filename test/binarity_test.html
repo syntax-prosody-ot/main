@@ -35,9 +35,46 @@
     <script src="../constraints/binarity.js"></script>
     <script>
      
+     describe('"Describe" blocks show up as headers', function() {
+
+it('"It" blocks show up as individual tests', function() {
+    assert.equal(binMaxLeaves({},timAndMaxTree1,'phi'), 1);
+    assert.equal(binMaxBranches({},timAndMaxTree1,'phi'),0);
+    assert.equal(binMinLeaves({},timAndMaxTree1,'phi'), 0);
+    assert.equal(binMinBranches({},timAndMaxTree1,'phi'), 0);
+});
+
+it('"It" blocks show up as individual tests', function() {
+    assert.equal(binMaxLeaves({},ptree2,'phi'), 2);
+    assert.equal(binMaxBranches({},ptree2,'phi'),0);
+    assert.equal(binMinLeaves({},ptree2,'phi'), 1);
+    assert.equal(binMinBranches({},ptree2,'phi'), 1);
+});
+
+it('"It" blocks show up as individual tests', function() {
+    assert.equal(binMaxLeaves({},ptree3,'phi'), 0);
+    assert.equal(binMaxBranches({},ptree3,'phi'),0);
+    assert.equal(binMinLeaves({},ptree3,'phi'), 0);
+    assert.equal(binMinBranches({},ptree3,'phi'), 0);
+});
+
+it('"It" blocks show up as individual tests', function() {
+    assert.equal(binMaxLeaves({},ptree4,'phi'), 3);
+    assert.equal(binMaxBranches({},ptree4,'phi'),2);
+    assert.equal(binMinLeaves({},ptree4,'phi'), 0);
+    assert.equal(binMinBranches({},ptree4,'phi'), 0);
+});
+
+it('"It" blocks show up as individual tests', function() {
+    assert.equal(binMaxLeaves({},ptree5,'phi'), 0);
+    assert.equal(binMaxBranches({},ptree5,'phi'),0);
+    assert.equal(binMinLeaves({},ptree5,'phi'), 3);
+    assert.equal(binMinBranches({},ptree5,'phi'), 3);
+});
+});
 
 // For ptree = ((a b)(c d)),
-    var ptree1 =    {
+    var timAndMaxTree1 =    {
         "id": "root",
         "cat": "phi",
         "children": [
@@ -49,12 +86,12 @@
                         "children": [
                             {
                                 "id": "a",
-                                "cat": "phi"
+                                "cat": "w"
                             },
 
                             {
                                 "id": "b",
-                                "cat": "phi"
+                                "cat": "w"
                             }
                         ]
                     }, 
@@ -63,12 +100,12 @@
                         "children": [
                             {
                                 "id": "c",
-                                "cat": "phi"
+                                "cat": "w"
                             },
 
                             {
                                 "id": "d",
-                                "cat": "phi"
+                                "cat": "w"
                             }
                         ]
                     },
@@ -77,7 +114,7 @@
         ]
     }
 
-    //((((a)b)c)d))    //double check 
+    // ((((a)b)c)d))    //double check 
     var ptree2 = {
         "id": "root",
         "cat": "phi",
@@ -151,7 +188,7 @@
         ]
     };
 
-    //((abc)(def))
+    // ((abc)(def))
     var ptree4 = {
         "id": "root",
         "cat": "phi",
@@ -198,7 +235,7 @@
         ]
     };
 
-    //{(a)(b)(c)}
+    // {(a)(b)(c)}
     var ptree5 = {
         "id": "root",
         "cat": "phi",
@@ -237,43 +274,7 @@
             }
         ]
     };
-        describe('"Describe" blocks show up as headers', function() {
-
-            it('"It" blocks show up as individual tests', function() {
-                assert.equal(binMaxLeaves({},ptree1,'phi'), 1);
-                assert.equal(binMaxBranches({},ptree1,'phi'),0);
-                assert.equal(binMinLeaves({},ptree1,'phi'), 0);
-                assert.equal(binMinBranches({},ptree1,'phi'), 0);
-            });
-
-            it('"It" blocks show up as individual tests', function() {
-                assert.equal(binMaxLeaves({},ptree2,'phi'), 2);
-                assert.equal(binMaxBranches({},ptree2,'phi'),0);
-                assert.equal(binMinLeaves({},ptree2,'phi'), 1);
-                assert.equal(binMinBranches({},ptree2,'phi'), 1);
-            });
-
-            it('"It" blocks show up as individual tests', function() {
-                assert.equal(binMaxLeaves({},ptree3,'phi'), 0);
-                assert.equal(binMaxBranches({},ptree3,'phi'),0);
-                assert.equal(binMinLeaves({},ptree3,'phi'), 0);
-                assert.equal(binMinBranches({},ptree3,'phi'), 0);
-            });
-
-            it('"It" blocks show up as individual tests', function() {
-                assert.equal(binMaxLeaves({},ptree4,'phi'), 3);
-                assert.equal(binMaxBranches({},ptree4,'phi'),2);
-                assert.equal(binMinLeaves({},ptree4,'phi'), 0);
-                assert.equal(binMinBranches({},ptree4,'phi'), 0);
-            });
-
-            it('"It" blocks show up as individual tests', function() {
-                assert.equal(binMaxLeaves({},ptree5,'phi'), 0);
-                assert.equal(binMaxBranches({},ptree5,'phi'),0);
-                assert.equal(binMinLeaves({},ptree5,'phi'), 3);
-                assert.equal(binMinBranches({},ptree5,'phi'), 3);
-            });
-        });
+      
        
         mocha.run(); //don't forget to run the test!!!
     </script>
