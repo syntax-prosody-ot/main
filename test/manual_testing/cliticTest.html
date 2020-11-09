@@ -1,0 +1,59 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="../../spot.css">
+		<script src="../../build/spot.js"></script>
+		<script src="../../build/constraints.js"></script>
+		<script src="../../candidategenerator.js"></script>
+	</head>
+	<body>
+		<pre id="results-container"></pre>
+		<script>
+			var di_vino = {
+							"id": "PP",
+							"cat": "xp",
+							"func":"true",
+							"children": [
+								{
+									"id": "di",
+									"cat": "clitic"
+								},
+								{
+									"cat": "xp",
+									"id": "NP",
+									"children": [
+										{
+											"id": "vino",
+											"cat": "x0"
+										}
+									]
+								}
+							]
+						}
+						
+			//Make the candidate set using the GEN function (defined in candidategenerator.js)
+            var candSetNoEx = GEN(di_vino, 'di-func vino', {"obeysExhaustivity":false});
+			var candSetBoolEx = GEN(di_vino, 'di-func vino', {"obeysExhaustivity":true});
+			var candSetExI = GEN(di_vino, 'di-func vino', {"obeysExhaustivity":['i']});
+            var candSetExIPhi = GEN(di_vino, 'di-func vino', {"obeysExhaustivity":['i','phi']});
+			var candSetExPhi = GEN(di_vino, 'di-func vino', {"obeysExhaustivity":['phi']});
+			var candSetExW = GEN(di_vino, 'di-func vino', {"obeysExhaustivity":['w']});
+			
+			var con = ['matchSP-xp','matchSP_LexicalHead-xp','binMinBranches-phi','binMin2Words-phi'];
+            
+			//Make the tableau using the makeTableau function (defined in tableauMaker.js)
+			window.addEventListener("load",function(){
+				writeTableau(makeTableau(candSetNoEx, con));
+				revealNextSegment();
+				
+				writeTableau(makeTableau(candSetExI, con));
+				revealNextSegment();
+				
+				writeTableau(makeTableau(candSetExPhi, con));
+				revealNextSegment();
+				
+				writeTableau(makeTableau(candSetExW, con));
+				revealNextSegment();				
+			});
+		</script>
+	</body>
+</html>

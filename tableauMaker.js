@@ -73,15 +73,25 @@ function makeTableau(candidateSet, constraintSet, options){
 		var ptreeStr = options.inputTypeString ? candidate[1] : parenthesizeTree(globalNameOrDirect(candidate[1]), options);
 		var tableauRow = [ptreeStr];
 		// the last element is the getter function that retrieves the category pairings received from GEN in candidategenerator.js
+		
+		// Maintain a list of constraints that use the cat argument for something 
+		// other than an actual category
+		var catExceptionConstraints = ['alignRightMorpheme', 'alignLeftMorpheme'];
+
 		for(var j = 0; j < constraintSet.length; j++){
 			var [constraint, cat, conOptions] = constraintSet[j].split('-');
-			// check if the category argument is in pCat or sCat
-			if(cat && !pCat.includes(cat) && !sCat.includes(cat)){
-				console.log(pCat);
-				var errorMsg = "Category argument " + cat + " is not a valid category with the current settings.\nCurrently valid prosodic categories: " + JSON.stringify(pCat) + "\nValid syntactic categories: " + JSON.stringify(sCat);
-				displayError(errorMsg);
-				throw new Error(errorMsg);
+			// If the current constraint isn't in the list of exceptional 
+			// category constraints, and a category argument was provided, 
+			// then check if the category argument is in pCat or sCat.
+			if(catExceptionConstraints.indexOf(constraint)<0){
+				if(cat && !pCat.includes(cat) && !sCat.includes(cat)){
+					console.log(pCat);
+					var errorMsg = "Category argument " + cat + " is not a valid category with the current settings.\nCurrently valid prosodic categories: " + JSON.stringify(pCat) + "\nValid syntactic categories: " + JSON.stringify(sCat);
+					displayError(errorMsg);
+					throw new Error(errorMsg);
+				}
 			}
+			
 			if(!conOptions){
 				conOptions = "{}";
 			}

@@ -118,7 +118,8 @@ function parenthesizeTree(tree, options){
 function addAttributeLabels(node, tempLabel){
 	if (node ["accent"]){
 		//add .a if the node has an accent attribute with a value that isn't 'u' or 'U', and the node's id isn't already a or A.
-		var accentLabel = (node.accent !== 'u' && node.accent !== 'U' && node.id !== 'A' && node.id !== 'a')? '.a': '';
+		var idPref = node.id.split('_')[0];
+		var accentLabel = (node.accent && idPref !== 'A' && idPref !== 'a')? '.a': '';
 		tempLabel += accentLabel;
 	}
 	if (node["func"]){

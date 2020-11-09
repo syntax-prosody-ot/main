@@ -1,0 +1,75 @@
+<!-- Max Tarlov 10/15/19 testing obeysHeadedness option on GEN -->
+<html>
+	<title>headedness option GEN test</title>
+	<head>
+		<link rel="stylesheet" type="text/css" href="../../spot.css">
+		<script src="../../build/spot.js"></script>
+		<script src="../../build/constraints.js"></script>
+		<script src="../../candidategenerator.js"></script>
+	</head>
+	<body>
+		<pre id="results-container"></pre>
+
+		<script>
+      var violatesHeadednessNoClitic = [];
+      var onetwothree = GEN({id:"violates headedness without clitic", cat:"x0"}, "one two three");
+      for (var x = 0; x<onetwothree.length; x++){
+        if (!obeysHeadedness(onetwothree[x][1]))
+          violatesHeadednessNoClitic.push(onetwothree[x]);
+      }
+      var violatesHeadednessWithClitic = [];
+      onetwothree = GEN({id:"violates headedness with clitic", cat:"x0"}, "one two three-clitic");
+      for (var x = 0; x<onetwothree.length; x++){
+        if (!obeysHeadedness(onetwothree[x][1]))
+          violatesHeadednessWithClitic.push(onetwothree[x]);
+      }
+			window.addEventListener("load",function(){
+				writeTableau(makeTableau(GEN({id:"obeysHeadedness: false", cat: "x0"}, "one two three"), []));
+				revealNextSegment();
+				writeTableau(makeTableau(GEN({id:"obeysHeadedness: true", cat: "x0"}, "one two three", {obeysHeadedness:true}), []));
+				revealNextSegment();
+        writeTableau(makeTableau(violatesHeadednessNoClitic, []));
+				revealNextSegment();
+        writeTableau(makeTableau(GEN({id:"clitic with obeysHeadedness: true", cat: "x0"}, "one two three-clitic", {obeysHeadedness:true}), []));
+				revealNextSegment();
+        writeTableau(makeTableau(violatesHeadednessWithClitic, []));
+				revealNextSegment();
+        writeTableau(makeTableau(GEN({id:"works with different recursive category", cat: "x0"}, "one two three-clitic", {obeysHeadedness:true, recursiveCategory: "w"}), []));
+				revealNextSegment();
+			});
+      //This function is usually inside of GEN, but I wanted to use it here
+      function obeysHeadedness(tree){
+      	//inner function
+      	function nodeIsHeaded(node) {
+      		/* Function to check if a node is headed. Relies on the prosodic hierarchy being
+      		 * properly defined. Returns true iff one of the node's children is of the
+      		 * category directly below its own category on the prosodic hierarchy or the
+      		 * node is terminal.
+      		 */
+      		var children = node.children;
+      		//vacuously true if node is terminal
+      		if (!children)
+      			return true;
+      		for (var i = 0; i < children.length; i++)
+      			if (children[i].cat === pCat.nextLower(node.cat))
+      				return true;
+      			return false;
+      	}
+
+      	//outer function
+      	//first, check the parent node
+      	if (!nodeIsHeaded(tree))
+      		return false;
+      	//return false if one of the children does not obey headedness
+      	if (tree.children){
+      		for (var x = 0; x<tree.children.length; x++){
+      			if (!obeysHeadedness(tree.children[x])) //recursivce function call
+      				return false;
+      		}
+      	}
+      	//if we get this far, the tree obeys headedness
+      	return true;
+      }
+		</script>
+	</body>
+</html>

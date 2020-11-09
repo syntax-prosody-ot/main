@@ -122,8 +122,11 @@ function noLapseL(s, p, c){
 function accentFromId(node){
     if(!node.accent){
 		var nodeIdPref = node.id.split('_')[0];
-		if(['a', 'A', 'u', 'U'].indexOf(nodeIdPref)>=0){
-			node.accent = nodeIdPref;
+		if(['a', 'A'].indexOf(nodeIdPref)>=0){
+			node.accent = true;
+		}
+		else{
+			node.accent = false;
 		}
 			
 	}
