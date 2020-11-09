@@ -22,12 +22,21 @@ function runConstraintTest(skipSetUp) {
                 assert(savedString.search(regex) > 0, value + " was not saved!");
             }
         });
+        
         it("Clear", function () {
             clearAnalysis();
             for(let constraint of constraints){
                 assert(!constraint.checked, constraint.value + " was not cleared!");
             }
         });
+
+        it("Load", function () {
+            my_built_in_analysis({}, false, {}, savedConstraints);
+            for(let constraint of constraints) {
+                assert(constraint.checked, constraint.value + " did not load!");
+            }
+        });
     });
+
     mocha.run();
 }
