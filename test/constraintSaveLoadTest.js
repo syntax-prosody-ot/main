@@ -3,11 +3,15 @@
 function runConstraintTest(skipSetUp) {
     if(!skipSetUp) {setUpInterfaceTest();}
     describe("Pitch accent Save/Load/Clear", function() {
-        let fieldset = document.getElementById("pitch_accent_fieldset");
-        let constraints = fieldset.querySelectorAll('[name="constraints"]');
-        let values = [];
-        let savedConstraints;
+        let savedConstraints, constraints;
+
+        beforeEach(function() {
+            constraints = document.getElementById("pitch_accent_fieldset")
+                .querySelectorAll('[name="constraints"]');
+        });
+        
         it("Save", function() {
+            let values = [];
             for(let constraint of constraints) {
                 constraint.click();
                 values.push(constraint.value);
