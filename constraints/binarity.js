@@ -61,9 +61,10 @@ function binMaxBranches(s, ptree, cat, n){
 }
 
 //A combined binarity constraint (branch-counting)
-function binBranches(stree, ptree, cat){
+function binBranches(stree, ptree, cat, n){
+	n = n || 2
 	var minCount = binMinBranches(stree, ptree, cat);
-	var maxCount = binMaxBranches(stree, ptree, cat);
+	var maxCount = binMaxBranches(stree, ptree, cat, n);
 	return minCount+maxCount;
 }
 
@@ -97,24 +98,26 @@ function binMaxBrCatSensitive(s, ptree, cat){
 
 //sensitive to the category of the parent only (2 branches of any type is acceptable)
 //gradient evaluation: assigns 1 violation for every child past the first 2 ("third-born" or later)
-function binMaxBranchesGradient(s, ptree, cat){
+function binMaxBranchesGradient(s, ptree, cat, n){
+	n = n || 2;
 	var vcount = 0;
 	if(ptree.children && ptree.children.length){
 		var numChildren = ptree.children.length;
-		if(ptree.cat === cat && numChildren>2){
-			var excessChildren = numChildren - 2;
+		if(ptree.cat === cat && numChildren>n){
+			var excessChildren = numChildren - n;
 			//logreport(excessChildren+ " VIOLATION(s): "+ptree.id+" has "+numChildren+" children!");
 			vcount += excessChildren;
 		}
 		for(var i = 0; i<ptree.children.length; i++){
-			vcount += binMaxBranchesGradient(s, ptree.children[i], cat);
+			vcount += binMaxBranchesGradient(s, ptree.children[i], cat, n);
 		}
 	}
 	return vcount;
 }
 
-function binBrGradient(s, ptree, cat){
-	return binMaxBranchesGradient(s, ptree, cat)+binMinBranches(s, ptree, cat);
+function binBrGradient(s, ptree, cat, n){
+	n = n || 2;
+	return binMaxBranchesGradient(s, ptree, cat, n)+binMinBranches(s, ptree, cat);
 }
 
 /*TRUCKENBRODT-STYLE BINARITY*/
