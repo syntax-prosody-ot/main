@@ -370,8 +370,7 @@
         });
 
         describe(parenthesizeTree(ptree5) + ' Ptree5 Binarity Testing   ' , function() {
-
-
+            // test on cat: phi
             it('binMaxLeaves(phi)', function() {
                 assert.equal(binMaxLeaves({},ptree5,'phi'), 0);
             });
@@ -386,6 +385,22 @@
 
             it('binMinBranches(phi)', function() {
                 assert.equal(binMinBranches({},ptree5,'phi'), 3);
+            });
+            // test on cat: i
+            it('binMaxLeaves(i): 2 violations bc 2 coextesive nodes of cat: i contain 3 phis', function() {
+                assert.equal(binMaxLeaves({},ptree5,'i'), 2);
+            });
+
+            it('binMaxBranches(i)', function() {
+                assert.equal(binMaxBranches({},ptree5,'i'),1);
+            });
+
+            it('binMinLeaves(i)', function() {
+                assert.equal(binMinLeaves({},ptree5,'i'), 0);
+            });
+
+            it('binMinBranches(i): one violation bc of the vacuous recursion at the top', function() {
+                assert.equal(binMinBranches({},ptree5,'i'), 1);
             });
         });
 
