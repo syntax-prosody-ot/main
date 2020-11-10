@@ -38,10 +38,10 @@
      describe('"Describe" blocks show up as headers', function() {
 
 it('"It" blocks show up as individual tests', function() {
-    assert.equal(binMaxLeaves({},ptree1,'phi'), 1);
-    assert.equal(binMaxBranches({},ptree1,'phi'),0);
-    assert.equal(binMinLeaves({},ptree1,'phi'), 0);
-    assert.equal(binMinBranches({},ptree1,'phi'), 0);
+    assert.equal(binMaxLeaves({},timAndMaxTree1,'phi'), 1);
+    assert.equal(binMaxBranches({},timAndMaxTree1,'phi'),0);
+    assert.equal(binMinLeaves({},timAndMaxTree1,'phi'), 0);
+    assert.equal(binMinBranches({},timAndMaxTree1,'phi'), 0);
 });
 
 it('"It" blocks show up as individual tests', function() {
@@ -74,7 +74,7 @@ it('"It" blocks show up as individual tests', function() {
 });
 
 // For ptree = ((a b)(c d)),
-    var ptree1 =    {
+    var timAndMaxTree1 =    {
         "id": "root",
         "cat": "i",
         "children": [
