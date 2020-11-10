@@ -235,9 +235,30 @@
             }
         ]
     };
+
+    // ptree (a.syll b.syll c)
+    var ptree6 =     {
+        "id": "root",
+        "cat": "phi",
+        "children": [
+                    {
+                        "id": "a",
+                        "cat": "syll"
+                    },
+                    {
+                        "id": "b",
+                        "cat": "syll"
+                    },
+                    {
+                        "id": "c",
+                        "cat": "w"
+                    }
+                ]
+        };
+
         describe('Binarity Testing by Constraint (All Ptrees at once)', function() {
 
-            it('binMaxLeaves Test', function() {
+            it('binMaxLeaves(phi)', function() {
                 assert.equal(binMaxLeaves({},ptree1,'phi'), 1, parenthesizeTree(ptree1));
                 assert.equal(binMaxLeaves({},ptree2,'phi'), 2, parenthesizeTree(ptree2));
                 assert.equal(binMaxLeaves({},ptree3,'phi'), 0, parenthesizeTree(ptree3));
@@ -245,7 +266,7 @@
                 assert.equal(binMaxLeaves({},ptree5,'phi'), 0, parenthesizeTree(ptree5));
             });
 
-            it('binMaxBranches Test', function() {
+            it('binMaxBranches(phi)', function() {
                 assert.equal(binMaxBranches({},ptree1,'phi'),0, parenthesizeTree(ptree1));
                 assert.equal(binMaxBranches({},ptree2,'phi'),0, parenthesizeTree(ptree2));
                 assert.equal(binMaxBranches({},ptree3,'phi'),0, parenthesizeTree(ptree3));
@@ -253,7 +274,7 @@
                 assert.equal(binMaxBranches({},ptree5,'phi'),0, parenthesizeTree(ptree5));
             });
 
-            it('binMinLeaves Test', function() {
+            it('binMinLeaves(phi)', function() {
                 assert.equal(binMinLeaves({},ptree1,'phi'), 0, parenthesizeTree(ptree1));
                 assert.equal(binMinLeaves({},ptree2,'phi'), 1, parenthesizeTree(ptree2));
                 assert.equal(binMinLeaves({},ptree3,'phi'), 0, parenthesizeTree(ptree3));
@@ -261,7 +282,7 @@
                 assert.equal(binMinLeaves({},ptree5,'phi'), 3, parenthesizeTree(ptree5));
             });
 
-            it('binMinBranches Test', function() {
+            it('binMinBranches(phi)', function() {
                 assert.equal(binMinBranches({},ptree1,'phi'), 0, parenthesizeTree(ptree1));
                 assert.equal(binMinBranches({},ptree2,'phi'), 1, parenthesizeTree(ptree2));
                 assert.equal(binMinBranches({},ptree3,'phi'), 0, parenthesizeTree(ptree3));
@@ -270,21 +291,21 @@
             });
         });
        
-            describe(parenthesizeTree(ptree1) + ' Ptree1 Binarity Testing   ' , function() {
+        describe(parenthesizeTree(ptree1) + ' Ptree1 Binarity Testing   ' , function() {
 
-            it('binMaxLeaves Test', function() {
+            it('binMaxLeaves(phi)', function() {
                 assert.equal(binMaxLeaves({},ptree1,'phi'), 1);
             });
 
-            it('binMaxBranches Test', function() {
+            it('binMaxBranches(phi)', function() {
                 assert.equal(binMaxBranches({},ptree1,'phi'),0);
             });
 
-            it('binMinLeaves Test', function() {
+            it('binMinLeaves(phi)', function() {
                 assert.equal(binMinLeaves({},ptree1,'phi'), 0);
             });
 
-            it('binMinBranches Test', function() {
+            it('binMinBranches(phi)', function() {
                 assert.equal(binMinBranches({},ptree1,'phi'), 0);
             });
         });
@@ -292,38 +313,38 @@
         
         describe(parenthesizeTree(ptree2) + ' Ptree2 Binarity Testing   ' , function() {
 
-            it('binMaxLeaves Test', function() {
+            it('binMaxLeaves(phi)', function() {
                 assert.equal(binMaxLeaves({},ptree2,'phi'), 2);
             });
 
-            it('binMaxBranches Test', function() {
+            it('binMaxBranches(phi)', function() {
                 assert.equal(binMaxBranches({},ptree2,'phi'),0);
             });
 
-            it('binMinLeaves Test', function() {
+            it('binMinLeaves(phi)', function() {
                 assert.equal(binMinLeaves({},ptree2,'phi'), 1);
             });
 
-            it('binMinBranches Test', function() {
+            it('binMinBranches(phi)', function() {
                 assert.equal(binMinBranches({},ptree2,'phi'), 1);
             });
         });
 
         describe(parenthesizeTree(ptree3) + ' Ptree3 Binarity Testing   ' , function() {
 
-            it('binMaxLeaves Test', function() {
+            it('binMaxLeaves(phi)', function() {
                 assert.equal(binMaxLeaves({},ptree3,'phi'), 0);
             });
 
-            it('binMaxBranches Test', function() {
+            it('binMaxBranches(phi)', function() {
                 assert.equal(binMaxBranches({},ptree3,'phi'),0);
             });
 
-            it('binMinLeaves Test', function() {
+            it('binMinLeaves(phi)', function() {
                 assert.equal(binMinLeaves({},ptree3,'phi'), 0);
             });
 
-            it('binMinBranches Test', function() {
+            it('binMinBranches(phi)', function() {
                 assert.equal(binMinBranches({},ptree3,'phi'), 0);
             });
         });
@@ -331,19 +352,19 @@
         describe(parenthesizeTree(ptree4) + ' Ptree4 Binarity Testing   ' , function() {
 
 
-            it('binMaxLeaves Test', function() {
+            it('binMaxLeaves(phi)', function() {
                 assert.equal(binMaxLeaves({},ptree4,'phi'), 3);
             });
 
-            it('binMaxBranches Test', function() {
+            it('binMaxBranches(phi)', function() {
                 assert.equal(binMaxBranches({},ptree4,'phi'),2);
             });
 
-            it('binMinLeaves Test', function() {
+            it('binMinLeaves(phi)', function() {
                 assert.equal(binMinLeaves({},ptree4,'phi'), 0);
             });
 
-            it('binMinBranches Test', function() {
+            it('binMinBranches(phi)', function() {
                 assert.equal(binMinBranches({},ptree4,'phi'), 0);
             });
         });
@@ -351,20 +372,39 @@
         describe(parenthesizeTree(ptree5) + ' Ptree5 Binarity Testing   ' , function() {
 
 
-            it('binMaxLeaves Test', function() {
+            it('binMaxLeaves(phi)', function() {
                 assert.equal(binMaxLeaves({},ptree5,'phi'), 0);
             });
 
-            it('binMaxBranches Test', function() {
+            it('binMaxBranches(phi)', function() {
                 assert.equal(binMaxBranches({},ptree5,'phi'),0);
             });
 
-            it('binMinLeaves Test', function() {
+            it('binMinLeaves(phi)', function() {
                 assert.equal(binMinLeaves({},ptree5,'phi'), 3);
             });
 
-            it('binMinBranches Test', function() {
+            it('binMinBranches(phi)', function() {
                 assert.equal(binMinBranches({},ptree5,'phi'), 3);
+            });
+        });
+
+        describe(parenthesizeTree(ptree6) + ' Ptree6 Binarity Testing   ' , function() {
+
+            it('binMaxLeaves(phi): no violations because there is only one node of category phi-1 = w', function() {
+                assert.equal(binMaxLeaves({},ptree6,'phi'), 0);
+            });
+
+            it('binMaxBranches(phi): 1 violation bc there is a phi with 3 branches', function() {
+                assert.equal(binMaxBranches({},ptree6,'phi'),1);
+            });
+
+            it('binMinLeaves(phi): 1 violation bc there is a phi with only one w', function() {
+                assert.equal(binMinLeaves({},ptree6,'phi'), 1);
+            });
+
+            it('binMinBranches(phi): no violation bc the phi has >1 branch', function() {
+                assert.equal(binMinBranches({},ptree6,'phi'), 0);
             });
         });
 
