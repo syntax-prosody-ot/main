@@ -1,10 +1,10 @@
 // Chamorro clitic analysis trees
 
-var chamorro_clitic_trees = 
+var chamorro_clitic_trees =
    [
     {
         "id": "TP",
-        "cat": "cp",
+        "cat": "xp",
         "children": [
             {
                 "cat": "xp",
@@ -53,7 +53,7 @@ var chamorro_clitic_trees =
     },
     {
         "id": "TP",
-        "cat": "cp",
+        "cat": "xp",
         "children": [
             {
                 "cat": "xp",
@@ -69,7 +69,7 @@ var chamorro_clitic_trees =
                                 "id": "XP_4",
                                 "children": [
                                     {
-                                        "id": "man-suetti-n_taotao",
+                                        "id": "man_suetti_n_taotao",
                                         "cat": "x0"
                                     }
                                 ]
@@ -92,7 +92,7 @@ var chamorro_clitic_trees =
     },
     {
         "id": "TP",
-        "cat": "cp",
+        "cat": "xp",
         "children": [
             {
                 "cat": "xp",
@@ -151,7 +151,7 @@ var chamorro_clitic_trees =
     },
     {
         "id": "TP",
-        "cat": "cp",
+        "cat": "xp",
         "children": [
             {
                 "cat": "xp",
@@ -194,7 +194,7 @@ var chamorro_clitic_trees =
     },
     {
         "id": "TP",
-        "cat": "cp",
+        "cat": "xp",
         "children": [
             {
                 "cat": "xp",
@@ -206,7 +206,7 @@ var chamorro_clitic_trees =
                         "id": "XP_4",
                         "children": [
                             {
-                                "id": "ma'estro-nna",
+                                "id": "ma'estro_nna",
                                 "cat": "x0"
                             }
                         ]
@@ -237,7 +237,7 @@ var chamorro_clitic_trees =
     },
     {
         "id": "TP",
-        "cat": "cp",
+        "cat": "xp",
         "children": [
             {
                 "cat": "xp",
@@ -246,7 +246,7 @@ var chamorro_clitic_trees =
                 "children": [
                     {
                         "cat": "xp",
-                        "id": "XP_9",
+                        "id": "NP",
                         "children": [
                             {
                                 "cat": "cp",
@@ -265,7 +265,7 @@ var chamorro_clitic_trees =
                                                 "id": "VP",
                                                 "children": [
                                                     {
-                                                        "id": "ya-hu",
+                                                        "id": "ya_hu",
                                                         "cat": "x0"
                                                     }
                                                 ]
@@ -302,7 +302,7 @@ var chamorro_clitic_trees =
     },
     {
         "id": "TP",
-        "cat": "cp",
+        "cat": "xp",
         "children": [
             {
                 "cat": "xp",
@@ -336,7 +336,7 @@ var chamorro_clitic_trees =
                                         "id": "XP_8",
                                         "children": [
                                             {
-                                                "id": "na_chi'lu-hu",
+                                                "id": "na_chi'lu_hu",
                                                 "cat": "x0"
                                             }
                                         ]
@@ -371,7 +371,7 @@ var chamorro_clitic_trees =
     },
         /*{
         "id": "TP",
-        "cat": "cp",
+        "cat": "xp",
         "children": [
             {
                 "cat": "xp",
@@ -406,7 +406,7 @@ var chamorro_clitic_trees =
                                         "id": "XP_8",
                                         "children": [
                                             {
-                                                "id": "na_chi'lu-hu",
+                                                "id": "na_chi'lu_hu",
                                                 "cat": "x0"
                                             }
                                         ]
@@ -441,7 +441,7 @@ var chamorro_clitic_trees =
     },*/
     {
         "id": "TP",
-        "cat": "cp",
+        "cat": "xp",
         "children": [
             {
                 "cat": "xp",
@@ -495,7 +495,7 @@ var chamorro_clitic_trees =
         ]
     },
                     {
-                        "cat": "cp",
+                        "cat": "xp",
                         "id": "TP",
                         "children": [
                             {
@@ -508,7 +508,7 @@ var chamorro_clitic_trees =
                                         "id": "NP",
                                         "children": [
                                             {
-                                                "id": "patgon-na",
+                                                "id": "patgon_na",
                                                 "cat": "x0"
                                             }
                                         ]
@@ -529,7 +529,7 @@ var chamorro_clitic_trees =
                     },
     {
         "id": "TP",
-        "cat": "cp",
+        "cat": "xp",
         "children": [
             {
                 "cat": "xp",
@@ -590,8 +590,8 @@ var chamorro_clitic_trees =
         ]
     }
     /*{
-        "id": "CP1",
-        "cat": "cp",
+        "id": "xp1",
+        "cat": "xp",
         "children": [
             {
                 "cat": "xp",
@@ -621,7 +621,7 @@ var chamorro_clitic_trees =
                                         "id": "NP",
                                         "children": [
                                             {
-                                                "id": "patgon-na",
+                                                "id": "patgon_na",
                                                 "cat": "x0"
                                             }
                                         ]

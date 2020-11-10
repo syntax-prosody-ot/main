@@ -20,7 +20,7 @@
 	
 
 	<!--Change "YOUR_TREES_HERE" to the name of your tree file on the following line. Make sure your file is in main/trees-->
-	<script src="../trees/Elfner2012_irish_trees.js"></script>
+	<script src="../trees/abstractIrishTrees.js"></script>
 				
 </head>
 
@@ -30,37 +30,33 @@
 
 <script>
 	// ---- Variables that need to be customized ----
-	//var sTreeList = [vs_tree, vss_tree, vso_tree, vsso_tree, vsoo_tree, vssoo_tree];
 
-	var sTreeList = [vss_tree, vsso_tree, vsoo_tree, vssoo_tree];
+	//var sTreeList = [v20, v11, v21, v12, v22];
+	var sTreeList = [v20, v11, v30, v21, v12, v31, v22, v13, v32, v23, v33];
 	
 	/*Constraint sets are defined below. You can change these or add your own. A constraint set is a list of constraint function names (refer to the files in constraints.js for names) + category arguments (separated from constraint names with -; refer to prosodicHierarchy.js for a list of defined categories).*/
-	var irishCon1 = ['matchSP-xp', 'matchPS-phi', 'equalSistersAdj-phi', 'binMinBranches-phi', 
-						'binMaxBranches-phi', 'binMax2Words-phi',
-	'strongStart_Elfner-w', 'matchXPmax-xp', 'alignLeft-xp', 'alignRight-xp'];
-						
-	var irishCon2 = ['matchSP-xp', 'binMinBranches-phi', 'nonRec1-phi'];
 	
-	var irishCon3 = ['matchSP-xp', 'binBranches-phi', 'strongStart_Elfner-w'];
+	var m_irish_ssE = ['matchSP-xp', 'matchPS-phi', 'binMaxBranches-phi', 'strongStart_Elfner-w'];
+		
+	var m_oh_irish_ssE = ['matchSP-xp-{"requireOvertHead": true}', 'matchSP-xp', 'matchPS-phi', 'binMaxBranches-phi', 'strongStart_Elfner-w'];
 	
-	var irishCon4 = ['alignLeft-xp', 'alignRight-xp', 'wrap-xp', 'binMinBranches-phi', 'nonRec1-phi'];
+	var aw_irish_ssE = ['alignLeft-xp', 'alignRight-xp', 'wrap-xp', 'binMinBranches-phi', 'strongStart_Elfner-w', 'binMaxBrCatSensitive-phi', 'starCat-phi'];
 	
-	var irishCon5 = ['alignLeft-xp', 'alignRight-xp', 'wrap-xp', 'binBranches-phi', 'strongStart_Elfner-w'];
+	var aw_oh_irish_ssE = ['alignLeft-xp-{"requireOvertHead": true}', 'alignRight-xp-{"requireOvertHead": true}', 'wrap-xp-{"requireOvertHead": true}', 'binMinBranches-phi', 'strongStart_Elfner-w', 'binMaxBrCatSensitive-phi', 'starCat-phi'];
 	
-	var irishCon6 = ['matchXPmax-xp', 'matchSP-xp', 'binBranches-phi', 'nonRecTruckenbrodt-phi'];
+	var m_irish_ssJ = ['matchSP-xp', 'matchPS-phi', 'binMaxBranches-phi', 'strongStart-phi'];
+		
+	var m_oh_irish_ssJ = ['matchSP-xp-{"requireOvertHead": true}', 'matchSP-xp', 'matchPS-phi', 'binMaxBranches-phi', 'strongStart-phi'];
 	
-	var kiCon = ['matchSP-xp', 'binBranches-phi', 'nonRecTruckenbrodt-phi'];
+	var aw_irish_ssJ = ['alignLeft-xp', 'alignRight-xp', 'wrap-xp', 'binMinBranches-phi', 'strongStart-phi', 'binMaxBrCatSensitive-phi', 'starCat-phi'];
 	
-	var radical = ['alignLeft-xp', 'alignRight-xp', 'wrap-xp'];
-	
-						
-	//var conOther = ['constraint1-xp','constraint2-phi', 'constraint3-w', 'etc-i'];
-	
+	var aw_oh_irish_ssJ = ['alignLeft-xp-{"requireOvertHead": true}', 'alignRight-xp-{"requireOvertHead": true}', 'wrap-xp-{"requireOvertHead": true}', 'binMinBranches-phi', 'strongStart-phi', 'binMaxBrCatSensitive-phi', 'starCat-phi'];
+							
 	/*A list of names for constraint sets.*/
-    var conNames = ['radical'];
+    var conNames = ['m_oh_irish_ssE'];
 	
 	//Candidate sets are generated with the options below.
-	var gen_options = {obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: false, addTones: false};
+	var gen_options = {obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: true, addTones: false, noUnary: true};
 
 	
 	

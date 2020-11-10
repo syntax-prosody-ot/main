@@ -1,12 +1,64 @@
 /* Built-in Analyses */
 
+function clearInputs(){
+  let inputOptions = spotForm['autoInputOptions'];
+  //document.getElementById('inputOptions');
+
+  spotForm['autoInputOptions-rootCategory'].value = 'xp';
+  spotForm['autoInputOptions-recursiveCategory'].value = 'xp';
+  spotForm['autoInputOptions-terminalCategory'].value = 'x0';
+
+  for(let i = 0; i<inputOptions.length; i++){
+    if(inputOptions[i].checked){
+      inputOptions[i].click();
+    }
+  }
+
+  spotForm['head-req'].value = 'select';
+
+  if(document.getElementById('add-clitics').checked){
+    document.getElementById('add-clitics').click();
+  }
+
+  let inputStrings = spotForm['inputToGenAuto'];
+
+  if(inputStrings.length){
+    for(let i = 0; i<inputStrings.length; i++){
+      inputStrings[i].value = '';
+      if(i>0){
+        inputStrings[i].parentElement.remove();
+      }
+    }
+  }
+  else{
+    inputStrings.value = '';
+  }
+
+  let inputTerminals = document.getElementsByName('genStringsInput');
+
+  inputTerminals[0].value = '';
+  document.getElementsByName('genStringsMin')[0].value = '';
+  document.getElementsByName('genStringsMax')[0].value = '';
+
+  while(inputTerminals.length > 1) {
+    inputTerminals[inputTerminals.length - 1].parentElement.remove();
+  }
+
+  changeInputTabs('inputButton', 'goButton');
+}
+
 /*function to clear out any previous interaction with the interface, either from
  * the user or from another built-in alalysis. */
 function clearAnalysis(){
   var genOptions = document.getElementsByName("genOptions");
   var hideCategories = document.getElementsByName('hideCategory');
   var constraints = document.getElementsByName("constraints");
+  var conOptions;
   var fieldsets = document.getElementsByTagName("fieldset");
+  var showMoreDivs = document.getElementsByClassName('more-constraints');
+
+  //restrict branches text should default to 2, I think
+  spotForm['maxBranchingValue'].value = 2;
 
   //reset gen options
   for(var i = 0; i<genOptions.length; i++){
@@ -30,6 +82,21 @@ function clearAnalysis(){
     if(constraints[i].checked){
       constraints[i].click();
     }
+    //reset constraint options
+    conOptions = document.getElementsByName("option-"+constraints[i].value);
+    if(conOptions.length){
+      for(var z = 0; z < conOptions.length; z++){
+        //set checkboxes to unchecked
+        if(conOptions[z].type == "checkbox"){
+          conOptions[z].checked = false;
+        }
+        //set drop-down selectors to "any"
+        else if(conOptions[z].tagName === "SELECT"){
+          //all of the drop-down constraint options default to "any" as of 2/1/20 -MT
+          conOptions[z].value = "any";
+        }
+      }
+    }
   }
 
   for(var i = 0; i<fieldsets.length; i++){
@@ -38,8 +105,19 @@ function clearAnalysis(){
 
 
   }
+  for(var i = 0; i<showMoreDivs.length; i++){
+    showMoreDivs[i].style.display = 'none';
+  }
   window.clearUTrees();
   document.getElementById("stree-textarea").value = '{}';
+  document.getElementById("autoTreeBox").innerHTML = '';
+  if(document.getElementById("syntax-tree-switch").checked){
+    document.getElementById("syntax-tree-switch").click();
+  }
+  changeInputTabs('inputButton', 'goButton');
+  
+  clearInputs();
+
 }
 
 /* Function to check all of the boxes for a built-in constaint set in the UI
@@ -72,6 +150,14 @@ function built_in_con(input){
           }
           //open the fieldset
           conFields[x].setAttribute("class", "open");
+          //open "show more", if the constraint belongs to it
+          var showMoreDivs = document.getElementsByClassName("more-constraints");
+          for(var q = 0; q<showMoreDivs.length; q++){
+            if(showMoreDivs[q].contains(con_boxes[y])){
+              showMoreDivs[q].style.display = "block";
+            }
+          }
+
           cat_boxes = document.getElementsByName("category-"+input[i].name);
           for(var z = 0; z < cat_boxes.length; z++){
             //used to test if constraint has been used before:
@@ -101,11 +187,26 @@ function built_in_con(input){
       if(optionBoxes.length){
         //iterate over option checkboxes corresponding to this input
         for(var x in optionBoxes){
-          if(input[i].options[optionBoxes[x].value]){
-            optionBoxes[x].checked = true;
+          //dealing with checkboxes
+          if(optionBoxes[x].type === "checkbox"){
+            if(input[i].options[optionBoxes[x].value]){
+              optionBoxes[x].checked = true;
+            }
+            else{
+              optionBoxes[x].checked = false;
+            }
           }
-          else{
-            optionBoxes[x].checked = false;
+          //if not a checkbox, it should be a selector
+          else if(optionBoxes[x].tagName === "SELECT"){
+            var child = optionBoxes[x].getElementsByTagName("option");
+            //iterate over options in the select tag
+            for(var count = 0; count < child.length; count++){
+              if(input[i].options[child[count].value]){
+                /*if the input options contain reference to the options inside
+                this selector, set this selector to that option value */
+                optionBoxes[x].value = child[count].value;
+              }
+            }
           }
         }
       }
@@ -119,7 +220,83 @@ function built_in_con(input){
   }
 }
 
+function built_in_input(myTrees){
+  if(Array.isArray(myTrees)){ //manual trees
+    //First, shows the tree UI & the code view
+    changeInputTabs('inputButton', 'goButton');
+  
+    for(var i = 0; i < myTrees.length; i++){
+      var myUTree = new UTree(myTrees[i]);
+      window.showUTree(myUTree);
+    }
+    document.getElementById("htmlToJsonTreeButton").click();
+    //document.getElementById("tree-code-box").click();
+    //Then paste trees in
+    //document.getElementById("stree-textarea").value = JSON.stringify(myTrees);
+  
+  }
+  else if (Object.keys(myTrees).length){
+    //First make sure we are in auto mode and open syntax options
+    changeInputTabs('goButton', 'inputButton');
+    document.getElementById('syntax-parameters').setAttribute('class', 'open');
 
+    for(let x = 0; x<spotForm.autoInputOptions.length; x++){
+      const autoBox = spotForm.autoInputOptions[x];
+      if(myTrees.autoInputOptions[autoBox.value] && !autoBox.checked){
+        autoBox.click();
+      }
+    }
+
+    if(myTrees.inputToGenAuto.length<2){
+      spotForm.inputToGenAuto.value = myTrees.inputToGenAuto[0];
+    }
+    else{
+      for(let x = 0; x<myTrees.inputToGenAuto.length; x++){
+        if(!spotForm.inputToGenAuto.length || spotForm.inputToGenAuto.length<myTrees.inputToGenAuto.length){
+          document.getElementById('addString').click();
+        }
+        spotForm.inputToGenAuto[x].value = myTrees.inputToGenAuto[x];
+      }
+    }
+
+    if(myTrees['autoInputOptions-addClitics']){
+      if(!spotForm['autoInputOptions-addClitics'][0].checked){
+        spotForm['autoInputOptions-addClitics'][0].click();
+      }
+      spotForm['autoInputOptions-addClitics'].value = myTrees['autoInputOptions-addClitics'];
+    }
+
+    for(const i in myTrees){
+      if(typeof myTrees[i] === 'string'){
+        spotForm[i].value = myTrees[i];
+      }
+    }
+
+    if(myTrees.terminalStrings && myTrees.terminalStrings.length){
+      document.getElementById("stringGeneration").setAttribute('class', 'open');
+
+      const terminalStrings = myTrees.terminalStrings;
+
+      const strGENboxes = document.getElementsByName('genStringsInput');
+      const strMinBoxes = document.getElementsByName('genStringsMin');
+      const strMaxBoxes = document.getElementsByName('genStringsMax');
+
+      //clicks 'add list of terminals' until there enough divs for the analysis at hand
+      while(document.getElementsByName('genStringsInput').length < terminalStrings.length){
+        document.getElementById('addList').click();
+      }
+      for(let i = 0; i < terminalStrings.length; i++){
+        strGENboxes[i].value = terminalStrings[i].genStringsInput;
+        strMinBoxes[i].value = terminalStrings[i].genStringsMin;
+        strMaxBoxes[i].value = terminalStrings[i].genStringsMax
+      }
+
+      document.getElementById("genStringsDoneButton").click();
+    }
+
+    document.getElementById('autoGenDoneButton').click();
+  }
+}
 
 /*Template for built-in analyses
 * Arguments:
@@ -141,6 +318,10 @@ function my_built_in_analysis(myGEN, showTones, myTrees, myCon){
     var optVal = myGEN[genBoxes[box].value];
     if(optVal===true){
       genBoxes[box].checked = true;
+    }
+    if(genBoxes[box].value==='maxBranching' && typeof(optVal) == "string"){
+      genBoxes[box].click();
+      spotForm['maxBranchingValue'].value = optVal;
     }
     if(optVal instanceof Array && genBoxes[box].value==='obeysExhaustivity'){
       var exhaustivityBox = document.getElementById("exhaustivityBox");
@@ -191,18 +372,9 @@ function my_built_in_analysis(myGEN, showTones, myTrees, myCon){
   //Step 2: CON. Call a helper function to select the appropriate constraints & categories.
   built_in_con(myCon);
 
-  //Step 3: Trees
-  //First, shows the tree UI & the code view
-  document.getElementById("treeUI").style.display = "block";
-  for(var i = 0; i < myTrees.length; i++){
-	  var myUTree = new UTree(myTrees[i]);
-	  window.showUTree(myUTree);
-  }
-  document.getElementById("htmlToJsonTreeButton").click();
-  //document.getElementById("tree-code-box").click();
-  //Then paste trees in
-  //document.getElementById("stree-textarea").value = JSON.stringify(myTrees);
-
+  //Step 3: Trees Call a helper function
+  built_in_input(myTrees);
+  
   // Step 4: If showTones is not false, the tableaux will be annotated with tones.
   if(showTones){
     var toneCheckbox = document.getElementById("annotatedWithTones");
@@ -256,7 +428,7 @@ function built_in_Japanese_IM2017(){
 
 //cf. analysis_html_files/abstractMatchAnalysis.html. Japanese rebracketing project, Kalivoda 2019.
 function built_in_Japanese_rebracketing(n){
-  var gen = {obeysExhaustivity: true, requireRecWrapper: true};
+  var gen = {obeysExhaustivity: true, requireRecWrapper: true, rootCategory: "phi"};
   var pwfcs = [{name: 'binMinBranches', cat:'phi'}, {name:'binMaxBranches', cat:'phi'}, {name:'binMaxLeaves', cat:'phi'}];
   var mapping = [{name: 'matchSP', cat:'xp'}, {name:'matchPS', cat:'phi'}, {name: 'alignRight', cat:'xp'}, {name: 'alignLeft', cat:'xp'}, {name: 'alignRightPS', cat:'phi'}, {name: 'alignLeftPS', cat:'phi'}];
   var jtrees = [tree_3w_1, tree_3w_2, tree_4w_1, tree_4w_2, tree_4w_3, tree_4w_4, tree_4w_5];
@@ -384,6 +556,9 @@ function record_analysis(){
     else if(option.value === "usesTones" && option.checked){
       analysis.showTones = spotForm.toneOptions.value;
     }
+    else if(option.value === 'maxBranching' && option.checked){
+      analysis.myGEN.maxBranching = spotForm['maxBranchingValue'].value;
+    }
     else if(option.checked){
       analysis.myGEN[option.value] = true;
     }
@@ -402,8 +577,75 @@ function record_analysis(){
     }
   }
 
-  //myTrees
-  analysis.myTrees = JSON.parse(document.getElementById("stree-textarea").value);
+  //myTrees: manual
+  if(document.getElementById('treeUI').style.display == 'block'){
+    analysis.myTrees = JSON.parse(document.getElementById("stree-textarea").value);
+  }
+  //myTrees: auto
+  else if(document.getElementById('inputOptions').style.display == 'block'){
+    analysis.myTrees = {};
+    analysis.myTrees.autoInputOptions = {};
+    for(let i = 0; i<spotForm.autoInputOptions.length; i++){
+      if(spotForm.autoInputOptions[i].checked){
+        analysis.myTrees.autoInputOptions[spotForm.autoInputOptions[i].value] = true;
+      }
+    }
+    if(spotForm['autoInputOptions-addClitics'][0].checked){
+      analysis.myTrees['autoInputOptions-addClitics'] = spotForm['autoInputOptions-addClitics'].value;
+    }
+    analysis.myTrees['autoInputOptions-rootCategory'] = spotForm['autoInputOptions-rootCategory'].value;
+    analysis.myTrees['autoInputOptions-recursiveCategory'] = spotForm['autoInputOptions-recursiveCategory'].value;
+    analysis.myTrees['autoInputOptions-terminalCategory'] = spotForm['autoInputOptions-terminalCategory'].value;
+    
+    analysis.myTrees['head-req'] = spotForm['head-req'].value;
+
+    if(spotForm.inputToGenAuto.length){
+      analysis.myTrees.inputToGenAuto = [];
+      for(let i = 0; i<spotForm.inputToGenAuto.length; i++){
+        analysis.myTrees.inputToGenAuto.push(spotForm.inputToGenAuto[i].value);
+      }
+    }
+    else {
+      analysis.myTrees.inputToGenAuto = [spotForm.inputToGenAuto.value];
+    }
+
+    // GEN input strings
+
+    const strGENboxes = document.getElementsByName('genStringsInput');
+    const strMinBoxes = document.getElementsByName('genStringsMin');
+    const strMaxBoxes = document.getElementsByName('genStringsMax');
+
+    //if there are a different number of these boxes, you will get weird results
+    //this should never happen, though, unless the interface is broken
+    if(strGENboxes.length !== strMinBoxes.length || strGENboxes.length !== strMaxBoxes.length){
+      const err = new Error("Missing interface element");
+      displayError("Error: " + err.message + '. Interface is broken at "Generate Combinations and \
+      Permutations and cannot be saved at this time.');
+      throw err;
+    }
+
+    analysis.myTrees.terminalStrings = [];
+
+    for(let i = 0; i < strGENboxes.length; i++){
+
+      const terminals = strGENboxes[i].value;
+      const min = strMinBoxes[i].value;
+      const max = strMaxBoxes[i].value;
+
+      if(terminals || min || max){
+        analysis.myTrees.terminalStrings.push({
+          genStringsInput: terminals ?? '',
+          genStringsMin: min ?? '',
+          genStringsMax: max ?? '',
+        });
+      }
+    }
+
+  }
+  else {
+    displayError('GEN input not found');
+    throw new Error('GEN input not found');
+  }
 
   //myCon
   var uCon = spotForm.constraints;
@@ -443,12 +685,24 @@ function record_analysis(){
       if(conOptions.length){
         //iterate over the options for this match constraint
         for(var x = 0; x<conOptions.length; x++){
-          optionableCon.options[conOptions[x].value] = conOptions[x].checked;
+          //if this option is a checkbox, record if it is checked
+          if(conOptions[x].type == "checkbox"){
+            optionableCon.options[conOptions[x].value] = conOptions[x].checked;
+          }
+          //if this option is a drop-down selector, record its value so long as it is not default
+          else if(conOptions[x].tagName === "SELECT" && conOptions[x].value != "any"){
+            optionableCon.options[conOptions[x].value] = true;
+          }
         }
       }
       else{
         //when there is only one option
-        optionableCon.options[conOptions.value] = conOptions.checked;
+        if(conOptions.type == "checkbox"){
+          optionableCon.options[conOptions.value] = conOptions.checked;
+        }
+        else if(conOptions.tagName === "SELECTOR"){
+          optionableCon.options[conOptions.value] = true;
+        }
       }
     }
   }
@@ -494,9 +748,8 @@ function loadAnalysis(file){
         document.getElementById("chooseFilePrompt").style = "display: none";
       }
       catch(err){
-        //error handeling:
-        console.error("File does not follow SPOT format:");
-        console.error(err);
+        //error handling:
+        displayError('File does not follow SPOT format: ' + err.message, err);
         return;
       }
     }

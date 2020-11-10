@@ -68,7 +68,7 @@ function sameIds(a1, a2){
 }
 
 
-function matchPS(sTree, pParent, pCat, options)
+function matchPS(sParent, pParent, pCat, options)
 //Assign a violation for every prosodic node of type pCat in pParent that doesn't have a corresponding syntactic node in sTree,
 //where "corresponding" is defined as: dominates all and only the same terminals, and has the corresponding syntactic category
 //Assumes no null terminals.
@@ -76,6 +76,7 @@ function matchPS(sTree, pParent, pCat, options)
 //is set to true. The same goes for the syntactic trees
 {
 	options = options || {};
+	var sTree = sParent;
 	var flippedOptions = {};
 	flippedOptions.maxSyntax = options.maxProsody || false;
 	flippedOptions.nonMaxSyntax = options.nonMaxProsody || false;
@@ -90,15 +91,15 @@ function matchPS(sTree, pParent, pCat, options)
 	return matchSP(pParent, sTree, pCat, flippedOptions);
 }
 
-
-//TODO: what about null syntactic terminals?? these need to be filtered out of the syntactic input?? write this function later.
-
 /* matchSP = Match(Syntax, Prosody):
 * Assign a violation for every syntactic node of type sCat in sParent that
 * doesn't have a  corresponding prosodic node in pTree, where "corresponding"
 * is defined as: dominates all and only the same terminals, and has the
 * corresponding prosodic category.
 * By default, assumes no null syntactic terminals.
+*
+* If sCat is 'any', syntactic category labels will be ignored.
+*
 * Options (all boolean):
 * requireLexical: To ignore non-lexical XPs give them an attribute func: true.
 *	requireOvertHead: To ignore silently-headed XPs, give them an attribute silentHead: true
@@ -112,10 +113,11 @@ function matchPS(sTree, pParent, pCat, options)
 *	minProsody: If true, the prosodic match needs to be minimal. Passed to hasMatch.
 *	nonMaxProsody: If true, the prosodic match must be non-maximal. Passed to hasMatch.
 *	nonMinProsody: If true, the prosodic match must be non-minimal. Passed to hasMatch.
-*/
-function matchSP(sParent, pTree, sCat, options)
+*	anyPCat: if true, match with any prosodic category. Passed to hasMatch*/
+function matchSP(inputTree, pTree, sCat, options)
 {
 	options = options || {};
+	var sParent = inputTree;
 	markMinMax(sParent);
 	if(sParent.cat === sCat)
 		logreport.debug("\tSeeking match for "+sParent.id + " in tree rooted in "+pTree.id);
@@ -126,7 +128,7 @@ function matchSP(sParent, pTree, sCat, options)
 	*  - either it is lexical (sParent.func is false) OR requireLexical is false
 	*  - either it has an overt head (sParent.silent is false) OR requireOvertHead is false
 	*/
-	if(sParent.cat === sCat
+	if((sCat === 'any' || (sParent.cat === sCat ))
 	&& !(options.requireLexical && sParent.func)
 	&& !(options.requireOvertHead && sParent.silentHead)
 	&& !(options.maxSyntax && !sParent.isMax)
@@ -163,7 +165,7 @@ function hasMatch(sNode, pTree, options)
 
 	var sLeaves = getLeaves(sNode);
 	markMinMax(pTree);
-	if(catsMatch(sNode.cat, pTree.cat)
+	if((options.anyPCat || catsMatch(sNode.cat, pTree.cat))
 	&& sameIds(getLeaves(pTree), sLeaves)
 	&& !(options.requireLexical && pTree.func)
 	&& !(options.requireOvertHead && pTree.silentHead)
@@ -253,10 +255,16 @@ function matchNonMinSyntax(sTree, pTree, sCat, options){
 	return matchSP(sTree, pTree, sCat, options);
 }
 
-//Match for custom match options
-function matchCustom(sTree, pTree, sCat, options){
+//Match for custom match SP options
+function matchCustomSP(sTree, pTree, sCat, options){
 	options = options || {};
 	return matchSP(sTree, pTree, sCat, options);
+}
+
+//Match for custom match PS options
+function matchCustomPS(sTree, pTree, sCat, options){
+	options = options || {};
+	return matchPS(sTree, pTree, sCat, options);
 }
 
 //Match Maximal P --> S
@@ -265,7 +273,7 @@ function matchMaxPS(sTree, pTree, pCat, options){
 	options = options || {};
 	options.maxSyntax = true;
 	options.maxProsody = true;
-	return matchPS(pTree, sTree, pCat, options);
+	return matchPS(sTree, pTree, pCat, options);
 }
 
 //Match P --> S version of matchMaxSyntax. See comment there for explanation

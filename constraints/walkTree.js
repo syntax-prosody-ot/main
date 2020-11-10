@@ -1,4 +1,6 @@
 //Ozan's code
+const DONT_WALK_SUBTREES = false;
+
 function walkTree(node, foo) {
 	if (foo(node) === false)
 		return;
