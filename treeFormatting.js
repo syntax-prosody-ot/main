@@ -43,15 +43,7 @@ function parenthesizeTree(tree, options){
 		if (nonTerminal) {
 			if (visible) {
 				var tempLabel = parens[node.cat][0];
-				if (node["func"]){
-					tempLabel += ".f";
-				}
-				if (node["silentHead"]){
-					tempLabel += ".sh";
-				}
-				if (node["foc"]){
-					tempLabel += ".foc";
-				}
+				tempLabel = addAttributeLabels(node, tempLabel)
 				if (node["func"] || node["silentHead"] || node["foc"]){
 					tempLabel += " ";
 				}
@@ -92,16 +84,8 @@ function parenthesizeTree(tree, options){
 		//terminal but visible
 		else if (visible) {
 			var tempLabel = node.id;
-			if (node["func"]){
-				tempLabel += ".f";
-			}
-			if (node["silentHead"]){
-				tempLabel += ".sh";
-			}
-			if (node["foc"]){
-				tempLabel += ".foc";
-			}
-			parTree.push(tempLabel);
+			
+			parTree.push(addAttributeLabels(node, tempLabel));
 			//parTree.push(node.id);
 			if(node.cat!='w' && node.cat!='x0'){
 				parTree.push('.'+node.cat);
@@ -129,4 +113,23 @@ function parenthesizeTree(tree, options){
 	if(showTones)
 		guiTree = guiTree + '\n' + toneTree.join('');
 	return guiTree;
+}
+
+function addAttributeLabels(node, tempLabel){
+	if (node ["accent"]){
+		//add .a if the node has an accent attribute with a value that isn't 'u' or 'U', and the node's id isn't already a or A.
+		var idPref = node.id.split('_')[0];
+		var accentLabel = (node.accent && idPref !== 'A' && idPref !== 'a')? '.a': '';
+		tempLabel += accentLabel;
+	}
+	if (node["func"]){
+		tempLabel += ".f";
+	}
+	if (node["silentHead"]){
+		tempLabel += ".sh";
+	}
+	if (node["foc"]){
+		tempLabel += ".foc";
+	}
+	return tempLabel;
 }

@@ -56,16 +56,11 @@ function nonRecTruckenbrodt(s, parent, cat){
 * TODO Modify this so that it doesn't make all the assumptions above concerning the relationship of x and y.
 */
 function leafDifferenceSize(x,y){
-	try {
 		if(!(x instanceof Array) || !(y instanceof Array)){
 			console.log("x: "+x);
 			console.log("y: "+y);
 			throw new Error("Either x or y is not an array");
 		}
-	}
-	catch(err) {
-		displayError(err.message, err);
-	}
 	return y.length-x.length;
 }
 
@@ -103,8 +98,8 @@ function nonRecPairs(s, parent, c){ //markedness constraint, s argument is for c
 				/*
 				If the parent node is of the category c, count the number of nodes
 				dominated by this child that are also of the category c, including this
-				child itself, and add that number to the violatin count. This is where
-				violations are actually incured.
+				child itself, and add that number to the violation count. This is where
+				violations are actually incurred.
 				*/
 				vcount += numOfCats(child, c);
 			}

@@ -9,6 +9,7 @@
 		<script src="./trees/chamorro_clitic_trees.js"></script>
 		<script src='./trees/Italian_BuiltIn_Trees.js'></script>
 		<link rel="stylesheet" type="text/css" href="spot.css">
+		<link rel="stylesheet" type="text/css" href="lib/test/mocha.css">
 		<link rel="icon" type="image/x-icon" href="images/favicon.ico">
 
 		<style>
@@ -106,7 +107,7 @@
 				resize: both;
 				border: 1px solid #a9a9a9;
 			}
-			#autoTreeBox {
+			#autoTreeBox, #genStringsBox {
 				width: fit-content;
 				height: 250px;
 				overflow: scroll;
@@ -151,6 +152,7 @@
 			}
 			.treeUI-tree {
 				margin-top: 15px;
+				display: inline-block;
 			}
 			button {
 				color: #ffffff;
@@ -212,6 +214,12 @@
 				margin: 5px;
 				color: #07203D;
 				font-weight: normal;
+			}
+			fieldset h4 {
+				margin: 0px;
+			}
+			h4 {
+				color: #07203D;
 			}
 
 			.constraint-selection-table {
@@ -331,6 +339,8 @@
 				display: inline-block;
 				width: 40px;
 				height: 24px;
+				margin-right: 10px;
+				vertical-align: middle;
 			}
 
 			/* Hide default HTML checkbox */
@@ -398,8 +408,8 @@
 			#autoDoneMessage {
 				display: none;
 				color: #555;
-				font-size: 13px;
-				margin-left: 10px;
+				font-size: 14px;
+				margin-top: 10px;
       }
 			#add-clitics-row{
 				display: none;
@@ -483,6 +493,23 @@
 				display: inline;
 			}
 
+			#listOfTerminals p {
+				margin-top: 10px;
+				margin-bottom: 10px;
+				margin-left: 0px;
+				color: black;
+			}
+			.genStringsNum {
+				margin-left: 15px !important;
+			}
+			.genStringsNumBox {
+				width: 25px;
+				text-align: center;
+			}
+			#inputOptions button {
+				margin-left: 0px;
+			}
+
 		</style>
 
 	</head>
@@ -541,124 +568,19 @@
 			</div>
 
 			<form id="spotForm">
-				<!--GEN OPTIONS-->
-				<div class="spotBlock">
-				<legend><h2>GEN: Output parameters</h2></legend>
-
-				<div style="padding-right: 15px">
-					<div class="constraint-row">
-						<span><input type="checkbox" name="genOptions" value="obeysNonrecursivity">No prosodic recursion. (Non-Recursivity)</span>
-						<div class="info">
-							<span class="content">If selected, no pTree will contain a node of category K that dominates another node of category K.</span>
-						</div>
-					</div>
-					<div class="constraint-row">
-						<span><input type="checkbox" name="genOptions" value="obeysHeadedness">Enforce headedness.</span>
-						<div class="info">
-							<span class="content">If selected, every non-terminal pTree node of level i must immediately dominate a node of level i-1.</span>
-						</div>
-					</div>
-					<div class="constraint-row">
-						<span><input type="checkbox" name="genOptions" id="exhaustivityBox" value="obeysExhaustivity">No level skipping. (Exhaustivity)</span>
-						<div class="info">
-							<span class="content">If selected, every non-root pTree node of level i is dominated by a node of level i or i+1.</span>
-						</div>
-					</div>
-
-					<div id="exhaustivityDetailOption1" style="display: none; padding-left: 3em" ><input type="checkbox" name="exhaustivityCats" value="i" checked="checked">&iota;'s children are &ge;&phi;s&nbsp;&nbsp;</div>
-					<div id="exhaustivityDetailOption2" style="display: none"><input type="checkbox" name="exhaustivityCats" value="phi" checked="checked">&phi;'s children are &ge;&omega;s&nbsp;&nbsp;</div>
-
-					<div class="constraint-row">
-						<span><input type="checkbox" name="genOptions" id="branchingBox" value="noUnary">All intermediate nodes are branching.</span>
-						<div class="info">
-							<span class="content">If selected, every non-root, non-terminal node will have at least two children. No intermediate nodes will be unary.</span>
-						</div>
-					</div>
-					<div class="constraint-row">
-						<span><input type="checkbox" name="genOptions" value="maxBranching" onclick="showMaxBranching()">Restrict maximum number of branches<span id="maxBranchingText" style="display: none"> to <input style="width: 25px; text-align: center" type="text" name="maxBranchingValue" value=""></span></span>
-						<div class="info">
-							<span class="content">If selected, restricts the maximum number of branches that are tolerated to the entered number.</span>
-						</div>
-					</div>
-					<div class="constraint-row">
-						<span><input type="checkbox" name="genOptions" value="cliticMovement" id='movementOptions'>Allow movement</span>
-						<div class="info">
-							<span class="content">If "Move only clitics" is selected, GEN will permute the first node in the syntactic tree with category 'clitic' through the sentence. Ex.: a b c-clitic -> a b c-clitic, a c-clitic b, c-clitic a b. If "Reorder all terminals" is selected, GEN will permute all orders of terminals. Ex.: a b c --> c a b, a c b, b c a, c b a, b a c, a b c. Only use this if your sentences are short, or in conjunction with non-recursivity or the branching requirement.</span>
-						</div>
-					</div>
-					<div class="category-row" id='movementSpecification' style='display: none'>
-						<div><input type="radio" name="genOptions-movement" value="GENwithCliticMovement" checked="checked">Move only clitics</div>
-						<div><input type="radio" name="genOptions-movement" value="GENwithPermutation">Reorder all terminals</div>
-					</div>
-				</div>
-
-				<fieldset id="prosodicCategories">
-					<legend><h2>Prosodic categories <span class="arrow"></span></h2></legend>
-					<div class="constraint-row"><span>Root prosodic tree in</span>
-						<div class="info">
-							<span class="content">Specify the category of the root node for all the trees created by GEN.</span>
-						</div>
-					</div>
-					<div class="category-row">
-						<div class="category-selection-div"><input type="radio" name="genOptions-rootCategory" value="i" checked="checked">&iota;</div>
-						<div class="category-selection-div"><input type="radio" name="genOptions-rootCategory" value="phi">&phi;</div>
-						<div class="category-selection-div"><input type="radio" name="genOptions-rootCategory" value="w">&omega;</div>
-					</div>
-				<div class="constraint-row"><span>Intermediate nodes are</span>
-					<div class="info"><span class="content">Specify the category of the nodes below the root and above the terminals. This is the category where GEN will create recursion.</span></div>
-				</div>
-				<div class="category-row">
-						<div class="category-selection-div"><input type="radio" name="genOptions-recursiveCategory" value="i">&iota;</div>
-						<div class="category-selection-div"><input type="radio" name="genOptions-recursiveCategory" value="phi" checked="checked">&phi;</div>
-						<div class="category-selection-div"><input type="radio" name="genOptions-recursiveCategory" value="w">&omega;</div>
-				</div>
-				<div class="constraint-row"><span>Prosodic terminals are</span>
-					<div class="info">
-						<span class="content">Specify the category of the terminal nodes for the trees GEN will create. N.B. GEN will always map terminals marked with "-clitic" to syllables.</span></div>
-					</div>
-					<div class="category-row">
-						<div class="category-selection-div"><input type="radio" name="genOptions-terminalCategory" value="phi">&phi;</div>
-						<div class="category-selection-div"><input type="radio" name="genOptions-terminalCategory" value="w" checked="checked">&omega;</div>
-						<div class="category-selection-div"><input type="radio" name="genOptions-terminalCategory" value="Ft">Ft</div>
-					</div>
-				</fieldset>
-
-				<fieldset id="treeDisplayOptions">
-				<legend><h2>Tree display options <span class="arrow"></span></h2></legend>
-				<div class="constraint-row"><input type="checkbox" name="genOptions" value="usesTones" id="annotatedWithTones">annotated with tones</div>
-				<div class="category-row" style="display: none" id="tonesSelectionRow">
-					<div class="category-selection-div" style="width: 180px"><input type="radio" name="toneOptions" value="addJapaneseTones" checked="checked">Japanese <div class="info" onclick="toneInfoBlock('japanese')"></div></div>
-					<div class="category-selection-div" style="width: 180px"><input type="radio" name="toneOptions" value="addIrishTones_Elfner">Irish <div class="info" onclick="toneInfoBlock('irish')"></div></div>
-					<br/>
-					<div id="tonesInfoContent"></div>
-				</div>
-
-				<div class="constraint-row">Hide boundaries for nodes of category...</div>
-				<div class="category-row">
-					<div class="category-selection-div"><input type="checkbox" name="hideCategory" value="i">&iota;</div>
-					<div class="category-selection-div"><input type="checkbox" name="hideCategory" value="phi">&phi;</div>
-					<div class="category-selection-div"><input type="checkbox" name="hideCategory" value="w">&omega;</div>
-				</div>
-
-				<div class="constraint-row">
-					<span><input type="checkbox" name="genOptions" id="showHeads">mark heads</span>
-				</div>
-
-				</fieldset>
-			</div>
 
 			<!--INPUT-->
 			<div class="spotBlock input">
 			<h2>GEN: Input parameters
 				<span class="info">
 					<span class="content">
-						To generate input syntactic trees using SPOT's algorithm, use the 'Automatic' tab. To build input syntactic trees yourself, use the 'Manual' tab. In the 'String of terminals' textboxes, type the words that you want to be included in the output prosodic trees, separating them with spaces.
+						To generate input syntactic trees using SPOT's algorithm, use the 'Automatic' tab. To build input syntactic trees yourself, use the 'Manual' tab.
 					</span>
 				</span>
 			</h2>
-			<p style="margin-bottom: 0"><button id="inputButton" type="button" class="tab-button" style="background-color: white; border-color: #3A5370">Automatic</button><button id="goButton" type="button" class="tab-button">Manual</button></p>
+			<p style="margin-bottom: 0"><button id="inputButton" type="button" class="tab-button">Automatic</button><button id="goButton" type="button" class="tab-button" style="background-color: white; border-color: #3A5370">Manual</button></p>
 						<hr style="margin-block-start: 0; margin-block-start: 0; color: #3A5370; border-style: solid">
-            <div id="treeUI" style="display: none">
+            <div id="treeUI" style="display: block">
 							<p>String of terminals: <input type="text" name="inputToGen"><button id="buildButton" type="button">Build syntax</button></p>
 								<div class="constraint-row">
 									<span><input type="checkbox" name="genOptions" id="trimTrees">Trim Syntactic tree</span>
@@ -675,9 +597,12 @@
 						  <button class="nodeEditingButton" id="treeUIclearSelection" type="button" disabled>Clear Selection</button>
 						  <span id="treeBuilderInfo" class="info"><span class="content"><p>To add a node, select one or more adjacent sisters and click "Add Mother." To remove nodes, select them and click "Delete." </p>
 							<p>All labels are editable. The small labels with grey backgrounds represent node categories, and must be "cp", "xp", or "x0" for a node to be visible to the syntax-prosody mapping constraints. Use "clitic" as the category for a node that should be mapped to a syllable instead of a &omega;. The larger labels with white backgrounds represent node ids, and can be any unique alphanumeric string.</p>
+
 							<p>To label a terminal as a clitic do one of these (not both): (i) within the string of terminals append "-clitic" to the desired terminal within the string; (ii) after building the syntax of a string of terminals, change the category label to "clitic" of one of the terminals in the syntactic tree.</p>
-							<p> Mark nodes as functional by adding ",func" to the category label in the tree builder. Mark nodes as having silent heads by adding ",silentHead" to the category label in the tree builder.</p>
+							<p> Mark nodes as functional by adding ",func" to the category label in the tree builder. Mark nodes as having silent heads by adding ",silentHead" to the category label in the tree builder. Mark nodes as being focused by adding ",foc" to their category label in the tree builder.</p>
+
 							<p>To create a new tree, click "Build syntax" again.</p>
+							
 					 </span></span>
               		</div>
 
@@ -690,7 +615,7 @@
 									<div id="doneMessage">The trees in the analysis are up-to-date</div>
 
 									<div style="margin-top: 15px">
-										<label class="switch" style="margin-right: 10px; vertical-align: middle">
+										<label class="switch">
 											<input type="checkbox" id="tree-code-box" value="show-tree-code">
 											<span class="slider round"></span>
 										</label>
@@ -710,100 +635,141 @@
 			</div>
 
 			<!-- automatically generate syntax -->
-			<div id="inputOptions" style="display: block">
+			<div id="inputOptions" style="display: none">
 
-				<fieldset id="syntax-parameters">
+				<fieldset id="syntax-parameters" class="open">
 					<legend><h2>Syntax parameters <span class="arrow"></h2></legend>
-					<div class="constraint-row">
-						<span>Head requirements:
-							<select name="head-req" id="head-req">
-								<option value="select">Heads can be anywhere</option>
-								<option value="left-strict">Heads must be perfectly left-aligned</option>
-								<option value="right-strict">Heads must be perfectly right-aligned</option>
-								<option value="left">Heads must be on the left edge</option>
-								<option value="right">Heads must be on the right edge</option>
-							</select>
-						</span>
-						<div class="info">
-							<span class="content">
-								To require all X0s to be at the very left edge of their XP, select "Heads must be 
-								perfectly left-aligned." This will admit [a [b]] and [[a][b]] but not [[a]b[c]] or 
-								[[a]b]. To admit [[a]b[c]] while still excluding [[a]b], select "Heads must be 
-								left-aligned." To require all X0s be at the very right edge of their XP, select 
-								"Heads must be perfectly right-aligned." This will admit [[a]b] and [[a][b]], but 
-								not [[a]b[c]] or [a[b]]. To admit [[a]b[c]] while still excluding [a[b]], select 
-								"Heads must be right-aligned."
+						<div class="constraint-row"><span>Root syntactic tree in</span>
+							<div class="info">
+								<span class="content">Choose what syntactic category the roots of generated trees will be.</span>
+							</div>
+						</div>
+						<div class="category-row">
+							<div class="category-selection-div"><input type="radio" name="autoInputOptions-rootCategory" value="cp">CP</div>
+							<div class="category-selection-div"><input type="radio" name="autoInputOptions-rootCategory" value="xp" checked="checked">XP</div>
+							<div class="category-selection-div"><input type="radio" name="autoInputOptions-rootCategory" value="x0">X<sup>0</sup></div>
+						</div>
+						<div class="constraint-row"><span>Intermediate nodes are</span>
+							<div class="info"><span class="content">Choose what syntactic category the nodes between the roots and the terminals will be for the generated trees.</span></div>
+						</div>
+						<div class="category-row">
+							<div class="category-selection-div"><input type="radio" name="autoInputOptions-recursiveCategory" value="cp">CP</div>
+							<div class="category-selection-div"><input type="radio" name="autoInputOptions-recursiveCategory" value="xp" checked="checked">XP</div>
+							<div class="category-selection-div"><input type="radio" name="autoInputOptions-recursiveCategory" value="x0">X<sup>0</sup></div>
+						</div>
+						<div class="constraint-row"><span>Syntactic terminals are</span>
+							<div class="info"><span class="content">Choose what syntactic category the terminal nodes of the generated trees will be.</span></div>
+						</div>
+						<div class="category-row">
+							<div class="category-selection-div"><input type="radio" name="autoInputOptions-terminalCategory" value="cp">CP</div>
+							<div class="category-selection-div"><input type="radio" name="autoInputOptions-terminalCategory" value="xp">XP</div>
+							<div class="category-selection-div"><input type="radio" name="autoInputOptions-terminalCategory" value="x0" checked="checked">X<sup>0</sup></div>
+						</div>
+
+						<div class="constraint-row">
+							<span><input type="checkbox" name="autoInputOptions" value="noAdjuncts" checked="checked">Include adjunction</span>
+							<div class="info"><span class="content">If selected, nodes are allowed to have only XP children. If not selected, every node must contain a child of category x0.</span></div>
+						</div>
+						
+						<div class="constraint-row">
+							<span>Head requirements:
+								<select name="head-req" id="head-req">
+									<option value="select">Heads can be anywhere</option>
+									<option value="left-strict">Heads must be at the left edge of an XP</option>
+									<option value="right-strict">Heads must be at the right edge of an XP</option>
+									<option value="left" disabled>Heads cannot be on the right edge of an XP</option>
+									<option value="right" disabled>Heads cannot be on the left edge of an XP</option>
+								</select>
 							</span>
+							<div class="info">
+								<span class="content">
+									By default, trees are maximally binary-branching, and there is no distinction between “Heads must be at the left edge of an XP” and “Heads cannot be on the right edge of the XP.” This distinction is only relevant when ternary-branching structures are considered, which occurs when intermediate projections are not treated as phrasal (see: Visibility to Phonology). To require all X0s to be at the very left edge of their XP (specifiers and complements are both on the right), select "Heads must be at the left edge of an XP." This will admit [a [b]] and [[a][b]] but not [[a]b[c]] or [[a]b]. To admit [[a]b[c]] while still excluding [[a]b], select "Heads cannot be on the right edge of an XP." To require all X0s be at the very right edge of their XP, select "Heads must be at the right edge of an XP." This will admit [[a]b] and [[a][b]], but not [[a]b[c]] or [a[b]]. To admit [[a]b[c]] while still excluding [a[b]], select "Heads cannot be on the left edge of an XP."
+								</span>
+							</div>
 						</div>
-					</div>
-
-					<div class="constraint-row"><span>Root syntactic tree in</span>
-						<div class="info">
-							<span class="content">Choose what syntactic category the roots of generated trees will be.</span>
-						</div>
-					</div>
-					<div class="category-row">
-						<div class="category-selection-div"><input type="radio" name="autoInputOptions-rootCategory" value="cp">CP</div>
-						<div class="category-selection-div"><input type="radio" name="autoInputOptions-rootCategory" value="xp" checked="checked">XP</div>
-						<div class="category-selection-div"><input type="radio" name="autoInputOptions-rootCategory" value="x0">X<sup>0</sup></div>
-					</div>
-					<div class="constraint-row"><span>Intermediate nodes are</span>
-						<div class="info"><span class="content">Choose what syntactic category the nodes between the roots and the terminals will be for the generated trees.</span></div>
-					</div>
-					<div class="category-row">
-						<div class="category-selection-div"><input type="radio" name="autoInputOptions-recursiveCategory" value="cp">CP</div>
-						<div class="category-selection-div"><input type="radio" name="autoInputOptions-recursiveCategory" value="xp" checked="checked">XP</div>
-						<div class="category-selection-div"><input type="radio" name="autoInputOptions-recursiveCategory" value="x0">X<sup>0</sup></div>
-					</div>
-					<div class="constraint-row"><span>Syntactic terminals are</span>
-						<div class="info"><span class="content">Choose what syntactic category the terminal nodes of the generated trees will be.</span></div>
-					</div>
-					<div class="category-row">
-						<div class="category-selection-div"><input type="radio" name="autoInputOptions-terminalCategory" value="cp">CP</div>
-						<div class="category-selection-div"><input type="radio" name="autoInputOptions-terminalCategory" value="xp">XP</div>
-						<div class="category-selection-div"><input type="radio" name="autoInputOptions-terminalCategory" value="x0" checked="checked">X<sup>0</sup></div>
-					</div>
-
-					<div class="constraint-row">
-						<span><input type="checkbox" name="autoInputOptions-addClitics" value="right" id="add-clitics">Add XP clitics directly under root</span>
-						<div class="info"><span class="content">info</span></div>
-					</div>
-					<div class="category-row" id="add-clitics-row">
-						<div class="category-selection-div"><input type="radio" name="autoInputOptions-addClitics" value="left" id="add-clitics-left">Left</div>
-						<div class="category-selection-div"><input type="radio" name="autoInputOptions-addClitics" value="right" checked="checked">Right</div>
-					</div>
-
-					<div class="constraint-row">
-						<span><input type="checkbox" name="autoInputOptions" value="noUnary">Unary XPs are invisible</span>
-						<div class="info"><span class="content">If selected, all intermediate nodes must have at least two children.</span></div>
-					</div>
-
-					<div class="constraint-row">
-						<span><input type="checkbox" name="autoInputOptions" value="noAdjuncts" checked="checked">Allow adjuncts</span>
-						<div class="info"><span class="content">If selected, nodes if the intermediate category may be sisters to other nodes of the intermediate category.</span></div>
-					</div>
-
-					<div class="constraint-row">
-						<span><input type="checkbox" name="autoInputOptions" value="noMirrorImages">Remove mirror images</span>
-						<div class="info"><span class="content">If selected, no mirror image pairs will be generated. E.g. [a [b [c]]] and [[[a] b] c] are mirror images of eachother; if this option is selected, [[[a] b] c] will be removed.</span></div>
-					</div>
-
-					<div class="constraint-row">
-						<span><input type="checkbox" name="autoInputOptions" value="allowClitic">Allow clitic in terminal string</span>
-						<div class="info"><span class="content">If checked, then for every clitic-free input tree with n terminals, there are n additional input trees of the same shape, in which one terminal is a clitic, such that every terminal is a clitic in exactly one of these trees.</span></div>
-					</div>
 				</fieldset>
+				<fieldset id="syntax-parameters-clitics">
+					<legend><h2>Clitics <span class="arrow"></h2></legend>
+						<div class="constraint-row">
+							<span><input type="checkbox" name="autoInputOptions-addClitics" value="right" id="add-clitics">Add XP clitics directly under root</span>
+							<div class="info"><span class="content">info</span></div>
+						</div>
+						<div class="category-row" id="add-clitics-row">
+							<div class="category-selection-div"><input type="radio" name="autoInputOptions-addClitics" value="left" id="add-clitics-left">Left</div>
+							<div class="category-selection-div"><input type="radio" name="autoInputOptions-addClitics" value="right" checked="checked">Right</div>
+						</div>
+
+						<div class="constraint-row">
+							<span><input type="checkbox" name="autoInputOptions" value="allowClitic">Label some terminals as clitics</span>
+							<div class="info"><span class="content">If checked, then for every clitic-free input tree with n terminals, there are n additional input trees of the same shape, in which one terminal is a clitic, such that every terminal is a clitic in exactly one of these trees.</span></div>
+						</div>
+				</fieldset>
+				<fieldset id="syntax-parameters-phonology">
+					<legend><h2>Visibility to phonology <span class="arrow"></h2></legend>
+						<div class="constraint-row">
+							<span><input type="checkbox" name="autoInputOptions" value="noUnary">Treat unary XPs as X0s</span>
+							<div class="info"><span class="content">If selected, all intermediate nodes must have at least two children.</span></div>
+						</div>
+
+						<div class="constraint-row">
+							<span><input type="checkbox" name="autoInputOptions" value="noBarLevels" checked="checked">Treat intermediate projections (bar levels) as phrasal</span>
+							<div class="info"><span class="content">By default, SPOT treats bar level projections the same as phrase level projections, and labels them all as XP (or CP). This makes them visible to Match and Align constraints. On this setting, all syntactic trees are binary branching. To treat bar level projections as invisible to mapping constraints, check this box, which will allow GEN to also create ternary branching syntactic trees, in which X' (or C') are not represented at all. An example of a tree in which the X' level is not represented at all: [[spec] head [comp]]. Under default settings, this tree would instead be represented as: [[spec][head [comp]]].</span></div>
+						</div>
+
+						
+						<div class="constraint-row">
+							<span><input type="checkbox" name="autoInputOptions" value="noMirrorImages">Remove mirror images</span>
+							<div class="info"><span class="content">If selected, no mirror image pairs will be generated. E.g. [a [b [c]]] and [[[a] b] c] are mirror images of eachother; if this option is selected, [[[a] b] c] will be removed.</span></div>
+						</div>
+
+				</fieldset>
+
+				<h3 style="margin-top: 15px; margin-bottom: -5px">Specify terminals
+					<span class="info">
+						<span class="content">
+							In the 'String of terminals' textboxes, type the words that you want to be included in the output prosodic trees, separating them with spaces. Under 'Generate combinations and permutations', in the 'List of terminals' textboxes, type the terminals you want to use to generate permutations and combinations that will serve as your input strings. Separate each list with spaces and specify the minimum and maximum number of terminals in the generated strings.
+						</span>
+					</span>
+				</h3>
 
 				<div id="terminalStrings">
 					<p id="str1">String of terminals 1: <input type="text" name="inputToGenAuto"></p>
 				</div>
-				<button id="addString" type="button">Add terminal string</button>
+				<button id="addString" type="button" style="margin-top: -5px">Add terminal string</button>
 
-				<button id="autoGenDoneButton" class="orange-button" type="button">Generate trees</button>
+				<fieldset id="stringGeneration" class="">
+					<legend><h4>Generate combinations and permutations <span class="arrow"></h4></legend>
+
+					<div id="listOfTerminals" style="margin-top: 10px">
+						<div id="list1">
+							List of terminals 1: <input type="text" name="genStringsInput">
+							<p>Number of terminals in generated strings:</p>
+							<p class="genStringsNum">Min: <input type="text" name="genStringsMin" class="genStringsNumBox" style="margin-left: 4px"></p>
+							<p class="genStringsNum">Max: <input type="text" name="genStringsMax" class="genStringsNumBox"></p>
+						</div>
+					</div>
+					<button id="addList" type="button">Add list of terminals</button>
+					<br>
+					<button id="genStringsDoneButton" class="orange-button" type="button">Generate terminal strings</button>
+					<div style="margin-top: 15px">
+						<label class="switch">
+							<input type="checkbox" id="gen-strings-switch" value="">
+							<span class="slider round"></span>
+						</label>
+						<p id="strings-switch-text" style="font-size: 15; vertical-align: middle; display: inline">Show generated terminal strings</p>
+					</div>
+
+					<div id="genStringsArea" style="display: none">
+						<br>
+						<div id="genStringsBox"></div>
+					</div>
+				</fieldset>
+
+				<button id="autoGenDoneButton" class="orange-button" type="button" style="margin-top: 15px">Generate trees</button>
 				<div id="autoDoneMessage">The trees in the analysis are up-to-date</div>
 
 				<div style="margin-top: 15px">
-					<label class="switch" style="margin-right: 10px; vertical-align: middle">
+					<label class="switch">
 						<input type="checkbox" id="syntax-tree-switch" value="show-syntax-tree-box">
 						<span class="slider round"></span>
 					</label>
@@ -818,6 +784,119 @@
 			</div>
 
 		</div>
+
+		<!--GEN OPTIONS-->
+		<div class="spotBlock">
+		<legend><h2>GEN: Output parameters</h2></legend>
+
+		<div style="padding-right: 15px">
+			<div class="constraint-row">
+				<span><input type="checkbox" name="genOptions" value="obeysNonrecursivity">No prosodic recursion. (Non-Recursivity)</span>
+				<div class="info">
+					<span class="content">If selected, no pTree will contain a node of category K that dominates another node of category K.</span>
+				</div>
+			</div>
+			<div class="constraint-row">
+				<span><input type="checkbox" name="genOptions" value="obeysHeadedness">Enforce headedness.</span>
+				<div class="info">
+					<span class="content">If selected, every non-terminal pTree node of level i must immediately dominate a node of level i-1.</span>
+				</div>
+			</div>
+			<div class="constraint-row">
+				<span><input type="checkbox" name="genOptions" id="exhaustivityBox" value="obeysExhaustivity">No level skipping. (Exhaustivity)</span>
+				<div class="info">
+					<span class="content">If selected, every non-root pTree node of level i is dominated by a node of level i or i+1.</span>
+				</div>
+			</div>
+
+			<div id="exhaustivityDetailOption1" style="display: none; padding-left: 3em" ><input type="checkbox" name="exhaustivityCats" value="i" checked="checked">&iota;'s children are &ge;&phi;s&nbsp;&nbsp;</div>
+			<div id="exhaustivityDetailOption2" style="display: none"><input type="checkbox" name="exhaustivityCats" value="phi" checked="checked">&phi;'s children are &ge;&omega;s&nbsp;&nbsp;</div>
+
+			<div class="constraint-row">
+				<span><input type="checkbox" name="genOptions" id="branchingBox" value="noUnary">All intermediate nodes are branching.</span>
+				<div class="info">
+					<span class="content">If selected, every non-root, non-terminal node will have at least two children. No intermediate nodes will be unary.</span>
+				</div>
+			</div>
+			<div class="constraint-row">
+				<span><input id='maxBranchingBox' type="checkbox" name="genOptions" value="maxBranching" onclick="showMaxBranching()">Restrict maximum number of branches<span id="maxBranchingText" style="display: none"> to <input style="width: 25px; text-align: center" type="text" name="maxBranchingValue" value="2"></span></span>
+				<div class="info">
+					<span class="content">If selected, restricts the maximum number of branches that are tolerated to the entered number.</span>
+				</div>
+			</div>
+			<div class="constraint-row">
+				<span><input type="checkbox" name="genOptions" value="cliticMovement" id='movementOptions'>Allow movement</span>
+				<div class="info">
+					<span class="content">If "Move only clitics" is selected, GEN will permute the first node in the syntactic tree with category 'clitic' through the sentence. Ex.: a b c-clitic -> a b c-clitic, a c-clitic b, c-clitic a b. If "Reorder all terminals" is selected, GEN will permute all orders of terminals. Ex.: a b c --> c a b, a c b, b c a, c b a, b a c, a b c. Only use this if your sentences are short, or in conjunction with non-recursivity or the branching requirement.</span>
+				</div>
+			</div>
+			<div class="category-row" id='movementSpecification' style='display: none'>
+				<div><input type="radio" name="genOptions-movement" value="GENwithCliticMovement" checked="checked">Move only clitics</div>
+				<div><input type="radio" name="genOptions-movement" value="GENwithPermutation">Reorder all terminals</div>
+			</div>
+		</div>
+
+		<fieldset id="prosodicCategories">
+			<legend><h2>Prosodic categories <span class="arrow"></span></h2></legend>
+			<div class="constraint-row"><span>Root prosodic tree in</span>
+				<div class="info">
+					<span class="content">Specify the category of the root node for all the trees created by GEN.</span>
+				</div>
+			</div>
+			<div class="category-row">
+				<div class="category-selection-div"><input type="radio" name="genOptions-rootCategory" value="i" checked="checked">&iota;</div>
+				<div class="category-selection-div"><input type="radio" name="genOptions-rootCategory" value="phi">&phi;</div>
+				<div class="category-selection-div"><input type="radio" name="genOptions-rootCategory" value="w">&omega;</div>
+			</div>
+		<div class="constraint-row"><span>Intermediate nodes are</span>
+			<div class="info"><span class="content">Specify the category of the nodes below the root and above the terminals. This is the category where GEN will create recursion.</span></div>
+		</div>
+		<div class="category-row">
+				<div class="category-selection-div"><input type="radio" name="genOptions-recursiveCategory" value="i">&iota;</div>
+				<div class="category-selection-div"><input type="radio" name="genOptions-recursiveCategory" value="phi" checked="checked">&phi;</div>
+				<div class="category-selection-div"><input type="radio" name="genOptions-recursiveCategory" value="w">&omega;</div>
+		</div>
+		<div class="constraint-row"><span>Prosodic terminals are</span>
+			<div class="info">
+				<span class="content">Specify the category of the terminal nodes for the trees GEN will create. N.B. GEN will always map terminals marked with "-clitic" to syllables.</span></div>
+			</div>
+			<div class="category-row">
+				<div class="category-selection-div"><input type="radio" name="genOptions-terminalCategory" value="phi">&phi;</div>
+				<div class="category-selection-div"><input type="radio" name="genOptions-terminalCategory" value="w" checked="checked">&omega;</div>
+				<div class="category-selection-div"><input type="radio" name="genOptions-terminalCategory" value="Ft">Ft</div>
+			</div>
+		</fieldset>
+
+		<fieldset id="treeDisplayOptions">
+		<legend><h2>Tree display options <span class="arrow"></span></h2></legend>
+		<div class="constraint-row"><input type="checkbox" name="genOptions" value="usesTones" id="annotatedWithTones">Annotated with Tones</div>
+		<div class="category-row" style="display: none" id="tonesSelectionRow">
+			<div class="category-selection-div" style="width: 180px"><input type="radio" name="toneOptions" value="addJapaneseTones" checked="checked">Japanese <div class="info" onclick="toneInfoBlock('japanese')"></div></div>
+			<div class="category-selection-div" style="width: 180px"><input type="radio" name="toneOptions" value="addIrishTones_Elfner">Irish <div class="info" onclick="toneInfoBlock('irish')"></div></div>
+			<br/>
+			<div id="tonesInfoContent"></div>
+		</div>
+
+		<div class="constraint-row">Hide boundaries for nodes of category...</div>
+		<div class="category-row">
+			<div class="category-selection-div"><input type="checkbox" name="hideCategory" value="i">&iota;</div>
+			<div class="category-selection-div"><input type="checkbox" name="hideCategory" value="phi">&phi;</div>
+			<div class="category-selection-div"><input type="checkbox" name="hideCategory" value="w">&omega;</div>
+		</div>
+
+		<div class="constraint-row">
+			<span><input type="checkbox" name="genOptions" id="showHeads">Mark Heads</span>
+			<div class="info">
+				<span class="content">The head of a node is its leftmost/rightmost child of the highest category.</span>
+			</div>
+		</div>
+		<div class="category-row" id='headSideOptions' style='display: none'>
+			<div><input type="radio" name="genOptions-showHeads" value="left">Left-headed</div>
+			<div><input type="radio" name="genOptions-showHeads" value="right" checked>Right-headed (Japanese)</div>
+		</div>
+
+		</fieldset>
+	</div>
 
 				<!--CONSTRAINTS-->
 				<div class="spotBlock">
@@ -892,13 +971,13 @@
 								</div>
 								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchMaxSP" value="requireLexical">lexical</div>
 								<div class="info">
-									<span class="content custom-option-div">Match only maximal syntactic nodes that are not labeled as functional.</span>
+									<span class="content custom-option-div">Match only maximal syntactic nodes that are not labeled as functional. Mark nodes as functional by adding ",func" to the category label in the tree builder.</span>
 								</div>
 							</div>
 							<div class="category-row">
 								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchMaxSP" value="requireOvertHead">overtly headed</div>
 								<div class="info">
-									<span class="content custom-option-div">Match only maximal syntactic nodes that have a non-silent head.</span>
+									<span class="content custom-option-div">Match only maximal syntactic nodes that have a non-silent head. Mark nodes as having silent heads by adding ",silentHead" to the category label in the tree builder.</span>
 								</div>
 							</div>
 						</div>
@@ -921,13 +1000,13 @@
 								</div>
 								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchNonMinSyntax" value="requireLexical">lexical</div>
 								<div class="info">
-									<span class="content custom-option-div">Match only non-minimal syntactic nodes that are not labeled as functional.</span>
+									<span class="content custom-option-div">Match only non-minimal syntactic nodes that are not labeled as functional. Mark nodes as functional by adding ",func" to the category label in the tree builder.</span>
 								</div>
 							</div>
 							<div class="category-row">
 								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchNonMinSyntax" value="requireOvertHead">overtly headed</div>
 								<div class="info">
-									<span class="content custom-option-div">Match only non-minimal syntactic nodes that have a non-silent head.</span>
+									<span class="content custom-option-div">Match only non-minimal syntactic nodes that have a non-silent head. Mark nodes as having silent heads by adding ",silentHead" to the category label in the tree builder.</span>
 								</div>
 							</div>
 						</div>
@@ -950,13 +1029,13 @@
 								</div>
 								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchCustomSP" value="requireLexical">lexical</div>
 								<div class="info">
-									<span class="content custom-option-div">Match only syntactic nodes that are not labeled as functional.</span>
+									<span class="content custom-option-div">Match only syntactic nodes that are not labeled as functional. Mark nodes as functional by adding ",func" to the category label in the tree builder.</span>
 								</div>
 							</div>
 							<div class="category-row">
 								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchCustomSP" value="requireOvertHead">overtly headed</div>
 								<div class="info">
-									<span class="content custom-option-div">Match only syntactic nodes that have a non-silent head.</span>
+									<span class="content custom-option-div">Match only syntactic nodes that have a non-silent head. Mark nodes as having silent heads by adding ",silentHead" to the category label in the tree builder.</span>
 								</div>
 							</div>
 							<div class="category-row">
@@ -1028,18 +1107,6 @@
 								<div class="custom-text">
 									<p>Enforce Match only for prosodic nodes that are...</p>
 								</div>
-								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchCustomPS" value="requireLexical">lexical</div>
-								<div class="info">
-									<span class="content custom-option-div">Match only prosodic nodes that are not labeled as functional.</span>
-								</div>
-							</div>
-							<div class="category-row">
-								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchCustomPS" value="requireOvertHead">overtly headed</div>
-								<div class="info">
-									<span class="content custom-option-div">Match only prosodic nodes that have a non-silent head.</span>
-								</div>
-							</div>
-							<div class="category-row">
 								<div class="option-selection-div custom-option-div">
 									<select name="option-matchCustomPS">
 										<option value="any">Any</option>
@@ -1065,8 +1132,20 @@
 							</div>
 							<div class="category-row">
 								<div class="custom-text">
-									<p>Syntactic categories must be...</p>
+									<p>Syntactic nodes must be...</p>
 								</div>
+								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchCustomPS" value="requireLexical">lexical</div>
+								<div class="info">
+									<span class="content custom-option-div">Only match prosodic nodes to syntactic nodes that are not labeled as functional.</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-matchCustomPS" value="requireOvertHead">overtly headed</div>
+								<div class="info">
+									<span class="content custom-option-div">Only match prosodic nodes to syntactic nodes that have a non-silent head.</span>
+								</div>
+							</div>
+							<div class="category-row">
 								<div class="option-selection-div custom-option-div">
 									<select name="option-matchCustomPS">
 										<option value="any">Any</option>
@@ -1565,6 +1644,71 @@
 
 				<fieldset>
 
+					<legend><h2>Command <span class="arrow"></h2></legend>
+
+					<div class="constraint-selection-table">
+						<input class="checkbox" checked="true" name="category-ccPhi" value="phi" style="display:none;"/>
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="ccPhi">C-Command-to-&phi;</span>
+							<div class="info">
+								<span class="content">For every c-pair (x<sup>0</sup>, y<sup>0</sup>), assign a violation for every &phi; that dominates ω<sub>x</sub> but not ω<sub>y</sub>, and for every &phi; that dominates ω<sub>y</sub> but not ω<sub>x</sub>. SPOT function: ccPhi(). (Kalivoda 2018)</span>
+							</div>
+						</div>
+						<div class="category-row">
+							<div style="white-space: nowrap;" class="option-selection-div custom-option-div"><input type="checkbox" name="option-ccPhi" value="requireAdjacent">Enforce only for linearly adjacent words</div>
+						</div>
+					</div>
+
+					<div class="constraint-selection-table">
+						<input class="checkbox" checked="true" name="category-antiCCPhi" value="phi" style="display:none;"/>
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="antiCCPhi">Anti-C-Command-to-&phi;</span>
+							<div class="info">
+								<span class="content">If x<sup>0</sup> and y<sup>0</sup> are mutually non-commanding, then assign a violation if there is no &phi; containing ω<sub>x</sub> and excluding ω<sub>y</sub>, and a violation if there is no &phi; containing ω<sub>y</sub> and excluding ω<sub>x</sub>. SPOT function: antiCCPhi(). (Kalivoda 2018)</span>
+							</div>
+						</div>
+						<div class="category-row">
+							<div class="custom-text">
+								<p>Enforcement options...</p>
+							</div>
+							<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-antiCCPhi" value="requireAdjacent">adjacent</div>
+							<div class="info">
+								<span class="content custom-option-div">Only apply constraint to linearly adjacent words.</span>
+							</div>
+						</div>
+						<div class="category-row">
+							<div class="option-selection-div custom-option-div"><input type="checkbox" name="option-antiCCPhi" value="requireStrict">strict</div>
+							<div class="info">
+								<span class="content">Apply constraint any time words are not mutually commanding (as opposed to mutually non-commanding). (Kalivoda 2018)</span>
+							</div>
+						</div>
+					</div>
+					<div class="constraint-selection-table">
+						<input class="checkbox" checked="true" name="category-group" value="phi" style="display:none;"/>
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="group">Group</span>
+							<div class="info">
+								<span class="content">Assign a violation for every c-pair that is not contained in at least one &phi;. SPOT function: group(). (Kalivoda 2018)</span>
+							</div>
+						</div>
+						<div class="category-row">
+							<div style="white-space:nowrap;" class="option-selection-div custom-option-div"><input type="checkbox" name="option-group" value="requireMinimal">Require same parent &phi;
+								<div class="info">
+									<span class="content">Assign a violation for every c-pair<br/>that is not directly dominated by<br/>the same parent &phi;. (Kalivoda 2018)</span>
+								</div>
+							</div>
+						</div>
+						<div class="category-row">
+							<div style="white-space:nowrap;" class="option-selection-div custom-option-div"><input type="checkbox" name="option-group" value="requireAdjacent">Enforce only for linearly adjacent words</div>
+						</div>
+					</div>
+
+				</fieldset>
+
+				<br/>
+
+				<fieldset>
+
 					<legend><h2>Ordering <span class="arrow"></h2></legend>
 
 					<div class="constraint-selection-table">
@@ -1781,15 +1925,16 @@
 							<div class="info"><span class="content">Assign one violation for every set sisters with a parent of category K that do not have the same number of (immediate) children. (For concept of Uniformity, see Ghini 1993; for OT constraint, see Bellik 2019)</span></div>
 						</div>
 						<div class="category-row">
-							<div class="category-selection-div"><input type="checkbox" value=i name="category-balancedSisters">&iota;</div>
-							<div class="category-selection-div"><input type="checkbox" value=phi name="category-balancedSisters" checked="checked">&phi;</div>
-							<div class="category-selection-div"><input type="checkbox" value=w name="category-balancedSisters">&omega;</div>
+							<div class="category-selection-div"><input type="checkbox" value="i" name="category-balancedSisters">&iota;</div>
+							<div class="category-selection-div"><input type="checkbox" value="phi" name="category-balancedSisters" checked="checked">&phi;</div>
+							<div class="category-selection-div"><input type="checkbox" value="w" name="category-balancedSisters">&omega;</div>
+							<div class="category-selection-div"><input type="checkbox" value="" name="category-balancedSisters">all</div>
 						</div>
 					</div>
 
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
-							<span><input type="checkbox" name="constraints" value="eqSis">EqualSisters (categorical)</span>
+							<span><input type="checkbox" name="constraints" value="eqSis">EqualSisters (by parent)</span>
 							<div class="info">
 								<span class="content">Assign a violation for every node of the specified category whose daughters are not all of the same category as each other.</span>
 							</div>
@@ -1798,20 +1943,22 @@
 							<div class="category-selection-div"><input type="checkbox" name="category-eqSis" value="i">&iota;</div>
 							<div class="category-selection-div"><input type="checkbox" name="category-eqSis" value="phi" checked="checked">&phi;</div>
 							<div class="category-selection-div"><input type="checkbox" name="category-eqSis" value="w">&omega;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-eqSis" value="">all</div>
 						</div>
 					</div>
 
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
-							<span><input type="checkbox" name="constraints" value="strongStart">StrongStart (categorical)</span>
+							<span><input type="checkbox" name="constraints" value="strongStart">StrongStart (any sister)</span>
 							<div class="info">
 								<span class="content">Assign a violation for every node of the selected category such that its leftmost daughter is of a lower category than some sister to its right.</span>
 							</div>
 						</div>
 						<div class="category-row">
-							<div class="category-selection-div"><input type="checkbox" name="category-strongStart" value="phi">&phi;</div>
-							<div class="category-selection-div"><input type="checkbox" name="category-strongStart" value="w" checked="checked">&omega;</div>
-							<div class="category-selection-div"><input type="checkbox" name="category-strongStart" value="syll">&sigma;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-strongStart" value="syll">&iota;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-strongStart" value="phi" checked="checked">&phi;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-strongStart" value="w">&omega;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-strongStart" value="">all</div>
 						</div>
 					</div>
 					<div class="constraint-selection-table">
@@ -1821,11 +1968,11 @@
 								<span class="content">Assign one violation for every node in the prosodic tree whose leftmost daughter is of the selected category, and is lower in the prosodic hierarchy than its sister constituent immediately to its right. (Elfner's StrongStart) SPOT function: strongStart_Elfner(). (Selkirk 2011, Elfner 2012.)</span>
 							</div>
 						</div>
-						<div class="category-row">
+						<!---<div class="category-row">
 							<div class="category-selection-div"><input type="checkbox" name="category-strongStart_Elfner" value="phi">&phi;</div>
 							<div class="category-selection-div"><input type="checkbox" name="category-strongStart_Elfner" value="w" checked="checked">&omega;</div>
 							<div class="category-selection-div"><input type="checkbox" name="category-strongStart_Elfner" value="syll">&sigma;</div>
-						</div>
+						</div>-->
 					</div>
 
 					<div onclick="showMore('moreSisterhoodConstraints')" class="show-more" id="moreSisterhoodConstraintsShow">Show more...</div>
@@ -1880,14 +2027,14 @@
 							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="strongStartClitic">StrongStartClitic</span>
 								<div class="info">
-									<span class="content">Assign a violation for every node of category cat whose leftmost daughter constituent is of category < w (a syllable or foot) (Bennett, Elfner & McCloskey 2016).</span>
+									<span class="content">Assign a violation for every node whose leftmost daughter constituent is of category < w (a syllable or foot) (Bennett, Elfner & McCloskey 2016).</span>
 								</div>
 							</div>
-							<div class="category-row">
+							<!--<div class="category-row">
 								<div class="category-selection-div"><input type="checkbox" name="category-strongStartClitic" value="i">&iota;</div>
 								<div class="category-selection-div"><input type="checkbox" name="category-strongStartClitic" value="phi">&phi;</div>
 
-							</div>
+							</div>-->
 						</div>
 					</div>
 
@@ -1902,16 +2049,34 @@
 
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
-							<span><input type="checkbox" name="constraints" value="exhaustChild">Exhaustivity</span>
+							<span><input type="checkbox" name="constraints" value="exhaustChild">Exhaustivity (child)</span>
 							<div class="info">
-								<span class="content">Assign one violation for every parent-child pair such that the child’s prosodic category is more than one level lower than the parent’s prosodic category. E.g., &phi; with a syllable child, &iota; with an &omega; child. SPOT function: exhaust1(). For Exhaustivity as a violable constraint, see Selkirk 1995 “The prosodic structure of function words”</span>
+								<span class="content">Assign one violation for every parent-child pair such that the child’s prosodic category is more than one level lower than the parent’s prosodic category. E.g., &phi; with a syllable child, &iota; with an &omega; child. {&omega; &omega;} receives two violations. SPOT function: exhaustChild(). For Exhaustivity as a violable constraint, see Selkirk 1995 “The prosodic structure of function words”</span>
 							</div>
 						</div>
 					</div>
 
+					<!--Headedness Constraint-->
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
-							<span><input type="checkbox" name="constraints" value="nonRecParent">Non-recursivity, assessed by dominating node (nonRecParent)</span>
+							<span><input type="checkbox" name="constraints" value="headedness">Headedness</span>
+							<div class="info">
+								<span class="content">Category insensitive: "For every category k in the prosodic hierarchy, assign a violation for every node of category k in the prosodic tree that is a) non-terminal and b) does not contain any nodes of category > k-2."
+								Category sensitive, for category k: "Assign a violation for every node of category k in the prosodic tree ptree that is a) non-terminal and b) does not contain any nodes of category > k-2."</span>
+							</div>
+						</div>
+						<div class="category-row">
+							<div class="category-selection-div"><input type="checkbox" name="category-headedness" value="i">&iota;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-headedness" value="phi" checked="checked">&phi;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-headedness" value="w">&omega;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-headedness" value="">all</div>     <!--may have to edit this line, don't know what to put for all value-->
+						</div>
+					</div>
+					<!--End Headedness Constraint-->
+
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="nonRecParent">Non-recursivity (parent)</span>
 							<div class="info">
 								<span class="content">Assign one violation for every node of category K that immediately dominates a node of category K in the prosodic tree. SPOT function: nonRecParent(). For Non-Recursivity as a violable constraint, see Selkirk 1995, Zec 2005. For this specific implementation & implications, see Bellik & Kalivoda 2017 (SPOT1 Workshop slides)</span>
 							</div>
@@ -1928,7 +2093,7 @@
 					<div id="moreLayeringConstraints" class="more-constraints">
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
-								<span><input type="checkbox" name="constraints" value="nonRecTruckenbrodt">Non-recursivity, assessed by non-overlapping leaves (nonRecTruckenbrodt)</span>
+								<span><input type="checkbox" name="constraints" value="nonRecTruckenbrodt">Non-recursivity, assessed by non-overlapping leaves (Truckenbrodt)</span>
 								<div class="info">
 									<span class="content">For every node X of category K dominated by another node Y of category K in the prosodic tree, assign one violation for every leaf dominated by Y that is not also dominated by X. SPOT function: nonRecTruckenbrodt(). (Truckenbrodt 1995, 1999)</span>
 								</div>
@@ -1942,7 +2107,7 @@
 
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
-								<span><input type="checkbox" name="constraints" value="nonRecChild">Non-recursivity, assessed by dominated node (nonRecChild)</span>
+								<span><input type="checkbox" name="constraints" value="nonRecChild">Non-recursivity (child)</span>
 								<div class="info">
 									<span class="content">Assign one violation for every node of category K immediately dominated by another node of category K. SPOT function: nonRecChild(). For Non-Recursivity as a violable constraint, see Selkirk 1995, Zec 2005. For this specific implementation & implications, see Bellik & Kalivoda 2017 (SPOT1 Workshop slides)</span>
 								</div>
@@ -1958,7 +2123,7 @@
 							<div class="constraint-row">
 								<span><input type="checkbox" name=constraints value="nonRecPairs">Non-recursivity, pairwise</span>
 								<div class="info">
-									<span class="content">Assign one violation for every pair of nodes X and Y in the prosodic tree such that X and Y are both of category K and X dominates Y. SPOT function: nonRecPairs(). For Non-Recursivity as a violable constraint, see Selkirk 1995, Zec 2005. For this specific implementation & implications, see Bellik & Kalivoda 2017 (SPOT1 Workshop slides)</span>
+									<span class="content">Assign one violation for every pair of nodes X and Y in the prosodic tree such that X and Y are both of category K and X dominates (contains at any level) Y. SPOT function: nonRecPairs(). For Non-Recursivity as a violable constraint, see Selkirk 1995, Zec 2005. For this specific implementation & implications, see Bellik & Kalivoda 2017 (SPOT1 Workshop slides)</span>
 								</div>
 							</div>
 								<div class="category-row">
@@ -1970,9 +2135,18 @@
 
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="exhaustParent">Exhaustivity (parent) </span>
+								<div class="info">
+									<span class="content">Assign a violation for every node of category k that has one or more children of category less than (k-1), for every k. E.g., &phi; with a syllable child, &iota; with an &omega; child. {&omega; &omega;} receives one violation. SPOT function: exhaustParent(). For Exhaustivity as a violable constraint, see Selkirk 1995 “The prosodic structure of function words”</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
 								<span><input type="checkbox" name=constraints value="starCat">*pCat</span>
 								<div class="info">
-									<span class="content">Assign one violation for every node of category K in the prosodic tree. SPOT function: starCat(). See Prince & Smolensky 2004 [1993], Zoll 1993, 1996</span>
+									<span class="content">Assign one violation for every node of category K in the prosodic tree. SPOT function: starCat(). See Prince & Smolensky 1993/2004; Zoll 1993, 1996; Truckenbrodt 1995, 1999</span>
 								</div>
 							</div>
 								<div class="category-row">
@@ -1994,7 +2168,7 @@
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="accentAsHead">AccentAsHead</span>
 							<div class="info">
-								<span class="content">Every accent is the head of a minimal &phi;. Assign a violation for every accented word (A) that is not the sole accented word in its minimal &phi; (Ito & Mester 2013).</span>
+								<span class="content">Every accent is the head of a minimal &phi;. Assign a violation for every accented word (A) that is not the sole accented word in a minimal &phi; (Ito & Mester 2013).</span>
 							</div>
 						</div>
 					</div>
@@ -2034,9 +2208,11 @@
 					<h2>Scroll down for results!
 						<span class="info">
 							<span class="content">
-								Clicking "Get results" will initiate a download of a tab-separated version of the resulting tableau.
+								<p>Clicking "Get results" initiates a download of a tab-separated version of the resulting tableau.
 								The tab-separated version of the tableau will also appear in a text-area, from which it can be copy-pasted. (Use Control-A to select it if it's not already selected.)
-								An html version of the tableau will also display below.
+								An html version of the tableau will also display below. </p>
+								<p>Trees in the violation tableau are shown in bracket notation. Curly braces { } stand for CP boundaries in a syntactic tree, and for intonational phrase boundaries in a syntactic tree. Parentheses ( ) stand for phonological phrase boundaries. Square brackets [ ] in a syntactic tree stand for XP boundaries, and in a prosodic tree stand for prosodic word boundaries.</p>
+								<p>Features are shown with the following suffixed abbreviations: .f = functional; .a = has a lexical accent; .foc = focused; * = head of the phonological constituent.</p>
 							</span>
 						</span>
 					</h2>

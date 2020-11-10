@@ -14,6 +14,8 @@
 *    the resulting syntactic trees. Default = 2
 *  - minBranching: determines the maximum number of branches that are tolerated in
 *    the resulting syntactic trees. Default = 2
+*  - noBarLevels: if false (default), bar levels are treated as phrasal. 
+*    If true, bar levels are not represented, and ternary branching is permitted.
 *  - addClitics: 'right' or 'left' determines whether clitics are added on the
 *    righthand-side or the left; true will default to right. false doesn't add any clitics.
 *    Default false.
@@ -30,44 +32,63 @@ function sTreeGEN(terminalString, options)
     if(options.noAdjacentHeads === undefined){
         options.noAdjacentHeads = true;
     }
-    options.maxBranching = options.maxBranching || 2;
+    
     options.syntactic = true;
     options.recursiveCategory = options.recursiveCategory || 'xp';
     options.terminalCategory = options.terminalCategory || 'x0';
     options.rootCategory = options.rootCategory || 'xp';
+
+    // If bar levels are not treated as phrasal, then we need to allow ternary XPs and CPs, but not ternary x0s.
+    if(options.noBarLevels && options.recursiveCategory !== 'x0'){
+      options.maxBranching = 3;
+    }
+    //Otherwise, we want binary branching syntactic inputs.
+    options.maxBranching = options.maxBranching || 2;
 
     //Run GEN on the provided terminal string
     var autoSTreePairs = GEN({}, terminalString, options);
     //Select just the generated trees
     var sTreeList = autoSTreePairs.map(x=>x[1]);
 
-    //Apply filters
+    //---Apply filters---
     if(options.allowClitic){
       var cliticTrees = getCliticTrees(terminalString, options);
       if(cliticTrees) {
         sTreeList = sTreeList.concat(cliticTrees);
       }
     }
+    if(options.noAdjuncts){
+        sTreeList = sTreeList.filter(x => !containsAdjunct(x));
+    }
     if(options.addClitics){
-        var outsideClitics = sTreeList.map(x => addCliticXP(x, options.addClitics));
-        var insideClitics = sTreeList.map(x => addCliticXP(x, options.addClitics, true));
+        if(options.rootCategory !== 'cp'){
+          var outsideClitics = sTreeList.map(x => addCliticXP(x, options.addClitics, options.rootCategory));
+        }
+        else {
+          var outsideClitics = [];
+        }
+        var insideClitics = sTreeList.map(x => addCliticXP(x, options.addClitics, options.rootCategory, true));
         sTreeList = outsideClitics.concat(insideClitics);
     }
     if(options.noAdjacentHeads){
         sTreeList = sTreeList.filter(x => !x0Sisters(x, 'x0'));
     }
-    if(options.noAdjuncts){
-        sTreeList = sTreeList.filter(x => !x0Sisters(x, options.recursiveCategory));
-    }
+
     if(options.maxBranching > 0){
         sTreeList = sTreeList.filter(x=>!ternaryNodes(x, options.maxBranching));
     }
     if(options.minBranching > 0){
         sTreeList = sTreeList.filter(x=>!unaryNodes(x, options.minBranching));
     }
+  
+    if(options.noBarLevels){
+      sTreeList = sTreeList.filter(x => !threeXPs(x));
+    }
+  
     if(options.headSide){
         var side, strict;
         [side, strict] = options.headSide.split('-');
+        // console.log(sTreeList)
         sTreeList = sTreeList.filter(x => !headsOnWrongSide(x, side, strict));
     }
     if(options.noMirrorImages){
@@ -77,33 +98,29 @@ function sTreeGEN(terminalString, options)
     return sTreeList;
 }
 
-function addCliticXP(sTree, side="right", inside){
+function addCliticXP(sTree, side="right", rootCategory, inside){
     var cliticXP = {id:'dp', cat: 'xp', children: [{id:'x', cat: 'clitic'}]};
     var tp;
     var sisters;
     //Make the clitic a daughter of sTree
     if(inside){
         //console.log("inside");
-        try {
-          if(side==="right"){
-              sisters = sTree.children.concat(cliticXP);
-          }
-          else if(side==="left"){
-              sisters = [cliticXP].concat(sTree.children);
-              //console.log(tp);
-          }
-          else{
-              var errorMsg = "addCliticXP(): The provided side " + side + " is not valid. Side must be specified as 'left' or 'right'.";
-              throw new Error(errorMsg)
-          }
+        if(side==="right"){
+            sisters = sTree.children.concat(cliticXP);
         }
-        catch(err) {
-          displayError(err.message, err);
+        else if(side==="left"){
+            sisters = [cliticXP].concat(sTree.children);
+            //console.log(tp);
         }
+        else{
+            var errorMsg = "addCliticXP(): The provided side " + side + " is not valid. Side must be specified as 'left' or 'right'.";
+            displayError(err.message, err);
+            throw new Error(errorMsg)
+        }
+        
     }
     //Make the clitic sister to sTree's root, and root the whole thing elsewhere
     else{
-      try {
         var sisters;
         if(side==="right"){
             sisters = [sTree, cliticXP];
@@ -113,14 +130,11 @@ function addCliticXP(sTree, side="right", inside){
         }
         else{
             var errorMsg = "addCliticXP(): The provided side " + side + " is not valid. Side must be specified as 'left' or 'right'.";
+            displayError(err.message, err);
             throw new Error(errorMsg)
         }
-      }
-      catch(err) {
-        displayError(err.message, err);
-      }
     }
-    tp = {id: 'root', cat: 'xp', children: sisters};
+    tp = {id: 'root', cat: rootCategory, children: sisters};
     return tp;
 }
 
@@ -141,4 +155,55 @@ function getCliticTrees(string, options) {
     cliticTreeList = cliticTreeList.concat(sTreeList);
   }
   return cliticTreeList;
+}
+
+// Return an array of all possible space-separated strings of length at least min and no more than max, drawn from T with replacement.
+// T -> input array of characters in string
+// min -> minimum length of output strings
+// max -> maximum length of output strings
+function generateTerminalStrings(T, min, max) {
+  // Get list of all possible permutations for each length
+  var finalPermList = [];
+  for(var i = min; i <= max; i++) {
+    var temp = T.slice();
+    var data = new Array(i);
+    var permList = [];
+    var currPermList = getPermutations(temp, data, i - 1, 0, permList);
+    // Initialize finalPermList
+    if(finalPermList.length === 0) {
+      finalPermList = currPermList;
+    }
+    // Add to finalPermList
+    else {
+      finalPermList = finalPermList.concat(currPermList);
+    }
+  }
+
+  return finalPermList;
+}
+
+// Return an array of all permutations (allowing repitition) of input array T
+// T -> input array of characters in string
+// data -> stores permutation at current iteration
+// last -> index of last element in resulting permuatation
+// index -> current index
+// permList -> list of all permutations
+// If T = ['F', 'FF'] and last = 1
+// Then permList = ["F F", "F FF", "FF F", "FF FF"]
+function getPermutations(T, data, last, index, permList) {
+  var length = T.length;
+  // One by one fix all characters at the given index and recur for the subsequent indexes
+  for(var i = 0; i < length; i++) {
+    // Fix the ith character at index and if this is not the last index then recursively call for higher indexes
+    data[index] = T[i];
+    // If this is the last index then add the string stored in data to permList
+    if(index == last) {
+      var strData = data.join(' ');
+      permList.push(strData);
+    }
+    else {
+      getPermutations(T, data, last, index + 1, permList);
+    }
+  }
+  return permList;
 }

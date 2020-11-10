@@ -354,11 +354,14 @@ window.addEventListener('load', function(){
 						var categoryBox = constraintCatSet[j];
 						if(categoryBox.checked){
 							var category = categoryBox.value;
-							if(constraint === "alignLeftMorpheme") {
+							if(constraint === "alignLeftMorpheme" || constraint === 'alignRightMorpheme') {
 								category = category.split(' ').join(';');
 							}
+							if(constraint === "binMaxHead") {
+								constraintSet.push('binMaxHead-' + category + '-{"side" : "' + spotForm['genOptions-showHeads'].value + '"}')
+							}
 							//Figure out selected match options for the constraint
-							if(spotForm['option-'+constraint]){
+							else if(spotForm['option-'+constraint]){
 								var constraintOptionSet = spotForm['option-'+constraint];
 								var options = {};
 								if(constraintOptionSet.length){
@@ -485,7 +488,7 @@ window.addEventListener('load', function(){
 			tableauOptions.trimStree = true;
 		}
 		if(document.getElementById("showHeads").checked){
-			tableauOptions.showHeads= true;
+			tableauOptions.showHeads = spotForm['genOptions-showHeads'].value;
 		}
 
 
@@ -508,18 +511,25 @@ window.addEventListener('load', function(){
 
 
 			//warn user about possibly excessive numbers of candidates
-			if (genOptions['cliticMovement'] && (!genOptions['noUnary'] && (getLeaves(sTree).length >= 5 || pString.split(" ").length >= 5))
-											 || (genOptions['noUnary'] && (getLeaves(sTree).length >= 7 || pString.split(" ").length >= 7))){
-				if(!confirm("You have selected GEN settings that allow movement, and included a sentence of ".concat( pString.split(" ").length.toString()," terminals. This GEN may yield more than 10K candidates. To reduce the number of candidates, consider enforcing non-recursivity, exhaustivity, and/or branchingness for intermediate prosodic nodes. Do you wish to proceed with these settings?"))){
-					throw new Error("clitic movement with too many terminals");
+			var maxNumTerminals = Math.max(getLeaves(sTree).length, pString.split(" ").length);
+			if (genOptions['cliticMovement'])
+			{
+				if((maxNumTerminals >= 7) || (!genOptions['noUnary'] && maxNumTerminals >= 5))
+				{
+					var tooManyCandMsg = "You have selected GEN settings that allow movement, and included a sentence of "+ maxNumTerminals.toString()+" terminals. This GEN may yield more than 10K candidates. To reduce the number of candidates, consider enforcing non-recursivity, exhaustivity, and/or branchingness for intermediate prosodic nodes. Do you wish to proceed with these settings?";
+					var continueGEN = confirm(tooManyCandMsg);
+					if(!continueGEN){
+						throw new Error("Tried to run GEN with clitic movement with too many terminals");
+					}
 				}
 			}
-			else if(getLeaves(sTree).length >= 6 || pString.split(" ").length >= 6){
+			else if(maxNumTerminals >= 9 || (maxNumTerminals >= 6 && !genOptions['noUnary'])){
 				if(!confirm("Inputs of more than six terminals may run slowly and even freeze your browser, depending on the selected GEN options. Do you wish to continue?")){
-					throw new Error("Tried to run gen with more than six terminals");
+					throw new Error("Tried to run GEN with too many terminals");
 				}
 			}
 
+			//Actually create the candidate set
 			if (genOptions['cliticMovement']){
 			//	var candidateSet = GENwithCliticMovement(sTree, pString, genOptions);
 				var candidateSet = globalNameOrDirect(spotForm['genOptions-movement'].value)(sTree, pString, genOptions);
@@ -596,6 +606,15 @@ window.addEventListener('load', function(){
 
 	});
 
+	document.getElementById('showHeads').addEventListener('click', function(){
+		if (document.getElementById('headSideOptions').style.display === 'none' && document.getElementById('showHeads').checked){
+			document.getElementById('headSideOptions').style.display = '';
+		}
+		else{
+			document.getElementById('headSideOptions').style.display = 'none';
+		}
+	});
+
 	/*
 	document.getElementById("japaneseTonesInfo").addEventListener("click", toneInfoBlock("japanese"));
 	document.getElementById("irishTonesInfo").addEventListener("click", toneInfoBlock("irish"));
@@ -665,26 +684,22 @@ window.addEventListener('load', function(){
 
 	// automatically generate input tree
 	function autoGenInputTree() {
-		var length = spotForm.inputToGenAuto.length;
-		if(length === undefined) {
-			length = 1;
-		}
-		var inputString = spotForm.inputToGenAuto.value;
+		genTerminalStrings();
+		var strings = getStringsList();
+		var length = strings.length;
 
 		sTreeList = undefined;
 		document.getElementById('autoTreeBox').innerHTML = "";
 
 		for(var i=0; i<length; i++){
-			if(length > 1) {
-				inputString = spotForm.inputToGenAuto[i].value;
-			}
+			var inputString = strings[i];
 
 			// allow adjuncts and remove mirror images
 			var autoInputOptions = {};
 			var optionBox = spotForm.autoInputOptions;
 			for(var j = 0; j < optionBox.length; j++) {
-				if(optionBox[j].value == "noAdjuncts") {
-					autoInputOptions[optionBox[j].value]=!optionBox[j].checked;
+				if(optionBox[j].value == "noAdjuncts" || optionBox[j].value == "noBarLevels") {
+					autoInputOptions[optionBox[j].value] =! optionBox[j].checked;
 				}
 				else {
 					autoInputOptions[optionBox[j].value]=optionBox[j].checked;
@@ -715,7 +730,7 @@ window.addEventListener('load', function(){
 			if(autoInputOptions.recursiveCategory === 'x0' || autoInputOptions.noUnary){
 				autoInputOptions.noAdjacentHeads = false;
 			}
-			
+
 			// console.log(autoInputOptions)
 
 			if(inputString !== "") {
@@ -753,6 +768,24 @@ window.addEventListener('load', function(){
 	document.getElementById('syntax-parameters').addEventListener('change', function(){
 		document.getElementById('autoDoneMessage').style.display = 'none';
 	});
+	// check for change in syntax parameters
+	document.getElementById('syntax-parameters-clitics').addEventListener('change', function(){
+		document.getElementById('autoDoneMessage').style.display = 'none';
+	});
+	// check for change in syntax parameters
+	document.getElementById('syntax-parameters-phonology').addEventListener('change', function(){
+		document.getElementById('autoDoneMessage').style.display = 'none';
+	});
+
+	// check for change in 'string of terminals'
+	document.getElementById('terminalStrings').addEventListener('change', function(){
+		document.getElementById('autoDoneMessage').style.display = 'none';
+	});
+
+	// check for change in 'list of terminals'
+	document.getElementById('listOfTerminals').addEventListener('change', function(){
+		document.getElementById('autoDoneMessage').style.display = 'none';
+	});
 
 	// show/hide syntactic trees
 	document.getElementById('syntax-tree-switch').addEventListener('click', function(){
@@ -788,6 +821,155 @@ window.addEventListener('load', function(){
 		return htmlChunks.join('');
 	}
 
+	// GENERATE TERMINAL STRINGS
+
+	// add list of terminals button
+	document.getElementById('addList').addEventListener('click', function(){
+		var length = spotForm.genStringsInput.length;
+		if(length === undefined) {
+			length = 1;
+		}
+		var newLength = length + 1;
+		length = length.toString();
+		newLength = newLength.toString();
+		document.getElementById('list'+length).insertAdjacentHTML('afterend', "<div id='list"+newLength+"'>List of terminals "+newLength+": <input type='text' name='genStringsInput'><p>Number of terminals in generated strings:</p><p class='genStringsNum'>Min: <input type='text' name='genStringsMin' class='genStringsNumBox' style='margin-left: 4px'></p><p class='genStringsNum'>Max: <input type='text' name='genStringsMax' class='genStringsNumBox'></p></div>");
+		document.getElementById('autoDoneMessage').style.display = 'none';
+	});
+
+	// show/hide generated terminal strings
+	document.getElementById('gen-strings-switch').addEventListener('click', function(){
+		if (document.getElementById('genStringsArea').style.display === 'none' && document.getElementById('gen-strings-switch').checked){
+			document.getElementById('genStringsArea').style.display = 'block';
+			document.getElementById('strings-switch-text').innerHTML = 'Hide generated terminals strings';
+		}
+		else{
+			document.getElementById('genStringsArea').style.display = 'none';
+			document.getElementById('strings-switch-text').innerHTML = 'Show generated terminals strings';
+		}
+	});
+
+	// done button for generate terminal strings
+	document.getElementById('genStringsDoneButton').addEventListener('click', function(){
+		deleteThickLine();
+		genTerminalStrings();
+		document.getElementById('genStringsArea').style.display = 'block';
+		document.getElementById('gen-strings-switch').checked = true;
+		document.getElementById('strings-switch-text').innerHTML = 'Hide generated terminals strings';
+	});
+
+	var genStringsList;
+
+	// generate and display terminal strings
+	function genTerminalStrings() {
+		document.getElementById('genStringsBox').innerHTML = "";
+
+		var length = spotForm.inputToGenAuto.length;
+		if(length === undefined) {
+			length = 1;
+		}
+		var inputString = spotForm.inputToGenAuto.value;
+		var fixedStringList = [];
+		genStringsList = undefined;
+
+		for(var i=0; i<length; i++){
+			if(length > 1) {
+				inputString = spotForm.inputToGenAuto[i].value;
+			}
+			if(inputString !== "") {
+				fixedStringList.push(inputString);
+			}
+		}
+		if(fixedStringList.length > 0) {
+			displayStringsTable(fixedStringList);
+			genStringsList = fixedStringList;
+		}
+
+		var length = spotForm.genStringsInput.length;
+		if(length === undefined) {
+			length = 1;
+		}
+		var inputList = spotForm.genStringsInput.value;
+		var min = spotForm.genStringsMin.value;
+		var max = spotForm.genStringsMax.value;
+
+		for(var i=0; i<length; i++){
+			if(length > 1) {
+				inputList = spotForm.genStringsInput[i].value;
+				min = spotForm.genStringsMin[i].value;
+				max = spotForm.genStringsMax[i].value;
+			}
+
+			if(inputList !== "") {
+				inputList = inputList.trim().split(' ');
+				var currGenStringsList = generateTerminalStrings(inputList, min, max)
+				displayStringsTable(currGenStringsList);
+
+				if(genStringsList) {
+					genStringsList = genStringsList.concat(currGenStringsList);
+				}
+				else {
+					genStringsList = currGenStringsList;
+				}
+			}
+		}
+		// console.log(genStringsList)
+	}
+
+	function getStringsList() {
+		return genStringsList;
+	}
+
+	// display generated terminal strings in table
+	function displayStringsTable(genStringsList) {
+		var tables = document.getElementsByClassName("string-table");
+		var index = tables.length + 1;
+		var stringsTable = stringToTable(genStringsList, index);
+		document.getElementById('genStringsBox').innerHTML += stringsTable;
+		addThickLine(genStringsList, index);
+	}
+
+	// create table from generated terminal strings list
+	function stringToTable(genStringsList, index) {
+		var htmlChunks = ['<table class="auto-table string-table" id="string-table-' + index + '"><tbody>'];
+		var i = 1;
+		for(var s in genStringsList) {
+			var string = genStringsList[s];
+			htmlChunks.push('<tr>');
+			htmlChunks.push('<td>' + i + "." + '</td>');
+			htmlChunks.push('<td>' + string + '</td>');
+			htmlChunks.push('</tr>');
+			i++;
+		}
+		htmlChunks.push('</tbody></table>');
+		return htmlChunks.join('');
+	}
+
+	// add thicker line between generated strings of different lengths
+	function addThickLine(genStringsList, index) {
+		var sheet = document.styleSheets[document.styleSheets.length - 1];
+		for(var i = 0; i < genStringsList.length - 1; i++) {
+			var currString = genStringsList[i].split(' ');
+			var nextString = genStringsList[i + 1].split(' ');
+			if(currString.length < nextString.length) {
+				var row = i + 1;
+				sheet.addRule('#string-table-' + index + ' tbody > :nth-child(' + row + ')', 'border-bottom: 3px solid black;', 0);
+			}
+		}
+	}
+
+	// remove thicker line between generated strings of different lengths before regenerating strings
+	function deleteThickLine() {
+		var sheet = document.styleSheets[document.styleSheets.length - 1];
+		var rules = 0;
+		for(var i = 0; i < sheet.cssRules.length; i++) {
+			if(sheet.cssRules[i].cssText.includes('#string-table')) {
+				rules++;
+			}
+		}
+		for(var i = 0; i < rules; i++) {
+			sheet.deleteRule(0);
+		}
+	}
 
 	// For testing only
 	/*
@@ -811,7 +993,17 @@ window.addEventListener('load', function(){
 		if (cats.length > 1){
 			node['cat'] = cats[0];
 		}
-		for (var cat of cats){
+		// add the rest of the list as attributes
+		for (var cat of cats.slice(1)){
+			// remove non-alphanumeric characters, underscores
+			// replace capital letters with lowercase
+			att = cat.trim().replace(/\W/g, '');
+			if (att === ""){
+				continue;
+			}
+			//console.log(att)
+			node[att] = true;
+			/*
 			if (cat.indexOf('silentHead') != -1){
 				node['silentHead'] = true;
 			}
@@ -820,7 +1012,8 @@ window.addEventListener('load', function(){
 			}
 			if (cat.indexOf('foc') != -1){
 				node['foc'] = true;
-			}
+			}*/
+
 		}
 		var children = node['children'];
 		if (children != undefined){
@@ -959,7 +1152,7 @@ window.addEventListener('load', function(){
 
 	document.getElementById("clearAllButton").addEventListener("click", function(){
 		clearAnalysis();
-		document.getElementById('treeUI').style.display = 'none';
+		document.getElementById('treeUIinner').style.display = 'none';
 		document.getElementById('built-in-dropdown').value = 'select';
 		document.getElementById('fileUpload').value = '';
 		document.getElementById('chooseFilePrompt').style = "font-size: 13px; color: #555";
@@ -969,6 +1162,93 @@ window.addEventListener('load', function(){
 
 	document.getElementById('spotForm').addEventListener("change", function(){
 		document.getElementById("save/load-dialog").innerHTML = '';
+	});
+
+	var x = document.getElementsByName("autoInputOptions");
+	console.log(x);
+	var i;
+	var noBarLevelsIndex;
+	for (i = 0; i < x.length; i++) {
+		if (x[i].value === "noBarLevels") {
+			noBarLevelsIndex = i;
+			break;
+		}
+	}
+
+	document.getElementsByName('autoInputOptions-recursiveCategory')[2].addEventListener('click', function() {
+		if(document.getElementsByName('autoInputOptions-recursiveCategory')[2].checked == true) {
+			// console.log("xo checked")
+			var x = document.getElementsByName("autoInputOptions")[noBarLevelsIndex];
+			if(x.checked === true) {
+				x.checked = false;
+			}
+			x.disabled = true;
+			var y = document.getElementById('head-req').options;
+			y[1].disabled = true;
+			y[2].disabled = true;
+			y[3].disabled = true;
+			y[4].disabled = true;
+		}
+	});
+
+	document.getElementsByName('autoInputOptions-recursiveCategory')[0].addEventListener('click', function() {
+		if(document.getElementsByName('autoInputOptions-recursiveCategory')[0].checked == true) {
+			// console.log("cp checked")
+			var x = document.getElementsByName("autoInputOptions")[noBarLevelsIndex];
+			x.disabled = false;
+			var y = document.getElementById('head-req').options;
+			y[1].disabled = false;
+			y[2].disabled = false;
+			if(x.checked) {
+				y[3].disabled = false;
+				y[4].disabled = false;
+			}
+			else {
+				y[3].disabled = true;
+				y[4].disabled = true;
+			}
+		}
+	});
+
+	document.getElementsByName('autoInputOptions-recursiveCategory')[1].addEventListener('click', function() {
+		if(document.getElementsByName('autoInputOptions-recursiveCategory')[1].checked == true) {
+			// console.log("xp checked")
+			var x = document.getElementsByName("autoInputOptions")[noBarLevelsIndex];
+			x.disabled = false;
+			var y = document.getElementById('head-req').options;
+			y[1].disabled = false;
+			y[2].disabled = false;
+			if(x.checked) {
+				y[3].disabled = false;
+				y[4].disabled = false;
+			}
+			else {
+				y[3].disabled = true;
+				y[4].disabled = true;
+			}
+		}
+	});
+
+	document.getElementsByName("autoInputOptions")[noBarLevelsIndex].addEventListener('click', function() {
+		var x = document.getElementsByName("autoInputOptions")[noBarLevelsIndex];
+		if(x.checked === false) {
+			var y = document.getElementById('head-req').options;
+			// Heads must be perfectly left-aligned
+			y[1].disabled = false;
+			// Heads must be perfectly right-aligned
+			y[2].disabled = false;
+			// Heads must be on the left edge
+			y[3].disabled = false;
+			// Heads must be on the right edge
+			y[4].disabled = false;
+		}
+		else {
+			var y = document.getElementById('head-req').options;
+			y[1].disabled = false;
+			y[2].disabled = false;
+			y[3].disabled = true;
+			y[4].disabled = true;
+		}
 	});
 
 });
@@ -1068,7 +1348,7 @@ function displayError(errorMsg, error) {
 
 function displayWarning(warnMsg) {
 	console.warn("Warning: " + warnMsg);
-	
+
 	var spotForm = document.getElementById('spotForm');
 	if (!spotForm) {
 		alert("Warning: " + warnMsg);
@@ -1084,10 +1364,11 @@ function displayWarning(warnMsg) {
 
 function showMaxBranching() {
 	var text = document.getElementById('maxBranchingText');
-	if(text.style.display === 'none') {
+	var checkBox = document.getElementById('maxBranchingBox')
+	if(checkBox.checked) {
 		text.style.display = 'inline';
 	}
-	else if(text.style.display === 'inline') {
+	else{
 		text.style.display = 'none';
 	}
 }

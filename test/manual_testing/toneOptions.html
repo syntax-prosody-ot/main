@@ -1,0 +1,58 @@
+<!-- Max Tarlov 9/10/19 testing tone annotation options -->
+<html>
+	<title>Tone Options Test</title>
+	<head>
+		<link rel="stylesheet" type="text/css" href="../../spot.css">
+		<script src="../../build/spot.js"></script>
+		<script src="../../build/constraints.js"></script>
+		<script src="../../trees/toneOptions.js"></script>
+	</head>
+	<body> style="font-family:courier"
+		<pre id="results-container"></pre>
+		<button type="button" onclick="wordswords()"> Recursive Words </button>
+		<script>
+			window.addEventListener("load",function(){
+				var theCandidates = [[basicTreeLeft, basicTreeLeft], [basicTreeLeft, basicTreeRight], [basicTreeLeft, basicTreeCenter]];
+				var con = [];
+				writeTableau(makeTableau(theCandidates, con, {showTones: true}));
+				revealNextSegment();
+			});
+
+			window.addEventListener("load",function(){
+				var theCandidates = [[basicTreeLeft, basicTreeLeft], [basicTreeLeft, basicTreeRight], [basicTreeLeft, basicTreeCenter]];
+				var con = [];
+				writeTableau(makeTableau(theCandidates, con, {showTones: true, invisibleCategories: ["phi"]}));
+				revealNextSegment();
+			});
+
+			//function wordswords()
+			window.addEventListener("load", function(){
+				var wTreeLeft = basicTreeLeft;
+				wTreeLeft.children[0].cat = "w";
+				wTreeLeft.children[0].children[0].cat = "w";
+				var wTreeRight = basicTreeRight;
+				wTreeRight.children[1].cat = "w";
+				wTreeRight.children[1].children[1].cat = "w";
+				var wTreeCenter = basicTreeCenter;
+				wTreeCenter.children[0].cat = "w";
+				wTreeCenter.children[1].cat = "w";
+				var theCandidates = [[wTreeLeft, wTreeLeft], [wTreeLeft, wTreeRight], [wTreeLeft, wTreeCenter]];
+				var con = [];
+				writeTableau(makeTableau(theCandidates, con, {showTones: true}));
+				revealNextSegment();
+			});
+
+window.addEventListener("load",function(){
+	basicTreeLeft.children[0].cat = "newCat";
+	basicTreeRight.children[1].cat = "newCat";
+	basicTreeCenter.children[0].cat = "newCat";
+	basicTreeCenter.children[1].cat = "other";
+	var theCandidates = [[basicTreeLeft, basicTreeLeft], [basicTreeLeft, basicTreeRight], [basicTreeLeft, basicTreeCenter]];
+	var con = [];
+	writeTableau(makeTableau(theCandidates, con, {showTones: true, showNewCats: true}));
+	revealNextSegment();
+});
+
+		</script>
+	</body>
+</html>

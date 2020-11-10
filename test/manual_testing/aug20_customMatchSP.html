@@ -1,0 +1,1128 @@
+<!-- Nick VH 8/24/2020 testing MatchSP subcategory options -->
+<html>
+	<title>Testing MatchSP with subcategories</title>
+	<head>
+		<link rel="stylesheet" type="text/css" href="../../spot.css">
+		<script src="../../build/spot.js"></script>
+		<script src="../../build/constraints.js"></script>
+		<script src="../../candidategenerator.js"></script>
+	</head>
+	<body>
+		<p>
+		See <a href = "https://drive.google.com/file/d/1aIgs29VURmvmTcqQFBVU97iy9GsIwkB9/view?usp=sharing"> this document</a>
+		for details on the testing method. The tableaux below should be identical to the 
+		tableaux in the linked document.
+	
+		</p>
+
+		<pre id="results-container"></pre>
+		<script>
+			var stree1 =  {
+        "id": "root",
+        "cat": "cp",
+        "children": [
+            {
+                "cat": "xp",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "id": "a",
+                        "cat": "x0"
+                    },
+                    {
+                        "cat": "xp",
+                        "id": "nonminNonmax",
+                        "children": [
+                            {
+                                "id": "b",
+                                "cat": "x0"
+                            },
+                            {
+                                "cat": "xp",
+                                "id": "minNonmax",
+                                "children": [
+                                    {
+                                        "id": "c",
+                                        "cat": "x0"
+                                    },
+                                    {
+                                        "id": "d",
+                                        "cat": "x0"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "cat": "xp",
+                "id": "minMax",
+                "children": [
+                    {
+                        "id": "e",
+                        "cat": "x0"
+                    },
+                    {
+                        "id": "f",
+                        "cat": "x0"
+                    }
+                ]
+            }
+        ]
+    };
+			
+			
+	var ptree1 =  {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "id": "a",
+                        "cat": "w"
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "nonminNonmax",
+                        "children": [
+                            {
+                                "id": "b",
+                                "cat": "w"
+                            },
+                            {
+                                "cat": "phi",
+                                "id": "minNonmax",
+                                "children": [
+                                    {
+                                        "id": "c",
+                                        "cat": "w"
+                                    },
+                                    {
+                                        "id": "d",
+                                        "cat": "w"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "cat": "phi",
+                "id": "minMax",
+                "children": [
+                    {
+                        "id": "e",
+                        "cat": "w"
+                    },
+                    {
+                        "id": "f",
+                        "cat": "w"
+                    }
+                ]
+            }
+        ]
+    };
+
+	var ptree2 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "id": "Mismatch",
+                "cat": "w"
+            }
+        ]
+    };
+
+
+	var ptree3 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "minMax",
+                "children": [
+                    {
+                        "id": "e",
+                        "cat": "w"
+                    },
+                    {
+                        "id": "f",
+                        "cat": "w"
+                    }
+                ]
+            }
+        ]
+    };
+    
+    
+	var ptree4 =    {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "id": "e",
+                        "cat": "w"
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "minNonmax",
+                        "children": [
+                            {
+                                "id": "f",
+                                "cat": "w"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+    
+    
+    var ptree5 =    {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "id": "d",
+                        "cat": "w"
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "minNonmax",
+                        "children": [
+                            {
+                                "id": "e",
+                                "cat": "w"
+                            },
+                            {
+                                "id": "f",
+                                "cat": "w"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+    
+    var ptree6 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "id": "d",
+                        "cat": "w"
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "nonminNonmax",
+                        "children": [
+                            {
+                                "id": "e",
+                                "cat": "w"
+                            },
+                            {
+                                "cat": "phi",
+                                "id": "minNonmax",
+                                "children": [
+                                    {
+                                        "id": "f",
+                                        "cat": "w"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+	
+	
+	var ptree7 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "maxMin",
+                "children": [
+                    {
+                        "id": "a",
+                        "cat": "w"
+                    },
+                    {
+                        "id": "b",
+                        "cat": "w"
+                    },
+                    {
+                        "id": "c",
+                        "cat": "w"
+                    },
+                    {
+                        "id": "d",
+                        "cat": "w"
+                    }
+                ]
+            }
+        ]
+    };
+    
+    
+	var ptree8 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "maxNonmin",
+                "children": [
+                    {
+                        "id": "a",
+                        "cat": "w"
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "nonmaxMin",
+                        "children": [
+                            {
+                                "id": "b",
+                                "cat": "w"
+                            },
+                            {
+                                "id": "c",
+                                "cat": "w"
+                            },
+                            {
+                                "id": "d",
+                                "cat": "w"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+    
+    var ptree9 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "maxNonmin",
+                "children": [
+                    {
+                        "cat": "phi",
+                        "id": "nonmaxMin",
+                        "children": [
+                            {
+                                "id": "a",
+                                "cat": "w"
+                            },
+                            {
+                                "id": "b",
+                                "cat": "w"
+                            },
+                            {
+                                "id": "c",
+                                "cat": "w"
+                            },
+                            {
+                                "id": "d",
+                                "cat": "w"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "e",
+                        "cat": "w"
+                    }
+                ]
+            }
+        ]
+    };
+    
+    
+    var ptree10 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "maxNonmin",
+                "children": [
+                    {
+                        "cat": "phi",
+                        "id": "nonmaxNonmin",
+                        "children": [
+                            {
+                                "id": "a",
+                                "cat": "w"
+                            },
+                            {
+                                "cat": "phi",
+                                "id": "nonmaxMin",
+                                "children": [
+                                    {
+                                        "id": "b",
+                                        "cat": "w"
+                                    },
+                                    {
+                                        "id": "c",
+                                        "cat": "w"
+                                    },
+                                    {
+                                        "id": "d",
+                                        "cat": "w"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "id": "e",
+                        "cat": "w"
+                    }
+                ]
+            }
+        ]
+    };
+    
+    
+	var ptree11 =  {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "minMax",
+                "children": [
+                    {
+                        "id": "a",
+                        "cat": "w"
+                    },
+                    {
+                        "id": "b",
+                        "cat": "w"
+                    },
+                    {
+                        "id": "c",
+                        "cat": "w"
+                    },
+                    {
+                        "id": "d",
+                        "cat": "w"
+                    }
+                ]
+            },
+            {
+                "cat": "phi",
+                "id": "minMax",
+                "children": [
+                    {
+                        "id": "e",
+                        "cat": "w"
+                    },
+                    {
+                        "id": "f",
+                        "cat": "w"
+                    }
+                ]
+            }
+        ]
+    };
+    
+    
+    var ptree12 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "id": "a",
+                        "cat": "x0"
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "minNonmax",
+                        "children": [
+                            {
+                                "id": "b",
+                                "cat": "x0"
+                            },
+                            {
+                                "id": "c",
+                                "cat": "x0"
+                            },
+                            {
+                                "id": "d",
+                                "cat": "x0"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "cat": "phi",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "id": "e",
+                        "cat": "x0"
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "minNonmax",
+                        "children": [
+                            {
+                                "id": "f",
+                                "cat": "x0"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+    
+    
+    
+    var ptree13 =    {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "cat": "phi",
+                        "id": "minNonmax",
+                        "children": [
+                            {
+                                "id": "a",
+                                "cat": "x0"
+                            },
+                            {
+                                "id": "b",
+                                "cat": "x0"
+                            },
+                            {
+                                "id": "c",
+                                "cat": "x0"
+                            },
+                            {
+                                "id": "d",
+                                "cat": "x0"
+                            }
+                        ]
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "minNonmax",
+                        "children": [
+                            {
+                                "id": "e",
+                                "cat": "x0"
+                            },
+                            {
+                                "id": "f",
+                                "cat": "x0"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+    
+    
+    var ptree14 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "cat": "phi",
+                        "id": "nonminNonmax",
+                        "children": [
+                            {
+                                "id": "a",
+                                "cat": "x0"
+                            },
+                            {
+                                "cat": "phi",
+                                "id": "minNonmax",
+                                "children": [
+                                    {
+                                        "id": "b",
+                                        "cat": "x0"
+                                    },
+                                    {
+                                        "id": "c",
+                                        "cat": "x0"
+                                    },
+                                    {
+                                        "id": "d",
+                                        "cat": "x0"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "nonminNonmax",
+                        "children": [
+                            {
+                                "id": "e",
+                                "cat": "x0"
+                            },
+                            {
+                                "cat": "phi",
+                                "id": "minNonmax",
+                                "children": [
+                                    {
+                                        "id": "f",
+                                        "cat": "x0"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+    
+    var ptree15 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "minMax",
+                "children": [
+                    {
+                        "id": "c",
+                        "cat": "w"
+                    },
+                    {
+                        "id": "d",
+                        "cat": "w"
+                    }
+                ]
+            }
+        ]
+    };
+    
+    var ptree16 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "id": "c",
+                        "cat": "w"
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "minNonmax",
+                        "children": [
+                            {
+                                "id": "d",
+                                "cat": "w"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+    
+    var ptree17 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "id": "b",
+                        "cat": "w"
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "minNonmax",
+                        "children": [
+                            {
+                                "id": "c",
+                                "cat": "w"
+                            },
+                            {
+                                "id": "d",
+                                "cat": "w"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+    
+    
+    var ptree18 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "id": "b",
+                        "cat": "w"
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "nonminNonmax",
+                        "children": [
+                            {
+                                "id": "c",
+                                "cat": "w"
+                            },
+                            {
+                                "cat": "phi",
+                                "id": "minNonmax",
+                                "children": [
+                                    {
+                                        "id": "d",
+                                        "cat": "w"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+    
+    var ptree19 =    {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "minMax",
+                "children": [
+                    {
+                        "id": "b",
+                        "cat": "w"
+                    },
+                    {
+                        "id": "c",
+                        "cat": "w"
+                    },
+                    {
+                        "id": "d",
+                        "cat": "w"
+                    }
+                ]
+            }
+        ]
+    };
+    
+    var ptree20 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "id": "b",
+                        "cat": "w"
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "minNonmax",
+                        "children": [
+                            {
+                                "id": "c",
+                                "cat": "w"
+                            },
+                            {
+                                "id": "d",
+                                "cat": "w"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+    
+    var ptree21 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "maxNonmin",
+                "children": [
+                    {
+                        "id": "a",
+                        "cat": "w"
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "nonmaxMin",
+                        "children": [
+                            {
+                                "id": "b",
+                                "cat": "w"
+                            },
+                            {
+                                "id": "c",
+                                "cat": "w"
+                            },
+                            {
+                                "id": "d",
+                                "cat": "w"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+    
+    var ptree22 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "id": "a",
+                        "cat": "x0"
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "nonminNonmax",
+                        "children": [
+                            {
+                                "id": "b",
+                                "cat": "x0"
+                            },
+                            {
+                                "cat": "phi",
+                                "id": "minNonmax",
+                                "children": [
+                                    {
+                                        "id": "c",
+                                        "cat": "x0"
+                                    },
+                                    {
+                                        "id": "d",
+                                        "cat": "x0"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+    
+	var ptree23 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "minMax",
+                "children": [
+                    {
+                        "id": "c",
+                        "cat": "w"
+                    },
+                    {
+                        "id": "d",
+                        "cat": "w"
+                    }
+                ]
+            },
+            {
+                "cat": "phi",
+                "id": "minMax",
+                "children": [
+                    {
+                        "id": "e",
+                        "cat": "w"
+                    },
+                    {
+                        "id": "f",
+                        "cat": "w"
+                    }
+                ]
+            }
+        ]
+    };
+    
+    var ptree24 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "id": "c",
+                        "cat": "w"
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "minNonmax",
+                        "children": [
+                            {
+                                "id": "d",
+                                "cat": "w"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "cat": "phi",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "id": "e",
+                        "cat": "w"
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "minNonmax",
+                        "children": [
+                            {
+                                "id": "f",
+                                "cat": "w"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+    
+    var ptree25 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "cat": "phi",
+                        "id": "minNonmax",
+                        "children": [
+                            {
+                                "id": "c",
+                                "cat": "w"
+                            },
+                            {
+                                "id": "d",
+                                "cat": "w"
+                            }
+                        ]
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "minNonmax",
+                        "children": [
+                            {
+                                "id": "e",
+                                "cat": "w"
+                            },
+                            {
+                                "id": "f",
+                                "cat": "w"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+    
+    var ptree26 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "cat": "phi",
+                        "id": "nonminNonmax",
+                        "children": [
+                            {
+                                "id": "c",
+                                "cat": "x0"
+                            },
+                            {
+                                "cat": "phi",
+                                "id": "minNonmax",
+                                "children": [
+                                    {
+                                        "id": "d",
+                                        "cat": "x0"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "nonminNonmax",
+                        "children": [
+                            {
+                                "id": "e",
+                                "cat": "x0"
+                            },
+                            {
+                                "cat": "phi",
+                                "id": "minNonmax",
+                                "children": [
+                                    {
+                                        "id": "f",
+                                        "cat": "x0"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+	
+
+			var con1 = [
+				'matchSP-xp', 'matchSP-xp-{"maxSyntax": true}', 'matchSP-xp-{"nonMaxSyntax": true}',
+				'matchSP-xp-{"minSyntax": true}', 'matchSP-xp-{"maxSyntax": true, "minSyntax": true}', 'matchSP-xp-{"nonMaxSyntax": true, "minSyntax": true}',
+				'matchSP-xp-{"nonMinSyntax": true}', 'matchSP-xp-{"nonMinSyntax": true, "maxSyntax": true}', 'matchSP-xp-{"nonMaxSyntax": true, "nonMinSyntax": true}'];
+
+			var con1b = [
+				'matchSP-xp-{"maxProsody": true}', 'matchSP-xp-{"nonMaxProsody": true}',
+				'matchSP-xp-{"minProsody": true}', 'matchSP-xp-{"maxProsody": true, "minProsody": true}', 'matchSP-xp-{"nonMaxProsody": true, "minProsody": true}',
+				'matchSP-xp-{"nonMinProsody": true}', 'matchSP-xp-{"nonMinProsody": true, "maxProsody": true}', 'matchSP-xp-{"nonMaxProsody": true, "nonMinProsody": true}'];
+
+
+			var con2 = [
+				'matchSP-xp-{"maxSyntax": true, "minSyntax": true, "maxProsody": true}', 'matchSP-xp-{"maxSyntax": true, "minSyntax": true, "nonMaxProsody": true}',
+				'matchSP-xp-{"maxSyntax": true, "minSyntax": true, "minProsody": true}', 'matchSP-xp-{"maxSyntax": true, "minSyntax": true, "maxProsody": true, "minProsody": true}', 'matchSP-xp-{"maxSyntax": true, "minSyntax": true, "nonMaxProsody": true, "minProsody": true}',
+				'matchSP-xp-{"maxSyntax": true, "minSyntax": true, "nonMinProsody": true}', 'matchSP-xp-{"maxSyntax": true, "minSyntax": true, "nonMinProsody": true, "maxProsody": true}', 'matchSP-xp-{"maxSyntax": true, "minSyntax": true, "nonMaxProsody": true, "nonMinProsody": true}'];
+
+			var con3 = [
+				'matchSP-xp-{"maxSyntax": true, "nonMinSyntax": true, "maxProsody": true}', 'matchSP-xp-{"maxSyntax": true, "nonMinSyntax": true, "nonMaxProsody": true}',
+				'matchSP-xp-{"maxSyntax": true, "nonMinSyntax": true, "minProsody": true}', 'matchSP-xp-{"maxSyntax": true, "nonMinSyntax": true, "maxProsody": true, "minProsody": true}', 'matchSP-xp-{"maxSyntax": true, "nonMinSyntax": true, "nonMaxProsody": true, "minProsody": true}',
+				'matchSP-xp-{"maxSyntax": true, "nonMinSyntax": true, "nonMinProsody": true}', 'matchSP-xp-{"maxSyntax": true, "nonMinSyntax": true, "nonMinProsody": true, "maxProsody": true}', 'matchSP-xp-{"maxSyntax": true, "nonMinSyntax": true, "nonMaxProsody": true, "nonMinProsody": true}'];
+
+			var con4 = [
+				'matchSP-xp-{"maxSyntax": true, "maxProsody": true}', 'matchSP-xp-{"maxSyntax": true, "nonMaxProsody": true}',
+				'matchSP-xp-{"maxSyntax": true, "minProsody": true}', 'matchSP-xp-{"maxSyntax": true, "maxProsody": true, "minProsody": true}', 'matchSP-xp-{"maxSyntax": true, "nonMaxProsody": true, "minProsody": true}',
+				'matchSP-xp-{"maxSyntax": true, "nonMinProsody": true}', 'matchSP-xp-{"maxSyntax": true, "nonMinProsody": true, "maxProsody": true}', 'matchSP-xp-{"maxSyntax": true, "nonMaxProsody": true, "nonMinProsody": true}'];
+
+			var con5 = [
+				'matchSP-xp-{"nonMaxSyntax": true, "minSyntax": true, "maxProsody": true}', 'matchSP-xp-{"nonMaxSyntax": true, "minSyntax": true, "nonMaxProsody": true}',
+				'matchSP-xp-{"nonMaxSyntax": true, "minSyntax": true, "minProsody": true}', 'matchSP-xp-{"nonMaxSyntax": true, "minSyntax": true, "maxProsody": true, "minProsody": true}', 'matchSP-xp-{"nonMaxSyntax": true, "minSyntax": true, "nonMaxProsody": true, "minProsody": true}',
+				'matchSP-xp-{"nonMaxSyntax": true, "minSyntax": true, "nonMinProsody": true}', 'matchSP-xp-{"nonMaxSyntax": true, "minSyntax": true, "nonMinProsody": true, "maxProsody": true}', 'matchSP-xp-{"nonMaxSyntax": true, "minSyntax": true, "nonMaxProsody": true, "nonMinProsody": true}'];
+
+			var con6 = [
+				'matchSP-xp-{"nonMaxSyntax": true, "nonMinSyntax": true, "maxProsody": true}', 'matchSP-xp-{"nonMaxSyntax": true, "nonMinSyntax": true, "nonMaxProsody": true}',
+				'matchSP-xp-{"nonMaxSyntax": true, "nonMinSyntax": true, "minProsody": true}', 'matchSP-xp-{"nonMaxSyntax": true, "nonMinSyntax": true, "maxProsody": true, "minProsody": true}', 'matchSP-xp-{"nonMaxSyntax": true, "nonMinSyntax": true, "nonMaxProsody": true, "minProsody": true}',
+				'matchSP-xp-{"nonMaxSyntax": true, "nonMinSyntax": true, "nonMinProsody": true}', 'matchSP-xp-{"nonMaxSyntax": true, "nonMinSyntax": true, "nonMinProsody": true, "maxProsody": true}', 'matchSP-xp-{"nonMaxSyntax": true, "nonMinSyntax": true, "nonMaxProsody": true, "nonMinProsody": true}'];
+
+			var con7 = [
+				'matchSP-xp-{"nonMaxSyntax": true, "maxProsody": true}', 'matchSP-xp-{"nonMaxSyntax": true, "nonMaxProsody": true}',
+				'matchSP-xp-{"nonMaxSyntax": true, "minProsody": true}', 'matchSP-xp-{"nonMaxSyntax": true, "maxProsody": true, "minProsody": true}', 'matchSP-xp-{"nonMaxSyntax": true, "nonMaxProsody": true, "minProsody": true}',
+				'matchSP-xp-{"nonMaxSyntax": true, "nonMinProsody": true}', 'matchSP-xp-{"nonMaxSyntax": true, "nonMinProsody": true, "maxProsody": true}', 'matchSP-xp-{"nonMaxSyntax": true, "nonMaxProsody": true, "nonMinProsody": true}'];
+
+			var con8 = [
+				'matchSP-xp-{"minSyntax": true, "maxProsody": true}', 'matchSP-xp-{"minSyntax": true, "nonMaxProsody": true}',
+				'matchSP-xp-{"minSyntax": true, "minProsody": true}', 'matchSP-xp-{"minSyntax": true, "maxProsody": true, "minProsody": true}', 'matchSP-xp-{"minSyntax": true, "nonMaxProsody": true, "minProsody": true}',
+				'matchSP-xp-{"minSyntax": true, "nonMinProsody": true}', 'matchSP-xp-{"minSyntax": true, "nonMinProsody": true, "maxProsody": true}', 'matchSP-xp-{"minSyntax": true, "nonMaxProsody": true, "nonMinProsody": true}'];
+
+			var con9 = [
+				'matchSP-xp-{"nonMinSyntax": true, "maxProsody": true}', 'matchSP-xp-{"nonMinSyntax": true, "nonMaxProsody": true}',
+				'matchSP-xp-{"nonMinSyntax": true, "minProsody": true}', 'matchSP-xp-{"nonMinSyntax": true, "maxProsody": true, "minProsody": true}', 'matchSP-xp-{"nonMinSyntax": true, "nonMaxProsody": true, "minProsody": true}',
+				'matchSP-xp-{"nonMinSyntax": true, "nonMinProsody": true}', 'matchSP-xp-{"nonMinSyntax": true, "nonMinProsody": true, "maxProsody": true}', 'matchSP-xp-{"nonMinSyntax": true, "nonMaxProsody": true, "nonMinProsody": true}'];
+
+			window.addEventListener("load",function(){
+
+				writeTableau(makeTableau([[stree1, ptree1], [stree1, ptree2]], con1));
+				revealNextSegment();
+				writeTableau(makeTableau([[stree1, ptree1], [stree1, ptree2]], con1b));
+				revealNextSegment();				
+				writeTableau(makeTableau([[stree1, ptree2], [stree1, ptree3], [stree1, ptree4], [stree1, ptree5], [stree1, ptree6]], con2));
+				revealNextSegment();				
+				writeTableau(makeTableau([[stree1, ptree2], [stree1, ptree7], [stree1, ptree8], [stree1, ptree9], [stree1, ptree10]], con3));
+				revealNextSegment();	
+				writeTableau(makeTableau([[stree1, ptree2], [stree1, ptree11], [stree1, ptree12], [stree1, ptree13], [stree1, ptree14]], con4));
+				revealNextSegment();	
+				writeTableau(makeTableau([[stree1, ptree2], [stree1, ptree15], [stree1, ptree16], [stree1, ptree17], [stree1, ptree18]], con5));
+				revealNextSegment();				
+				writeTableau(makeTableau([[stree1, ptree2], [stree1, ptree19], [stree1, ptree20], [stree1, ptree21], [stree1, ptree22]], con6));
+				revealNextSegment();
+				writeTableau(makeTableau([[stree1, ptree2], [stree1, ptree19], [stree1, ptree20], [stree1, ptree21], [stree1, ptree22]], con7));
+				revealNextSegment();
+				writeTableau(makeTableau([[stree1, ptree2], [stree1, ptree23], [stree1, ptree24], [stree1, ptree25], [stree1, ptree26]], con8));
+				revealNextSegment();
+				writeTableau(makeTableau([[stree1, ptree2], [stree1, ptree7], [stree1, ptree8], [stree1, ptree9], [stree1, ptree10]], con9));
+				revealNextSegment();
+
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,66 @@
+<html>
+<head>
+	<title>Syntax-prosody interface application</title>
+
+	<link rel="stylesheet" type="text/css" href="../../spot.css">
+
+	<!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
+	(open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
+	<script src="../../build/spot.js"></script>
+	
+</head>
+
+<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+	<h2>Syntax-prosody interface application -- Kinyambo Test</h2>
+	<pre id="results-container"></pre>
+
+	<script src="../../trees/binarityTrees.js"></script>
+	<script src="../../trees/trees.js"></script>
+	
+	<script>
+	var sTreeAlign2 = { 
+		"id":"xp0",
+		"cat":"xp",
+		"children":
+		[
+			{
+				"id":"xp1",
+				"cat":"xp",
+				"children":
+				[
+					{
+						"id":"word1",
+						"cat":"x0"
+					}
+				]
+			},
+			{
+				"id":"word2",
+				"cat":"x0"
+			}
+		]
+	};
+	
+	var constraintSetAlign = ['alignLeftPS-phi', 'alignRightPS-phi','alignLeft-xp', 'alignRight-xp', 'wrap-xp'];
+
+	var candGen = GEN(sTreeAlign2, '', {});
+
+	var candidateSet = [[sTreeAlign1, pTree3words], [sTreeAlign1, pTree4words], [sTreeAlign1, pTree4wordsRec], [sTreeAlign1, pTree4words2xRec]];
+
+
+	var candidateSetMin = [[sTreeAlign1, pTree0word], [sTreeAlign1, pTree0wordRec], [sTreeAlign1, pTree1word], [sTreeAlign1, pTree1wordRec], [sTreeAlign1, pTree1word2xRec], [sTreeAlign1, pTree2words]];
+	
+	var candidateSet2 = [[sTreeAlign2, pTree0word], [sTreeAlign2, pTree0wordRec], [sTreeAlign2, pTree1word], [sTreeAlign2, pTree1wordRec], [sTreeAlign2, pTree1word2xRec], [sTreeAlign2, pTree2words]];
+		
+	function runDemo() {
+		
+		writeTableau(makeTableau(candGen, constraintSetAlign));
+		revealNextSegment();
+		lastSegmentId++;
+	}
+
+	</script>
+
+</body>
+
+</html>

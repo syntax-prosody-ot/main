@@ -151,6 +151,36 @@ function binMaxLeaves(s, ptree, c, n){
 	return vcount;
 }
 
+/*
+* BinMax(phi-min)
+* Violated if a minimal phi contains more than 2 minimal words --> leaf-counting
+*/
+function binMax_minLeaves(s, ptree, c){
+	// c = phi
+	markMinMax(ptree);
+	var vcount = 0;
+	if(ptree.children && ptree.children.length){
+		var leafCat = pCat.nextLower(c);
+		var wDesc = getDescendentsOfCat(ptree, leafCat);
+		// console.log("there are " + wDesc.length + " " + "ws");
+		if(ptree.cat === c && ptree.isMin){
+			var count = 0;
+			for(var i=0; i < wDesc.length; i++) {
+				if(wDesc[i].isMin) {
+					count++;
+				}
+			}
+			if(count > 2) {
+				vcount++;
+			}
+		}
+		for(var i = 0; i < ptree.children.length; i++){
+			vcount += binMax_minLeaves(s, ptree.children[i], c);
+		}
+	}
+	return vcount;
+}
+
 /* Gradiant BinMax (Leaves)
 * I don't know how to define this constraint in prose, but it's binMaxLeaves as
 * a gradient constraint instead of a categorical constraint.
@@ -329,30 +359,37 @@ and in that case would need a type-sensitive implementation of getLeaves
 /*
 	Head binarity for Japanese compounds
 */
-function binMaxHead(s, ptree, cat) {
-	markHeadsJapanese(ptree);
+function binMaxHead(s, ptree, cat, options) {
+	options = options || {};
+	options.side = options.side || 'right';
+	if(typeof options.side !== 'string' || !(options.side === 'right' || options.side == 'left')){
+		console.warn('The option "side" for binMaxHead must be "left" or "right" (default)');
+		options.side = right;
+	}
+	markHeads(ptree, options.side);
 	var vcount = 0;
-	// non terminal
+
 	if(ptree.children && ptree.children.length){
-		// if category is correct and word is head
-		if(ptree.cat === cat && ptree.head === true){
-			if(ptree.children.length > 2){
-				vcount++;
+		if(ptree.cat === cat){
+			for(var i = 0; i<ptree.children.length; i++){
+				if(ptree.children[i].head === true) {
+					if(ptree.children[i].children){
+						if(ptree.children[i].children.length > 2) {
+							vcount++;
+						}
+					}
+					else {
+						var id = ptree.children[i].id.split('_');
+						id = id[0];
+						if(id.length > 2) {
+							vcount++;
+						}
+					}
+				}
 			}
 		}
 		for(var i = 0; i<ptree.children.length; i++){
-			vcount += binMaxHead(s, ptree.children[i], cat);
-		}
-	}
-	// terminal
-	else {
-		// if category is correct and word is head
-		if(ptree.cat === cat && ptree.head === true){
-			var id = ptree.id.split('_');
-			id = id[0];
-			if(id.length > 2) {
-				vcount++;
-			}
+			vcount += binMaxHead(s, ptree.children[i], cat, options);
 		}
 	}
 	return vcount;

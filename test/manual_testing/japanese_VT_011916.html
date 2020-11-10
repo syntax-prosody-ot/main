@@ -1,0 +1,95 @@
+<html>
+<head>
+	<title>Syntax-Prosody Interface Application</title>
+
+	<link rel="stylesheet" type="text/css" href="../../spot.css">
+
+	<!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
+	(open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
+	<script src="../../build/spot.js"></script>
+	<script src="../../trees/japaneseAccent_sTrees_011316.js"></script>
+	
+</head>
+
+<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+	<h2>Syntax-Prosody Interface Application</h2>
+	<pre id="results-container"></pre>
+
+<script>
+
+    var candSet1 = GEN('sTreeLuuu', "u u u");
+    var candSet2 = GEN('sTreeLuaa', "u a a");
+    var candSet3 = GEN('sTreeLuau', "u a u");
+    var candSet4 = GEN('sTreeLuua', "u u a");
+    var candSet5 = GEN('sTreeLaaa', "a a a");
+    var candSet6 = GEN('sTreeLaau', "a a u");
+    var candSet7 = GEN('sTreeLaua', "a u a");
+    var candSet8 = GEN('sTreeLauu', "a u u");
+	
+    var candSet9 = GEN('sTreeRuuu', "u u u");
+    var candSet10 = GEN('sTreeRuaa', "u a a");
+    var candSet11 = GEN('sTreeRuau', "u a u");
+    var candSet12 = GEN('sTreeRuua', "u u a");
+    var candSet13 = GEN('sTreeRaaa', "a a a");
+    var candSet14 = GEN('sTreeRaau', "a a u");
+    var candSet15 = GEN('sTreeRaua', "a u a");
+    var candSet16 = GEN('sTreeRauu', "a u u");
+
+    var constraintSet1 = ['equalSistersAdj','matchSP-xp', 'matchPS-phi', 'binMinBranches-phi', 'binMaxBranches-phi', 'binMax2Words-phi', 'binMin2Words-phi', 'exhaust1-phi', 'accentAsHead', 'noLapseL', 'nonRec1-phi'];
+
+    function runDemo() {
+        writeTableau(makeTableau(candSet1, constraintSet1));
+        //revealNextSegment();
+        //lastSegmentId++;
+        writeTableau(makeTableau(candSet2, constraintSet1));
+        revealNextSegment();
+        lastSegmentId++;
+        writeTableau(makeTableau(candSet3, constraintSet1));
+        revealNextSegment();
+        lastSegmentId++;
+        writeTableau(makeTableau(candSet4, constraintSet1));
+        revealNextSegment();
+        lastSegmentId++;
+        writeTableau(makeTableau(candSet5, constraintSet1));
+        revealNextSegment();
+        lastSegmentId++;
+        writeTableau(makeTableau(candSet6, constraintSet1));
+        revealNextSegment();
+        lastSegmentId++;
+        writeTableau(makeTableau(candSet7, constraintSet1));
+        revealNextSegment();
+        lastSegmentId++;
+        writeTableau(makeTableau(candSet8, constraintSet1));
+        revealNextSegment();
+        lastSegmentId++;
+        writeTableau(makeTableau(candSet9, constraintSet1));
+        revealNextSegment();
+        lastSegmentId++;
+        writeTableau(makeTableau(candSet10, constraintSet1));
+        revealNextSegment();
+        lastSegmentId++;
+        writeTableau(makeTableau(candSet11, constraintSet1));
+        revealNextSegment();
+        lastSegmentId++;
+        writeTableau(makeTableau(candSet12, constraintSet1));
+        revealNextSegment();
+        lastSegmentId++;
+        writeTableau(makeTableau(candSet13, constraintSet1));
+        revealNextSegment();
+        lastSegmentId++;
+        writeTableau(makeTableau(candSet14, constraintSet1));
+        revealNextSegment();
+        lastSegmentId++;
+        writeTableau(makeTableau(candSet15, constraintSet1));
+        revealNextSegment();
+        lastSegmentId++;
+        writeTableau(makeTableau(candSet16, constraintSet1));
+        revealNextSegment();
+        lastSegmentId++;
+    }
+
+</script>
+
+</body>
+
+</html>
