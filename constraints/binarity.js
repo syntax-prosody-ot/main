@@ -46,7 +46,7 @@ function binMinBranchesInit(s, ptree, cat){
 //sensitive to the category of the parent only (2 branches of any type is acceptable)
 //categorical evaluation: 1 violation for every super-binary branching node
 function binMaxBranches(s, ptree, cat, n){
-	n = n || 2;
+	n = typeof(n)==='number'? n : 2;
 	var vcount = 0;
 	if(ptree.children && ptree.children.length){
 		if(ptree.cat === cat && ptree.children.length>n){
@@ -60,9 +60,13 @@ function binMaxBranches(s, ptree, cat, n){
 	return vcount;
 }
 
+function ternMaxBranches(s, p, c){
+	return(binMaxBranches(s, p, c, 3));
+}
+
 //A combined binarity constraint (branch-counting)
 function binBranches(stree, ptree, cat, n){
-	n = n || 2
+	n = typeof(n)==='number'? n : 2;
 	var minCount = binMinBranches(stree, ptree, cat);
 	var maxCount = binMaxBranches(stree, ptree, cat, n);
 	return minCount+maxCount;
@@ -99,7 +103,7 @@ function binMaxBrCatSensitive(s, ptree, cat){
 //sensitive to the category of the parent only (2 branches of any type is acceptable)
 //gradient evaluation: assigns 1 violation for every child past the first 2 ("third-born" or later)
 function binMaxBranchesGradient(s, ptree, cat, n){
-	n = n || 2;
+	n = typeof(n)==='number'? n : 2;
 	var vcount = 0;
 	if(ptree.children && ptree.children.length){
 		var numChildren = ptree.children.length;
@@ -116,7 +120,7 @@ function binMaxBranchesGradient(s, ptree, cat, n){
 }
 
 function binBrGradient(s, ptree, cat, n){
-	n = n || 2;
+	n = typeof(n)==='number'? n : 2;
 	return binMaxBranchesGradient(s, ptree, cat, n)+binMinBranches(s, ptree, cat);
 }
 
@@ -132,7 +136,7 @@ function binBrGradient(s, ptree, cat, n){
 * Assigns a violation for every node in ptree that dominates more than two prosodic words.
 */
 function binMaxLeaves(s, ptree, c, n){
-	n = n || 2;
+	n = typeof(n)==='number'? n : 2;
 	var vcount = 0;
 	//the category we are looking for:
 	var target = pCat.nextLower(c);
@@ -186,7 +190,7 @@ function binMax_minLeaves(s, ptree, c){
 * a gradient constraint instead of a categorical constraint.
 */
 function binMaxLeavesGradient(s, ptree, c, n){
-	n = n || 2;
+	n = typeof(n)==='number'? n : 2;
 	var vcount = 0;
 	//the category we are looking for:
 	var target = pCat.nextLower(c);
@@ -228,12 +232,12 @@ function binMinLeaves(s, ptree, c){
 
 //Combines the violations of maximal and minimal binarity (leaf-counting)
 function binLeaves(s, ptree, c, n){
-	n = n || 2;
+	n = typeof(n)==='number'? n : 2;
 	return binMaxLeaves(s, ptree, c, n) + binMinLeaves(s, ptree, c);
 }
 
 function binLeavesGradient(s, ptree, c, n){
-	n = n || 2;
+	n = typeof(n)==='number'? n : 2;
 	return binMaxLeavesGradient(s, ptree, c, n) + binMinLeaves(s, ptree, c);
 }
 
