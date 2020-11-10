@@ -861,58 +861,79 @@ window.addEventListener('load', function(){
 
 	// generate and display terminal strings
 	function genTerminalStrings() {
-		document.getElementById('genStringsBox').innerHTML = "";
+		if (spotForm.genStringsMin.value !== "" && spotForm.genStringsMax.value !== ""){
+			if (!isNaN(spotForm.genStringsMin.value) && !isNaN(spotForm.genStringsMax.value)){
+				if (Number(spotForm.genStringsMin.value) > 0 || Number(spotForm.genStringsMax.value) > 0){
+					if (Number(spotForm.genStringsMin.value) < 10 && Number(spotForm.genStringsMax.value) < 10){
+						if (Number(spotForm.genStringsMin.value) <= Number(spotForm.genStringsMax.value)){
+		
+							document.getElementById('genStringsBox').innerHTML = "";
 
-		var length = spotForm.inputToGenAuto.length;
-		if(length === undefined) {
-			length = 1;
-		}
-		var inputString = spotForm.inputToGenAuto.value;
-		var fixedStringList = [];
-		genStringsList = undefined;
+							var length = spotForm.inputToGenAuto.length;
+							if(length === undefined) {
+								length = 1;
+							}
+							var inputString = spotForm.inputToGenAuto.value;
+							var fixedStringList = [];
+							genStringsList = undefined;
 
-		for(var i=0; i<length; i++){
-			if(length > 1) {
-				inputString = spotForm.inputToGenAuto[i].value;
-			}
-			if(inputString !== "") {
-				fixedStringList.push(inputString);
-			}
-		}
-		if(fixedStringList.length > 0) {
-			displayStringsTable(fixedStringList);
-			genStringsList = fixedStringList;
-		}
+							for(var i=0; i<length; i++){
+								if(length > 1) {
+									inputString = spotForm.inputToGenAuto[i].value;
+								}
+								if(inputString !== "") {
+									fixedStringList.push(inputString);
+								}
+							}
+							if(fixedStringList.length > 0) {
+								displayStringsTable(fixedStringList);
+								genStringsList = fixedStringList;
+							}
 
-		var length = spotForm.genStringsInput.length;
-		if(length === undefined) {
-			length = 1;
-		}
-		var inputList = spotForm.genStringsInput.value;
-		var min = spotForm.genStringsMin.value;
-		var max = spotForm.genStringsMax.value;
+							var length = spotForm.genStringsInput.length;
+							if(length === undefined) {
+								length = 1;
+							}
+							var inputList = spotForm.genStringsInput.value;
+							var min = spotForm.genStringsMin.value;
+							var max = spotForm.genStringsMax.value;
 
-		for(var i=0; i<length; i++){
-			if(length > 1) {
-				inputList = spotForm.genStringsInput[i].value;
-				min = spotForm.genStringsMin[i].value;
-				max = spotForm.genStringsMax[i].value;
-			}
+							for(var i=0; i<length; i++){
+								if(length > 1) {
+									inputList = spotForm.genStringsInput[i].value;
+									min = spotForm.genStringsMin[i].value;
+									max = spotForm.genStringsMax[i].value;
+								}
 
-			if(inputList !== "") {
-				inputList = inputList.trim().split(' ');
-				var currGenStringsList = generateTerminalStrings(inputList, min, max)
-				displayStringsTable(currGenStringsList);
+								if(inputList !== "") {
+									inputList = inputList.trim().split(' ');
+									var currGenStringsList = generateTerminalStrings(inputList, min, max)
+									displayStringsTable(currGenStringsList);
 
-				if(genStringsList) {
-					genStringsList = genStringsList.concat(currGenStringsList);
+									if(genStringsList) {
+										genStringsList = genStringsList.concat(currGenStringsList);
+									}
+									else {
+										genStringsList = currGenStringsList;
+									}
+								}
+							}
+							// console.log(genStringsList)
+						}else{
+							displayError("Min is larger than Max!");
+						}
+					}else{
+						displayError("Input should be less than 10!");
+					}
+				}else{
+					displayError("Input is should be larger than 0!");
 				}
-				else {
-					genStringsList = currGenStringsList;
-				}
+			}else{
+				displayError("Input is not a number!");
 			}
+		}else{
+			displayError("Input needed!");
 		}
-		// console.log(genStringsList)
 	}
 
 	function getStringsList() {
