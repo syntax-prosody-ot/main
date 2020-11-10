@@ -43,27 +43,10 @@ function parenthesizeTree(tree, options){
 		if (nonTerminal) {
 			if (visible) {
 				var tempLabel = parens[node.cat][0];
-				if (node["func"]){
-					tempLabel += ".f";
+				tempLabel = addAttributeLabels(node, tempLabel)
+				if (node["func"] || node["silentHead"] || node["foc"]){
+					tempLabel += " ";
 				}
-				if (node["silentHead"]){
-					tempLabel += ".sh";
-				}
-				if (node["foc"]){
-					tempLabel += ".foc";
-				}
-				// if (node["func"] && node["silentHead"]){
-				// 	parTree.push(parens[node.cat][0] + ".f.sh ");
-				// }
-				// else if (node["func"]){
-				// 	parTree.push(parens[node.cat][0] + ".f ");
-				// }
-				// else if (node["silentHead"]){
-				// 	parTree.push(parens[node.cat][0] + ".sh ");
-				// }
-				// else{
-				// 	parTree.push(parens[node.cat][0]);
-				// }//pushes the right parens}
 				parTree.push(tempLabel);
 				//parTree.push(parens[0]);
 				if(showTones){
@@ -101,29 +84,8 @@ function parenthesizeTree(tree, options){
 		//terminal but visible
 		else if (visible) {
 			var tempLabel = node.id;
-			if (node["func"]){
-				tempLabel += ".f";
-			}
-			if (node["silentHead"]){
-				tempLabel += ".sh";
-			}
-			if (node["foc"]){
-				tempLabel += ".foc";
-			}
-			parTree.push(tempLabel);
-			// if (node["func"] && node["silentHead"]){
-			// 	parTree.push(node.id + ".f.sh ");
-			// }
-			// else if (node["func"]){
-			// 	parTree.push(node.id + ".f ");
-			// }
-			// else if (node["silentHead"]){
-			// 	parTree.push(node.id + ".sh ");
-			// }
-			// else{
-			// 	parTree.push(node.id);
-			// }
-
+			
+			parTree.push(addAttributeLabels(node, tempLabel));
 			//parTree.push(node.id);
 			if(node.cat!='w' && node.cat!='x0'){
 				parTree.push('.'+node.cat);
@@ -151,4 +113,23 @@ function parenthesizeTree(tree, options){
 	if(showTones)
 		guiTree = guiTree + '\n' + toneTree.join('');
 	return guiTree;
+}
+
+function addAttributeLabels(node, tempLabel){
+	if (node ["accent"]){
+		//add .a if the node has an accent attribute with a value that isn't 'u' or 'U', and the node's id isn't already a or A.
+		var idPref = node.id.split('_')[0];
+		var accentLabel = (node.accent && idPref !== 'A' && idPref !== 'a')? '.a': '';
+		tempLabel += accentLabel;
+	}
+	if (node["func"]){
+		tempLabel += ".f";
+	}
+	if (node["silentHead"]){
+		tempLabel += ".sh";
+	}
+	if (node["foc"]){
+		tempLabel += ".foc";
+	}
+	return tempLabel;
 }

@@ -1,0 +1,37 @@
+<html>
+<head>
+	<title>Syntax-prosody interface application</title>
+
+	<link rel="stylesheet" type="text/css" href="../../spot.css">
+
+	<!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
+	(open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
+	<script src="../../build/spot.js"></script>
+	<script src="../../trees/MatchMinTrees.js"></script>
+
+</head>
+
+<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+	<h2>Syntax-prosody interface application -- binRightmost Test</h2>
+	<pre id="results-container"></pre>
+
+
+	<script>
+	//create all the prosodic trees you need to test this constraint with here.
+
+	var constraintSet = ['matchMinSP-xp','matchMinPS-phi', 'matchMinSP-x0', 'matchMinPS-w', 'matchMinSP-cp', 'matchMinPS-i'];
+	var candidateSet = [[stree_no_violations, ptree_no_violations],[stree_no_violations, ptree_1v],[stree_no_violations, ptree_2v],[stree_1v,ptree_1v],[stree_1v, ptree_2v],[stree_2v, ptree_2v],[stree_2v, ptree_0v],[xtree, wtree],[xtree, wtree1],[cptree, itree], [cptree, itree1]];
+/*0,1,2,0,1,0,0*/
+
+	function runDemo() {
+
+		writeTableau(makeTableau(candidateSet, constraintSet));
+		revealNextSegment();
+		lastSegmentId++;
+	}
+
+	</script>
+
+</body>
+
+</html>

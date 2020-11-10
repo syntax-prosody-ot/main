@@ -256,7 +256,6 @@ function getSTrees() {
 		sTrees = [sTrees];
 	}
 	return sTrees;
-
 }
 
 function danishTrees() {
@@ -355,11 +354,14 @@ window.addEventListener('load', function(){
 						var categoryBox = constraintCatSet[j];
 						if(categoryBox.checked){
 							var category = categoryBox.value;
-							if(constraint === "alignLeftMorpheme") {
+							if(constraint === "alignLeftMorpheme" || constraint === 'alignRightMorpheme') {
 								category = category.split(' ').join(';');
 							}
+							if(constraint === "binMaxHead") {
+								constraintSet.push('binMaxHead-' + category + '-{"side" : "' + spotForm['genOptions-showHeads'].value + '"}')
+							}
 							//Figure out selected match options for the constraint
-							if(spotForm['option-'+constraint]){
+							else if(spotForm['option-'+constraint]){
 								var constraintOptionSet = spotForm['option-'+constraint];
 								var options = {};
 								if(constraintOptionSet.length){
@@ -394,15 +396,27 @@ window.addEventListener('load', function(){
 			}
 		}
 
-		//Get the input syntactic tree.
-		var sTrees;
-		try{
-			sTrees = getSTrees();
+		// Get the automatically generated syntactic trees
+		if(document.getElementById('inputOptions').style.display == 'block') {
+			var sTrees;
+			try{
+				sTrees = getAutoSTreeList();
+			}
+			catch(e){
+				displayError(e.message, e);
+				return;
+			}
 		}
-		catch(e){
-			console.error(e);
-			alert(e.message);
-			return;
+		else {
+			// Get the input syntactic tree from tree builder
+			var sTrees;
+			try{
+				sTrees = getSTrees();
+			}
+			catch(e){
+				displayError(e.message, e);
+				return;
+			}
 		}
 
 		//Get input to GEN.
@@ -431,6 +445,11 @@ window.addEventListener('load', function(){
 					exCats = exCats.concat(exCatBox.value);
 			}
 			genOptions['obeysExhaustivity'] = exCats;
+		}
+
+		// if max branching option is selected
+		if(genOptions['maxBranching']){
+			genOptions['maxBranching'] = spotForm.maxBranchingValue.value;
 		}
 
 		//plug correct value into category options
@@ -469,7 +488,7 @@ window.addEventListener('load', function(){
 			tableauOptions.trimStree = true;
 		}
 		if(document.getElementById("showHeads").checked){
-			tableauOptions.showHeads= true;
+			tableauOptions.showHeads = spotForm['genOptions-showHeads'].value;
 		}
 
 
@@ -492,20 +511,28 @@ window.addEventListener('load', function(){
 
 
 			//warn user about possibly excessive numbers of candidates
-			if (genOptions['cliticMovement'] && (!genOptions['noUnary'] && (getLeaves(sTree).length >= 5 || pString.split(" ").length >= 5))
-											 || (genOptions['noUnary'] && (getLeaves(sTree).length >= 7 || pString.split(" ").length >= 7))){
-				if(!confirm("You have selected GEN settings that allow clitic reordering, and included a sentence of ".concat( pString.split(" ").length.toString()," terminals. This GEN may yield more than 10K candidates. To reduce the number of candidates, consider enforcing non-recursivity, exhaustivity, and/or branchingness for intermediate prosodic nodes. Do you wish to proceed with these settings?"))){
-					throw new Error("clitic movement with too many terminals");
+			var maxNumTerminals = Math.max(getLeaves(sTree).length, pString.split(" ").length);
+			if (genOptions['cliticMovement'])
+			{
+				if((maxNumTerminals >= 7) || (!genOptions['noUnary'] && maxNumTerminals >= 5))
+				{
+					var tooManyCandMsg = "You have selected GEN settings that allow movement, and included a sentence of "+ maxNumTerminals.toString()+" terminals. This GEN may yield more than 10K candidates. To reduce the number of candidates, consider enforcing non-recursivity, exhaustivity, and/or branchingness for intermediate prosodic nodes. Do you wish to proceed with these settings?";
+					var continueGEN = confirm(tooManyCandMsg);
+					if(!continueGEN){
+						throw new Error("Tried to run GEN with clitic movement with too many terminals");
+					}
 				}
 			}
-			else if(getLeaves(sTree).length >= 6 || pString.split(" ").length >= 6){
+			else if(maxNumTerminals >= 9 || (maxNumTerminals >= 6 && !genOptions['noUnary'])){
 				if(!confirm("Inputs of more than six terminals may run slowly and even freeze your browser, depending on the selected GEN options. Do you wish to continue?")){
-					throw new Error("Tried to run gen with more than six terminals");
+					throw new Error("Tried to run GEN with too many terminals");
 				}
 			}
 
+			//Actually create the candidate set
 			if (genOptions['cliticMovement']){
-				var candidateSet = GENwithCliticMovement(sTree, pString, genOptions);
+			//	var candidateSet = GENwithCliticMovement(sTree, pString, genOptions);
+				var candidateSet = globalNameOrDirect(spotForm['genOptions-movement'].value)(sTree, pString, genOptions);
 			}
 			else{
 				var candidateSet = GEN(sTree, pString, genOptions);
@@ -533,9 +560,11 @@ window.addEventListener('load', function(){
 	document.getElementById('tree-code-box').addEventListener('click', function(){
 		if (document.getElementById('tree-code-area').style.display === 'none' && document.getElementById('tree-code-box').checked){
 			document.getElementById('tree-code-area').style.display = 'block';
+			document.getElementById('sliderText').innerHTML = 'Hide code';
 		}
 		else{
 			document.getElementById('tree-code-area').style.display = 'none';
+			document.getElementById('sliderText').innerHTML = 'Show code';
 		}
 	});
 	document.getElementById('exhaustivityBox').addEventListener('click', function(){
@@ -552,6 +581,15 @@ window.addEventListener('load', function(){
 
 		}
 	});
+	document.getElementById('movementOptions').addEventListener('click', function(){
+		var movementSpecifications = document.getElementById('movementSpecification');
+		if (movementSpecifications.style.display === 'none' && document.getElementById('movementOptions').checked){
+			movementSpecifications.style.display = 'block';
+		}
+		else{
+			movementSpecifications.style.display = 'none';
+		}
+	})
 
 	//show extra boxes for annotated with tones on click
 	//console.log(document.getElementById('annotatedWithTones'))
@@ -568,6 +606,14 @@ window.addEventListener('load', function(){
 
 	});
 
+	document.getElementById('showHeads').addEventListener('click', function(){
+		if (document.getElementById('headSideOptions').style.display === 'none' && document.getElementById('showHeads').checked){
+			document.getElementById('headSideOptions').style.display = '';
+		}
+		else{
+			document.getElementById('headSideOptions').style.display = 'none';
+		}
+	});
 
 	/*
 	document.getElementById("japaneseTonesInfo").addEventListener("click", toneInfoBlock("japanese"));
@@ -579,7 +625,7 @@ window.addEventListener('load', function(){
 
 	//Open the tree making GUI
 	document.getElementById('goButton').addEventListener('click', function(){
-		document.getElementById('treeUI').style.display = 'block';
+		changeInputTabs('inputButton', 'goButton');
 	});
 
 	function refreshHtmlTree(treeIndex) {
@@ -599,7 +645,7 @@ window.addEventListener('load', function(){
 
 
 	//Set up the table...
-	document.getElementById('goButton').addEventListener('click', function(){
+	document.getElementById('buildButton').addEventListener('click', function(){
 		// Get the string of terminals
 		var terminalString = spotForm.inputToGen.value;
 		var terminalList = terminalString.trim().split(/\s+/);
@@ -610,6 +656,320 @@ window.addEventListener('load', function(){
 		document.getElementById('doneMessage').style.display = 'none';
 	});
 
+	// automatically generate syntax button
+	document.getElementById('inputButton').addEventListener('click', function(){
+		changeInputTabs('goButton', 'inputButton');
+	});
+
+	// show and display addClitics options
+	document.getElementById('add-clitics').addEventListener('change', function(){
+		if(document.getElementById('add-clitics').checked) {
+			document.getElementById('add-clitics-row').style.display = 'block';
+		}
+		else {
+			document.getElementById('add-clitics-row').style.display = 'none';
+		}
+	});
+
+	// done button for auto input gen
+	document.getElementById('autoGenDoneButton').addEventListener('click', function(){
+		document.getElementById('autoDoneMessage').style.display = 'inline-block';
+		autoGenInputTree();
+		document.getElementById('autoTreeArea').style.display = 'block';
+		document.getElementById('syntax-tree-switch').checked = true;
+		document.getElementById('syntax-switch-text').innerHTML = 'Hide syntactic trees';
+	});
+
+	var sTreeList;
+
+	// automatically generate input tree
+	function autoGenInputTree() {
+		genTerminalStrings();
+		var strings = getStringsList();
+		var length = strings.length;
+
+		sTreeList = undefined;
+		document.getElementById('autoTreeBox').innerHTML = "";
+
+		for(var i=0; i<length; i++){
+			var inputString = strings[i];
+
+			// allow adjuncts and remove mirror images
+			var autoInputOptions = {};
+			var optionBox = spotForm.autoInputOptions;
+			for(var j = 0; j < optionBox.length; j++) {
+				if(optionBox[j].value == "noAdjuncts" || optionBox[j].value == "noBarLevels") {
+					autoInputOptions[optionBox[j].value] =! optionBox[j].checked;
+				}
+				else {
+					autoInputOptions[optionBox[j].value]=optionBox[j].checked;
+				}
+			}
+
+			// head requirements
+			var headReq = document.getElementById('head-req').value;
+			if(headReq !== 'select') {
+				var headSideVal = headReq;
+			}
+			autoInputOptions.headSide = headSideVal;
+
+			// add XP clitics directly under root
+			if(document.getElementById('add-clitics').checked) {
+				var addCliticsVal = document.getElementById('add-clitics').value;
+				if(document.getElementById('add-clitics-left').checked) {
+					addCliticsVal = 'left';
+				}
+			}
+			autoInputOptions.addClitics = addCliticsVal;
+
+			// root, recursive terminal, category
+			autoInputOptions.rootCategory = spotForm['autoInputOptions-rootCategory'].value;
+			autoInputOptions.recursiveCategory = spotForm['autoInputOptions-recursiveCategory'].value;
+			autoInputOptions.terminalCategory = spotForm['autoInputOptions-terminalCategory'].value;
+
+			if(autoInputOptions.recursiveCategory === 'x0' || autoInputOptions.noUnary){
+				autoInputOptions.noAdjacentHeads = false;
+			}
+
+			// console.log(autoInputOptions)
+
+			if(inputString !== "") {
+				var currSTreeList = sTreeGEN(inputString, autoInputOptions);
+				displayTable(currSTreeList);
+				if(sTreeList) {
+					sTreeList = sTreeList.concat(currSTreeList);
+				}
+				else {
+					sTreeList = currSTreeList;
+				}
+			}
+		}
+		// console.log(sTreeList)
+	}
+
+	function getAutoSTreeList() {
+		return sTreeList;
+	}
+
+	// add terminal string button
+	document.getElementById('addString').addEventListener('click', function(){
+		var length = spotForm.inputToGenAuto.length;
+		if(length === undefined) {
+			length = 1;
+		}
+		var newLength = length + 1;
+		length = length.toString();
+		newLength = newLength.toString();
+		document.getElementById('str'+length).insertAdjacentHTML('afterend', "<p id='str"+newLength+"'>String of terminals "+newLength+": <input type='text' name='inputToGenAuto'></p>");
+		document.getElementById('autoDoneMessage').style.display = 'none';
+	});
+
+	// check for change in syntax parameters
+	document.getElementById('syntax-parameters').addEventListener('change', function(){
+		document.getElementById('autoDoneMessage').style.display = 'none';
+	});
+	// check for change in syntax parameters
+	document.getElementById('syntax-parameters-clitics').addEventListener('change', function(){
+		document.getElementById('autoDoneMessage').style.display = 'none';
+	});
+	// check for change in syntax parameters
+	document.getElementById('syntax-parameters-phonology').addEventListener('change', function(){
+		document.getElementById('autoDoneMessage').style.display = 'none';
+	});
+
+	// check for change in 'string of terminals'
+	document.getElementById('terminalStrings').addEventListener('change', function(){
+		document.getElementById('autoDoneMessage').style.display = 'none';
+	});
+
+	// check for change in 'list of terminals'
+	document.getElementById('listOfTerminals').addEventListener('change', function(){
+		document.getElementById('autoDoneMessage').style.display = 'none';
+	});
+
+	// show/hide syntactic trees
+	document.getElementById('syntax-tree-switch').addEventListener('click', function(){
+		if (document.getElementById('autoTreeArea').style.display === 'none' && document.getElementById('syntax-tree-switch').checked){
+			document.getElementById('autoTreeArea').style.display = 'block';
+			document.getElementById('syntax-switch-text').innerHTML = 'Hide syntactic trees';
+		}
+		else{
+			document.getElementById('autoTreeArea').style.display = 'none';
+			document.getElementById('syntax-switch-text').innerHTML = 'Show syntactic trees';
+		}
+	});
+
+	// display tree tables
+	function displayTable(sTreeList) {
+		var treeTable = treeToTable(sTreeList);
+		document.getElementById('autoTreeBox').innerHTML += treeTable;
+	}
+
+	// create table from sTree list
+	function treeToTable(sTreeList) {
+		var htmlChunks = ['<table class="auto-table"><tbody>'];
+		var i = 1;
+		for(var s in sTreeList) {
+			var parTree = parenthesizeTree(sTreeList[s]);
+			htmlChunks.push('<tr>');
+			htmlChunks.push('<td>' + i + "." + '</td>');
+			htmlChunks.push('<td>' + parTree + '</td>');
+			htmlChunks.push('</tr>');
+			i++;
+		}
+		htmlChunks.push('</tbody></table>');
+		return htmlChunks.join('');
+	}
+
+	// GENERATE TERMINAL STRINGS
+
+	// add list of terminals button
+	document.getElementById('addList').addEventListener('click', function(){
+		var length = spotForm.genStringsInput.length;
+		if(length === undefined) {
+			length = 1;
+		}
+		var newLength = length + 1;
+		length = length.toString();
+		newLength = newLength.toString();
+		document.getElementById('list'+length).insertAdjacentHTML('afterend', "<div id='list"+newLength+"'>List of terminals "+newLength+": <input type='text' name='genStringsInput'><p>Number of terminals in generated strings:</p><p class='genStringsNum'>Min: <input type='text' name='genStringsMin' class='genStringsNumBox' style='margin-left: 4px'></p><p class='genStringsNum'>Max: <input type='text' name='genStringsMax' class='genStringsNumBox'></p></div>");
+		document.getElementById('autoDoneMessage').style.display = 'none';
+	});
+
+	// show/hide generated terminal strings
+	document.getElementById('gen-strings-switch').addEventListener('click', function(){
+		if (document.getElementById('genStringsArea').style.display === 'none' && document.getElementById('gen-strings-switch').checked){
+			document.getElementById('genStringsArea').style.display = 'block';
+			document.getElementById('strings-switch-text').innerHTML = 'Hide generated terminals strings';
+		}
+		else{
+			document.getElementById('genStringsArea').style.display = 'none';
+			document.getElementById('strings-switch-text').innerHTML = 'Show generated terminals strings';
+		}
+	});
+
+	// done button for generate terminal strings
+	document.getElementById('genStringsDoneButton').addEventListener('click', function(){
+		deleteThickLine();
+		genTerminalStrings();
+		document.getElementById('genStringsArea').style.display = 'block';
+		document.getElementById('gen-strings-switch').checked = true;
+		document.getElementById('strings-switch-text').innerHTML = 'Hide generated terminals strings';
+	});
+
+	var genStringsList;
+
+	// generate and display terminal strings
+	function genTerminalStrings() {
+		document.getElementById('genStringsBox').innerHTML = "";
+
+		var length = spotForm.inputToGenAuto.length;
+		if(length === undefined) {
+			length = 1;
+		}
+		var inputString = spotForm.inputToGenAuto.value;
+		var fixedStringList = [];
+		genStringsList = undefined;
+
+		for(var i=0; i<length; i++){
+			if(length > 1) {
+				inputString = spotForm.inputToGenAuto[i].value;
+			}
+			if(inputString !== "") {
+				fixedStringList.push(inputString);
+			}
+		}
+		if(fixedStringList.length > 0) {
+			displayStringsTable(fixedStringList);
+			genStringsList = fixedStringList;
+		}
+
+		var length = spotForm.genStringsInput.length;
+		if(length === undefined) {
+			length = 1;
+		}
+		var inputList = spotForm.genStringsInput.value;
+		var min = spotForm.genStringsMin.value;
+		var max = spotForm.genStringsMax.value;
+
+		for(var i=0; i<length; i++){
+			if(length > 1) {
+				inputList = spotForm.genStringsInput[i].value;
+				min = spotForm.genStringsMin[i].value;
+				max = spotForm.genStringsMax[i].value;
+			}
+
+			if(inputList !== "") {
+				inputList = inputList.trim().split(' ');
+				var currGenStringsList = generateTerminalStrings(inputList, min, max)
+				displayStringsTable(currGenStringsList);
+
+				if(genStringsList) {
+					genStringsList = genStringsList.concat(currGenStringsList);
+				}
+				else {
+					genStringsList = currGenStringsList;
+				}
+			}
+		}
+		// console.log(genStringsList)
+	}
+
+	function getStringsList() {
+		return genStringsList;
+	}
+
+	// display generated terminal strings in table
+	function displayStringsTable(genStringsList) {
+		var tables = document.getElementsByClassName("string-table");
+		var index = tables.length + 1;
+		var stringsTable = stringToTable(genStringsList, index);
+		document.getElementById('genStringsBox').innerHTML += stringsTable;
+		addThickLine(genStringsList, index);
+	}
+
+	// create table from generated terminal strings list
+	function stringToTable(genStringsList, index) {
+		var htmlChunks = ['<table class="auto-table string-table" id="string-table-' + index + '"><tbody>'];
+		var i = 1;
+		for(var s in genStringsList) {
+			var string = genStringsList[s];
+			htmlChunks.push('<tr>');
+			htmlChunks.push('<td>' + i + "." + '</td>');
+			htmlChunks.push('<td>' + string + '</td>');
+			htmlChunks.push('</tr>');
+			i++;
+		}
+		htmlChunks.push('</tbody></table>');
+		return htmlChunks.join('');
+	}
+
+	// add thicker line between generated strings of different lengths
+	function addThickLine(genStringsList, index) {
+		var sheet = document.styleSheets[document.styleSheets.length - 1];
+		for(var i = 0; i < genStringsList.length - 1; i++) {
+			var currString = genStringsList[i].split(' ');
+			var nextString = genStringsList[i + 1].split(' ');
+			if(currString.length < nextString.length) {
+				var row = i + 1;
+				sheet.addRule('#string-table-' + index + ' tbody > :nth-child(' + row + ')', 'border-bottom: 3px solid black;', 0);
+			}
+		}
+	}
+
+	// remove thicker line between generated strings of different lengths before regenerating strings
+	function deleteThickLine() {
+		var sheet = document.styleSheets[document.styleSheets.length - 1];
+		var rules = 0;
+		for(var i = 0; i < sheet.cssRules.length; i++) {
+			if(sheet.cssRules[i].cssText.includes('#string-table')) {
+				rules++;
+			}
+		}
+		for(var i = 0; i < rules; i++) {
+			sheet.deleteRule(0);
+		}
+	}
 
 	// For testing only
 	/*
@@ -633,7 +993,17 @@ window.addEventListener('load', function(){
 		if (cats.length > 1){
 			node['cat'] = cats[0];
 		}
-		for (var cat of cats){
+		// add the rest of the list as attributes
+		for (var cat of cats.slice(1)){
+			// remove non-alphanumeric characters, underscores
+			// replace capital letters with lowercase
+			att = cat.trim().replace(/\W/g, '');
+			if (att === ""){
+				continue;
+			}
+			//console.log(att)
+			node[att] = true;
+			/*
 			if (cat.indexOf('silentHead') != -1){
 				node['silentHead'] = true;
 			}
@@ -642,7 +1012,8 @@ window.addEventListener('load', function(){
 			}
 			if (cat.indexOf('foc') != -1){
 				node['foc'] = true;
-			}
+			}*/
+
 		}
 		var children = node['children'];
 		if (children != undefined){
@@ -653,7 +1024,7 @@ window.addEventListener('load', function(){
 	}
 	//Look at the html tree and turn it into a JSON tree. Put the JSON in the following textarea.
 	document.getElementById('htmlToJsonTreeButton').addEventListener('click', function(){
-		spotForm.sTree.value = JSON.stringify(Object.values(treeUIsTreeMap).map(function(tree) {
+		sTree = JSON.stringify(Object.values(treeUIsTreeMap).map(function(tree) {
 
 			// console.log(JSON.parse(tree.toJSON()));
 			// console.log(JSON.parse(tree.toJSON())['cat']);
@@ -662,7 +1033,16 @@ window.addEventListener('load', function(){
 			return (checkTree); // bit of a hack to get around replacer not being called recursively
 		}), null, 4);
 
-		document.getElementById('doneMessage').style.display = 'inline-block';
+		if(sTree.includes('-')) {
+			displayError('Your trees were not added to the analysis because there are hyphens in category or id names in the tree builder. Please refer to the instructions in the tree builder info section.');
+			var info = document.getElementById('treeBuilderInfo');
+			info.classList.add('showing');
+		}
+		else {
+			spotForm.sTree.value = sTree
+			document.getElementById('doneMessage').style.display = 'inline-block';
+		}
+
 		spotForm.inputToGen.value = "";
 	});
 
@@ -721,8 +1101,7 @@ window.addEventListener('load', function(){
 			treeUIsTreeMap[nodes[0].m.treeIndex].addParent(nodes);
 			refreshHtmlTree();
 		} catch (err) {
-			console.error(err);
-			alert('Error, unable to add daughter: ' + err.message);
+			displayError('Unable to add daughter: ' + err.message, err);
 		}
 		document.getElementById('doneMessage').style.display = 'none';
 	});
@@ -733,7 +1112,7 @@ window.addEventListener('load', function(){
 			var treeIndex = nodes[0].m.treeIndex;
 			for (var i = 1; i < nodes.length; i++) {
 				if (nodes[i].treeIndex != treeIndex) {
-					alert('Attempting to delete nodes from multiple trees. Please delete nodes one tree at a time.');
+					displayError('You attempted to delete nodes from multiple trees. Please delete nodes one tree at a time.');
 					return;
 				}
 			}
@@ -773,7 +1152,7 @@ window.addEventListener('load', function(){
 
 	document.getElementById("clearAllButton").addEventListener("click", function(){
 		clearAnalysis();
-		document.getElementById('treeUI').style.display = 'none';
+		document.getElementById('treeUIinner').style.display = 'none';
 		document.getElementById('built-in-dropdown').value = 'select';
 		document.getElementById('fileUpload').value = '';
 		document.getElementById('chooseFilePrompt').style = "font-size: 13px; color: #555";
@@ -783,6 +1162,93 @@ window.addEventListener('load', function(){
 
 	document.getElementById('spotForm').addEventListener("change", function(){
 		document.getElementById("save/load-dialog").innerHTML = '';
+	});
+
+	var x = document.getElementsByName("autoInputOptions");
+	console.log(x);
+	var i;
+	var noBarLevelsIndex;
+	for (i = 0; i < x.length; i++) {
+		if (x[i].value === "noBarLevels") {
+			noBarLevelsIndex = i;
+			break;
+		}
+	}
+
+	document.getElementsByName('autoInputOptions-recursiveCategory')[2].addEventListener('click', function() {
+		if(document.getElementsByName('autoInputOptions-recursiveCategory')[2].checked == true) {
+			// console.log("xo checked")
+			var x = document.getElementsByName("autoInputOptions")[noBarLevelsIndex];
+			if(x.checked === true) {
+				x.checked = false;
+			}
+			x.disabled = true;
+			var y = document.getElementById('head-req').options;
+			y[1].disabled = true;
+			y[2].disabled = true;
+			y[3].disabled = true;
+			y[4].disabled = true;
+		}
+	});
+
+	document.getElementsByName('autoInputOptions-recursiveCategory')[0].addEventListener('click', function() {
+		if(document.getElementsByName('autoInputOptions-recursiveCategory')[0].checked == true) {
+			// console.log("cp checked")
+			var x = document.getElementsByName("autoInputOptions")[noBarLevelsIndex];
+			x.disabled = false;
+			var y = document.getElementById('head-req').options;
+			y[1].disabled = false;
+			y[2].disabled = false;
+			if(x.checked) {
+				y[3].disabled = false;
+				y[4].disabled = false;
+			}
+			else {
+				y[3].disabled = true;
+				y[4].disabled = true;
+			}
+		}
+	});
+
+	document.getElementsByName('autoInputOptions-recursiveCategory')[1].addEventListener('click', function() {
+		if(document.getElementsByName('autoInputOptions-recursiveCategory')[1].checked == true) {
+			// console.log("xp checked")
+			var x = document.getElementsByName("autoInputOptions")[noBarLevelsIndex];
+			x.disabled = false;
+			var y = document.getElementById('head-req').options;
+			y[1].disabled = false;
+			y[2].disabled = false;
+			if(x.checked) {
+				y[3].disabled = false;
+				y[4].disabled = false;
+			}
+			else {
+				y[3].disabled = true;
+				y[4].disabled = true;
+			}
+		}
+	});
+
+	document.getElementsByName("autoInputOptions")[noBarLevelsIndex].addEventListener('click', function() {
+		var x = document.getElementsByName("autoInputOptions")[noBarLevelsIndex];
+		if(x.checked === false) {
+			var y = document.getElementById('head-req').options;
+			// Heads must be perfectly left-aligned
+			y[1].disabled = false;
+			// Heads must be perfectly right-aligned
+			y[2].disabled = false;
+			// Heads must be on the left edge
+			y[3].disabled = false;
+			// Heads must be on the right edge
+			y[4].disabled = false;
+		}
+		else {
+			var y = document.getElementById('head-req').options;
+			y[1].disabled = false;
+			y[2].disabled = false;
+			y[3].disabled = true;
+			y[4].disabled = true;
+		}
 	});
 
 });
@@ -832,9 +1298,97 @@ function clearTableau() {
 
 function showMore(constraintType) {
 	var x = document.getElementById(constraintType);
+	var showMore = constraintType + "Show";
+	var y = document.getElementById(showMore);
+
   if (x.style.display === "block") {
     x.style.display = "none";
+		y.innerHTML = "Show more...";
   } else {
     x.style.display = "block";
+		y.innerHTML = "Show less...";
   }
+}
+
+function closeButton() {
+	var close = document.getElementsByClassName("closebtn");
+	var i;
+
+	for (i = 0; i < close.length; i++) {
+		close[i].onclick = function() {
+			var div = this.parentElement;
+			div.style.opacity = "0";
+			setTimeout(function() {
+				div.style.display = "none";
+			}, 600);
+		}
+	}
+}
+
+function displayError(errorMsg, error) {
+	if(error !== undefined) {
+		console.error(error);
+	}
+	else {
+		console.error("Error: " + errorMsg);
+	}
+
+	var spotForm = document.getElementById('spotForm');
+	if (!spotForm) {
+		alert("Error: " + errorMsg);
+		return;
+	}
+
+	var div = document.getElementById("error");
+	div.children[2].innerHTML = errorMsg;
+	div.style.display = "block";
+	div.style.opacity = "100";
+	closeButton();
+}
+
+function displayWarning(warnMsg) {
+	console.warn("Warning: " + warnMsg);
+
+	var spotForm = document.getElementById('spotForm');
+	if (!spotForm) {
+		alert("Warning: " + warnMsg);
+		return;
+	}
+
+	var div = document.getElementById("warning");
+	div.children[2].innerHTML = warnMsg;
+	div.style.display = "block";
+	div.style.opacity = "100";
+	closeButton();
+}
+
+function showMaxBranching() {
+	var text = document.getElementById('maxBranchingText');
+	var checkBox = document.getElementById('maxBranchingBox')
+	if(checkBox.checked) {
+		text.style.display = 'inline';
+	}
+	else{
+		text.style.display = 'none';
+	}
+}
+
+function changeInputTabs(from, to) {
+	var fromButton = 	document.getElementById(from);
+	var toButton = document.getElementById(to);
+	// if from === 'inputButton'
+	var show = 	document.getElementById('treeUI');
+	var hide = document.getElementById('inputOptions');
+	if(from === 'goButton') {
+		show = 	document.getElementById('inputOptions');
+		hide = document.getElementById('treeUI');
+	}
+	show.style.display = 'block';
+	toButton.style.backgroundColor = 'white';
+	toButton.style.borderColor = '#3A5370';
+	if(hide.style.display === 'block') {
+		hide.style.display = 'none';
+		fromButton.style.backgroundColor = '#d0d8e0';
+		fromButton.style.borderColor = '#d0d8e0';
+	}
 }

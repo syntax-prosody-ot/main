@@ -8,11 +8,13 @@
 /* Maximally categorical definition of equalSisters:
 *  Assign one violation for every set of sisters that do not all have the same category.
 *  That is, all of the following would have one violation: (a (b)(c)), (a b (c)), ((a) b c)
+*
+* Updated Oct. 2020 to make the category specification optional
 */
 function eqSis(s, ptree, cat){
 	var vcount = 0;
 	//base case: parent has category cat and is non-terminal
-	if(ptree.cat === cat && ptree.children && ptree.children.length){
+	if((!cat || ptree.cat === cat) && ptree.children && ptree.children.length){
 		var cat1 = ptree.children[0].cat;
 		for(var i=1; i<ptree.children.length; i++){
 			var child = ptree.children[i];

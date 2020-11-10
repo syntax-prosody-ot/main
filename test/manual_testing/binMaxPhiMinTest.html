@@ -1,0 +1,158 @@
+<html>
+  <head>
+    <title>Syntax-prosody interface application</title>
+  
+    <link rel="stylesheet" type="text/css" href="../../spot.css">
+    </head>
+
+<script src="../../build/spot.js"></script>
+<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+	<h2>Binarity subcat</h2>
+	<pre id="results-container"></pre>
+<script>
+
+
+// Example 1
+// ( chihoo [[ken satsu] choo] ) = ( w [w F] )
+// --> no violation: only 2 minimal words in the phi
+var tree1 = {
+	"id":"phi0",
+	"cat":"phi",
+	"children":
+		[
+			{
+				"id":"word1",
+				"cat":"w"
+      },
+      {
+        "id":"word2",
+				"cat":"w"
+      },
+      {
+        "id":"clitic1",
+				"cat":"foot"
+      }
+		]
+};
+
+// Example 2
+// ( chihoo [ [ koo kyoo][dan tai] ] ) = (w [w w] )
+// --> violation: 3 minimal words in the phi
+var tree2 = {
+	"id":"phi0",
+	"cat":"phi",
+	"children":
+		[
+			{
+				"id":"word1",
+				"cat":"w"
+      },
+      {
+        "id":"word2",
+				"cat":"w"
+      },
+      {
+        "id":"word3",
+				"cat":"w"
+      }
+		]
+};
+
+// Example 3
+// ( chihoo ([ [ koo kyoo][dan tai] ]) ) = (w ([w w]) )
+// --> no violation: 3 minimal words in the non-minimal phi, but only 2 minimal words (w) in the minimal phi
+var tree3 = {
+	"id":"phi0",
+	"cat":"phi",
+	"children":
+		[
+      {
+        "id":"word1",
+        "cat":"w"
+      },
+			{
+				"id":"phi1",
+				"cat":"phi",
+        "children":
+          [
+            {
+              "id":"word2",
+      				"cat":"w"
+            },
+            {
+              "id":"word3",
+      				"cat":"w"
+            }
+          ]
+			}
+		]
+};
+
+// Example 4
+// 1 violation
+var tree4 = {
+	"id":"phi0",
+	"cat":"phi",
+	"children":
+		[
+      {
+        "id":"word1",
+        "cat":"w"
+      },
+			{
+				"id":"phi1",
+				"cat":"phi",
+        "children":
+          [
+            {
+              "id":"word2",
+      				"cat":"w"
+            },
+            {
+              "id":"word3",
+      				"cat":"w"
+            },
+            {
+              "id":"word4",
+      				"cat":"w"
+            }
+          ]
+			}
+		]
+};
+
+var s = undefined;
+var c = 'phi';
+console.log(tree1)
+console.log('expected violations: 0')
+console.log('actual: ', binMax_minLeaves(s, tree1, c))
+
+console.log(tree2)
+console.log('expected violations: 1')
+console.log('actual: ', binMax_minLeaves(s, tree2, c))
+
+console.log(tree3)
+console.log('expected violations: 0')
+console.log('actual: ', binMax_minLeaves(s, tree3, c))
+
+console.log(tree4)
+console.log('expected violations: 1')
+console.log('actual: ', binMax_minLeaves(s, tree4, c))
+
+var cand1 = GEN({}, 'a b c d', {obeysExhaustivity: true});
+var cand2 = GEN({}, 'a b c d', {obeysExhaustivity: true, rootCategory: 'phi', recursiveCategory: 'w', terminalCategory:'w'});
+var con = ['binMax_minLeaves-phi','binMax_minLeaves-i', 'binMaxLeaves-phi'];
+
+function runDemo() {
+		writeTableau(makeTableau(cand1, con));
+		revealNextSegment();
+    lastSegmentId++;
+    writeTableau(makeTableau(cand2, con));
+		revealNextSegment();
+		lastSegmentId++;
+	}
+
+</script>
+
+</body>
+</html>
