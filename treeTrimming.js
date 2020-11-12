@@ -22,6 +22,7 @@ function copyTree(oldTree){
 
 /* function to remove silent heads from a tree. Takes a (syntactic) tree as
  * the input. This is recursive, like everything else that parses trees in SPOT
+	Called by trimRedundantNodes()
  */
 function trimSilentTerminals(inputTree){
 	var treeCopy = copyTree(inputTree); //getting around pass by reference
@@ -46,7 +47,9 @@ function trimSilentTerminals(inputTree){
 	return trimSilentInner(treeCopy);
 }
 
-/* function removes non-lexical heads from a tree. Basically identical to trimSilentTerminals
+/*  Function that removes non-lexical heads from a tree. 
+	Basically identical to trimSilentTerminals
+	Called by trimRedundantNodes()
  */
 function trimFunctionalTerminals(inputTree){
 	var treeCopy = copyTree(inputTree); //getting around pass by reference
@@ -129,11 +132,14 @@ function trimRedundantNodes(inputTree, attribute){
 	return trimInner(tree);
 }
 
-function trimAttributedNodes(inputTree, attribute){
-	/*call the other two tree trimming functions first, because they might create
+/*  This function is untested and isn't called anywhere. 
+	Call the other two tree trimming functions first, because they might create
 	redundant nodes. trimSilentTerminals() might create dead-end terminals,
 	so call that inside of trim deadEndTerminals(). trimSilentTerminals()
-	creates a copy of the tree*/
+	creates a copy of the tree
+*/
+function trimAttributedNodes(inputTree, attribute){
+	
 	var tree = copyTree(inputTree);
 	function trimInner(node){
 		if(node.children && node.children.length){
@@ -182,6 +188,12 @@ function createDummies(inputTree, attribute){
 	return createDummyInner(tree, attribute);
 }
 
+/*  Created during an abandoned approach to evaluating the maximality or 
+	minimality of nodes when only lexical nodes are being counted, for
+	e.g. MatchMaxLexical.
+	Tested during original creation but not tested by any current test files
+	due to reworking of markMinMax.
+*/
 function removeSpecifiedNodes(inputTree, attribute){
 	/*removes all terminal nodes with specified attribute and all redundant xp's left over.
 	  afterward, replaces xp's with particular attribute with node of category dummy
