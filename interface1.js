@@ -1016,17 +1016,17 @@ window.addEventListener('load', function(){
 							// console.log(genStringsList)
 						}else{
 							minmax = 0;
-							displayError("Min input should be smaller than Max input!");
+							displayError("Min input must be smaller than Max input!");
 						}
 					}else{
 						mintest = 0;
 						maxtest = 0;
-						displayError("Min or Max input should be less than 10!");
+						displayError("Min or Max input must be less than 10!");
 					}
 				}else{
 					mintest = 0;
 					maxtest = 0;
-					displayError("Min or Max input is should be larger than 0!");
+					displayError("Min and Max inputs must be larger than 0!");
 				}
 			}else{
 				mintest = 0;
@@ -1034,7 +1034,7 @@ window.addEventListener('load', function(){
 				displayError("Min or Max input is not a number!");
 			}
 		}else{
-			displayError("Min or Max input needed!");
+			displayError("Min or Max input missing!");
 		}
 	}
 
