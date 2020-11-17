@@ -1,6 +1,32 @@
-<html>
-<body>
-<script src="../build/spot.js"></script>
+<html><head> 
+    <title>SPOT Automated Testing (containsAdjunctTest)</title>
+
+	<link rel="stylesheet" type="text/css" href="../spot.css">
+
+    <!--If running tests that do not have to do with the interface, run jsbuild.sh or jsbuild.bat
+        in root directory of the project. If running interface testing, run testbuild.sh
+        or testBuild.bat-->
+    <script src="../build/spot.js"></script>
+
+    <!--Mocha setup stuff (1/2)-->
+    <meta charset="UTF-8">
+    <script src="../lib/test/mocha.min.js"></script>
+    <script src="../lib/test/chai.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../lib/test/mocha.css">
+    <!--mocha setup stuff to be continued in document body-->
+    
+</head>
+<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+    <h2>SPOT Automated Testing</h2>
+    <script>
+        mocha.setup("bdd"); //brings "describe", "it", etc. into global namespace
+            //mocha.checkLeaks();
+            var assert = chai.assert; //no one wants to type out "chai.assert" every time
+    </script>
+    
+    <div id="mocha">
+        containsAdjunct Automated Test
+    </div>
 <script>
 
 var x = {
@@ -103,10 +129,30 @@ var z = {
             }
         ]
     }
-
 console.log('[[a] b [c]]')
 console.log('expected: false')
 console.log('actual: ' + containsAdjunct(z))
+
+//automated test
+describe('[a [b [c]]]', function() {
+            it('containsAdjunct(x)', function() {
+                assert.equal(containsAdjunct(x), false);
+            });
+        });
+
+describe('[[a] [b [c]]]', function() {
+            it('containsAdjunct(y)', function() {
+                assert.equal(containsAdjunct(y), true);
+            });
+        });
+
+describe('[[a] b [c]]', function() {
+            it('containsAdjunct(z)', function() {
+                assert.equal(containsAdjunct(z), false);
+            });
+        });
+
+        mocha.run(); //don't forget to run the test!!!
 
 </script>
 

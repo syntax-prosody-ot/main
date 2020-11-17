@@ -1,6 +1,33 @@
-<html>
-<body>
-<script src="../build/spot.js"></script>
+<html><head> 
+    <title>SPOT Automated Testing (binMaxHead)</title>
+
+	<link rel="stylesheet" type="text/css" href="../spot.css">
+
+    <!--If running tests that do not have to do with the interface, run jsbuild.sh or jsbuild.bat
+        in root directory of the project. If running interface testing, run testbuild.sh
+        or testBuild.bat-->
+    <script src="../build/spot.js"></script>
+
+    <!--Mocha setup stuff (1/2)-->
+    <meta charset="UTF-8">
+    <script src="../lib/test/mocha.min.js"></script>
+    <script src="../lib/test/chai.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../lib/test/mocha.css">
+    <!--mocha setup stuff to be continued in document body-->
+    
+</head>
+<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+    <h2>SPOT Automated Testing</h2>
+<script>
+    mocha.setup("bdd"); //brings "describe", "it", etc. into global namespace
+        //mocha.checkLeaks();
+        var assert = chai.assert; //no one wants to type out "chai.assert" every time
+</script>
+
+<div id="mocha">
+    binMaxHead Automated Test
+</div>
+
 <script>
 
 // Example 1:
@@ -178,6 +205,30 @@ var a = {
     }
 
 var s = null;
+
+describe('Automated Test', function() {
+            it('binMaxHead(s, x, w)', function() {
+                assert.equal(binMaxHead(s, x, 'w'), 0);
+            });
+            it('binMaxHead(s, y, w)', function() {
+               assert.equal(binMaxHead(s,y,'w'), 1);
+            });
+            it('binMaxHead(s, z, w)', function() {
+               assert.equal(binMaxHead(s, z, 'w'), 0);
+            });
+            it('binMaxHead(s, z, phi)', function() {
+               assert.equal(binMaxHead(s, z, 'phi'), 1);
+            });
+            it('binMaxHead(s, a, w)', function() {
+               assert.equal(binMaxHead(s, a, 'w'), 1);
+            });
+        });
+     
+        mocha.run(); //don't forget to run the test!!!
+
+
+//manual test below
+
 console.log('ex 1')
 console.log('expected: 0')
 console.log('actual: ' + binMaxHead(s, x, 'w'))
@@ -204,3 +255,5 @@ console.log('actual: ' + binMaxHead(s, a, 'w'))
 
 </body>
 </html>
+
+
