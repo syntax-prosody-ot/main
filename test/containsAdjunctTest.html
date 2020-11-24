@@ -135,19 +135,19 @@ console.log('actual: ' + containsAdjunct(z))
 
 //automated test
 describe('[a [b [c]]]', function() {
-            it('containsAdjunct(x)', function() {
+            it('does not contain an adjunct', function() {
                 assert.equal(containsAdjunct(x), false);
             });
         });
 
 describe('[[a] [b [c]]]', function() {
-            it('containsAdjunct(y)', function() {
+            it('contains an adjunct', function() {
                 assert.equal(containsAdjunct(y), true);
             });
         });
 
 describe('[[a] b [c]]', function() {
-            it('containsAdjunct(z)', function() {
+            it('does not contain an adjunct', function() {
                 assert.equal(containsAdjunct(z), false);
             });
         });

@@ -25,7 +25,7 @@
     </script>
     
     <div id="mocha">
-        Head Align Automated Test
+        Mirror Automated Test
     </div>
 <script>
 
@@ -263,7 +263,7 @@ console.log("expected: ", false)
 console.log("\n")
 
 //automated test
-describe('checkMirror: ', function() {
+describe('checkMirror: check for if trees are mirror images of each other', function() {
             it(parenthesizeTree(x) + '  checkMirror(x, {})', function() {
                 assert.equal(checkMirror(x, {}), false);
             });
@@ -289,7 +289,7 @@ describe('checkMirror: ', function() {
             });
         });
 
-describe('mirrorImages: ', function() {
+describe('mirrorImages: Returns true if sTree is a mirror of an earlier tree in sTreeList. Returns false if Stree is not a mirror image of an earlier tree in sTreeList', function() {
             it(parenthesizeTree(x) + '  mirrorImages(x, [x])', function() {
                 assert.equal(mirrorImages(x, [x]), false);
             });

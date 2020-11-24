@@ -1,6 +1,33 @@
-<html>
-<body>
-<script src="../build/spot.js"></script>
+<html><head> 
+  <title>SPOT Automated Testing (containsAdjunctTest)</title>
+
+<link rel="stylesheet" type="text/css" href="../spot.css">
+
+  <!--If running tests that do not have to do with the interface, run jsbuild.sh or jsbuild.bat
+      in root directory of the project. If running interface testing, run testbuild.sh
+      or testBuild.bat-->
+  <script src="../build/spot.js"></script>
+
+  <!--Mocha setup stuff (1/2)-->
+  <meta charset="UTF-8">
+  <script src="../lib/test/mocha.min.js"></script>
+  <script src="../lib/test/chai.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="../lib/test/mocha.css">
+  <!--mocha setup stuff to be continued in document body-->
+  
+</head>
+<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+  <h2>SPOT Automated Testing</h2>
+  <script>
+      mocha.setup("bdd"); //brings "describe", "it", etc. into global namespace
+          //mocha.checkLeaks();
+          var assert = chai.assert; //no one wants to type out "chai.assert" every time
+  </script>
+  
+  <div id="mocha">
+      Gen Terminal Strings Automated Test
+  </div>>
+
 
 <script>
 
@@ -24,6 +51,64 @@
   console.log('min = 2, max = 4');
   console.log(generateTerminalStrings(T4, 2, 4));
 
+  var test1 = ["a a", "a b", "a c", "b a", "b b", "b c", "c a", "c b", "c c"];
+
+  var test2 = ["a a a", "a a b", "a a c", "a b a", "a b b", "a b c", "a c a", 
+  "a c b", "a c c", "b a a", "b a b", "b a c", "b b a", "b b b", "b b c", "b c a",
+   "b c b", "b c c", "c a a", "c a b", "c a c", "c b a", "c b b", "c b c", "c c a", 
+   "c c b", "c c c"];
+
+   var test3 = ["a a", "a b", "a c", "b a", "b b", "b c", "c a", "c b", "c c", 
+   "a a a", "a a b", "a a c", "a b a", "a b b", "a b c", "a c a", "a c b", "a c c", 
+   "b a a", "b a b", "b a c", "b b a", "b b b", "b b c", "b c a", "b c b", "b c c", 
+   "c a a", "c a b", "c a c", "c b a", "c b b", "c b c", "c c a", "c c b", "c c c"];
+
+   var test4 =  ["a a", "a u", "u a", "u u"];
+
+   var test5 = ["a a a", "a a u", "a u a", "a u u", "u a a", "u a u", "u u a", "u u u"];
+
+   var test6 = ["a a a a", "a a a u", "a a u a", "a a u u", "a u a a", "a u a u", "a u u a", 
+   "a u u u", "u a a a", "u a a u", "u a u a", "u a u u", "u u a a", "u u a u", "u u u a", "u u u u"];
+
+   var test7 =  ["a a", "a u", "u a", "u u", "a a a", "a a u", "a u a", "a u u", "u a a", "u a u", "u u a", 
+   "u u u", "a a a a", "a a a u", "a a u a", "a a u u", "a u a a", "a u a u", "a u u a", "a u u u", "u a a a", 
+   "u a a u", "u a u a", "u a u u", "u u a a", "u u a u", "u u u a", "u u u u"];
+
+  describe('terminal strings drawn from [a, b, c]', function() {
+            it('with minimum length 2, maximum length 2', function() {
+              assert.deepEqual(generateTerminalStrings(T3, 2, 2), test1);
+            });
+
+            it('with minimum length 3, maximum length 3', function() {
+              assert.deepEqual(generateTerminalStrings(T3, 3, 3), test2);
+            });
+
+            it('with minimum length 2, maximum length 3', function() {
+              assert.deepEqual(generateTerminalStrings(T3,2, 3), test3);
+            });
+        });
+      
+  describe('terminal strings drawn from [a, u]', function() {
+          it('with minimum length 2, maximum length 2', function()  {
+            assert.deepEqual(generateTerminalStrings(T4, 2, 2), test4);
+          });
+
+          it('with minimum length 3, maximum length 3', function() {
+              assert.deepEqual(generateTerminalStrings(T4, 3, 3), test5);
+            });
+
+          it('with minimum length 4, maximum length 4', function() {
+              assert.deepEqual(generateTerminalStrings(T4,4, 4), test6);
+            });
+            
+          it('with minimum length 2, maximum length 4', function() {
+              assert.deepEqual(generateTerminalStrings(T4,2, 4), test7);
+            });
+  });
+
+  console.log(generateTerminalStrings(T4, 3, 3));
+
+        mocha.run(); //don't forget to run the test!!!
 </script>
 
 </body>

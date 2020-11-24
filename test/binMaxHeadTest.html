@@ -206,20 +206,20 @@ var a = {
 
 var s = null;
 
-describe('Automated Test', function() {
-            it('binMaxHead(s, x, w)', function() {
+describe('binMaxHead: Head Binarity Constraint for Japanese Compounds.', function() {
+            it('binMaxHead(s, x, w)  -->   ' + parenthesizeTree(x) + ' --> Expected Violations: 0', function() {
                 assert.equal(binMaxHead(s, x, 'w'), 0);
             });
-            it('binMaxHead(s, y, w)', function() {
+            it('binMaxHead(s, y, w)  -->   ' + parenthesizeTree(y) + ' --> Expected Violations: 1', function() {
                assert.equal(binMaxHead(s,y,'w'), 1);
             });
-            it('binMaxHead(s, z, w)', function() {
+            it('binMaxHead(s, z, w)  -->   ' + parenthesizeTree(z) + ' --> Expected Violations: 0', function() {
                assert.equal(binMaxHead(s, z, 'w'), 0);
             });
-            it('binMaxHead(s, z, phi)', function() {
+            it('binMaxHead(s, z, phi)  -->   ' + parenthesizeTree(z) + ' --> Expected Violations: 1', function() {
                assert.equal(binMaxHead(s, z, 'phi'), 1);
             });
-            it('binMaxHead(s, a, w)', function() {
+            it('binMaxHead(s, a, w)  -->   ' + parenthesizeTree(a) + ' --> Expected Violations: 1', function() {
                assert.equal(binMaxHead(s, a, 'w'), 1);
             });
         });

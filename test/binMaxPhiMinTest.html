@@ -19,7 +19,9 @@
 	</head>
 	<h2>SPOT Automated Testing</h2>
 	<div id="mocha">
-		binMaxHead Automated Test
+		binMaxPhiMin Automated Test:<br> 
+		 BinMax(phi-min)
+		* Violated if a minimal phi contains more than 2 minimal words --> leaf-counting
 	</div>
 <body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
 	<h2>Binarity subcat</h2>
@@ -150,25 +152,25 @@ var c = 'phi';
 
 
 describe('Tree1: ( chihoo [[ken satsu] choo] ) = ( w [w F] ) ', function() {
-            it('binMax_minLeaves(s, tree1, c)', function() {
+            it('binMax_minLeaves(s, tree1, c), Expected Violations: 0', function() {
                 assert.equal(binMax_minLeaves(s, tree1, c), 0);
             });
         });
 		
 describe('Tree2: ( chihoo [ [ koo kyoo][dan tai] ] ) = (w [w w] ) ', function() {
-            it('binMax_minLeaves(s, tree2, c)', function() {
+            it('binMax_minLeaves(s, tree2, c) Expected Violations: 1', function() {
                 assert.equal(binMax_minLeaves(s, tree2, c), 1);
             });
         });
 		
 describe('Tree3: ( chihoo ([ [ koo kyoo][dan tai] ]) ) = (w ([w w]) ) ', function() {
-            it('binMax_minLeaves(s, tree3, c)', function() {
+            it('binMax_minLeaves(s, tree3, c) Expected Violations: 0', function() {
                 assert.equal(binMax_minLeaves(s, tree3, c), 0);
             });
         });
 		
-describe('Tree4:', function() {
-            it('binMax_minLeaves(s, tree4, c)', function() {
+describe('Tree4: ' + parenthesizeTree(tree4), function() {
+            it('binMax_minLeaves(s, tree4, c) Expected Violations: 1', function() {
                 assert.equal(binMax_minLeaves(s, tree4, c), 1);
             });
         });

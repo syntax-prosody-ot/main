@@ -24,12 +24,12 @@
 </script>
 
 <div id="mocha">
-    threeXPsTest
+    containsAdjunct and threeXPsTest
 </div>
 <body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
 <script>
 
-var x = {
+var x1 = {
         "id": "CP1",
         "cat": "xp",
         "children": [
@@ -66,11 +66,11 @@ var x = {
         ]
     }
 
-console.log('x = [[a] [b] [c]]')
+console.log('x1 = [[a] [b] [c]]')
 console.log('expected: true')
-console.log('actual: ' + threeXPs(x))
+console.log('actual: ' + threeXPs(x1))
 
-var y = {
+var y1 = {
         "id": "CP1",
         "cat": "xp",
         "children": [
@@ -97,11 +97,11 @@ var y = {
         ]
     }
 
-console.log('y = [[a] [b]]')
+console.log('y1 = [[a] [b]]')
 console.log('expected: false')
-console.log('actual: ' + threeXPs(y))
+console.log('actual: ' + threeXPs(y1))
 
-var z = {
+var z1 = {
         "id": "CP1",
         "cat": "xp",
         "children": [
@@ -132,22 +132,147 @@ var z = {
         ]
     }
 
-console.log('z = [a [b] [c]]')
+console.log('z1 = [a [b] [c]]')
 console.log('expected: false')
-console.log('actual: ' + threeXPs(z))
+console.log('actual: ' + threeXPs(z1))
+
+
+
+var x = {
+        "id": "root",
+        "cat": "xp",
+        "children": [
+            {
+                "cat": "x0",
+                "id": "a"
+            },
+            {
+                "cat": "xp",
+                "id": "xp2",
+                "children": [
+                    {
+                        "id": "b",
+                        "cat": "x0"
+                    },
+                    {
+                        "id": "c",
+                        "cat": "x0"
+                    }
+                ]
+            }
+        ]
+    }
+
+console.log('[a [b [c]]]')
+console.log('expected: false')
+console.log('actual: ' + containsAdjunct(x))
+
+var y = {
+        "id": "root",
+        "cat": "xp",
+        "children": [
+            {
+                "cat": "xp",
+                "id": "xp6",
+                "children": [
+                    {
+                        "id": "a",
+                        "cat": "x0"
+                    }
+                ]
+            },
+            {
+                "cat": "xp",
+                "id": "xp2",
+                "children": [
+                    {
+                        "id": "b",
+                        "cat": "x0"
+                    },
+                    {
+                        "id": "xp0",
+                        "cat": "xp",
+                        "children": [
+                          {
+                              "id": "c",
+                              "cat": "x0"
+                          }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+
+console.log('[[a] [b [c]]]')
+console.log('expected: true')
+console.log('actual: ' + containsAdjunct(y))
+
+var z = {
+        "id": "root",
+        "cat": "xp",
+        "children": [
+            {
+                "cat": "xp",
+                "id": "xp6",
+                "children": [
+                    {
+                        "id": "a",
+                        "cat": "x0"
+                    }
+                ]
+            },
+            {
+                "cat": "x0",
+                "id": "b"
+            },
+            {
+                "cat": "xp",
+                "id": "xp0",
+                "children": [
+                    {
+                        "id": "c",
+                        "cat": "x0"
+                    }
+                ]
+            }
+        ]
+    }
+console.log('[[a] b [c]]')
+console.log('expected: false')
+console.log('actual: ' + containsAdjunct(z))
+
+//automated test
+describe('[a [b [c]]]', function() {
+            it('does not contain an adjunct', function() {
+                assert.equal(containsAdjunct(x), false);
+            });
+        });
+
+describe('[[a] [b [c]]]', function() {
+            it('contains an adjunct', function() {
+                assert.equal(containsAdjunct(y), true);
+            });
+        });
+
+describe('[[a] b [c]]', function() {
+            it('does not contain an adjunct', function() {
+                assert.equal(containsAdjunct(z), false);
+            });
+        });
 
 //automated test
 describe('threeXPs', function() {
             it('x = [[a] [b] [c]], threeXPs(x)', function() {
-                assert.equal(threeXPs(x), true);
+                assert.equal(threeXPs(x1), true);
             });
 
             it('y = [[a] [b]], threeXPs(y)', function() {
-                assert.equal(threeXPs(y), false);
+                assert.equal(threeXPs(y1), false);
             });
 
             it('z = [a [b] [c]], threeXPs(z)', function() {
-                assert.equal(threeXPs(z), false);
+                assert.equal(threeXPs(z1), false);
             });
         });
         

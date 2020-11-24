@@ -25,7 +25,8 @@
 </script>
 
 <div id="mocha">
-    Head Align Automated Test
+    Head Align Automated Test<br>
+    side = "left"
 </div>
 
 <script>
@@ -372,49 +373,49 @@ var strict = "strict";
 
 //automated test
 describe('goodTree1: ' + parenthesizeTree(goodTree1), function() {
-            it('headsOnWrongSide(goodTree1, side, strict)', function() {
+            it('headsOnWrongSide(goodTree1, side, strict): Expected Value: False', function() {
                 assert.equal(headsOnWrongSide(goodTree1, side, strict), false);
             });
         });
 
 describe('goodTree2: ' + parenthesizeTree(goodTree2), function() {
-            it('headsOnWrongSide(goodTree2, side, strict)', function() {
+            it('headsOnWrongSide(goodTree2, side, strict): Expected Value: False', function() {
                 assert.equal(headsOnWrongSide(goodTree2, side, strict), false);
             });
         });
 
 describe('noRootGoodTree1: ' + parenthesizeTree(noRootGoodTree1), function() {
-            it('headsOnWrongSide(noRootGoodTree1, side, strict)', function() {
+            it('headsOnWrongSide(noRootGoodTree1, side, strict): Expected Value: False', function() {
                 assert.equal(headsOnWrongSide(noRootGoodTree1, side, strict), false);
             });
         });
 
 describe('noRootGoodTree2: ' + parenthesizeTree(noRootGoodTree2), function() {
-            it('headsOnWrongSide(noRootGoodTree2, side, strict)', function() {
+            it('headsOnWrongSide(noRootGoodTree2, side, strict): Expected Value: False', function() {
                 assert.equal(headsOnWrongSide(noRootGoodTree2, side, strict), false);
             });
         });
 
 describe('badTree1: ' + parenthesizeTree(badTree1), function() {
-            it('headsOnWrongSide(badTree1, side, strict)', function() {
+            it('headsOnWrongSide(badTree1, side, strict): Expected Value: True', function() {
                 assert.equal(headsOnWrongSide(badTree1, side, strict), true);
             });
         });
 
 describe('badTree2: ' + parenthesizeTree(badTree2), function() {
-            it('headsOnWrongSide(badTree2, side, strict)', function() {
+            it('headsOnWrongSide(badTree2, side, strict): Expected Value: True', function() {
                 assert.equal(headsOnWrongSide(badTree2, side, strict), true);
             });
         });
 
 describe('noRootBadTree1: ' + parenthesizeTree(noRootBadTree1), function() {
-            it('headsOnWrongSide(noRootBadTree1, side, strict)', function() {
+            it('headsOnWrongSide(noRootBadTree1, side, strict): Expected Value: True', function() {
                 assert.equal(headsOnWrongSide(noRootBadTree1, side, strict), true);
             });
         });
 
 describe('noRootBadTree2: ' + parenthesizeTree(noRootBadTree2), function() {
-            it('headsOnWrongSide(noRootBadTree2, side, strict)', function() {
+            it('headsOnWrongSide(noRootBadTree2, side, strict): Expected Value: True', function() {
                 assert.equal(headsOnWrongSide(noRootBadTree2, side, strict), true);
             });
         });
