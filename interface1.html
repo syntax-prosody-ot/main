@@ -741,8 +741,32 @@
 						<div id="list1">
 							List of terminals 1: <input type="text" name="genStringsInput">
 							<p>Number of terminals in generated strings:</p>
-							<p class="genStringsNum">Min: <input type="text" name="genStringsMin" class="genStringsNumBox" style="margin-left: 4px"></p>
-							<p class="genStringsNum">Max: <input type="text" name="genStringsMax" class="genStringsNumBox"></p>
+							<p class="genStringsNum">Min: 
+								<select name="genStringsMin" id="genStringsMin" style="width:30px;">
+									<option value="1" selected="selected">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+								</select>
+							</p>
+							<p class="genStringsNum">Max:
+								<select name="genStringsMax" id="genStringsMax" style="width:30px;">
+									<option value="1" selected="selected">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+								</select>
+							</p>
 						</div>
 					</div>
 					<button id="addList" type="button">Add list of terminals</button>
