@@ -1,6 +1,8 @@
 var uTreeCounter = 0;
 var treeUIsTreeMap = {};
 
+var confirm_6 = false;
+
 function UTree(root) {
 
 	var self = this;
@@ -508,8 +510,7 @@ window.addEventListener('load', function(){
 			var sTree = sTrees[i];
 			//console.log(pString.split(" ").length >= 6)
 			//warn user about using more than six terminals
-
-
+			
 			//warn user about possibly excessive numbers of candidates
 			var maxNumTerminals = Math.max(getLeaves(sTree).length, pString.split(" ").length);
 			if (genOptions['cliticMovement'])
@@ -524,8 +525,12 @@ window.addEventListener('load', function(){
 				}
 			}
 			else if(maxNumTerminals >= 9 || (maxNumTerminals >= 6 && !genOptions['noUnary'])){
-				if(!confirm("Inputs of more than six terminals may run slowly and even freeze your browser, depending on the selected GEN options. Do you wish to continue?")){
-					throw new Error("Tried to run GEN with too many terminals");
+				if (confirm_6 == false){
+					if(!confirm("Inputs of more than six terminals may run slowly and even freeze your browser, depending on the selected GEN options. Do you wish to continue?")){
+						throw new Error("Tried to run GEN with too many terminals");
+					}else{
+						confirm_6 = true;
+					}
 				}
 			}
 
