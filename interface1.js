@@ -1,6 +1,7 @@
 var uTreeCounter = 0;
 var treeUIsTreeMap = {};
 
+//flag to ensure that the warning about having too many terminals for GEN only displays once
 var confirm_6 = false;
 
 function UTree(root) {
@@ -525,11 +526,12 @@ window.addEventListener('load', function(){
 				}
 			}
 			else if(maxNumTerminals >= 9 || (maxNumTerminals >= 6 && !genOptions['noUnary'])){
+				//if this is the first too-long input
 				if (confirm_6 == false){
-					if(!confirm("Inputs of more than six terminals may run slowly and even freeze your browser, depending on the selected GEN options. Do you wish to continue?")){
+					if(!confirm("You have one or more input with more than five terminals, which may run slowly and even freeze your browser, depending on the selected GEN options. Do you wish to continue?")){
 						throw new Error("Tried to run GEN with too many terminals");
 					}else{
-						confirm_6 = true;
+						confirm_6 = true; //set flag to true to prevent further warnings
 					}
 				}
 			}
