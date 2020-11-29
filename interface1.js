@@ -895,16 +895,16 @@ window.addEventListener('load', function(){
 		/* checking if list of terminals input is empty */
 		for(var i=0; i<length; i++){
 			if (length > 1){
-				if (spotForm.genStringsInput[i].value === ""){
+				if (spotForm.genStringsInput[i].value !== ""){
 					inputtest = 1;
 				}
 			}else{
-				if (spotForm.genStringsInput.value === ""){
+				if (spotForm.genStringsInput.value !== ""){
 					inputtest = 1;
 				}
 			}
 		}
-		if(inputtest == 0){
+		if(inputtest == 1){
 			/* checking if min or max is empty */
 			for(var i=0; i<length; i++){
 				if (length > 1){
