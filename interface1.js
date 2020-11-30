@@ -506,6 +506,17 @@ window.addEventListener('load', function(){
 		resultsConCl.add('show-tableau');
 
 
+		var safe_input_length = true;
+		var j = 0;
+	//	while(safe_input_length && j < sTrees.length){
+		//check for inputs that are too long and set safe_input_length = false as needed
+	//	j++;
+	//	}
+
+	//	if(!safe_input_length){
+		//display warning and get confirmation
+	//	}
+
 		var csvSegs = [];
 		for (var i = 0; i < sTrees.length; i++) {
 			var sTree = sTrees[i];
@@ -527,12 +538,8 @@ window.addEventListener('load', function(){
 			}
 			else if(maxNumTerminals >= 9 || (maxNumTerminals >= 6 && !genOptions['noUnary'])){
 				//if this is the first too-long input
-				if (confirm_6 == false){
-					if(!confirm("You have one or more input with more than five terminals, which may run slowly and even freeze your browser, depending on the selected GEN options. Do you wish to continue?")){
-						throw new Error("Tried to run GEN with too many terminals");
-					}else{
-						confirm_6 = true; //set flag to true to prevent further warnings
-					}
+				if(!confirm("You have one or more input with more than five terminals, which may run slowly and even freeze your browser, depending on the selected GEN options. Do you wish to continue?")){
+					throw new Error("Tried to run GEN with too many terminals");
 				}
 			}
 
