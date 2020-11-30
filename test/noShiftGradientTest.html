@@ -33,95 +33,80 @@
     console.log("a b c d X")
     var sorder1 = ["a", "b", "c", "d", "x"];
     var porder1 = ["a", "b", "c", "d", "x"];
-    console.log("a b c d X: ", noShiftGradient(sorder1, porder1), " expected: 0")
     porder2 = ["a", "b", "c", "x", "d"];
-    console.log("a b c X d: ", noShiftGradient(sorder1, porder2), " expected: 1")
     porder3 = ["a", "b", "x", "c", "d"];
-    console.log("a b X c d: ", noShiftGradient(sorder1, porder3), " expected: 2")
     porder4 = ["a", "x", "b", "c", "d"];
-    console.log("a X b c d: ", noShiftGradient(sorder1, porder4), " expected: 3")
     porder5 = ["x", "a", "b", "c", "d"];
-    console.log("X a b c d: ", noShiftGradient(sorder1, porder5), " expected: 4")
 
     // example with potential movers x,y
-    console.log("a b c d X Y")
     sorder2 = ["a", "b", "c", "d", "x", "y"];
     porder6 = ["x", "a", "b", "c", "d", "y"];
-    console.log("X a b c d Y: ", noShiftGradient(sorder2, porder6), " expected: 4")
     porder7 = ["y", "a", "b", "c", "d", "x"];
-    console.log("Y a b c d X: ", noShiftGradient(sorder2, porder7), " expected: 5")
     porder8 = ["x", "y", "a", "b", "c", "d"];
-    console.log("X Y a b c d: ", noShiftGradient(sorder2, porder8), " expected: 8")
     porder9 = ["y", "x", "a", "b", "c", "d"];
-    console.log("Y X a b c d: ", noShiftGradient(sorder2, porder9), " expected: 9")
 
     // additional test cases
-    console.log("a b c d X")
     sorder3 = ["a", "b", "c", "d", "x"];
     pordera = ["x", "d", "c", "b", "a"];
-    console.log("X d c b a: ", noShiftGradient(sorder3, pordera), " expected: 10")
     porderb = ["b", "a", "c", "d", "x"];
-    console.log("b a c d x: ", noShiftGradient(sorder3, porderb), " expected: 1")
     porderc = ["c", "a", "b", "d", "x"];
-    console.log("c a b d x: ", noShiftGradient(sorder3, porderc), " expected: 2")
     porderd = ["d", "a", "b", "c", "x"];
-    console.log("d a b c X: ", noShiftGradient(sorder3, porderd), " expected: 3")
 
     //automated test
-    describe('Moving X,  "a b c d X"', function() {
-            it('"a b c d X:", noShiftGradient(sorder, porder)', function() {
+    describe('Moving X, sorder = "a b c d X"', function() {
+            it('porder = "a b c d X:", noShiftGradient(sorder, porder), expected: 0', function() {
                 assert.equal(noShiftGradient(sorder1, porder1), 0);
             });
 
-            it('"a b c X d: " noShiftGradient(sorder, porder)', function() {
+            it('porder = "a b c X d: " noShiftGradient(sorder, porder), expected: 1', function() {
                 assert.equal(noShiftGradient(sorder1, porder2), 1);
             });
 
-            it('"a b X c d: ", noShiftGradient(sorder, porder)', function() {
+            it('porder = "a b X c d: ", noShiftGradient(sorder, porder), expected: 2', function() {
                 assert.equal(noShiftGradient(sorder1, porder3), 2);
             });
 
-            it('"a X b c d: ", noShiftGradient(sorder, porder)', function() {
+            it('porder = "a X b c d: ", noShiftGradient(sorder, porder), expected: 3', function() {
                 assert.equal(noShiftGradient(sorder1, porder4), 3);
             });
 
-            it('"X a b c d: ", noShiftGradient(sorder, porder)', function() {
+            it('porder = "X a b c d: ", noShiftGradient(sorder, porder), expected: 4', function() {
                 assert.equal(noShiftGradient(sorder1, porder5), 4);
             });
         });
 
-        describe('Potential Movers X,Y, "a b c d X Y"', function() {
-            it('"a b c d X Y", noShiftGradient(sorder, porder)', function() {
+        describe('Potential Movers X,Y, sorder = "a b c d X Y"', function() {
+            it('porder = "a b c d X Y", noShiftGradient(sorder, porder), expected: 4', function() {
                 assert.equal(noShiftGradient(sorder2, porder6), 4);
             });
 
-            it('"Y a b c d X: " noShiftGradient(sorder, porder)', function() {
+            it('porder = "Y a b c d X: " noShiftGradient(sorder, porder), expected: 5', function() {
                 assert.equal(noShiftGradient(sorder2, porder7), 5);
             });
 
-            it('"X Y a b c d: ", noShiftGradient(sorder, porder)', function() {
+            it('porder = "X Y a b c d: ", noShiftGradient(sorder, porder), expected: 8', function() {
                 assert.equal(noShiftGradient(sorder2, porder8), 8);
             });
 
-            it('"Y X a b c d: ", noShiftGradient(sorder, porder)', function() {
+            it('porder = "Y X a b c d: ", noShiftGradient(sorder, porder), expected: 9', function() {
                 assert.equal(noShiftGradient(sorder2, porder9), 9);
             });
         });
 
-        describe('Additional Tests', function() {
-            it('"X d c b a: ", noShiftGradient(sorder, porder)', function() {
+        describe('Additional Tests, sorder = "a b c d X"', function() {
+            it('porder = "X d c b a: ", noShiftGradient(sorder, porder), expected: 10', function() {
                 assert.equal(noShiftGradient(sorder3, pordera), 10);
             });
 
-            it('"b a c d x: " noShiftGradient(sorder, porder)', function() {
+            it('porder = "b a c d x: " noShiftGradient(sorder, porder), expected: 1', function() {
                 assert.equal(noShiftGradient(sorder3, porderb), 1);
             });
 
-            it('"c a b d x: ", noShiftGradient(sorder, porder)', function() {
+            it('porder = "c a b d x: ", noShiftGradient(sorder, porder), expected: 2', function() {
                 assert.equal(noShiftGradient(sorder3, porderc), 2);
             });
 
-            it('"d a b c X: ", noShiftGradient(sorder, porder)', function() {
+            it('porder = "d a b c X: ", noShiftGradient(sorder, porder), expected: 3', function() {
                 assert.equal(noShiftGradient(sorder3, porderd), 3);
             });
         });

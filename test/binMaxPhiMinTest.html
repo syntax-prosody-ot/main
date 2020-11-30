@@ -177,25 +177,6 @@ describe('Tree4: ' + parenthesizeTree(tree4), function() {
 		
 		
         mocha.run(); //don't forget to run the test!!!
-
-
-
-console.log(tree1)
-console.log('expected violations: 0')
-console.log('actual: ', binMax_minLeaves(s, tree1, c))
-
-console.log(tree2)
-console.log('expected violations: 1')
-console.log('actual: ', binMax_minLeaves(s, tree2, c))
-
-console.log(tree3)
-console.log('expected violations: 0')
-console.log('actual: ', binMax_minLeaves(s, tree3, c))
-
-console.log(tree4)
-console.log('expected violations: 1')
-console.log('actual: ', binMax_minLeaves(s, tree4, c))
-
 var cand1 = GEN({}, 'a b c d', {obeysExhaustivity: true});
 var cand2 = GEN({}, 'a b c d', {obeysExhaustivity: true, rootCategory: 'phi', recursiveCategory: 'w', terminalCategory:'w'});
 var con = ['binMax_minLeaves-phi','binMax_minLeaves-i', 'binMaxLeaves-phi'];

@@ -66,9 +66,6 @@ var x1 = {
         ]
     }
 
-console.log('x1 = [[a] [b] [c]]')
-console.log('expected: true')
-console.log('actual: ' + threeXPs(x1))
 
 var y1 = {
         "id": "CP1",
@@ -97,9 +94,6 @@ var y1 = {
         ]
     }
 
-console.log('y1 = [[a] [b]]')
-console.log('expected: false')
-console.log('actual: ' + threeXPs(y1))
 
 var z1 = {
         "id": "CP1",
@@ -132,9 +126,6 @@ var z1 = {
         ]
     }
 
-console.log('z1 = [a [b] [c]]')
-console.log('expected: false')
-console.log('actual: ' + threeXPs(z1))
 
 
 
@@ -162,10 +153,6 @@ var x = {
             }
         ]
     }
-
-console.log('[a [b [c]]]')
-console.log('expected: false')
-console.log('actual: ' + containsAdjunct(x))
 
 var y = {
         "id": "root",
@@ -204,10 +191,6 @@ var y = {
         ]
     }
 
-console.log('[[a] [b [c]]]')
-console.log('expected: true')
-console.log('actual: ' + containsAdjunct(y))
-
 var z = {
         "id": "root",
         "cat": "xp",
@@ -238,9 +221,6 @@ var z = {
             }
         ]
     }
-console.log('[[a] b [c]]')
-console.log('expected: false')
-console.log('actual: ' + containsAdjunct(z))
 
 //automated test
 describe('[a [b [c]]]', function() {
@@ -263,15 +243,15 @@ describe('[[a] b [c]]', function() {
 
 //automated test
 describe('threeXPs', function() {
-            it('x = [[a] [b] [c]], threeXPs(x)', function() {
+            it('x = [[a] [b] [c]], threeXPs(x), expected: true', function() {
                 assert.equal(threeXPs(x1), true);
             });
 
-            it('y = [[a] [b]], threeXPs(y)', function() {
+            it('y = [[a] [b]], threeXPs(y), expected: false', function() {
                 assert.equal(threeXPs(y1), false);
             });
 
-            it('z = [a [b] [c]], threeXPs(z)', function() {
+            it('z = [a [b] [c]], threeXPs(z), expected: false', function() {
                 assert.equal(threeXPs(z1), false);
             });
         });

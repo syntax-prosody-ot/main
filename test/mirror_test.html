@@ -215,98 +215,52 @@ var z2 = 
         ]
     }
 
-console.log("z2 = ", parenthesizeTree(z2));
-console.log("checkMirror(z, z2) = ", checkMirror(z, z2));
-//true //correct
-console.log("expected: ", true)
-console.log("\n")
-
-console.log("mirrorImages(z2, [x, y, z, z2]) = ", mirrorImages(z2, [x,y, z, z2]));
-//true //correct: z2 is a mirror of z
-console.log("expected: ", true)
-console.log("\n")
-
-console.log("mirrorImages(z, [x, y, z, z2]) = ", mirrorImages(z, [x,y, z, z2]));
-//true //incorrect! z should not be a mirror of any preceding tree in the list (x or y)
-console.log("expected: ", false)
-// console.log("This is a false positive!")
-console.log("\n")
-
-// this is still a false positive with just checkMirror,
-// but is correct when using mirrorImages
-console.log("checkMirror(z, x) = ", checkMirror(z, x));
-//true - incorrect!!!
-console.log("expected: ", false)
-// console.log("This is a false positive!")
-console.log("\n")
-
-console.log("checkMirror(x, z) = ", checkMirror(x, z));
-//true - incorrect!!!
-console.log("expected: ", false)
-console.log("\n")
-
-// this is still a false positive with just checkMirror,
-// but is correct when using mirrorImages
-console.log("checkMirror(z2, y) = ", checkMirror(z2, y));
-//true - incorrect!!!
-console.log("expected: ", false)
-// console.log("This is a false positive!")
-console.log("\n")
-
-console.log("mirrorImages(z2, [y, z2]) = ", mirrorImages(z2, [y, z2]));
-console.log("expected: ", false)
-console.log("\n")
-
-console.log("checkMirror(y, x) = ", checkMirror(y, x));
-//false - correct
-console.log("expected: ", false)
-console.log("\n")
 
 //automated test
 describe('checkMirror: check for if trees are mirror images of each other', function() {
-            it(parenthesizeTree(x) + '  checkMirror(x, {})', function() {
+            it(parenthesizeTree(x) + '  checkMirror(x, {}), expected: false', function() {
                 assert.equal(checkMirror(x, {}), false);
             });
 
-            it(parenthesizeTree(z2) + '  checkMirror(z, z2)', function() {
+            it(parenthesizeTree(z2) + '  checkMirror(z, z2), expected: true', function() {
                 assert.equal(checkMirror(z, z2), true);
             });
 
-            it('checkMirror(z, x)', function() {
+            it('checkMirror(z, x), expected: false', function() {
                 assert.equal(checkMirror(z, x), false);
             });
 
-            it('checkMirror(x, z)', function() {
+            it('checkMirror(x, z), expected: false', function() {
                 assert.equal(checkMirror(x, z), false);
             });
 
-            it('checkMirror(z2, y)', function() {
+            it('checkMirror(z2, y), expected: false', function() {
                 assert.equal(checkMirror(z2, y), false);
             });
 
-            it('checkMirror(y, x)', function() {
+            it('checkMirror(y, x), expected: false', function() {
                 assert.equal(checkMirror(y, x), false);
             });
         });
 
 describe('mirrorImages: Returns true if sTree is a mirror of an earlier tree in sTreeList. Returns false if Stree is not a mirror image of an earlier tree in sTreeList', function() {
-            it(parenthesizeTree(x) + '  mirrorImages(x, [x])', function() {
+            it(parenthesizeTree(x) + '  mirrorImages(x, [x]), expected: false', function() {
                 assert.equal(mirrorImages(x, [x]), false);
             });
 
-            it(parenthesizeTree(y) + '  mirrorImages(x, [y, x])', function() {
+            it(parenthesizeTree(y) + '  mirrorImages(x, [y, x]), expected: false', function() {
                 assert.equal(mirrorImages(x, [y, x]), false);
             });
 
-            it('mirrorImages(z2, [x,y, z, z2])', function() {
+            it('mirrorImages(z2, [x,y, z, z2]), expected: true', function() {
                 assert.equal(mirrorImages(z2, [x,y, z, z2]), true);
             });
 
-            it('mirrorImages(z, [x,y, z, z2])', function() {
+            it('mirrorImages(z, [x,y, z, z2]), expected: false', function() {
                 assert.equal(mirrorImages(z, [x,y, z, z2]), false);
             });
 
-            it('mirrorImages(z2, [y, z2])', function() {
+            it('mirrorImages(z2, [y, z2]), expected: false', function() {
                 assert.equal(mirrorImages(z2, [y, z2]), false);
             });
         });

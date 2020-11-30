@@ -54,9 +54,6 @@ var x = {
         ]
     }
 
-console.log('[a [b [c]]]')
-console.log('expected: false')
-console.log('actual: ' + containsAdjunct(x))
 
 var y = {
         "id": "root",
@@ -95,9 +92,6 @@ var y = {
         ]
     }
 
-console.log('[[a] [b [c]]]')
-console.log('expected: true')
-console.log('actual: ' + containsAdjunct(y))
 
 var z = {
         "id": "root",
@@ -129,9 +123,7 @@ var z = {
             }
         ]
     }
-console.log('[[a] b [c]]')
-console.log('expected: false')
-console.log('actual: ' + containsAdjunct(z))
+
 
 //automated test
 describe('[a [b [c]]]', function() {
