@@ -895,37 +895,26 @@ window.addEventListener('load', function(){
 		/* checking if list of terminals input is empty */
 		for(var i=0; i<length; i++){
 			if (length > 1){
-<<<<<<< HEAD
 				if (spotForm.genStringsInput[i].value !== ""){
-					inputtest = 1;
+					inputProblem = 1;
 				}
 			}else{
 				if (spotForm.genStringsInput.value !== ""){
-					inputtest = 1;
-				}
-			}
-		}
-		if(inputtest == 1){
-=======
-				if (spotForm.genStringsInput[i].value === ""){
-					inputProblem = 1;
-				}
-			}else{
-				if (spotForm.genStringsInput.value === ""){
 					inputProblem = 1;
 				}
 			}
 		}
-		if(inputProblem == 0){
->>>>>>> 12808d3c3493c2e400ab8b3613c9319062182a92
+		if(inputProblem == 1){
 			/* checking if min or max is empty */
 			for(var i=0; i<length; i++){
 				if (length > 1){
-					if (spotForm.genStringsMin[i].value === ""){
-						minProblem = 1;
-					}
-					if (spotForm.genStringsMax[i].value === ""){
-						maxProblem = 1;
+					if (spotForm.genStringsInput[i].value !== ""){
+						if (spotForm.genStringsMin[i].value === ""){
+							minProblem = 1;
+						}
+						if (spotForm.genStringsMax[i].value === ""){
+							maxProblem = 1;
+						}
 					}
 				}else{
 					if (spotForm.genStringsMin.value === ""){
@@ -940,11 +929,13 @@ window.addEventListener('load', function(){
 				/* checking if the input is a number */
 				for(var i=0; i<length; i++){
 					if (length > 1){
-						if (isNaN(spotForm.genStringsMin[i].value)){
-							minProblem = 1;
-						}
-						if (isNaN(spotForm.genStringsMax[i].value)){
-							maxProblem = 1;
+						if (spotForm.genStringsInput[i].value !== ""){
+							if (isNaN(spotForm.genStringsMin[i].value)){
+								minProblem = 1;
+							}
+							if (isNaN(spotForm.genStringsMax[i].value)){
+								maxProblem = 1;
+							}
 						}
 					}else{
 						if (isNaN(spotForm.genStringsMin.value)){
@@ -959,11 +950,13 @@ window.addEventListener('load', function(){
 					/* checking if the input value is more than 0 */
 					for(var i=0; i<length; i++){
 						if (length > 1){
-							if (Number(spotForm.genStringsMin[i].value) <= 0){
-								minProblem = 1;
-							}
-							if (Number(spotForm.genStringsMax[i].value) <= 0){
-								maxProblem = 1;
+							if (spotForm.genStringsInput[i].value !== ""){
+								if (Number(spotForm.genStringsMin[i].value) <= 0){
+									minProblem = 1;
+								}
+								if (Number(spotForm.genStringsMax[i].value) <= 0){
+									maxProblem = 1;
+								}
 							}
 						}else{
 							if (Number(spotForm.genStringsMin.value) <= 0){
@@ -978,11 +971,13 @@ window.addEventListener('load', function(){
 						/* checking if the input value is more than 10*/
 						for(var i=0; i<length; i++){
 							if (length > 1){
-								if (Number(spotForm.genStringsMin[i].value) >= 10){
-									minProblem = 1;
-								}
-								if (Number(spotForm.genStringsMax[i].value) >= 10){
-									maxProblem = 1;
+								if (spotForm.genStringsInput[i].value !== ""){
+									if (Number(spotForm.genStringsMin[i].value) >= 10){
+										minProblem = 1;
+									}
+									if (Number(spotForm.genStringsMax[i].value) >= 10){
+										maxProblem = 1;
+									}
 								}
 							}else{
 								if (Number(spotForm.genStringsMin.value) >= 10){
@@ -998,14 +993,16 @@ window.addEventListener('load', function(){
 							/* checking if the input is more than 5 and if min value is less than max value */
 							for(var i=0; i<length; i++){
 								if (length > 1){
-									if (Number(spotForm.genStringsMin[i].value) >= 5){
-										minProblem = 1;
-									}
-									if (Number(spotForm.genStringsMax[i].value) >= 5){
-										maxProblem = 1;
-									}
-									if (Number(spotForm.genStringsMax[i].value) <  Number(spotForm.genStringsMin[i].value)){
-										minmax = 1;
+									if (spotForm.genStringsInput[i].value !== ""){
+										if (Number(spotForm.genStringsMin[i].value) >= 5){
+											minProblem = 1;
+										}
+										if (Number(spotForm.genStringsMax[i].value) >= 5){
+											maxProblem = 1;
+										}
+										if (Number(spotForm.genStringsMax[i].value) <  Number(spotForm.genStringsMin[i].value)){
+											minmax = 1;
+										}
 									}
 								}else{
 									if (Number(spotForm.genStringsMin.value) >= 5){
