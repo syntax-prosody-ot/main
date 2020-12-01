@@ -1,3 +1,5 @@
+//MANUAL TREE BUILDER CODE BEGIN --> PUT THIS IN interface_treeBuilder.js
+
 var uTreeCounter = 0;
 var treeUIsTreeMap = {};
 
@@ -311,6 +313,9 @@ function danishTrees() {
 	return sTrees;
 }
 
+//MANUAL TREE BUILDER CODE END
+
+// BEGIN 1000 LINE LOAD FUNCTION THAT NEEDS TO STAY TOGETHER
 window.addEventListener('load', function(){
 
 	var spotForm = document.getElementById('spotForm');
@@ -884,7 +889,8 @@ window.addEventListener('load', function(){
 			genStringsList = fixedStringList;
 		}
 
-		/* minProblem, maxProblem, and inputPresent are flags for specific tests. The default value is 0. If the value equals to 1, then the test failed */
+		/* inputFive, minOrMaxProblem, and inputPresent are flags for specific tests. 
+		The default value is 0 or false. If the value equals 1 or true, then the test failed */
 		var inputFive = false;
 		var minOrMaxProblem = false;
 		var inputPresent = 0;
@@ -1372,6 +1378,10 @@ window.addEventListener('load', function(){
 
 });
 
+// END 1000 LINE LOAD FUNCTION
+
+
+// HELPER DISPLAY FUNCTIONS FOR THE LOAD FUNCTION
 function toneInfoBlock(language){
 	var content = document.getElementById("tonesInfoContent");
 	var japaneseContent = "Tokyo Japanese: the left edge of phi is marked with a rising boundary tone (LH), accented words receive an HL on the accented syllable, and H tones that follow a pitch drop (HL) within the maximal phi are downstepped (!H). (See: Pierrehumbert and Beckman 1988; Gussenhoven 2004; Ito and Mester 2007) Accents, boundary tones, and downstep in Lekeitio Basque are realized with the same tones as in Tokyo Japanese.";
@@ -1399,20 +1409,15 @@ function toneInfoBlock(language){
 	}
 }
 
-//downloads an element to the user's computer. Originally defined up by saveTextAs()
-function saveAs(blob, name) {
-	var a = document.createElement("a");
-	a.display = "none";
-	a.href = URL.createObjectURL(blob);
-	a.download = name;
-	document.body.appendChild(a);
-	a.click();
-	document.body.removeChild(a);
-}
-
-function clearTableau() {
-	document.getElementById('results-container').innerHTML = "";
-	document.getElementById('results-container').className = "";
+function showMaxBranching() {
+	var text = document.getElementById('maxBranchingText');
+	var checkBox = document.getElementById('maxBranchingBox')
+	if(checkBox.checked) {
+		text.style.display = 'inline';
+	}
+	else{
+		text.style.display = 'none';
+	}
 }
 
 function showMore(constraintType) {
@@ -1429,6 +1434,27 @@ function showMore(constraintType) {
   }
 }
 
+// END DISPLAY FUNCTIONS
+
+//downloads an element to the user's computer. Originally defined up by saveTextAs()
+function saveAs(blob, name) {
+	var a = document.createElement("a");
+	a.display = "none";
+	a.href = URL.createObjectURL(blob);
+	a.download = name;
+	document.body.appendChild(a);
+	a.click();
+	document.body.removeChild(a);
+}
+
+function clearTableau() {
+	document.getElementById('results-container').innerHTML = "";
+	document.getElementById('results-container').className = "";
+}
+
+
+//ERROR AND WARNING FUNCTIONS
+// for closing error and warning messages
 function closeButton() {
 	var close = document.getElementsByClassName("closebtn");
 	var i;
@@ -1480,18 +1506,9 @@ function displayWarning(warnMsg) {
 	div.style.opacity = "100";
 	closeButton();
 }
+//END ERROR AND WARNING FUNCTIONS
 
-function showMaxBranching() {
-	var text = document.getElementById('maxBranchingText');
-	var checkBox = document.getElementById('maxBranchingBox')
-	if(checkBox.checked) {
-		text.style.display = 'inline';
-	}
-	else{
-		text.style.display = 'none';
-	}
-}
-
+//INPUT GEN DISPLAY
 function changeInputTabs(from, to) {
 	var fromButton = 	document.getElementById(from);
 	var toButton = document.getElementById(to);
