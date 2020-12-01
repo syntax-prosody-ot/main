@@ -884,9 +884,12 @@ window.addEventListener('load', function(){
 			genStringsList = fixedStringList;
 		}
 
-		/* minProblem, maxProblem, and inputProblem are flags for specific tests. The default value is 0. If the value equals to 1, then the test failed */
-		var minProblem = 0; var maxProblem = 0;
-		var inputProblem = 0;
+		/* minProblem, maxProblem, and inputPresent are flags for specific tests. The default value is 0. If the value equals to 1, then the test failed */
+		var minFive = false;
+		var minOrMaxProblem = false;
+		var inputPresent = 0;
+		var problemError = "";
+
 		var length = spotForm.genStringsInput.length;
 		if(length === undefined) {
 			length = 1;
@@ -894,186 +897,137 @@ window.addEventListener('load', function(){
 
 		/* checking if list of terminals input is empty */
 		for(var i=0; i<length; i++){
-			if (length > 1){
-				if (spotForm.genStringsInput[i].value !== ""){
-					inputProblem = 1;
-				}
-			}else{
-				if (spotForm.genStringsInput.value !== ""){
-					inputProblem = 1;
-				}
+			inputPresent = (length==1 ? spotForm.genStringsInput.value !== "": spotForm.genStringsInput[i].value !== "");
+			if (inputPresent == true){
+				inputPresent = 1;
+				break;
 			}
 		}
-		if(inputProblem == 1){
-			/* checking if min or max is empty */
+		/*if inputPresent is 0 then all the List of terminals are empty else if 1 then there
+		is at least one terminal input*/
+		if(inputPresent == 1){
+			breakloop:
 			for(var i=0; i<length; i++){
 				if (length > 1){
+					/*if List of terminal input is empty, skip*/
 					if (spotForm.genStringsInput[i].value !== ""){
-						if (spotForm.genStringsMin[i].value === ""){
-							minProblem = 1;
+						/*checking if min or max is empty*/
+						if (spotForm.genStringsMin[i].value === "" || spotForm.genStringsMax[i].value === ""){
+							minOrMaxProblem = true;
+							problem = "Empty";
+							break breakloop;
 						}
-						if (spotForm.genStringsMax[i].value === ""){
-							maxProblem = 1;
+						/*checking if min or max is not a number*/
+						if (isNaN(spotForm.genStringsMin[i].value) || isNaN(spotForm.genStringsMax[i].value)){
+							minOrMaxProblem = true;
+							problem = "NonNumber";
+							break breakloop;
+						}
+						/*checking if min or max is less than or equal to 0*/
+						if (Number(spotForm.genStringsMin[i].value) <= 0 || Number(spotForm.genStringsMax[i].value) <= 0){
+							minOrMaxProblem = true;
+							problem = "Zero";
+							break breakloop;
+						}
+						/*checking if min or max is more than or equal to 10*/
+						if (Number(spotForm.genStringsMin[i].value) >= 10 || Number(spotForm.genStringsMax[i].value) >= 10){
+							minOrMaxProblem = true;
+							problem = "Ten";
+							break breakloop;
+						}
+						/*checking if min is greater than max*/
+						if (Number(spotForm.genStringsMax[i].value) <  Number(spotForm.genStringsMin[i].value)){
+							minOrMaxProblem = true;
+							problem = "MinGreaterThanMax";
+							break breakloop;
+						}
+						/*checking if min or max is more than or equal to 5*/
+						if (Number(spotForm.genStringsMin[i].value) >= 5 || Number(spotForm.genStringsMax[i].value) >= 5){
+							minFive = true;
 						}
 					}
 				}else{
-					if (spotForm.genStringsMin.value === ""){
-						minProblem = 1;
+					/*checking if min or max is empty*/
+					if (spotForm.genStringsMin.value === "" || spotForm.genStringsMax.value === ""){
+						minOrMaxProblem= true;
+						problem = "Empty";
+						break breakloop;
 					}
-					if (spotForm.genStringsMax.value === ""){
-						maxProblem = 1;
+					/*checking if min or max is not a number*/
+					if (isNaN(spotForm.genStringsMin.value) || isNaN(spotForm.genStringsMax.value)){
+						minOrMaxProblem = true;
+						problem = "NonNumber";
+						break breakloop;
+					}
+					/*checking if min or max is less than or equal to 0*/
+					if (Number(spotForm.genStringsMin.value) <= 0 || Number(spotForm.genStringsMax.value) <= 0){
+						minOrMaxProblem = true;
+						problem = "Zero";
+						break breakloop;
+					}
+					/*checking if min or max is more than or equal to 10*/
+					if (Number(spotForm.genStringsMin.value) >= 10 || Number(spotForm.genStringsMax.value) >= 10){
+						minOrMaxProblem = true;
+						problem = "Ten";
+						break breakloop;
+					}
+					/*checking if min is greater than max*/
+					if (Number(spotForm.genStringsMax.value) <  Number(spotForm.genStringsMin.value)){
+						minOrMaxProblem = true;
+						problem = "MinGreaterThanMax";
+						break breakloop;
+					}
+					/*checking if min or max is more than or equal to 5*/
+					if (Number(spotForm.genStringsMin.value) >= 5 || Number(spotForm.genStringsMax.value) >= 5){
+						minFive = true;
 					}
 				}
 			}
-			if (minProblem == 0 && maxProblem == 0){	
-				/* checking if the input is a number */
-				for(var i=0; i<length; i++){
-					if (length > 1){
-						if (spotForm.genStringsInput[i].value !== ""){
-							if (isNaN(spotForm.genStringsMin[i].value)){
-								minProblem = 1;
-							}
-							if (isNaN(spotForm.genStringsMax[i].value)){
-								maxProblem = 1;
-							}
-						}
-					}else{
-						if (isNaN(spotForm.genStringsMin.value)){
-							minProblem = 1;
-						}
-						if (isNaN(spotForm.genStringsMax.value)){
-							maxProblem = 1;
-						}
-					}
-				}
-				if (minProblem === 0 && maxProblem === 0){
-					/* checking if the input value is more than 0 */
-					for(var i=0; i<length; i++){
-						if (length > 1){
-							if (spotForm.genStringsInput[i].value !== ""){
-								if (Number(spotForm.genStringsMin[i].value) <= 0){
-									minProblem = 1;
-								}
-								if (Number(spotForm.genStringsMax[i].value) <= 0){
-									maxProblem = 1;
-								}
-							}
-						}else{
-							if (Number(spotForm.genStringsMin.value) <= 0){
-								minProblem = 1;
-							}
-							if (Number(spotForm.genStringsMax.value) <= 0){
-								maxProblem = 1;
-							}
-						}
-					}
-					if (minProblem === 0 && maxProblem === 0){
-						/* checking if the input value is more than 10*/
-						for(var i=0; i<length; i++){
-							if (length > 1){
-								if (spotForm.genStringsInput[i].value !== ""){
-									if (Number(spotForm.genStringsMin[i].value) >= 10){
-										minProblem = 1;
-									}
-									if (Number(spotForm.genStringsMax[i].value) >= 10){
-										maxProblem = 1;
-									}
-								}
-							}else{
-								if (Number(spotForm.genStringsMin.value) >= 10){
-									minProblem = 1;
-								}
-								if (Number(spotForm.genStringsMax.value) >= 10){
-									maxProblem = 1;
-								}
-							}
-						}
-						var minmax = 0; //flag checker for min value being less than max value
-						if (minProblem === 0 && maxProblem === 0){
-							/* checking if the input is more than 5 and if min value is less than max value */
-							for(var i=0; i<length; i++){
-								if (length > 1){
-									if (spotForm.genStringsInput[i].value !== ""){
-										if (Number(spotForm.genStringsMin[i].value) >= 5){
-											minProblem = 1;
-										}
-										if (Number(spotForm.genStringsMax[i].value) >= 5){
-											maxProblem = 1;
-										}
-										if (Number(spotForm.genStringsMax[i].value) <  Number(spotForm.genStringsMin[i].value)){
-											minmax = 1;
-										}
-									}
-								}else{
-									if (Number(spotForm.genStringsMin.value) >= 5){
-										minProblem = 1;
-									}
-									if (Number(spotForm.genStringsMax.value) >= 5){
-										maxProblem = 1;
-									}
-									if (Number(spotForm.genStringsMax.value) <  Number(spotForm.genStringsMin.value)){
-										minmax = 1;
-									}
-								}
-							}
-							if (minmax === 0){
-								/* display warning if the input value is more than 5 */
-								if (minProblem === 1 || maxProblem === 1){
-									minProblem = 0;
-									maxProblem = 0;
-									displayWarning("Min or Max input is greater than or equal to 5 which may cause your browser to freeze due to too many terminal strings being generated.");
-								}
-								var length = spotForm.genStringsInput.length;
-								if(length === undefined) {
-									length = 1;
-								}
-								var inputList = spotForm.genStringsInput.value;
-								var min = spotForm.genStringsMin.value;
-								var max = spotForm.genStringsMax.value;
-
-
-								for(var i=0; i<length; i++){
-									if(length > 1) {
-										inputList = spotForm.genStringsInput[i].value;
-										min = spotForm.genStringsMin[i].value;
-										max = spotForm.genStringsMax[i].value;
-									}
-
-									if(inputList !== "") {
-										inputList = inputList.trim().split(' ');
-										var currGenStringsList = generateTerminalStrings(inputList, min, max)
-										displayStringsTable(currGenStringsList);
-
-										if(genStringsList) {
-											genStringsList = genStringsList.concat(currGenStringsList);
-										}
-										else {
-											genStringsList = currGenStringsList;
-										}
-									}
-								}
-								// console.log(genStringsList)
-							}else{
-								minmax = 0;
-								displayError("Min input must be smaller than Max input.");
-							}
-						}else{
-							minProblem = 0;
-							maxProblem = 0;
-							displayError("Min and Max inputs must be less than 10.");
-						}
-					}else{
-						minProblem = 0;
-						maxProblem = 0;
-						displayError("Min and Max inputs must be larger than 0.");
-					}
-				}else{
-					minProblem = 0;
-					maxProblem = 0;
+			/*if there is an error with min or max input*/
+			if (minOrMaxProblem == true){
+				if (problem === "Empty"){
+					displayError("Min or Max input missing.");
+				}else if(problem === "NonNumber"){
 					displayError("Min or Max input is not a number.");
+				}else if(problem === "Zero"){
+					displayError("Min and Max inputs must be larger than 0.");
+				}else if(problem === "Ten"){
+					displayError("Min and Max inputs must be less than 10.");
+				}else if(problem === "MinGreaterThanMax"){
+					displayError("Min input must be smaller than Max input.");
 				}
 			}else{
-				displayError("Min or Max input missing.");
+				/*confirm user wants to continue if the input is greater than or equal to 5 */
+				if (minFive == true){
+					if(!confirm("Min or Max input is greater than or equal to 5 which may cause your browser to freeze due to too many terminal strings being generated. Confirm that you want to continue.")){
+						throw new Error ('Min or Max input is greater than or equal to 5.');
+					}
+				}
+				var inputList = spotForm.genStringsInput.value;
+				var min = spotForm.genStringsMin.value;
+				var max = spotForm.genStringsMax.value;
+
+				for(var i=0; i<length; i++){
+					if(length > 1) {
+					inputList = spotForm.genStringsInput[i].value;
+					min = spotForm.genStringsMin[i].value;
+					max = spotForm.genStringsMax[i].value;
+					}
+
+					/* Actual calculation of terminal strings here*/
+					if(inputList !== "") {
+						inputList = inputList.trim().split(' ');
+						var currGenStringsList = generateTerminalStrings(inputList, min, max)
+						displayStringsTable(currGenStringsList);
+
+						if(genStringsList) {
+							genStringsList = genStringsList.concat(currGenStringsList);
+						}
+						else {
+							genStringsList = currGenStringsList;
+						}
+					}
+				}
 			}
 		}else{
 			displayError("You must supply at least one list of terminals.");
