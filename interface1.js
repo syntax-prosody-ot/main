@@ -1,9 +1,6 @@
 var uTreeCounter = 0;
 var treeUIsTreeMap = {};
 
-//flag to ensure that the warning about having too many terminals for GEN only displays once
-var confirm_6 = false;
-
 function UTree(root) {
 
 	var self = this;
