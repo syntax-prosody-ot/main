@@ -503,31 +503,44 @@ window.addEventListener('load', function(){
 		resultsConCl.add('show-tableau');
 
 
-		var csvSegs = [];
-		for (var i = 0; i < sTrees.length; i++) {
-			var sTree = sTrees[i];
-			//console.log(pString.split(" ").length >= 6)
-			//warn user about using more than six terminals
-
-
+		var safe_input_length = true;
+		var safe_input_length_clitic = true;
+		var sTree;
+		var maxNumTerminals;
+		var j = 0;
+		while(safe_input_length && safe_input_length_clitic && j < sTrees.length){
+		//check for inputs that are too long and set safe_input_length = false as needed
+			sTree = sTrees[j];
+			maxNumTerminals = Math.max(getLeaves(sTree).length, pString.split(" ").length);
 			//warn user about possibly excessive numbers of candidates
-			var maxNumTerminals = Math.max(getLeaves(sTree).length, pString.split(" ").length);
 			if (genOptions['cliticMovement'])
 			{
 				if((maxNumTerminals >= 7) || (!genOptions['noUnary'] && maxNumTerminals >= 5))
 				{
-					var tooManyCandMsg = "You have selected GEN settings that allow movement, and included a sentence of "+ maxNumTerminals.toString()+" terminals. This GEN may yield more than 10K candidates. To reduce the number of candidates, consider enforcing non-recursivity, exhaustivity, and/or branchingness for intermediate prosodic nodes. Do you wish to proceed with these settings?";
-					var continueGEN = confirm(tooManyCandMsg);
-					if(!continueGEN){
-						throw new Error("Tried to run GEN with clitic movement with too many terminals");
-					}
+					safe_input_length_clitic = false;
 				}
+			}else if(maxNumTerminals >= 9 || (maxNumTerminals >= 6 && !genOptions['noUnary'])){
+				safe_input_length = false;
 			}
-			else if(maxNumTerminals >= 9 || (maxNumTerminals >= 6 && !genOptions['noUnary'])){
-				if(!confirm("Inputs of more than six terminals may run slowly and even freeze your browser, depending on the selected GEN options. Do you wish to continue?")){
-					throw new Error("Tried to run GEN with too many terminals");
-				}
+			j++;
+		}
+
+		if(!safe_input_length){
+		//display warning and get confirmation
+			if(!confirm("You have one or more input with more than five terminals, which may run slowly and even freeze your browser, depending on the selected GEN options. Do you wish to continue?")){
+				throw new Error("Tried to run GEN with too many terminals");
 			}
+		}else if (!safe_input_length_clitic){
+			var tooManyCandMsg = "You have selected GEN settings that allow movement, and included a sentence of "+ maxNumTerminals.toString()+" terminals. This GEN may yield more than 10K candidates. To reduce the number of candidates, consider enforcing non-recursivity, exhaustivity, and/or branchingness for intermediate prosodic nodes. Do you wish to proceed with these settings?";
+			var continueGEN = confirm(tooManyCandMsg);
+			if(!continueGEN){
+				throw new Error("Tried to run GEN with clitic movement with too many terminals");
+			}
+		}
+
+		var csvSegs = [];
+		for (var i = 0; i < sTrees.length; i++) {
+			var sTree = sTrees[i];
 
 			//Actually create the candidate set
 			if (genOptions['cliticMovement']){
@@ -537,7 +550,6 @@ window.addEventListener('load', function(){
 			else{
 				var candidateSet = GEN(sTree, pString, genOptions);
 			}
-
 
 			//Make the violation tableau with the info we just got.
 			var tabl = makeTableau(candidateSet, constraintSet, tableauOptions);
