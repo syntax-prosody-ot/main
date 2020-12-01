@@ -885,7 +885,7 @@ window.addEventListener('load', function(){
 		}
 
 		/* minProblem, maxProblem, and inputPresent are flags for specific tests. The default value is 0. If the value equals to 1, then the test failed */
-		var minFive = false;
+		var inputFive = false;
 		var minOrMaxProblem = false;
 		var inputPresent = 0;
 		var problemError = "";
@@ -943,7 +943,7 @@ window.addEventListener('load', function(){
 						}
 						/*checking if min or max is more than or equal to 5*/
 						if (Number(spotForm.genStringsMin[i].value) >= 5 || Number(spotForm.genStringsMax[i].value) >= 5){
-							minFive = true;
+							inputFive = true;
 						}
 					}
 				}else{
@@ -979,7 +979,7 @@ window.addEventListener('load', function(){
 					}
 					/*checking if min or max is more than or equal to 5*/
 					if (Number(spotForm.genStringsMin.value) >= 5 || Number(spotForm.genStringsMax.value) >= 5){
-						minFive = true;
+						inputFive = true;
 					}
 				}
 			}
@@ -998,7 +998,7 @@ window.addEventListener('load', function(){
 				}
 			}else{
 				/*confirm user wants to continue if the input is greater than or equal to 5 */
-				if (minFive == true){
+				if (inputFive == true){
 					if(!confirm("Min or Max input is greater than or equal to 5 which may cause your browser to freeze due to too many terminal strings being generated. Confirm that you want to continue.")){
 						throw new Error ('Min or Max input is greater than or equal to 5.');
 					}
