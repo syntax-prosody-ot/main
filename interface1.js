@@ -890,14 +890,14 @@ window.addEventListener('load', function(){
 		var inputPresent = 0;
 		var problemError = "";
 
-		var length = spotForm.genStringsInput.length;
-		if(length === undefined) {
-			length = 1;
+		var numTerminalStrings = spotForm.genStringsInput.length;
+		if(numTerminalStrings === undefined) {
+			numTerminalStrings = 1;
 		}
 
 		/* checking if list of terminals input is empty */
-		for(var i=0; i<length; i++){
-			inputPresent = (length==1 ? spotForm.genStringsInput.value !== "": spotForm.genStringsInput[i].value !== "");
+		for(var i=0; i<numTerminalStrings; i++){
+			inputPresent = (numTerminalStrings==1 ? spotForm.genStringsInput.value !== "": spotForm.genStringsInput[i].value !== "");
 			if (inputPresent == true){
 				inputPresent = 1;
 				break;
@@ -907,8 +907,8 @@ window.addEventListener('load', function(){
 		is at least one terminal input*/
 		if(inputPresent == 1){
 			breakloop:
-			for(var i=0; i<length; i++){
-				if (length > 1){
+			for(var i=0; i<numTerminalStrings; i++){
+				if (numTerminalStrings > 1){
 					/*if List of terminal input is empty, skip*/
 					if (spotForm.genStringsInput[i].value !== ""){
 						/*checking if min or max is empty*/
