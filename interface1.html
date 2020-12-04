@@ -887,7 +887,8 @@
 		<div class="constraint-row">
 			<span><input type="checkbox" name="genOptions" id="showHeads">Mark prosodic heads</span>
 			<div class="info">
-				<span class="content">Selecting this option labels the head of each prosodic constituent with an asterisk on its right edge. For a prosodic constituent p, with children of categories k and/or k-1 in the prosodic hierarchy, p's head is defined as the leftmost or rightmost child of category k in p. For example, marking heads on the right for p = (a b c) yields (a b c*), and for p = ((a) (b) c), yields ((a*) (b*)* c). This is the notion of head employed by BinMaxHead(phi), but not the notion employed by AccentAsHead.</span>
+				<span class="content">Selecting this option labels the head of each prosodic constituent with an asterisk on its right edge. For a prosodic constituent p, with children of categories k and/or k-1 in the prosodic hierarchy, p's head is defined as the leftmost or rightmost child of category k in p. 
+					<br>For example, marking heads on the right for p = (a b c) yields (a b c*), and for p = ((a) (b) c), yields ((a*) (b*)* c). This is the notion of head employed by BinMaxHead(phi), but not the notion employed by AccentAsHead.</span>
 			</div>
 		</div>
 		<div class="category-row" id='headSideOptions' style='display: none'>
@@ -2168,7 +2169,7 @@
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="accentAsHead">AccentAsHead</span>
 							<div class="info">
-								<span class="content">"Every accent is the head of a minimal &phi;" (Ito & Mester 2013). Implementation: Assign a violation for every accented word (A) that is not the sole accented word in a minimal &phi;. Note that this is <i>not</i> the sense of head that is employed by "Mark prosodic heads" in the "Tree marking options" section.</span>
+								<span class="content">"Every accent is the head of a minimal &phi;" (Ito & Mester 2013). <i>Implementation:</i> Assign a violation for every accented word (A) that is not the sole accented word in a minimal &phi;. <br>Note that this is <i>not</i> the sense of head that is employed by "Mark prosodic heads" in the "Tree marking options" section.</span>
 							</div>
 						</div>
 					</div>
