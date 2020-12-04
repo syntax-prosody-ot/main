@@ -868,7 +868,7 @@
 		</fieldset>
 
 		<fieldset id="treeDisplayOptions">
-		<legend><h2>Tree display options <span class="arrow"></span></h2></legend>
+		<legend><h2>Tree marking options <span class="arrow"></span></h2></legend>
 		<div class="constraint-row"><input type="checkbox" name="genOptions" value="usesTones" id="annotatedWithTones">Annotated with Tones</div>
 		<div class="category-row" style="display: none" id="tonesSelectionRow">
 			<div class="category-selection-div" style="width: 180px"><input type="radio" name="toneOptions" value="addJapaneseTones" checked="checked">Japanese <div class="info" onclick="toneInfoBlock('japanese')"></div></div>
@@ -885,14 +885,14 @@
 		</div>
 
 		<div class="constraint-row">
-			<span><input type="checkbox" name="genOptions" id="showHeads">Mark Heads</span>
+			<span><input type="checkbox" name="genOptions" id="showHeads">Mark prosodic heads</span>
 			<div class="info">
-				<span class="content">The head of a node is its leftmost/rightmost child of the highest category.</span>
+				<span class="content">Selecting this option labels the head of each prosodic constituent with an asterisk. For a prosodic constituent p, with children of categories k and/or k-1 in the prosodic hierarchy, p's head is defined as the leftmost or rightmost child of category k in p.</span>
 			</div>
 		</div>
 		<div class="category-row" id='headSideOptions' style='display: none'>
 			<div><input type="radio" name="genOptions-showHeads" value="left">Left-headed</div>
-			<div><input type="radio" name="genOptions-showHeads" value="right" checked>Right-headed (Japanese)</div>
+			<div><input type="radio" name="genOptions-showHeads" value="right" checked>Right-headed</div>
 		</div>
 
 		</fieldset>
