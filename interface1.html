@@ -793,7 +793,7 @@
 			<div class="constraint-row">
 				<span><input type="checkbox" name="genOptions" value="obeysNonrecursivity">No prosodic recursion. (Non-Recursivity)</span>
 				<div class="info">
-					<span class="content">If selected, no pTree will contain a node of category K that dominates another node of category K.</span>
+					<span class="content">If selected, no pTree will contain a node of category <i>K</i> that dominates another node of category <i>K</i>.</span>
 				</div>
 			</div>
 			<div class="constraint-row">
@@ -911,7 +911,7 @@
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="matchSP">Match(Syntax&rarr;Prosody)</span>
 							<div class="info">
-								<span class="content">Assign one violation for every node of category K in the syntactic tree such that there is no node of the corresponding prosodic category in the prosodic tree that dominates all and only the same terminal nodes. SPOT function: matchSP(). (Selkirk 2011)</span>
+								<span class="content">Assign one violation for every node of category <i>K</i> in the syntactic tree such that there is no node of the corresponding prosodic category in the prosodic tree that dominates all and only the same terminal nodes. SPOT function: matchSP(). (Selkirk 2011)</span>
 							</div>
 						</div>
 						<div class="category-row">
@@ -940,7 +940,7 @@
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="matchPS">Match(Prosody&rarr;Syntax)</span>
 							<div class="info">
-								<span class="content">Assign one violation for every node of category K in the prosodic tree such that there is no node of the corresponding syntactic category in the syntactic tree that dominates all and only the same terminal nodes. SPOT function: matchPS(). (Selkirk 2011)</span>
+								<span class="content">Assign one violation for every node of category <i>K</i> in the prosodic tree such that there is no node of the corresponding syntactic category in the syntactic tree that dominates all and only the same terminal nodes. SPOT function: matchPS(). (Selkirk 2011)</span>
 							</div>
 						</div>
 						<div class="category-row">
@@ -958,7 +958,7 @@
 							<div class="constraint-row">
 									<span><input type="checkbox" name="constraints" value="matchMaxSP">MatchMax(Syntax&rarr;Prosody)</span>
 									<div class="info">
-										<span class="content">Assign one violation for every maximal node of category K in the syntactic tree such that there is no maximal node of the category corresponding to K that dominates all and only the same terminal nodes in the prosodic tree. A node of category K is maximal iff it is not dominated by any other node of category K. SPOT function: matchMaxSP(). (Ito & Mester 2009, Ishihara 2014)</span>
+										<span class="content">Assign one violation for every maximal node of category <i>K</i> in the syntactic tree such that there is no maximal node of the category corresponding to <i>K</i> that dominates all and only the same terminal nodes in the prosodic tree. A node of category <i>K</i> is maximal iff it is not dominated by any other node of category <i>K</i>. SPOT function: matchMaxSP(). (Ito & Mester 2009, Ishihara 2014)</span>
 									</div>
 							</div>
 							<div class="category-row">
@@ -988,7 +988,7 @@
 							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="matchNonMinSyntax">MatchNonMinimal(Syntax&rarr;Prosody)</span>
 								<div class="info">
-									<span class="content">Assign one violation for every non-minimal node of category K in the syntactic tree for which there is no node of the category corresponding to K in the prosodic tree that dominates all and only the same terminals. A node of category K is non-minimal iff it dominates at least one other node of category K. SPOT function: matchNonMinSyntax(). (Ito & Mester 2009, Kalivoda, Ito, & Mester 2019)</span>
+									<span class="content">Assign one violation for every non-minimal node of category <i>K</i> in the syntactic tree for which there is no node of the category corresponding to <i>K</i> in the prosodic tree that dominates all and only the same terminals. A node of category <i>K</i> is non-minimal iff it dominates at least one other node of category <i>K</i>. SPOT function: matchNonMinSyntax(). (Ito & Mester 2009, Kalivoda, Ito, & Mester 2019)</span>
 								</div>
 							</div>
 							<div class="category-row">
@@ -1187,7 +1187,7 @@
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="alignLeft">AlignLeft(Syntax&rarr;Prosody)</span>
 							<div class="info">
-								<span class="content">Assign one violation for every node of category K in the syntactic tree whose left edge is not aligned with the left edge of a node of the prosodic category corresponding to K in the prosodic tree. SPOT function: alignLeft(). (Selkirk 1986, 1996)</span>
+								<span class="content">Assign one violation for every node of category <i>K</i> in the syntactic tree whose left edge is not aligned with the left edge of a node of the prosodic category corresponding to <i>K</i> in the prosodic tree. SPOT function: alignLeft(). (Selkirk 1986, 1996)</span>
 							</div>
 						</div>
 
@@ -1202,7 +1202,7 @@
 						<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="alignRight">AlignRight(Syntax&rarr;Prosody)</span>
 								<div class="info">
-									<span class="content">Assign one violation for every node of category K in the syntactic tree whose right edge is not aligned with the right edge of a node of the prosodic category corresponding to K in the prosodic tree. SPOT function: alignRight(). (Selkirk 1986, 1996)</span>
+									<span class="content">Assign one violation for every node of category <i>K</i> in the syntactic tree whose right edge is not aligned with the right edge of a node of the prosodic category corresponding to <i>K</i> in the prosodic tree. SPOT function: alignRight(). (Selkirk 1986, 1996)</span>
 								</div>
 						</div>
 						<div class="category-row">
@@ -1216,7 +1216,7 @@
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="wrap">Wrap</span>
 							<div class="info">
-								<span class="content">Assign one violation for every node S of category K in the syntactic tree that does not have a corresponding node P in the prosodic tree, where P is of the category K corresponds to and P contains all the terminals dominated by S. SPOT function: wrap(). (Truckenbrodt 1995, 1999)</span>
+								<span class="content">Assign one violation for every node S of category <i>K</i> in the syntactic tree that does not have a corresponding node P in the prosodic tree, where P is of the category <i>K</i> corresponds to and P contains all the terminals dominated by S. SPOT function: wrap(). (Truckenbrodt 1995, 1999)</span>
 							</div>
 						</div>
 						<div class="category-row">
@@ -1234,7 +1234,7 @@
 							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="alignLeftPS">AlignLeft(Prosody&rarr;Syntax)</span>
 								<div class="info">
-									<span class="content">Assign a violation for every prosodic node of category K whose left edge is not aligned with the left edge of a syntactic node of the corresponding category. Alignment is evaluated by comparing node ids (Kalivoda 2019, SPOT).</span>
+									<span class="content">Assign a violation for every prosodic node of category <i>K</i> whose left edge is not aligned with the left edge of a syntactic node of the corresponding category. Alignment is evaluated by comparing node ids (Kalivoda 2019, SPOT).</span>
 								</div>
 							</div>
 
@@ -1249,7 +1249,7 @@
 							<div class="constraint-row">
 									<span><input type="checkbox" name="constraints" value="alignRightPS">AlignRight(Prosody&rarr;Syntax)</span>
 									<div class="info">
-										<span class="content">Assign a violation for every prosodic node of category K whose right edge is not aligned with the right edge of a syntactic node of the corresponding category. Alignment is evaluated by comparing node ids (Kalivoda 2019, SPOT).</span>
+										<span class="content">Assign a violation for every prosodic node of category <i>K</i> whose right edge is not aligned with the right edge of a syntactic node of the corresponding category. Alignment is evaluated by comparing node ids (Kalivoda 2019, SPOT).</span>
 									</div>
 							</div>
 							<div class="category-row">
@@ -1629,7 +1629,7 @@
 							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="wrapPS">Wrap(Prosody&rarr;Syntax)</span>
 								<div class="info">
-									<span class="content">Assign one violation for every node S of category K in the syntactic tree that does not have a corresponding node P in the prosodic tree, where P is of the category K corresponds to and P contains all the terminals dominated by S. SPOT function: wrap(). (Truckenbrodt 1995, 1999)</span>
+									<span class="content">Assign one violation for every node S of category <i>K</i> in the syntactic tree that does not have a corresponding node P in the prosodic tree, where P is of the category <i>K</i> corresponds to and P contains all the terminals dominated by S. SPOT function: wrap(). (Truckenbrodt 1995, 1999)</span>
 								</div>
 							</div>
 							<div class="category-row">
@@ -1741,7 +1741,7 @@
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="binMinBranches">BinMin(branches)</span>
 							<div class="info">
-								<span class="content">Assign one violation for every node of category K in the prosodic tree that has less than two children. SPOT function: binMinBranches(). (Elfner 2012).</span>
+								<span class="content">Assign one violation for every node of category <i>K</i> in the prosodic tree that has less than two children. SPOT function: binMinBranches(). (Elfner 2012).</span>
 							</div>
 						</div>
 							<div class="category-row">
@@ -1755,7 +1755,7 @@
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="binMaxBranches">BinMax(branches) - <i>categorical</i></span>
 							<div class="info">
-								<span class="content">Assign one violation for every node of category K in the prosodic tree that has more than two children. SPOT function: binMaxBranches(). For branch-counting concept, see, e.g., Elfner 2012, Selkirk & Lee 2017 (SPOT1 Workshop handout). For contrast with leaf-counting binarity, see Bellik & Kalivoda 2018 (Poster at the Annual Meeting on Phonology)</span>
+								<span class="content">Assign one violation for every node of category <i>K</i> in the prosodic tree that has more than two children. SPOT function: binMaxBranches(). For branch-counting concept, see, e.g., Elfner 2012, Selkirk & Lee 2017 (SPOT1 Workshop handout). For contrast with leaf-counting binarity, see Bellik & Kalivoda 2018 (Poster at the Annual Meeting on Phonology)</span>
 							</div>
 						</div>
 							<div class="category-row">
@@ -1769,7 +1769,7 @@
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="binBranches">Bin(branches)</span>
 							<div class="info">
-								<span class="content">Assign a violation for every node of category K in the prosodic tree that does not have exactly two children.</span>
+								<span class="content">Assign a violation for every node of category <i>K</i> in the prosodic tree that does not have exactly two children.</span>
 							</div>
 						</div>
 							<div class="category-row">
@@ -1786,7 +1786,7 @@
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="binMinLeaves">BinMin(leaves)</span>
 							<div class="info">
-								<span class="content">Assign one violation for every node P of the prosodic category K in the prosodic tree such that P dominates less than two nodes of the prosodic category immediately below K on the prosodic hierarchy. SPOT function: binMinLeaves. (Selkirk 2000)</span>
+								<span class="content">Assign one violation for every node P of the prosodic category <i>K</i> in the prosodic tree such that P dominates less than two nodes of the prosodic category immediately below <i>K</i> on the prosodic hierarchy. SPOT function: binMinLeaves. (Selkirk 2000)</span>
 							</div>
 						</div>
 							<div class="category-row">
@@ -1800,7 +1800,7 @@
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="binMaxLeaves">BinMax(leaves)</span>
 							<div class="info">
-								<span class="content">Assign one violation for every node of category K in the prosodic tree that dominates more than two nodes of the category immediately below K on the prosodic hierarchy. SPOT function: binMaxLeaves(). Concept: see, Selkirk 2000, Sandalo & Truckenbrodt 2002</span>
+								<span class="content">Assign one violation for every node of category <i>K</i> in the prosodic tree that dominates more than two nodes of the category immediately below <i>K</i> on the prosodic hierarchy. SPOT function: binMaxLeaves(). Concept: see, Selkirk 2000, Sandalo & Truckenbrodt 2002</span>
 							</div>
 						</div>
 							<div class="category-row">
@@ -1814,7 +1814,7 @@
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="binLeaves">Bin(leaves)</span>
 							<div class="info">
-								<span class="content">Assign a violation for every node of category K in the prosodic tree that does not dominate exactly two nodes of category K-1 on the prosodic hierarchy.</span>
+								<span class="content">Assign a violation for every node of category <i>K</i> in the prosodic tree that does not dominate exactly two nodes of category <i>K</i>&minus;1 on the prosodic hierarchy.</span>
 							</div>
 						</div>
 							<div class="category-row">
@@ -1831,7 +1831,7 @@
 							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="binMaxBranchesGradient">BinMax(branches) - <i>gradient</i></span>
 								<div class="info">
-									<span class="content">For every node P of category K in the prosodic tree, assign one violation for every child of P that is not initial or pen-initial in P. SPOT function: binMaxBranchesGradient()</span>
+									<span class="content">For every node P of category <i>K</i> in the prosodic tree, assign one violation for every child of P that is not initial or pen-initial in P. SPOT function: binMaxBranchesGradient()</span>
 								</div>
 							</div>
 								<div class="category-row">
@@ -1845,7 +1845,7 @@
 							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="binMaxLeavesGradient">BinMax(leaves) - <i>gradient</i></span>
 								<div class="info">
-									<span class="content">For every node P of category K in the prosodic tree, assign one violation for every node dominated by P that is of the category immediately below K on the prosodic hierarchy and that is not initial or pen-initial in P. SPOT function: binMaxLeavesGradient().</span>
+									<span class="content">For every node P of category <i>K</i> in the prosodic tree, assign one violation for every node dominated by P that is of the category immediately below <i>K</i> on the prosodic hierarchy and that is not initial or pen-initial in P. SPOT function: binMaxLeavesGradient().</span>
 								</div>
 							</div>
 								<div class="category-row">
@@ -1859,7 +1859,7 @@
 							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="binMinLeaves_requireMaximal">BinMin(leaves) - <i>maximal nodes only</i></span>
 								<div class="info">
-									<span class="content">Assign one violation for every node P of the prosodic category K in the prosodic tree such that P is maximal and P dominates less than two nodes of the prosodic category immediately below K on the prosodic hierarchy. A node of category K is maximal if it is not dominated by any other nodes of category K. SPOT function: binMinLeaves_requireMaximal. (Van Handel 2019)</span>
+									<span class="content">Assign one violation for every node P of the prosodic category <i>K</i> in the prosodic tree such that P is maximal and P dominates less than two nodes of the prosodic category immediately below <i>K</i> on the prosodic hierarchy. A node of category <i>K</i> is maximal if it is not dominated by any other nodes of category <i>K</i>. SPOT function: binMinLeaves_requireMaximal. (Van Handel 2019)</span>
 								</div>
 							</div>
 								<div class="category-row">
@@ -1873,7 +1873,7 @@
 							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="binBrGradient">Bin(branches) - <i>gradient</i></span>
 								<div class="info">
-									<span class="content">For every node P of category K in the prosodic tree, assign |2&minus;<i>n</i>| violations, where <i>n</i> is the number of children of P.</span>
+									<span class="content">For every node P of category <i>K</i> in the prosodic tree, assign |2&minus;<i>n</i>| violations, where <i>n</i> is the number of children of P.</span>
 								</div>
 							</div>
 								<div class="category-row">
@@ -1887,7 +1887,7 @@
 							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="binLeavesGradient">Bin(leaves) - <i>gradient</i></span>
 								<div class="info">
-									<span class="content">For every node P of category K in the prosodic tree, assign |2-n| violations, where n is the number of nodes dominated by P that are of level K-1 on the prosodic hierarchy.</span>
+									<span class="content">For every node P of category <i>K</i> in the prosodic tree, assign |2-n| violations, where n is the number of nodes dominated by P that are of level K-1 on the prosodic hierarchy.</span>
 								</div>
 							</div>
 								<div class="category-row">
@@ -1924,7 +1924,7 @@
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="balancedSisters">BalancedSisters (Uniformity)</span>
-							<div class="info"><span class="content">Assign one violation for every set sisters with a parent of category K that do not have the same number of (immediate) children. (For concept of Uniformity, see Ghini 1993; for OT constraint, see Bellik 2019)</span></div>
+							<div class="info"><span class="content">Assign one violation for every set sisters with a parent of category <i>K</i> that do not have the same number of (immediate) children. (For concept of Uniformity, see Ghini 1993; for OT constraint, see Bellik 2019)</span></div>
 						</div>
 						<div class="category-row">
 							<div class="category-selection-div"><input type="checkbox" value="i" name="category-balancedSisters">&iota;</div>
@@ -2080,7 +2080,7 @@
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="nonRecParent">Non-recursivity (parent)</span>
 							<div class="info">
-								<span class="content">Assign one violation for every node of category K that immediately dominates a node of category K in the prosodic tree. SPOT function: nonRecParent(). For Non-Recursivity as a violable constraint, see Selkirk 1995, Zec 2005. For this specific implementation & implications, see Bellik & Kalivoda 2017 (SPOT1 Workshop slides)</span>
+								<span class="content">Assign one violation for every node of category <i>K</i> that immediately dominates a node of category <i>K</i> in the prosodic tree. SPOT function: nonRecParent(). For Non-Recursivity as a violable constraint, see Selkirk 1995, Zec 2005. For this specific implementation & implications, see Bellik & Kalivoda 2017 (SPOT1 Workshop slides)</span>
 							</div>
 						</div>
 							<div class="category-row">
@@ -2097,7 +2097,7 @@
 							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="nonRecTruckenbrodt">Non-recursivity, assessed by non-overlapping leaves (Truckenbrodt)</span>
 								<div class="info">
-									<span class="content">For every node X of category K dominated by another node Y of category K in the prosodic tree, assign one violation for every leaf dominated by Y that is not also dominated by X. SPOT function: nonRecTruckenbrodt(). (Truckenbrodt 1995, 1999)</span>
+									<span class="content">For every node X of category <i>K</i> dominated by another node Y of category <i>K</i> in the prosodic tree, assign one violation for every leaf dominated by Y that is not also dominated by X. SPOT function: nonRecTruckenbrodt(). (Truckenbrodt 1995, 1999)</span>
 								</div>
 							</div>
 								<div class="category-row">
@@ -2111,7 +2111,7 @@
 							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="nonRecChild">Non-recursivity (child)</span>
 								<div class="info">
-									<span class="content">Assign one violation for every node of category K immediately dominated by another node of category K. SPOT function: nonRecChild(). For Non-Recursivity as a violable constraint, see Selkirk 1995, Zec 2005. For this specific implementation & implications, see Bellik & Kalivoda 2017 (SPOT1 Workshop slides)</span>
+									<span class="content">Assign one violation for every node of category <i>K</i> immediately dominated by another node of category <i>K</i>. SPOT function: nonRecChild(). For Non-Recursivity as a violable constraint, see Selkirk 1995, Zec 2005. For this specific implementation & implications, see Bellik & Kalivoda 2017 (SPOT1 Workshop slides)</span>
 								</div>
 							</div>
 								<div class="category-row">
@@ -2125,7 +2125,7 @@
 							<div class="constraint-row">
 								<span><input type="checkbox" name=constraints value="nonRecPairs">Non-recursivity, pairwise</span>
 								<div class="info">
-									<span class="content">Assign one violation for every pair of nodes X and Y in the prosodic tree such that X and Y are both of category K and X dominates (contains at any level) Y. SPOT function: nonRecPairs(). For Non-Recursivity as a violable constraint, see Selkirk 1995, Zec 2005. For this specific implementation & implications, see Bellik & Kalivoda 2017 (SPOT1 Workshop slides)</span>
+									<span class="content">Assign one violation for every pair of nodes X and Y in the prosodic tree such that X and Y are both of category <i>K</i> and X dominates (contains at any level) Y. SPOT function: nonRecPairs(). For Non-Recursivity as a violable constraint, see Selkirk 1995, Zec 2005. For this specific implementation & implications, see Bellik & Kalivoda 2017 (SPOT1 Workshop slides)</span>
 								</div>
 							</div>
 								<div class="category-row">
@@ -2148,7 +2148,7 @@
 							<div class="constraint-row">
 								<span><input type="checkbox" name=constraints value="starCat">*pCat</span>
 								<div class="info">
-									<span class="content">Assign one violation for every node of category K in the prosodic tree. SPOT function: starCat(). See Prince & Smolensky 1993/2004; Zoll 1993, 1996; Truckenbrodt 1995, 1999</span>
+									<span class="content">Assign one violation for every node of category <i>K</i> in the prosodic tree. SPOT function: starCat(). See Prince & Smolensky 1993/2004; Zoll 1993, 1996; Truckenbrodt 1995, 1999</span>
 								</div>
 							</div>
 								<div class="category-row">
