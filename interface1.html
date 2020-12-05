@@ -799,13 +799,13 @@
 			<div class="constraint-row">
 				<span><input type="checkbox" name="genOptions" value="obeysHeadedness">Enforce headedness.</span>
 				<div class="info">
-					<span class="content">If selected, every non-terminal pTree node of level i must immediately dominate a node of level i-1.</span>
+					<span class="content">If selected, every non-terminal pTree node of level <i>k</i> must immediately dominate a node of level <i>k</i>&minus;1.</span>
 				</div>
 			</div>
 			<div class="constraint-row">
 				<span><input type="checkbox" name="genOptions" id="exhaustivityBox" value="obeysExhaustivity">No level skipping. (Exhaustivity)</span>
 				<div class="info">
-					<span class="content">If selected, every non-root pTree node of level i is dominated by a node of level i or i+1.</span>
+					<span class="content">If selected, every non-root pTree node of level <i>k</i> is dominated by a node of level <i>k</i> or <i>k</i>+1.</span>
 				</div>
 			</div>
 
@@ -827,7 +827,7 @@
 			<div class="constraint-row">
 				<span><input type="checkbox" name="genOptions" value="cliticMovement" id='movementOptions'>Allow movement</span>
 				<div class="info">
-					<span class="content">If "Move only clitics" is selected, GEN will permute the first node in the syntactic tree with category 'clitic' through the sentence. Ex.: a b c-clitic -> a b c-clitic, a c-clitic b, c-clitic a b. If "Reorder all terminals" is selected, GEN will permute all orders of terminals. Ex.: a b c --> c a b, a c b, b c a, c b a, b a c, a b c. Only use this if your sentences are short, or in conjunction with non-recursivity or the branching requirement.</span>
+					<span class="content">If "Move only clitics" is selected, GEN will permute the first node in the syntactic tree with category 'clitic' through the sentence. Ex.: a b c-clitic &#8594; a b c-clitic, a c-clitic b, c-clitic a b. If "Reorder all terminals" is selected, GEN will permute all orders of terminals. Ex.: a b c &#8594; c a b, a c b, b c a, c b a, b a c, a b c. Only use this if your sentences are short, or in conjunction with non-recursivity or the branching requirement.</span>
 				</div>
 			</div>
 			<div class="category-row" id='movementSpecification' style='display: none'>
@@ -840,7 +840,7 @@
 			<legend><h2>Prosodic categories <span class="arrow"></span></h2></legend>
 			<div class="constraint-row"><span>Root prosodic tree in</span>
 				<div class="info">
-					<span class="content">Specify the category of the root node for all the trees created by GEN.</span>
+					<span class="content">Specify the category of the root node for all the pTrees created by GEN.</span>
 				</div>
 			</div>
 			<div class="category-row">
@@ -858,7 +858,7 @@
 		</div>
 		<div class="constraint-row"><span>Prosodic terminals are</span>
 			<div class="info">
-				<span class="content">Specify the category of the terminal nodes for the trees GEN will create. N.B. GEN will always map terminals marked with "-clitic" to syllables.</span></div>
+				<span class="content">Specify the category of the terminal nodes for the pTrees GEN will create. N.B. GEN will always map terminals marked with "-clitic" to syllables.</span></div>
 			</div>
 			<div class="category-row">
 				<div class="category-selection-div"><input type="radio" name="genOptions-terminalCategory" value="phi">&phi;</div>
@@ -887,8 +887,9 @@
 		<div class="constraint-row">
 			<span><input type="checkbox" name="genOptions" id="showHeads">Mark prosodic heads</span>
 			<div class="info">
-				<span class="content">Selecting this option labels the head of each prosodic constituent with an asterisk on its right edge. For a prosodic constituent p, with children of categories k and/or k-1 in the prosodic hierarchy, p's head is defined as the leftmost or rightmost child of category k in p. 
-					<br>For example, marking heads on the right for p = (a b c) yields (a b c*), and for p = ((a) (b) c), yields ((a*) (b*)* c). This is the notion of head employed by BinMaxHead(phi), but not the notion employed by AccentAsHead.</span>
+				<span class="content">Selecting this option labels the head of each prosodic constituent with an asterisk on its right edge. For a prosodic constituent p, with children of categories <i>k</i> and/or <i>k</i>&minus;1 in the prosodic hierarchy, p's head is defined as the leftmost or rightmost child of category <i>k</i> in p.
+					<br>
+					<br>For example, marking heads on the right for p = (a b c) yields (a b c*), and for p = ((a) (b) c), yields ((a*) (b*)* c). This is the notion of head employed by BinMaxHead, but not the notion employed by AccentAsHead.</span>
 			</div>
 		</div>
 		<div class="category-row" id='headSideOptions' style='display: none'>
@@ -1872,7 +1873,7 @@
 							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="binBrGradient">Bin(branches) - <i>gradient</i></span>
 								<div class="info">
-									<span class="content">For every node P of category K in the prosodic tree, assign |2-n| violations, where n is the number of children of P.</span>
+									<span class="content">For every node P of category K in the prosodic tree, assign |2&minus;<i>n</i>| violations, where <i>n</i> is the number of children of P.</span>
 								</div>
 							</div>
 								<div class="category-row">
@@ -2164,12 +2165,12 @@
 
 				<fieldset>
 					<legend><h2>Pitch accent <span class="arrow"></h2></legend>
-					<span class="info"><span class="content">Constraints proposed for analysis of lexical accent systems (Japanese, Basque). Accents must be indicated either by using 'a'/'u' or 'A'/'U' for the ids of words, or by adding accent attributes in the syntactic tree.</span></span>
+					<span class="info"><span class="content">Constraints proposed for syntax-prosody analyses involving lexical accent. Designed originally for dealing with Japanese and Basque, these rely on language-specific properties of pitch accent. Accents must be indicated either by using 'a'/'u' or 'A'/'U' for the ids of words, or by adding accent attributes in the syntactic tree.</span></span>
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="accentAsHead">AccentAsHead</span>
 							<div class="info">
-								<span class="content">"Every accent is the head of a minimal &phi;" (Ito & Mester 2013). <i>Implementation:</i> Assign a violation for every accented word (A) that is not the sole accented word in a minimal &phi;. <br>Note that this is <i>not</i> the sense of head that is employed by "Mark prosodic heads" in the "Tree marking options" section.</span>
+								<span class="content">"Every accent is the head of a minimal &phi;" (Ito & Mester 2013). <i>Implementation:</i> Assign a violation for every accented word (A) that is not the sole accented word in a minimal &phi;.<br><br>Note that this is <i>not</i> the sense of head that is employed by "Mark prosodic heads" in the "Tree marking options" section.</span>
 							</div>
 						</div>
 					</div>
