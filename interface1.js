@@ -884,12 +884,14 @@ window.addEventListener('load', function(){
 			genStringsList = fixedStringList;
 		}
 
-		/* minProblem, maxProblem, and inputPresent are flags for specific tests. The default value is 0. If the value equals to 1, then the test failed */
-		var inputFive = false;
-		var minOrMaxProblem = false;
-		var inputPresent = 0;
-		var problemError = "";
+		var inputIsFive = false; //if the min or max input is 5 flag
+		var minOrMaxProblem = false; //if there is a min or max input problem flag
+		var inputPresent = 0; //if list of terminal input is present flag
+		var problemError = ""; //string indicating what the min or max problem is
+		var stringTerminalInput, minTerminalInput, maxTerminalInput; //the list of terminals input, min input, and max input
+		var inputCheckNeeded = false; //if there is more than one input then check for input being empty or not is needed
 
+		/*length of the list of terminal string*/
 		var numTerminalStrings = spotForm.genStringsInput.length;
 		if(numTerminalStrings === undefined) {
 			numTerminalStrings = 1;
@@ -906,80 +908,53 @@ window.addEventListener('load', function(){
 		/*if inputPresent is 0 then all the List of terminals are empty else if 1 then there
 		is at least one terminal input*/
 		if(inputPresent == 1){
-			breakloop:
+			terminalStringsValidationLoop:
 			for(var i=0; i<numTerminalStrings; i++){
+				/*checking if the length is more than 1*/
 				if (numTerminalStrings > 1){
-					/*if List of terminal input is empty, skip*/
-					if (spotForm.genStringsInput[i].value !== ""){
-						/*checking if min or max is empty*/
-						if (spotForm.genStringsMin[i].value === "" || spotForm.genStringsMax[i].value === ""){
-							minOrMaxProblem = true;
-							problem = "Empty";
-							break breakloop;
-						}
-						/*checking if min or max is not a number*/
-						if (isNaN(spotForm.genStringsMin[i].value) || isNaN(spotForm.genStringsMax[i].value)){
-							minOrMaxProblem = true;
-							problem = "NonNumber";
-							break breakloop;
-						}
-						/*checking if min or max is less than or equal to 0*/
-						if (Number(spotForm.genStringsMin[i].value) <= 0 || Number(spotForm.genStringsMax[i].value) <= 0){
-							minOrMaxProblem = true;
-							problem = "Zero";
-							break breakloop;
-						}
-						/*checking if min or max is more than or equal to 10*/
-						if (Number(spotForm.genStringsMin[i].value) >= 10 || Number(spotForm.genStringsMax[i].value) >= 10){
-							minOrMaxProblem = true;
-							problem = "Ten";
-							break breakloop;
-						}
-						/*checking if min is greater than max*/
-						if (Number(spotForm.genStringsMax[i].value) <  Number(spotForm.genStringsMin[i].value)){
-							minOrMaxProblem = true;
-							problem = "MinGreaterThanMax";
-							break breakloop;
-						}
-						/*checking if min or max is more than or equal to 5*/
-						if (Number(spotForm.genStringsMin[i].value) >= 5 || Number(spotForm.genStringsMax[i].value) >= 5){
-							inputFive = true;
-						}
-					}
+					inputCheckNeeded = true;
+					stringTerminalInput = spotForm.genStringsInput[i].value;
+					minTerminalInput = spotForm.genStringsMin[i].value;
+					maxTerminalInput = spotForm.genStringsMax[i].value;
 				}else{
+					inputCheckNeeded = false;
+					minTerminalInput = spotForm.genStringsMin.value;
+					maxTerminalInput = spotForm.genStringsMax.value;
+				}
+				if ((inputCheckNeeded == true && stringTerminalInput !== "") || inputCheckNeeded == false){
 					/*checking if min or max is empty*/
-					if (spotForm.genStringsMin.value === "" || spotForm.genStringsMax.value === ""){
-						minOrMaxProblem= true;
+					if (minTerminalInput === "" || maxTerminalInput === ""){
+						minOrMaxProblem = true;
 						problem = "Empty";
-						break breakloop;
+						break terminalStringsValidationLoop;
 					}
 					/*checking if min or max is not a number*/
-					if (isNaN(spotForm.genStringsMin.value) || isNaN(spotForm.genStringsMax.value)){
+					if (isNaN(minTerminalInput) || isNaN(maxTerminalInput)){
 						minOrMaxProblem = true;
 						problem = "NonNumber";
-						break breakloop;
+						break terminalStringsValidationLoop;
 					}
 					/*checking if min or max is less than or equal to 0*/
-					if (Number(spotForm.genStringsMin.value) <= 0 || Number(spotForm.genStringsMax.value) <= 0){
+					if (Number(minTerminalInput) <= 0 || Number(maxTerminalInput) <= 0){
 						minOrMaxProblem = true;
 						problem = "Zero";
-						break breakloop;
+						break terminalStringsValidationLoop;
 					}
 					/*checking if min or max is more than or equal to 10*/
-					if (Number(spotForm.genStringsMin.value) >= 10 || Number(spotForm.genStringsMax.value) >= 10){
+					if (Number(minTerminalInput) >= 10 || Number(maxTerminalInput) >= 10){
 						minOrMaxProblem = true;
 						problem = "Ten";
-						break breakloop;
+						break terminalStringsValidationLoop;
 					}
 					/*checking if min is greater than max*/
-					if (Number(spotForm.genStringsMax.value) <  Number(spotForm.genStringsMin.value)){
+					if (Number(maxTerminalInput) <  Number(minTerminalInput)){
 						minOrMaxProblem = true;
 						problem = "MinGreaterThanMax";
-						break breakloop;
+						break terminalStringsValidationLoop;
 					}
 					/*checking if min or max is more than or equal to 5*/
-					if (Number(spotForm.genStringsMin.value) >= 5 || Number(spotForm.genStringsMax.value) >= 5){
-						inputFive = true;
+					if (Number(minTerminalInput) >= 5 || Number(maxTerminalInput) >= 5){
+						inputIsFive = true;
 					}
 				}
 			}
@@ -998,7 +973,7 @@ window.addEventListener('load', function(){
 				}
 			}else{
 				/*confirm user wants to continue if the input is greater than or equal to 5 */
-				if (inputFive == true){
+				if (inputIsFive == true){
 					if(!confirm("Min or Max input is greater than or equal to 5 which may cause your browser to freeze due to too many terminal strings being generated. Confirm that you want to continue.")){
 						throw new Error ('Min or Max input is greater than or equal to 5.');
 					}
@@ -1007,13 +982,12 @@ window.addEventListener('load', function(){
 				var min = spotForm.genStringsMin.value;
 				var max = spotForm.genStringsMax.value;
 
-				for(var i=0; i<length; i++){
-					if(length > 1) {
+				for(var i=0; i<numTerminalStrings; i++){
+					if(numTerminalStrings > 1) {
 					inputList = spotForm.genStringsInput[i].value;
 					min = spotForm.genStringsMin[i].value;
 					max = spotForm.genStringsMax[i].value;
 					}
-
 					/* Actual calculation of terminal strings here*/
 					if(inputList !== "") {
 						inputList = inputList.trim().split(' ');
