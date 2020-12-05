@@ -896,14 +896,6 @@ window.addEventListener('load', function(){
 		var stringTerminalInput, minTerminalInput, maxTerminalInput; //the list of terminals input, min input, and max input
 		var inputCheckNeeded = false; //if there is more than one input then check for input being empty or not is needed
 
-		/*length of the list of terminal string*/
-		/* inputFive, minOrMaxProblem, and inputPresent are flags for specific tests. 
-		The default value is 0 or false. If the value equals 1 or true, then the test failed */
-		var inputFive = false;
-		var minOrMaxProblem = false;
-		var inputPresent = 0;
-		var problemError = "";
-
 		var numTerminalStrings = spotForm.genStringsInput.length;
 		if(numTerminalStrings === undefined) {
 			numTerminalStrings = 1;
