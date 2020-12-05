@@ -21,7 +21,7 @@ Please contact the Jenny Bellik or Nick Kalivoda (UC Santa Cruz) if you would li
 
 How to cite
 -----------
-Bellik, J., O. Bellik, N. Kalivoda (2019). Syntax-Prosody for OT. JavaScript application. <https://github.com/syntax-prosody-ot>
+Bellik, Jennifer, Ozan Bellik, Nick Kalivoda (2015-2020). Syntax-Prosody for OT. JavaScript application. <https://spot.sites.ucsc.edu/>
 
 
 
