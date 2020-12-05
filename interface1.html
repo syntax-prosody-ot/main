@@ -791,19 +791,19 @@
 
 		<div style="padding-right: 15px">
 			<div class="constraint-row">
-				<span><input type="checkbox" name="genOptions" value="obeysNonrecursivity">No prosodic recursion. (Non-Recursivity)</span>
+				<span><input type="checkbox" name="genOptions" value="obeysNonrecursivity">No prosodic recursion (Non-Recursivity)</span>
 				<div class="info">
 					<span class="content">If selected, no pTree will contain a node of category <i>K</i> that dominates another node of category <i>K</i>.</span>
 				</div>
 			</div>
 			<div class="constraint-row">
-				<span><input type="checkbox" name="genOptions" value="obeysHeadedness">Enforce headedness.</span>
+				<span><input type="checkbox" name="genOptions" value="obeysHeadedness">Enforce headedness</span>
 				<div class="info">
 					<span class="content">If selected, every non-terminal pTree node of level <i>k</i> must immediately dominate a node of level <i>k</i>&minus;1.</span>
 				</div>
 			</div>
 			<div class="constraint-row">
-				<span><input type="checkbox" name="genOptions" id="exhaustivityBox" value="obeysExhaustivity">No level skipping. (Exhaustivity)</span>
+				<span><input type="checkbox" name="genOptions" id="exhaustivityBox" value="obeysExhaustivity">No level-skipping (Exhaustivity)</span>
 				<div class="info">
 					<span class="content">If selected, every non-root pTree node of level <i>k</i> is dominated by a node of level <i>k</i> or <i>k</i>+1.</span>
 				</div>
@@ -813,7 +813,7 @@
 			<div id="exhaustivityDetailOption2" style="display: none"><input type="checkbox" name="exhaustivityCats" value="phi" checked="checked">&phi;'s children are &ge;&omega;s&nbsp;&nbsp;</div>
 
 			<div class="constraint-row">
-				<span><input type="checkbox" name="genOptions" id="branchingBox" value="noUnary">All intermediate nodes are branching.</span>
+				<span><input type="checkbox" name="genOptions" id="branchingBox" value="noUnary">All intermediate nodes are branching</span>
 				<div class="info">
 					<span class="content">If selected, every non-root, non-terminal node will have at least two children. No intermediate nodes will be unary.</span>
 				</div>
