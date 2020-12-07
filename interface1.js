@@ -422,19 +422,20 @@ window.addEventListener('load', function(){
 		//Get input to GEN.
 		var pString = spotForm.inputToGen.value;
 		// Get the code that is in the stree textarea
-		var treeCode = spotForm.sTree.value
+		var treeCode = spotForm.sTree.value;
 		// if code has been generated, then ignore pString in GEN
 		if(treeCode !== "{}") {
 			pString = "";
 		}
+		var doubleInputWarningMsg = "Inputs were provided on both the Manual tab and the Automatic tab of Gen: Inputs. The candidate set will be created using inputs on the tab that is currently visible. Inputs that are not currently displayed will be ignored.";
 		if(document.getElementById('inputOptions').style.display == 'block') {
-			if (spotForm.inputToGen.value != ""){
-				displayWarning("Inputs were provided on both the Manual tab and the Automatic tab of Gen: Inputs. The candidate set will be created using inputs on the tab that is currently visible. Inputs that are not currently displayed will be ignored.");
+			if (spotForm.inputToGen.value != "" || treeCode != "{}"){
+				displayWarning(doubleInputWarningMsg);
 			}
 			pString = "";
 		}else{
 			if (spotForm.inputToGenAuto.value != ""){
-				displayWarning("Inputs were provided on both the Manual tab and the Automatic tab of Gen: Inputs. The candidate set will be created using inputs on the tab that is currently visible. Inputs that are not currently displayed will be ignored.");
+				displayWarning(doubleInputWarningMsg);
 			}
 		}
 		//Build a list of checked GEN options.
