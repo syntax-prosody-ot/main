@@ -430,14 +430,15 @@ window.addEventListener('load', function(){
 		var doubleInputWarningMsg = "Inputs were provided on both the Manual tab and the Automatic tab of Gen: Inputs. The candidate set will be created using inputs on the tab that is currently visible. Inputs that are not currently displayed will be ignored.";
 		//If the Automatic tab is visible, check whether the manual tab also has content & provide a warning.
 		if(document.getElementById('inputOptions').style.display == 'block') {
-			if (spotForm.inputToGen.value != "" || treeCode != "{}"){
+			if (spotForm.inputToGen.value != "" || (treeCode != "{}" && treeCode != "[]")) {
 				displayWarning(doubleInputWarningMsg);
 			}
 			pString = "";
 		}
 		//Otherwise, the Manual tab is visible, so check whether the Automatic tab has content
 		else{
-			if (spotForm.inputToGenAuto.value != ""){
+			//console.log(getAutoSTreeList());
+			if (getAutoSTreeList()){
 				displayWarning(doubleInputWarningMsg);
 			}
 		}
