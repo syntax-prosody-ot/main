@@ -47,29 +47,42 @@ function addRightHead(node) {
 function addHeadsTo(ptree, cat='phi') {
     let result = [];
     function addHeadsInner(root, node) {
+        /* Expected sequence of marking
+        ((a b) (c d))|
+                     |- (('a b) (c d))|
+                                      |- ((a 'b) ('c d))|
+                                      |                 |- ((a 'b) (c 'd))
+                                      |
+                                      |- (('a b) ('c d))|
+                                                        |- (('a b) (c 'd))
+            
+        */
         node = node || root;
         if(node.children && node.children.length) {
             if(isMinimal(node) && node.cat === cat) {
                 if(!isHeaded(node)) {
+                    //minimal nodes, if unheaded, get left head
                     addLeftHead(node);
-                    addHeadsInner(copyNode(root));
+                    addHeadsInner(copyNode(root)); //this line duplicates results in (a)
                 }
                 else if(node.children[0].head && node.children.length > 1) {
+                    //headed minimal nodes then get right heads on n > 1 th pass
                     node.children[0].head = false;
                     addRightHead(node);
                     addHeadsInner(copyNode(root));
                 }
 
                 if(getRightEdge(node).id === getRightEdge(root).id) {
+                    //if right edges line up, we have reached the end and this tree is ready to be added
                     result.push(root);
                 }
             }
-            else {
+            else { //addHeadsInner should be called on non-minimal nodes' children 
                 for(let child of node.children) {
                     addHeadsInner(root, child);
                 }
             }
-        }
+        } //nothing needs to be done on terminal nodes
     }
     addHeadsInner(copyNode(ptree));
     return result;
