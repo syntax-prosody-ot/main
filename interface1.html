@@ -1234,7 +1234,7 @@
 							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="alignLeftPS">AlignLeft(Prosody&rarr;Syntax)</span>
 								<div class="info">
-									<span class="content">Assign a violation for every prosodic node of category K whose left edge is not aligned with the left edge of a syntactic node of the corresponding category. Alignment is evaluated by comparing node ids (McCarthy & Prince 1993).</span>
+									<span class="content">Assign a violation for every prosodic node of category K whose left edge is not aligned with the left edge of a syntactic node of the corresponding category. Alignment is evaluated by comparing node ids (McCarthy & Prince 1993). SPOT function: alignLeftPS()</span>
 								</div>
 							</div>
 
@@ -1249,7 +1249,7 @@
 							<div class="constraint-row">
 									<span><input type="checkbox" name="constraints" value="alignRightPS">AlignRight(Prosody&rarr;Syntax)</span>
 									<div class="info">
-										<span class="content">Assign a violation for every prosodic node of category K whose right edge is not aligned with the right edge of a syntactic node of the corresponding category. Alignment is evaluated by comparing node ids (McCarthy & Prince 1993).</span>
+										<span class="content">Assign a violation for every prosodic node of category K whose right edge is not aligned with the right edge of a syntactic node of the corresponding category. Alignment is evaluated by comparing node ids (McCarthy & Prince 1993). SPOT function: alignRightPS()</span>
 									</div>
 							</div>
 							<div class="category-row">
@@ -1581,7 +1581,7 @@
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="alignLeftMorpheme">AlignLeft(Lexical item)</span>
-								<div class="info"><span class="content">For the specified morpheme(s), assign a violation for every terminal that intervenes between the left edge of the tree and the lexical item. Separate lexical items with spaces. See: McCarthy & Prince 1993, "Generalized Alignment"</span></div>
+								<div class="info"><span class="content">For the specified morpheme(s), assign a violation for every terminal that intervenes between the left edge of the tree and the lexical item. Separate lexical items with spaces. See: McCarthy & Prince 1993, "Generalized Alignment". SPOT function: alignLeftMorpheme()</span></div>
 							</div>
 							<div class="category-row">
 								<div class="category-selection-div"><input type="text" name="category-alignLeftMorpheme" checked="true" placeholder="Lexical item(s)"></div>
@@ -1590,7 +1590,7 @@
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="alignRightMorpheme">AlignRight(Lexical item)</span>
-								<div class="info"><span class="content">For the specified morpheme(s), assign a violation for every terminal that intervenes between the right edge of the tree and the lexical item. Separate lexical items with spaces. See: McCarthy & Prince 1993, "Generalized Alignment"</span></div>
+								<div class="info"><span class="content">For the specified morpheme(s), assign a violation for every terminal that intervenes between the right edge of the tree and the lexical item. Separate lexical items with spaces. See: McCarthy & Prince 1993, "Generalized Alignment". SPOT function: alignRightMorpheme()</span></div>
 							</div>
 							<div class="category-row">
 								<div class="category-selection-div"><input type="text" name="category-alignRightMorpheme" checked="true" placeholder="Lexical item(s)"></div>
@@ -1600,7 +1600,7 @@
 							<div class="constraint-row">
 									<span><input type="checkbox" name="constraints" value="alignFocLeft">AlignFocLeft</span>
 									<div class="info">
-									<span class="content">For every node S with attribute "foc" in sTree, assign a violation if the left-edge of S is not aligned to the left-edge of a node of category pCat in pTree.</span>
+									<span class="content">For every node S with attribute "foc" in sTree, assign a violation if the left-edge of S is not aligned to the left-edge of a node of category pCat in pTree. SPOT function: alignFocLeft()</span>
 									</div>
 							</div>
 							<div class="category-row">
@@ -1614,7 +1614,7 @@
 							<div class="constraint-row">
 									<span><input type="checkbox" name="constraints" value="alignFocRight">AlignFocRight</span>
 									<div class="info">
-									<span class="content">For every node S with attribute "foc" in sTree, assign a violation if the right-edge of S is not aligned to the right-edge of a node of category pCat in pTree.</span>
+									<span class="content">For every node S with attribute "foc" in sTree, assign a violation if the right-edge of S is not aligned to the right-edge of a node of category pCat in pTree. SPOT function: alignFocRight()</span>
 									</div>
 							</div>
 							<div class="category-row">
@@ -1717,14 +1717,14 @@
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="noShift">NoShift</span>
-								<div class="info"><span class="content">Assign a violation if the terminals in the prosodic tree do not maintain the same precedence relations as those in the syntactic tree. (Bennett et al. 2016)</span></div>
+								<div class="info"><span class="content">Assign a violation if the terminals in the prosodic tree do not maintain the same precedence relations as those in the syntactic tree. (Bennett et al. 2016) SPOT function: noShift()</span></div>
 						</div>
 					</div>
 
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="noShiftGradient">Linearity</span>
-								<div class="info"><span class="content">For every pair of terminals (x,y), assign a violation if x precedes y in the terminal string of the syntactic tree and y precedes x in the terminal string of the prosodic tree. (McCarthy & Prince 1995)</span></div>
+								<div class="info"><span class="content">For every pair of terminals (x,y), assign a violation if x precedes y in the terminal string of the syntactic tree and y precedes x in the terminal string of the prosodic tree. (McCarthy & Prince 1995). SPOT function: noShiftGradient()</span></div>
 						</div>
 					</div>
 
@@ -1770,7 +1770,7 @@
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="binBranches">Bin(branches) - <i>categorical</i></span>
 							<div class="info">
-								<span class="content">Assign a violation for every node of category K in the prosodic tree that does not have exactly two children.</span>
+								<span class="content">Assign a violation for every node of category K in the prosodic tree that does not have exactly two children. SPOT function: binBranches()</span>
 							</div>
 						</div>
 							<div class="category-row">
@@ -1787,7 +1787,7 @@
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="binMinLeaves">BinMin(leaves)</span>
 							<div class="info">
-								<span class="content">Assign one violation for every node P of the prosodic category K in the prosodic tree such that P dominates less than two nodes of the prosodic category immediately below <i>K</i> on the prosodic hierarchy. SPOT function: binMinLeaves. (Selkirk 2000)</span>
+								<span class="content">Assign one violation for every node P of the prosodic category K in the prosodic tree such that P dominates less than two nodes of the prosodic category immediately below <i>K</i> on the prosodic hierarchy. SPOT function: binMinLeaves(). (Selkirk 2000)</span>
 							</div>
 						</div>
 							<div class="category-row">
@@ -1801,7 +1801,7 @@
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="binMaxLeaves">BinMax(leaves) - <i>categorical</i></span>
 							<div class="info">
-								<span class="content">Assign one violation for every node of category K in the prosodic tree that dominates more than two nodes of the category immediately below <i>K</i> on the prosodic hierarchy. SPOT function: binMaxLeaves(). Concept: see, Selkirk 2000, Sandalo & Truckenbrodt 2002</span>
+								<span class="content">Assign one violation for every node of category K in the prosodic tree that dominates more than two nodes of the category immediately below K on the prosodic hierarchy. SPOT function: binMaxLeaves(). Concept: see, Selkirk 2000, Sandalo & Truckenbrodt 2002</span>
 							</div>
 						</div>
 							<div class="category-row">
@@ -1815,7 +1815,7 @@
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="binLeaves">Bin(leaves) - <i>categorical</i></span>
 							<div class="info">
-								<span class="content">Assign a violation for every node of category K in the prosodic tree that does not dominate exactly two nodes of category K&minus;1 on the prosodic hierarchy.</span>
+								<span class="content">Assign a violation for every node of category K in the prosodic tree that does not dominate exactly two nodes of category K&minus;1 on the prosodic hierarchy. SPOT function: binLeaves()</span>
 							</div>
 						</div>
 							<div class="category-row">
@@ -1860,7 +1860,7 @@
 							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="binMinLeaves_requireMaximal">BinMin(leaves) - <i>maximal nodes only</i></span>
 								<div class="info">
-									<span class="content">Assign one violation for every node P of the prosodic category K in the prosodic tree such that P is maximal and P dominates less than two nodes of the prosodic category immediately below <i>K</i> on the prosodic hierarchy. A node of category K is maximal if it is not dominated by any other nodes of category K. SPOT function: binMinLeaves_requireMaximal. (Van Handel 2019)</span>
+									<span class="content">Assign one violation for every node P of the prosodic category K in the prosodic tree such that P is maximal and P dominates less than two nodes of the prosodic category immediately below <i>K</i> on the prosodic hierarchy. A node of category K is maximal if it is not dominated by any other nodes of category K (Van Handel 2019). SPOT function: binMinLeaves_requireMaximal(). </span>
 								</div>
 							</div>
 								<div class="category-row">
@@ -1874,7 +1874,7 @@
 							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="binBrGradient">Bin(branches) - <i>gradient</i></span>
 								<div class="info">
-									<span class="content">For every node P of category K in the prosodic tree, assign |2&minus;<i>n</i>| violations, where <i>n</i> is the number of children of P.</span>
+									<span class="content">For every node P of category K in the prosodic tree, assign |2&minus;<i>n</i>| violations, where <i>n</i> is the number of children of P. SPOT function: binBrGradient()</span>
 								</div>
 							</div>
 								<div class="category-row">
@@ -1888,7 +1888,7 @@
 							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="binLeavesGradient">Bin(leaves) - <i>gradient</i></span>
 								<div class="info">
-									<span class="content">For every node P of category K in the prosodic tree, assign |2&minus;<i>n</i>| violations, where <i>n</i> is the number of nodes dominated by P that are of level K-1 on the prosodic hierarchy.</span>
+									<span class="content">For every node P of category K in the prosodic tree, assign |2&minus;<i>n</i>| violations, where <i>n</i> is the number of nodes dominated by P that are of level K-1 on the prosodic hierarchy. SPOT function: binLeavesGradient()</span>
 								</div>
 							</div>
 								<div class="category-row">
@@ -1902,7 +1902,7 @@
 							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="binMaxHead">BinMaxHead - <i>categorical</i></span>
 								<div class="info">
-									<span class="content">Assign a violation for node of the selected category whose head is suprabinary (i.e., has more than two children).</span>
+									<span class="content">Assign a violation for node of the selected category whose head is suprabinary (i.e., has more than two children). SPOT function: binMaxHead()</span>
 								</div>
 							</div>
 								<div class="category-row">
@@ -1925,7 +1925,7 @@
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="balancedSisters">BalancedSisters (Uniformity)</span>
-							<div class="info"><span class="content">Assign one violation for every set sisters with a parent of category K that do not have the same number of (immediate) children. (For concept of Uniformity, see Ghini 1993; for OT constraint, see Bellik 2019)</span></div>
+							<div class="info"><span class="content">Assign one violation for every set sisters with a parent of category K that do not have the same number of (immediate) children. (For concept of Uniformity, see Ghini 1993; for OT constraint, see Bellik 2019) SPOT function: balancedSisters()</span></div>
 						</div>
 						<div class="category-row">
 							<div class="category-selection-div"><input type="checkbox" value="i" name="category-balancedSisters">&iota;</div>
@@ -1939,7 +1939,7 @@
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="eqSis">EqualSisters (by parent)</span>
 							<div class="info">
-								<span class="content">Assign a violation for every node of the specified category whose daughters are not all of the same category as each other (concept from Myrberg 2010, 2013; Hsu 2016, p. 89, uses this particular formulation for children of &iota;.).</span>
+								<span class="content">Assign a violation for every node of the specified category whose daughters are not all of the same category as each other (concept from Myrberg 2010, 2013; Hsu 2016, p. 89, uses this particular formulation for children of &iota;.). SPOT function: eqSis()</span>
 							</div>
 						</div>
 						<div class="category-row">
@@ -1954,7 +1954,7 @@
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="strongStart">StrongStart (any sister)</span>
 							<div class="info">
-								<span class="content">Assign a violation for every node of the selected category such that its leftmost daughter is of a lower category than some sister to its right.</span>
+								<span class="content">Assign a violation for every node of the selected category such that its leftmost daughter is of a lower category than some sister to its right. SPOT function: strongStart()</span>
 							</div>
 						</div>
 						<div class="category-row">
@@ -2012,7 +2012,7 @@
 							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="equalSisters2">EqualSisters2 (adjacent) </span>
 								<div class="info">
-									<span class="content">For each set of sisters, assign one violation for every child whose prosodic category is lower than that of a non-minimal sister. E.g., assign a violation for &omega; that is adjacent to a non-minimal &phi;, but don't assign a violation for &omega; that is adjecent to a minimal &phi;. SPOT function: equalSisters2. Ito & Mester 2017.</span>
+									<span class="content">For each set of sisters, assign one violation for every child whose prosodic category is lower than that of a non-minimal sister. E.g., assign a violation for &omega; that is adjacent to a non-minimal &phi;, but don't assign a violation for &omega; that is adjecent to a minimal &phi;. SPOT function: equalSisters2(). Ito & Mester 2017.</span>
 								</div>
 							</div>
 						</div>
@@ -2021,7 +2021,7 @@
 							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="strongStart_SubCat">StrongStart (Sub-categories)</span>
 								<div class="info">
-									<span class="content">Assign a violation for every node whose leftmost daughter constituent is lower in the prosodic hierarchy than its sister constituent immediately to its right. Sensitive to whether nodes are (non)minimal: &phi;-min is lower than &phi; non-min. Not sensitive to the category of the parent. (Van Handel's strongStart from SPOT2 2019)</span>
+									<span class="content">Assign a violation for every node whose leftmost daughter constituent is lower in the prosodic hierarchy than its sister constituent immediately to its right. Sensitive to whether nodes are (non)minimal: &phi;-min is lower than &phi; non-min. Not sensitive to the category of the parent. (Van Handel's strongStart from SPOT2 2019) SPOT function: strongStart_SubCat()</span>
 								</div>
 							</div>
 						</div>
@@ -2030,7 +2030,7 @@
 							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="strongStartClitic">StrongStartClitic</span>
 								<div class="info">
-									<span class="content">Assign a violation for every node whose leftmost daughter constituent is of category < w (a syllable or foot) (Bennett, Elfner & McCloskey 2016).</span>
+									<span class="content">Assign a violation for every node whose leftmost daughter constituent is of category < &omega; (a syllable or foot) (Bennett, Elfner & McCloskey 2016). SPOT function: strongStartClitic()</span>
 								</div>
 							</div>
 							<!--<div class="category-row">
@@ -2065,7 +2065,8 @@
 							<span><input type="checkbox" name="constraints" value="headedness">Headedness</span>
 							<div class="info">
 								<span class="content"><i>Category-insensitive (select "all")</i>:<br>"Assign a violation for every non-terminal node in the prosodic tree of level <i>k</i> in the prosodic hierarchy that does not contain any node of level > <i>k</i>&minus;2."<br><br>
-								<i>Category-sensitive (select </i>K &isin; {&omega;,&phi;,&iota;}<i>)</i>:<br>"Assign a violation for every non-terminal node of category K in the prosodic tree at level <i>k</i> of the prosodic hierarchy that does not contain any node of level > <i>k</i>&minus;2."</span>
+								<i>Category-sensitive (select </i>K &isin; {&omega;,&phi;,&iota;}<i>)</i>:<br>"Assign a violation for every non-terminal node of category K in the prosodic tree at level <i>k</i> of the prosodic hierarchy that does not contain any node of level > <i>k</i>&minus;2."
+								<br><br>SPOT function: headedness()</span>
 							</div>
 						</div>
 						<div class="category-row">
@@ -2171,7 +2172,7 @@
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="accentAsHead">AccentAsHead</span>
 							<div class="info">
-								<span class="content">"Every accent is the head of a minimal &phi;" (Ito & Mester 2013). <i>Implementation:</i> Assign a violation for every accented word (A) that is not the sole accented word in a minimal &phi;.<br><br>Note that this is <i>not</i> the sense of head that is employed by "Mark prosodic heads" in the "Tree marking options" section.</span>
+								<span class="content">"Every accent is the head of a minimal &phi;" (Ito & Mester 2013). <i>Implementation:</i> Assign a violation for every accented word (A) that is not the sole accented word in a minimal &phi;.<br><br>Note that this is <i>not</i> the sense of head that is employed by "Mark prosodic heads" in the "Tree marking options" section.<br><br>SPOT function: accentAsHead() </span>
 							</div>
 						</div>
 					</div>
@@ -2179,7 +2180,7 @@
 						<div class="constraint-row">
 							<span><input type="checkbox" name="constraints" value="noLapseL">NoLapse-L</span>
 							<div class="info">
-								<span class="content">No tonal lapses. Assign a violation for every fully L-toned word (i.e., an unaccented word U that follows A within a minimal &phi;) (Ito & Mester 2013).</span>
+								<span class="content">No tonal lapses. Assign a violation for every fully L-toned word (i.e., an unaccented word U that follows A within a minimal &phi;) (Ito & Mester 2013). SPOT function: noLapseL()</span>
 							</div>
 						</div>
 					</div>
