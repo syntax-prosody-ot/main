@@ -191,19 +191,46 @@
 
         describe("getMinimalNodes", function() {
             it("{(a) b}", function () {
-                let testTree = {id: 'root', cat: 'i', children: [
+                let testList = getMinimalNodes({id: 'root', cat: 'i', children: [
                     {
                         id: 'intermediate',
                         cat: 'phi',
                         children: [{id: "a", cat: "w",}],
                     },
                     {id: "b", cat: "w",},
-                ]};
-                console.log(getMinimalNodes(testTree));
+                ]});
+                assert.lengthOf(testList, 1);
+                assert.equal(testList[0].children[0].id, 'a');
+            });
+
+            it("(a (b (c)))", function () {
+                let testList = getMinimalNodes({
+                    id: 'root',
+                    cat: 'phi',
+                    children: [
+                        {id: 'a', cat: 'w'},
+                        {
+                            id: 'intermediate',
+                            cat: 'phi',
+                            children: [
+                                {id: 'b', cat: 'w'},
+                                {
+                                    id: 'minimal',
+                                    cat: 'phi',
+                                    children: [
+                                        {id: 'c', cat: 'w'}
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                });
+                assert.lengthOf(testList, 1);
+                assert.equal(testList[0].children[0].id, 'c')
             });
         });
 
-        describe("addHeadsTo", function() {
+        describe.skip("addHeadsTo", function() {
             let testTrees = {
                 '(a)': {id: 'root', cat: 'phi', children: [
                         {id: "a", cat: "w",},
