@@ -421,14 +421,27 @@ window.addEventListener('load', function(){
 
 		//Get input to GEN.
 		var pString = spotForm.inputToGen.value;
-
 		// Get the code that is in the stree textarea
-		var treeCode = spotForm.sTree.value
+		var treeCode = spotForm.sTree.value;
 		// if code has been generated, then ignore pString in GEN
 		if(treeCode !== "{}") {
 			pString = "";
 		}
-
+		var doubleInputWarningMsg = "Inputs were provided on both the Manual tab and the Automatic tab of Gen: Inputs. The candidate set will be created using inputs on the tab that is currently visible. Inputs that are not currently displayed will be ignored.";
+		//If the Automatic tab is visible, check whether the manual tab also has content & provide a warning.
+		if(document.getElementById('inputOptions').style.display == 'block') {
+			if (spotForm.inputToGen.value != "" || (treeCode != "{}" && treeCode != "[]")) {
+				displayWarning(doubleInputWarningMsg);
+			}
+			pString = "";
+		}
+		//Otherwise, the Manual tab is visible, so check whether the Automatic tab has content
+		else{
+			//console.log(getAutoSTreeList());
+			if (getAutoSTreeList()){
+				displayWarning(doubleInputWarningMsg);
+			}
+		}
 		//Build a list of checked GEN options.
 		var genOptions = {};
 		for(var i=0; i<spotForm.genOptions.length; i++){
@@ -524,7 +537,6 @@ window.addEventListener('load', function(){
 			}
 			j++;
 		}
-
 		if(!safe_input_length){
 		//display warning and get confirmation
 			if(!confirm("You have one or more input with more than five terminals, which may run slowly and even freeze your browser, depending on the selected GEN options. Do you wish to continue?")){
@@ -756,7 +768,7 @@ window.addEventListener('load', function(){
 				}
 			}
 		}
-		// console.log(sTreeList)
+		//console.log(sTreeList)
 	}
 
 	function getAutoSTreeList() {
