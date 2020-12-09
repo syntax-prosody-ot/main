@@ -855,19 +855,7 @@ window.addEventListener('load', function(){
 
 	// done button for generate terminal strings
 	document.getElementById('genStringsDoneButton').addEventListener('click', function(){
-		/* checking if list of terminals input is empty */
-		var numTerminalStrings = spotForm.genStringsInput.length;
-		if(numTerminalStrings === undefined) {
-			numTerminalStrings = 1;
-		}
-		var inputPresent = false;
-		var i = 0;
-		while(!inputPresent && i<numTerminalStrings){
-			inputPresent = (numTerminalStrings==1 ? spotForm.genStringsInput.value !== "": spotForm.genStringsInput[i].value !== "");
-			i++;
-		}
-
-		if(inputPresent){
+		if(terminalGenInputPresent()){
 			deleteThickLine();
 			genTerminalStrings();
 			document.getElementById('genStringsArea').style.display = 'block';
@@ -880,6 +868,23 @@ window.addEventListener('load', function(){
 	});
 
 	var genStringsList;
+
+	/* Function to check if any list of terminals has been provided in "Generate combinations and permutations" */
+	function terminalGenInputPresent(){
+		
+		var numTerminalStrings = spotForm.genStringsInput.length;
+		if(numTerminalStrings === undefined) {
+			numTerminalStrings = 1;
+		}
+		var inputPresent = false;
+		var i = 0;
+		while(!inputPresent && i<numTerminalStrings){
+			inputPresent = (numTerminalStrings==1 ? spotForm.genStringsInput.value !== "": spotForm.genStringsInput[i].value !== "");
+			i++;
+		}
+
+		return inputPresent;
+	}
 
 	function addFixedTerminalStringsToTable(){
 		var length = spotForm.inputToGenAuto.length;
@@ -1023,7 +1028,7 @@ window.addEventListener('load', function(){
 				}
 			}
 		}else{
-			displayError("You must supply at least one list of terminals in order to generate combinations and permutations of terminals.");
+			console.warn("You must supply at least one list of terminals in order to generate combinations and permutations of terminals.");
 		}
 	}
 	/* Generate and display terminal strings
@@ -1040,9 +1045,9 @@ window.addEventListener('load', function(){
 		addFixedTerminalStringsToTable();
 		
 		//If the combinations/permutations fieldset is open, then validate input and generate combinations/permutations of terminals
-		if(document.getElementById("stringGeneration").classList.contains("open")){
+		//if(document.getElementById("stringGeneration").classList.contains("open")){
 			addCombinationsPermuatationsToTable();
-		}
+		//}
 		
 		
 	}
