@@ -1,3 +1,5 @@
+//MANUAL TREE BUILDER CODE BEGIN --> PUT THIS IN interface_treeBuilder.js
+
 var uTreeCounter = 0;
 var treeUIsTreeMap = {};
 
@@ -311,6 +313,9 @@ function danishTrees() {
 	return sTrees;
 }
 
+//MANUAL TREE BUILDER CODE END
+
+// BEGIN 1000 LINE LOAD FUNCTION THAT NEEDS TO STAY TOGETHER
 window.addEventListener('load', function(){
 
 	var spotForm = document.getElementById('spotForm');
@@ -421,14 +426,27 @@ window.addEventListener('load', function(){
 
 		//Get input to GEN.
 		var pString = spotForm.inputToGen.value;
-
 		// Get the code that is in the stree textarea
-		var treeCode = spotForm.sTree.value
+		var treeCode = spotForm.sTree.value;
 		// if code has been generated, then ignore pString in GEN
 		if(treeCode !== "{}") {
 			pString = "";
 		}
-
+		var doubleInputWarningMsg = "Inputs were provided on both the Manual tab and the Automatic tab of Gen: Inputs. The candidate set will be created using inputs on the tab that is currently visible. Inputs that are not currently displayed will be ignored.";
+		//If the Automatic tab is visible, check whether the manual tab also has content & provide a warning.
+		if(document.getElementById('inputOptions').style.display == 'block') {
+			if (spotForm.inputToGen.value != "" || (treeCode != "{}" && treeCode != "[]")) {
+				displayWarning(doubleInputWarningMsg);
+			}
+			pString = "";
+		}
+		//Otherwise, the Manual tab is visible, so check whether the Automatic tab has content
+		else{
+			//console.log(getAutoSTreeList());
+			if (getAutoSTreeList()){
+				displayWarning(doubleInputWarningMsg);
+			}
+		}
 		//Build a list of checked GEN options.
 		var genOptions = {};
 		for(var i=0; i<spotForm.genOptions.length; i++){
@@ -503,31 +521,43 @@ window.addEventListener('load', function(){
 		resultsConCl.add('show-tableau');
 
 
-		var csvSegs = [];
-		for (var i = 0; i < sTrees.length; i++) {
-			var sTree = sTrees[i];
-			//console.log(pString.split(" ").length >= 6)
-			//warn user about using more than six terminals
-
-
+		var safe_input_length = true;
+		var safe_input_length_clitic = true;
+		var sTree;
+		var maxNumTerminals;
+		var j = 0;
+		while(safe_input_length && safe_input_length_clitic && j < sTrees.length){
+		//check for inputs that are too long and set safe_input_length = false as needed
+			sTree = sTrees[j];
+			maxNumTerminals = Math.max(getLeaves(sTree).length, pString.split(" ").length);
 			//warn user about possibly excessive numbers of candidates
-			var maxNumTerminals = Math.max(getLeaves(sTree).length, pString.split(" ").length);
 			if (genOptions['cliticMovement'])
 			{
 				if((maxNumTerminals >= 7) || (!genOptions['noUnary'] && maxNumTerminals >= 5))
 				{
-					var tooManyCandMsg = "You have selected GEN settings that allow movement, and included a sentence of "+ maxNumTerminals.toString()+" terminals. This GEN may yield more than 10K candidates. To reduce the number of candidates, consider enforcing non-recursivity, exhaustivity, and/or branchingness for intermediate prosodic nodes. Do you wish to proceed with these settings?";
-					var continueGEN = confirm(tooManyCandMsg);
-					if(!continueGEN){
-						throw new Error("Tried to run GEN with clitic movement with too many terminals");
-					}
+					safe_input_length_clitic = false;
 				}
+			}else if(maxNumTerminals >= 9 || (maxNumTerminals >= 6 && !genOptions['noUnary'])){
+				safe_input_length = false;
 			}
-			else if(maxNumTerminals >= 9 || (maxNumTerminals >= 6 && !genOptions['noUnary'])){
-				if(!confirm("Inputs of more than six terminals may run slowly and even freeze your browser, depending on the selected GEN options. Do you wish to continue?")){
-					throw new Error("Tried to run GEN with too many terminals");
-				}
+			j++;
+		}
+		if(!safe_input_length){
+		//display warning and get confirmation
+			if(!confirm("You have one or more input with more than five terminals, which may run slowly and even freeze your browser, depending on the selected GEN options. Do you wish to continue?")){
+				throw new Error("Tried to run GEN with too many terminals");
 			}
+		}else if (!safe_input_length_clitic){
+			var tooManyCandMsg = "You have selected GEN settings that allow movement, and included a sentence of "+ maxNumTerminals.toString()+" terminals. This GEN may yield more than 10K candidates. To reduce the number of candidates, consider enforcing non-recursivity, exhaustivity, and/or branchingness for intermediate prosodic nodes. Do you wish to proceed with these settings?";
+			var continueGEN = confirm(tooManyCandMsg);
+			if(!continueGEN){
+				throw new Error("Tried to run GEN with clitic movement with too many terminals");
+			}
+		}
+
+		var csvSegs = [];
+		for (var i = 0; i < sTrees.length; i++) {
+			var sTree = sTrees[i];
 
 			//Actually create the candidate set
 			if (genOptions['cliticMovement']){
@@ -537,7 +567,6 @@ window.addEventListener('load', function(){
 			else{
 				var candidateSet = GEN(sTree, pString, genOptions);
 			}
-
 
 			//Make the violation tableau with the info we just got.
 			var tabl = makeTableau(candidateSet, constraintSet, tableauOptions);
@@ -681,11 +710,11 @@ window.addEventListener('load', function(){
 	});
 
 	var sTreeList;
-
+	var terminalStringGenInputMsg = "You must supply at least one list of terminals in order to generate combinations and permutations of terminals.";
 	// automatically generate input tree
 	function autoGenInputTree() {
 		genTerminalStrings();
-		var strings = getStringsList();
+		var strings = getStringsList();	//this is both fixed strings and strings generated by combinations/permutations
 		var length = strings.length;
 
 		sTreeList = undefined;
@@ -744,7 +773,7 @@ window.addEventListener('load', function(){
 				}
 			}
 		}
-		// console.log(sTreeList)
+		//console.log(sTreeList)
 	}
 
 	function getAutoSTreeList() {
@@ -850,26 +879,43 @@ window.addEventListener('load', function(){
 
 	// done button for generate terminal strings
 	document.getElementById('genStringsDoneButton').addEventListener('click', function(){
-		deleteThickLine();
-		genTerminalStrings();
-		document.getElementById('genStringsArea').style.display = 'block';
-		document.getElementById('gen-strings-switch').checked = true;
-		document.getElementById('strings-switch-text').innerHTML = 'Hide generated terminals strings';
+		if(terminalGenInputPresent()){
+			deleteThickLine();
+			genTerminalStrings();
+			document.getElementById('genStringsArea').style.display = 'block';
+			document.getElementById('gen-strings-switch').checked = true;
+			document.getElementById('strings-switch-text').innerHTML = 'Hide generated terminals strings';
+		}
+		else{
+			displayError(terminalStringGenInputMsg);
+		}
 	});
 
-	var genStringsList;
+	/* Function to check if any list of terminals has been provided in "Generate combinations and permutations" */
+	function terminalGenInputPresent(){
+		
+		var numTerminalStrings = spotForm.genStringsInput.length;
+		if(numTerminalStrings === undefined) {
+			numTerminalStrings = 1;
+		}
+		var inputPresent = false;
+		var i = 0;
+		while(!inputPresent && i<numTerminalStrings){
+			inputPresent = (numTerminalStrings==1 ? spotForm.genStringsInput.value !== "": spotForm.genStringsInput[i].value !== "");
+			i++;
+		}
 
-	// generate and display terminal strings
-	function genTerminalStrings() {
-		document.getElementById('genStringsBox').innerHTML = "";
+		return inputPresent;
+	}
 
+	function addFixedTerminalStringsToTable(){
 		var length = spotForm.inputToGenAuto.length;
 		if(length === undefined) {
 			length = 1;
 		}
 		var inputString = spotForm.inputToGenAuto.value;
 		var fixedStringList = [];
-		genStringsList = undefined;
+		
 
 		for(var i=0; i<length; i++){
 			if(length > 1) {
@@ -883,36 +929,152 @@ window.addEventListener('load', function(){
 			displayStringsTable(fixedStringList);
 			genStringsList = fixedStringList;
 		}
+	}
 
-		var length = spotForm.genStringsInput.length;
-		if(length === undefined) {
-			length = 1;
+	function addCombinationsPermuatationsToTable(){
+		//Begin input validation for generating combinations/permutations (generateTerminalStrings())
+		var inputIsFive = false; //if the min or max input is 5 flag
+		var minOrMaxProblem = false; //if there is a min or max input problem flag
+		var problem = ""; //string indicating what the min or max problem is
+		var stringTerminalInput, minTerminalInput, maxTerminalInput; //the list of terminals input, min input, and max input
+		var inputCheckNeeded = false; //if there is more than one input then check for input being empty or not is needed
+
+		var numTerminalStrings = spotForm.genStringsInput.length;
+		if(numTerminalStrings === undefined) {
+			numTerminalStrings = 1;
 		}
-		var inputList = spotForm.genStringsInput.value;
-		var min = spotForm.genStringsMin.value;
-		var max = spotForm.genStringsMax.value;
 
-		for(var i=0; i<length; i++){
-			if(length > 1) {
-				inputList = spotForm.genStringsInput[i].value;
-				min = spotForm.genStringsMin[i].value;
-				max = spotForm.genStringsMax[i].value;
-			}
-
-			if(inputList !== "") {
-				inputList = inputList.trim().split(' ');
-				var currGenStringsList = generateTerminalStrings(inputList, min, max)
-				displayStringsTable(currGenStringsList);
-
-				if(genStringsList) {
-					genStringsList = genStringsList.concat(currGenStringsList);
+		
+		/*Only bother to validate everything else if at least one list of terminals is provided.
+		If terminalGenInputPresent() returns false, then all the List of terminals are empty. */
+		if(terminalGenInputPresent()){
+			terminalStringsValidationLoop:
+			for(var i=0; i<numTerminalStrings; i++){
+				/*checking if the length is more than 1*/
+				if (numTerminalStrings > 1){
+					inputCheckNeeded = true;
+					stringTerminalInput = spotForm.genStringsInput[i].value;
+					minTerminalInput = spotForm.genStringsMin[i].value;
+					maxTerminalInput = spotForm.genStringsMax[i].value;
+				}else{
+					inputCheckNeeded = false;
+					minTerminalInput = spotForm.genStringsMin.value;
+					maxTerminalInput = spotForm.genStringsMax.value;
 				}
-				else {
-					genStringsList = currGenStringsList;
+				if ((inputCheckNeeded == true && stringTerminalInput !== "") || inputCheckNeeded == false){
+					/*checking if min or max is empty*/
+					if (minTerminalInput === "" || maxTerminalInput === ""){
+						minOrMaxProblem = true;
+						problem = "Empty";
+						break terminalStringsValidationLoop;
+					}
+					/*checking if min or max is not a number*/
+					if (isNaN(minTerminalInput) || isNaN(maxTerminalInput)){
+						minOrMaxProblem = true;
+						problem = "NonNumber";
+						break terminalStringsValidationLoop;
+					}
+					/*checking if min or max is less than or equal to 0*/
+					if (Number(minTerminalInput) <= 0 || Number(maxTerminalInput) <= 0){
+						minOrMaxProblem = true;
+						problem = "Zero";
+						break terminalStringsValidationLoop;
+					}
+					/*checking if min or max is more than or equal to 10*/
+					if (Number(minTerminalInput) >= 10 || Number(maxTerminalInput) >= 10){
+						minOrMaxProblem = true;
+						problem = "Ten";
+						break terminalStringsValidationLoop;
+					}
+					/*checking if min is greater than max*/
+					if (Number(maxTerminalInput) <  Number(minTerminalInput)){
+						minOrMaxProblem = true;
+						problem = "MinGreaterThanMax";
+						break terminalStringsValidationLoop;
+					}
+					/*checking if min or max is more than or equal to 5*/
+					if (Number(minTerminalInput) >= 5 || Number(maxTerminalInput) >= 5){
+						inputIsFive = true;
+					}
+				}
+			}
+			/*if there is an error with min or max input*/
+			if (minOrMaxProblem == true){
+				if (problem === "Empty"){
+					displayError("Min or Max input missing in 'Generate combinations and permutations'.");
+				}else if(problem === "NonNumber"){
+					displayError("Min or Max input is not a number in 'Generate combinations and permutations.'");
+				}else if(problem === "Zero"){
+					displayError("Min and Max inputs must be larger than 0 in 'Generate combinations and permutations.'");
+				}else if(problem === "Ten"){
+					displayError("Min and Max inputs must be less than 10 in 'Generate combinations and permutations.'");
+				}else if(problem === "MinGreaterThanMax"){
+					displayError("Min input must be smaller than Max input in 'Generate combinations and permutations.'");
+				}
+			}else{
+				/*confirm user wants to continue if the input is greater than or equal to 5 */
+				if (inputIsFive == true){
+					if(!confirm("Min or Max input is greater than or equal to 5 which may cause your browser to freeze due to too many terminal strings being generated. Confirm that you want to continue.")){
+						throw new Error ('Min or Max input is greater than or equal to 5.');
+					}
+				}
+				var inputList = spotForm.genStringsInput.value;
+				var min = spotForm.genStringsMin.value;
+				var max = spotForm.genStringsMax.value;
+
+				for(var i=0; i<numTerminalStrings; i++){
+					if(numTerminalStrings > 1) {
+					inputList = spotForm.genStringsInput[i].value;
+					min = spotForm.genStringsMin[i].value;
+					max = spotForm.genStringsMax[i].value;
+					}
+					/* Actual calculation of terminal strings here*/
+					if(inputList !== "") {
+						inputList = inputList.trim().split(' ');
+						var currGenStringsList = generateTerminalStrings(inputList, min, max)
+						displayStringsTable(currGenStringsList);
+
+						if(genStringsList) {
+							genStringsList = genStringsList.concat(currGenStringsList);
+						}
+						else {
+							genStringsList = currGenStringsList;
+						}
+					}
 				}
 			}
 		}
-		// console.log(genStringsList)
+		//else{
+		//	console.warn(terminalStringGenInputMsg);
+		//}
+	}
+
+	
+	/* Generate and display terminal strings
+	   This includes: 
+	   - fixed strings taken from "inputToGenAuto", and 
+	   - strings to run generateTerminalStrings() on, taken from "genStringsInput"
+	   - TODO rename these fields!
+	*/
+	var genStringsList;
+	function genTerminalStrings() {
+		//Remove any previously generated strings from the table of generated strings
+		document.getElementById('genStringsBox').innerHTML = "";
+		genStringsList = undefined; //genStringsList is declared just outside this function
+
+		addFixedTerminalStringsToTable();
+		
+		//Provide warnings if an input is present but the fieldset is closed, or vice versa.
+		if(terminalGenInputPresent() && !document.getElementById("stringGeneration").classList.contains("open")){
+			displayWarning("You provided an input(s) to 'Generate combinations and permutations', but have closed that section. Your input there, which is not currently visible, will be included in calculations unless you delete it.");
+		}
+		/*if(document.getElementById("stringGeneration").classList.contains("open") && !terminalGenInputPresent()){
+			displayWarning(terminalStringGenInputMsg);
+		}*/
+
+		//Validate inputs to generateTerminalStrings, and run it.
+		addCombinationsPermuatationsToTable();
+		
 	}
 
 	function getStringsList() {
@@ -1253,10 +1415,14 @@ window.addEventListener('load', function(){
 
 });
 
+// END 1000 LINE LOAD FUNCTION
+
+
+// HELPER DISPLAY FUNCTIONS FOR THE LOAD FUNCTION
 function toneInfoBlock(language){
 	var content = document.getElementById("tonesInfoContent");
-	var japaneseContent = "Tokyo Japanese: the left edge of phi is marked with a rising boundary tone (LH), accented words receive an HL on the accented syllable, and H tones that follow a pitch drop (HL) within the maximal phi are downstepped (!H). (See: Pierrehumbert and Beckman 1988; Gussenhoven 2004; Ito and Mester 2007) Accents, boundary tones, and downstep in Lekeitio Basque are realized with the same tones as in Tokyo Japanese.";
-	var irishContent = "Conamara Irish (Elfner 2012): The left edge of the non-minimal phi is marked with a rising boundary tone (LH), and the right edge of every phi is marked with a falling boundary tone (HL).";
+	var japaneseContent = "Tokyo Japanese: the left edge of &phi; is marked with a rising boundary tone (LH), accented words receive an HL on the accented syllable, and H tones that follow a pitch drop (HL) within the maximal &phi; are downstepped (!H). (See: Pierrehumbert and Beckman 1988; Gussenhoven 2004; Ito and Mester 2007) Accents, boundary tones, and downstep in Lekeitio Basque are realized with the same tones as in Tokyo Japanese.";
+	var irishContent = "Conamara Irish (Elfner 2012): The left edge of the non-minimal &phi; is marked with a rising boundary tone (LH), and the right edge of every &phi; is marked with a falling boundary tone (HL).";
 	var format = "font-size: 13px; color: #555; margin-left: 25px; display: table-cell";
 	if (language == "japanese"){
 		if (content.innerHTML == japaneseContent){
@@ -1280,20 +1446,15 @@ function toneInfoBlock(language){
 	}
 }
 
-//downloads an element to the user's computer. Originally defined up by saveTextAs()
-function saveAs(blob, name) {
-	var a = document.createElement("a");
-	a.display = "none";
-	a.href = URL.createObjectURL(blob);
-	a.download = name;
-	document.body.appendChild(a);
-	a.click();
-	document.body.removeChild(a);
-}
-
-function clearTableau() {
-	document.getElementById('results-container').innerHTML = "";
-	document.getElementById('results-container').className = "";
+function showMaxBranching() {
+	var text = document.getElementById('maxBranchingText');
+	var checkBox = document.getElementById('maxBranchingBox')
+	if(checkBox.checked) {
+		text.style.display = 'inline';
+	}
+	else{
+		text.style.display = 'none';
+	}
 }
 
 function showMore(constraintType) {
@@ -1310,6 +1471,27 @@ function showMore(constraintType) {
   }
 }
 
+// END DISPLAY FUNCTIONS
+
+//downloads an element to the user's computer. Originally defined up by saveTextAs()
+function saveAs(blob, name) {
+	var a = document.createElement("a");
+	a.display = "none";
+	a.href = URL.createObjectURL(blob);
+	a.download = name;
+	document.body.appendChild(a);
+	a.click();
+	document.body.removeChild(a);
+}
+
+function clearTableau() {
+	document.getElementById('results-container').innerHTML = "";
+	document.getElementById('results-container').className = "";
+}
+
+
+//ERROR AND WARNING FUNCTIONS
+// for closing error and warning messages
 function closeButton() {
 	var close = document.getElementsByClassName("closebtn");
 	var i;
@@ -1361,18 +1543,9 @@ function displayWarning(warnMsg) {
 	div.style.opacity = "100";
 	closeButton();
 }
+//END ERROR AND WARNING FUNCTIONS
 
-function showMaxBranching() {
-	var text = document.getElementById('maxBranchingText');
-	var checkBox = document.getElementById('maxBranchingBox')
-	if(checkBox.checked) {
-		text.style.display = 'inline';
-	}
-	else{
-		text.style.display = 'none';
-	}
-}
-
+//INPUT GEN DISPLAY
 function changeInputTabs(from, to) {
 	var fromButton = 	document.getElementById(from);
 	var toButton = document.getElementById(to);

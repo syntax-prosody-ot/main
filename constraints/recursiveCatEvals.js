@@ -83,6 +83,7 @@ function isMinimal(node, lastCat){
  */
 
 function markMinMax(mytree, options){
+	options = options || {};
 	if(options.requireLexical){
 		mytree = createDummies(mytree, 'func');
 	}
