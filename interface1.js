@@ -1068,9 +1068,9 @@ window.addEventListener('load', function(){
 		if(terminalGenInputPresent() && !document.getElementById("stringGeneration").classList.contains("open")){
 			displayWarning("You provided an input(s) to 'Generate combinations and permutations', but have closed that section. Your input there, which is not currently visible, will be included in calculations unless you delete it.");
 		}
-		if(document.getElementById("stringGeneration").classList.contains("open") && !terminalGenInputPresent()){
+		/*if(document.getElementById("stringGeneration").classList.contains("open") && !terminalGenInputPresent()){
 			displayWarning(terminalStringGenInputMsg);
-		}
+		}*/
 
 		//Validate inputs to generateTerminalStrings, and run it.
 		addCombinationsPermuatationsToTable();
