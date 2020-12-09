@@ -855,11 +855,28 @@ window.addEventListener('load', function(){
 
 	// done button for generate terminal strings
 	document.getElementById('genStringsDoneButton').addEventListener('click', function(){
-		deleteThickLine();
-		genTerminalStrings();
-		document.getElementById('genStringsArea').style.display = 'block';
-		document.getElementById('gen-strings-switch').checked = true;
-		document.getElementById('strings-switch-text').innerHTML = 'Hide generated terminals strings';
+		/* checking if list of terminals input is empty */
+		var numTerminalStrings = spotForm.genStringsInput.length;
+		if(numTerminalStrings === undefined) {
+			numTerminalStrings = 1;
+		}
+		var inputPresent = false;
+		var i = 0;
+		while(!inputPresent && i<numTerminalStrings){
+			inputPresent = (numTerminalStrings==1 ? spotForm.genStringsInput.value !== "": spotForm.genStringsInput[i].value !== "");
+			i++;
+		}
+
+		if(inputPresent){
+			deleteThickLine();
+			genTerminalStrings();
+			document.getElementById('genStringsArea').style.display = 'block';
+			document.getElementById('gen-strings-switch').checked = true;
+			document.getElementById('strings-switch-text').innerHTML = 'Hide generated terminals strings';
+		}
+		else{
+			displayError("You must supply at least one list of terminals in order to generate combinations and permutations of terminals.");
+		}
 	});
 
 	var genStringsList;
@@ -891,8 +908,8 @@ window.addEventListener('load', function(){
 		//Begin input validation for generating combinations/permutations (generateTerminalStrings())
 		var inputIsFive = false; //if the min or max input is 5 flag
 		var minOrMaxProblem = false; //if there is a min or max input problem flag
-		var inputPresent = 0; //if list of terminal input is present flag
-		var problemError = ""; //string indicating what the min or max problem is
+		var inputPresent = false; //if list of terminal input is present flag
+		var problem = ""; //string indicating what the min or max problem is
 		var stringTerminalInput, minTerminalInput, maxTerminalInput; //the list of terminals input, min input, and max input
 		var inputCheckNeeded = false; //if there is more than one input then check for input being empty or not is needed
 
@@ -902,16 +919,14 @@ window.addEventListener('load', function(){
 		}
 
 		/* checking if list of terminals input is empty */
-		for(var i=0; i<numTerminalStrings; i++){
+		var i = 0;
+		while(!inputPresent && i<numTerminalStrings){
 			inputPresent = (numTerminalStrings==1 ? spotForm.genStringsInput.value !== "": spotForm.genStringsInput[i].value !== "");
-			if (inputPresent == true){
-				inputPresent = 1;
-				break;
-			}
+			i++;
 		}
-		/*if inputPresent is 0 then all the List of terminals are empty else if 1 then there
+		/*if inputPresent is false, then all the List of terminals are empty. Otherwise, there
 		is at least one terminal input*/
-		if(inputPresent == 1){
+		if(inputPresent){
 			terminalStringsValidationLoop:
 			for(var i=0; i<numTerminalStrings; i++){
 				/*checking if the length is more than 1*/
@@ -1008,7 +1023,7 @@ window.addEventListener('load', function(){
 				}
 			}
 		}else{
-			displayError("You must supply at least one list of terminals.");
+			displayError("You must supply at least one list of terminals in order to generate combinations and permutations of terminals.");
 		}
 	}
 	/* Generate and display terminal strings
@@ -1023,10 +1038,8 @@ window.addEventListener('load', function(){
 		genStringsList = undefined; //genStringsList is declared just outside this function
 
 		addFixedTerminalStringsToTable();
-		//we need to add a conditional here to determine whether we actually need to calculate the combinations/permutations
-		//one possible flag: is the combinations/permutations fieldset open?
-		//another better check: was this called by the "generate strings" button (genStringsDoneButton), or by the "generate trees" button (autoGenDoneButton)
-		//this could be an argument to genTerminalStrings, or better yet a check in the calling funtion itself
+		
+		//If the combinations/permutations fieldset is open, then validate input and generate combinations/permutations of terminals
 		if(document.getElementById("stringGeneration").classList.contains("open")){
 			addCombinationsPermuatationsToTable();
 		}
