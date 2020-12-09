@@ -1027,7 +1027,10 @@ window.addEventListener('load', function(){
 		//one possible flag: is the combinations/permutations fieldset open?
 		//another better check: was this called by the "generate strings" button (genStringsDoneButton), or by the "generate trees" button (autoGenDoneButton)
 		//this could be an argument to genTerminalStrings, or better yet a check in the calling funtion itself
-		addCombinationsPermuatationsToTable();
+		if(document.getElementById("stringGeneration").classList.contains("open")){
+			addCombinationsPermuatationsToTable();
+		}
+		
 		
 	}
 
