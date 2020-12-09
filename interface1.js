@@ -686,7 +686,7 @@ window.addEventListener('load', function(){
 	});
 
 	var sTreeList;
-
+	var terminalStringGenInputMsg = "You must supply at least one list of terminals in order to generate combinations and permutations of terminals.";
 	// automatically generate input tree
 	function autoGenInputTree() {
 		genTerminalStrings();
@@ -863,7 +863,7 @@ window.addEventListener('load', function(){
 			document.getElementById('strings-switch-text').innerHTML = 'Hide generated terminals strings';
 		}
 		else{
-			displayError("You must supply at least one list of terminals in order to generate combinations and permutations of terminals.");
+			displayError(terminalStringGenInputMsg);
 		}
 	});
 
@@ -923,8 +923,8 @@ window.addEventListener('load', function(){
 		}
 
 		
-		/*if terminalGenInputPresent() returns false, then all the List of terminals are empty. Otherwise, there
-		is at least one terminal input*/
+		/*Only bother to validate everything else if at least one list of terminals is provided.
+		If terminalGenInputPresent() returns false, then all the List of terminals are empty. */
 		if(terminalGenInputPresent()){
 			terminalStringsValidationLoop:
 			for(var i=0; i<numTerminalStrings; i++){
@@ -979,15 +979,15 @@ window.addEventListener('load', function(){
 			/*if there is an error with min or max input*/
 			if (minOrMaxProblem == true){
 				if (problem === "Empty"){
-					displayError("Min or Max input missing.");
+					displayError("Min or Max input missing in 'Generate combinations and permutations'.");
 				}else if(problem === "NonNumber"){
-					displayError("Min or Max input is not a number.");
+					displayError("Min or Max input is not a number in 'Generate combinations and permutations.'");
 				}else if(problem === "Zero"){
-					displayError("Min and Max inputs must be larger than 0.");
+					displayError("Min and Max inputs must be larger than 0 in 'Generate combinations and permutations.'");
 				}else if(problem === "Ten"){
-					displayError("Min and Max inputs must be less than 10.");
+					displayError("Min and Max inputs must be less than 10 in 'Generate combinations and permutations.'");
 				}else if(problem === "MinGreaterThanMax"){
-					displayError("Min input must be smaller than Max input.");
+					displayError("Min input must be smaller than Max input in 'Generate combinations and permutations.'");
 				}
 			}else{
 				/*confirm user wants to continue if the input is greater than or equal to 5 */
@@ -1021,10 +1021,13 @@ window.addEventListener('load', function(){
 					}
 				}
 			}
-		}else{
-			console.warn("You must supply at least one list of terminals in order to generate combinations and permutations of terminals.");
 		}
+		//else{
+		//	console.warn(terminalStringGenInputMsg);
+		//}
 	}
+
+	
 	/* Generate and display terminal strings
 	   This includes: 
 	   - fixed strings taken from "inputToGenAuto", and 
@@ -1039,10 +1042,13 @@ window.addEventListener('load', function(){
 		addFixedTerminalStringsToTable();
 		
 		//If the combinations/permutations fieldset is open, then validate input and generate combinations/permutations of terminals
-		//if(document.getElementById("stringGeneration").classList.contains("open")){
-			addCombinationsPermuatationsToTable();
-		//}
-		
+		if(terminalGenInputPresent && !document.getElementById("stringGeneration").classList.contains("open")){
+			displayWarning("You provided an input(s) to 'Generate combinations and permutations', but have closed that section. Your input there, which is not currently visible, will be included in calculations unless you delete it.");
+		}
+		if(document.getElementById("stringGeneration").classList.contains("open") && !terminalGenInputPresent()){
+			displayWarning(terminalStringGenInputMsg);
+		}
+		addCombinationsPermuatationsToTable();
 		
 	}
 
