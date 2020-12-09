@@ -913,7 +913,6 @@ window.addEventListener('load', function(){
 		//Begin input validation for generating combinations/permutations (generateTerminalStrings())
 		var inputIsFive = false; //if the min or max input is 5 flag
 		var minOrMaxProblem = false; //if there is a min or max input problem flag
-		var inputPresent = false; //if list of terminal input is present flag
 		var problem = ""; //string indicating what the min or max problem is
 		var stringTerminalInput, minTerminalInput, maxTerminalInput; //the list of terminals input, min input, and max input
 		var inputCheckNeeded = false; //if there is more than one input then check for input being empty or not is needed
@@ -923,15 +922,10 @@ window.addEventListener('load', function(){
 			numTerminalStrings = 1;
 		}
 
-		/* checking if list of terminals input is empty */
-		var i = 0;
-		while(!inputPresent && i<numTerminalStrings){
-			inputPresent = (numTerminalStrings==1 ? spotForm.genStringsInput.value !== "": spotForm.genStringsInput[i].value !== "");
-			i++;
-		}
-		/*if inputPresent is false, then all the List of terminals are empty. Otherwise, there
+		
+		/*if terminalGenInputPresent() returns false, then all the List of terminals are empty. Otherwise, there
 		is at least one terminal input*/
-		if(inputPresent){
+		if(terminalGenInputPresent()){
 			terminalStringsValidationLoop:
 			for(var i=0; i<numTerminalStrings; i++){
 				/*checking if the length is more than 1*/
