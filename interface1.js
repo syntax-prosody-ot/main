@@ -1040,13 +1040,15 @@ window.addEventListener('load', function(){
 
 		addFixedTerminalStringsToTable();
 		
-		//If the combinations/permutations fieldset is open, then validate input and generate combinations/permutations of terminals
+		//Provide warnings if an input is present but the fieldset is closed, or vice versa.
 		if(terminalGenInputPresent && !document.getElementById("stringGeneration").classList.contains("open")){
 			displayWarning("You provided an input(s) to 'Generate combinations and permutations', but have closed that section. Your input there, which is not currently visible, will be included in calculations unless you delete it.");
 		}
 		if(document.getElementById("stringGeneration").classList.contains("open") && !terminalGenInputPresent()){
 			displayWarning(terminalStringGenInputMsg);
 		}
+
+		//Validate inputs to generateTerminalStrings, and run it.
 		addCombinationsPermuatationsToTable();
 		
 	}
