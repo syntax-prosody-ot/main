@@ -867,8 +867,6 @@ window.addEventListener('load', function(){
 		}
 	});
 
-	var genStringsList;
-
 	/* Function to check if any list of terminals has been provided in "Generate combinations and permutations" */
 	function terminalGenInputPresent(){
 		
@@ -1034,6 +1032,7 @@ window.addEventListener('load', function(){
 	   - strings to run generateTerminalStrings() on, taken from "genStringsInput"
 	   - TODO rename these fields!
 	*/
+	var genStringsList;
 	function genTerminalStrings() {
 		//Remove any previously generated strings from the table of generated strings
 		document.getElementById('genStringsBox').innerHTML = "";
