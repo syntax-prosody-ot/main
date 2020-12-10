@@ -1011,7 +1011,7 @@ window.addEventListener('load', function(){
 	});
 
 	var x = document.getElementsByName("autoInputOptions");
-	console.log(x);
+	//console.log(x);
 	var i;
 	var noBarLevelsIndex;
 	for (i = 0; i < x.length; i++) {
@@ -1100,20 +1100,6 @@ window.addEventListener('load', function(){
 });
 
 // END 1000 LINE LOAD FUNCTION
-
-
-
-
-//downloads an element to the user's computer. Originally defined up by saveTextAs()
-function saveAs(blob, name) {
-	var a = document.createElement("a");
-	a.display = "none";
-	a.href = URL.createObjectURL(blob);
-	a.download = name;
-	document.body.appendChild(a);
-	a.click();
-	document.body.removeChild(a);
-}
 
 
 
