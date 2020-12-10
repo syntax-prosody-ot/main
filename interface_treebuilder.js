@@ -315,6 +315,63 @@ function addOrRemoveUTrees(addTree){
 	treeContainer.scrollTop = treeContainer.scrollHeight;
 }
 
+function elementToNode(el) {
+	var idFrags = el.id.split('-');
+	if (idFrags[0] !== 'treeNode') return null;
+	var nodeId = idFrags[1];
+	return treeUIsTreeMap[idFrags[2]].nodeMap[nodeId];
+}
+
+function getSelectedNodes() {
+	var elements = treeTableContainer.getElementsByClassName('selected');
+	var nodes = [];
+	for (var i = 0; i < elements.length; i++) {
+		var node = elementToNode(elements[i]);
+		if (node) {
+			nodes.push(node);
+		}
+	}
+	return nodes;
+}
+
+function treeUIMakeParent() {
+	var nodes = getSelectedNodes();
+	try {
+		treeUIsTreeMap[nodes[0].m.treeIndex].addParent(nodes);
+		refreshHtmlTree();
+	} catch (err) {
+		displayError('Unable to add daughter: ' + err.message, err);
+	}
+	document.getElementById('doneMessage').style.display = 'none';
+}
+
+function deleteTreeUINodes() {
+	var nodes = getSelectedNodes();
+	if (nodes) {
+		var treeIndex = nodes[0].m.treeIndex;
+		for (var i = 1; i < nodes.length; i++) {
+			if (nodes[i].treeIndex != treeIndex) {
+				displayError('You attempted to delete nodes from multiple trees. Please delete nodes one tree at a time.');
+				return;
+			}
+		}
+	}
+	var tree = treeUIsTreeMap[treeIndex];
+	for (var i = 0; i < nodes.length; i++) {
+		tree.deleteNode(nodes[i]);
+	}
+	refreshHtmlTree(treeIndex);
+	document.getElementById('doneMessage').style.display = 'none';
+}
+
+function treeUIClearSelection() {
+	var elements = treeTableContainer.getElementsByClassName('selected');
+	for (var i = elements.length-1; i >= 0; i--) {
+		elements[i].classList.remove('selected');
+	}
+	refreshNodeEditingButtons();
+}
+
 function refreshNodeEditingButtons() {
 	var treeTableContainer = document.getElementById('treeTableContainer');
 	var hasSelection = treeTableContainer.getElementsByClassName('selected').length > 0;
@@ -324,6 +381,44 @@ function refreshNodeEditingButtons() {
 	}
 }
 
+function refreshHtmlTree(treeIndex) {
+	if (treeIndex === undefined) {
+		for (index of Object.keys(treeUIsTreeMap)) {
+			refreshHtmlTree(index);
+		}
+		return;
+	}
+
+	if (treeIndex in treeUIsTreeMap) {
+		treeUIsTreeMap[treeIndex].refreshHtml();
+	}
+	refreshNodeEditingButtons();
+}
+
+function setUpTreeBuilderTable(){
+	// Get the string of terminals
+	var terminalString = spotForm.inputToGen.value;
+	var terminalList = terminalString.trim().split(/\s+/);
+
+	//Make the js tree (a dummy tree only containing the root CP)
+	var tree = UTree.fromTerminals(terminalList);
+	showUTree(tree);
+	document.getElementById('doneMessage').style.display = 'none';
+}
+
+//Shows or hides the tree code area when the toggle is switched
+function showHideTreeCode(){
+	if (document.getElementById('tree-code-area').style.display === 'none' && document.getElementById('tree-code-box').checked){
+		document.getElementById('tree-code-area').style.display = 'block';
+		document.getElementById('sliderText').innerHTML = 'Hide code';
+	}
+	else{
+		document.getElementById('tree-code-area').style.display = 'none';
+		document.getElementById('sliderText').innerHTML = 'Show code';
+	}
+}
+
+//Get syntactic trees from manual tree builder's code area
 function getSTrees() {
 	var spotForm = document.getElementById('spotForm');
 	var sTrees;
@@ -338,6 +433,7 @@ function getSTrees() {
 /** 
  * Functions for generating all maximally binary-branching trees with two or three terminals
  * as used in Bellik & Kalivoda 2018 on Danish compound words
+ * LEGACY CODE
  */
 function danishTrees() {
 	var patterns = [

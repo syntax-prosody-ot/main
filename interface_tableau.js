@@ -74,34 +74,48 @@ function getCheckedConstraints(){
     return constraintSet;
 }
 
-/**
- * This function runs when the "Get results" button is clicked.
- * 
- * Components:
- * - Build list of checked constraints and their options and arguments
- * - Get selected output GEN options
- * - Get inputs (manual or from input GEN)
- * - Send everything to makeTableau(), writeTableau(), and saveTextAs() 
- */
-function sendToTableau(e) {
-    if (e.preventDefault) e.preventDefault();
+//Various functions need to be able to refer to pString: getInputsForTableau, checkForLongInputs...
+var pString = spotForm.inputToGen.value;
 
-    var constraintSet = getCheckedConstraints();
-
-    // Get the automatically generated syntactic trees
+// Helper for sendToTableau: gets the syntactic trees
+function getInputsForTableau(){
+    var sTrees;
+    var treeCode = spotForm.sTree.value; // Get the code that is in the manually generated stree textarea
+    // if code has been generated, then ignore pString in GEN
+    if(treeCode !== "{}") {
+        pString = "";
+    }
+    
+    var doubleInputWarningMsg = "Inputs were provided on both the Manual tab and the Automatic tab of Gen: Inputs. The candidate set will be created using inputs on the tab that is currently visible. Inputs that are not currently displayed will be ignored.";
+    
+    //If the Automatic tab is visible...
     if(document.getElementById('inputOptions').style.display == 'block') {
-        var sTrees;
+        //Check whether the manual tab also has content & provide a warning; zero out pString
+        if (spotForm.inputToGen.value != "" || (treeCode != "{}" && treeCode != "[]")) {
+            displayWarning(doubleInputWarningMsg);
+        }
+        pString = "";
+
+        //Try to actually get the auto-generated sTrees.
         try{
             sTrees = getAutoSTreeList();
+            console.log(sTrees);
+            console.log(getAutoSTreeList());
         }
         catch(e){
             displayError(e.message, e);
             return;
         }
     }
-    else {
-        // Get the input syntactic tree from tree builder
-        var sTrees;
+    
+    //Otherwise, the Manual tab is visible
+    else{    
+        //check whether the Automatic tab has content
+        if (getAutoSTreeList()){
+            displayWarning(doubleInputWarningMsg);
+        }
+
+        // Get the input syntactic trees from manual tree builder
         try{
             sTrees = getSTrees();
         }
@@ -111,30 +125,10 @@ function sendToTableau(e) {
         }
     }
 
-    //Get input to GEN.
-    var pString = spotForm.inputToGen.value;
-    // Get the code that is in the stree textarea
-    var treeCode = spotForm.sTree.value;
-    // if code has been generated, then ignore pString in GEN
-    if(treeCode !== "{}") {
-        pString = "";
-    }
-    var doubleInputWarningMsg = "Inputs were provided on both the Manual tab and the Automatic tab of Gen: Inputs. The candidate set will be created using inputs on the tab that is currently visible. Inputs that are not currently displayed will be ignored.";
-    //If the Automatic tab is visible, check whether the manual tab also has content & provide a warning.
-    if(document.getElementById('inputOptions').style.display == 'block') {
-        if (spotForm.inputToGen.value != "" || (treeCode != "{}" && treeCode != "[]")) {
-            displayWarning(doubleInputWarningMsg);
-        }
-        pString = "";
-    }
-    //Otherwise, the Manual tab is visible, so check whether the Automatic tab has content
-    else{
-        //console.log(getAutoSTreeList());
-        if (getAutoSTreeList()){
-            displayWarning(doubleInputWarningMsg);
-        }
-    }
-    //Build a list of checked GEN options.
+    return sTrees;
+}
+
+function getOutputGenOptions() {
     var genOptions = {};
     for(var i=0; i<spotForm.genOptions.length; i++){
         var optionBox = spotForm.genOptions[i];
@@ -175,8 +169,9 @@ function sendToTableau(e) {
             throw terminalCategoryError;
         }
     }
+}
 
-
+function getTableauOptions(){
     var tableauOptions = {
         showTones: false,  //true iff tones are selected
         trimStree: false,
@@ -204,10 +199,10 @@ function sendToTableau(e) {
         }
     }
 
-    var resultsConCl = document.getElementById("results-container").classList;
-    resultsConCl.add('show-tableau');
+    return tableauOptions;
+}
 
-
+function checkForLongInputs(){
     var safe_input_length = true;
     var safe_input_length_clitic = true;
     var sTree;
@@ -241,6 +236,34 @@ function sendToTableau(e) {
             throw new Error("Tried to run GEN with clitic movement with too many terminals");
         }
     }
+}
+
+/**
+ * This function runs when the "Get results" button is clicked.
+ * 
+ * Components:
+ * - Build list of checked constraints and their options and arguments
+ * - Get selected output GEN options
+ * - Get inputs (manual or from input GEN)
+ * - Send everything to makeTableau(), writeTableau(), and saveTextAs() 
+ */
+function sendToTableau(e) {
+    if (e.preventDefault) e.preventDefault();
+
+    var constraintSet = getCheckedConstraints();
+    var sTrees = getInputsForTableau();
+    
+    //Build a list of checked GEN options.
+    var genOptions = getOutputGenOptions();
+
+
+    var tableauOptions = getTableauOptions();
+
+    var resultsConCl = document.getElementById("results-container").classList;
+    resultsConCl.add('show-tableau');
+
+
+    checkForLongInputs();
 
     var csvSegs = [];
     for (var i = 0; i < sTrees.length; i++) {

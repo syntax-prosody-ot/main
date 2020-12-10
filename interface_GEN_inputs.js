@@ -1,13 +1,14 @@
 /**
  * Functions that handle automatic syntactic tree generation
  */
-
+var terminalStringGenInputMsg = "You must supply at least one list of terminals in order to generate combinations and permutations of terminals.";
 var genStringsList;
 
 //Getter function that helps with terminal string generation
 function getStringsList() {
     return genStringsList;
 }
+
 
 /**
  * Helper function for genTerminalStrings() and addCombinationsPermuatationsToTable()
@@ -275,7 +276,19 @@ function deleteThickLine() {
     }
 }
 
-
+// TerminalStringsGen helper: runs when "Generate terminal strings" is clicked
+function makeAndDisplayTerminalStrings(){
+    if(terminalGenInputPresent()){
+        deleteThickLine();
+        genTerminalStrings();
+        document.getElementById('genStringsArea').style.display = 'block';
+        document.getElementById('gen-strings-switch').checked = true;
+        document.getElementById('strings-switch-text').innerHTML = 'Hide generated terminals strings';
+    }
+    else{
+        displayError(terminalStringGenInputMsg);
+    }
+}
 
 
 /**
@@ -284,7 +297,20 @@ function deleteThickLine() {
  * from user-specifications on the interface.
  */
 
-// Helper for autoGenInputTree: Function to display tables of automatically generated syntactic trees
+// Adds input field so user can add another terminal string
+function addTerminalString(){
+    var length = spotForm.inputToGenAuto.length;
+    if(length === undefined) {
+        length = 1;
+    }
+    var newLength = length + 1;
+    length = length.toString();
+    newLength = newLength.toString();
+    document.getElementById('str'+length).insertAdjacentHTML('afterend', "<p id='str"+newLength+"'>String of terminals "+newLength+": <input type='text' name='inputToGenAuto'></p>");
+    document.getElementById('autoDoneMessage').style.display = 'none';
+}
+
+ // Helper for autoGenInputTree: Function to display tables of automatically generated syntactic trees
 function displayTable(sTreeList) {
     var treeTable = treeToTable(sTreeList);
     document.getElementById('autoTreeBox').innerHTML += treeTable;
@@ -307,14 +333,32 @@ function treeToTable(sTreeList) {
     return htmlChunks.join('');
 }
 
+function makeAndDisplaySTrees(){
+    document.getElementById('autoDoneMessage').style.display = 'inline-block';
+    autoGenInputTree();
+    document.getElementById('autoTreeArea').style.display = 'block';
+    document.getElementById('syntax-tree-switch').checked = true;
+    document.getElementById('syntax-switch-text').innerHTML = 'Hide syntactic trees';
+}
+
+
+var sTreeList;
+window.getAutoSTreeList = function(){
+    return sTreeList;
+}
+
 /**
  * Function that automatically generates input syntactic trees
  * from user input on the interface (interface1.html)
+ * 
+ * Called by: makeAndDisplaySTrees()
  * 
  * Calls: 
  * - genTerminalStrings()
  * - getStringsList()
  * - displayTable()
+ * 
+ * Modifies sTreeList
  */
 function autoGenInputTree() {
     genTerminalStrings();
