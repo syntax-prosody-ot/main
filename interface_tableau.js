@@ -13,10 +13,8 @@ function saveAs(blob, name) {
 	document.body.removeChild(a);
 }
 
-function sendToTableau(e) {
-    if (e.preventDefault) e.preventDefault();
-
-    //Build a list of checked constraints.
+// Helper for sendToTableau(): builds a list of checked constraints and their info
+function getCheckedConstraints(){
     var constraintSet = [];
     for(var i=0; i<spotForm.constraints.length; i++){
         var constraintBox = spotForm.constraints[i];
@@ -73,6 +71,22 @@ function sendToTableau(e) {
                 constraintSet.push(constraint);
         }
     }
+    return constraintSet;
+}
+
+/**
+ * This function runs when the "Get results" button is clicked.
+ * 
+ * Components:
+ * - Build list of checked constraints and their options and arguments
+ * - Get selected output GEN options
+ * - Get inputs (manual or from input GEN)
+ * - Send everything to makeTableau(), writeTableau(), and saveTextAs() 
+ */
+function sendToTableau(e) {
+    if (e.preventDefault) e.preventDefault();
+
+    var constraintSet = getCheckedConstraints();
 
     // Get the automatically generated syntactic trees
     if(document.getElementById('inputOptions').style.display == 'block') {
