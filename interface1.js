@@ -279,28 +279,7 @@ window.addEventListener('load', function(){
 
 	
 	//Look at the html tree and turn it into a JSON tree. Put the JSON in the following textarea.
-	document.getElementById('htmlToJsonTreeButton').addEventListener('click', function(){
-		sTree = JSON.stringify(Object.values(treeUIsTreeMap).map(function(tree) {
-
-			// console.log(JSON.parse(tree.toJSON()));
-			// console.log(JSON.parse(tree.toJSON())['cat']);
-			var checkTree = JSON.parse(tree.toJSON());
-			parseCats(checkTree);
-			return (checkTree); // bit of a hack to get around replacer not being called recursively
-		}), null, 4);
-
-		if(sTree.includes('-')) {
-			displayError('Your trees were not added to the analysis because there are hyphens in category or id names in the tree builder. Please refer to the instructions in the tree builder info section.');
-			var info = document.getElementById('treeBuilderInfo');
-			info.classList.add('showing');
-		}
-		else {
-			spotForm.sTree.value = sTree
-			document.getElementById('doneMessage').style.display = 'inline-block';
-		}
-
-		spotForm.inputToGen.value = "";
-	});
+	document.getElementById('htmlToJsonTreeButton').addEventListener('click', htmlToJSONTree);
 
 	document.getElementById('danishJsonTreesButton').addEventListener('click', function() {
 		spotForm.sTree.value = JSON.stringify(danishTrees(), null, 4);

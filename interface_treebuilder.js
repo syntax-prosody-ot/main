@@ -177,6 +177,82 @@ function UTree(root) {
 	};
 }
 
+// For testing only
+/*
+new UTree({
+	id: "CP1",
+	cat: "cp",
+	children: [
+		{id: "a", cat: "x0"},
+		{id: "n", cat: "n", children: [
+			{id: "b", cat: "x0"},
+			{id: "c", cat: "x0"},
+		]},
+		{id: "d", cat: "x0"}
+	]
+});
+refreshHtmlTree();
+document.getElementById('treeUIinner').style.display = 'block';
+*/
+
+function parseCats(node){
+	var cats = node['cat'].split(',');
+	if (cats.length > 1){
+		node['cat'] = cats[0];
+	}
+	// add the rest of the list as attributes
+	for (var cat of cats.slice(1)){
+		// remove non-alphanumeric characters, underscores
+		// replace capital letters with lowercase
+		att = cat.trim().replace(/\W/g, '');
+		if (att === ""){
+			continue;
+		}
+		//console.log(att)
+		node[att] = true;
+		/*
+		if (cat.indexOf('silentHead') != -1){
+			node['silentHead'] = true;
+		}
+		if (cat.indexOf('func') != -1){
+			node['func'] = true;
+		}
+		if (cat.indexOf('foc') != -1){
+			node['foc'] = true;
+		}*/
+
+	}
+	var children = node['children'];
+	if (children != undefined){
+		for (var child of children){
+			parseCats(child);
+		}
+	}
+}
+
+function htmlToJSONTree(){
+	sTree = JSON.stringify(Object.values(treeUIsTreeMap).map(function(tree) {
+
+		// console.log(JSON.parse(tree.toJSON()));
+		// console.log(JSON.parse(tree.toJSON())['cat']);
+		var checkTree = JSON.parse(tree.toJSON());
+		parseCats(checkTree);
+		return (checkTree); // bit of a hack to get around replacer not being called recursively
+	}), null, 4);
+
+	if(sTree.includes('-')) {
+		displayError('Your trees were not added to the analysis because there are hyphens in category or id names in the tree builder. Please refer to the instructions in the tree builder info section.');
+		var info = document.getElementById('treeBuilderInfo');
+		info.classList.add('showing');
+	}
+	else {
+		spotForm.sTree.value = sTree
+		document.getElementById('doneMessage').style.display = 'inline-block';
+	}
+
+	spotForm.inputToGen.value = "";
+}
+
 UTree.fromTerminals = function(terminalList) {
 	var dedupedTerminals = deduplicateTerminals(terminalList);
 	var cliticRegex = /-clitic/; //for testing if terminal should be a clitic
@@ -258,6 +334,11 @@ function getSTrees() {
 	return sTrees;
 }
 
+
+/** 
+ * Functions for generating all maximally binary-branching trees with two or three terminals
+ * as used in Bellik & Kalivoda 2018 on Danish compound words
+ */
 function danishTrees() {
 	var patterns = [
 		[[{}],[{}]],
