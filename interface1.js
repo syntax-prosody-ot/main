@@ -214,27 +214,6 @@ window.addEventListener('load', function(){
 		}
 	});
 
-	// display tree tables
-	function displayTable(sTreeList) {
-		var treeTable = treeToTable(sTreeList);
-		document.getElementById('autoTreeBox').innerHTML += treeTable;
-	}
-
-	// create table from sTree list
-	function treeToTable(sTreeList) {
-		var htmlChunks = ['<table class="auto-table"><tbody>'];
-		var i = 1;
-		for(var s in sTreeList) {
-			var parTree = parenthesizeTree(sTreeList[s]);
-			htmlChunks.push('<tr>');
-			htmlChunks.push('<td>' + i + "." + '</td>');
-			htmlChunks.push('<td>' + parTree + '</td>');
-			htmlChunks.push('</tr>');
-			i++;
-		}
-		htmlChunks.push('</tbody></table>');
-		return htmlChunks.join('');
-	}
 
 	// GENERATE TERMINAL STRINGS
 
