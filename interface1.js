@@ -2,9 +2,9 @@ var treeUIsTreeMap = {};
 
 window.addEventListener('load', function(){
 
-	var spotForm = document.getElementById('spotForm');
+	window.spotForm = document.getElementById('spotForm');
 
-	if (!spotForm) {
+	if (!window.spotForm) {
 		console.error('no spot form');
 		return;
 	}
@@ -280,6 +280,10 @@ window.addEventListener('load', function(){
 			document.getElementById('sliderText').innerHTML = 'Show code';
 		}
 	});
+
+	/** COLLECTION OF FUNCTIONS TO MANAGE SHOWING/HIDING OPTIONS UNDER GEN: OUTPUT PARAMETERS */
+
+	//show/hide Exhaustivity options under GEN: Output parameters > Enforce Exhaustivity
 	document.getElementById('exhaustivityBox').addEventListener('click', function(){
 		if (document.getElementById('exhaustivityDetailOption1').style.display === 'none' && document.getElementById('exhaustivityBox').checked){
 			document.getElementById('exhaustivityDetailOption1').style.display = 'table-cell';
@@ -294,6 +298,8 @@ window.addEventListener('load', function(){
 
 		}
 	});
+
+	//show/hide options for "GEN: Output parameters > Allow movement"
 	document.getElementById('movementOptions').addEventListener('click', function(){
 		var movementSpecifications = document.getElementById('movementSpecification');
 		if (movementSpecifications.style.display === 'none' && document.getElementById('movementOptions').checked){
@@ -304,21 +310,18 @@ window.addEventListener('load', function(){
 		}
 	})
 
-	//show extra boxes for annotated with tones on click
-	//console.log(document.getElementById('annotatedWithTones'))
+	//show extra boxes for "GEN: Output parameters > Annotated with tones" on click
 	document.getElementById('annotatedWithTones').addEventListener('click', function(){
 		if (document.getElementById('tonesSelectionRow').style.display === 'none' && document.getElementById('annotatedWithTones').checked){
 			document.getElementById('tonesSelectionRow').style.display = '';
 		}
 		else{
 			document.getElementById('tonesSelectionRow').style.display = 'none';
-			//if (genOptions['usesTones']){
-			//	genOptions['usesTones'] = false;
-			//}
 		}
 
 	});
 
+	//show/hide options for "GEN: Output parameters > Tree marking options > Mark prosodic heads"
 	document.getElementById('showHeads').addEventListener('click', function(){
 		if (document.getElementById('headSideOptions').style.display === 'none' && document.getElementById('showHeads').checked){
 			document.getElementById('headSideOptions').style.display = '';
@@ -333,10 +336,15 @@ window.addEventListener('load', function(){
 	document.getElementById("irishTonesInfo").addEventListener("click", toneInfoBlock("irish"));
 	*/
 
+	/** END OF GEN: OUTPUT PARAMETERS DISPLAY HELPERS */
+
+
+	/** RELATED TO MANUAL TREE-BUILDER */
+
 	//Code for generating the JS for a syntactic tree
 	var treeTableContainer = document.getElementById('treeTableContainer');
 
-	//Open the tree making GUI
+	//Open the tree making GUI when the users clicks "Build syntax"
 	document.getElementById('goButton').addEventListener('click', function(){
 		changeInputTabs('inputButton', 'goButton');
 	});
@@ -357,7 +365,7 @@ window.addEventListener('load', function(){
 
 
 
-	//Set up the table...
+	//Set up the table for manual tree creation...
 	document.getElementById('buildButton').addEventListener('click', function(){
 		// Get the string of terminals
 		var terminalString = spotForm.inputToGen.value;
