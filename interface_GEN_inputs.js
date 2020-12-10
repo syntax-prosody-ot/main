@@ -4,11 +4,15 @@
 
 var genStringsList;
 
+//Getter function that helps with terminal string generation
 function getStringsList() {
     return genStringsList;
 }
 
-/* Function to check if any list of terminals has been provided in "Generate combinations and permutations" */
+/**
+ * Helper function for genTerminalStrings() and addCombinationsPermuatationsToTable()
+ * Checks if any list of terminals has been provided in "Generate combinations and permutations"
+ */ 
 function terminalGenInputPresent(){
 		
     var numTerminalStrings = spotForm.genStringsInput.length;
@@ -25,6 +29,9 @@ function terminalGenInputPresent(){
     return inputPresent;
 }
 
+/** Helper function for generating syntactic trees
+ *  Called by genTerminalStrings() which is called by autoGenInputTree()
+ */
 function addFixedTerminalStringsToTable(){
     var length = spotForm.inputToGenAuto.length;
     if(length === undefined) {
