@@ -2,6 +2,11 @@
  * Functions for handling sending the user's inputs on interface1.html to makeTableau() and for downloading it.
  */
 
+var myGenInputs = {
+    pString: '',
+    sTrees: {}
+};
+
 //downloads an element to the user's computer. Originally defined up by saveTextAs()
 function saveAs(blob, name) {
 	var a = document.createElement("a");
@@ -74,33 +79,29 @@ function getCheckedConstraints(){
     return constraintSet;
 }
 
-//Various functions need to be able to refer to pString: getInputsForTableau, checkForLongInputs...
-var pString = spotForm.inputToGen.value;
-
 // Helper for sendToTableau: gets the syntactic trees
 function getInputsForTableau(){
-    var sTrees;
+    myGenInputs.pString = spotForm.inputToGen.value;
     var treeCode = spotForm.sTree.value; // Get the code that is in the manually generated stree textarea
     // if code has been generated, then ignore pString in GEN
     if(treeCode !== "{}") {
-        pString = "";
+        myGenInputs.pString = "";
     }
     
     var doubleInputWarningMsg = "Inputs were provided on both the Manual tab and the Automatic tab of Gen: Inputs. The candidate set will be created using inputs on the tab that is currently visible. Inputs that are not currently displayed will be ignored.";
     
+    var sTrees;
     //If the Automatic tab is visible...
     if(document.getElementById('inputOptions').style.display == 'block') {
         //Check whether the manual tab also has content & provide a warning; zero out pString
         if (spotForm.inputToGen.value != "" || (treeCode != "{}" && treeCode != "[]")) {
             displayWarning(doubleInputWarningMsg);
         }
-        pString = "";
+        myGenInputs.pString = "";
 
         //Try to actually get the auto-generated sTrees.
         try{
             sTrees = getAutoSTreeList();
-            console.log(sTrees);
-            console.log(getAutoSTreeList());
         }
         catch(e){
             displayError(e.message, e);
@@ -169,6 +170,8 @@ function getOutputGenOptions() {
             throw terminalCategoryError;
         }
     }
+
+    return genOptions;
 }
 
 function getTableauOptions(){
@@ -188,12 +191,12 @@ function getTableauOptions(){
         tableauOptions.trimStree = true;
     }
     if(document.getElementById("showHeads").checked){
-        tableauOptions.showHeads = spotForm['genOptions-showHeads'].value;
+        tableauOptions.showHeads = window.spotForm['genOptions-showHeads'].value;
     }
 
 
-    for(var i = 0; i < spotForm.hideCategory.length; i++){
-        var hiddenCat = spotForm.hideCategory[i];
+    for(var i = 0; i < window.spotForm.hideCategory.length; i++){
+        var hiddenCat = window.spotForm.hideCategory[i];
         if(hiddenCat.checked){
             tableauOptions.invisibleCategories.push(hiddenCat.value);
         }
@@ -202,16 +205,16 @@ function getTableauOptions(){
     return tableauOptions;
 }
 
-function checkForLongInputs(){
+function checkForLongInputs(genOptions){
     var safe_input_length = true;
     var safe_input_length_clitic = true;
     var sTree;
     var maxNumTerminals;
     var j = 0;
-    while(safe_input_length && safe_input_length_clitic && j < sTrees.length){
+    while(safe_input_length && safe_input_length_clitic && j < myGenInputs.sTrees.length){
     //check for inputs that are too long and set safe_input_length = false as needed
-        sTree = sTrees[j];
-        maxNumTerminals = Math.max(getLeaves(sTree).length, pString.split(" ").length);
+        sTree = myGenInputs.sTrees[j];
+        maxNumTerminals = Math.max(getLeaves(sTree).length, myGenInputs.pString.split(" ").length);
         //warn user about possibly excessive numbers of candidates
         if (genOptions['cliticMovement'])
         {
@@ -251,11 +254,10 @@ function sendToTableau(e) {
     if (e.preventDefault) e.preventDefault();
 
     var constraintSet = getCheckedConstraints();
-    var sTrees = getInputsForTableau();
+    myGenInputs.sTrees = getInputsForTableau();
     
     //Build a list of checked GEN options.
     var genOptions = getOutputGenOptions();
-
 
     var tableauOptions = getTableauOptions();
 
@@ -263,19 +265,19 @@ function sendToTableau(e) {
     resultsConCl.add('show-tableau');
 
 
-    checkForLongInputs();
+    checkForLongInputs(genOptions);
 
     var csvSegs = [];
-    for (var i = 0; i < sTrees.length; i++) {
-        var sTree = sTrees[i];
+    for (var i = 0; i < myGenInputs.sTrees.length; i++) {
+        var sTree = myGenInputs.sTrees[i];
 
         //Actually create the candidate set
         if (genOptions['cliticMovement']){
         //	var candidateSet = GENwithCliticMovement(sTree, pString, genOptions);
-            var candidateSet = globalNameOrDirect(spotForm['genOptions-movement'].value)(sTree, pString, genOptions);
+            var candidateSet = globalNameOrDirect(spotForm['genOptions-movement'].value)(sTree, myGenInputs.pString, genOptions);
         }
         else{
-            var candidateSet = GEN(sTree, pString, genOptions);
+            var candidateSet = GEN(sTree, myGenInputs.pString, genOptions);
         }
 
         //Make the violation tableau with the info we just got.
