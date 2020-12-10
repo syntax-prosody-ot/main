@@ -24,8 +24,8 @@ window.addEventListener('load', function(){
 
 	});
 
-	spotForm.onsubmit=sendToTableau(e);
-	
+	spotForm.onsubmit=sendToTableau;
+
 	//show/hide the tree code area
 	document.getElementById('tree-code-box').addEventListener('click', function(){
 		if (document.getElementById('tree-code-area').style.display === 'none' && document.getElementById('tree-code-box').checked){
@@ -225,7 +225,7 @@ window.addEventListener('load', function(){
 		//console.log(sTreeList)
 	}
 
-	function getAutoSTreeList() {
+	window.getAutoSTreeList = function(){
 		return sTreeList;
 	}
 
