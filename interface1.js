@@ -1121,59 +1121,6 @@ function clearTableau() {
 }
 
 
-//ERROR AND WARNING FUNCTIONS
-// for closing error and warning messages
-function closeButton() {
-	var close = document.getElementsByClassName("closebtn");
-	var i;
 
-	for (i = 0; i < close.length; i++) {
-		close[i].onclick = function() {
-			var div = this.parentElement;
-			div.style.opacity = "0";
-			setTimeout(function() {
-				div.style.display = "none";
-			}, 600);
-		}
-	}
-}
-
-function displayError(errorMsg, error) {
-	if(error !== undefined) {
-		console.error(error);
-	}
-	else {
-		console.error("Error: " + errorMsg);
-	}
-
-	var spotForm = document.getElementById('spotForm');
-	if (!spotForm) {
-		alert("Error: " + errorMsg);
-		return;
-	}
-
-	var div = document.getElementById("error");
-	div.children[2].innerHTML = errorMsg;
-	div.style.display = "block";
-	div.style.opacity = "100";
-	closeButton();
-}
-
-function displayWarning(warnMsg) {
-	console.warn("Warning: " + warnMsg);
-
-	var spotForm = document.getElementById('spotForm');
-	if (!spotForm) {
-		alert("Warning: " + warnMsg);
-		return;
-	}
-
-	var div = document.getElementById("warning");
-	div.children[2].innerHTML = warnMsg;
-	div.style.display = "block";
-	div.style.opacity = "100";
-	closeButton();
-}
-//END ERROR AND WARNING FUNCTIONS
 
 
