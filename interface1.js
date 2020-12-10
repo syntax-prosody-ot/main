@@ -1115,10 +1115,7 @@ function saveAs(blob, name) {
 	document.body.removeChild(a);
 }
 
-function clearTableau() {
-	document.getElementById('results-container').innerHTML = "";
-	document.getElementById('results-container').className = "";
-}
+
 
 
 

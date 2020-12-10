@@ -84,3 +84,10 @@ function showMore(constraintType) {
 }
 
 
+/**
+ * Clears the results container; called when the user clicks on the "Clear results" button
+ */
+function clearTableau() {
+	document.getElementById('results-container').innerHTML = "";
+	document.getElementById('results-container').className = "";
+}
