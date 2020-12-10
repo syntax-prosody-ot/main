@@ -255,17 +255,13 @@ function sendToTableau(e) {
 
     var constraintSet = getCheckedConstraints();
     myGenInputs.sTrees = getInputsForTableau();
-    
-    //Build a list of checked GEN options.
     var genOptions = getOutputGenOptions();
+    checkForLongInputs(genOptions);
 
     var tableauOptions = getTableauOptions();
 
     var resultsConCl = document.getElementById("results-container").classList;
     resultsConCl.add('show-tableau');
-
-
-    checkForLongInputs(genOptions);
 
     var csvSegs = [];
     for (var i = 0; i < myGenInputs.sTrees.length; i++) {
@@ -288,8 +284,6 @@ function sendToTableau(e) {
     }
 
     saveTextAs(csvSegs.join('\n'), 'SPOT_Results.csv');
-
-    // the function saveAs() has been moved to the end of this file to make it global
 
     function saveTextAs(text, name) {
         saveAs(new Blob([text], {type: "text/csv", encoding: 'utf-8'}), name);
