@@ -1,4 +1,17 @@
-/* Built-in Analyses */
+/** Functions for built-in analyses and for saving, loading, and clearing analyses on the interface: 
+ * clearInputs() - possibly should be moved to interface_display_helpers.js
+ * clearAnalysis() - possibly should be moved to interface_display_helpers.js
+ * 
+ * built_in_con(input): helper function
+ * built_in_input(myTrees): helper function
+ * my_built_in_analysis(...): template function for all built-in analyses
+ * various functions to set up individual built-in analyses
+ * built_in(analysis): chooses which analysis setup function to run based on value passed in by interface
+ * record_analysis()
+ * saveAnalysis()
+ * loadAnalysis()
+ * 
+*/
 
 function clearInputs(){
   let inputOptions = spotForm['autoInputOptions'];
@@ -517,11 +530,6 @@ function built_in(analysis) {
     built_in_Chamorro_RB();
   }
 }
-
-/* Save Analysis:
- * functionality to save the options, constraints and inputs of an analysis to
- * be loaded later by the existing built-in analysis functionality
- */
 
 /* Record Analysis:
  * function to gather all of the options, constraints and inputs currently in
