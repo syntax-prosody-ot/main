@@ -174,7 +174,7 @@ function getOutputGenOptions() {
     return genOptions;
 }
 
-function getTableauOptions(){
+function getTableauOptions(genOptions){
     var tableauOptions = {
         showTones: false,  //true iff tones are selected
         trimStree: false,
@@ -258,7 +258,7 @@ function sendToTableau(e) {
     var genOptions = getOutputGenOptions();
     checkForLongInputs(genOptions);
 
-    var tableauOptions = getTableauOptions();
+    var tableauOptions = getTableauOptions(genOptions);
 
     var resultsConCl = document.getElementById("results-container").classList;
     resultsConCl.add('show-tableau');
