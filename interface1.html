@@ -1767,7 +1767,7 @@
 
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
-							<span><input type="checkbox" name="constraints" value="binMaxBranches">BinMax(branches) - <i>categorical</i></span>
+							<span><input type="checkbox" name="constraints" value="binMaxBranches">BinMax(branches)</span>
 							<div class="info">
 								<span class="content">Assign one violation for every node of category K in the prosodic tree that has more than two children. SPOT function: binMaxBranches(). For branch-counting concept, see, e.g., <a href ="https://spot.sites.ucsc.edu/bibliography/">Elfner 2012</a>. For contrast with leaf-counting binarity, see <a href ="https://spot.sites.ucsc.edu/bibliography/">Bellik & Kalivoda 2018</a> (Poster at the Annual Meeting on Phonology)</span>
 							</div>
@@ -1781,7 +1781,7 @@
 
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
-							<span><input type="checkbox" name="constraints" value="binBranches">Bin(branches) - <i>categorical</i></span>
+							<span><input type="checkbox" name="constraints" value="binBranches">Bin(branches)</span>
 							<div class="info">
 								<span class="content">Assign a violation for every node of category K in the prosodic tree that does not have exactly two children. SPOT function: binBranches()</span>
 							</div>
@@ -1812,7 +1812,7 @@
 
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
-							<span><input type="checkbox" name="constraints" value="binMaxLeaves">BinMax(leaves) - <i>categorical</i></span>
+							<span><input type="checkbox" name="constraints" value="binMaxLeaves">BinMax(leaves)</span>
 							<div class="info">
 								<span class="content">Assign one violation for every node of category K in the prosodic tree that dominates more than two nodes of the category immediately below K on the prosodic hierarchy. SPOT function: binMaxLeaves(). Concept: see, <a href ="https://spot.sites.ucsc.edu/bibliography/">Selkirk 2000, Sandalo & Truckenbrodt 2002</a></span>
 							</div>
@@ -1826,7 +1826,7 @@
 
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
-							<span><input type="checkbox" name="constraints" value="binLeaves">Bin(leaves) - <i>categorical</i></span>
+							<span><input type="checkbox" name="constraints" value="binLeaves">Bin(leaves)</span>
 							<div class="info">
 								<span class="content">Assign a violation for every node of category K in the prosodic tree that does not dominate exactly two nodes of category K&minus;1 on the prosodic hierarchy. SPOT function: binLeaves()</span>
 							</div>
@@ -1843,7 +1843,37 @@
 					<div id="moreBinarityConstraints" class="more-constraints">
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
-								<span><input type="checkbox" name="constraints" value="binMaxBranchesGradient">BinMax(branches) - <i>gradient</i></span>
+								<span><input type="checkbox" name="constraints" value="binMaxHead">BinMaxHead</span>
+								<div class="info">
+									<span class="content">Assign a violation for node of the selected category whose head is suprabinary (i.e., has more than two children). SPOT function: binMaxHead()</span>
+								</div>
+							</div>
+								<div class="category-row">
+									<div class="category-selection-div"><input type="checkbox" name="category-binMaxHead" value="i">&iota;</div>
+									<div class="category-selection-div"><input type="checkbox" name="category-binMaxHead" value="phi" checked="checked">&phi;</div>
+									<div class="category-selection-div"><input type="checkbox" name="category-binMaxHead" value="w">&omega;</div>
+								</div>
+						</div>
+						<!--<h3>...with prosodic subcategories</h3>-->
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="binMinLeaves_requireMaximal">BinMin(leaves, maximal nodes)</span>
+								<div class="info">
+									<span class="content">Assign one violation for every node P of the prosodic category K in the prosodic tree such that P is maximal and P dominates less than two nodes of the prosodic category immediately below <i>K</i> on the prosodic hierarchy. A node of category K is maximal if it is not dominated by any other nodes of category K (<a href ="https://spot.sites.ucsc.edu/bibliography/">Van Handel 2019</a>). SPOT function: binMinLeaves_requireMaximal(). </span>
+								</div>
+							</div>
+								<div class="category-row">
+									<div class="category-selection-div"><input type="checkbox" name="category-binMinLeaves_requireMaximal" value="i">&iota;</div>
+									<div class="category-selection-div"><input type="checkbox" name="category-binMinLeaves_requireMaximal" value="phi" checked="checked">&phi;</div>
+									<div class="category-selection-div"><input type="checkbox" name="category-binMinLeaves_requireMaximal" value="w">&omega;</div>
+								</div>
+						</div>
+
+
+						<h3>...assessed gradiently</h3>
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="binMaxBranchesGradient">BinMax(branches, gradient)</span>
 								<div class="info">
 									<span class="content">For every node P of category K in the prosodic tree, assign one violation for every child of P that is not initial or pen-initial in P. SPOT function: binMaxBranchesGradient()</span>
 								</div>
@@ -1857,7 +1887,7 @@
 
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
-								<span><input type="checkbox" name="constraints" value="binMaxLeavesGradient">BinMax(leaves) - <i>gradient</i></span>
+								<span><input type="checkbox" name="constraints" value="binMaxLeavesGradient">BinMax(leaves, gradient)</span>
 								<div class="info">
 									<span class="content">For every node P of category K in the prosodic tree, assign one violation for every node dominated by P that is of the category immediately below <i>K</i> on the prosodic hierarchy and that is not initial or pen-initial in P. SPOT function: binMaxLeavesGradient().</span>
 								</div>
@@ -1868,24 +1898,11 @@
 									<div class="category-selection-div"><input type="checkbox" name="category-binMaxLeavesGradient" value="w">&omega;</div>
 								</div>
 						</div>
+						
 
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
-								<span><input type="checkbox" name="constraints" value="binMinLeaves_requireMaximal">BinMin(leaves) - <i>maximal nodes only</i></span>
-								<div class="info">
-									<span class="content">Assign one violation for every node P of the prosodic category K in the prosodic tree such that P is maximal and P dominates less than two nodes of the prosodic category immediately below <i>K</i> on the prosodic hierarchy. A node of category K is maximal if it is not dominated by any other nodes of category K (<a href ="https://spot.sites.ucsc.edu/bibliography/">Van Handel 2019</a>). SPOT function: binMinLeaves_requireMaximal(). </span>
-								</div>
-							</div>
-								<div class="category-row">
-									<div class="category-selection-div"><input type="checkbox" name="category-binMinLeaves_requireMaximal" value="i">&iota;</div>
-									<div class="category-selection-div"><input type="checkbox" name="category-binMinLeaves_requireMaximal" value="phi" checked="checked">&phi;</div>
-									<div class="category-selection-div"><input type="checkbox" name="category-binMinLeaves_requireMaximal" value="w">&omega;</div>
-								</div>
-						</div>
-
-						<div class="constraint-selection-table">
-							<div class="constraint-row">
-								<span><input type="checkbox" name="constraints" value="binBrGradient">Bin(branches) - <i>gradient</i></span>
+								<span><input type="checkbox" name="constraints" value="binBrGradient">Bin(branches, gradient)</span>
 								<div class="info">
 									<span class="content">For every node P of category K in the prosodic tree, assign |2&minus;<i>n</i>| violations, where <i>n</i> is the number of children of P. SPOT function: binBrGradient()</span>
 								</div>
@@ -1899,7 +1916,7 @@
 
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
-								<span><input type="checkbox" name="constraints" value="binLeavesGradient">Bin(leaves) - <i>gradient</i></span>
+								<span><input type="checkbox" name="constraints" value="binLeavesGradient">Bin(leaves, gradient)</i></span>
 								<div class="info">
 									<span class="content">For every node P of category K in the prosodic tree, assign |2&minus;<i>n</i>| violations, where <i>n</i> is the number of nodes dominated by P that are of level K-1 on the prosodic hierarchy. SPOT function: binLeavesGradient()</span>
 								</div>
@@ -1911,17 +1928,33 @@
 								</div>
 						</div>
 
+					<h3>Ternarity</h3>
+						
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
-								<span><input type="checkbox" name="constraints" value="binMaxHead">BinMaxHead - <i>categorical</i></span>
+								<span><input type="checkbox" name="constraints" value="ternMaxBranches">TernMax(branches)</span>
 								<div class="info">
-									<span class="content">Assign a violation for node of the selected category whose head is suprabinary (i.e., has more than two children). SPOT function: binMaxHead()</span>
+									<span class="content">A node should have a maximum of three children. For every node P of category K in the prosodic tree, a violation if P has more than three immediate children. SPOT function: ternMaxBranches()</span>
 								</div>
 							</div>
 								<div class="category-row">
-									<div class="category-selection-div"><input type="checkbox" name="category-binMaxHead" value="i">&iota;</div>
-									<div class="category-selection-div"><input type="checkbox" name="category-binMaxHead" value="phi" checked="checked">&phi;</div>
-									<div class="category-selection-div"><input type="checkbox" name="category-binMaxHead" value="w">&omega;</div>
+									<div class="category-selection-div"><input type="checkbox" name="category-ternMaxBranches" value="i">&iota;</div>
+									<div class="category-selection-div"><input type="checkbox" name="category-ternMaxBranches" value="phi" checked="checked">&phi;</div>
+									<div class="category-selection-div"><input type="checkbox" name="category-ternMaxBranches" value="w">&omega;</div>
+								</div>
+						</div>
+
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="ternMaxLeaves">TernMax(leaves)</span>
+								<div class="info">
+									<span class="content">A node should contain a maximum of three nodes of a lower prosodic category. For every node P of category K in the prosodic tree, assign a violation if P contains more than three descendants that are of level K-1 on the prosodic hierarchy. SPOT function: ternMaxLeaves()</span>
+								</div>
+							</div>
+								<div class="category-row">
+									<div class="category-selection-div"><input type="checkbox" name="category-ternMaxLeaves" value="i">&iota;</div>
+									<div class="category-selection-div"><input type="checkbox" name="category-ternMaxLeaves" value="phi" checked="checked">&phi;</div>
+									<div class="category-selection-div"><input type="checkbox" name="category-ternMaxLeaves" value="w">&omega;</div>
 								</div>
 						</div>
 
