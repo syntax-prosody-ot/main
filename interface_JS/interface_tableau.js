@@ -1,5 +1,12 @@
 /** 
  * Functions for handling sending the user's inputs on interface1.html to makeTableau() and for downloading it.
+ *  saveAs()
+ *  getCheckedConstraints()
+ *  getInputsForTableau()
+ *  getOutputGenOptions()
+ *  getTableauOptions(genOptions)
+ *  checkForLongInputs(genOptions)
+ *  sendToTableau(e)
  */
 
 var myGenInputs = {

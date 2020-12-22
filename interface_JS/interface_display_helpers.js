@@ -1,6 +1,34 @@
 /**
  * Functions that manage what content is displayed or hidden on interface1.html
  * without actually generating content
+ * 
+ * Related to input GEN (syntactic trees):
+ * - changeInputTabs
+ * - addTerminalStringList
+ * - showHideGeneratedTerminalStrings
+ * - displaySettingsRecursiveX0
+ * - displaySettingsRecursiveCP
+ * - dipslaySettingsRecursiveXP
+ * 
+ * - barLevelsHeadReq
+ * - showHideSTreeCliticOptions
+ * - showHideGeneratedSTrees
+ * 
+ * Related to output GEN (prosodic trees):
+ * - toneInfoBlock
+ * - showMaxBranching
+ * - exhaustivityDisplay
+ * - movementOptionsDisplay
+ * - toneOptionDisplay
+ * - markProsodicHeadsDisplay
+ * 
+ * Related to constraints:
+ * - openCloseFieldset
+ * - showMore
+ * 
+ * Related to clearing:
+ * - clearTableau
+ * - clearAll
  */
 
 

@@ -1,3 +1,8 @@
+/**
+ * Load function for interface1.html
+ * Adds many event listeners with functions defined in the other .js files in the interface_JS directory.
+ */
+
 var treeUIsTreeMap = {};
 
 window.addEventListener('load', function(){
