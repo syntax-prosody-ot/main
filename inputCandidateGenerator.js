@@ -19,6 +19,8 @@
 *  - addClitics: 'right' or 'left' determines whether clitics are added on the
 *    righthand-side or the left; true will default to right. false doesn't add any clitics.
 *    Default false.
+*  - cliticsAreBare: false by default. If false, clitics will be wrapped in unary XPs. 
+     If true, clitics will not be wrapped in XPs, but will be bare heads with category clitic.
 *  - headSide: 'right', 'left', 'right-strict', 'left-strict'.
 *    Which side will heads be required to be on, relative to their complements?
 *    Also, must heads be at the very edge (strict)?
@@ -29,6 +31,8 @@
 function sTreeGEN(terminalString, options)
 {
     options = options || {};
+
+    // Options that default to true
     if(options.noAdjacentHeads === undefined){
         options.noAdjacentHeads = true;
     }
@@ -62,12 +66,12 @@ function sTreeGEN(terminalString, options)
     }
     if(options.addClitics){
         if(options.rootCategory !== 'cp'){
-          var outsideClitics = sTreeList.map(x => addCliticXP(x, options.addClitics, options.rootCategory));
+          var outsideClitics = sTreeList.map(x => addClitic(x, options.addClitics, options.rootCategory, options.cliticsAreBare));
         }
         else {
           var outsideClitics = [];
         }
-        var insideClitics = sTreeList.map(x => addCliticXP(x, options.addClitics, options.rootCategory, true));
+        var insideClitics = sTreeList.map(x => addClitic(x, options.addClitics, options.rootCategory, true, options.cliticsAreBare));
         sTreeList = outsideClitics.concat(insideClitics);
     }
     if(options.noAdjacentHeads){
@@ -98,24 +102,32 @@ function sTreeGEN(terminalString, options)
     return sTreeList;
 }
 
-function addCliticXP(sTree, side="right", rootCategory, inside){
-    var cliticXP = {id:'dp', cat: 'xp', children: [{id:'x', cat: 'clitic'}]};
+function addClitic(sTree, side="right", rootCategory, inside, bareClitic){
+  if(side===true){side="right"}
+  var cliticX0 = {id:'x', cat: 'clitic'};
+  if(!bareClitic){
+    var cliticObj = {id:'dp', cat: 'xp', children: [cliticX0]};
+  }
+  else{
+    var cliticObj = cliticX0;
+  }
+    
     var tp;
     var sisters;
     //Make the clitic a daughter of sTree
     if(inside){
         //console.log("inside");
         if(side==="right"){
-            sisters = sTree.children.concat(cliticXP);
+            sisters = sTree.children.concat(cliticObj);
         }
         else if(side==="left"){
-            sisters = [cliticXP].concat(sTree.children);
+            sisters = [cliticObj].concat(sTree.children);
             //console.log(tp);
         }
         else{
-            var errorMsg = "addCliticXP(): The provided side " + side + " is not valid. Side must be specified as 'left' or 'right'.";
-            displayError(err.message, err);
-            throw new Error(errorMsg)
+            var errorMsg = "addClitic(): The provided side " + side + " is not valid. Side must be specified as 'left' or 'right'.";
+            displayError(errorMsg);
+            throw new Error(errorMsg);
         }
         
     }
@@ -123,13 +135,13 @@ function addCliticXP(sTree, side="right", rootCategory, inside){
     else{
         var sisters;
         if(side==="right"){
-            sisters = [sTree, cliticXP];
+            sisters = [sTree, cliticObj];
         }
         else if(side==="left"){
-            sisters = [cliticXP, sTree];
+            sisters = [cliticObj, sTree];
         }
         else{
-            var errorMsg = "addCliticXP(): The provided side " + side + " is not valid. Side must be specified as 'left' or 'right'.";
+            var errorMsg = "addClitic(): The provided side " + side + " is not valid. Side must be specified as 'left' or 'right'.";
             displayError(err.message, err);
             throw new Error(errorMsg)
         }

@@ -20,7 +20,12 @@
 	<pre id="results-container"></pre>
 
 <script>
-	// ---- Variables that need to be customized ----
+	function logTrees(message, trees){
+		console.log(message, trees.length);
+		for(var s in trees){
+			console.log(parenthesizeTree(trees[s]));
+		}
+	}
 	
 	// var inputGenOptions = {rootCategory: 'xp', recursiveCategory: 'xp', terminalCategory:'x0', syntactic: true};
 	// var autoSTreePairs = GEN({}, 'a b c', inputGenOptions);
@@ -28,18 +33,17 @@
 	// var noX0Sisters = sTreeList.filter(x => !x0Sisters(x, 'x0'));
 	// var binaryBrTrees = sTreeList.filter(x => !ternaryNodes(x, 2));
 	// var maxTTrees = sTreeList.filter(x => !x0Sisters(x, 'x0') && !ternaryNodes(x, 2));
-	sTreeList = sTreeGEN('a b', {maxBranching:2, rootCategory:'cp', recursiveCategory:'cp', noAdjuncts:true});
+	var sTreeList = sTreeGEN('a b c', {maxBranching:2, rootCategory:'cp', recursiveCategory:'xp', noAdjuncts:true});
+	logTrees('abc trees', sTreeList);
 
-	console.log('abc trees', sTreeList.length);
-	for(var s in sTreeList){
-		console.log(parenthesizeTree(sTreeList[s]));
-	}
+	var shortTrees = sTreeGEN('a b');
+	logTrees('ab trees', shortTrees)
 
-	shortTrees = sTreeGEN('a b');
-	console.log('\nab trees')
-	for(var s in shortTrees){
-		console.log(parenthesizeTree(shortTrees[s]));
-	}
+	var bareCliticTrees = sTreeGEN('a b', {addClitics:true, cliticsAreBare: true, noAdjacentHeads:false, noBarLevels: true});
+	var xpCliticTrees = sTreeGEN('a b', {addClitics:true, cliticsAreBare: false});
+
+	logTrees('Bare clitic trees', bareCliticTrees);
+	logTrees('XP clitic trees', xpCliticTrees);
 
 	/*Constraint sets.*/
 	var MatchSPMatchPS = ['binMaxBranches-phi', 'binMinBranches-phi', 'matchSP-xp'];
