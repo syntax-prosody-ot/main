@@ -20,7 +20,9 @@
 *    righthand-side or the left; true will default to right. false doesn't add any clitics.
 *    Default false.
 *  - cliticsAreBare: false by default. If false, clitics will be wrapped in unary XPs. 
-     If true, clitics will not be wrapped in XPs, but will be bare heads with category clitic.
+*    If true, clitics will not be wrapped in XPs, but will be bare heads with category clitic.
+*  - cliticInSpecifier: false by default. If true, clitics are positioned "inside" the highest 
+*    XP as sister to an invisible X' layer. Otherwise, cliics are sister to the highest XP.
 *  - headSide: 'right', 'left', 'right-strict', 'left-strict'.
 *    Which side will heads be required to be on, relative to their complements?
 *    Also, must heads be at the very edge (strict)?
@@ -64,12 +66,14 @@ function sTreeGEN(terminalString, options)
     if(options.noAdjuncts){
         sTreeList = sTreeList.filter(x => !containsAdjunct(x));
     }
+
+    //If adding clitics, various other options are relevant: clitic category (cliticsAreBare), whether clitics go inside the existing root as a daughter, or outside as a sister ()
     if(options.addClitics){
-        if(options.rootCategory !== 'cp'){
-          var outsideClitics = sTreeList.map(x => addClitic(x, options.addClitics, options.rootCategory, options.cliticsAreBare));
+        if(options.rootCategory == 'cp' || options.cliticInSpecifier){
+          var outsideClitics = [];
         }
         else {
-          var outsideClitics = [];
+          var outsideClitics = sTreeList.map(x => addClitic(x, options.addClitics, options.rootCategory, false, options.cliticsAreBare));;
         }
         var insideClitics = sTreeList.map(x => addClitic(x, options.addClitics, options.rootCategory, true, options.cliticsAreBare));
         sTreeList = outsideClitics.concat(insideClitics);
@@ -102,9 +106,15 @@ function sTreeGEN(terminalString, options)
     return sTreeList;
 }
 
+/** Helper function to add clitics to trees
+ *  side: which side should clitics be added on? left/right
+ *  rootCategory: normally xp but could be cp or x0
+ *  inside: if true, clitics are daughters to the input sTree; otherwise, sisters to it
+ */
 function addClitic(sTree, side="right", rootCategory, inside, bareClitic){
   if(side===true){side="right"}
   var cliticX0 = {id:'x', cat: 'clitic'};
+  //Unless bareClitic==true, wrap the clitic in an XP layer
   if(!bareClitic){
     var cliticObj = {id:'dp', cat: 'xp', children: [cliticX0]};
   }

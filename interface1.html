@@ -691,12 +691,32 @@
 				<fieldset id="syntax-parameters-clitics">
 					<legend><h2>Clitics <span class="arrow"></h2></legend>
 						<div class="constraint-row">
-							<span><input type="checkbox" name="autoInputOptions-addClitics" value="right" id="add-clitics">Add XP clitics directly under root</span>
-							<div class="info"><span class="content">info</span></div>
+							<span><input type="checkbox" name="autoInputOptions-addClitics" value="right" id="add-clitics">Add a clitic to every tree.</span>
+							<div class="info"><span class="content">For every terminal string provided, add a terminal labeled as a clitic directly under the root.</span></div>
 						</div>
 						<div class="category-row" id="add-clitics-row">
-							<div class="category-selection-div"><input type="radio" name="autoInputOptions-addClitics" value="left" id="add-clitics-left">Left</div>
-							<div class="category-selection-div"><input type="radio" name="autoInputOptions-addClitics" value="right" checked="checked">Right</div>
+							<div class="custom-text">Clitics appear on</div>
+							<div class="category-selection-div"><input type="radio" name="autoInputOptions-addClitics" value="left" id="add-clitics-left">left</div>
+							<div class="category-selection-div"><input type="radio" name="autoInputOptions-addClitics" value="right" checked="checked">right</div>
+							
+							<div class="custom-text">Clitics are syntactically <div class="info"><span class="content">If unary XPs are treated as X0s, then clitics should be represented
+								as X0s only. SPOT will generate structures like [clitic [TP]] or [clitic T
+								VP]. If unary XPs are visible to phonology as phrases, then clitics should
+								be wrapped in an XP layer. SPOT will generate structures like
+								[[clitic][TP]] or [[clitic] T VP].</span></div></div>
+							<div class="category-selection-div"><input type="radio" name="autoInputOptions-cliticCat" value="xp-clitic" checked="checked">XP</div>
+							<div class="category-selection-div"><input type="radio" name="autoInputOptions-cliticCat" id="add-bare-clitics" value="x0-clitic">X<sup>0</sup></div>
+
+							<div class="custom-text">Clitics are sister to <div class="info">
+								<span class="content">If "single XP" is selected, SPOT will generate structures like [[clitic] [TP]]. This is compatible with the assumption that clitics are located in
+								the specifier of TP and bar levels are treated as phrasal, i.e., T' is
+								equivalent to TP. It is also compatible with an interpretation where
+								clitics are adjoined to the root phrase. If "invisible bar level" is
+								selected, SPOT will generate structures like [[clitic] T VP] or [[clitic] VP]. This is
+								compatible with the assumption that bar levels are not treated as phrasal
+								and clitics are in the specifier of T.</span></div></div>
+							<div class="category-selection-div" style="width: 180px"><input type="radio" name="autoInputOptions-cliticSis" checked="checked">a single XP</div>
+							<div class="category-selection-div"style="width: 180px"><input type="radio" name="autoInputOptions-cliticSis" id="clitic-sister-to-xbar">an invisible bar level</div>
 						</div>
 
 						<div class="constraint-row">

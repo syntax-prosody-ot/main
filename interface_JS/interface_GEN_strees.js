@@ -135,11 +135,17 @@ function autoGenInputTree() {
         }
         autoInputOptions.headSide = headSideVal;
 
-        // add XP clitics directly under root
+        // add clitics directly under root
         if(document.getElementById('add-clitics').checked) {
             var addCliticsVal = document.getElementById('add-clitics').value;
             if(document.getElementById('add-clitics-left').checked) {
                 addCliticsVal = 'left';
+            }
+            if(document.getElementById('add-bare-clitics').checked){
+                autoInputOptions.cliticsAreBare = true;
+            }
+            if(document.getElementById('clitic-sister-to-xbar').checked){
+                autoInputOptions.cliticInSpecifier = true;
             }
         }
         autoInputOptions.addClitics = addCliticsVal;
