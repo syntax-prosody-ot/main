@@ -21,7 +21,7 @@
 *    Default false.
 *  - cliticsAreBare: false by default. If false, clitics will be wrapped in unary XPs. 
 *    If true, clitics will not be wrapped in XPs, but will be bare heads with category clitic.
-*  - cliticInSpecifier: false by default. If true, clitics are positioned "inside" the highest 
+*  - cliticsInSpecifier: false by default. If true, clitics are positioned "inside" the highest 
 *    XP as sister to an invisible X' layer. Otherwise, cliics are sister to the highest XP.
 *  - headSide: 'right', 'left', 'right-strict', 'left-strict'.
 *    Which side will heads be required to be on, relative to their complements?
@@ -44,7 +44,7 @@ function sTreeGEN(terminalString, options)
     options.terminalCategory = options.terminalCategory || 'x0';
     options.rootCategory = options.rootCategory || 'xp';
 
-    if(options.cliticInSpecifier){
+    if(options.cliticsInSpecifier){
       options.noBarLevels = true;
     }
     // If bar levels are not treated as phrasal, then we need to allow ternary XPs and CPs, but not ternary x0s.
@@ -72,7 +72,7 @@ function sTreeGEN(terminalString, options)
 
     //If adding clitics, various other options are relevant: clitic category (cliticsAreBare), whether clitics go inside the existing root as a daughter, or outside as a sister ()
     if(options.addClitics){
-        if(options.rootCategory == 'cp' || options.cliticInSpecifier){
+        if(options.rootCategory == 'cp' || options.cliticsInSpecifier){
           var outsideClitics = [];
         }
         else {

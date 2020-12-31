@@ -145,7 +145,7 @@ function autoGenInputTree() {
                 autoInputOptions.cliticsAreBare = true;
             }
             if(document.getElementById('clitic-sister-to-xbar').checked){
-                autoInputOptions.cliticInSpecifier = true;
+                autoInputOptions.cliticsInSpecifier = true;
             }
         }
         autoInputOptions.addClitics = addCliticsVal;
