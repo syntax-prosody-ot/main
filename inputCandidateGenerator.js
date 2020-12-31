@@ -44,6 +44,9 @@ function sTreeGEN(terminalString, options)
     options.terminalCategory = options.terminalCategory || 'x0';
     options.rootCategory = options.rootCategory || 'xp';
 
+    if(options.cliticInSpecifier){
+      options.noBarLevels = true;
+    }
     // If bar levels are not treated as phrasal, then we need to allow ternary XPs and CPs, but not ternary x0s.
     if(options.noBarLevels && options.recursiveCategory !== 'x0'){
       options.maxBranching = 3;
