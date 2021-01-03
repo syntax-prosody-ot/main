@@ -21,7 +21,7 @@
 *    Default false.
 *  - cliticsAreBare: false by default. If false, clitics will be wrapped in unary XPs. 
 *    If true, clitics will not be wrapped in XPs, but will be bare heads with category clitic.
-*  - cliticsInSpecifier: false by default. If true, clitics are positioned "inside" the highest 
+*  - cliticsInsideFirstRoot: false by default. If true, clitics are positioned "inside" the highest 
 *    XP as sister to an invisible X' layer. Otherwise, clitics are sister to the highest XP.
 *  - headSide: 'right', 'left', 'right-strict', 'left-strict'.
 *    Which side will heads be required to be on, relative to their complements?
@@ -48,7 +48,7 @@ function sTreeGEN(terminalString, options)
     // Furthermore, clitics should be positioned in the "specifier", as a daughter to the existing root, not a sister.
     if(options.noBarLevels && options.recursiveCategory !== 'x0'){
       options.maxBranching = 3;
-      options.cliticsInSpecifier = true;
+      options.cliticsInsideFirstRoot = true;
     }
     //Otherwise, we want binary branching syntactic inputs.
     options.maxBranching = options.maxBranching || 2;
@@ -78,7 +78,7 @@ function sTreeGEN(terminalString, options)
 
     //If adding clitics, various other options are relevant: clitic category (cliticsAreBare), whether clitics go inside the existing root as a daughter, or outside as a sister ()
     if(options.addClitics){
-        if(options.rootCategory == 'cp' || options.cliticsInSpecifier){
+        if(options.rootCategory == 'cp' || options.cliticsInsideFirstRoot){
           var outsideClitics = [];
         }
         else {
