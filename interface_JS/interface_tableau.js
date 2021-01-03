@@ -138,6 +138,10 @@ function getInputsForTableau(){
 
 function getOutputGenOptions() {
     var genOptions = {};
+
+    //hard-code in the default prosodic hierarchy and category pairings
+    genOptions.ph = PH_PHI;
+
     for(var i=0; i<spotForm.genOptions.length; i++){
         var optionBox = spotForm.genOptions[i];
         genOptions[optionBox.value]=optionBox.checked;
