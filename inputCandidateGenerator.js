@@ -53,6 +53,11 @@ function sTreeGEN(terminalString, options)
     //Otherwise, we want binary branching syntactic inputs.
     options.maxBranching = options.maxBranching || 2;
 
+    //If clitics are specified as bare x0s, then all unary XPs should be invisible
+    if(options.cliticsAreBare){
+      options.noUnary = true;
+    }
+
     //If non-branching XPs are invisible, then clitics should be bare X0s
     //and noAdjacentHeads needs to be false.
     if(options.noUnary){
