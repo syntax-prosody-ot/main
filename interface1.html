@@ -719,12 +719,12 @@
 					<legend><h2>Visibility to phonology <span class="arrow"></h2></legend>
 						<div class="constraint-row">
 							<span><input type="checkbox" name="autoInputOptions" value="noUnary">Treat unary XPs as X<sup>0</sup>s</span>
-							<div class="info"><span class="content">If selected, all intermediate nodes must have at least two children.</span></div>
+							<div class="info"><span class="content">If selected, all intermediate nodes must have at least two children. Non-branching XPs will be invisible to Match-XP. Clitics (if any) will also be represented as bare X<sup>0</sup>s.</span></div>
 						</div>
 
 						<div class="constraint-row">
 							<span><input type="checkbox" name="autoInputOptions" value="noBarLevels" checked="checked">Treat intermediate projections (bar levels) as phrasal</span>
-							<div class="info"><span class="content">By default, SPOT treats bar level projections the same as phrase level projections, and labels them all as XP (or CP). This makes them visible to Match and Align constraints. On this setting, all syntactic trees are binary branching. To treat bar level projections as invisible to mapping constraints, check this box, which will allow GEN to also create ternary branching syntactic trees, in which X&prime; (or C&prime;) are not represented at all. An example of a tree in which the X&prime; level is not represented at all: [[spec] head [comp]]. Under default settings, this tree would instead be represented as: [[spec][head [comp]]].</span></div>
+							<div class="info"><span class="content">By default, SPOT treats bar level projections the same as phrase level projections, and labels them all as XP (or CP). This makes them visible to Match and Align constraints. On this setting, all syntactic trees are binary branching. To treat bar level projections as invisible to mapping constraints, uncheck this box, which will allow GEN to also create ternary branching syntactic trees, in which X&prime; (or C&prime;) are not represented at all. An example of a tree in which the X&prime; level is not represented at all: [[spec] head [comp]]. Under default settings, this tree would instead be represented as: [[spec][head [comp]]].</span></div>
 						</div>
 
 						
