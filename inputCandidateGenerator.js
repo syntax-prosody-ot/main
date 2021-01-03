@@ -22,7 +22,7 @@
 *  - cliticsAreBare: false by default. If false, clitics will be wrapped in unary XPs. 
 *    If true, clitics will not be wrapped in XPs, but will be bare heads with category clitic.
 *  - cliticsInSpecifier: false by default. If true, clitics are positioned "inside" the highest 
-*    XP as sister to an invisible X' layer. Otherwise, cliics are sister to the highest XP.
+*    XP as sister to an invisible X' layer. Otherwise, clitics are sister to the highest XP.
 *  - headSide: 'right', 'left', 'right-strict', 'left-strict'.
 *    Which side will heads be required to be on, relative to their complements?
 *    Also, must heads be at the very edge (strict)?
@@ -44,15 +44,21 @@ function sTreeGEN(terminalString, options)
     options.terminalCategory = options.terminalCategory || 'x0';
     options.rootCategory = options.rootCategory || 'xp';
 
-    if(options.cliticsInSpecifier){
-      options.noBarLevels = true;
-    }
     // If bar levels are not treated as phrasal, then we need to allow ternary XPs and CPs, but not ternary x0s.
+    // Furthermore, clitics should be positioned in the "specifier", as a daughter to the existing root, not a sister.
     if(options.noBarLevels && options.recursiveCategory !== 'x0'){
       options.maxBranching = 3;
+      options.cliticsInSpecifier = true;
     }
     //Otherwise, we want binary branching syntactic inputs.
     options.maxBranching = options.maxBranching || 2;
+
+    //If non-branching XPs are invisible, then clitics should be bare X0s
+    //and noAdjacentHeads needs to be false.
+    if(options.noUnary){
+      options.cliticsAreBare = true;
+      options.noAdjacentHeads = false;
+    }
 
     //Run GEN on the provided terminal string
     var autoSTreePairs = GEN({}, terminalString, options);

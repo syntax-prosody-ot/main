@@ -141,12 +141,6 @@ function autoGenInputTree() {
             if(document.getElementById('add-clitics-left').checked) {
                 addCliticsVal = 'left';
             }
-            if(document.getElementById('add-bare-clitics').checked){
-                autoInputOptions.cliticsAreBare = true;
-            }
-            if(document.getElementById('clitic-sister-to-xbar').checked){
-                autoInputOptions.cliticsInSpecifier = true;
-            }
         }
         autoInputOptions.addClitics = addCliticsVal;
 
