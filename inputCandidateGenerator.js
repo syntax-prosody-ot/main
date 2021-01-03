@@ -46,10 +46,15 @@ function sTreeGEN(terminalString, options)
 
     // If bar levels are not treated as phrasal, then we need to allow ternary XPs and CPs, but not ternary x0s.
     // Furthermore, clitics should be positioned in the "specifier", as a daughter to the existing root, not a sister.
+    if(options.cliticsInsideFirstRoot){
+      options.noBarLevels = true;
+    }
     if(options.noBarLevels && options.recursiveCategory !== 'x0'){
       options.maxBranching = 3;
       options.cliticsInsideFirstRoot = true;
     }
+
+
     //Otherwise, we want binary branching syntactic inputs.
     options.maxBranching = options.maxBranching || 2;
 
@@ -62,6 +67,10 @@ function sTreeGEN(terminalString, options)
     //and noAdjacentHeads needs to be false.
     if(options.noUnary){
       options.cliticsAreBare = true;
+      options.noAdjacentHeads = false;
+    }
+
+    if(options.recursiveCategory === 'x0'){
       options.noAdjacentHeads = false;
     }
 
