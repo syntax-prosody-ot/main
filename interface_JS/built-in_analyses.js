@@ -489,6 +489,156 @@ function built_in_Chamorro_RB(){
   my_built_in_analysis(gen, false, chamorrotrees, con);
 }
 
+/* Richard Bibbs's Chamorro clitic analysis as presented at LSA2021
+*/
+function built_in_Chamorro_2021(){
+  var gen = {obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: ['i'], cliticMovement: true};
+  var con = [{name: 'alignLeft', cat:'xp'}, {name: 'alignRight', cat:'xp'}, {name:'noShift'}, {name: 'equalSistersAdj'}, {name: 'binMinBranches', cat:'phi'}, {name: 'strongStart_Elfner', cat:'syll'}];
+  var chamorrotrees = [
+                        {
+                            "id": "XP",
+                            "cat": "xp",
+                            "children": [
+                                {
+                                    "cat": "xp",
+                                    "id": "XP_3",
+                                    "children": [
+                                        {
+                                            "id": "a",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "DP",
+                                    "children": [
+                                        {
+                                            "id": "wp",
+                                            "cat": "clitic"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id": "XP",
+                            "cat": "xp",
+                            "children": [
+                                {
+                                    "cat": "xp",
+                                    "id": "XP_4",
+                                    "children": [
+                                        {
+                                            "id": "a",
+                                            "cat": "x0"
+                                        },
+                                        {
+                                            "cat": "xp",
+                                            "id": "XP_5",
+                                            "children": [
+                                                {
+                                                    "id": "b",
+                                                    "cat": "x0"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "DP",
+                                    "children": [
+                                        {
+                                            "id": "wp",
+                                            "cat": "clitic"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id": "XP",
+                            "cat": "xp",
+                            "children": [
+                                {
+                                    "cat": "xp",
+                                    "id": "XP_4",
+                                    "children": [
+                                        {
+                                            "cat": "xp",
+                                            "id": "XP_5",
+                                            "children": [
+                                                {
+                                                    "id": "a",
+                                                    "cat": "x0"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "cat": "xp",
+                                            "id": "XP_6",
+                                            "children": [
+                                                {
+                                                    "id": "b",
+                                                    "cat": "x0"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "DP",
+                                    "children": [
+                                        {
+                                            "id": "wp",
+                                            "cat": "clitic"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id": "XP",
+                            "cat": "xp",
+                            "children": [
+                                {
+                                    "cat": "xp",
+                                    "id": "XP_4",
+                                    "children": [
+                                        {
+                                            "cat": "xp",
+                                            "id": "XP_5",
+                                            "children": [
+                                                {
+                                                    "id": "a",
+                                                    "cat": "x0"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": "b",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "DP",
+                                    "children": [
+                                        {
+                                            "id": "wp",
+                                            "cat": "clitic"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ];
+  my_built_in_analysis(gen, false, chamorrotrees, con);
+}
+
 function built_in(analysis) {
   if(analysis === "irish") {
     built_in_Irish();
@@ -528,6 +678,9 @@ function built_in(analysis) {
   }
   if(analysis=== "chamorro"){
     built_in_Chamorro_RB();
+  }
+  if(analysis==="chamorro2021"){
+    built_in_Chamorro_2021();
   }
 }
 
