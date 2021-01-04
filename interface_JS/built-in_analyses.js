@@ -514,7 +514,7 @@ function built_in_Chamorro_2021(){
                                     "id": "DP",
                                     "children": [
                                         {
-                                            "id": "clitic",
+                                            "id": "wp",
                                             "cat": "clitic"
                                         }
                                     ]
@@ -550,7 +550,7 @@ function built_in_Chamorro_2021(){
                                     "id": "DP",
                                     "children": [
                                         {
-                                            "id": "clitic",
+                                            "id": "wp",
                                             "cat": "clitic"
                                         }
                                     ]
@@ -592,7 +592,7 @@ function built_in_Chamorro_2021(){
                                     "id": "DP",
                                     "children": [
                                         {
-                                            "id": "clitic",
+                                            "id": "wp",
                                             "cat": "clitic"
                                         }
                                     ]
@@ -628,7 +628,7 @@ function built_in_Chamorro_2021(){
                                     "id": "DP",
                                     "children": [
                                         {
-                                            "id": "clitic",
+                                            "id": "wp",
                                             "cat": "clitic"
                                         }
                                     ]
