@@ -20,22 +20,26 @@
 window.GEN = function(sTree, words, options){
 	options = options || {}; // if options is undefined, set it to an empty object (so you can query its properties without crashing things)
 
-	// Create the ph object if none was passed or what was passed was incomplete, and set it the default PH object, defined in prosodicHierarchy.js
-	if (!(options.ph && options.ph.pCat && options.ph.categoryPairings)){
-		options.ph = PH_PHI;
-		console.log("The prosodic hierarchy input to GEN was missing or incomplete, so ph has been set by default to PH_PHI, defined in prosodicHierarchy.js");
+	//Set prosodic hierarchy if we're making prosodic trees. Don't both with this for syntactic trees.
+	if(!options.syntactic){
+		// Create the ph object if none was passed or what was passed was incomplete, and set it the default PH object, defined in prosodicHierarchy.js
+		if (!(options.ph && options.ph.pCat && options.ph.categoryPairings)){
+			options.ph = PH_PHI;
+			console.log("The prosodic hierarchy input to GEN was missing or incomplete, so ph has been set by default to PH_PHI, defined in prosodicHierarchy.js");
+		}
+		
+		setPCat(options.ph.pCat);
+		setCategoryPairings(options.ph.categoryPairings);
+		// give a warning if there are categories from categoryPairings not present in pCat
+		if (!checkProsodicHierarchy(options.ph.pCat, options.ph.categoryPairings)){
+			displayWarning("One or more categories in the provided map of syntactic-prosodic correspondences (categoryPairings) do not exist in the provided prosodic hierarchy (pCat). Resetting pCat and categoryPairings to their default values, defined in PH_PHI.");
+			//set pCat and categoryPairings to their default values
+			resetPCat();
+			resetCategoryPairings();
+			options.ph = PH_PHI;
+		}
 	}
 	
-	setPCat(options.ph.pCat);
-	setCategoryPairings(options.ph.categoryPairings);
-	// give a warning if there are categories from categoryPairings not present in pCat
-	if (!checkProsodicHierarchy(options.ph.pCat, options.ph.categoryPairings)){
-		displayWarning("One or more categories in the provided map of syntactic-prosodic correspondences (categoryPairings) do not exist in the provided prosodic hierarchy (pCat). Resetting pCat and categoryPairings to their default values, defined in PH_PHI.");
-		//set pCat and categoryPairings to their default values
-		resetPCat();
-		resetCategoryPairings();
-		options.ph = PH_PHI;
-	}
 	var categoryHierarchy = options.syntactic ? sCat : pCat;
 	/* First, warn the user if they have specified terminalCategory and/or
 	 * rootCategory without specifying recursiveCategory

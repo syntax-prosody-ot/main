@@ -135,7 +135,7 @@ function autoGenInputTree() {
         }
         autoInputOptions.headSide = headSideVal;
 
-        // add XP clitics directly under root
+        // add clitics directly under root
         if(document.getElementById('add-clitics').checked) {
             var addCliticsVal = document.getElementById('add-clitics').value;
             if(document.getElementById('add-clitics-left').checked) {
