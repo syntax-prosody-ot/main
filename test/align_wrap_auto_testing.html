@@ -1,0 +1,2446 @@
+<html><head> 
+    <title>SPOT Automated Testing</title>
+
+	<link rel="stylesheet" type="text/css" href="../spot.css">
+
+    <!--If running tests that do not have to do with the interface, run jsbuild.sh or jsbuild.bat
+        in root directory of the project. If running interface testing, run testbuild.sh
+        or testBuild.bat-->
+    <script src="../build/spot.js"></script>
+
+    <!--Mocha setup stuff (1/2)-->
+    <meta charset="UTF-8">
+    <script src="../lib/test/mocha.min.js"></script>
+    <script src="../lib/test/chai.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../lib/test/mocha.css">
+    <!--mocha setup stuff to be continued in document body-->
+    
+</head>
+<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+
+    <h2>SPOT Automated Testing</h2>
+
+    <!--Mocha stuff (2/2)-->
+    <script>
+        mocha.setup("bdd"); //brings "describe", "it", etc. into global namespace
+        //mocha.checkLeaks();
+        var assert = chai.assert; //no one wants to type out "chai.assert" every time
+    </script>
+    <div id="mocha">
+        Results
+    </div>
+    <!--Mocha is set up now, you just need to write and run tests-->
+    <!--"Message" functions still need modification-->
+    <script>
+        function message(ptree, d, options) {
+            options = options || {"no options": 0};
+            return `align with direction ${d} and ${Object.keys(options)},\
+            \n\t${parenthesizeTree(stree1)} --> ${parenthesizeTree(ptree)}`;
+        }
+
+        function messageFoc(ptree, d, options) {
+            options = options || {"no options": 0};
+            return `alignFoc with direction ${d} and ${Object.keys(options)},\
+            \n\t${parenthesizeTree(stree1)} --> ${parenthesizeTree(ptree)}`;
+        }
+
+        function messageLex(ptree, d, options) {
+            options = options || {"no options": 0};
+            return `align with direction ${d} and ${Object.keys(options)},\
+            \n\t${parenthesizeTree(stree1)} --> ${parenthesizeTree(ptree)}`;
+        }
+
+        function messageWrap(ptree, d, options) {
+            options = options || {"no options": 0};
+            return `align with direction ${d} and ${Object.keys(options)},\
+            \n\t${parenthesizeTree(stree1)} --> ${parenthesizeTree(ptree)}`;
+        }
+
+        describe('Tableau 1: Tests L/R align for all/only Syntactic Subcategories', function() {
+
+            let l = "left";
+            let r = "right";
+
+            it('AlignLeft', function() {
+                assert.equal(alignSP(stree1, ptree1, "xp", l), 0, message(ptree1, l));
+                assert.equal(alignSP(stree1, ptree2, "xp", l), 4, message(ptree2, l));
+            });
+            it('L maxSyntax', function() {
+                let options = {"maxSyntax": true};
+                assert.equal(alignSP(stree1, ptree1, "xp", l, options), 0, message(ptree1, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", l, options), 2, message(ptree2, l, options));
+            });
+            it('L nonMaxSyntax', function() {
+                let options = {"nonMaxSyntax": true};
+                assert.equal(alignSP(stree1, ptree1, "xp", l, options), 0, message(ptree1, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", l, options), 2, message(ptree2, l, options));
+            });
+            it('L minSyntax', function() {
+                let options = {"minSyntax": true};
+                assert.equal(alignSP(stree1, ptree1, "xp", l, options), 0, message(ptree1, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", l, options), 2, message(ptree2, l, options));
+            });
+            it('L nonMinSyntax', function() {
+                let options = {"nonMinSyntax": true};
+                assert.equal(alignSP(stree1, ptree1, "xp", l, options), 0, message(ptree1, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", l, options), 2, message(ptree2, l, options));
+            });
+            it('L maxSyntax minSyntax', function() {
+                let options = {"maxSyntax": true, "minSyntax": true};
+                assert.equal(alignSP(stree1, ptree1, "xp", l, options), 0, message(ptree1, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", l, options), 1, message(ptree2, l, options));
+            });
+            it('L maxSyntax nonMinSyntax', function() {
+                let options = {"maxSyntax": true, "nonMinSyntax": true};
+                assert.equal(alignSP(stree1, ptree1, "xp", l, options), 0, message(ptree1, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", l, options), 1, message(ptree2, l, options));
+            });
+            it('L nonMaxSyntax minSyntax', function() {
+                let options = {"nonMaxSyntax": true, "minSyntax": true};
+                assert.equal(alignSP(stree1, ptree1, "xp", l, options), 0, message(ptree1, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", l, options), 1, message(ptree2, l, options));
+            });
+            it('L nonMaxSyntax nonMinSyntax', function() {
+                let options = {"nonMaxSyntax": true, "nonMinSyntax": true};
+                assert.equal(alignSP(stree1, ptree1, "xp", l, options), 0, message(ptree1, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", l, options), 1, message(ptree2, l, options));
+            });
+
+            it('AlignRight', function() {
+                assert.equal(alignSP(stree1, ptree1, "xp", r), 0, message(ptree1, r));
+                assert.equal(alignSP(stree1, ptree2, "xp", r), 4, message(ptree2, r));
+            });
+            it('R maxSyntax', function() {
+                let options = {"maxSyntax": true};
+                assert.equal(alignSP(stree1, ptree1, "xp", r, options), 0, message(ptree1, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", r, options), 2, message(ptree2, r, options));
+            });
+            it('R nonMaxSyntax', function() {
+                let options = {"nonMaxSyntax": true};
+                assert.equal(alignSP(stree1, ptree1, "xp", r, options), 0, message(ptree1, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", r, options), 2, message(ptree2, r, options));
+            });
+            it('R minSyntax', function() {
+                let options = {"minSyntax": true};
+                assert.equal(alignSP(stree1, ptree1, "xp", r, options), 0, message(ptree1, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", r, options), 2, message(ptree2, r, options));
+            });
+            it('R nonMinSyntax', function() {
+                let options = {"nonMinSyntax": true};
+                assert.equal(alignSP(stree1, ptree1, "xp", r, options), 0, message(ptree1, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", r, options), 2, message(ptree2, r, options));
+            });
+            it('R maxSyntax minSyntax', function() {
+                let options = {"maxSyntax": true, "minSyntax": true};
+                assert.equal(alignSP(stree1, ptree1, "xp", r, options), 0, message(ptree1, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", r, options), 1, message(ptree2, r, options));
+            });
+            it('R maxSyntax nonMinSyntax', function() {
+                let options = {"maxSyntax": true, "nonMinSyntax": true};
+                assert.equal(alignSP(stree1, ptree1, "xp", r, options), 0, message(ptree1, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", r, options), 1, message(ptree2, r, options));
+            });
+            it('R nonMaxSyntax minSyntax', function() {
+                let options = {"nonMaxSyntax": true, "minSyntax": true};
+                assert.equal(alignSP(stree1, ptree1, "xp", r, options), 0, message(ptree1, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", r, options), 1, message(ptree2, r, options));
+            });
+            it('R nonMaxSyntax nonMinSyntax', function() {
+                let options = {"nonMaxSyntax": true, "nonMinSyntax": true};
+                assert.equal(alignSP(stree1, ptree1, "xp", r, options), 0, message(ptree1, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", r, options), 1, message(ptree2, r, options));
+            });
+        });
+
+        describe('Tableau 2: Tests L/R align for all/only Prosodic Subcategories', function() {
+
+            let l = 'left';
+            let r = 'right';
+
+            it('L maxProsody', function() {
+                let options = {"maxProsody": true};
+                assert.equal(alignSP(stree1, ptree1, "xp", l, options), 2, message(ptree1, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", l, options), 4, message(ptree2, l, options));
+            });
+            it('L nonMaxProsody', function() {
+                let options = {"nonMaxProsody": true};
+                assert.equal(alignSP(stree1, ptree1, "xp", l, options), 2, message(ptree1, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", l, options), 4, message(ptree2, l, options));
+            });
+            it('L minProsody', function() {
+                let options = {"minProsody": true};
+                assert.equal(alignSP(stree1, ptree1, "xp", l, options), 2, message(ptree1, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", l, options), 4, message(ptree2, l, options));
+            });
+            it('L nonMinProsody', function() {
+                let options = {"nonMinProsody": true};
+                assert.equal(alignSP(stree1, ptree1, "xp", l, options), 2, message(ptree1, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", l, options), 4, message(ptree2, l, options));
+            });
+            it('L maxProsody minProsody', function() {
+                let options = {"maxProsody": true, "minProsody": true};
+                assert.equal(alignSP(stree1, ptree1, "xp", l, options), 3, message(ptree1, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", l, options), 4, message(ptree2, l, options));
+            });
+            it('L maxProsody nonMinProsody', function() {
+                let options = {"maxProsody": true, "nonMinProsody": true};
+                assert.equal(alignSP(stree1, ptree1, "xp", l, options), 3, message(ptree1, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", l, options), 4, message(ptree2, l, options));
+            });    
+            it('L nonMaxProsody minProsody', function() {
+                let options = {"nonMaxProsody": true, "minProsody": true};
+                assert.equal(alignSP(stree1, ptree1, "xp", l, options), 3, message(ptree1, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", l, options), 4, message(ptree2, l, options));
+            });
+            it('L nonMaxProsody nonMinProsody', function() {
+                let options = {"nonMaxProsody": true, "nonMinProsody": true};
+                assert.equal(alignSP(stree1, ptree1, "xp", l, options), 3, message(ptree1, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", l, options), 4, message(ptree2, l, options));
+            });
+
+            it('R maxProsody', function() {
+                let options = {"maxProsody": true};
+                assert.equal(alignSP(stree1, ptree1, "xp", r, options), 0, message(ptree1, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", r, options), 4, message(ptree2, r, options));
+            });
+            it('R nonMaxProsody', function() {
+                let options = {"nonMaxProsody": true};
+                assert.equal(alignSP(stree1, ptree1, "xp", r, options), 1, message(ptree1, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", r, options), 4, message(ptree2, r, options));
+            });
+            it('R minProsody', function() {
+                let options = {"minProsody": true};
+                assert.equal(alignSP(stree1, ptree1, "xp", r, options), 0, message(ptree1, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", r, options), 4, message(ptree2, r, options));
+            });
+            it('R nonMinProsody', function() {
+                let options = {"nonMinProsody": true};
+                assert.equal(alignSP(stree1, ptree1, "xp", r, options), 1, message(ptree1, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", r, options), 4, message(ptree2, r, options));
+            });
+            it('R maxProsody minProsody', function() {
+                let options = {"maxProsody": true, "minProsody": true};
+                assert.equal(alignSP(stree1, ptree1, "xp", r, options), 3, message(ptree1, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", r, options), 4, message(ptree2, r, options));
+            });
+            it('R maxProsody nonMinProsody', function() {
+                let options = {"nonMaxProsody": true, "minProsody": true};
+                assert.equal(alignSP(stree1, ptree1, "xp", r, options), 1, message(ptree1, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", r, options), 4, message(ptree2, r, options));
+            });
+            
+            it('R nonMaxProsody minProsody', function() {
+                let options = {"nonMinProsody": true, "maxProsody": true};
+                assert.equal(alignSP(stree1, ptree1, "xp", r, options), 1, message(ptree1, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", r, options), 4, message(ptree2, r, options));
+            });
+            it('R nonMaxProsody nonMinProsody', function() {
+                let options = {"nonMinProsody": true, "nonMaxProsody": true};
+                assert.equal(alignSP(stree1, ptree1, "xp", r, options), 1, message(ptree1, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", r, options), 4, message(ptree2, r, options));
+            });
+        });
+
+        describe('Tableau 3: maxSyntax', function() {
+
+            let l = 'left';
+            let r = 'right';
+
+            it('L maxProsody', function() {
+                let options = {"maxSyntax": true, "maxProsody": true};
+                assert.equal(alignSP(stree1, ptree14, "xp", l, options), 1, message(ptree14, l, options));
+                assert.equal(alignSP(stree1, ptree13, "xp", l, options), 1, message(ptree13, l, options));
+                assert.equal(alignSP(stree1, ptree12, "xp", l, options), 0, message(ptree12, l, options));
+                assert.equal(alignSP(stree1, ptree11, "xp", l, options), 0, message(ptree11, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", l, options), 2, message(ptree2, l, options));
+
+            });
+            it('L nonMaxProsody', function() {
+                let options = {"maxSyntax": true, "nonMaxProsody": true};
+                assert.equal(alignSP(stree1, ptree14, "xp", l, options), 0, message(ptree14, l, options));
+                assert.equal(alignSP(stree1, ptree13, "xp", l, options), 0, message(ptree13, l, options));
+                assert.equal(alignSP(stree1, ptree12, "xp", l, options), 2, message(ptree12, l, options));
+                assert.equal(alignSP(stree1, ptree11, "xp", l, options), 2, message(ptree11, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", l, options), 2, message(ptree2, l, options));
+            });
+            it('L minProsody', function() {
+                let options = {"maxSyntax": true, "minProsody": true};
+                assert.equal(alignSP(stree1, ptree14, "xp", l, options), 2, message(ptree14, l, options));
+                assert.equal(alignSP(stree1, ptree13, "xp", l, options), 0, message(ptree13, l, options));
+                assert.equal(alignSP(stree1, ptree12, "xp", l, options), 2, message(ptree12, l, options));
+                assert.equal(alignSP(stree1, ptree11, "xp", l, options), 0, message(ptree11, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", l, options), 2, message(ptree2, l, options));
+            });
+            it('L nonMinProsody', function() {
+                let options = {"maxSyntax": true, "nonMinProsody": true};
+                assert.equal(alignSP(stree1, ptree14, "xp", l, options), 0, message(ptree14, l, options));
+                assert.equal(alignSP(stree1, ptree13, "xp", l, options), 1, message(ptree13, l, options));
+                assert.equal(alignSP(stree1, ptree12, "xp", l, options), 0, message(ptree12, l, options));
+                assert.equal(alignSP(stree1, ptree11, "xp", l, options), 2, message(ptree11, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", l, options), 2, message(ptree2, l, options));
+            });
+            it('L maxProsody minProsody', function() {
+                let options = {"maxSyntax": true, "maxProsody": true, "minProsody": true};
+                assert.equal(alignSP(stree1, ptree14, "xp", l, options), 2, message(ptree14, l, options));
+                assert.equal(alignSP(stree1, ptree13, "xp", l, options), 2, message(ptree13, l, options));
+                assert.equal(alignSP(stree1, ptree12, "xp", l, options), 2, message(ptree12, l, options));
+                assert.equal(alignSP(stree1, ptree11, "xp", l, options), 0, message(ptree11, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", l, options), 2, message(ptree2, l, options));
+            });
+            it('L maxProsody nonMinProsody', function() {
+                let options = {"maxSyntax": true, "maxProsody": true, "nonMinProsody": true};
+                assert.equal(alignSP(stree1, ptree14, "xp", l, options), 1, message(ptree14, l, options));
+                assert.equal(alignSP(stree1, ptree13, "xp", l, options), 1, message(ptree13, l, options));
+                assert.equal(alignSP(stree1, ptree12, "xp", l, options), 0, message(ptree12, l, options));
+                assert.equal(alignSP(stree1, ptree11, "xp", l, options), 2, message(ptree11, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", l, options), 2, message(ptree2, l, options));
+            });    
+            it('L nonMaxProsody minProsody', function() {
+                let options = {"maxSyntax": true, "nonMaxProsody": true, "minProsody": true};
+                assert.equal(alignSP(stree1, ptree14, "xp", l, options), 2, message(ptree14, l, options));
+                assert.equal(alignSP(stree1, ptree13, "xp", l, options), 0, message(ptree13, l, options));
+                assert.equal(alignSP(stree1, ptree12, "xp", l, options), 2, message(ptree12, l, options));
+                assert.equal(alignSP(stree1, ptree11, "xp", l, options), 2, message(ptree11, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", l, options), 2, message(ptree2, l, options));
+            });
+            it('L nonMaxProsody nonMinProsody', function() {
+                let options = {"maxSyntax": true, "nonMaxProsody": true, "nonMinProsody": true};
+                assert.equal(alignSP(stree1, ptree14, "xp", l, options), 0, message(ptree14, l, options));
+                assert.equal(alignSP(stree1, ptree13, "xp", l, options), 2, message(ptree13, l, options));
+                assert.equal(alignSP(stree1, ptree12, "xp", l, options), 2, message(ptree12, l, options));
+                assert.equal(alignSP(stree1, ptree11, "xp", l, options), 2, message(ptree11, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", l, options), 2, message(ptree2, l, options));
+            });
+
+            it('R maxProsody', function() {
+                let options = {"maxSyntax": true, "maxProsody": true};
+                assert.equal(alignSP(stree1, ptree14, "xp", r, options), 1, message(ptree14, r, options));
+                assert.equal(alignSP(stree1, ptree13, "xp", r, options), 1, message(ptree13, r, options));
+                assert.equal(alignSP(stree1, ptree12, "xp", r, options), 0, message(ptree12, r, options));
+                assert.equal(alignSP(stree1, ptree11, "xp", r, options), 0, message(ptree11, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", r, options), 2, message(ptree2, r, options));
+            });
+            it('R nonMaxProsody', function() {
+                let options = {"maxSyntax": true, "nonMaxProsody": true};
+                assert.equal(alignSP(stree1, ptree14, "xp", r, options), 0, message(ptree14, r, options));
+                assert.equal(alignSP(stree1, ptree13, "xp", r, options), 0, message(ptree13, r, options));
+                assert.equal(alignSP(stree1, ptree12, "xp", r, options), 0, message(ptree12, r, options));
+                assert.equal(alignSP(stree1, ptree11, "xp", r, options), 2, message(ptree11, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", r, options), 2, message(ptree2, r, options));
+            });
+            it('R minProsody', function() {
+                let options = {"maxSyntax": true, "minProsody": true};
+                assert.equal(alignSP(stree1, ptree14, "xp", r, options), 0, message(ptree14, r, options));
+                assert.equal(alignSP(stree1, ptree13, "xp", r, options), 0, message(ptree13, r, options));
+                assert.equal(alignSP(stree1, ptree12, "xp", r, options), 0, message(ptree12, r, options));
+                assert.equal(alignSP(stree1, ptree11, "xp", r, options), 0, message(ptree11, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", r, options), 2, message(ptree2, r, options));
+            });
+            it('R nonMinProsody', function() {
+                let options = {"maxSyntax": true, "nonMinProsody": true};
+                assert.equal(alignSP(stree1, ptree14, "xp", r, options), 0, message(ptree14, r, options));
+                assert.equal(alignSP(stree1, ptree13, "xp", r, options), 1, message(ptree13, r, options));
+                assert.equal(alignSP(stree1, ptree12, "xp", r, options), 0, message(ptree12, r, options));
+                assert.equal(alignSP(stree1, ptree11, "xp", r, options), 2, message(ptree11, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", r, options), 2, message(ptree2, r, options));
+            });
+            it('R maxProsody minProsody', function() {
+                let options = {"maxSyntax": true, "maxProsody": true, "minProsody": true};
+                assert.equal(alignSP(stree1, ptree14, "xp", r, options), 2, message(ptree14, r, options));
+                assert.equal(alignSP(stree1, ptree13, "xp", r, options), 2, message(ptree13, r, options));
+                assert.equal(alignSP(stree1, ptree12, "xp", r, options), 2, message(ptree12, r, options));
+                assert.equal(alignSP(stree1, ptree11, "xp", r, options), 0, message(ptree11, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", r, options), 2, message(ptree2, r, options));
+            });
+            it('R maxProsody nonMinProsody', function() {
+                let options = {"maxSyntax": true, "nonMaxProsody": true, "minProsody": true};
+                assert.equal(alignSP(stree1, ptree14, "xp", r, options), 0, message(ptree14, r, options));
+                assert.equal(alignSP(stree1, ptree13, "xp", r, options), 0, message(ptree13, r, options));
+                assert.equal(alignSP(stree1, ptree12, "xp", r, options), 0, message(ptree12, r, options));
+                assert.equal(alignSP(stree1, ptree11, "xp", r, options), 2, message(ptree11, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", r, options), 2, message(ptree2, r, options));
+            });
+            
+            it('R nonMaxProsody minProsody', function() {
+                let options = {"maxSyntax": true, "nonMinProsody": true, "maxProsody": true};
+                assert.equal(alignSP(stree1, ptree14, "xp", r, options), 1, message(ptree14, r, options));
+                assert.equal(alignSP(stree1, ptree13, "xp", r, options), 1, message(ptree13, r, options));
+                assert.equal(alignSP(stree1, ptree12, "xp", r, options), 0, message(ptree12, r, options));
+                assert.equal(alignSP(stree1, ptree11, "xp", r, options), 2, message(ptree11, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", r, options), 2, message(ptree2, r, options));
+            });
+            it('R nonMaxProsody nonMinProsody', function() {
+                let options = {"maxSyntax": true, "nonMinProsody": true, "nonMaxProsody": true};
+                assert.equal(alignSP(stree1, ptree14, "xp", r, options), 0, message(ptree14, r, options));
+                assert.equal(alignSP(stree1, ptree13, "xp", r, options), 2, message(ptree13, r, options));
+                assert.equal(alignSP(stree1, ptree12, "xp", r, options), 2, message(ptree12, r, options));
+                assert.equal(alignSP(stree1, ptree11, "xp", r, options), 2, message(ptree11, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", r, options), 2, message(ptree2, r, options));
+            });
+        });
+
+        describe('Tableau 4: nonMaxSyntax', function() {
+
+            let l = 'left';
+            let r = 'right';
+
+            it("L maxProsody", function() {
+                let options = {"nonMaxSyntax": true, "maxProsody": true};
+                assert.equal(alignSP(stree1, ptree22, "xp", l, options), 2, message(ptree22, l, options));
+                assert.equal(alignSP(stree1, ptree21, "xp", l, options), 2, message(ptree21, l, options));
+                assert.equal(alignSP(stree1, ptree20, "xp", l, options), 1, message(ptree20, l, options));
+                assert.equal(alignSP(stree1, ptree19, "xp", l, options), 1, message(ptree19, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 2, message(ptree2,  l, options));
+            });
+            it("L nonMaxProsody", function() {
+                let options = {"nonMaxSyntax": true, "nonMaxProsody": true};
+                assert.equal(alignSP(stree1, ptree22, "xp", l, options), 0, message(ptree22, l, options));
+                assert.equal(alignSP(stree1, ptree21, "xp", l, options), 1, message(ptree21, l, options));
+                assert.equal(alignSP(stree1, ptree20, "xp", l, options), 1, message(ptree20, l, options));
+                assert.equal(alignSP(stree1, ptree19, "xp", l, options), 2, message(ptree19, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 2, message(ptree2,  l, options));
+            });
+            it("L minProsody", function() {
+                let options = {"nonMaxSyntax": true, "minProsody": true};
+                assert.equal(alignSP(stree1, ptree22, "xp", l, options), 1, message(ptree22, l, options));
+                assert.equal(alignSP(stree1, ptree21, "xp", l, options), 1, message(ptree21, l, options));
+                assert.equal(alignSP(stree1, ptree20, "xp", l, options), 1, message(ptree20, l, options));
+                assert.equal(alignSP(stree1, ptree19, "xp", l, options), 1, message(ptree19, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 2, message(ptree2,  l, options));
+            });
+            it("L maxProsody minProsody", function() {
+                let options = {"nonMaxSyntax": true, "maxProsody": true, "minProsody": true};
+                assert.equal(alignSP(stree1, ptree22, "xp", l, options), 2, message(ptree22, l, options));
+                assert.equal(alignSP(stree1, ptree21, "xp", l, options), 2, message(ptree21, l, options));
+                assert.equal(alignSP(stree1, ptree20, "xp", l, options), 2, message(ptree20, l, options));
+                assert.equal(alignSP(stree1, ptree19, "xp", l, options), 1, message(ptree19, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 2, message(ptree2,  l, options));
+            });
+            it("L nonMaxProsody minProsody", function() {
+                let options = {"nonMaxSyntax": true, "nonMaxProsody": true, "minProsody": true};
+                assert.equal(alignSP(stree1, ptree22, "xp", l, options), 1, message(ptree22, l, options));
+                assert.equal(alignSP(stree1, ptree21, "xp", l, options), 1, message(ptree21, l, options));
+                assert.equal(alignSP(stree1, ptree20, "xp", l, options), 1, message(ptree20, l, options));
+                assert.equal(alignSP(stree1, ptree19, "xp", l, options), 2, message(ptree19, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 2, message(ptree2,  l, options));
+            });
+            it("L nonMinProsody", function() {
+                let options = {"nonMaxSyntax": true, "nonMinProsody": true};
+                assert.equal(alignSP(stree1, ptree22, "xp", l, options), 1, message(ptree22, l, options));
+                assert.equal(alignSP(stree1, ptree21, "xp", l, options), 2, message(ptree21, l, options));
+                assert.equal(alignSP(stree1, ptree20, "xp", l, options), 1, message(ptree20, l, options));
+                assert.equal(alignSP(stree1, ptree19, "xp", l, options), 2, message(ptree19, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 2, message(ptree2,  l, options));
+            });
+            it("L maxProsody nonMinProsody", function() {
+                let options = {"nonMaxSyntax": true, "maxProsody": true, "nonMinProsody": true};
+                assert.equal(alignSP(stree1, ptree22, "xp", l, options), 2, message(ptree22, l, options));
+                assert.equal(alignSP(stree1, ptree21, "xp", l, options), 2, message(ptree21, l, options));
+                assert.equal(alignSP(stree1, ptree20, "xp", l, options), 1, message(ptree20, l, options));
+                assert.equal(alignSP(stree1, ptree19, "xp", l, options), 2, message(ptree19, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 2, message(ptree2,  l, options));
+            });
+            it("L nonMaxProsody nonMinProsody", function() {
+                let options = {"nonMaxSyntax": true, "nonMaxProsody": true, "nonMinProsody": true};
+                assert.equal(alignSP(stree1, ptree22, "xp", l, options), 1, message(ptree22, l, options));
+                assert.equal(alignSP(stree1, ptree21, "xp", l, options), 2, message(ptree21, l, options));
+                assert.equal(alignSP(stree1, ptree20, "xp", l, options), 2, message(ptree20, l, options));
+                assert.equal(alignSP(stree1, ptree19, "xp", l, options), 2, message(ptree19, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 2, message(ptree2,  l, options));
+            });
+
+            it("R maxProsody", function() {
+                let options = {"nonMaxSyntax": true, "maxProsody": true};
+                assert.equal(alignSP(stree1, ptree22, "xp", r, options), 0, message(ptree22, r, options));
+                assert.equal(alignSP(stree1, ptree21, "xp", r, options), 0, message(ptree21, r, options));
+                assert.equal(alignSP(stree1, ptree20, "xp", r, options), 0, message(ptree20, r, options));
+                assert.equal(alignSP(stree1, ptree19, "xp", r, options), 0, message(ptree19, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 2, message(ptree2,  r, options));
+            });
+            it("R nonMaxProsody", function() {
+                let options = {"nonMaxSyntax": true, "nonMaxProsody": true};
+                assert.equal(alignSP(stree1, ptree22, "xp", r, options), 0, message(ptree22, r, options));
+                assert.equal(alignSP(stree1, ptree21, "xp", r, options), 0, message(ptree21, r, options));
+                assert.equal(alignSP(stree1, ptree20, "xp", r, options), 0, message(ptree20, r, options));
+                assert.equal(alignSP(stree1, ptree19, "xp", r, options), 2, message(ptree19, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 2, message(ptree2,  r, options));
+            });
+            it("R minProsody", function() {
+                let options = {"nonMaxSyntax": true, "minProsody": true};
+                assert.equal(alignSP(stree1, ptree22, "xp", r, options), 0, message(ptree22, r, options));
+                assert.equal(alignSP(stree1, ptree21, "xp", r, options), 0, message(ptree21, r, options));
+                assert.equal(alignSP(stree1, ptree20, "xp", r, options), 0, message(ptree20, r, options));
+                assert.equal(alignSP(stree1, ptree19, "xp", r, options), 0, message(ptree19, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 2, message(ptree2,  r, options));
+            });
+            it("R maxProsody minProsody", function() {
+                let options = {"nonMaxSyntax": true, "maxProsody": true, "minProsody": true};
+                assert.equal(alignSP(stree1, ptree22, "xp", r, options), 2, message(ptree22, r, options));
+                assert.equal(alignSP(stree1, ptree21, "xp", r, options), 2, message(ptree21, r, options));
+                assert.equal(alignSP(stree1, ptree20, "xp", r, options), 2, message(ptree20, r, options));
+                assert.equal(alignSP(stree1, ptree19, "xp", r, options), 0, message(ptree19, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 2, message(ptree2,  r, options));
+            });
+            it("R nonMaxProsody minProsody", function() {
+                let options = {"nonMaxSyntax": true, "nonMaxProsody": true, "minProsody": true};
+                assert.equal(alignSP(stree1, ptree22, "xp", r, options), 0, message(ptree22, r, options));
+                assert.equal(alignSP(stree1, ptree21, "xp", r, options), 0, message(ptree21, r, options));
+                assert.equal(alignSP(stree1, ptree20, "xp", r, options), 0, message(ptree20, r, options));
+                assert.equal(alignSP(stree1, ptree19, "xp", r, options), 2, message(ptree19, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 2, message(ptree2,  r, options));
+            });
+            it("R nonMinProsody", function() {
+                let options = {"nonMaxSyntax": true, "nonMinProsody": true};
+                assert.equal(alignSP(stree1, ptree22, "xp", r, options), 0, message(ptree22, r, options));
+                assert.equal(alignSP(stree1, ptree21, "xp", r, options), 0, message(ptree21, r, options));
+                assert.equal(alignSP(stree1, ptree20, "xp", r, options), 0, message(ptree20, r, options));
+                assert.equal(alignSP(stree1, ptree19, "xp", r, options), 2, message(ptree19, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 2, message(ptree2,  r, options));
+            });
+            it("R maxProsody nonMinProsody", function() {
+                let options = {"nonMaxSyntax": true, "maxProsody": true, "nonMinProsody": true};
+                assert.equal(alignSP(stree1, ptree22, "xp", r, options), 0, message(ptree22, r, options));
+                assert.equal(alignSP(stree1, ptree21, "xp", r, options), 0, message(ptree21, r, options));
+                assert.equal(alignSP(stree1, ptree20, "xp", r, options), 0, message(ptree20, r, options));
+                assert.equal(alignSP(stree1, ptree19, "xp", r, options), 2, message(ptree19, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 2, message(ptree2,  r, options));
+            });
+            it("R nonMaxProsody nonMinProsody", function() {
+                let options = {"nonMaxSyntax": true, "nonMaxProsody": true, "nonMinProsody": true};
+                assert.equal(alignSP(stree1, ptree22, "xp", r, options), 0, message(ptree22, r, options));
+                assert.equal(alignSP(stree1, ptree21, "xp", r, options), 2, message(ptree21, r, options));
+                assert.equal(alignSP(stree1, ptree20, "xp", r, options), 2, message(ptree20, r, options));
+                assert.equal(alignSP(stree1, ptree19, "xp", r, options), 2, message(ptree19, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 2, message(ptree2,  r, options));
+            });
+        });
+
+        describe('Tableau 5: minSyntax', function() {
+            let l = 'left';
+            let r = 'right';
+
+            it("L maxProsody", function() {
+                let options = {"minSyntax": true, "maxProsody": true};
+                assert.equal(alignSP(stree1, ptree26, "xp", l, options), 1, message(ptree26, l, options));
+                assert.equal(alignSP(stree1, ptree25, "xp", l, options), 1, message(ptree25, l, options));
+                assert.equal(alignSP(stree1, ptree24, "xp", l, options), 0, message(ptree24, l, options));
+                assert.equal(alignSP(stree1, ptree23, "xp", l, options), 0, message(ptree23, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 2, message(ptree2,  l, options));
+            });
+            it("L nonMaxProsody", function() {
+                let options = {"minSyntax": true, "nonMaxProsody": true};
+                assert.equal(alignSP(stree1, ptree26, "xp", l, options), 0, message(ptree26, l, options));
+                assert.equal(alignSP(stree1, ptree25, "xp", l, options), 0, message(ptree25, l, options));
+                assert.equal(alignSP(stree1, ptree24, "xp", l, options), 2, message(ptree24, l, options));
+                assert.equal(alignSP(stree1, ptree23, "xp", l, options), 2, message(ptree23, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 2, message(ptree2,  l, options));
+            });
+            it("L minProsody", function() {
+                let options = {"minSyntax": true, "minProsody": true};
+                assert.equal(alignSP(stree1, ptree26, "xp", l, options), 2, message(ptree26, l, options));
+                assert.equal(alignSP(stree1, ptree25, "xp", l, options), 0, message(ptree25, l, options));
+                assert.equal(alignSP(stree1, ptree24, "xp", l, options), 2, message(ptree24, l, options));
+                assert.equal(alignSP(stree1, ptree23, "xp", l, options), 0, message(ptree23, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 2, message(ptree2,  l, options));
+            });
+            it("L maxProsody minProsody", function() {
+                let options = {"minSyntax": true, "maxProsody": true, "minProsody": true};
+                assert.equal(alignSP(stree1, ptree26, "xp", l, options), 2, message(ptree26, l, options));
+                assert.equal(alignSP(stree1, ptree25, "xp", l, options), 2, message(ptree25, l, options));
+                assert.equal(alignSP(stree1, ptree24, "xp", l, options), 2, message(ptree24, l, options));
+                assert.equal(alignSP(stree1, ptree23, "xp", l, options), 0, message(ptree23, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 2, message(ptree2,  l, options));
+            });
+            it("L nonMaxProsody minProsody", function() {
+                let options = {"minSyntax": true, "nonMaxProsody": true, "minProsody": true};
+                assert.equal(alignSP(stree1, ptree26, "xp", l, options), 2, message(ptree26, l, options));
+                assert.equal(alignSP(stree1, ptree25, "xp", l, options), 0, message(ptree25, l, options));
+                assert.equal(alignSP(stree1, ptree24, "xp", l, options), 2, message(ptree24, l, options));
+                assert.equal(alignSP(stree1, ptree23, "xp", l, options), 2, message(ptree23, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 2, message(ptree2,  l, options));
+            });
+            it("L nonMinProsody", function() {
+                let options = {"minSyntax": true, "nonMinProsody": true};
+                assert.equal(alignSP(stree1, ptree26, "xp", l, options), 0, message(ptree26, l, options));
+                assert.equal(alignSP(stree1, ptree25, "xp", l, options), 1, message(ptree25, l, options));
+                assert.equal(alignSP(stree1, ptree24, "xp", l, options), 0, message(ptree24, l, options));
+                assert.equal(alignSP(stree1, ptree23, "xp", l, options), 2, message(ptree23, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 2, message(ptree2,  l, options));
+            });
+            it("L maxProsody nonMinProsody", function() {
+                let options = {"minSyntax": true, "maxProsody": true, "nonMinProsody": true};
+                assert.equal(alignSP(stree1, ptree26, "xp", l, options), 1, message(ptree26, l, options));
+                assert.equal(alignSP(stree1, ptree25, "xp", l, options), 1, message(ptree25, l, options));
+                assert.equal(alignSP(stree1, ptree24, "xp", l, options), 0, message(ptree24, l, options));
+                assert.equal(alignSP(stree1, ptree23, "xp", l, options), 2, message(ptree23, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 2, message(ptree2,  l, options));
+            });
+            it("L nonMaxProsody nonMinProsody", function() {
+                let options = {"minSyntax": true, "nonMaxProsody": true, "nonMinProsody": true};
+                assert.equal(alignSP(stree1, ptree26, "xp", l, options), 0, message(ptree26, l, options));
+                assert.equal(alignSP(stree1, ptree25, "xp", l, options), 2, message(ptree25, l, options));
+                assert.equal(alignSP(stree1, ptree24, "xp", l, options), 2, message(ptree24, l, options));
+                assert.equal(alignSP(stree1, ptree23, "xp", l, options), 2, message(ptree23, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 2, message(ptree2,  l, options));
+            });
+
+            it("R maxProsody", function() {
+                let options = {"minSyntax": true, "maxProsody": true};
+                assert.equal(alignSP(stree1, ptree26, "xp", r, options), 1, message(ptree26, r, options));
+                assert.equal(alignSP(stree1, ptree25, "xp", r, options), 1, message(ptree25, r, options));
+                assert.equal(alignSP(stree1, ptree24, "xp", r, options), 0, message(ptree24, r, options));
+                assert.equal(alignSP(stree1, ptree23, "xp", r, options), 0, message(ptree23, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 2, message(ptree2,  r, options));
+            });
+            it("R nonMaxProsody", function() {
+                let options = {"minSyntax": true, "nonMaxProsody": true};
+                assert.equal(alignSP(stree1, ptree26, "xp", r, options), 0, message(ptree26, r, options));
+                assert.equal(alignSP(stree1, ptree25, "xp", r, options), 0, message(ptree25, r, options));
+                assert.equal(alignSP(stree1, ptree24, "xp", r, options), 0, message(ptree24, r, options));
+                assert.equal(alignSP(stree1, ptree23, "xp", r, options), 2, message(ptree23, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 2, message(ptree2,  r, options));
+            });
+            it("R minProsody", function() {
+                let options = {"minSyntax": true, "minProsody": true};
+                assert.equal(alignSP(stree1, ptree26, "xp", r, options), 0, message(ptree26, r, options));
+                assert.equal(alignSP(stree1, ptree25, "xp", r, options), 0, message(ptree25, r, options));
+                assert.equal(alignSP(stree1, ptree24, "xp", r, options), 0, message(ptree24, r, options));
+                assert.equal(alignSP(stree1, ptree23, "xp", r, options), 0, message(ptree23, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 2, message(ptree2,  r, options));
+            });
+            it("R maxProsody minProsody", function() {
+                let options = {"minSyntax": true, "maxProsody": true, "minProsody": true};
+                assert.equal(alignSP(stree1, ptree26, "xp", r, options), 2, message(ptree26, r, options));
+                assert.equal(alignSP(stree1, ptree25, "xp", r, options), 2, message(ptree25, r, options));
+                assert.equal(alignSP(stree1, ptree24, "xp", r, options), 2, message(ptree24, r, options));
+                assert.equal(alignSP(stree1, ptree23, "xp", r, options), 0, message(ptree23, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 2, message(ptree2,  r, options));
+            });
+            it("R nonMaxProsody minProsody", function() {
+                let options = {"minSyntax": true, "nonMaxProsody": true, "minProsody": true};
+                assert.equal(alignSP(stree1, ptree26, "xp", r, options), 0, message(ptree26, r, options));
+                assert.equal(alignSP(stree1, ptree25, "xp", r, options), 0, message(ptree25, r, options));
+                assert.equal(alignSP(stree1, ptree24, "xp", r, options), 0, message(ptree24, r, options));
+                assert.equal(alignSP(stree1, ptree23, "xp", r, options), 2, message(ptree23, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 2, message(ptree2,  r, options));
+            });
+            it("R nonMinProsody", function() {
+                let options = {"minSyntax": true, "nonMinProsody": true};
+                assert.equal(alignSP(stree1, ptree26, "xp", r, options), 0, message(ptree26, r, options));
+                assert.equal(alignSP(stree1, ptree25, "xp", r, options), 1, message(ptree25, r, options));
+                assert.equal(alignSP(stree1, ptree24, "xp", r, options), 0, message(ptree24, r, options));
+                assert.equal(alignSP(stree1, ptree23, "xp", r, options), 2, message(ptree23, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 2, message(ptree2,  r, options));
+            });
+            it("R maxProsody nonMinProsody", function() {
+                let options = {"minSyntax": true, "maxProsody": true, "nonMinProsody": true};
+                assert.equal(alignSP(stree1, ptree26, "xp", r, options), 1, message(ptree26, r, options));
+                assert.equal(alignSP(stree1, ptree25, "xp", r, options), 1, message(ptree25, r, options));
+                assert.equal(alignSP(stree1, ptree24, "xp", r, options), 0, message(ptree24, r, options));
+                assert.equal(alignSP(stree1, ptree23, "xp", r, options), 2, message(ptree23, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 2, message(ptree2,  r, options));
+            });
+            it("R nonMaxProsody nonMinProsody", function() {
+                let options = {"minSyntax": true, "nonMaxProsody": true, "nonMinProsody": true};
+                assert.equal(alignSP(stree1, ptree26, "xp", r, options), 0, message(ptree26, r, options));
+                assert.equal(alignSP(stree1, ptree25, "xp", r, options), 2, message(ptree25, r, options));
+                assert.equal(alignSP(stree1, ptree24, "xp", r, options), 2, message(ptree24, r, options));
+                assert.equal(alignSP(stree1, ptree23, "xp", r, options), 2, message(ptree23, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 2, message(ptree2,  r, options));
+            });
+        });
+
+        describe('Tableau 6: nonMinSyntax', function() {
+
+            let l = 'left';
+            let r = 'right';
+
+            it("L maxProsody", function() {
+                let options = {"nonMinSyntax": true, "maxProsody": true};
+                assert.equal(alignSP(stree1, ptree10, "xp", l, options), 1, message(ptree10, l, options));
+                assert.equal(alignSP(stree1, ptree9,  "xp", l, options), 1, message(ptree9,  l, options));
+                assert.equal(alignSP(stree1, ptree8,  "xp", l, options), 1, message(ptree8,  l, options));
+                assert.equal(alignSP(stree1, ptree7,  "xp", l, options), 1, message(ptree7,  l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 2, message(ptree2,  l, options));
+            });
+            it("L nonMaxProsody", function() {
+                let options = {"nonMinSyntax": true, "nonMaxProsody": true};
+                assert.equal(alignSP(stree1, ptree10, "xp", l, options), 0, message(ptree10, l, options));
+                assert.equal(alignSP(stree1, ptree9,  "xp", l, options), 1, message(ptree9,  l, options));
+                assert.equal(alignSP(stree1, ptree8,  "xp", l, options), 1, message(ptree8,  l, options));
+                assert.equal(alignSP(stree1, ptree7,  "xp", l, options), 2, message(ptree7,  l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 2, message(ptree2,  l, options));
+            });
+            it("L minProsody", function() {
+                let options = {"nonMinSyntax": true, "minProsody": true};
+                assert.equal(alignSP(stree1, ptree10, "xp", l, options), 1, message(ptree10, l, options));
+                assert.equal(alignSP(stree1, ptree9,  "xp", l, options), 1, message(ptree9,  l, options));
+                assert.equal(alignSP(stree1, ptree8,  "xp", l, options), 1, message(ptree8,  l, options));
+                assert.equal(alignSP(stree1, ptree7,  "xp", l, options), 1, message(ptree7,  l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 2, message(ptree2,  l, options));
+            });
+            it("L maxProsody minProsody", function() {
+                let options = {"nonMinSyntax": true, "maxProsody": true, "minProsody": true};
+                assert.equal(alignSP(stree1, ptree10, "xp", l, options), 2, message(ptree10, l, options));
+                assert.equal(alignSP(stree1, ptree9,  "xp", l, options), 2, message(ptree9,  l, options));
+                assert.equal(alignSP(stree1, ptree8,  "xp", l, options), 2, message(ptree8,  l, options));
+                assert.equal(alignSP(stree1, ptree7,  "xp", l, options), 1, message(ptree7,  l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 2, message(ptree2,  l, options));
+            });
+            it("L nonMaxProsody minProsody", function() {
+                let options = {"nonMinSyntax": true, "nonMaxProsody": true, "minProsody": true};
+                assert.equal(alignSP(stree1, ptree10, "xp", l, options), 1, message(ptree10, l, options));
+                assert.equal(alignSP(stree1, ptree9,  "xp", l, options), 1, message(ptree9,  l, options));
+                assert.equal(alignSP(stree1, ptree8,  "xp", l, options), 1, message(ptree8,  l, options));
+                assert.equal(alignSP(stree1, ptree7,  "xp", l, options), 2, message(ptree7,  l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 2, message(ptree2,  l, options));
+            });
+            it("L nonMinProsody", function() {
+                let options = {"nonMinSyntax": true, "nonMinProsody": true};
+                assert.equal(alignSP(stree1, ptree10, "xp", l, options), 1, message(ptree10, l, options));
+                assert.equal(alignSP(stree1, ptree9,  "xp", l, options), 1, message(ptree9,  l, options));
+                assert.equal(alignSP(stree1, ptree8,  "xp", l, options), 1, message(ptree8,  l, options));
+                assert.equal(alignSP(stree1, ptree7,  "xp", l, options), 2, message(ptree7,  l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 2, message(ptree2,  l, options));
+            });
+            it("L maxProsody nonMinProsody", function() {
+                let options = {"nonMinSyntax": true, "maxProsody": true, "nonMinProsody": true};
+                assert.equal(alignSP(stree1, ptree10, "xp", l, options), 1, message(ptree10, l, options));
+                assert.equal(alignSP(stree1, ptree9,  "xp", l, options), 1, message(ptree9,  l, options));
+                assert.equal(alignSP(stree1, ptree8,  "xp", l, options), 1, message(ptree8,  l, options));
+                assert.equal(alignSP(stree1, ptree7,  "xp", l, options), 2, message(ptree7,  l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 2, message(ptree2,  l, options));
+            });
+            it("L nonMaxProsody nonMinProsody", function() {
+                let options = {"nonMinSyntax": true, "nonMaxProsody": true, "nonMinProsody": true};
+                assert.equal(alignSP(stree1, ptree10, "xp", l, options), 1, message(ptree10, l, options));
+                assert.equal(alignSP(stree1, ptree9,  "xp", l, options), 2, message(ptree9,  l, options));
+                assert.equal(alignSP(stree1, ptree8,  "xp", l, options), 2, message(ptree8,  l, options));
+                assert.equal(alignSP(stree1, ptree7,  "xp", l, options), 2, message(ptree7,  l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 2, message(ptree2,  l, options));
+            });
+
+            it("R maxProsody", function() {
+                let options = {"nonMinSyntax": true, "maxProsody": true};
+                assert.equal(alignSP(stree1, ptree10, "xp", r, options), 2, message(ptree10, r, options));
+                assert.equal(alignSP(stree1, ptree9,  "xp", r, options), 2, message(ptree9,  r, options));
+                assert.equal(alignSP(stree1, ptree8,  "xp", r, options), 0, message(ptree8,  r, options));
+                assert.equal(alignSP(stree1, ptree7,  "xp", r, options), 0, message(ptree7,  r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 2, message(ptree2,  r, options));
+            });
+            it("R nonMaxProsody", function() {
+                let options = {"nonMinSyntax": true, "nonMaxProsody": true};
+                assert.equal(alignSP(stree1, ptree10, "xp", r, options), 0, message(ptree10, r, options));
+                assert.equal(alignSP(stree1, ptree9,  "xp", r, options), 0, message(ptree9,  r, options));
+                assert.equal(alignSP(stree1, ptree8,  "xp", r, options), 0, message(ptree8,  r, options));
+                assert.equal(alignSP(stree1, ptree7,  "xp", r, options), 2, message(ptree7,  r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 2, message(ptree2,  r, options));
+            });
+            it("R minProsody", function() {
+                let options = {"nonMinSyntax": true, "minProsody": true};
+                assert.equal(alignSP(stree1, ptree10, "xp", r, options), 0, message(ptree10, r, options));
+                assert.equal(alignSP(stree1, ptree9,  "xp", r, options), 0, message(ptree9,  r, options));
+                assert.equal(alignSP(stree1, ptree8,  "xp", r, options), 0, message(ptree8,  r, options));
+                assert.equal(alignSP(stree1, ptree7,  "xp", r, options), 0, message(ptree7,  r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 2, message(ptree2,  r, options));
+            });
+            it("R maxProsody minProsody", function() {
+                let options = {"nonMinSyntax": true, "maxProsody": true, "minProsody": true};
+                assert.equal(alignSP(stree1, ptree10, "xp", r, options), 2, message(ptree10, r, options));
+                assert.equal(alignSP(stree1, ptree9,  "xp", r, options), 2, message(ptree9,  r, options));
+                assert.equal(alignSP(stree1, ptree8,  "xp", r, options), 2, message(ptree8,  r, options));
+                assert.equal(alignSP(stree1, ptree7,  "xp", r, options), 0, message(ptree7,  r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 2, message(ptree2,  r, options));
+            });
+            it("R nonMaxProsody minProsody", function() {
+                let options = {"nonMinSyntax": true, "nonMaxProsody": true, "minProsody": true};
+                assert.equal(alignSP(stree1, ptree10, "xp", r, options), 0, message(ptree10, r, options));
+                assert.equal(alignSP(stree1, ptree9,  "xp", r, options), 0, message(ptree9,  r, options));
+                assert.equal(alignSP(stree1, ptree8,  "xp", r, options), 0, message(ptree8,  r, options));
+                assert.equal(alignSP(stree1, ptree7,  "xp", r, options), 2, message(ptree7,  r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 2, message(ptree2,  r, options));
+            });
+            it("R nonMinProsody", function() {
+                let options = {"nonMinSyntax": true, "nonMinProsody": true};
+                assert.equal(alignSP(stree1, ptree10, "xp", r, options), 0, message(ptree10, r, options));
+                assert.equal(alignSP(stree1, ptree9,  "xp", r, options), 2, message(ptree9,  r, options));
+                assert.equal(alignSP(stree1, ptree8,  "xp", r, options), 0, message(ptree8,  r, options));
+                assert.equal(alignSP(stree1, ptree7,  "xp", r, options), 2, message(ptree7,  r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 2, message(ptree2,  r, options));
+            });
+            it("R maxProsody nonMinProsody", function() {
+                let options = {"nonMinSyntax": true, "maxProsody": true, "nonMinProsody": true};
+                assert.equal(alignSP(stree1, ptree10, "xp", r, options), 2, message(ptree10, r, options));
+                assert.equal(alignSP(stree1, ptree9,  "xp", r, options), 2, message(ptree9,  r, options));
+                assert.equal(alignSP(stree1, ptree8,  "xp", r, options), 0, message(ptree8,  r, options));
+                assert.equal(alignSP(stree1, ptree7,  "xp", r, options), 2, message(ptree7,  r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 2, message(ptree2,  r, options));
+            });
+            it("R nonMaxProsody nonMinProsody", function() {
+                let options = {"nonMinSyntax": true, "nonMaxProsody": true, "nonMinProsody": true};
+                assert.equal(alignSP(stree1, ptree10, "xp", r, options), 0, message(ptree10, r, options));
+                assert.equal(alignSP(stree1, ptree9,  "xp", r, options), 2, message(ptree9,  r, options));
+                assert.equal(alignSP(stree1, ptree8,  "xp", r, options), 2, message(ptree8,  r, options));
+                assert.equal(alignSP(stree1, ptree7,  "xp", r, options), 2, message(ptree7,  r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 2, message(ptree2,  r, options));
+            });
+        });
+
+        describe('Tableau 7: maxSyntax minSyntax', function() {
+            
+            let l = 'left';
+            let r = 'right';
+
+            it('L maxProsody', function() {
+                let options = {"maxSyntax": true, "minSyntax": true, "maxProsody":true};
+                assert.equal(alignSP(stree1, ptree6, "xp", l, options), 1, message(ptree6, l, options));
+                assert.equal(alignSP(stree1, ptree5, "xp", l, options), 1, message(ptree5, l, options));
+                assert.equal(alignSP(stree1, ptree4, "xp", l, options), 0, message(ptree4, l, options));
+                assert.equal(alignSP(stree1, ptree3, "xp", l, options), 0, message(ptree3, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", l, options), 1, message(ptree2, l, options));
+            });
+            it('L nonMaxProsody', function() {
+                let options = {"maxSyntax": true, "minSyntax": true, "nonMaxProsody":true};
+                assert.equal(alignSP(stree1, ptree6, "xp", l, options), 0, message(ptree6, l, options));
+                assert.equal(alignSP(stree1, ptree5, "xp", l, options), 0, message(ptree5, l, options));
+                assert.equal(alignSP(stree1, ptree4, "xp", l, options), 1, message(ptree4, l, options));
+                assert.equal(alignSP(stree1, ptree3, "xp", l, options), 1, message(ptree3, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", l, options), 1, message(ptree2, l, options));
+            });
+            it('L minProsody', function() {
+                let options = {"maxSyntax": true, "minSyntax": true, "minProsody":true};
+                assert.equal(alignSP(stree1, ptree6, "xp", l, options), 1, message(ptree6, l, options));
+                assert.equal(alignSP(stree1, ptree5, "xp", l, options), 0, message(ptree5, l, options));
+                assert.equal(alignSP(stree1, ptree4, "xp", l, options), 1, message(ptree4, l, options));
+                assert.equal(alignSP(stree1, ptree3, "xp", l, options), 0, message(ptree3, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", l, options), 1, message(ptree2, l, options));
+            });
+            it('L maxProsody minProsody', function() {
+                let options = {"maxSyntax": true, "minSyntax": true, "maxProsody":true, "minProsody":true};
+                assert.equal(alignSP(stree1, ptree6, "xp", l, options), 1, message(ptree6, l, options));
+                assert.equal(alignSP(stree1, ptree5, "xp", l, options), 1, message(ptree5, l, options));
+                assert.equal(alignSP(stree1, ptree4, "xp", l, options), 1, message(ptree4, l, options));
+                assert.equal(alignSP(stree1, ptree3, "xp", l, options), 0, message(ptree3, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", l, options), 1, message(ptree2, l, options));
+            });
+            it('L nonMaxProsody minProsody', function() {
+                let options = {"maxSyntax": true, "minSyntax": true, "nonMaxProsody":true, "minProsody":true};
+                assert.equal(alignSP(stree1, ptree6, "xp", l, options), 1, message(ptree6, l, options));
+                assert.equal(alignSP(stree1, ptree5, "xp", l, options), 0, message(ptree5, l, options));
+                assert.equal(alignSP(stree1, ptree4, "xp", l, options), 1, message(ptree4, l, options));
+                assert.equal(alignSP(stree1, ptree3, "xp", l, options), 1, message(ptree3, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", l, options), 1, message(ptree2, l, options));
+            });
+            it('L nonMinProsody', function() {
+                let options = {"maxSyntax": true, "minSyntax": true, "nonMinProsody":true};
+                assert.equal(alignSP(stree1, ptree6, "xp", l, options), 0, message(ptree6, l, options));
+                assert.equal(alignSP(stree1, ptree5, "xp", l, options), 1, message(ptree5, l, options));
+                assert.equal(alignSP(stree1, ptree4, "xp", l, options), 0, message(ptree4, l, options));
+                assert.equal(alignSP(stree1, ptree3, "xp", l, options), 1, message(ptree3, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", l, options), 1, message(ptree2, l, options));
+            });
+            it('L maxProsody nonMinProsody', function() {
+                let options = {"maxSyntax": true, "minSyntax": true, "nonMinProsody":true, "maxProsody":true};
+                assert.equal(alignSP(stree1, ptree6, "xp", l, options), 1, message(ptree6, l, options));
+                assert.equal(alignSP(stree1, ptree5, "xp", l, options), 1, message(ptree5, l, options));
+                assert.equal(alignSP(stree1, ptree4, "xp", l, options), 0, message(ptree4, l, options));
+                assert.equal(alignSP(stree1, ptree3, "xp", l, options), 1, message(ptree3, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", l, options), 1, message(ptree2, l, options));
+            });
+            it('L nonMaxProsody nonMinProsody', function() {
+                let options = {"maxSyntax": true, "minSyntax": true, "nonMaxProsody":true, "nonMinProsody":true};
+                assert.equal(alignSP(stree1, ptree6, "xp", l, options), 0, message(ptree6, l, options));
+                assert.equal(alignSP(stree1, ptree5, "xp", l, options), 1, message(ptree5, l, options));
+                assert.equal(alignSP(stree1, ptree4, "xp", l, options), 1, message(ptree4, l, options));
+                assert.equal(alignSP(stree1, ptree3, "xp", l, options), 1, message(ptree3, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", l, options), 1, message(ptree2, l, options));
+            });
+
+            it('R maxProsody', function() {
+                let options = {"maxSyntax": true, "minSyntax": true, "maxProsody":true};
+                assert.equal(alignSP(stree1, ptree6, "xp", r, options), 0, message(ptree6, r, options));
+                assert.equal(alignSP(stree1, ptree5, "xp", r, options), 0, message(ptree5, r, options));
+                assert.equal(alignSP(stree1, ptree4, "xp", r, options), 0, message(ptree4, r, options));
+                assert.equal(alignSP(stree1, ptree3, "xp", r, options), 0, message(ptree3, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", r, options), 1, message(ptree2, r, options));
+            });
+            it('R nonMaxProsody', function() {
+                let options = {"maxSyntax": true, "minSyntax": true, "nonMaxProsody":true};
+                assert.equal(alignSP(stree1, ptree6, "xp", r, options), 0, message(ptree6, r, options));
+                assert.equal(alignSP(stree1, ptree5, "xp", r, options), 0, message(ptree5, r, options));
+                assert.equal(alignSP(stree1, ptree4, "xp", r, options), 0, message(ptree4, r, options));
+                assert.equal(alignSP(stree1, ptree3, "xp", r, options), 1, message(ptree3, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", r, options), 1, message(ptree2, r, options));
+            });
+            it('R minProsody', function() {
+                let options = {"maxSyntax": true, "minSyntax": true, "minProsody":true};
+                assert.equal(alignSP(stree1, ptree6, "xp", r, options), 0, message(ptree6, r, options));
+                assert.equal(alignSP(stree1, ptree5, "xp", r, options), 0, message(ptree5, r, options));
+                assert.equal(alignSP(stree1, ptree4, "xp", r, options), 0, message(ptree4, r, options));
+                assert.equal(alignSP(stree1, ptree3, "xp", r, options), 0, message(ptree3, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", r, options), 1, message(ptree2, r, options));
+            });
+            it('R maxProsody minProsody', function() {
+                let options = {"maxSyntax": true, "minSyntax": true, "maxProsody":true, "minProsody":true};
+                assert.equal(alignSP(stree1, ptree6, "xp", r, options), 1, message(ptree6, r, options));
+                assert.equal(alignSP(stree1, ptree5, "xp", r, options), 1, message(ptree5, r, options));
+                assert.equal(alignSP(stree1, ptree4, "xp", r, options), 1, message(ptree4, r, options));
+                assert.equal(alignSP(stree1, ptree3, "xp", r, options), 0, message(ptree3, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", r, options), 1, message(ptree2, r, options));
+            });
+            it('R nonMaxProsody minProsody', function() {
+                let options = {"maxSyntax": true, "minSyntax": true, "nonMaxProsody":true, "minProsody":true};
+                assert.equal(alignSP(stree1, ptree6, "xp", r, options), 0, message(ptree6, r, options));
+                assert.equal(alignSP(stree1, ptree5, "xp", r, options), 0, message(ptree5, r, options));
+                assert.equal(alignSP(stree1, ptree4, "xp", r, options), 0, message(ptree4, r, options));
+                assert.equal(alignSP(stree1, ptree3, "xp", r, options), 1, message(ptree3, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", r, options), 1, message(ptree2, r, options));
+            });
+            it('R nonMinProsody', function() {
+                let options = {"maxSyntax": true, "minSyntax": true, "nonMinProsody":true};
+                assert.equal(alignSP(stree1, ptree6, "xp", r, options), 0, message(ptree6, r, options));
+                assert.equal(alignSP(stree1, ptree5, "xp", r, options), 0, message(ptree5, r, options));
+                assert.equal(alignSP(stree1, ptree4, "xp", r, options), 0, message(ptree4, r, options));
+                assert.equal(alignSP(stree1, ptree3, "xp", r, options), 1, message(ptree3, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", r, options), 1, message(ptree2, r, options));
+            });
+            it('R maxProsody nonMinProsody', function() {
+                let options = {"maxSyntax": true, "minSyntax": true, "nonMinProsody":true, "maxProsody":true};
+                assert.equal(alignSP(stree1, ptree6, "xp", r, options), 0, message(ptree6, r, options));
+                assert.equal(alignSP(stree1, ptree5, "xp", r, options), 0, message(ptree5, r, options));
+                assert.equal(alignSP(stree1, ptree4, "xp", r, options), 0, message(ptree4, r, options));
+                assert.equal(alignSP(stree1, ptree3, "xp", r, options), 1, message(ptree3, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", r, options), 1, message(ptree2, r, options));
+            });
+            it('R nonMaxProsody nonMinProsody', function() {
+                let options = {"maxSyntax": true, "minSyntax": true, "nonMaxProsody":true, "nonMinProsody":true};
+                assert.equal(alignSP(stree1, ptree6, "xp", r, options), 0, message(ptree6, r, options));
+                assert.equal(alignSP(stree1, ptree5, "xp", r, options), 1, message(ptree5, r, options));
+                assert.equal(alignSP(stree1, ptree4, "xp", r, options), 1, message(ptree4, r, options));
+                assert.equal(alignSP(stree1, ptree3, "xp", r, options), 1, message(ptree3, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp", r, options), 1, message(ptree2, r, options));
+            });
+        });
+
+        describe('Tableau 8: maxSyntax nonMinSyntax', function() {
+            
+            let l = 'left';
+            let r = 'right';
+
+            it('L maxProsody', function() {
+                let options = {"maxSyntax": true, "nonMinSyntax": true, "maxProsody":true};
+                assert.equal(alignSP(stree1, ptree10, "xp", l, options), 0, message(ptree10, l, options));
+                assert.equal(alignSP(stree1, ptree9, "xp",  l, options), 0, message(ptree9,  l, options));
+                assert.equal(alignSP(stree1, ptree8, "xp",  l, options), 0, message(ptree8,  l, options));
+                assert.equal(alignSP(stree1, ptree7, "xp",  l, options), 0, message(ptree7,  l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 1, message(ptree2,  l, options));
+            });
+            it('L nonMaxProsody', function() {
+                let options = {"maxSyntax": true, "nonMinSyntax": true, "nonMaxProsody":true};
+                assert.equal(alignSP(stree1, ptree10, "xp", l, options), 0, message(ptree10, l, options));
+                assert.equal(alignSP(stree1, ptree9, "xp",  l, options), 0, message(ptree9,  l, options));
+                assert.equal(alignSP(stree1, ptree8, "xp",  l, options), 1, message(ptree8,  l, options));
+                assert.equal(alignSP(stree1, ptree7, "xp",  l, options), 1, message(ptree7,  l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 1, message(ptree2,  l, options));
+            });
+            it('L minProsody', function() {
+                let options = {"maxSyntax": true, "nonMinSyntax": true, "minProsody":true};
+                assert.equal(alignSP(stree1, ptree10, "xp", l, options), 1, message(ptree10, l, options));
+                assert.equal(alignSP(stree1, ptree9, "xp",  l, options), 0, message(ptree9,  l, options));
+                assert.equal(alignSP(stree1, ptree8, "xp",  l, options), 1, message(ptree8,  l, options));
+                assert.equal(alignSP(stree1, ptree7, "xp",  l, options), 0, message(ptree7,  l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 1, message(ptree2,  l, options));
+            });
+            it('L maxProsody minProsody', function() {
+                let options = {"maxSyntax": true, "nonMinSyntax": true, "maxProsody":true, "minProsody":true};
+                assert.equal(alignSP(stree1, ptree10, "xp", l, options), 1, message(ptree10, l, options));
+                assert.equal(alignSP(stree1, ptree9, "xp",  l, options), 1, message(ptree9,  l, options));
+                assert.equal(alignSP(stree1, ptree8, "xp",  l, options), 1, message(ptree8,  l, options));
+                assert.equal(alignSP(stree1, ptree7, "xp",  l, options), 0, message(ptree7,  l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 1, message(ptree2,  l, options));
+            });
+            it('L nonMaxProsody minProsody', function() {
+                let options = {"maxSyntax": true, "nonMinSyntax": true, "nonMaxProsody":true, "minProsody":true};
+                assert.equal(alignSP(stree1, ptree10, "xp", l, options), 1, message(ptree10, l, options));
+                assert.equal(alignSP(stree1, ptree9, "xp",  l, options), 0, message(ptree9,  l, options));
+                assert.equal(alignSP(stree1, ptree8, "xp",  l, options), 1, message(ptree8,  l, options));
+                assert.equal(alignSP(stree1, ptree7, "xp",  l, options), 1, message(ptree7,  l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 1, message(ptree2,  l, options));
+            });
+            it('L nonMinProsody', function() {
+                let options = {"maxSyntax": true, "nonMinSyntax": true, "nonMinProsody":true};
+                assert.equal(alignSP(stree1, ptree10, "xp", l, options), 0, message(ptree10, l, options));
+                assert.equal(alignSP(stree1, ptree9, "xp",  l, options), 0, message(ptree9,  l, options));
+                assert.equal(alignSP(stree1, ptree8, "xp",  l, options), 0, message(ptree8,  l, options));
+                assert.equal(alignSP(stree1, ptree7, "xp",  l, options), 1, message(ptree7,  l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 1, message(ptree2,  l, options));
+            });
+            it('L maxProsody nonMinProsody', function() {
+                let options = {"maxSyntax": true, "nonMinSyntax": true, "nonMinProsody":true, "maxProsody":true};
+                assert.equal(alignSP(stree1, ptree10, "xp", l, options), 0, message(ptree10, l, options));
+                assert.equal(alignSP(stree1, ptree9, "xp",  l, options), 0, message(ptree9,  l, options));
+                assert.equal(alignSP(stree1, ptree8, "xp",  l, options), 0, message(ptree8,  l, options));
+                assert.equal(alignSP(stree1, ptree7, "xp",  l, options), 1, message(ptree7,  l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 1, message(ptree2,  l, options));
+            });
+            it('L nonMaxProsody nonMinProsody', function() {
+                let options = {"maxSyntax": true, "nonMinSyntax": true, "nonMaxProsody":true, "nonMinProsody":true};
+                assert.equal(alignSP(stree1, ptree10, "xp", l, options), 0, message(ptree10, l, options));
+                assert.equal(alignSP(stree1, ptree9, "xp",  l, options), 1, message(ptree9,  l, options));
+                assert.equal(alignSP(stree1, ptree8, "xp",  l, options), 1, message(ptree8,  l, options));
+                assert.equal(alignSP(stree1, ptree7, "xp",  l, options), 1, message(ptree7,  l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 1, message(ptree2,  l, options));
+            });
+
+            it('R maxProsody', function() {
+                let options = {"maxSyntax": true, "nonMinSyntax": true, "maxProsody":true};
+                assert.equal(alignSP(stree1, ptree10, "xp", r, options), 1, message(ptree10, r, options));
+                assert.equal(alignSP(stree1, ptree9, "xp",  r, options), 1, message(ptree9,  r, options));
+                assert.equal(alignSP(stree1, ptree8, "xp",  r, options), 0, message(ptree8,  r, options));
+                assert.equal(alignSP(stree1, ptree7, "xp",  r, options), 0, message(ptree7,  r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 1, message(ptree2,  r, options));
+            });
+            it('R nonMaxProsody', function() {
+                let options = {"maxSyntax": true, "nonMinSyntax": true, "nonMaxProsody":true};
+                assert.equal(alignSP(stree1, ptree10, "xp", r, options), 0, message(ptree10, r, options));
+                assert.equal(alignSP(stree1, ptree9, "xp",  r, options), 0, message(ptree9,  r, options));
+                assert.equal(alignSP(stree1, ptree8, "xp",  r, options), 0, message(ptree8,  r, options));
+                assert.equal(alignSP(stree1, ptree7, "xp",  r, options), 1, message(ptree7,  r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 1, message(ptree2,  r, options));
+            });
+            it('R minProsody', function() {
+                let options = {"maxSyntax": true, "nonMinSyntax": true, "minProsody":true};
+                assert.equal(alignSP(stree1, ptree10, "xp", r, options), 0, message(ptree10, r, options));
+                assert.equal(alignSP(stree1, ptree9, "xp",  r, options), 0, message(ptree9,  r, options));
+                assert.equal(alignSP(stree1, ptree8, "xp",  r, options), 0, message(ptree8,  r, options));
+                assert.equal(alignSP(stree1, ptree7, "xp",  r, options), 0, message(ptree7,  r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 1, message(ptree2,  r, options));
+            });
+            it('R maxProsody minProsody', function() {
+                let options = {"maxSyntax": true, "nonMinSyntax": true, "maxProsody":true, "minProsody":true};
+                assert.equal(alignSP(stree1, ptree10, "xp", r, options), 1, message(ptree10, r, options));
+                assert.equal(alignSP(stree1, ptree9, "xp",  r, options), 1, message(ptree9,  r, options));
+                assert.equal(alignSP(stree1, ptree8, "xp",  r, options), 1, message(ptree8,  r, options));
+                assert.equal(alignSP(stree1, ptree7, "xp",  r, options), 0, message(ptree7,  r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 1, message(ptree2,  r, options));
+            });
+            it('R nonMaxProsody minProsody', function() {
+                let options = {"maxSyntax": true, "nonMinSyntax": true, "nonMaxProsody":true, "minProsody":true};
+                assert.equal(alignSP(stree1, ptree10, "xp", r, options), 0, message(ptree10, r, options));
+                assert.equal(alignSP(stree1, ptree9, "xp",  r, options), 0, message(ptree9,  r, options));
+                assert.equal(alignSP(stree1, ptree8, "xp",  r, options), 0, message(ptree8,  r, options));
+                assert.equal(alignSP(stree1, ptree7, "xp",  r, options), 1, message(ptree7,  r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 1, message(ptree2,  r, options));
+            });
+            it('R nonMinProsody', function() {
+                let options = {"maxSyntax": true, "nonMinSyntax": true, "nonMinProsody":true};
+                assert.equal(alignSP(stree1, ptree10, "xp", r, options), 0, message(ptree10, r, options));
+                assert.equal(alignSP(stree1, ptree9, "xp",  r, options), 1, message(ptree9,  r, options));
+                assert.equal(alignSP(stree1, ptree8, "xp",  r, options), 0, message(ptree8,  r, options));
+                assert.equal(alignSP(stree1, ptree7, "xp",  r, options), 1, message(ptree7,  r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 1, message(ptree2,  r, options));
+            });
+            it('R maxProsody nonMinProsody', function() {
+                let options = {"maxSyntax": true, "nonMinSyntax": true, "nonMinProsody":true, "maxProsody":true};
+                assert.equal(alignSP(stree1, ptree10, "xp", r, options), 1, message(ptree10, r, options));
+                assert.equal(alignSP(stree1, ptree9, "xp",  r, options), 1, message(ptree9,  r, options));
+                assert.equal(alignSP(stree1, ptree8, "xp",  r, options), 0, message(ptree8,  r, options));
+                assert.equal(alignSP(stree1, ptree7, "xp",  r, options), 1, message(ptree7,  r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 1, message(ptree2,  r, options));
+            });
+            it('R nonMaxProsody nonMinProsody', function() {
+                let options = {"maxSyntax": true, "nonMinSyntax": true, "nonMaxProsody":true, "nonMinProsody":true};
+                assert.equal(alignSP(stree1, ptree10, "xp", r, options), 0, message(ptree10, r, options));
+                assert.equal(alignSP(stree1, ptree9, "xp",  r, options), 1, message(ptree9,  r, options));
+                assert.equal(alignSP(stree1, ptree8, "xp",  r, options), 1, message(ptree8,  r, options));
+                assert.equal(alignSP(stree1, ptree7, "xp",  r, options), 1, message(ptree7,  r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 1, message(ptree2,  r, options));
+            });
+        });
+
+        describe('Tableau 9: nonMaxSyntax minSyntax', function() {
+            
+            let l = 'left';
+            let r = 'right';
+
+            it('L maxProsody', function() {
+                let options = {"nonMaxSyntax": true, "minSyntax": true, "maxProsody":true};
+                assert.equal(alignSP(stree1, ptree18, "xp", l, options), 1, message(ptree18, l, options));
+                assert.equal(alignSP(stree1, ptree17, "xp", l, options), 1, message(ptree17, l, options));
+                assert.equal(alignSP(stree1, ptree16, "xp", l, options), 0, message(ptree16, l, options));
+                assert.equal(alignSP(stree1, ptree15, "xp", l, options), 0, message(ptree15, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 1, message(ptree2,  l, options));
+            });
+            it('L nonMaxProsody', function() {
+                let options = {"nonMaxSyntax": true, "minSyntax": true, "nonMaxProsody":true};
+                assert.equal(alignSP(stree1, ptree18, "xp", l, options), 0, message(ptree18, l, options));
+                assert.equal(alignSP(stree1, ptree17, "xp", l, options), 0, message(ptree17, l, options));
+                assert.equal(alignSP(stree1, ptree16, "xp", l, options), 1, message(ptree16, l, options));
+                assert.equal(alignSP(stree1, ptree15, "xp", l, options), 1, message(ptree15, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 1, message(ptree2,  l, options));
+            });
+            it('L minProsody', function() {
+                let options = {"nonMaxSyntax": true, "minSyntax": true, "minProsody":true};
+                assert.equal(alignSP(stree1, ptree18, "xp", l, options), 1, message(ptree18, l, options));
+                assert.equal(alignSP(stree1, ptree17, "xp", l, options), 0, message(ptree17, l, options));
+                assert.equal(alignSP(stree1, ptree16, "xp", l, options), 1, message(ptree16, l, options));
+                assert.equal(alignSP(stree1, ptree15, "xp", l, options), 0, message(ptree15, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 1, message(ptree2,  l, options));
+            });
+            it('L maxProsody minProsody', function() {
+                let options = {"nonMaxSyntax": true, "minSyntax": true, "maxProsody":true, "minProsody":true};
+                assert.equal(alignSP(stree1, ptree18, "xp", l, options), 1, message(ptree18, l, options));
+                assert.equal(alignSP(stree1, ptree17, "xp", l, options), 1, message(ptree17, l, options));
+                assert.equal(alignSP(stree1, ptree16, "xp", l, options), 1, message(ptree16, l, options));
+                assert.equal(alignSP(stree1, ptree15, "xp", l, options), 0, message(ptree15, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 1, message(ptree2,  l, options));
+            });
+            it('L nonMaxProsody minProsody', function() {
+                let options = {"nonMaxSyntax": true, "minSyntax": true, "nonMaxProsody":true, "minProsody":true};
+                assert.equal(alignSP(stree1, ptree18, "xp", l, options), 1, message(ptree18, l, options));
+                assert.equal(alignSP(stree1, ptree17, "xp", l, options), 0, message(ptree17, l, options));
+                assert.equal(alignSP(stree1, ptree16, "xp", l, options), 1, message(ptree16, l, options));
+                assert.equal(alignSP(stree1, ptree15, "xp", l, options), 1, message(ptree15, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 1, message(ptree2,  l, options));
+            });
+            it('L nonMinProsody', function() {
+                let options = {"nonMaxSyntax": true, "minSyntax": true, "nonMinProsody":true};
+                assert.equal(alignSP(stree1, ptree18, "xp", l, options), 0, message(ptree18, l, options));
+                assert.equal(alignSP(stree1, ptree17, "xp", l, options), 1, message(ptree17, l, options));
+                assert.equal(alignSP(stree1, ptree16, "xp", l, options), 0, message(ptree16, l, options));
+                assert.equal(alignSP(stree1, ptree15, "xp", l, options), 1, message(ptree15, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 1, message(ptree2,  l, options));
+            });
+            it('L maxProsody nonMinProsody', function() {
+                let options = {"nonMaxSyntax": true, "minSyntax": true, "nonMinProsody":true, "maxProsody":true};
+                assert.equal(alignSP(stree1, ptree18, "xp", l, options), 1, message(ptree18, l, options));
+                assert.equal(alignSP(stree1, ptree17, "xp", l, options), 1, message(ptree17, l, options));
+                assert.equal(alignSP(stree1, ptree16, "xp", l, options), 0, message(ptree16, l, options));
+                assert.equal(alignSP(stree1, ptree15, "xp", l, options), 1, message(ptree15, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 1, message(ptree2,  l, options));
+            });
+            it('L nonMaxProsody nonMinProsody', function() {
+                let options = {"nonMaxSyntax": true, "minSyntax": true, "nonMaxProsody":true, "nonMinProsody":true};
+                assert.equal(alignSP(stree1, ptree18, "xp", l, options), 0, message(ptree18, l, options));
+                assert.equal(alignSP(stree1, ptree17, "xp", l, options), 1, message(ptree17, l, options));
+                assert.equal(alignSP(stree1, ptree16, "xp", l, options), 1, message(ptree16, l, options));
+                assert.equal(alignSP(stree1, ptree15, "xp", l, options), 1, message(ptree15, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 1, message(ptree2,  l, options));
+            });
+
+            it('R maxProsody', function() {
+                let options = {"nonMaxSyntax": true, "minSyntax": true, "maxProsody":true};
+                assert.equal(alignSP(stree1, ptree18, "xp", r, options), 0, message(ptree18, r, options));
+                assert.equal(alignSP(stree1, ptree17, "xp", r, options), 0, message(ptree17, r, options));
+                assert.equal(alignSP(stree1, ptree16, "xp", r, options), 0, message(ptree16, r, options));
+                assert.equal(alignSP(stree1, ptree15, "xp", r, options), 0, message(ptree15, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 1, message(ptree2,  r, options));
+            });
+            it('R nonMaxProsody', function() {
+                let options = {"nonMaxSyntax": true, "minSyntax": true, "nonMaxProsody":true};
+                assert.equal(alignSP(stree1, ptree18, "xp", r, options), 0, message(ptree18, r, options));
+                assert.equal(alignSP(stree1, ptree17, "xp", r, options), 0, message(ptree17, r, options));
+                assert.equal(alignSP(stree1, ptree16, "xp", r, options), 0, message(ptree16, r, options));
+                assert.equal(alignSP(stree1, ptree15, "xp", r, options), 1, message(ptree15, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 1, message(ptree2,  r, options));
+            });
+            it('R minProsody', function() {
+                let options = {"nonMaxSyntax": true, "minSyntax": true, "minProsody":true};
+                assert.equal(alignSP(stree1, ptree18, "xp", r, options), 0, message(ptree18, r, options));
+                assert.equal(alignSP(stree1, ptree17, "xp", r, options), 0, message(ptree17, r, options));
+                assert.equal(alignSP(stree1, ptree16, "xp", r, options), 0, message(ptree16, r, options));
+                assert.equal(alignSP(stree1, ptree15, "xp", r, options), 0, message(ptree15, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 1, message(ptree2,  r, options));
+            });
+            it('R maxProsody minProsody', function() {
+                let options = {"nonMaxSyntax": true, "minSyntax": true, "maxProsody":true, "minProsody":true};
+                assert.equal(alignSP(stree1, ptree18, "xp", r, options), 1, message(ptree18, r, options));
+                assert.equal(alignSP(stree1, ptree17, "xp", r, options), 1, message(ptree17, r, options));
+                assert.equal(alignSP(stree1, ptree16, "xp", r, options), 1, message(ptree16, r, options));
+                assert.equal(alignSP(stree1, ptree15, "xp", r, options), 0, message(ptree15, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 1, message(ptree2,  r, options));
+            });
+            it('R nonMaxProsody minProsody', function() {
+                let options = {"nonMaxSyntax": true, "minSyntax": true, "nonMaxProsody":true, "minProsody":true};
+                assert.equal(alignSP(stree1, ptree18, "xp", r, options), 0, message(ptree18, r, options));
+                assert.equal(alignSP(stree1, ptree17, "xp", r, options), 0, message(ptree17, r, options));
+                assert.equal(alignSP(stree1, ptree16, "xp", r, options), 0, message(ptree16, r, options));
+                assert.equal(alignSP(stree1, ptree15, "xp", r, options), 1, message(ptree15, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 1, message(ptree2,  r, options));
+            });
+            it('R nonMinProsody', function() {
+                let options = {"nonMaxSyntax": true, "minSyntax": true, "nonMinProsody":true};
+                assert.equal(alignSP(stree1, ptree18, "xp", r, options), 0, message(ptree18, r, options));
+                assert.equal(alignSP(stree1, ptree17, "xp", r, options), 0, message(ptree17, r, options));
+                assert.equal(alignSP(stree1, ptree16, "xp", r, options), 0, message(ptree16, r, options));
+                assert.equal(alignSP(stree1, ptree15, "xp", r, options), 1, message(ptree15, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 1, message(ptree2,  r, options));
+            });
+            it('R maxProsody nonMinProsody', function() {
+                let options = {"nonMaxSyntax": true, "minSyntax": true, "nonMinProsody":true, "maxProsody":true};
+                assert.equal(alignSP(stree1, ptree18, "xp", r, options), 0, message(ptree18, r, options));
+                assert.equal(alignSP(stree1, ptree17, "xp", r, options), 0, message(ptree17, r, options));
+                assert.equal(alignSP(stree1, ptree16, "xp", r, options), 0, message(ptree16, r, options));
+                assert.equal(alignSP(stree1, ptree15, "xp", r, options), 1, message(ptree15, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 1, message(ptree2,  r, options));
+            });
+            it('R nonMaxProsody nonMinProsody', function() {
+                let options = {"nonMaxSyntax": true, "minSyntax": true, "nonMaxProsody":true, "nonMinProsody":true};
+                assert.equal(alignSP(stree1, ptree18, "xp", r, options), 0, message(ptree18, r, options));
+                assert.equal(alignSP(stree1, ptree17, "xp", r, options), 1, message(ptree17, r, options));
+                assert.equal(alignSP(stree1, ptree16, "xp", r, options), 1, message(ptree16, r, options));
+                assert.equal(alignSP(stree1, ptree15, "xp", r, options), 1, message(ptree15, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 1, message(ptree2,  r, options));
+            });
+        });
+
+        describe('Tableau 10: nonMaxSyntax nonMinSyntax', function() {
+            
+            let l = 'left';
+            let r = 'right';
+
+            it("L maxProsody", function() {
+                let options = {"nonMaxSyntax": true, "nonMinSyntax": true, "maxProsody": true};
+                assert.equal(alignSP(stree1, ptree22, "xp", l, options), 1, message(ptree22, l, options));
+                assert.equal(alignSP(stree1, ptree21, "xp", l, options), 1, message(ptree21, l, options));
+                assert.equal(alignSP(stree1, ptree20, "xp", l, options), 0, message(ptree20, l, options));
+                assert.equal(alignSP(stree1, ptree19, "xp", l, options), 0, message(ptree19, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 1, message(ptree2,  l, options));
+            });
+            it("L nonMaxProsody", function() {
+                let options = {"nonMaxSyntax": true, "nonMinSyntax": true, "nonMaxProsody": true};
+                assert.equal(alignSP(stree1, ptree22, "xp", l, options), 0, message(ptree22, l, options));
+                assert.equal(alignSP(stree1, ptree21, "xp", l, options), 0, message(ptree21, l, options));
+                assert.equal(alignSP(stree1, ptree20, "xp", l, options), 1, message(ptree20, l, options));
+                assert.equal(alignSP(stree1, ptree19, "xp", l, options), 1, message(ptree19, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 1, message(ptree2,  l, options));
+            });
+            it("L minProsody", function() {
+                let options = {"nonMaxSyntax": true, "nonMinSyntax": true, "minProsody": true};
+                assert.equal(alignSP(stree1, ptree22, "xp", l, options), 1, message(ptree22, l, options));
+                assert.equal(alignSP(stree1, ptree21, "xp", l, options), 0, message(ptree21, l, options));
+                assert.equal(alignSP(stree1, ptree20, "xp", l, options), 1, message(ptree20, l, options));
+                assert.equal(alignSP(stree1, ptree19, "xp", l, options), 0, message(ptree19, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 1, message(ptree2,  l, options));
+            });
+            it("L maxProsody minProsody", function() {
+                let options = {"nonMaxSyntax": true, "nonMinSyntax": true, "maxProsody": true, "minProsody": true};
+                assert.equal(alignSP(stree1, ptree22, "xp", l, options), 1, message(ptree22, l, options));
+                assert.equal(alignSP(stree1, ptree21, "xp", l, options), 1, message(ptree21, l, options));
+                assert.equal(alignSP(stree1, ptree20, "xp", l, options), 1, message(ptree20, l, options));
+                assert.equal(alignSP(stree1, ptree19, "xp", l, options), 0, message(ptree19, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 1, message(ptree2,  l, options));
+            });
+            it("L nonMaxProsody minProsody", function() {
+                let options = {"nonMaxSyntax": true, "nonMinSyntax": true, "nonMaxProsody": true, "minProsody": true};
+                assert.equal(alignSP(stree1, ptree22, "xp", l, options), 1, message(ptree22, l, options));
+                assert.equal(alignSP(stree1, ptree21, "xp", l, options), 0, message(ptree21, l, options));
+                assert.equal(alignSP(stree1, ptree20, "xp", l, options), 1, message(ptree20, l, options));
+                assert.equal(alignSP(stree1, ptree19, "xp", l, options), 1, message(ptree19, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 1, message(ptree2,  l, options));
+            });
+            it("L nonMinProsody", function() {
+                let options = {"nonMaxSyntax": true, "nonMinSyntax": true, "nonMinProsody": true};
+                assert.equal(alignSP(stree1, ptree22, "xp", l, options), 0, message(ptree22, l, options));
+                assert.equal(alignSP(stree1, ptree21, "xp", l, options), 1, message(ptree21, l, options));
+                assert.equal(alignSP(stree1, ptree20, "xp", l, options), 0, message(ptree20, l, options));
+                assert.equal(alignSP(stree1, ptree19, "xp", l, options), 1, message(ptree19, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 1, message(ptree2,  l, options));
+            });
+            it("L maxProsody nonMinProsody", function() {
+                let options = {"nonMaxSyntax": true, "nonMinSyntax": true, "maxProsody": true, "nonMinProsody": true};
+                assert.equal(alignSP(stree1, ptree22, "xp", l, options), 1, message(ptree22, l, options));
+                assert.equal(alignSP(stree1, ptree21, "xp", l, options), 1, message(ptree21, l, options));
+                assert.equal(alignSP(stree1, ptree20, "xp", l, options), 0, message(ptree20, l, options));
+                assert.equal(alignSP(stree1, ptree19, "xp", l, options), 1, message(ptree19, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 1, message(ptree2,  l, options));
+            });
+            it("L nonMaxProsody nonMinProsody", function() {
+                let options = {"nonMaxSyntax": true, "nonMinSyntax": true, "nonMaxProsody": true, "nonMinProsody": true};
+                assert.equal(alignSP(stree1, ptree22, "xp", l, options), 0, message(ptree22, l, options));
+                assert.equal(alignSP(stree1, ptree21, "xp", l, options), 1, message(ptree21, l, options));
+                assert.equal(alignSP(stree1, ptree20, "xp", l, options), 1, message(ptree20, l, options));
+                assert.equal(alignSP(stree1, ptree19, "xp", l, options), 1, message(ptree19, l, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  l, options), 1, message(ptree2,  l, options));
+            });
+
+            it("R maxProsody", function() {
+                let options = {"nonMaxSyntax": true, "nonMinSyntax": true, "maxProsody": true};
+                assert.equal(alignSP(stree1, ptree22, "xp", r, options), 0, message(ptree22, r, options));
+                assert.equal(alignSP(stree1, ptree21, "xp", r, options), 0, message(ptree21, r, options));
+                assert.equal(alignSP(stree1, ptree20, "xp", r, options), 0, message(ptree20, r, options));
+                assert.equal(alignSP(stree1, ptree19, "xp", r, options), 0, message(ptree19, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 1, message(ptree2,  r, options));
+            });
+            it("R nonMaxProsody", function() {
+                let options = {"nonMaxSyntax": true, "nonMinSyntax": true, "nonMaxProsody": true};
+                assert.equal(alignSP(stree1, ptree22, "xp", r, options), 0, message(ptree22, r, options));
+                assert.equal(alignSP(stree1, ptree21, "xp", r, options), 0, message(ptree21, r, options));
+                assert.equal(alignSP(stree1, ptree20, "xp", r, options), 0, message(ptree20, r, options));
+                assert.equal(alignSP(stree1, ptree19, "xp", r, options), 1, message(ptree19, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 1, message(ptree2,  r, options));
+            });
+            it("R minProsody", function() {
+                let options = {"nonMaxSyntax": true, "nonMinSyntax": true, "minProsody": true};
+                assert.equal(alignSP(stree1, ptree22, "xp", r, options), 0, message(ptree22, r, options));
+                assert.equal(alignSP(stree1, ptree21, "xp", r, options), 0, message(ptree21, r, options));
+                assert.equal(alignSP(stree1, ptree20, "xp", r, options), 0, message(ptree20, r, options));
+                assert.equal(alignSP(stree1, ptree19, "xp", r, options), 0, message(ptree19, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 1, message(ptree2,  r, options));
+            });
+            it("R maxProsody minProsody", function() {
+                let options = {"nonMaxSyntax": true, "nonMinSyntax": true, "maxProsody": true, "minProsody": true};
+                assert.equal(alignSP(stree1, ptree22, "xp", r, options), 1, message(ptree22, r, options));
+                assert.equal(alignSP(stree1, ptree21, "xp", r, options), 1, message(ptree21, r, options));
+                assert.equal(alignSP(stree1, ptree20, "xp", r, options), 1, message(ptree20, r, options));
+                assert.equal(alignSP(stree1, ptree19, "xp", r, options), 0, message(ptree19, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 1, message(ptree2,  r, options));
+            });
+            it("R nonMaxProsody minProsody", function() {
+                let options = {"nonMaxSyntax": true, "nonMinSyntax": true, "nonMaxProsody": true, "minProsody": true};
+                assert.equal(alignSP(stree1, ptree22, "xp", r, options), 0, message(ptree22, r, options));
+                assert.equal(alignSP(stree1, ptree21, "xp", r, options), 0, message(ptree21, r, options));
+                assert.equal(alignSP(stree1, ptree20, "xp", r, options), 0, message(ptree20, r, options));
+                assert.equal(alignSP(stree1, ptree19, "xp", r, options), 1, message(ptree19, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 1, message(ptree2,  r, options));
+            });
+            it("R nonMinProsody", function() {
+                let options = {"nonMaxSyntax": true, "nonMinSyntax": true, "nonMinProsody": true};
+                assert.equal(alignSP(stree1, ptree22, "xp", r, options), 0, message(ptree22, r, options));
+                assert.equal(alignSP(stree1, ptree21, "xp", r, options), 0, message(ptree21, r, options));
+                assert.equal(alignSP(stree1, ptree20, "xp", r, options), 0, message(ptree20, r, options));
+                assert.equal(alignSP(stree1, ptree19, "xp", r, options), 1, message(ptree19, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 1, message(ptree2,  r, options));
+            });
+            it("R maxProsody nonMinProsody", function() {
+                let options = {"nonMaxSyntax": true, "nonMinSyntax": true, "maxProsody": true, "nonMinProsody": true};
+                assert.equal(alignSP(stree1, ptree22, "xp", r, options), 0, message(ptree22, r, options));
+                assert.equal(alignSP(stree1, ptree21, "xp", r, options), 0, message(ptree21, r, options));
+                assert.equal(alignSP(stree1, ptree20, "xp", r, options), 0, message(ptree20, r, options));
+                assert.equal(alignSP(stree1, ptree19, "xp", r, options), 1, message(ptree19, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 1, message(ptree2,  r, options));
+            });
+            it("R nonMaxProsody nonMinProsody", function() {
+                let options = {"nonMaxSyntax": true, "nonMinSyntax": true, "nonMaxProsody": true, "nonMinProsody": true};
+                assert.equal(alignSP(stree1, ptree22, "xp", r, options), 0, message(ptree22, r, options));
+                assert.equal(alignSP(stree1, ptree21, "xp", r, options), 1, message(ptree21, r, options));
+                assert.equal(alignSP(stree1, ptree20, "xp", r, options), 1, message(ptree20, r, options));
+                assert.equal(alignSP(stree1, ptree19, "xp", r, options), 1, message(ptree19, r, options));
+                assert.equal(alignSP(stree1, ptree2, "xp",  r, options), 1, message(ptree2,  r, options));
+            });
+        });
+
+        describe('Tableau 11: Tests L/R alignPS for all/only Syntactic Subcategories', function() {
+            
+            let l = 'left';
+            let r = 'right';
+
+            it('matchSP', function() {
+                assert.equal(matchSP(stree1, ptree1, "xp"), 0, message(ptree1));
+                assert.equal(matchSP(stree1, ptree2, "xp"), 4, message(ptree2));
+            });
+        });
+
+        describe('Tableau 12: Tests L/R alignPS for all/only Prosodic Subcategories', function() {
+            
+            let l = 'left';
+            let r = 'right';
+
+            it('matchSP', function() {
+                assert.equal(matchSP(stree1, ptree1, "xp"), 0, message(ptree1));
+                assert.equal(matchSP(stree1, ptree2, "xp"), 4, message(ptree2));
+            });
+        });
+
+        describe('Tableau 13: Tests L/R alignFoc', function() {
+            
+            let l = 'left';
+            let r = 'right';
+
+            it('matchSP', function() {
+                assert.equal(matchSP(stree1, ptree1, "xp"), 0, message(ptree1));
+                assert.equal(matchSP(stree1, ptree2, "xp"), 4, message(ptree2));
+            });
+        });
+
+        describe('Tableau 14: Tests L/R align(lexical item)', function() {
+            
+            let l = 'left';
+            let r = 'right';
+
+            it('matchSP', function() {
+                assert.equal(matchSP(stree1, ptree1, "xp"), 0, message(ptree1));
+                assert.equal(matchSP(stree1, ptree2, "xp"), 4, message(ptree2));
+            });
+        });
+
+        describe('Tableau 15: Tests WrapSP and WrapPS', function() {
+            it('matchSP', function() {
+                assert.equal(matchSP(stree1, ptree1, "xp"), 0, message(ptree1));
+                assert.equal(matchSP(stree1, ptree2, "xp"), 4, message(ptree2));
+            });
+        });
+
+        mocha.run(); //don't forget to run the test!!!
+
+        var stree1 =  {
+        "id": "root",
+        "cat": "cp",
+        "children": [
+            {
+                "cat": "xp",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "id": "a",
+                        "cat": "x0"
+                    },
+                    {
+                        "cat": "xp",
+                        "id": "nonminNonmax",
+                        "children": [
+                            {
+                                "id": "b",
+                                "cat": "x0"
+                            },
+                            {
+                                "cat": "xp",
+                                "id": "minNonmax",
+                                "children": [
+                                    {
+                                        "id": "c",
+                                        "cat": "x0"
+                                    },
+                                    {
+                                        "id": "d",
+                                        "cat": "x0"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "cat": "xp",
+                "id": "minMax",
+                "children": [
+                    {
+                        "id": "e",
+                        "cat": "x0"
+                    },
+                    {
+                        "id": "f",
+                        "cat": "x0"
+                    }
+                ]
+            }
+        ]
+    };
+            
+            
+    var ptree1 =  {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "id": "a",
+                        "cat": "w"
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "nonminNonmax",
+                        "children": [
+                            {
+                                "id": "b",
+                                "cat": "w"
+                            },
+                            {
+                                "cat": "phi",
+                                "id": "minNonmax",
+                                "children": [
+                                    {
+                                        "id": "c",
+                                        "cat": "w"
+                                    },
+                                    {
+                                        "id": "d",
+                                        "cat": "w"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "cat": "phi",
+                "id": "minMax",
+                "children": [
+                    {
+                        "id": "e",
+                        "cat": "w"
+                    },
+                    {
+                        "id": "f",
+                        "cat": "w"
+                    }
+                ]
+            }
+        ]
+    };
+
+    var ptree2 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "id": "Mismatch",
+                "cat": "w"
+            }
+        ]
+    };
+
+
+    var ptree3 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "minMax",
+                "children": [
+                    {
+                        "id": "e",
+                        "cat": "w"
+                    },
+                    {
+                        "id": "f",
+                        "cat": "w"
+                    }
+                ]
+            }
+        ]
+    };
+    
+    
+    var ptree4 =    {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "id": "e",
+                        "cat": "w"
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "minNonmax",
+                        "children": [
+                            {
+                                "id": "f",
+                                "cat": "w"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+    
+    
+    var ptree5 =    {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "id": "d",
+                        "cat": "w"
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "minNonmax",
+                        "children": [
+                            {
+                                "id": "e",
+                                "cat": "w"
+                            },
+                            {
+                                "id": "f",
+                                "cat": "w"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+    
+    var ptree6 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "id": "d",
+                        "cat": "w"
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "nonminNonmax",
+                        "children": [
+                            {
+                                "id": "e",
+                                "cat": "w"
+                            },
+                            {
+                                "cat": "phi",
+                                "id": "minNonmax",
+                                "children": [
+                                    {
+                                        "id": "f",
+                                        "cat": "w"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+    
+    
+    var ptree7 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "maxMin",
+                "children": [
+                    {
+                        "id": "a",
+                        "cat": "w"
+                    },
+                    {
+                        "id": "b",
+                        "cat": "w"
+                    },
+                    {
+                        "id": "c",
+                        "cat": "w"
+                    },
+                    {
+                        "id": "d",
+                        "cat": "w"
+                    }
+                ]
+            }
+        ]
+    };
+    
+    
+    var ptree8 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "maxNonmin",
+                "children": [
+                    {
+                        "id": "a",
+                        "cat": "w"
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "nonmaxMin",
+                        "children": [
+                            {
+                                "id": "b",
+                                "cat": "w"
+                            },
+                            {
+                                "id": "c",
+                                "cat": "w"
+                            },
+                            {
+                                "id": "d",
+                                "cat": "w"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+    
+    var ptree9 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "maxNonmin",
+                "children": [
+                    {
+                        "cat": "phi",
+                        "id": "nonmaxMin",
+                        "children": [
+                            {
+                                "id": "a",
+                                "cat": "w"
+                            },
+                            {
+                                "id": "b",
+                                "cat": "w"
+                            },
+                            {
+                                "id": "c",
+                                "cat": "w"
+                            },
+                            {
+                                "id": "d",
+                                "cat": "w"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "e",
+                        "cat": "w"
+                    }
+                ]
+            }
+        ]
+    };
+    
+    
+    var ptree10 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "maxNonmin",
+                "children": [
+                    {
+                        "cat": "phi",
+                        "id": "nonmaxNonmin",
+                        "children": [
+                            {
+                                "id": "a",
+                                "cat": "w"
+                            },
+                            {
+                                "cat": "phi",
+                                "id": "nonmaxMin",
+                                "children": [
+                                    {
+                                        "id": "b",
+                                        "cat": "w"
+                                    },
+                                    {
+                                        "id": "c",
+                                        "cat": "w"
+                                    },
+                                    {
+                                        "id": "d",
+                                        "cat": "w"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "id": "e",
+                        "cat": "w"
+                    }
+                ]
+            }
+        ]
+    };
+    
+    
+    var ptree11 =  {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "minMax",
+                "children": [
+                    {
+                        "id": "a",
+                        "cat": "w"
+                    },
+                    {
+                        "id": "b",
+                        "cat": "w"
+                    },
+                    {
+                        "id": "c",
+                        "cat": "w"
+                    },
+                    {
+                        "id": "d",
+                        "cat": "w"
+                    }
+                ]
+            },
+            {
+                "cat": "phi",
+                "id": "minMax",
+                "children": [
+                    {
+                        "id": "e",
+                        "cat": "w"
+                    },
+                    {
+                        "id": "f",
+                        "cat": "w"
+                    }
+                ]
+            }
+        ]
+    };
+    
+    
+    var ptree12 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "id": "a",
+                        "cat": "x0"
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "minNonmax",
+                        "children": [
+                            {
+                                "id": "b",
+                                "cat": "x0"
+                            },
+                            {
+                                "id": "c",
+                                "cat": "x0"
+                            },
+                            {
+                                "id": "d",
+                                "cat": "x0"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "cat": "phi",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "id": "e",
+                        "cat": "x0"
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "minNonmax",
+                        "children": [
+                            {
+                                "id": "f",
+                                "cat": "x0"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+    
+    
+    
+    var ptree13 =    {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "cat": "phi",
+                        "id": "minNonmax",
+                        "children": [
+                            {
+                                "id": "a",
+                                "cat": "x0"
+                            },
+                            {
+                                "id": "b",
+                                "cat": "x0"
+                            },
+                            {
+                                "id": "c",
+                                "cat": "x0"
+                            },
+                            {
+                                "id": "d",
+                                "cat": "x0"
+                            }
+                        ]
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "minNonmax",
+                        "children": [
+                            {
+                                "id": "e",
+                                "cat": "x0"
+                            },
+                            {
+                                "id": "f",
+                                "cat": "x0"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+    
+    
+    var ptree14 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "cat": "phi",
+                        "id": "nonminNonmax",
+                        "children": [
+                            {
+                                "id": "a",
+                                "cat": "x0"
+                            },
+                            {
+                                "cat": "phi",
+                                "id": "minNonmax",
+                                "children": [
+                                    {
+                                        "id": "b",
+                                        "cat": "x0"
+                                    },
+                                    {
+                                        "id": "c",
+                                        "cat": "x0"
+                                    },
+                                    {
+                                        "id": "d",
+                                        "cat": "x0"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "nonminNonmax",
+                        "children": [
+                            {
+                                "id": "e",
+                                "cat": "x0"
+                            },
+                            {
+                                "cat": "phi",
+                                "id": "minNonmax",
+                                "children": [
+                                    {
+                                        "id": "f",
+                                        "cat": "x0"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+    
+    var ptree15 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "minMax",
+                "children": [
+                    {
+                        "id": "c",
+                        "cat": "w"
+                    },
+                    {
+                        "id": "d",
+                        "cat": "w"
+                    }
+                ]
+            }
+        ]
+    };
+    
+    var ptree16 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "id": "c",
+                        "cat": "w"
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "minNonmax",
+                        "children": [
+                            {
+                                "id": "d",
+                                "cat": "w"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+    
+    var ptree17 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "id": "b",
+                        "cat": "w"
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "minNonmax",
+                        "children": [
+                            {
+                                "id": "c",
+                                "cat": "w"
+                            },
+                            {
+                                "id": "d",
+                                "cat": "w"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+    
+    
+    var ptree18 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "id": "b",
+                        "cat": "w"
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "nonminNonmax",
+                        "children": [
+                            {
+                                "id": "c",
+                                "cat": "w"
+                            },
+                            {
+                                "cat": "phi",
+                                "id": "minNonmax",
+                                "children": [
+                                    {
+                                        "id": "d",
+                                        "cat": "w"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+    
+    var ptree19 =    {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "minMax",
+                "children": [
+                    {
+                        "id": "b",
+                        "cat": "w"
+                    },
+                    {
+                        "id": "c",
+                        "cat": "w"
+                    },
+                    {
+                        "id": "d",
+                        "cat": "w"
+                    }
+                ]
+            }
+        ]
+    };
+    
+    var ptree20 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "id": "b",
+                        "cat": "w"
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "minNonmax",
+                        "children": [
+                            {
+                                "id": "c",
+                                "cat": "w"
+                            },
+                            {
+                                "id": "d",
+                                "cat": "w"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+    
+    var ptree21 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "maxNonmin",
+                "children": [
+                    {
+                        "id": "a",
+                        "cat": "w"
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "nonmaxMin",
+                        "children": [
+                            {
+                                "id": "b",
+                                "cat": "w"
+                            },
+                            {
+                                "id": "c",
+                                "cat": "w"
+                            },
+                            {
+                                "id": "d",
+                                "cat": "w"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+    
+    var ptree22 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "id": "a",
+                        "cat": "x0"
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "nonminNonmax",
+                        "children": [
+                            {
+                                "id": "b",
+                                "cat": "x0"
+                            },
+                            {
+                                "cat": "phi",
+                                "id": "minNonmax",
+                                "children": [
+                                    {
+                                        "id": "c",
+                                        "cat": "x0"
+                                    },
+                                    {
+                                        "id": "d",
+                                        "cat": "x0"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+    
+    var ptree23 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "minMax",
+                "children": [
+                    {
+                        "id": "c",
+                        "cat": "w"
+                    },
+                    {
+                        "id": "d",
+                        "cat": "w"
+                    }
+                ]
+            },
+            {
+                "cat": "phi",
+                "id": "minMax",
+                "children": [
+                    {
+                        "id": "e",
+                        "cat": "w"
+                    },
+                    {
+                        "id": "f",
+                        "cat": "w"
+                    }
+                ]
+            }
+        ]
+    };
+    
+    var ptree24 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "id": "c",
+                        "cat": "w"
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "minNonmax",
+                        "children": [
+                            {
+                                "id": "d",
+                                "cat": "w"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "cat": "phi",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "id": "e",
+                        "cat": "w"
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "minNonmax",
+                        "children": [
+                            {
+                                "id": "f",
+                                "cat": "w"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+    
+    var ptree25 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "cat": "phi",
+                        "id": "minNonmax",
+                        "children": [
+                            {
+                                "id": "c",
+                                "cat": "w"
+                            },
+                            {
+                                "id": "d",
+                                "cat": "w"
+                            }
+                        ]
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "minNonmax",
+                        "children": [
+                            {
+                                "id": "e",
+                                "cat": "w"
+                            },
+                            {
+                                "id": "f",
+                                "cat": "w"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+    
+    var ptree26 =     {
+        "id": "root",
+        "cat": "i",
+        "children": [
+            {
+                "cat": "phi",
+                "id": "nonminMax",
+                "children": [
+                    {
+                        "cat": "phi",
+                        "id": "nonminNonmax",
+                        "children": [
+                            {
+                                "id": "c",
+                                "cat": "x0"
+                            },
+                            {
+                                "cat": "phi",
+                                "id": "minNonmax",
+                                "children": [
+                                    {
+                                        "id": "d",
+                                        "cat": "x0"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "cat": "phi",
+                        "id": "nonminNonmax",
+                        "children": [
+                            {
+                                "id": "e",
+                                "cat": "x0"
+                            },
+                            {
+                                "cat": "phi",
+                                "id": "minNonmax",
+                                "children": [
+                                    {
+                                        "id": "f",
+                                        "cat": "x0"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+
+    </script>
+    <!--That's all you need for testing with mocha and chai-->
+
+	<pre id="results-container"></pre>
+
+<script>
+    window.addEventListener("load", function(){
+		// GEN is defined in candidategenerator.js
+		// Arguments: 
+		// - syntactic tree object, which appears in the first cell of the table
+		// - a string consisting of a space separated list of terminals
+		// Returns: an array of pairs <stree, ptree>
+		var myCandSet = GEN({cat: 'w', id: 'a_b_c-clitic'}, 'a b c-clitic');
+
+		// Array of string versions of function names
+		// Category arguments for the functions appear after a hyphen
+		var myConstraintSet = ['matchSP-xp', 'binMinBranches-phi', 'binMaxBranches-phi'];
+
+		// makeTableau() is defined in tableauMaker.js
+		var myTableau = makeTableau(myCandSet, myConstraintSet);
+
+		//Defined in prototypeInterface.js
+		writeTableau(myTableau);
+		
+		//Unhide the tableau div in the html
+        revealNextSegment();
+    });
+
+</script>
+
+</body></html>
