@@ -38,24 +38,6 @@
             \n\t${parenthesizeTree(stree1)} --> ${parenthesizeTree(ptree)}`;
         }
 
-        function messageFoc(ptree, d, options) {
-            options = options || {"no options": 0};
-            return `alignFoc with direction ${d} and ${Object.keys(options)},\
-            \n\t${parenthesizeTree(stree1)} --> ${parenthesizeTree(ptree)}`;
-        }
-
-        function messageLex(ptree, d, options) {
-            options = options || {"no options": 0};
-            return `align with direction ${d} and ${Object.keys(options)},\
-            \n\t${parenthesizeTree(stree1)} --> ${parenthesizeTree(ptree)}`;
-        }
-
-        function messageWrap(ptree, d, options) {
-            options = options || {"no options": 0};
-            return `align with direction ${d} and ${Object.keys(options)},\
-            \n\t${parenthesizeTree(stree1)} --> ${parenthesizeTree(ptree)}`;
-        }
-
         describe('Tableau 1: Tests L/R align for all/only Syntactic Subcategories', function() {
 
             let l = "left";
@@ -1330,54 +1312,10 @@
             });
         });
 
-        describe('Tableau 11: Tests L/R alignPS for all/only Syntactic Subcategories', function() {
-            
-            let l = 'left';
-            let r = 'right';
-
-            it('matchSP', function() {
-                assert.equal(matchSP(stree1, ptree1, "xp"), 0, message(ptree1));
-                assert.equal(matchSP(stree1, ptree2, "xp"), 4, message(ptree2));
-            });
-        });
-
-        describe('Tableau 12: Tests L/R alignPS for all/only Prosodic Subcategories', function() {
-            
-            let l = 'left';
-            let r = 'right';
-
-            it('matchSP', function() {
-                assert.equal(matchSP(stree1, ptree1, "xp"), 0, message(ptree1));
-                assert.equal(matchSP(stree1, ptree2, "xp"), 4, message(ptree2));
-            });
-        });
-
-        describe('Tableau 13: Tests L/R alignFoc', function() {
-            
-            let l = 'left';
-            let r = 'right';
-
-            it('matchSP', function() {
-                assert.equal(matchSP(stree1, ptree1, "xp"), 0, message(ptree1));
-                assert.equal(matchSP(stree1, ptree2, "xp"), 4, message(ptree2));
-            });
-        });
-
-        describe('Tableau 14: Tests L/R align(lexical item)', function() {
-            
-            let l = 'left';
-            let r = 'right';
-
-            it('matchSP', function() {
-                assert.equal(matchSP(stree1, ptree1, "xp"), 0, message(ptree1));
-                assert.equal(matchSP(stree1, ptree2, "xp"), 4, message(ptree2));
-            });
-        });
-
-        describe('Tableau 15: Tests WrapSP and WrapPS', function() {
-            it('matchSP', function() {
-                assert.equal(matchSP(stree1, ptree1, "xp"), 0, message(ptree1));
-                assert.equal(matchSP(stree1, ptree2, "xp"), 4, message(ptree2));
+        describe('Tableau 11: Tests Wrap', function() {
+            it('Wrap', function() {
+                assert.equal(wrap(stree1, ptree1, "xp"), 0, message(ptree1));
+                assert.equal(wrap(stree1, ptree2, "xp"), 4, message(ptree2));
             });
         });
 
@@ -2417,30 +2355,5 @@
     <!--That's all you need for testing with mocha and chai-->
 
 	<pre id="results-container"></pre>
-
-<script>
-    window.addEventListener("load", function(){
-		// GEN is defined in candidategenerator.js
-		// Arguments: 
-		// - syntactic tree object, which appears in the first cell of the table
-		// - a string consisting of a space separated list of terminals
-		// Returns: an array of pairs <stree, ptree>
-		var myCandSet = GEN({cat: 'w', id: 'a_b_c-clitic'}, 'a b c-clitic');
-
-		// Array of string versions of function names
-		// Category arguments for the functions appear after a hyphen
-		var myConstraintSet = ['matchSP-xp', 'binMinBranches-phi', 'binMaxBranches-phi'];
-
-		// makeTableau() is defined in tableauMaker.js
-		var myTableau = makeTableau(myCandSet, myConstraintSet);
-
-		//Defined in prototypeInterface.js
-		writeTableau(myTableau);
-		
-		//Unhide the tableau div in the html
-        revealNextSegment();
-    });
-
-</script>
 
 </body></html>
