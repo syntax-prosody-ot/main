@@ -62,6 +62,10 @@
                 assert.equal(binLeaves({}, fiveTree, 'phi'), 1);
                 assert.equal(binLeavesGradient({}, fiveTree, 'phi'), 3);
             })
+            it('maximal ternarity constraints work', function(){
+                assert.equal(ternMaxBranches({}, fiveTree, 'phi'), 1);
+                assert.equal(ternMaxLeaves({}, fiveTree, 'phi'), 1);
+            });
         });
         
         mocha.run(); //don't forget to run the test!!!
@@ -82,7 +86,7 @@
         let n = 2;
 		// Array of string versions of function names
         // Category arguments for the functions appear after a hyphen
-        var myConstraintSet = ['binMaxBranches-phi', 'ternMaxBranches-phi'];
+        var myConstraintSet = ['binMaxBranches-phi', 'ternMaxBranches-phi', 'binMaxLeaves-phi', 'ternMaxLeaves-phi'];
 
 		// makeTableau() is defined in tableauMaker.js
 		var myTableau = makeTableau(myCandSet, myConstraintSet);
