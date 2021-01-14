@@ -40,6 +40,60 @@ function strongStart_Elfner(s, ptree, k){
 	return vcount;
 }
 
+/* Hsu 2016, p. 195
+	"STRONGSTART(k/p)
+	Assign a violation mark for every prosodic constituent whose leftmost daughter
+	constituent is of type k and is lower in the Prosodic Hierarchy than its sister
+	constituent immediately to the right, where k is at the left edge of a prosodic
+	constituent p.
+
+	The relevant notion of 'left edge' is defined as follows:
+	(57) A prosodic constituent k is at the left edge of prosodic constituent p iff.
+	a. p dominates k, and
+	b. no prosodic constituent that both dominates k and is dominated by p has a
+	leftmost daughter constituent that does not contain k."
+
+	[Feel free to create a paraphrase as well as keeping this quote!]
+	Note that the violations are for each parent p with k at its edge, not for every k.
+*/
+
+function strongStart_Hsu(s, ptree, k, p){
+
+	//base case: ptree is a leaf or only has one child
+	if(!ptree.children){
+		return 0;
+	}
+	
+	var vcount = 0;
+	
+	//need to check parent category here
+	// if ptree.cat === p, then do all this
+	if(ptree.children.length>1){		
+		var leftmostCat = ptree.children[0].cat; // CHANGE THIS to search down the tree
+		var sisterCat = ptree.children[1].cat;	// CHANGE THIS TOO
+		
+		//console.log(leftmostCat);
+		//console.log(sisterCat);
+		//console.log(pCat.isLower(leftmostCat, sisterCat));
+
+		// If not indexed to any particular category k, then we don't care what leftmostCat is
+		// Otherwise we want leftmostCat to equal k.
+		if((!k || leftmostCat===k) && (pCat.isLower(leftmostCat, sisterCat)))
+		{
+			vcount++;
+			//console.log("strongStart_Elfner violation: "+ptree.children[0]+" "+ptree.children[1]);
+		}
+	}
+	
+	// Recurse, if 
+	for(var i=0; i<ptree.children.length; i++){
+		child = ptree.children[i];
+		vcount += strongStart_Elfner(s, child, k);
+	}
+	
+	return vcount;
+}
+
 /* Assign a violation for every node of category cat whose leftmost daughter constituent
 *  is lower in the prosodic hierarchy than any sister constituent to its right.
 *  (intuitive strong start, according to the intuition of Bellik & Kalivoda 2019) 
