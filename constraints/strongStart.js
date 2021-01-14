@@ -1,6 +1,8 @@
 /* Assign a violation for every node whose leftmost daughter constituent is of type k
 *  and is lower in the prosodic hierarchy than its sister constituent immediately to its right: *(Kn Kn-1)
-*  Elfner's StrongStart.
+*  Elfner's StrongStart(k).
+*
+*  If k is absent, use any category (Selkirk's StrongStart which Elfner also uses).
 */
 
 function strongStart_Elfner(s, ptree, k){
@@ -20,7 +22,9 @@ function strongStart_Elfner(s, ptree, k){
 		//console.log(sisterCat);
 		//console.log(pCat.isLower(leftmostCat, sisterCat));
 
-		if(pCat.isLower(leftmostCat, sisterCat))
+		// If not indexed to any particular category k, then we don't care what leftmostCat is
+		// Otherwise we want leftmostCat to equal k.
+		if((!k || leftmostCat===k) && (pCat.isLower(leftmostCat, sisterCat)))
 		{
 			vcount++;
 			//console.log("strongStart_Elfner violation: "+ptree.children[0]+" "+ptree.children[1]);
