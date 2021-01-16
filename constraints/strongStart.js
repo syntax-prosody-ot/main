@@ -1,3 +1,14 @@
+function seekCatLeftEdge(node, cat, id){
+	if(!node.children){
+		return false;
+	}
+	if(node.children[0].cat == true && node.children[0].cat == cat){
+		return [node, node.children[0]];
+	} else {
+		return seekCatLeftEdge(node.children[0], cat);
+	}
+}
+
 /* Assign a violation for every node whose leftmost daughter constituent is of type k
 *  and is lower in the prosodic hierarchy than its sister constituent immediately to its right: *(Kn Kn-1)
 *  Elfner's StrongStart(k).
@@ -57,38 +68,30 @@ function strongStart_Elfner(s, ptree, k){
 	Note that the violations are for each parent p with k at its edge, not for every k.
 */
 
-function strongStart_Hsu(s, ptree, k, p){
+'CURRENT NEXT STEP IS MAKE SURE seekCatLeftEdge() WORKS AND HAS A PROPER DESCRIPTION'
+function strongStart_Hsu(s, ptree, k, p, node){
 
-	//base case: ptree is a leaf or only has one child
-	if(!ptree.children){
+	//since we cannot search up the tree, the original tree must be retained to determine dominance of p over k
+	node = node || ptree;
+
+	//base case: node is a leaf or only has one child
+	if(!node.children){
 		return 0;
 	}
 	
 	var vcount = 0;
 	
-	//need to check parent category here
-	// if ptree.cat === p, then do all this
-	if(ptree.children.length>1){		
-		var leftmostCat = ptree.children[0].cat; // CHANGE THIS to search down the tree
-		var sisterCat = ptree.children[1].cat;	// CHANGE THIS TOO
-		
-		//console.log(leftmostCat);
-		//console.log(sisterCat);
-		//console.log(pCat.isLower(leftmostCat, sisterCat));
-
-		// If not indexed to any particular category k, then we don't care what leftmostCat is
-		// Otherwise we want leftmostCat to equal k.
-		if((!k || leftmostCat===k) && (pCat.isLower(leftmostCat, sisterCat)))
-		{
+	// if node.children[0].cat === k and has a sibling, then compare it with its sibling as well as for domination by a node of cat p along the left edge.
+	if(node.children.length>1 && node.children[0].cat === k){		
+		if((pCat.isLower(node.children[0].cat, node.children[0].cat)) && seekCatLeftEdge(ptree, p, node.id)){ // searches tree for node of cat p dominating this node of cat k
 			vcount++;
-			//console.log("strongStart_Elfner violation: "+ptree.children[0]+" "+ptree.children[1]);
 		}
 	}
 	
 	// Recurse, if 
-	for(var i=0; i<ptree.children.length; i++){
-		child = ptree.children[i];
-		vcount += strongStart_Elfner(s, child, k);
+	for(var i=0; i<node.children.length; i++){
+		child = node.children[i];
+		vcount += strongStart_Elfner(s, ptree, k, p, child);
 	}
 	
 	return vcount;
