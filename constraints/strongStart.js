@@ -1,3 +1,19 @@
+function seekCatLeftEdge(node, cat, id){
+	if(!node.children){
+		return 0;
+	}
+	if(node.cat === cat && (searchDownLeft(node, id) || node.id === id)){
+		return 1;
+	}
+	else {
+		for(var i=0; i<node.children.length; i++){
+			if(seekCatLeftEdge(node.children[i], cat, id)){
+				return 1;
+			}
+		}
+	}
+}
+
 function searchDownLeft(node, id){
 	if(!node.children){
 		return 0;
@@ -7,22 +23,6 @@ function searchDownLeft(node, id){
 	}
 	else {
 		return searchDownLeft(node.children[0], id);
-	}
-}
-
-function seekCatLeftEdge(node, cat, id){
-	if(!node.children){
-		return 0;
-	}
-	if(node.cat === cat && searchDownLeft(node, id)){
-		return 1;
-	}
-	else {
-		for(var i=0; i<node.children.length; i++){
-			if(seekCatLeftEdge(node.children[i], cat, id)){
-				return 1;
-			}
-		}
 	}
 }
 
@@ -85,7 +85,6 @@ function strongStart_Elfner(s, ptree, k){
 	Note that the violations are for each parent p with k at its edge, not for every k.
 */
 
-'CURRENT NEXT STEP IS TESTING AND WRITING PROPER DESCRIPTIONS'
 function strongStart_Hsu(s, ptree, k, p, node){
 
 	//since we cannot search up the tree, the original tree must be retained to determine whether a node of cat p dominates a node of cat k.
@@ -292,3 +291,32 @@ function strongStartInit(stree, ptree, cat){
 }
 
 
+//Searches ptree for node of cat p, then checks to see if it dominates (or is itself) the parent node (id) of the node of cat k under question.
+function seekCatLeftEdge(node, p, id){
+	if(!node.children){
+		return 0;
+	}
+	if(node.cat === p && (searchDownLeft(node, id) || node.id === id)){
+		return 1;
+	}
+	else {
+		for(var i=0; i<node.children.length; i++){
+			if(seekCatLeftEdge(node.children[i], p, id)){
+				return 1;
+			}
+		}
+	}
+}
+
+//Recurses down the first children a node to check whether or not it dominates a node with the specified id at its left edge.
+function searchDownLeft(node, id){
+	if(!node.children){
+		return 0;
+	}
+	if(node.children[0].id === id){
+		return 1;
+	}
+	else {
+		return searchDownLeft(node.children[0], id);
+	}
+}
