@@ -6,7 +6,7 @@ function searchDownLeft(node, id){
 		return 1;
 	}
 	else {
-		return searchDownLeft(node, id);
+		return searchDownLeft(node.children[0], id);
 	}
 }
 

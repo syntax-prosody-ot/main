@@ -32,15 +32,74 @@
     <!--Mocha is set up now, you just need to write and run tests-->
     <script>
         describe('"Describe" blocks show up as headers', function() {
+
+            let k = 'w';
+            let p = 'i';
+
             it('"It" blocks show up as individual tests', function() {
-                assert.equal(strongStart_Hsu('', ptree1, k, p), 0);
+                assert.equal(strongStart_Hsu('', ptree1, k, p), 1);
             });
+        });
 
-        ptree1 = 
-
-
+        ptree1 = {
+            "id": "CP1",
+            "cat": "i",
+            "children": [
+                {
+                    "id": "a",
+                    "cat": "w"
+                },
+                {
+                    "cat": "i",
+                    "id": "XP_9",
+                    "children": [
+                        {
+                            "cat": "phi",
+                            "id": "XP_8",
+                            "children": [
+                                {
+                                    "cat": "phi",
+                                    "id": "XP_7",
+                                    "children": [
+                                        {
+                                            "id": "b",
+                                            "cat": "w"
+                                        },
+                                        {
+                                            "cat": "phi",
+                                            "id": "XP_6",
+                                            "children": [
+                                                {
+                                                    "id": "c",
+                                                    "cat": "w"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "d",
+                    "cat": "w"
+                },
+                {
+                    "cat": "phi",
+                    "id": "XP_11",
+                    "children": [
+                        {
+                            "id": "e",
+                            "cat": "w"
+                        }
+                    ]
+                }
+            ]
+        };
 
         mocha.run(); //don't forget to run the test!!!
+
     </script>
     <!--That's all you need for testing with mocha and chai-->
 
