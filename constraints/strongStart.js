@@ -1,11 +1,28 @@
+function searchDownLeft(node, id){
+	if(!node.children){
+		return 0;
+	}
+	if(node.children[0].id === id){
+		return 1;
+	}
+	else {
+		return searchDownLeft(node, id);
+	}
+}
+
 function seekCatLeftEdge(node, cat, id){
 	if(!node.children){
-		return false;
+		return 0;
 	}
-	if(node.children[0].cat == true && node.children[0].cat == cat){
-		return [node, node.children[0]];
-	} else {
-		return seekCatLeftEdge(node.children[0], cat);
+	if(node.cat === cat && searchDownLeft(node, id)){
+		return 1;
+	}
+	else {
+		for(var i=0; i<node.children.length; i++){
+			if(seekCatLeftEdge(node.children[i], cat, id)){
+				return 1;
+			}
+		}
 	}
 }
 
@@ -68,10 +85,10 @@ function strongStart_Elfner(s, ptree, k){
 	Note that the violations are for each parent p with k at its edge, not for every k.
 */
 
-'CURRENT NEXT STEP IS MAKE SURE seekCatLeftEdge() WORKS AND HAS A PROPER DESCRIPTION'
+'CURRENT NEXT STEP IS TESTING AND WRITING PROPER DESCRIPTIONS'
 function strongStart_Hsu(s, ptree, k, p, node){
 
-	//since we cannot search up the tree, the original tree must be retained to determine dominance of p over k
+	//since we cannot search up the tree, the original tree must be retained to determine whether a node of cat p dominates a node of cat k.
 	node = node || ptree;
 
 	//base case: node is a leaf or only has one child
@@ -83,7 +100,7 @@ function strongStart_Hsu(s, ptree, k, p, node){
 	
 	// if node.children[0].cat === k and has a sibling, then compare it with its sibling as well as for domination by a node of cat p along the left edge.
 	if(node.children.length>1 && node.children[0].cat === k){		
-		if((pCat.isLower(node.children[0].cat, node.children[0].cat)) && seekCatLeftEdge(ptree, p, node.id)){ // searches tree for node of cat p dominating this node of cat k
+		if((pCat.isLower(node.children[0].cat, node.children[1].cat)) && seekCatLeftEdge(ptree, p, node.id)){ // searches tree for node of cat p dominating this node of cat k
 			vcount++;
 		}
 	}
@@ -91,7 +108,7 @@ function strongStart_Hsu(s, ptree, k, p, node){
 	// Recurse, if 
 	for(var i=0; i<node.children.length; i++){
 		child = node.children[i];
-		vcount += strongStart_Elfner(s, ptree, k, p, child);
+		vcount += strongStart_Hsu(s, ptree, k, p, child);
 	}
 	
 	return vcount;
