@@ -72,12 +72,14 @@ function addHeadsTo(ptree, cat='phi') {
     }
     result.push(localCopy);
 
+    //progressively change minimal nodes to right-headed for all combinations
     for(let i = 0; i < minimals.length; i++) {
         const resultLength = result.length;
         for(let j = 0; j < resultLength; j++) {
             localCopy = copyNode(result[j]);
             const thisMinimal = getMinimalNodes(localCopy)[i];
-            if(thisMinimal.children && thisMinimal.children.length > 1) {   
+            if(thisMinimal.children && thisMinimal.children.length > 1) {
+                // unary nodes are skipped to avoid duplicate trees   
                 thisMinimal.children[0].head = false;
                 addRightHead(thisMinimal);
                 result.push(localCopy);
@@ -88,7 +90,10 @@ function addHeadsTo(ptree, cat='phi') {
     return result;
 }
 
-// Main function. Takes list of trees and returns 
+// Main function. Takes list of trees and returns
+// combinations of left- and right-headed minimal
+// nodes of category 'cat' for each tree
+// can take list of trees or GEN output
 function addMinimalNodeHeads(treeList, cat='phi') {
     let result = [];
     for(let tree of treeList) {
