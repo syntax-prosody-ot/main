@@ -63,7 +63,7 @@ function getMinimalNodes(root, cat='phi') {
 // Accept single tree and return permutations of head placements
 function addHeadsTo(ptree, cat='phi') {
     let result = [];
-    let rightmostInMinimal = getRightEdge(getLeaves({children:getMinimalNodes(ptree)}));
+    let rightmostInMinimal = getRightEdge({children: getLeaves({children:getMinimalNodes(ptree)})});
     function addHeadsInner(root, node) {
         /* Expected sequence of marking
         ((a b) (c d))|
@@ -87,14 +87,15 @@ function addHeadsTo(ptree, cat='phi') {
                     //headed minimal nodes then get right heads on n > 1 th pass
                     node.children[0].head = false;
                     addRightHead(node);
-                    if(getRightEdge(node).id === rightmostInMinimal.id) {
-                        //if right edges line up, we have reached the end and this tree is ready to be added
-                        result.push(root);
-                    }
-                    else {
-                        //otherwise there are 
-                        addHeadsInner(copyNode(root));
-                    }
+                }
+
+                if(getRightEdge(node).id === getRightEdge(root).id) {
+                    //if right edges line up, we have reached the end and this tree is ready to be added
+                    result.push(root);
+                }
+                else {
+                    //otherwise there are 
+                    addHeadsInner(copyNode(root));
                 }
             }
             else { //addHeadsInner should be called on non-minimal nodes' children 

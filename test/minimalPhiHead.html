@@ -230,7 +230,7 @@
             });
         });
 
-        describe.skip("addHeadsTo", function() {
+        describe("addHeadsTo", function() {
             let testTrees = {
                 '(a)': {id: 'root', cat: 'phi', children: [
                         {id: "a", cat: "w",},
@@ -263,14 +263,9 @@
                 };
             });
 
-            it("Original (a) unchanged", function callBack(node) {
-                node = node || testTree['a'];
+            it("Original (a) unchanged", function () {
+                node = testTrees['(a)'];
                 assert.isUndefined(node.head);
-                if(node.children && node.children.length) {
-                    for(let child of node.children) {
-                        callBack(child);
-                    }
-                }
             });
 
             it("Correct length of (a b c)", function () {
