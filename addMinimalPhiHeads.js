@@ -60,12 +60,7 @@ function getMinimalNodes(root, cat='phi') {
     return result;
 }
 
-function getRightmostInMinimal(root, cat='phi') {
-    let minimals = getMinimalNodes(root, cat);
-    let rightmostMinimal = minimals[minimals.length - 1];
-    return rightmostMinimal.children[rightmostMinimal.children.length - 1];
-}
-
+// Accept single tree and return permutations of head placements for minimal nodes
 function addHeadsTo(ptree, cat='phi') {
     const result = [];
 
@@ -90,55 +85,6 @@ function addHeadsTo(ptree, cat='phi') {
         }
     }
 
-    return result;
-}
-
-// Accept single tree and return permutations of head placements
-function oldAddHeadsTo(ptree, cat='phi') {
-    let result = [];
-    let rightmostInMinimal = getRightmostInMinimal(ptree);
-    function addHeadsInner(root, node) {
-        /* Expected sequence of marking
-        ((a b) (c d))|
-                     |- (('a b) (c d))|
-                                      |- ((a 'b) ('c d))|
-                                      |                 |- ((a 'b) (c 'd))
-                                      |
-                                      |- (('a b) ('c d))|
-                                                        |- (('a b) (c 'd))
-            
-        */
-        node = node || root;
-        if(node.children && node.children.length) {
-            if(isMinimal(node) && node.cat === cat) {
-                if(!isHeaded(node)) {
-                    //minimal nodes, if unheaded, get left head
-                    addLeftHead(node);
-                    //addHeadsInner(copyNode(root)); //this line duplicates results in (a)
-                }
-                else if(node.children[0].head && node.children.length > 1) {
-                    //headed minimal nodes then get right heads on n > 1 th pass
-                    node.children[0].head = false;
-                    addRightHead(node);
-                }
-
-                if(getRightEdge(node).id === getRightEdge(root).id) {
-                    //if right edges line up, we have reached the end and this tree is ready to be added
-                    result.push(root);
-                }
-                else {
-                    //otherwise there are 
-                    addHeadsInner(copyNode(root));
-                }
-            }
-            else { //addHeadsInner should be called on non-minimal nodes' children 
-                for(let child of node.children) {
-                    addHeadsInner(root, child);
-                }
-            }
-        } //nothing needs to be done on terminal nodes
-    }
-    addHeadsInner(copyNode(ptree));
     return result;
 }
 
