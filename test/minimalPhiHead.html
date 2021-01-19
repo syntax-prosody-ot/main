@@ -301,6 +301,17 @@
                 };
             });
 
+            it("All one-headed for (a b c)", function () {
+                let tree1, tree2;
+                for(let tree of addHeadsTo(testTrees['(a b c)'])) {
+                    let numOfHeads = 0;
+                    for(let terminal of tree.children) {
+                        numOfHeads += terminal.head ? 1 : 0;
+                    }
+                    assert.equal(numOfHeads, 1);
+                }
+            });
+
             it("All unique for (a b c)", function () {
                 let tree1, tree2;
                 [tree1, tree2] = addHeadsTo(testTrees['(a b c)']);

@@ -66,8 +66,35 @@ function getRightmostInMinimal(root, cat='phi') {
     return rightmostMinimal.children[rightmostMinimal.children.length - 1];
 }
 
-// Accept single tree and return permutations of head placements
 function addHeadsTo(ptree, cat='phi') {
+    const result = [];
+
+    //initialize minimalNodes as left-headed
+    let localCopy = copyNode(ptree);
+    const minimals = getMinimalNodes(localCopy);
+    for(let node of minimals) {
+        addLeftHead(node);
+    }
+    result.push(localCopy);
+
+    for(let i = 0; i < minimals.length; i++) {
+        const resultLength = result.length;
+        for(let j = 0; j < resultLength; j++) {
+            localCopy = copyNode(result[j]);
+            const thisMinimal = getMinimalNodes(localCopy)[i];
+            if(thisMinimal.children && thisMinimal.children.length > 1) {   
+                thisMinimal.children[0].head = false;
+                addRightHead(thisMinimal);
+                result.push(localCopy);
+            }
+        }
+    }
+
+    return result;
+}
+
+// Accept single tree and return permutations of head placements
+function oldAddHeadsTo(ptree, cat='phi') {
     let result = [];
     let rightmostInMinimal = getRightmostInMinimal(ptree);
     function addHeadsInner(root, node) {
