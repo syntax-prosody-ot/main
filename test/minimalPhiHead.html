@@ -298,6 +298,64 @@
             it("Doesn't break when non-exhaustive", function () {
                 assert.lengthOf(addHeadsTo(testTrees['{(a) b}']), 1);
             });
+
+            it("Works for ((a) b (c))", function () {
+                
+            });
+        });
+
+        describe("addMinimalNodeHeads", function() {
+            let testTrees, testGENoutput, expectedOutput;
+            beforeEach(function() {
+                testTrees = [
+                    {id: 'root', cat: 'phi', children: [
+                        {id: 'supra-a', cat: 'phi', children: [
+                            {cat: 'w', id: 'a'}
+                        ]},
+                        {cat: 'w', id: 'b'},
+                        {id: 'supra-c', cat: 'phi', children: [
+                            {cat: 'w', 'id': 'c'}
+                        ]}
+                    ]},
+                    {id: 'root', cat: 'i', children: [
+                        {id: 'supra-a', cat: 'phi', children: [
+                            {cat: 'w', id: 'a'}
+                        ]},
+                        {cat: 'w', id: 'b'},
+                        {id: 'supra-c', cat: 'phi', children: [
+                            {cat: 'w', 'id': 'c'}
+                        ]}
+                    ]},
+                ]
+                testGENoutput = [[{}, testTrees[0]], [{}, testTrees[1]]]
+                expectedOutput = [
+                    {id: 'root', cat: 'phi', children: [
+                        {id: 'supra-a', cat: 'phi', children: [
+                            {cat: 'w', id: 'a', head: true}
+                        ]},
+                        {cat: 'w', id: 'b'},
+                        {id: 'supra-c', cat: 'phi', children: [
+                            {cat: 'w', 'id': 'c', head: true}
+                        ]}
+                    ]},
+                    {id: 'root', cat: 'i', children: [
+                        {id: 'supra-a', cat: 'phi', children: [
+                            {cat: 'w', id: 'a', head: true}
+                        ]},
+                        {cat: 'w', id: 'b'},
+                        {id: 'supra-c', cat: 'phi', children: [
+                            {cat: 'w', 'id': 'c', head: true}
+                        ]}
+                    ]},
+                ]
+            });
+            it("works for gen output", function () {
+                assert.deepEqual(expectedOutput, addMinimalNodeHeads(testGENoutput));
+            });
+
+            it("works for list of trees", function () {
+                assert.deepEqual(expectedOutput, addMinimalNodeHeads(testTrees));
+            });
         });
 
         mocha.run();

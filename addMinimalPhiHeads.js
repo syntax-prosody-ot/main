@@ -94,11 +94,11 @@ function addMinimalNodeHeads(treeList, cat='phi') {
     for(let tree of treeList) {
         if(tree.length && tree.length === 2) {
             // gen output, use latter of pair of trees
-            result.concat(addHeadsTo(tree[1]));
+            result = result.concat(addHeadsTo(tree[1]));
         }
         else if(tree.cat) {
             // not gen output, just a tree
-            result.concat(addHeadsTo(tree));
+            result = result.concat(addHeadsTo(tree));
         }
         else throw new Error("List of pairs of trees or list of trees expected, got neither");
     }
