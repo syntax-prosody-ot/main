@@ -60,10 +60,16 @@ function getMinimalNodes(root, cat='phi') {
     return result;
 }
 
+function getRightmostInMinimal(root, cat='phi') {
+    let minimals = getMinimalNodes(root, cat);
+    let rightmostMinimal = minimals[minimals.length - 1];
+    return rightmostMinimal.children[rightmostMinimal.children.length - 1];
+}
+
 // Accept single tree and return permutations of head placements
 function addHeadsTo(ptree, cat='phi') {
     let result = [];
-    let rightmostInMinimal = getRightEdge({children: getLeaves({children:getMinimalNodes(ptree)})});
+    let rightmostInMinimal = getRightmostInMinimal(ptree);
     function addHeadsInner(root, node) {
         /* Expected sequence of marking
         ((a b) (c d))|

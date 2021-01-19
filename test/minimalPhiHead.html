@@ -230,6 +230,29 @@
             });
         });
 
+        describe("getRightmostInMinimal", function() {
+            it("((a b c))", function () {
+                let testTree = {id: 'root', cat: 'phi', children: [
+                    {id: 'minimal', cat: 'phi', children: [
+                        {id: "a", cat: "w",},
+                        {id: "b", cat: "w",},
+                        {id: "c", cat: "w",},
+                    ]}
+                ]}
+                assert.equal('c', getRightmostInMinimal(testTree).id)
+            });
+
+            it("((a b) c)", function () {
+                let testTree = {id: 'root', cat: 'phi', children: [
+                    {id: 'minimal', cat: 'phi', children: [
+                        {id: "a", cat: "w",},
+                        {id: "b", cat: "w",},
+                    ]},
+                    {id: "c", cat: "w",},
+                ]}
+            });
+        });
+
         describe("addHeadsTo", function() {
             let testTrees = {
                 '(a)': {id: 'root', cat: 'phi', children: [
