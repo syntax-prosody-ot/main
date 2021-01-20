@@ -291,32 +291,45 @@ function strongStartInit(stree, ptree, cat){
 }
 
 
-//Searches ptree for node of cat p, then checks to see if it dominates (or is itself) the parent node (id) of the node of cat k under question.
-function seekCatLeftEdge(node, p, id){
-	if(!node.children){
+//A helper function for strongStart_Hsu(). Takes as arguments:
+
+//tree: a prosodic or syntactic tree to search
+//cat: a string representing a node category
+//id: a string representing the id of a node
+
+//Returns true if the tree contains a node of category cat which has at its left edge a node with the specified id, otherwise returns false.
+//Depends on hasIdAtLeftEdge()
+
+function catDomsIdAtLeftEdge(tree, cat, id){
+	if(!tree.children){
 		return false;
 	}
-	if(node.cat === p && (searchDownLeft(node, id) || node.id === id)){
+	if(tree.cat === cat && (hasIdAtLeftEdge(tree, id) || tree.id === id)){
 		return true;
 	}
 	else {
-		for(var i=0; i<node.children.length; i++){
-			if(seekCatLeftEdge(node.children[i], p, id)){
+		for(var i=0; i<tree.children.length; i++){
+			if(catDomsIdAtLeftEdge(tree.children[i], cat, id)){
 				return true;
 			}
 		}
 	}
 }
 
-//Recurses down the first children a node to check whether or not it dominates a node with the specified id at its left edge.
-function searchDownLeft(node, id){
-	if(!node.children){
+//A helper function for catDomsIdAtLeftEdge(). Takes as arguments:
+
+//tree: a prosodic or syntactic tree to search
+//id: a string representing the id of a node
+
+//Returns true if the tree has a node with the specified id at its left edge, otherwise returns false.
+function hasIdAtLeftEdge(tree, id){
+	if(!tree.children){
 		return false;
 	}
-	if(node.children[0].id === id){
+	if(tree.children[0].id === id){
 		return true;
 	}
 	else {
-		return searchDownLeft(node.children[0], id);
+		return hasIdAtLeftEdge(tree.children[0], id);
 	}
 }
