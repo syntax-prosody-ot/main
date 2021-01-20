@@ -16,7 +16,7 @@ function copyNode(node) {
     return result;
 }
 
-// Takes node and returns if any of node's children node's 'head' attrabute is true
+// Takes node and returns true if any of node's children had a true 'head' attribute
 function isHeaded(node) {
     let result = false;
     for (let child of node.children) {
@@ -27,7 +27,7 @@ function isHeaded(node) {
     return result;
 }
 
-// Accept node and add attrabute head: true to the leftmost child
+// Accept node and add attribute head: true to the leftmost child
 function addLeftHead(node) {
     if(node.children && node.children.length) {
         node.children[0].head = true;
@@ -35,7 +35,7 @@ function addLeftHead(node) {
     return node;
 }
 
-// Accept node and add attrabute head: true to the rightmost child
+// Accept node and add attribute head: true to the rightmost child
 function addRightHead(node) {
     if(node.children && node.children.length){
         node.children[node.children.length - 1].head = true;
