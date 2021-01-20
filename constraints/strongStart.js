@@ -113,6 +113,17 @@ function strongStart_Hsu(s, ptree, k, p, node){
 	return vcount;
 }
 
+//Wrapper functions for strongStart_Hsu to deal with the problem of having two separate category arguments
+function strongStart_Hsu_phi(s, ptree, k)
+{
+	return strongStart_Hsu(s, ptree, k,'phi');
+}
+
+function strongStart_Hsu_iota(s, ptree, k)
+{
+	return strongStart_Hsu(s, ptree, k, 'i');
+}
+
 /* Assign a violation for every node of category cat whose leftmost daughter constituent
 *  is lower in the prosodic hierarchy than any sister constituent to its right.
 *  (intuitive strong start, according to the intuition of Bellik & Kalivoda 2019) 
