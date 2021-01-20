@@ -33,81 +33,6 @@
     <!--Mocha is set up now, you just need to write and run tests-->
     <script>
 
-        describe('Tableau (58) in Hsu 2016', function() {
-
-            it('Hsu_Tree1', function() {
-                assert.equal(strongStart_Hsu('', ptree2, 'syll','phi'), 1);
-                assert.equal(strongStart_Hsu('', ptree2, 'syll','i'), 0);
-            });
-            it('Hsu_Tree2', function() {
-                assert.equal(strongStart_Hsu('', ptree3, 'syll','phi'), 1);
-                assert.equal(strongStart_Hsu('', ptree3, 'syll','i'), 0);
-            });
-            it('Hsu_Tree3', function() {
-                assert.equal(strongStart_Hsu('', ptree4, 'syll','phi'), 1);
-                assert.equal(strongStart_Hsu('', ptree4, 'syll','i'), 0);
-            });
-            it('Hsu_Tree4', function() {
-                assert.equal(strongStart_Hsu('', ptree5, 'syll','phi'), 0);
-                assert.equal(strongStart_Hsu('', ptree5, 'syll','i'), 0);
-            });
-        });
-
-        describe('Tableau (59) in Hsu 2016', function() {
-
-            it('Hsu_Tree5', function() {
-                assert.equal(strongStart_Hsu('', ptree6, 'syll','phi'), 0);
-                assert.equal(strongStart_Hsu('', ptree6, 'syll','i'), 1);
-            });
-            it('Hsu_Tree6', function() {
-                assert.equal(strongStart_Hsu('', ptree7, 'syll','phi'), 1);
-                assert.equal(strongStart_Hsu('', ptree7, 'syll','i'), 1);
-            });
-            it('Hsu_Tree7', function() {
-                assert.equal(strongStart_Hsu('', ptree8, 'syll','phi'), 1);
-                assert.equal(strongStart_Hsu('', ptree8, 'syll','i'), 1);
-            });
-            it('Hsu_Tree8', function() {
-                assert.equal(strongStart_Hsu('', ptree9, 'syll','phi'), 0);
-                assert.equal(strongStart_Hsu('', ptree9, 'syll','i'), 0);
-            });
-        });
-
-        describe('Tableau (60) in Hsu 2016', function() {
-
-            it('Hsu_Tree5', function() {
-                assert.equal(strongStart_Hsu('', ptree6, 'syll','phi'), 0);
-                assert.equal(strongStart_Hsu('', ptree6, 'syll','i'), 1);
-            });
-            it('Hsu_Tree6', function() {
-                assert.equal(strongStart_Hsu('', ptree7, 'syll','phi'), 1);
-                assert.equal(strongStart_Hsu('', ptree7, 'syll','i'), 1);
-            });
-            it('Hsu_Tree7', function() {
-                assert.equal(strongStart_Hsu('', ptree8, 'syll','phi'), 1);
-                assert.equal(strongStart_Hsu('', ptree8, 'syll','i'), 1);
-            });
-            it('Hsu_Tree8', function() {
-                assert.equal(strongStart_Hsu('', ptree9, 'syll','phi'), 0);
-                assert.equal(strongStart_Hsu('', ptree9, 'syll','i'), 0);
-            });
-        });
-
-        describe('Alternative Tests', function() {
-            it('Non-Left-Edge Recursive IP', function() {
-                assert.equal(strongStart_Hsu('', ptree1, 'w', 'i'), 2);
-                assert.equal(strongStart_Hsu('', ptree1, 'w', 'phi'), 1);
-            });
-            it('Balanced Tree', function() {
-                assert.equal(strongStart_Hsu('', ptree10, 'w', 'i'), 0);
-                assert.equal(strongStart_Hsu('', ptree10, 'phi', 'i'), 0);
-            });
-            it('Unbalanced Tree', function() {
-                assert.equal(strongStart_Hsu('', ptree11, 'phi', 'i'), 5);
-                assert.equal(strongStart_Hsu('', ptree11, 'phi', 'phi'), 4);
-            });
-        });
-
         ptree1 = {
             "id": "IP_1",
             "cat": "i",
@@ -494,6 +419,62 @@
                 }
             ]
         };
+
+        describe('Tableau (58) in Hsu 2016', function() {
+
+            it('Hsu_Tree1: '+parenthesizeTree(ptree2), function() {
+                assert.equal(strongStart_Hsu('', ptree2, 'syll','phi'), 1);
+                assert.equal(strongStart_Hsu('', ptree2, 'syll','i'), 0);
+            });
+            it('Hsu_Tree2: '+parenthesizeTree(ptree3), function() {
+                assert.equal(strongStart_Hsu('', ptree3, 'syll','phi'), 1);
+                assert.equal(strongStart_Hsu('', ptree3, 'syll','i'), 0);
+            });
+            it('Hsu_Tree3: '+parenthesizeTree(ptree4), function() {
+                assert.equal(strongStart_Hsu('', ptree4, 'syll','phi'), 1);
+                assert.equal(strongStart_Hsu('', ptree4, 'syll','i'), 0);
+            });
+            it('Hsu_Tree4: '+parenthesizeTree(ptree5), function() {
+                assert.equal(strongStart_Hsu('', ptree5, 'syll','phi'), 0);
+                assert.equal(strongStart_Hsu('', ptree5, 'syll','i'), 0);
+            });
+        });
+
+        describe('Tableau (59) in Hsu 2016', function() {
+
+            it('Hsu_Tree5: '+parenthesizeTree(ptree6), function() {
+                assert.equal(strongStart_Hsu('', ptree6, 'syll','phi'), 0);
+                assert.equal(strongStart_Hsu('', ptree6, 'syll','i'), 1);
+            });
+            it('Hsu_Tree6: '+parenthesizeTree(ptree7), function() {
+                assert.equal(strongStart_Hsu('', ptree7, 'syll','phi'), 1);
+                assert.equal(strongStart_Hsu('', ptree7, 'syll','i'), 1);
+            });
+            it('Hsu_Tree7: '+parenthesizeTree(ptree8), function() {
+                assert.equal(strongStart_Hsu('', ptree8, 'syll','phi'), 1);
+                assert.equal(strongStart_Hsu('', ptree8, 'syll','i'), 1);
+            });
+            it('Hsu_Tree8: '+parenthesizeTree(ptree9), function() {
+                assert.equal(strongStart_Hsu('', ptree9, 'syll','phi'), 0);
+                assert.equal(strongStart_Hsu('', ptree9, 'syll','i'), 0);
+            });
+        });
+
+        describe('Alternative Tests', function() {
+            it('Non-Left-Edge Recursive IP: '+parenthesizeTree(ptree1), function() {
+                assert.equal(strongStart_Hsu('', ptree1, 'w', 'i'), 2);
+                assert.equal(strongStart_Hsu('', ptree1, 'w', 'phi'), 1);
+            });
+            it('Balanced Tree: '+parenthesizeTree(ptree10), function() {
+                assert.equal(strongStart_Hsu('', ptree10, 'w', 'i'), 0);
+                assert.equal(strongStart_Hsu('', ptree10, 'phi', 'i'), 0);
+            });
+            it('Unbalanced Tree: '+parenthesizeTree(ptree11), function() {
+                assert.equal(strongStart_Hsu('', ptree11, 'phi', 'i'), 5);
+                assert.equal(strongStart_Hsu('', ptree11, 'phi', 'phi'), 4);
+            });
+        });
+
         
 
         mocha.run(); //don't forget to run the test!!!
