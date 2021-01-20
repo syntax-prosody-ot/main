@@ -22,6 +22,7 @@ function copyTree(oldTree){
 
 /* function to remove silent heads from a tree. Takes a (syntactic) tree as
  * the input. This is recursive, like everything else that parses trees in SPOT
+	Called by trimRedundantNodes()
  */
 function trimSilentTerminals(inputTree){
 	var treeCopy = copyTree(inputTree); //getting around pass by reference
@@ -44,6 +45,33 @@ function trimSilentTerminals(inputTree){
 		return tree;
 	}
 	return trimSilentInner(treeCopy);
+}
+
+/*  Function that removes non-lexical heads from a tree. 
+	Basically identical to trimSilentTerminals
+	Called by trimRedundantNodes()
+ */
+function trimFunctionalTerminals(inputTree){
+	var treeCopy = copyTree(inputTree); //getting around pass by reference
+	function trimFunctionalInner(tree){ //inner recursive function so we don't copy the tree n times
+		if(tree.children && tree.children.length){
+			//iterate over tree's children
+			for(var i = 0; i < tree.children.length; i++){
+				var child = tree.children[i];
+				if(child.func && !(child.children && child.children.length)){
+					tree.children.splice(i, 1); //remove child if it is functional and terminal
+					if(tree.children.length === 0){
+						tree.children = false; //children shouldn't really be an array any more
+					}
+				}
+				else if(child.children && child.children.length){
+					child = trimFunctionalInner(child); //recursive function call
+				}
+			}
+		}
+		return tree;
+	}
+	return trimFunctionalInner(treeCopy);
 }
 
 //function to trim non-x0 terminals
@@ -73,12 +101,16 @@ function trimDeadEndNodes(node){
  * and only the set of terminals that are dominated by one of its children of
  * the same category, eg. [[arbitrary terminals]]
  */
-function trimRedundantNodes(inputTree){
+function trimRedundantNodes(inputTree, attribute){
 	/*call the other two tree trimming functions first, because they might create
 	redundant nodes. trimSilentTerminals() might create dead-end terminals,
 	so call that inside of trim deadEndTerminals(). trimSilentTerminals()
 	creates a copy of the tree*/
-	var tree = trimDeadEndNodes(trimSilentTerminals(inputTree));
+	if(attribute=="silent"){
+		var tree = trimDeadEndNodes(trimSilentTerminals(inputTree));
+	}else if(attribute=="func"){
+		var tree = trimDeadEndNodes(trimFunctionalTerminals(inputTree));
+	}
 	function trimInner(node){
 		if(node.children && node.children.length){
 			for(var i = 0; i<node.children.length; i++){
@@ -98,4 +130,75 @@ function trimRedundantNodes(inputTree){
 		return node;
 	}
 	return trimInner(tree);
+}
+
+/*  This function is untested and isn't called anywhere. 
+	Call the other two tree trimming functions first, because they might create
+	redundant nodes. trimSilentTerminals() might create dead-end terminals,
+	so call that inside of trim deadEndTerminals(). trimSilentTerminals()
+	creates a copy of the tree
+*/
+function trimAttributedNodes(inputTree, attribute){
+	
+	var tree = copyTree(inputTree);
+	function trimInner(node){
+		if(node.children && node.children.length){
+			for(var i = 0; i<node.children.length; i++){
+				var child = node.children[i];
+				if(child.children && child.children.length){
+					if(node[attribute]){
+						//node is redundant, get rid of it\
+						node = trimInner(child); //recursive function call
+					}
+					else {
+						node.children[i] = trimInner(node.children[i]); //recursive function call
+					}
+				}
+			}
+		}
+		return node;
+	}
+	if(tree[attribute]){
+		tree.cat = NaN;
+	}
+	return trimInner(tree);
+}
+
+/* Helper function for markMinMax() in recursiveCatEvals.js
+*/
+function createDummies(inputTree, attribute){
+	/*finds xp's with specified attribute and replaces their cat with "dummy"*/
+	tree = copyTree(inputTree)
+	function createDummyInner(node, attribute){
+		if((attribute==="silent" && node.silentHead)
+			|| (attribute==="func" && node.func))
+			{
+				node.cat = "dummy";
+		}
+		if(node.children && node.children.length){
+			for(var i = 0; i<node.children.length; i++){
+				var child = node.children[i];
+				if(child.children && child.children.length){
+					node.children[i] = createDummyInner(child);
+				}
+			}
+		}
+		return node;
+	}
+	return createDummyInner(tree, attribute);
+}
+
+/*  Created during an abandoned approach to evaluating the maximality or 
+	minimality of nodes when only lexical nodes are being counted, for
+	e.g. MatchMaxLexical.
+	Tested during original creation but not tested by any current test files
+	due to reworking of markMinMax.
+*/
+function removeSpecifiedNodes(inputTree, attribute){
+	/*removes all terminal nodes with specified attribute and all redundant xp's left over.
+	  afterward, replaces xp's with particular attribute with node of category dummy
+	*/
+	var tree = trimRedundantNodes(inputTree, attribute);
+	//create dummmy nodes and return
+	return createDummies(tree, attribute);
 }
