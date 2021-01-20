@@ -294,15 +294,15 @@ function strongStartInit(stree, ptree, cat){
 //Searches ptree for node of cat p, then checks to see if it dominates (or is itself) the parent node (id) of the node of cat k under question.
 function seekCatLeftEdge(node, p, id){
 	if(!node.children){
-		return 0;
+		return false;
 	}
 	if(node.cat === p && (searchDownLeft(node, id) || node.id === id)){
-		return 1;
+		return true;
 	}
 	else {
 		for(var i=0; i<node.children.length; i++){
 			if(seekCatLeftEdge(node.children[i], p, id)){
-				return 1;
+				return true;
 			}
 		}
 	}
@@ -311,10 +311,10 @@ function seekCatLeftEdge(node, p, id){
 //Recurses down the first children a node to check whether or not it dominates a node with the specified id at its left edge.
 function searchDownLeft(node, id){
 	if(!node.children){
-		return 0;
+		return false;
 	}
 	if(node.children[0].id === id){
-		return 1;
+		return true;
 	}
 	else {
 		return searchDownLeft(node.children[0], id);
