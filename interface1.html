@@ -2016,9 +2016,9 @@
 							</div>
 						</div>
 						<div class="category-row">
-							<div class="category-selection-div"><input type="checkbox" name="category-strongStart" value="syll">&iota;</div>
 							<div class="category-selection-div"><input type="checkbox" name="category-strongStart" value="phi" checked="checked">&phi;</div>
 							<div class="category-selection-div"><input type="checkbox" name="category-strongStart" value="w">&omega;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-strongStart" value="syll">&sigma;</div>
 							<div class="category-selection-div"><input type="checkbox" name="category-strongStart" value="">all</div>
 						</div>
 					</div>
@@ -2072,6 +2072,41 @@
 								<div class="info">
 									<span class="content">For each set of sisters, assign one violation for every child whose prosodic category is lower than that of a non-minimal sister. E.g., assign a violation for &omega; that is adjacent to a non-minimal &phi;, but don't assign a violation for &omega; that is adjecent to a minimal &phi;. SPOT function: equalSisters2(). <a href ="https://spot.sites.ucsc.edu/bibliography/">Ito & Mester 2017</a>.</span>
 								</div>
+							</div>
+						</div>
+
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="strongStart_Hsu_iota">StrongStart(&kappa;/&iota;) (Hsu) </span>
+								<div class="info">
+									<span class="content">
+									Assign one violation for every prosodic constituent whose leftmost daughter constituent is of type &kappa; and is lower in the Prosodic Hierarchy than its sister constituent immediately to the right, where &kappa; is at the left edge of an intonational phrase. (<a href ="https://spot.sites.ucsc.edu/bibliography/">Hsu 2016</a>).
+									SPOT function: strongStart_Hsu_iota().</span>
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-strongStart_Hsu_iota" value="phi">&phi;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-strongStart_Hsu_iota" value="w" checked="checked">&omega;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-strongStart_Hsu_iota" value="Ft">Ft</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-strongStart_Hsu_iota" value="syll">&sigma;</div>
+							</div>
+						</div>
+
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="strongStart_Hsu_phi">StrongStart(&kappa;/&phi;) (Hsu) </span>
+								<div class="info">
+									<span class="content">
+									Assign one violation for every prosodic constituent whose leftmost daughter constituent is of type &kappa; and is lower in the Prosodic Hierarchy than its sister constituent immediately to the right, where &kappa; is at the left edge of a phonological phrase. (<a href ="https://spot.sites.ucsc.edu/bibliography/">Hsu 2016</a>).
+									SPOT function: strongStart_Hsu_phi().</span>
+
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-strongStart_Hsu_phi" value="phi">&phi;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-strongStart_Hsu_phi" value="w" checked="checked">&omega;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-strongStart_Hsu_phi" value="Ft">Foot</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-strongStart_Hsu_phi" value="syll">&sigma;</div>
 							</div>
 						</div>
 
