@@ -1,31 +1,3 @@
-function seekCatLeftEdge(node, cat, id){
-	if(!node.children){
-		return 0;
-	}
-	if(node.cat === cat && (searchDownLeft(node, id) || node.id === id)){
-		return 1;
-	}
-	else {
-		for(var i=0; i<node.children.length; i++){
-			if(seekCatLeftEdge(node.children[i], cat, id)){
-				return 1;
-			}
-		}
-	}
-}
-
-function searchDownLeft(node, id){
-	if(!node.children){
-		return 0;
-	}
-	if(node.children[0].id === id){
-		return 1;
-	}
-	else {
-		return searchDownLeft(node.children[0], id);
-	}
-}
-
 /* Assign a violation for every node whose leftmost daughter constituent is of type k
 *  and is lower in the prosodic hierarchy than its sister constituent immediately to its right: *(Kn Kn-1)
 *  Elfner's StrongStart(k).
@@ -99,7 +71,7 @@ function strongStart_Hsu(s, ptree, k, p, node){
 	
 	// if node.children[0].cat === k and has a sibling, then compare it with its sibling as well as for domination by a node of cat p along the left edge.
 	if(node.children.length>1 && node.children[0].cat === k){		
-		if((pCat.isLower(node.children[0].cat, node.children[1].cat)) && seekCatLeftEdge(ptree, p, node.id)){ // searches tree for node of cat p dominating this node of cat k
+		if((pCat.isLower(node.children[0].cat, node.children[1].cat)) && catDomsIdAtLeftEdge(ptree, p, node.id)){ // searches tree for node of cat p dominating this node of cat k
 			vcount++;
 		}
 	}
