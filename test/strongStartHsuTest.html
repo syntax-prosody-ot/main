@@ -1,0 +1,511 @@
+<html><head> 
+    <title>SPOT Automated Testing</title>
+
+	<link rel="stylesheet" type="text/css" href="../spot.css">
+
+    <!--If running tests that do not have to do with the interface, run jsbuild.sh or jsbuild.bat
+        in root directory of the project. If running interface testing, run testbuild.sh
+        or testBuild.bat-->
+    <script src="../build/spot.js"></script>
+
+    <!--Mocha setup stuff (1/2)-->
+    <meta charset="UTF-8">
+    <script src="../lib/test/mocha.min.js"></script>
+    <script src="../lib/test/chai.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../lib/test/mocha.css">
+    <!--mocha setup stuff to be continued in document body-->
+    
+</head>
+<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+
+    <h2>SPOT Automated Testing</h2>
+
+    <!--Mocha stuff (2/2)-->
+    <script>
+        mocha.setup("bdd"); //brings "describe", "it", etc. into global namespace
+        //mocha.checkLeaks();
+        var assert = chai.assert; //no one wants to type out "chai.assert" every time
+    </script>
+    <div id="mocha">
+        StrongStart(k/p) Testing
+    </div>
+    <p>StrongStart(k/p) tableaux begin on page 95</p><a href="https://ling.auf.net/lingbuzz/003512">https://ling.auf.net/lingbuzz/003512</a>
+    <!--Mocha is set up now, you just need to write and run tests-->
+    <script>
+
+        ptree1 = {
+            "id": "IP_1",
+            "cat": "i",
+            "children": [
+                {
+                    "id": "a",
+                    "cat": "w"
+                },
+                {
+                    "cat": "i",
+                    "id": "IP_2",
+                    "children": [
+                        {
+                            "cat": "phi",
+                            "id": "PP_1",
+                            "children": [
+                                {
+                                    "cat": "phi",
+                                    "id": "PP_2",
+                                    "children": [
+                                        {
+                                            "id": "b",
+                                            "cat": "w"
+                                        },
+                                        {
+                                            "cat": "phi",
+                                            "id": "PP_3",
+                                            "children": [
+                                                {
+                                                    "id": "c",
+                                                    "cat": "w"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "d",
+                    "cat": "w"
+                },
+                {
+                    "cat": "phi",
+                    "id": "PP_4",
+                    "children": [
+                        {
+                            "id": "e",
+                            "cat": "w"
+                        }
+                    ]
+                }
+            ]
+        };
+
+        ptree2 = {
+            "id": "PP_1",
+            "cat": "phi",
+            "children": [
+                {
+                    "id": "a",
+                    "cat": "syll"
+                },
+                {
+                    "cat": "phi",
+                    "id": "PP_2",
+                    "children": [
+                        {
+                            "id": "b",
+                            "cat": "w"
+                        },
+                        {
+                            "id": "c",
+                            "cat": "w"
+                        }
+                    ]
+                }
+            ]
+        };
+
+        ptree3 = {
+            "id": "PP_1",
+            "cat": "phi",
+            "children": [
+                {
+                    "cat": "phi",
+                    "id": "PP_2",
+                    "children": [
+                        {
+                            "id": "a",
+                            "cat": "syll"
+                        },
+                        {
+                            "cat": "phi",
+                            "id": "PP_3",
+                            "children": [
+                                {
+                                    "id": "b",
+                                    "cat": "w"
+                                },
+                                {
+                                    "id": "c",
+                                    "cat": "w"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "d",
+                    "cat": "w"
+                }
+            ]
+        };
+
+        ptree4 = {
+            "id": "PP_1",
+            "cat": "phi",
+            "children": [
+                {
+                    "cat": "phi",
+                    "id": "PP_2",
+                    "children": [
+                        {
+                            "id": "a",
+                            "cat": "syll"
+                        },
+                        {
+                            "id": "b",
+                            "cat": "w"
+                        },
+                        {
+                            "id": "c",
+                            "cat": "w"
+                        }
+                    ]
+                },
+                {
+                    "id": "d",
+                    "cat": "w"
+                }
+            ]
+        };
+
+        ptree5 = {
+            "id": "PP_1",
+            "cat": "phi",
+            "children": [
+                {
+                    "cat": "phi",
+                    "id": "PP_2",
+                    "children": [
+                        {
+                            "cat": "phi",
+                            "id": "PP_3",
+                            "children": [
+                                {
+                                    "id": "a",
+                                    "cat": "w"
+                                },
+                                {
+                                    "id": "b",
+                                    "cat": "w"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "c",
+                            "cat": "syll"
+                        }
+                    ]
+                },
+                {
+                    "id": "d",
+                    "cat": "w"
+                }
+            ]
+        };
+
+        ptree6 = {
+                    "id": "IP_1",
+                    "cat": "i",
+                    "children": [
+                        {
+                            "id": "a",
+                            "cat": "syll"
+                        },
+                        {
+                            "cat": "phi",
+                            "id": "PP_1",
+                            "children": [
+                                {
+                                    "id": "b",
+                                    "cat": "w"
+                                },
+                                {
+                                    "id": "c",
+                                    "cat": "w"
+                                }
+                            ]
+                        }
+                    ]
+                };
+
+        ptree7 = {
+            "id": "IP_1",
+            "cat": "i",
+            "children": [
+                {
+                    "cat": "phi",
+                    "id": "PP_1",
+                    "children": [
+                        {
+                            "id": "a",
+                            "cat": "syll"
+                        },
+                        {
+                            "cat": "phi",
+                            "id": "PP_2",
+                            "children": [
+                                {
+                                    "id": "b",
+                                    "cat": "w"
+                                },
+                                {
+                                    "id": "c",
+                                    "cat": "w"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "d",
+                    "cat": "w"
+                }
+            ]
+        };
+
+        ptree8 = {
+            "id": "IP_1",
+            "cat": "i",
+            "children": [
+                {
+                    "cat": "phi",
+                    "id": "PP_1",
+                    "children": [
+                        {
+                            "id": "a",
+                            "cat": "syll"
+                        },
+                        {
+                            "id": "b",
+                            "cat": "w"
+                        },
+                        {
+                            "id": "c",
+                            "cat": "w"
+                        }
+                    ]
+                },
+                {
+                    "id": "d",
+                    "cat": "w"
+                }
+            ]
+        };
+
+        ptree9 = {
+            "id": "IP_1",
+            "cat": "i",
+            "children": [
+                {
+                    "cat": "phi",
+                    "id": "PP_1",
+                    "children": [
+                        {
+                            "cat": "phi",
+                            "id": "PP_2",
+                            "children": [
+                                {
+                                    "id": "a",
+                                    "cat": "w"
+                                },
+                                {
+                                    "id": "b",
+                                    "cat": "w"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "c",
+                            "cat": "syll"
+                        }
+                    ]
+                },
+                {
+                    "id": "d",
+                    "cat": "w"
+                }
+            ]
+        };
+
+        ptree10 = {
+            "cat": "i",
+            "id": "IP_1",
+            "children": [
+                {
+                    "cat": "phi",
+                    "id": "PP_1",
+                    "children": [
+                        {
+                            "id": "a",
+                            "cat": "w"
+                        },
+                        {
+                            "id": "b",
+                            "cat": "w"
+                        }
+                    ]
+                }
+            ]
+        };
+
+        ptree11 = {
+            "id": "IP_1",
+            "cat": "i",
+            "children": [
+                {
+                    "cat": "phi",
+                    "id": "PP_1",
+                    "children": [
+                        {
+                            "cat": "phi",
+                            "id": "PP_2",
+                            "children": [
+                                {
+                                    "cat": "phi",
+                                    "id": "PP_3",
+                                    "children": [
+                                        {
+                                            "cat": "phi",
+                                            "id": "PP_4",
+                                            "children": [
+                                                {
+                                                    "cat": "phi",
+                                                    "id": "PP_5",
+                                                    "children": [
+                                                        {
+                                                            "id": "a",
+                                                            "cat": "w"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "id": "b",
+                                                    "cat": "i"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": "c",
+                                            "cat": "i"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "d",
+                                    "cat": "i"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "e",
+                            "cat": "i"
+                        }
+                    ]
+                },
+                {
+                    "id": "f",
+                    "cat": "i"
+                }
+            ]
+        };
+
+        describe('Tableau (58) in Hsu 2016', function() {
+
+            it('Hsu_Tree1: '+parenthesizeTree(ptree2), function() {
+                assert.equal(strongStart_Hsu('', ptree2, 'syll','phi'), 1);
+                assert.equal(strongStart_Hsu('', ptree2, 'syll','i'), 0);
+            });
+            it('Hsu_Tree2: '+parenthesizeTree(ptree3), function() {
+                assert.equal(strongStart_Hsu('', ptree3, 'syll','phi'), 1);
+                assert.equal(strongStart_Hsu('', ptree3, 'syll','i'), 0);
+            });
+            it('Hsu_Tree3: '+parenthesizeTree(ptree4), function() {
+                assert.equal(strongStart_Hsu('', ptree4, 'syll','phi'), 1);
+                assert.equal(strongStart_Hsu('', ptree4, 'syll','i'), 0);
+            });
+            it('Hsu_Tree4: '+parenthesizeTree(ptree5), function() {
+                assert.equal(strongStart_Hsu('', ptree5, 'syll','phi'), 0);
+                assert.equal(strongStart_Hsu('', ptree5, 'syll','i'), 0);
+            });
+        });
+
+        describe('Tableau (59) in Hsu 2016', function() {
+
+            it('Hsu_Tree5: '+parenthesizeTree(ptree6), function() {
+                assert.equal(strongStart_Hsu('', ptree6, 'syll','phi'), 0);
+                assert.equal(strongStart_Hsu('', ptree6, 'syll','i'), 1);
+            });
+            it('Hsu_Tree6: '+parenthesizeTree(ptree7), function() {
+                assert.equal(strongStart_Hsu('', ptree7, 'syll','phi'), 1);
+                assert.equal(strongStart_Hsu('', ptree7, 'syll','i'), 1);
+            });
+            it('Hsu_Tree7: '+parenthesizeTree(ptree8), function() {
+                assert.equal(strongStart_Hsu('', ptree8, 'syll','phi'), 1);
+                assert.equal(strongStart_Hsu('', ptree8, 'syll','i'), 1);
+            });
+            it('Hsu_Tree8: '+parenthesizeTree(ptree9), function() {
+                assert.equal(strongStart_Hsu('', ptree9, 'syll','phi'), 0);
+                assert.equal(strongStart_Hsu('', ptree9, 'syll','i'), 0);
+            });
+        });
+
+        describe('Alternative Tests', function() {
+            it('Non-Left-Edge Recursive IP: '+parenthesizeTree(ptree1), function() {
+                assert.equal(strongStart_Hsu('', ptree1, 'w', 'i'), 2);
+                assert.equal(strongStart_Hsu('', ptree1, 'w', 'phi'), 1);
+            });
+            it('Balanced Tree: '+parenthesizeTree(ptree10), function() {
+                assert.equal(strongStart_Hsu('', ptree10, 'w', 'i'), 0);
+                assert.equal(strongStart_Hsu('', ptree10, 'phi', 'i'), 0);
+            });
+            it('Unbalanced Tree: '+parenthesizeTree(ptree11), function() {
+                assert.equal(strongStart_Hsu('', ptree11, 'phi', 'i'), 5);
+                assert.equal(strongStart_Hsu('', ptree11, 'phi', 'phi'), 4);
+            });
+        });
+
+        
+
+        mocha.run(); //don't forget to run the test!!!
+
+    </script>
+    <!--That's all you need for testing with mocha and chai-->
+
+    <script>
+        window.addEventListener("load", function(){
+            // GEN is defined in candidategenerator.js
+            // Arguments: 
+            // - syntactic tree object, which appears in the first cell of the table
+            // - a string consisting of a space separated list of terminals
+            // Returns: an array of pairs <stree, ptree>
+            var myCandSet = [['',ptree1],['',ptree10],['',ptree11]];
+
+            // Array of string versions of function names
+            // Category arguments for the functions appear after a hyphen
+            var myConstraintSet = ["strongStart_Hsu_phi-w","strongStart_Hsu_iota-w","strongStart_Hsu_phi-phi","strongStart_Hsu_iota-phi"];
+
+            // makeTableau() is defined in tableauMaker.js
+            var myTableau = makeTableau(myCandSet, myConstraintSet);
+
+            //Defined in prototypeInterface.js
+            writeTableau(myTableau);
+            
+            //Unhide the tableau div in the html
+            revealNextSegment();
+        });
+    </script>
+
+	<pre id="results-container"></pre>
+
+</body></html>

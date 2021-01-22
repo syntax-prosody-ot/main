@@ -1,6 +1,8 @@
 /* Assign a violation for every node whose leftmost daughter constituent is of type k
 *  and is lower in the prosodic hierarchy than its sister constituent immediately to its right: *(Kn Kn-1)
-*  Elfner's StrongStart.
+*  Elfner's StrongStart(k).
+*
+*  If k is absent, use any category (Selkirk's StrongStart which Elfner also uses).
 */
 
 function strongStart_Elfner(s, ptree, k){
@@ -20,7 +22,9 @@ function strongStart_Elfner(s, ptree, k){
 		//console.log(sisterCat);
 		//console.log(pCat.isLower(leftmostCat, sisterCat));
 
-		if(pCat.isLower(leftmostCat, sisterCat))
+		// If not indexed to any particular category k, then we don't care what leftmostCat is
+		// Otherwise we want leftmostCat to equal k.
+		if((!k || leftmostCat===k) && (pCat.isLower(leftmostCat, sisterCat)))
 		{
 			vcount++;
 			//console.log("strongStart_Elfner violation: "+ptree.children[0]+" "+ptree.children[1]);
@@ -34,6 +38,65 @@ function strongStart_Elfner(s, ptree, k){
 	}
 	
 	return vcount;
+}
+
+/* Hsu 2016, p. 195
+	"STRONGSTART(k/p)
+	Assign a violation mark for every prosodic constituent whose leftmost daughter
+	constituent is of type k and is lower in the Prosodic Hierarchy than its sister
+	constituent immediately to the right, where k is at the left edge of a prosodic
+	constituent p.
+
+	The relevant notion of 'left edge' is defined as follows:
+	(57) A prosodic constituent k is at the left edge of prosodic constituent p iff.
+	a. p dominates k, and
+	b. no prosodic constituent that both dominates k and is dominated by p has a
+	leftmost daughter constituent that does not contain k."
+
+	Note that the violations are for each parent with immediate daughter k at its edge (i.e., for every k), not for every p with k at its left edge at any depth.
+*/
+
+function strongStart_Hsu(s, ptree, k, p, node){
+
+	/* Since we cannot search up the tree, the original tree must be retained 
+	to determine whether a node of cat p dominates a node of cat k. We keep a 
+	reference to the root ptree, while node refers to the object that is 
+	currently being assessed as a weakly-starting parent of a node with category k.
+	*/
+	node = node || ptree;
+
+	//base case: node is a leaf or only has one child
+	if(!node.children){
+		return 0;
+	}
+	
+	var vcount = 0;
+	
+	// if node.children[0].cat === k and has a sibling, then compare it with its sibling as well as for domination by a node of cat p along the left edge.
+	if(node.children.length>1 && node.children[0].cat === k){		
+		if((pCat.isLower(node.children[0].cat, node.children[1].cat)) && catDomsIdAtLeftEdge(ptree, p, node.id)){ // searches tree for node of cat p dominating this node of cat k
+			vcount++;
+		}
+	}
+	
+	// Recurse
+	for(var i=0; i<node.children.length; i++){
+		child = node.children[i];
+		vcount += strongStart_Hsu(s, ptree, k, p, child);
+	}
+	
+	return vcount;
+}
+
+//Wrapper functions for strongStart_Hsu to deal with the problem of having two separate category arguments
+function strongStart_Hsu_phi(s, ptree, k)
+{
+	return strongStart_Hsu(s, ptree, k,'phi');
+}
+
+function strongStart_Hsu_iota(s, ptree, k)
+{
+	return strongStart_Hsu(s, ptree, k, 'i');
 }
 
 /* Assign a violation for every node of category cat whose leftmost daughter constituent
@@ -214,3 +277,54 @@ function strongStartInit(stree, ptree, cat){
 }
 
 
+/** A helper function for strongStart_Hsu() that determines 
+ * whether a tree contains a node of category cat that has 
+ * a node with id "id" at its left edge at any depth. 
+ * 
+ * Arguments:
+ * - tree: a prosodic or syntactic tree to search through
+ * - cat: a string representing a node category
+ * - id: a string representing the id of a node to look for at a left edge
+ * 
+ * Returns true if tree contains a node of category cat which has, 
+ * at its left edge, a node with the specified id. 
+ * Otherwise returns false.
+ * 
+ * Depends on hasIdAtLeftEdge()
+ */
+function catDomsIdAtLeftEdge(tree, cat, id){
+	if(!tree.children){
+		return false;
+	}
+	if(tree.cat === cat && (hasIdAtLeftEdge(tree, id) || tree.id === id)){
+		return true;
+	}
+	else {
+		for(var i=0; i<tree.children.length; i++){
+			if(catDomsIdAtLeftEdge(tree.children[i], cat, id)){
+				return true;
+			}
+		}
+	}
+}
+
+/**A helper function for catDomsIdAtLeftEdge(). 
+ * 
+ * Arguments: 
+ * - tree: a prosodic or syntactic tree to search through
+ * - id: a string representing the id of a node to look for
+ * 
+ * Returns true if the tree has a node with the specified id at its left edge at any depth.
+ * Otherwise, returns false.
+*/
+function hasIdAtLeftEdge(tree, id){
+	if(!tree.children){
+		return false;
+	}
+	if(tree.children[0].id === id){
+		return true;
+	}
+	else {
+		return hasIdAtLeftEdge(tree.children[0], id);
+	}
+}
