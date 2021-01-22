@@ -306,14 +306,14 @@ function openCloseFieldset(event) {
 }
 
 /* Shows/hides the "Show more..." section of each constraint fieldset*/
-function showMore(constraintType) {
+function showMore(constraintType, moreText="Show more...") {
 	var x = document.getElementById(constraintType);
 	var showMore = constraintType + "Show";
 	var y = document.getElementById(showMore);
 
   if (x.style.display === "block") {
     x.style.display = "none";
-		y.innerHTML = "Show more...";
+	y.innerHTML = moreText;
   } else {
     x.style.display = "block";
 		y.innerHTML = "Show less...";

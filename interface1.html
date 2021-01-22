@@ -2010,7 +2010,7 @@
 
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
-							<span><input type="checkbox" name="constraints" value="strongStart">StrongStart (any sister)</span>
+							<span><input type="checkbox" name="constraints" value="strongStart">StrongStart (global, by parent category)</span>
 							<div class="info">
 								<span class="content">Assign a violation for every node of the selected category such that its leftmost daughter is of a lower category than some sister to its right. SPOT function: strongStart()</span>
 							</div>
@@ -2024,21 +2024,23 @@
 					</div>
 					<div class="constraint-selection-table">
 						<div class="constraint-row">
-							<span><input type="checkbox" name="constraints" value="strongStart_Elfner">StrongStart (Elfner, Selkirk)</span>
+							<span><input type="checkbox" name="constraints" value="strongStart_Elfner">StrongStart (local, by child category)</span>
 							<div class="info">
-								<span class="content">Assign one violation for every node in the prosodic tree whose leftmost daughter is of the selected category, and is lower in the prosodic hierarchy than its sister constituent immediately to its right. (Elfner's StrongStart) SPOT function: strongStart_Elfner(). (<a href ="https://spot.sites.ucsc.edu/bibliography/">Selkirk 2011, Elfner 2012</a>)</span>
+								<span class="content">Assign one violation for every node in the prosodic tree whose leftmost daughter is of the selected category, and is lower in the prosodic hierarchy than its sister constituent immediately to its right. (Elfner's StrongStart). Selkirk's original StrongStart is not indexed to any particular category. SPOT function: strongStart_Elfner(). (<a href ="https://spot.sites.ucsc.edu/bibliography/">Selkirk 2011, Elfner 2012</a>)</span>
 							</div>
 						</div>
-						<!---<div class="category-row">
+						<div class="category-row">
 							<div class="category-selection-div"><input type="checkbox" name="category-strongStart_Elfner" value="phi">&phi;</div>
 							<div class="category-selection-div"><input type="checkbox" name="category-strongStart_Elfner" value="w" checked="checked">&omega;</div>
 							<div class="category-selection-div"><input type="checkbox" name="category-strongStart_Elfner" value="syll">&sigma;</div>
-						</div>-->
+							<div class="category-selection-div"><input type="checkbox" name="category-strongStart_Elfner" value="">all</div>
+						</div>
 					</div>
 
-					<div onclick="showMore('moreSisterhoodConstraints')" class="show-more" id="moreSisterhoodConstraintsShow">Show more...</div>
+					<div onclick="showMore('moreESConstraints', 'Show EqualSisters variations...')" class="show-more" id="moreESConstraintsShow">Show EqualSisters variations...</div>
 
-					<div id="moreSisterhoodConstraints" class="more-constraints">
+					<div id="moreESConstraints" class="more-constraints">
+						
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="equalSistersAdj">EqualSisters (adjacent)</span>
@@ -2074,13 +2076,19 @@
 								</div>
 							</div>
 						</div>
+					</div>
 
+					<div onclick="showMore('moreSSConstraints', 'Show StrongStart variations...')" class="show-more" id="moreSSConstraintsShow">Show StrongStart variations...</div>
+
+					<div id="moreSSConstraints" class="more-constraints">
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
-								<span><input type="checkbox" name="constraints" value="strongStart_Hsu_iota">StrongStart(&kappa;/&iota;) (Hsu) </span>
+								<span><input type="checkbox" name="constraints" value="strongStart_Hsu_iota">StrongStart(&kappa;/&iota;) (local, any depth) </span>
 								<div class="info">
 									<span class="content">
-									Assign one violation for every prosodic constituent whose leftmost daughter constituent is of type &kappa; and is lower in the Prosodic Hierarchy than its sister constituent immediately to the right, where &kappa; is at the left edge of an intonational phrase. (<a href ="https://spot.sites.ucsc.edu/bibliography/">Hsu 2016</a>).
+									"Assign one violation for every prosodic constituent whose leftmost daughter constituent is of type &kappa; and is lower in the Prosodic Hierarchy than its sister constituent immediately to the right, where &kappa; is at the left edge of an intonational phrase. A prosodic constituent &kappa; is at the left edge of prosodic constituent &pi; iff:
+									a. &pi; dominates &kappa;, and
+									b. no prosodic constituent that both dominates &kappa; and is dominated by &pi; has a leftmost daughter constituent that does not contain &kappa;."(<a href ="https://spot.sites.ucsc.edu/bibliography/">Hsu 2016, p. 195</a>).
 									SPOT function: strongStart_Hsu_iota().</span>
 								</div>
 							</div>
@@ -2094,16 +2102,17 @@
 
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
-								<span><input type="checkbox" name="constraints" value="strongStart_Hsu_phi">StrongStart(&kappa;/&phi;) (Hsu) </span>
+								<span><input type="checkbox" name="constraints" value="strongStart_Hsu_phi">StrongStart(&kappa;/&phi;) (local, any depth) </span>
 								<div class="info">
 									<span class="content">
-									Assign one violation for every prosodic constituent whose leftmost daughter constituent is of type &kappa; and is lower in the Prosodic Hierarchy than its sister constituent immediately to the right, where &kappa; is at the left edge of a phonological phrase. (<a href ="https://spot.sites.ucsc.edu/bibliography/">Hsu 2016</a>).
+									"Assign one violation for every prosodic constituent whose leftmost daughter constituent is of type &kappa; and is lower in the Prosodic Hierarchy than its sister constituent immediately to the right, where &kappa; is at the left edge of a phonological phrase. A prosodic constituent &kappa; is at the left edge of prosodic constituent &pi; iff:
+									a. &pi; dominates &kappa;, and
+									b. no prosodic constituent that both dominates &kappa; and is dominated by &pi; has a leftmost daughter constituent that does not contain &kappa;."(<a href ="https://spot.sites.ucsc.edu/bibliography/">Hsu 2016, p. 195</a>).
 									SPOT function: strongStart_Hsu_phi().</span>
 
 								</div>
 							</div>
 							<div class="category-row">
-								<div class="category-selection-div"><input type="checkbox" name="category-strongStart_Hsu_phi" value="phi">&phi;</div>
 								<div class="category-selection-div"><input type="checkbox" name="category-strongStart_Hsu_phi" value="w" checked="checked">&omega;</div>
 								<div class="category-selection-div"><input type="checkbox" name="category-strongStart_Hsu_phi" value="Ft">Foot</div>
 								<div class="category-selection-div"><input type="checkbox" name="category-strongStart_Hsu_phi" value="syll">&sigma;</div>
@@ -2112,7 +2121,7 @@
 
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
-								<span><input type="checkbox" name="constraints" value="strongStart_SubCat">StrongStart (Sub-categories)</span>
+								<span><input type="checkbox" name="constraints" value="strongStart_SubCat">StrongStart (local, sensitive to sub-categories)</span>
 								<div class="info">
 									<span class="content">Assign a violation for every node whose leftmost daughter constituent is lower in the prosodic hierarchy than its sister constituent immediately to its right. Sensitive to whether nodes are (non)minimal: &phi;-min is lower than &phi; non-min. Not sensitive to the category of the parent. (<a href ="https://spot.sites.ucsc.edu/bibliography/">Van Handel's</a> strongStart from SPOT2 2019) SPOT function: strongStart_SubCat()</span>
 								</div>
@@ -2123,7 +2132,7 @@
 							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="strongStartClitic">StrongStartClitic</span>
 								<div class="info">
-									<span class="content">Assign a violation for every node whose leftmost daughter constituent is of category < &omega; (a syllable or foot) (<a href ="https://spot.sites.ucsc.edu/bibliography/">Bennett, Elfner & McCloskey 2016</a>). SPOT function: strongStartClitic()</span>
+									<span class="content">Assign a violation for every node whose leftmost daughter constituent is of category &lt; &omega; (a syllable or foot) (<a href ="https://spot.sites.ucsc.edu/bibliography/">Bennett, Elfner & McCloskey 2016</a>). SPOT function: strongStartClitic()</span>
 								</div>
 							</div>
 							<!--<div class="category-row">
