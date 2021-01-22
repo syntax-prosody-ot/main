@@ -277,15 +277,21 @@ function strongStartInit(stree, ptree, cat){
 }
 
 
-//A helper function for strongStart_Hsu(). Takes as arguments:
-
-//tree: a prosodic or syntactic tree to search
-//cat: a string representing a node category
-//id: a string representing the id of a node
-
-//Returns true if the tree contains a node of category cat which has at its left edge a node with the specified id, otherwise returns false.
-//Depends on hasIdAtLeftEdge()
-
+/** A helper function for strongStart_Hsu() that determines 
+ * whether a tree contains a node of category cat that has 
+ * a node with id "id" at its left edge at any depth. 
+ * 
+ * Arguments:
+ * - tree: a prosodic or syntactic tree to search through
+ * - cat: a string representing a node category
+ * - id: a string representing the id of a node to look for at a left edge
+ * 
+ * Returns true if tree contains a node of category cat which has, 
+ * at its left edge, a node with the specified id. 
+ * Otherwise returns false.
+ * 
+ * Depends on hasIdAtLeftEdge()
+ */
 function catDomsIdAtLeftEdge(tree, cat, id){
 	if(!tree.children){
 		return false;
@@ -302,12 +308,15 @@ function catDomsIdAtLeftEdge(tree, cat, id){
 	}
 }
 
-//A helper function for catDomsIdAtLeftEdge(). Takes as arguments:
-
-//tree: a prosodic or syntactic tree to search
-//id: a string representing the id of a node
-
-//Returns true if the tree has a node with the specified id at its left edge, otherwise returns false.
+/**A helper function for catDomsIdAtLeftEdge(). 
+ * 
+ * Arguments: 
+ * - tree: a prosodic or syntactic tree to search through
+ * - id: a string representing the id of a node to look for
+ * 
+ * Returns true if the tree has a node with the specified id at its left edge at any depth.
+ * Otherwise, returns false.
+*/
 function hasIdAtLeftEdge(tree, id){
 	if(!tree.children){
 		return false;
