@@ -81,13 +81,16 @@ function strongStart_Elfner(s, ptree, k){
 	b. no prosodic constituent that both dominates k and is dominated by p has a
 	leftmost daughter constituent that does not contain k."
 
-	[Feel free to create a paraphrase as well as keeping this quote!]
-	Note that the violations are for each parent p with k at its edge, not for every k.
+	Note that the violations are for each parent with immediate daughter k at its edge (i.e., for every k), not for every p with k at its left edge at any depth.
 */
 
 function strongStart_Hsu(s, ptree, k, p, node){
 
-	//since we cannot search up the tree, the original tree must be retained to determine whether a node of cat p dominates a node of cat k.
+	/* Since we cannot search up the tree, the original tree must be retained 
+	to determine whether a node of cat p dominates a node of cat k. We keep a 
+	reference to the root ptree, while node refers to the object that is 
+	currently being assessed as a weakly-starting parent of a node with category k.
+	*/
 	node = node || ptree;
 
 	//base case: node is a leaf or only has one child
@@ -104,7 +107,7 @@ function strongStart_Hsu(s, ptree, k, p, node){
 		}
 	}
 	
-	// Recurse, if 
+	// Recurse
 	for(var i=0; i<node.children.length; i++){
 		child = node.children[i];
 		vcount += strongStart_Hsu(s, ptree, k, p, child);
