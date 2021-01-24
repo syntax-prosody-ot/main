@@ -28,19 +28,19 @@
     <p>Keeping the terminal and intermediate categories constant, the phonological tree candidate sets produced by SPOT’s core GEN function for n words are determined by five main parameters.  These parameters are as follows:
 <p>GEN parameters in SPOT:</p>
 <p class="tab">(1) Root tree in a phonological phrase (φ) </p>
-<p class="twotab">[+φ root]: Prosodic trees are rooted in phonological phrases.</p>
+<p class="twotab">[+φ root] = {requireRecWrapper:true}: Prosodic trees are rooted in phonological phrases.</p>
 <p class="twotab">[–φ root]: Prosodic trees are rooted in intonational phrases.</p>
 <p class="tab">(2) Non-Recursivity: </p>
-<p class="twotab">[+NonRec]: All children of a node of category K must be of category < K.</p>
+<p class="twotab">[+NonRec] = {obeysNonrecursivity:true}: All children of a node of category K must be of category < K.</p>
 <p class="twotab">[–NonRec]: All children of a node of category K must be of category ≤ K. That is, nodes of category K may dominate other nodes of category K.</p>
 <p class="tab">(3) Intermediate Branching: </p>
-<p class="twotab">[+Branching]: Every non-root, non-terminal node (i.e., every φ) will have at least two children. No intermediate nodes will be unary.</p>
+<p class="twotab">[+Branching] = {noUnary:true}: Every non-root, non-terminal node (i.e., every φ) will have at least two children. No intermediate nodes will be unary.</p>
 <p class="twotab">[–Branching]: Some intermediate nodes (namely, minimal φs) may be unary.</p>
 <p class="tab">(4) No Level Skipping (Exhaustivity): </p>
-<p class="twotab">[+Exh]: Every non-root node of level K is dominated by a node of level K or K+1.</p>
+<p class="twotab">[+Exh] = {obeysExhaustivity:true}: Every non-root node of level K is dominated by a node of level K or K+1.</p>
 <p class="twotab">[–Exh]: Non-root nodes of level K may be dominated by nodes of any level ≥ K. </p>
 <p class="tab">(5) Headedness:</p>
-<p class="twotab">[+Hd]: Every non-terminal node of level K immediately dominates at least one node of level K–1.</p>
+<p class="twotab">[+Hd] = {obeysHeadedness:true}: Every non-terminal node of level K immediately dominates at least one node of level K–1.</p>
 <p class="twotab">[–Hd]: It is possible for a non-terminal node of level K to dominate only nodes of level ≤ K–2. </p>
 
         For more information on the GEN parameters and parameter combinations, see "<a href="https://docs.google.com/document/d/1nebQNVQTaIh11uqlUzB0PtlHZHch2lfft3KHCBdUVrU/view">Candidate Set Cardinalities in SPOT</a>" and its accompanying <a href="https://docs.google.com/spreadsheets/d/1tanjKvH02vuyEXecP9wQB9cIar7weHqk6N20Ztim2yc/view#gid=985755809">spreadsheet</a>.</p>
