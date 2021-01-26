@@ -60,13 +60,16 @@ function getMinimalNodes(root, cat='phi') {
     return result;
 }
 
-// Accept single tree and return permutations of head placements for minimal nodes
+/** Function that takes a single tree
+ * and returns a list of trees consisting of all permutations 
+ * of edge-aligned head placements for minimal nodes of category cat 
+ * */ 
 function addHeadsTo(ptree, cat='phi') {
-    const result = [];
+    let result = [];
 
-    //initialize minimalNodes as left-headed
+    //add left heads to all minimalNodes
     let localCopy = copyNode(ptree);
-    const minimals = getMinimalNodes(localCopy);
+    const minimals = getMinimalNodes(localCopy, cat);
     for(let node of minimals) {
         addLeftHead(node);
     }
@@ -74,38 +77,50 @@ function addHeadsTo(ptree, cat='phi') {
 
     //progressively change minimal nodes to right-headed for all combinations
     for(let i = 0; i < minimals.length; i++) {
+        //let rightHeadPartialResult = [];
         const resultLength = result.length;
         for(let j = 0; j < resultLength; j++) {
             localCopy = copyNode(result[j]);
-            const thisMinimal = getMinimalNodes(localCopy)[i];
+            let thisMinimal = getMinimalNodes(localCopy, cat)[i];
             if(thisMinimal.children && thisMinimal.children.length > 1) {
                 // unary nodes are skipped to avoid duplicate trees   
                 thisMinimal.children[0].head = false;
                 addRightHead(thisMinimal);
                 result.push(localCopy);
+                //rightHeadPartialResult.push(localCopy);
             }
         }
+        //result.concat(rightHeadPartialResult);
     }
 
     return result;
 }
 
-// Main function. Takes list of trees and returns
-// combinations of left- and right-headed minimal
-// nodes of category 'cat' for each tree
-// can take list of trees or GEN output
+/** Main function. 
+ * 
+ * Arguments:
+ * - treeList: a list of trees, or a list of pairs of trees (GEN output)
+ * - cat: a category to pass along to addHeadsTo()
+ * 
+ * Returns: a list of all combinations of left- and right-headed minimal 
+ * nodes of category 'cat' for each tree. If treeList is a list of pairs of
+ * trees, the return value will also be a list of pairs of trees, preserving 
+ * the inputs and iterating through the possible headed outputs.
+ * 
+ * Helper functions: addHeadsTo()
+*/ 
 function addMinimalNodeHeads(treeList, cat='phi') {
     let result = [];
     for(let tree of treeList) {
         if(tree.length && tree.length === 2) {
             // gen output, use latter of pair of trees
-            result = result.concat(addHeadsTo(tree[1]));
+            result = result.concat(addHeadsTo(tree[1], cat));
         }
         else if(tree.cat) {
             // not gen output, just a tree
-            result = result.concat(addHeadsTo(tree));
+            result = result.concat(addHeadsTo(tree, cat));
         }
-        else throw new Error("List of pairs of trees or list of trees expected, got neither");
+        else throw new Error("addMinimalNodeHeads(treeList, cat): Expected treeList to be a list of pairs of trees or a list of trees.");
     }
     return result;
 }
