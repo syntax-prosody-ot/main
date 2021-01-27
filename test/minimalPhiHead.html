@@ -19,6 +19,7 @@
 <body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
 
     <h2>SPOT Automated Testing</h2>
+    
 
     <!--Mocha stuff (2/2)-->
     <script>
@@ -26,7 +27,8 @@
         //mocha.checkLeaks();
         var assert = chai.assert; //no one wants to type out "chai.assert" every time
     </script>
-    <div id="mocha"></div>
+    <div id="mocha"></div> <!--This is where the Mocha tests show up-->
+    <pre id="results-container"></pre> <!--This is where the tableau will show up-->
     <!--Mocha is set up now, you just need to write and run tests-->
     <script>
         describe("copyNode", function() {
@@ -360,5 +362,12 @@
 
         mocha.run();
     </script>
+    
 
+    <script>
+        function runDemo(){
+            writeTableau(makeTableau(GEN({}, 'a b c'), ['binMinBranches-phi'], {showHeads:false}));
+            revealNextSegment();
+        }
+    </script>
 </body></html>
