@@ -1,4 +1,7 @@
 // Interface testing with mocha and chai
+function stringValidationTest() {
+setUpStringTest();
+
 mocha.setup("bdd"); //brings "describe", "it", etc. into global namespace
 var assert = chai.assert; 
 
@@ -61,3 +64,5 @@ describe("Generate terminal strings", function() {
 });
 
 mocha.run();
+
+}
