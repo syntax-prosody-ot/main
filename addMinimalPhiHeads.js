@@ -64,7 +64,7 @@ function getMinimalNodes(root, cat='phi') {
  * and returns a list of trees consisting of all permutations 
  * of edge-aligned head placements for minimal nodes of category cat 
  * */ 
-function addHeadsToTree(ptree, cat='phi') {
+function genHeadsForTree(ptree, cat='phi') {
     let result = [];
 
     //add left heads to all minimalNodes
@@ -107,12 +107,12 @@ function addHeadsToTree(ptree, cat='phi') {
  * 
  * Helper functions: addHeadsTo()
 */ 
-function addMinimalNodeHeadsToList(treeList, cat='phi') {
+function genHeadsForList(treeList, cat='phi') {
     let result = [];
     for(let tree of treeList) {
         if(tree.length && tree.length === 2) // treeList is a list of pairs of trees (GEN output)
         {
-            let headedTrees = addHeadsToTree(tree[1], cat);
+            let headedTrees = genHeadsForTree(tree[1], cat);
             var interimResult = [];
             for(let ht in headedTrees){
                 interimResult.push([tree[0], headedTrees[ht]]); //push the pair [stree, headedPTree]
@@ -121,7 +121,7 @@ function addMinimalNodeHeadsToList(treeList, cat='phi') {
         }
         else if(tree.cat) // treeList's elements are plain trees, not pairs of trees
         {
-            result = result.concat(addHeadsToTree(tree, cat));
+            result = result.concat(genHeadsForTree(tree, cat));
         }
         else throw new Error("addMinimalNodeHeads(treeList, cat): Expected treeList to be a list of pairs of trees or a list of trees.");
     }
