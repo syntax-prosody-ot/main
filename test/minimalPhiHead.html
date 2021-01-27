@@ -366,7 +366,11 @@
 
     <script>
         function runDemo(){
-            writeTableau(makeTableau(GEN({}, 'a b c'), ['binMinBranches-phi'], {showHeads:false}));
+            var plainCands = GEN({}, 'a b c d', {obeysExhaustivity:true});
+            var headedCands = addMinimalNodeHeadsToList(plainCands);
+            console.log(headedCands);
+            var myTabl = makeTableau(headedCands, ['binMinBranches-phi'], {showHeads:'phi'})
+            writeTableau(myTabl);
             revealNextSegment();
         }
     </script>
