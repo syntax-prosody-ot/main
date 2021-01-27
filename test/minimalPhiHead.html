@@ -352,7 +352,11 @@
                 ]
             });
             it("works for gen output (pairs of trees)", function () {
-                assert.deepEqual(expectedOutput, addMinimalNodeHeadsToList(testGENoutput));
+                var expectedPairsOutput = [];
+                for(let i in expectedOutput){
+                    expectedPairsOutput.push([{}, expectedOutput[i]]);
+                }
+                assert.deepEqual(expectedPairsOutput, addMinimalNodeHeadsToList(testGENoutput));
             });
 
             it("works for list of trees", function () {
