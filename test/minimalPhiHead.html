@@ -453,6 +453,13 @@
             var myTabl = makeTableau(headedCands, ['binMaxBranches-phi'], {showHeads:'phi'})
             writeTableau(myTabl);
             revealNextSegment();
+
+            var plainCands = GEN({}, 'a b c', {noUnary:true});
+            var headedCands = genHeadsForList(plainCands, 'i');
+            console.log(headedCands);
+            var myTabl = makeTableau(headedCands, ['binMaxBranches-i'], {showHeads:'i'})
+            writeTableau(myTabl);
+            revealNextSegment();
         }
     </script>
 </body></html>
