@@ -77,20 +77,18 @@ function addHeadsToTree(ptree, cat='phi') {
 
     //progressively change minimal nodes to right-headed for all combinations
     for(let i = 0; i < minimals.length; i++) {
-        //var rightHeadPartialResult = [];
-        const resultLength = result.length;
+        const resultLength = result.length; //note that the length of result increases with each iteration of the outer for-loop
+
         for(let j = 0; j < resultLength; j++) {
             localCopy = copyNode(result[j]);
             let thisMinimal = getMinimalNodes(localCopy, cat)[i];
             if(thisMinimal.children && thisMinimal.children.length > 1) {
-                // unary nodes are skipped to avoid duplicate trees   
+                // Skip unary nodes to avoid duplicate trees   
                 thisMinimal.children[0].head = false;
                 addRightHead(thisMinimal);
                 result.push(localCopy);
-                //rightHeadPartialResult.push(localCopy);
             }
         }
-        //result.concat(rightHeadPartialResult);
     }
 
     return result;
