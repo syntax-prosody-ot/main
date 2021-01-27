@@ -77,7 +77,7 @@ function addHeadsToTree(ptree, cat='phi') {
 
     //progressively change minimal nodes to right-headed for all combinations
     for(let i = 0; i < minimals.length; i++) {
-        //let rightHeadPartialResult = [];
+        //var rightHeadPartialResult = [];
         const resultLength = result.length;
         for(let j = 0; j < resultLength; j++) {
             localCopy = copyNode(result[j]);
@@ -112,12 +112,17 @@ function addHeadsToTree(ptree, cat='phi') {
 function addMinimalNodeHeadsToList(treeList, cat='phi') {
     let result = [];
     for(let tree of treeList) {
-        if(tree.length && tree.length === 2) {
-            // gen output, use latter of pair of trees
-            result = result.concat(addHeadsToTree(tree[1], cat));
+        if(tree.length && tree.length === 2) // treeList is a list of pairs of trees (GEN output)
+        {
+            let headedTrees = addHeadsToTree(tree[1], cat);
+            var interimResult = [];
+            for(let ht in headedTrees){
+                interimResult.push([tree[0], headedTrees[ht]]); //push the pair [stree, headedPTree]
+            }
+            result = result.concat(interimResult);
         }
-        else if(tree.cat) {
-            // not gen output, just a tree
+        else if(tree.cat) // treeList's elements are plain trees, not pairs of trees
+        {
             result = result.concat(addHeadsToTree(tree, cat));
         }
         else throw new Error("addMinimalNodeHeads(treeList, cat): Expected treeList to be a list of pairs of trees or a list of trees.");
