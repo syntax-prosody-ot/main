@@ -230,7 +230,7 @@
             });
         });
 
-        describe("addHeadsTo", function() {
+        describe("addHeadsToTree", function() {
             let testTrees = {
                 '(a)': {id: 'root', cat: 'phi', children: [
                         {id: "a", cat: "w",},
@@ -253,12 +253,12 @@
                 },
             };
 
-            it("Correct length for (a)", function () {
-                assert.lengthOf(addHeadsTo(testTrees['(a)']), 1);
+            it("Correct length for (a): (a*)", function () {
+                assert.lengthOf(addHeadsToTree(testTrees['(a)']), 1);
             });
 
             it("All headed for (a)", function () {
-                for(let tree of addHeadsTo(testTrees['(a)'])) {
+                for(let tree of addHeadsToTree(testTrees['(a)'])) {
                     assert.isTrue(isHeaded(tree));
                 };
             });
@@ -268,19 +268,19 @@
                 assert.isUndefined(node.head);
             });
 
-            it("Correct length of (a b c)", function () {
-                assert.lengthOf(addHeadsTo(testTrees['(a b c)']), 2);
+            it("Correct length of (a b c): (a* b c) and (a b c*)", function () {
+                assert.lengthOf(addHeadsToTree(testTrees['(a b c)']), 2);
             });
 
             it("All headed for (a b c)", function () {
-                for(let tree of addHeadsTo(testTrees['(a b c)'])) {
+                for(let tree of addHeadsToTree(testTrees['(a b c)'])) {
                     assert.isTrue(isHeaded(tree));
                 };
             });
 
             it("All one-headed for (a b c)", function () {
                 let tree1, tree2;
-                for(let tree of addHeadsTo(testTrees['(a b c)'])) {
+                for(let tree of addHeadsToTree(testTrees['(a b c)'])) {
                     let numOfHeads = 0;
                     for(let terminal of tree.children) {
                         numOfHeads += terminal.head ? 1 : 0;
@@ -291,20 +291,20 @@
 
             it("All unique for (a b c)", function () {
                 let tree1, tree2;
-                [tree1, tree2] = addHeadsTo(testTrees['(a b c)']);
+                [tree1, tree2] = addHeadsToTree(testTrees['(a b c)']);
                 assert.notDeepEqual(tree1, tree2);
             });
 
             it("Doesn't break when non-exhaustive", function () {
-                assert.lengthOf(addHeadsTo(testTrees['{(a) b}']), 1);
+                assert.lengthOf(addHeadsToTree(testTrees['{(a) b}']), 1);
             });
 
             it("Works for ((a) b (c))", function () {
-                
+                assert(false);
             });
         });
 
-        describe("addMinimalNodeHeads", function() {
+        describe("addMinimalNodeHeadsToList", function() {
             let testTrees, testGENoutput, expectedOutput;
             beforeEach(function() {
                 testTrees = [
@@ -350,11 +350,11 @@
                 ]
             });
             it("works for gen output (pairs of trees)", function () {
-                assert.deepEqual(expectedOutput, addMinimalNodeHeads(testGENoutput));
+                assert.deepEqual(expectedOutput, addMinimalNodeHeadsToList(testGENoutput));
             });
 
             it("works for list of trees", function () {
-                assert.deepEqual(expectedOutput, addMinimalNodeHeads(testTrees));
+                assert.deepEqual(expectedOutput, addMinimalNodeHeadsToList(testTrees));
             });
         });
 
