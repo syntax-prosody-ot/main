@@ -19,6 +19,10 @@
 *  - addClitics: 'right' or 'left' determines whether clitics are added on the
 *    righthand-side or the left; true will default to right. false doesn't add any clitics.
 *    Default false.
+*  - cliticsAreBare: false by default. If false, clitics will be wrapped in unary XPs. 
+*    If true, clitics will not be wrapped in XPs, but will be bare heads with category clitic.
+*  - cliticsInsideFirstRoot: false by default. If true, clitics are positioned "inside" the highest 
+*    XP as sister to an invisible X' layer. Otherwise, clitics are sister to the highest XP.
 *  - headSide: 'right', 'left', 'right-strict', 'left-strict'.
 *    Which side will heads be required to be on, relative to their complements?
 *    Also, must heads be at the very edge (strict)?
@@ -29,6 +33,8 @@
 function sTreeGEN(terminalString, options)
 {
     options = options || {};
+
+    // Options that default to true
     if(options.noAdjacentHeads === undefined){
         options.noAdjacentHeads = true;
     }
@@ -39,11 +45,34 @@ function sTreeGEN(terminalString, options)
     options.rootCategory = options.rootCategory || 'xp';
 
     // If bar levels are not treated as phrasal, then we need to allow ternary XPs and CPs, but not ternary x0s.
+    // Furthermore, clitics should be positioned in the "specifier", as a daughter to the existing root, not a sister.
+    if(options.cliticsInsideFirstRoot){
+      options.noBarLevels = true;
+    }
     if(options.noBarLevels && options.recursiveCategory !== 'x0'){
       options.maxBranching = 3;
+      options.cliticsInsideFirstRoot = true;
     }
+
+
     //Otherwise, we want binary branching syntactic inputs.
     options.maxBranching = options.maxBranching || 2;
+
+    //If clitics are specified as bare x0s, then all unary XPs should be invisible for consistency
+    if(options.cliticsAreBare){
+      options.noUnary = true;
+    }
+
+    //If non-branching XPs are invisible, then clitics should be bare X0s
+    //and noAdjacentHeads needs to be false.
+    if(options.noUnary){
+      options.cliticsAreBare = true;
+      options.noAdjacentHeads = false;
+    }
+
+    if(options.recursiveCategory === 'x0'){
+      options.noAdjacentHeads = false;
+    }
 
     //Run GEN on the provided terminal string
     var autoSTreePairs = GEN({}, terminalString, options);
@@ -60,14 +89,16 @@ function sTreeGEN(terminalString, options)
     if(options.noAdjuncts){
         sTreeList = sTreeList.filter(x => !containsAdjunct(x));
     }
+
+    //If adding clitics, various other options are relevant: clitic category (cliticsAreBare), whether clitics go inside the existing root as a daughter, or outside as a sister ()
     if(options.addClitics){
-        if(options.rootCategory !== 'cp'){
-          var outsideClitics = sTreeList.map(x => addCliticXP(x, options.addClitics, options.rootCategory));
-        }
-        else {
+        if(options.rootCategory == 'cp' || options.cliticsInsideFirstRoot){
           var outsideClitics = [];
         }
-        var insideClitics = sTreeList.map(x => addCliticXP(x, options.addClitics, options.rootCategory, true));
+        else {
+          var outsideClitics = sTreeList.map(x => addClitic(x, options.addClitics, options.rootCategory, false, options.cliticsAreBare));;
+        }
+        var insideClitics = sTreeList.map(x => addClitic(x, options.addClitics, options.rootCategory, true, options.cliticsAreBare));
         sTreeList = outsideClitics.concat(insideClitics);
     }
     if(options.noAdjacentHeads){
@@ -98,24 +129,38 @@ function sTreeGEN(terminalString, options)
     return sTreeList;
 }
 
-function addCliticXP(sTree, side="right", rootCategory, inside){
-    var cliticXP = {id:'dp', cat: 'xp', children: [{id:'x', cat: 'clitic'}]};
+/** Helper function to add clitics to trees
+ *  side: which side should clitics be added on? left/right
+ *  rootCategory: normally xp but could be cp or x0
+ *  inside: if true, clitics are daughters to the input sTree; otherwise, sisters to it
+ */
+function addClitic(sTree, side="right", rootCategory, inside, bareClitic){
+  if(side===true){side="right"}
+  var cliticX0 = {id:'x', cat: 'clitic'};
+  //Unless bareClitic==true, wrap the clitic in an XP layer
+  if(!bareClitic){
+    var cliticObj = {id:'dp', cat: 'xp', children: [cliticX0]};
+  }
+  else{
+    var cliticObj = cliticX0;
+  }
+    
     var tp;
     var sisters;
     //Make the clitic a daughter of sTree
     if(inside){
         //console.log("inside");
         if(side==="right"){
-            sisters = sTree.children.concat(cliticXP);
+            sisters = sTree.children.concat(cliticObj);
         }
         else if(side==="left"){
-            sisters = [cliticXP].concat(sTree.children);
+            sisters = [cliticObj].concat(sTree.children);
             //console.log(tp);
         }
         else{
-            var errorMsg = "addCliticXP(): The provided side " + side + " is not valid. Side must be specified as 'left' or 'right'.";
-            displayError(err.message, err);
-            throw new Error(errorMsg)
+            var errorMsg = "addClitic(): The provided side " + side + " is not valid. Side must be specified as 'left' or 'right'.";
+            displayError(errorMsg);
+            throw new Error(errorMsg);
         }
         
     }
@@ -123,13 +168,13 @@ function addCliticXP(sTree, side="right", rootCategory, inside){
     else{
         var sisters;
         if(side==="right"){
-            sisters = [sTree, cliticXP];
+            sisters = [sTree, cliticObj];
         }
         else if(side==="left"){
-            sisters = [cliticXP, sTree];
+            sisters = [cliticObj, sTree];
         }
         else{
-            var errorMsg = "addCliticXP(): The provided side " + side + " is not valid. Side must be specified as 'left' or 'right'.";
+            var errorMsg = "addClitic(): The provided side " + side + " is not valid. Side must be specified as 'left' or 'right'.";
             displayError(err.message, err);
             throw new Error(errorMsg)
         }

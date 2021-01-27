@@ -1,0 +1,451 @@
+<html><head> 
+    <title>SPOT Automated Testing</title>
+
+	<link rel="stylesheet" type="text/css" href="../spot.css">
+
+    <!--If running tests that do not have to do with the interface, run jsbuild.sh or jsbuild.bat
+        in root directory of the project. If running interface testing, run testbuild.sh
+        or testBuild.bat-->
+    <script src="../build/spot.js"></script>
+
+    <!--Mocha setup stuff (1/2)-->
+    <meta charset="UTF-8">
+    <script src="../lib/test/mocha.min.js"></script>
+    <script src="../lib/test/chai.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../lib/test/mocha.css">
+    <!--mocha setup stuff to be continued in document body-->
+    <style type = "text/css">
+    <!--
+        .tab { margin-left: 40px; }
+        .twotab { margin-left: 80px; }
+    -->
+    </style>
+</head>
+<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+
+    <h2>Automated GEN Testing</h2>
+    <p>These tests check the number of trees produced by GEN at 3 terminal nodes as well as which trees are produced.</p>
+    <p>Keeping the terminal and intermediate categories constant, the phonological tree candidate sets produced by SPOT’s core GEN function for n words are determined by five main parameters.  These parameters are as follows:
+<p>GEN parameters in SPOT:</p>
+<p class="tab">(1) Root tree in a phonological phrase (φ) </p>
+<p class="twotab">[+φ root] = {requireRecWrapper:true}: Prosodic trees are rooted in phonological phrases.</p>
+<p class="twotab">[–φ root]: Prosodic trees are rooted in intonational phrases.</p>
+<p class="tab">(2) Non-Recursivity: </p>
+<p class="twotab">[+NonRec] = {obeysNonrecursivity:true}: All children of a node of category K must be of category < K.</p>
+<p class="twotab">[–NonRec]: All children of a node of category K must be of category ≤ K. That is, nodes of category K may dominate other nodes of category K.</p>
+<p class="tab">(3) Intermediate Branching: </p>
+<p class="twotab">[+Branching] = {noUnary:true}: Every non-root, non-terminal node (i.e., every φ) will have at least two children. No intermediate nodes will be unary.</p>
+<p class="twotab">[–Branching]: Some intermediate nodes (namely, minimal φs) may be unary.</p>
+<p class="tab">(4) No Level Skipping (Exhaustivity): </p>
+<p class="twotab">[+Exh] = {obeysExhaustivity:true}: Every non-root node of level K is dominated by a node of level K or K+1.</p>
+<p class="twotab">[–Exh]: Non-root nodes of level K may be dominated by nodes of any level ≥ K. </p>
+<p class="tab">(5) Headedness:</p>
+<p class="twotab">[+Hd] = {obeysHeadedness:true}: Every non-terminal node of level K immediately dominates at least one node of level K–1.</p>
+<p class="twotab">[–Hd]: It is possible for a non-terminal node of level K to dominate only nodes of level ≤ K–2. </p>
+
+        For more information on the GEN parameters and parameter combinations, see "<a href="https://docs.google.com/document/d/1nebQNVQTaIh11uqlUzB0PtlHZHch2lfft3KHCBdUVrU/view">Candidate Set Cardinalities in SPOT</a>" and its accompanying <a href="https://docs.google.com/spreadsheets/d/1tanjKvH02vuyEXecP9wQB9cIar7weHqk6N20Ztim2yc/view#gid=985755809">spreadsheet</a>.</p>
+    <!--Mocha stuff (2/2)-->
+    <script>
+        mocha.setup("bdd"); //brings "describe", "it", etc. into global namespace
+        //mocha.checkLeaks();
+        var assert = chai.assert; //no one wants to type out "chai.assert" every time
+    </script>
+    <div id="mocha">
+        Automated GEN Testing
+    </div>
+    
+    <!--Mocha is set up now, you just need to write and run tests-->
+    <script>
+        
+        phi_wrapped = '[[{},{"id":"root","cat":"i","children":[{"id":"phi28","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi29","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi30","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi16","cat":"phi","children":[{"cat":"w","id":"b"},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi31","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi17","cat":"phi","children":[{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi32","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi18","cat":"phi","children":[{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi33","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi19","cat":"phi","children":[{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi34","cat":"phi","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"cat":"w","id":"b"},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi35","cat":"phi","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi36","cat":"phi","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi37","cat":"phi","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi38","cat":"phi","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi16","cat":"phi","children":[{"cat":"w","id":"b"},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi39","cat":"phi","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi17","cat":"phi","children":[{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi40","cat":"phi","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi18","cat":"phi","children":[{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi41","cat":"phi","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi19","cat":"phi","children":[{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi42","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"},{"id":"phi21","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi43","cat":"phi","children":[{"id":"phi24","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi22","cat":"phi","children":[{"cat":"w","id":"b"}]}]},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi44","cat":"phi","children":[{"id":"phi24","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi22","cat":"phi","children":[{"cat":"w","id":"b"}]}]},{"id":"phi21","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi45","cat":"phi","children":[{"id":"phi25","cat":"phi","children":[{"id":"phi23","cat":"phi","children":[{"cat":"w","id":"a"}]},{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi46","cat":"phi","children":[{"id":"phi25","cat":"phi","children":[{"id":"phi23","cat":"phi","children":[{"cat":"w","id":"a"}]},{"cat":"w","id":"b"}]},{"id":"phi21","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi47","cat":"phi","children":[{"id":"phi26","cat":"phi","children":[{"id":"phi23","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi22","cat":"phi","children":[{"cat":"w","id":"b"}]}]},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi48","cat":"phi","children":[{"id":"phi26","cat":"phi","children":[{"id":"phi23","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi22","cat":"phi","children":[{"cat":"w","id":"b"}]}]},{"id":"phi21","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi49","cat":"phi","children":[{"id":"phi27","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi50","cat":"phi","children":[{"id":"phi27","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"}]},{"id":"phi21","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi51","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}]]';
+
+        non_unary_phi_wrapped = '[[{},{"id":"root","cat":"i","children":[{"id":"phi4","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi2","cat":"phi","children":[{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi5","cat":"phi","children":[{"id":"phi3","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi6","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}]]';
+
+        non_recursive = '[[{},{"id":"root","cat":"i","children":[{"cat":"w","id":"a"},{"id":"phi9","cat":"phi","children":[{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}],[{},{"id":"root","cat":"i","children":[{"cat":"w","id":"a"},{"id":"phi9","cat":"phi","children":[{"cat":"w","id":"b"}]},{"id":"phi8","cat":"phi","children":[{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"cat":"w","id":"a"},{"id":"phi10","cat":"phi","children":[{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi11","cat":"phi","children":[{"cat":"w","id":"a"}]},{"cat":"w","id":"b"},{"id":"phi8","cat":"phi","children":[{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi11","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi9","cat":"phi","children":[{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi11","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi9","cat":"phi","children":[{"cat":"w","id":"b"}]},{"id":"phi8","cat":"phi","children":[{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi11","cat":"phi","children":[{"cat":"w","id":"a"}]},{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi11","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi10","cat":"phi","children":[{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"},{"id":"phi12","cat":"phi","children":[{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"}]},{"id":"phi12","cat":"phi","children":[{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi16","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}]]';
+
+        non_unary_non_recursive = '[[{},{"id":"root","cat":"i","children":[{"cat":"w","id":"a"},{"id":"phi2","cat":"phi","children":[{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi3","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}],[{},{"id":"root","cat":"i","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi4","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}]]';
+
+        headed_non_recursive = '[[{},{"id":"root","cat":"i","children":[{"cat":"w","id":"a"},{"id":"phi9","cat":"phi","children":[{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}],[{},{"id":"root","cat":"i","children":[{"cat":"w","id":"a"},{"id":"phi9","cat":"phi","children":[{"cat":"w","id":"b"}]},{"id":"phi8","cat":"phi","children":[{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"cat":"w","id":"a"},{"id":"phi10","cat":"phi","children":[{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi11","cat":"phi","children":[{"cat":"w","id":"a"}]},{"cat":"w","id":"b"},{"id":"phi8","cat":"phi","children":[{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi11","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi9","cat":"phi","children":[{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi11","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi9","cat":"phi","children":[{"cat":"w","id":"b"}]},{"id":"phi8","cat":"phi","children":[{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi11","cat":"phi","children":[{"cat":"w","id":"a"}]},{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi11","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi10","cat":"phi","children":[{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"},{"id":"phi12","cat":"phi","children":[{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"}]},{"id":"phi12","cat":"phi","children":[{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi16","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}]]';
+
+        non_unary_non_exhaustive_non_recursive = '[[{},{"id":"root","cat":"i","children":[{"cat":"w","id":"a"},{"id":"phi2","cat":"phi","children":[{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi3","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi4","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}]]';
+
+        strict_layering = '[[{},{"id":"root","cat":"i","children":[{"id":"phi11","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi9","cat":"phi","children":[{"cat":"w","id":"b"}]},{"id":"phi8","cat":"phi","children":[{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi11","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi10","cat":"phi","children":[{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"}]},{"id":"phi12","cat":"phi","children":[{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi16","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}]]';
+
+        non_unary_strict_layering = '[[{},{"id":"root","cat":"i","children":[{"id":"phi4","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}]]';
+
+        unrestricted_gen = '[[{},{"id":"root","cat":"i","children":[{"cat":"w","id":"a"},{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}],[{},{"id":"root","cat":"i","children":[{"cat":"w","id":"a"},{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"cat":"w","id":"a"},{"id":"phi16","cat":"phi","children":[{"cat":"w","id":"b"},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"cat":"w","id":"a"},{"id":"phi17","cat":"phi","children":[{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"cat":"w","id":"a"},{"id":"phi18","cat":"phi","children":[{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"cat":"w","id":"a"},{"id":"phi19","cat":"phi","children":[{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"cat":"w","id":"b"},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi16","cat":"phi","children":[{"cat":"w","id":"b"},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi17","cat":"phi","children":[{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi18","cat":"phi","children":[{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi19","cat":"phi","children":[{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"},{"id":"phi21","cat":"phi","children":[{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi24","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi22","cat":"phi","children":[{"cat":"w","id":"b"}]}]},{"cat":"w","id":"c"}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi24","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi22","cat":"phi","children":[{"cat":"w","id":"b"}]}]},{"id":"phi21","cat":"phi","children":[{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi25","cat":"phi","children":[{"id":"phi23","cat":"phi","children":[{"cat":"w","id":"a"}]},{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi25","cat":"phi","children":[{"id":"phi23","cat":"phi","children":[{"cat":"w","id":"a"}]},{"cat":"w","id":"b"}]},{"id":"phi21","cat":"phi","children":[{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi26","cat":"phi","children":[{"id":"phi23","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi22","cat":"phi","children":[{"cat":"w","id":"b"}]}]},{"cat":"w","id":"c"}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi26","cat":"phi","children":[{"id":"phi23","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi22","cat":"phi","children":[{"cat":"w","id":"b"}]}]},{"id":"phi21","cat":"phi","children":[{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi27","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi27","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"}]},{"id":"phi21","cat":"phi","children":[{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi28","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi29","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi30","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi16","cat":"phi","children":[{"cat":"w","id":"b"},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi31","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi17","cat":"phi","children":[{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi32","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi18","cat":"phi","children":[{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi33","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi19","cat":"phi","children":[{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi34","cat":"phi","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"cat":"w","id":"b"},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi35","cat":"phi","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi36","cat":"phi","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi37","cat":"phi","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi38","cat":"phi","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi16","cat":"phi","children":[{"cat":"w","id":"b"},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi39","cat":"phi","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi17","cat":"phi","children":[{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi40","cat":"phi","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi18","cat":"phi","children":[{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi41","cat":"phi","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi19","cat":"phi","children":[{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi42","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"},{"id":"phi21","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi43","cat":"phi","children":[{"id":"phi24","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi22","cat":"phi","children":[{"cat":"w","id":"b"}]}]},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi44","cat":"phi","children":[{"id":"phi24","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi22","cat":"phi","children":[{"cat":"w","id":"b"}]}]},{"id":"phi21","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi45","cat":"phi","children":[{"id":"phi25","cat":"phi","children":[{"id":"phi23","cat":"phi","children":[{"cat":"w","id":"a"}]},{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi46","cat":"phi","children":[{"id":"phi25","cat":"phi","children":[{"id":"phi23","cat":"phi","children":[{"cat":"w","id":"a"}]},{"cat":"w","id":"b"}]},{"id":"phi21","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi47","cat":"phi","children":[{"id":"phi26","cat":"phi","children":[{"id":"phi23","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi22","cat":"phi","children":[{"cat":"w","id":"b"}]}]},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi48","cat":"phi","children":[{"id":"phi26","cat":"phi","children":[{"id":"phi23","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi22","cat":"phi","children":[{"cat":"w","id":"b"}]}]},{"id":"phi21","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi49","cat":"phi","children":[{"id":"phi27","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi50","cat":"phi","children":[{"id":"phi27","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"}]},{"id":"phi21","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi51","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}]]';
+
+        non_unary_unrestricted_gen = '[[{},{"id":"root","cat":"i","children":[{"cat":"w","id":"a"},{"id":"phi2","cat":"phi","children":[{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi3","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}],[{},{"id":"root","cat":"i","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi4","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi2","cat":"phi","children":[{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi5","cat":"phi","children":[{"id":"phi3","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi6","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}]]';
+
+        headed_recursion = '[[{},{"id":"root","cat":"i","children":[{"cat":"w","id":"a"},{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}],[{},{"id":"root","cat":"i","children":[{"cat":"w","id":"a"},{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"cat":"w","id":"a"},{"id":"phi16","cat":"phi","children":[{"cat":"w","id":"b"},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"cat":"w","id":"a"},{"id":"phi17","cat":"phi","children":[{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"cat":"w","id":"a"},{"id":"phi18","cat":"phi","children":[{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"cat":"w","id":"a"},{"id":"phi19","cat":"phi","children":[{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"cat":"w","id":"b"},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi16","cat":"phi","children":[{"cat":"w","id":"b"},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi17","cat":"phi","children":[{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi18","cat":"phi","children":[{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi19","cat":"phi","children":[{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"},{"id":"phi21","cat":"phi","children":[{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi24","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi22","cat":"phi","children":[{"cat":"w","id":"b"}]}]},{"cat":"w","id":"c"}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi24","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi22","cat":"phi","children":[{"cat":"w","id":"b"}]}]},{"id":"phi21","cat":"phi","children":[{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi25","cat":"phi","children":[{"id":"phi23","cat":"phi","children":[{"cat":"w","id":"a"}]},{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi25","cat":"phi","children":[{"id":"phi23","cat":"phi","children":[{"cat":"w","id":"a"}]},{"cat":"w","id":"b"}]},{"id":"phi21","cat":"phi","children":[{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi26","cat":"phi","children":[{"id":"phi23","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi22","cat":"phi","children":[{"cat":"w","id":"b"}]}]},{"cat":"w","id":"c"}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi26","cat":"phi","children":[{"id":"phi23","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi22","cat":"phi","children":[{"cat":"w","id":"b"}]}]},{"id":"phi21","cat":"phi","children":[{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi27","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi27","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"}]},{"id":"phi21","cat":"phi","children":[{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi28","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi29","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi30","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi16","cat":"phi","children":[{"cat":"w","id":"b"},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi31","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi17","cat":"phi","children":[{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi32","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi18","cat":"phi","children":[{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi33","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi19","cat":"phi","children":[{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi34","cat":"phi","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"cat":"w","id":"b"},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi35","cat":"phi","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi36","cat":"phi","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi37","cat":"phi","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi38","cat":"phi","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi16","cat":"phi","children":[{"cat":"w","id":"b"},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi39","cat":"phi","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi17","cat":"phi","children":[{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi40","cat":"phi","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi18","cat":"phi","children":[{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi41","cat":"phi","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi19","cat":"phi","children":[{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi42","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"},{"id":"phi21","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi43","cat":"phi","children":[{"id":"phi24","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi22","cat":"phi","children":[{"cat":"w","id":"b"}]}]},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi44","cat":"phi","children":[{"id":"phi24","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi22","cat":"phi","children":[{"cat":"w","id":"b"}]}]},{"id":"phi21","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi45","cat":"phi","children":[{"id":"phi25","cat":"phi","children":[{"id":"phi23","cat":"phi","children":[{"cat":"w","id":"a"}]},{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi46","cat":"phi","children":[{"id":"phi25","cat":"phi","children":[{"id":"phi23","cat":"phi","children":[{"cat":"w","id":"a"}]},{"cat":"w","id":"b"}]},{"id":"phi21","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi47","cat":"phi","children":[{"id":"phi26","cat":"phi","children":[{"id":"phi23","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi22","cat":"phi","children":[{"cat":"w","id":"b"}]}]},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi48","cat":"phi","children":[{"id":"phi26","cat":"phi","children":[{"id":"phi23","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi22","cat":"phi","children":[{"cat":"w","id":"b"}]}]},{"id":"phi21","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi49","cat":"phi","children":[{"id":"phi27","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi50","cat":"phi","children":[{"id":"phi27","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"}]},{"id":"phi21","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi51","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}]]';
+
+        headed_non_unary_recursion = '[[{},{"id":"root","cat":"i","children":[{"cat":"w","id":"a"},{"id":"phi2","cat":"phi","children":[{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi3","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi4","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi2","cat":"phi","children":[{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi5","cat":"phi","children":[{"id":"phi3","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi6","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}]]';
+
+        exhaustive_recursion = '[[{},{"id":"root","cat":"i","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi16","cat":"phi","children":[{"cat":"w","id":"b"},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi17","cat":"phi","children":[{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi18","cat":"phi","children":[{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi19","cat":"phi","children":[{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi24","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi22","cat":"phi","children":[{"cat":"w","id":"b"}]}]},{"id":"phi21","cat":"phi","children":[{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi25","cat":"phi","children":[{"id":"phi23","cat":"phi","children":[{"cat":"w","id":"a"}]},{"cat":"w","id":"b"}]},{"id":"phi21","cat":"phi","children":[{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi26","cat":"phi","children":[{"id":"phi23","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi22","cat":"phi","children":[{"cat":"w","id":"b"}]}]},{"id":"phi21","cat":"phi","children":[{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi27","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"}]},{"id":"phi21","cat":"phi","children":[{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi28","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi29","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi30","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi16","cat":"phi","children":[{"cat":"w","id":"b"},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi31","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi17","cat":"phi","children":[{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi32","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi18","cat":"phi","children":[{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi33","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi19","cat":"phi","children":[{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi34","cat":"phi","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"cat":"w","id":"b"},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi35","cat":"phi","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi36","cat":"phi","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi37","cat":"phi","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi38","cat":"phi","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi16","cat":"phi","children":[{"cat":"w","id":"b"},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi39","cat":"phi","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi17","cat":"phi","children":[{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi40","cat":"phi","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi18","cat":"phi","children":[{"id":"phi15","cat":"phi","children":[{"cat":"w","id":"b"}]},{"id":"phi14","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi41","cat":"phi","children":[{"id":"phi20","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi19","cat":"phi","children":[{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi42","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"},{"id":"phi21","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi43","cat":"phi","children":[{"id":"phi24","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi22","cat":"phi","children":[{"cat":"w","id":"b"}]}]},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi44","cat":"phi","children":[{"id":"phi24","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi22","cat":"phi","children":[{"cat":"w","id":"b"}]}]},{"id":"phi21","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi45","cat":"phi","children":[{"id":"phi25","cat":"phi","children":[{"id":"phi23","cat":"phi","children":[{"cat":"w","id":"a"}]},{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi46","cat":"phi","children":[{"id":"phi25","cat":"phi","children":[{"id":"phi23","cat":"phi","children":[{"cat":"w","id":"a"}]},{"cat":"w","id":"b"}]},{"id":"phi21","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi47","cat":"phi","children":[{"id":"phi26","cat":"phi","children":[{"id":"phi23","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi22","cat":"phi","children":[{"cat":"w","id":"b"}]}]},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi48","cat":"phi","children":[{"id":"phi26","cat":"phi","children":[{"id":"phi23","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi22","cat":"phi","children":[{"cat":"w","id":"b"}]}]},{"id":"phi21","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi49","cat":"phi","children":[{"id":"phi27","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi50","cat":"phi","children":[{"id":"phi27","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"}]},{"id":"phi21","cat":"phi","children":[{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi51","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}]]';
+
+        non_unary_exhaustive_recursion = '[[{},{"id":"root","cat":"i","children":[{"id":"phi4","cat":"phi","children":[{"cat":"w","id":"a"},{"id":"phi2","cat":"phi","children":[{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi5","cat":"phi","children":[{"id":"phi3","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"}]},{"cat":"w","id":"c"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi6","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"w","id":"b"},{"cat":"w","id":"c"}]}]}]]';
+
+        describe('Number of Candidates Produced by GEN for Three Terminals', function() {
+            it('Phi-wrapped', function() {
+                assert.equal(GEN({},'a b c', {
+                    obeysHeadedness: true, 
+                    obeysNonrecursivity: false, 
+                    obeysExhaustivity: true, 
+                    requireRecWrapper: true, 
+                    noUnary: false
+                    }).length, 24, "");
+            });
+            it('Non-Unary Phi Wrapped', function() {
+                assert.equal(GEN({},'a b c', {
+                    obeysHeadedness: true, 
+                    obeysNonrecursivity: false, 
+                    obeysExhaustivity: true, 
+                    requireRecWrapper: true, 
+                    noUnary: true
+                    }).length, 3, "");
+            });
+            it('Non-Recursive', function() {
+                assert.equal(GEN({},'a b c', {
+                    obeysHeadedness: false, 
+                    obeysNonrecursivity: true, 
+                    obeysExhaustivity: false, 
+                    requireRecWrapper: false, 
+                    noUnary: false
+                    }).length, 13, "");
+            });
+            it('Non-Unary Non-Recursive', function() {
+                assert.equal(GEN({},'a b c', {
+                    obeysHeadedness: false, 
+                    obeysNonrecursivity: true, 
+                    obeysExhaustivity: false, 
+                    requireRecWrapper: false, 
+                    noUnary: true
+                    }).length, 4, "");
+            });
+            it('Headed Non-Recursive', function() {
+                assert.equal(GEN({},'a b c', {
+                    obeysHeadedness: true, 
+                    obeysNonrecursivity: true, 
+                    obeysExhaustivity: false, 
+                    requireRecWrapper: false, 
+                    noUnary: false
+                    }).length, 12, "");
+            });
+            it('Non-Unary Non-Exhaustive Non-Recursive', function() {
+                assert.equal(GEN({},'a b c', {
+                    obeysHeadedness: true, 
+                    obeysNonrecursivity: true, 
+                    obeysExhaustivity: false, 
+                    requireRecWrapper: false, 
+                    noUnary: true
+                    }).length, 3, "");
+            });
+            it('Strict Layering', function() {
+                assert.equal(GEN({},'a b c', {
+                    obeysHeadedness: true, 
+                    obeysNonrecursivity: true, 
+                    obeysExhaustivity: true, 
+                    requireRecWrapper: false, 
+                    noUnary: false
+                    }).length, 4, "");
+            });
+            it('Non-Unary Strict Layering', function() {
+                assert.equal(GEN({},'a b c', {
+                    obeysHeadedness: true, 
+                    obeysNonrecursivity: true, 
+                    obeysExhaustivity: true, 
+                    requireRecWrapper: false, 
+                    noUnary: true
+                    }).length, 1, "");
+            });
+            it('Unrestricted GEN', function() {
+                assert.equal(GEN({},'a b c', {
+                    obeysHeadedness: false, 
+                    obeysNonrecursivity: false, 
+                    obeysExhaustivity: false, 
+                    requireRecWrapper: false, 
+                    noUnary: false
+                    }).length, 48, "");
+            });
+            it('Non-Unary Unrestricted Gen', function() {
+                assert.equal(GEN({},'a b c', {
+                    obeysHeadedness: false, 
+                    obeysNonrecursivity: false, 
+                    obeysExhaustivity: false, 
+                    requireRecWrapper: false, 
+                    noUnary: true
+                    }).length, 6, "");
+            });
+            it('Headed Recursion', function() {
+                assert.equal(GEN({},'a b c', {
+                    obeysHeadedness: true, 
+                    obeysNonrecursivity: false, 
+                    obeysExhaustivity: false, 
+                    requireRecWrapper: false, 
+                    noUnary: false
+                    }).length, 47, "");
+            });
+            it('Headed Non-Unary Recursion', function() {
+                assert.equal(GEN({},'a b c', {
+                    obeysHeadedness: true, 
+                    obeysNonrecursivity: false, 
+                    obeysExhaustivity: false, 
+                    requireRecWrapper: false, 
+                    noUnary: true
+                    }).length, 5, "");
+            });
+            it('Exhaustive Recursion', function() {
+                assert.equal(GEN({},'a b c', {
+                    obeysHeadedness: true, 
+                    obeysNonrecursivity: false, 
+                    obeysExhaustivity: true, 
+                    requireRecWrapper: false, 
+                    noUnary: false
+                    }).length, 33, "");
+            });
+            it('Non-Unary Exhaustive Recursion', function() {
+                assert.equal(GEN({},'a b c', {
+                    obeysHeadedness: true, 
+                    obeysNonrecursivity: false, 
+                    obeysExhaustivity: true, 
+                    requireRecWrapper: false, 
+                    noUnary: true
+                    }).length, 3, "");
+            });
+        });
+
+        describe('Checking Trees Output by GEN for Three Terminals', function() {
+            it('Phi-wrapped', function() {
+                assert.equal(JSON.stringify(GEN({},'a b c', {
+                    obeysHeadedness: true, 
+                    obeysNonrecursivity: false, 
+                    obeysExhaustivity: true, 
+                    requireRecWrapper: true, 
+                    noUnary: false
+                    })), phi_wrapped, "");
+            });
+            it('Non-Unary Phi Wrapped', function() {
+                assert.equal(JSON.stringify(GEN({},'a b c', {
+                    obeysHeadedness: true, 
+                    obeysNonrecursivity: false, 
+                    obeysExhaustivity: true, 
+                    requireRecWrapper: true, 
+                    noUnary: true
+                    })), non_unary_phi_wrapped, "");
+            });
+            it('Non-Recursive', function() {
+                assert.equal(JSON.stringify(GEN({},'a b c', {
+                    obeysHeadedness: false, 
+                    obeysNonrecursivity: true, 
+                    obeysExhaustivity: false, 
+                    requireRecWrapper: false, 
+                    noUnary: false
+                    })), non_recursive, "");
+            });
+            it('Non-Unary Non-Recursive', function() {
+                assert.equal(JSON.stringify(GEN({},'a b c', {
+                    obeysHeadedness: false, 
+                    obeysNonrecursivity: true, 
+                    obeysExhaustivity: false, 
+                    requireRecWrapper: false, 
+                    noUnary: true
+                    })), non_unary_non_recursive, "");
+            });
+            it('Headed Non-Recursive', function() {
+                assert.equal(JSON.stringify(GEN({},'a b c', {
+                    obeysHeadedness: true, 
+                    obeysNonrecursivity: true, 
+                    obeysExhaustivity: false, 
+                    requireRecWrapper: false, 
+                    noUnary: false
+                    })), headed_non_recursive, "");
+            });
+            it('Non-Unary Non-Exhaustive Non-Recursive', function() {
+                assert.equal(JSON.stringify(GEN({},'a b c', {
+                    obeysHeadedness: true, 
+                    obeysNonrecursivity: true, 
+                    obeysExhaustivity: false, 
+                    requireRecWrapper: false, 
+                    noUnary: true
+                    })), non_unary_non_exhaustive_non_recursive, "");
+            });
+            it('Strict Layering', function() {
+                assert.equal(JSON.stringify(GEN({},'a b c', {
+                    obeysHeadedness: true, 
+                    obeysNonrecursivity: true, 
+                    obeysExhaustivity: true, 
+                    requireRecWrapper: false, 
+                    noUnary: false
+                    })), strict_layering, "");
+            });
+            it('Non-Unary Strict Layering', function() {
+                assert.equal(JSON.stringify(GEN({},'a b c', {
+                    obeysHeadedness: true, 
+                    obeysNonrecursivity: true, 
+                    obeysExhaustivity: true, 
+                    requireRecWrapper: false, 
+                    noUnary: true
+                    })), non_unary_strict_layering, "");
+            });
+            it('Unrestricted GEN', function() {
+                assert.equal(JSON.stringify(GEN({},'a b c', {
+                    obeysHeadedness: false, 
+                    obeysNonrecursivity: false, 
+                    obeysExhaustivity: false, 
+                    requireRecWrapper: false, 
+                    noUnary: false
+                    })), unrestricted_gen, "");
+            });
+            it('Non-Unary Unrestricted Gen', function() {
+                assert.equal(JSON.stringify(GEN({},'a b c', {
+                    obeysHeadedness: false, 
+                    obeysNonrecursivity: false, 
+                    obeysExhaustivity: false, 
+                    requireRecWrapper: false, 
+                    noUnary: true
+                    })), non_unary_unrestricted_gen, "");
+            });
+            it('Headed Recursion', function() {
+                assert.equal(JSON.stringify(GEN({},'a b c', {
+                    obeysHeadedness: true, 
+                    obeysNonrecursivity: false, 
+                    obeysExhaustivity: false, 
+                    requireRecWrapper: false, 
+                    noUnary: false
+                    })), headed_recursion, "");
+            });
+            it('Headed Non-Unary Recursion', function() {
+                assert.equal(JSON.stringify(GEN({},'a b c', {
+                    obeysHeadedness: true, 
+                    obeysNonrecursivity: false, 
+                    obeysExhaustivity: false, 
+                    requireRecWrapper: false, 
+                    noUnary: true
+                    })), headed_non_unary_recursion, "");
+            });
+            it('Exhaustive Recursion', function() {
+                assert.equal(JSON.stringify(GEN({},'a b c', {
+                    obeysHeadedness: true, 
+                    obeysNonrecursivity: false, 
+                    obeysExhaustivity: true, 
+                    requireRecWrapper: false, 
+                    noUnary: false
+                    })), exhaustive_recursion, "");
+            });
+            it('Non-Unary Exhaustive Recursion', function() {
+                assert.equal(JSON.stringify(GEN({},'a b c', {
+                    obeysHeadedness: true, 
+                    obeysNonrecursivity: false, 
+                    obeysExhaustivity: true, 
+                    requireRecWrapper: false, 
+                    noUnary: true
+                    })), non_unary_exhaustive_recursion, "");
+            });
+        });
+        mocha.run(); //don't forget to run the test!!!
+    </script>
+    <!--That's all you need for testing with mocha and chai-->
+    <script type="text/javascript">
+        console.log(JSON.stringify(GEN({},'a b c', {
+                    obeysHeadedness: true, 
+                    obeysNonrecursivity: false, 
+                    obeysExhaustivity: true, 
+                    requireRecWrapper: true, 
+                    noUnary: false
+                    })));
+        console.log(JSON.stringify(GEN({},'a b c', {
+                    obeysHeadedness: true, 
+                    obeysNonrecursivity: false, 
+                    obeysExhaustivity: true, 
+                    requireRecWrapper: true, 
+                    noUnary: true
+                    })));
+        console.log(JSON.stringify(GEN({},'a b c', {
+                    obeysHeadedness: false, 
+                    obeysNonrecursivity: true, 
+                    obeysExhaustivity: false, 
+                    requireRecWrapper: false, 
+                    noUnary: false
+                    })));
+        console.log(JSON.stringify(GEN({},'a b c', {
+                    obeysHeadedness: false, 
+                    obeysNonrecursivity: true, 
+                    obeysExhaustivity: false, 
+                    requireRecWrapper: false, 
+                    noUnary: true
+                    })));
+        console.log(JSON.stringify(GEN({},'a b c', {
+                    obeysHeadedness: true, 
+                    obeysNonrecursivity: true, 
+                    obeysExhaustivity: false, 
+                    requireRecWrapper: false, 
+                    noUnary: false
+                    })));
+        console.log(JSON.stringify(GEN({},'a b c', {
+                    obeysHeadedness: true, 
+                    obeysNonrecursivity: true, 
+                    obeysExhaustivity: false, 
+                    requireRecWrapper: false, 
+                    noUnary: true
+                    })));
+        console.log(JSON.stringify(GEN({},'a b c', {
+                    obeysHeadedness: true, 
+                    obeysNonrecursivity: true, 
+                    obeysExhaustivity: true, 
+                    requireRecWrapper: false, 
+                    noUnary: false
+                    })));
+        console.log(JSON.stringify(GEN({},'a b c', {
+                    obeysHeadedness: true, 
+                    obeysNonrecursivity: true, 
+                    obeysExhaustivity: true, 
+                    requireRecWrapper: false, 
+                    noUnary: true
+                    })));
+        console.log(JSON.stringify(GEN({},'a b c', {
+                    obeysHeadedness: false, 
+                    obeysNonrecursivity: false, 
+                    obeysExhaustivity: false, 
+                    requireRecWrapper: false, 
+                    noUnary: false
+                    })));
+        console.log(JSON.stringify(GEN({},'a b c', {
+                    obeysHeadedness: false, 
+                    obeysNonrecursivity: false, 
+                    obeysExhaustivity: false, 
+                    requireRecWrapper: false, 
+                    noUnary: true
+                    })));
+        console.log(JSON.stringify(GEN({},'a b c', {
+                    obeysHeadedness: true, 
+                    obeysNonrecursivity: false, 
+                    obeysExhaustivity: false, 
+                    requireRecWrapper: false, 
+                    noUnary: false
+                    })));
+        console.log(JSON.stringify(GEN({},'a b c', {
+                    obeysHeadedness: true, 
+                    obeysNonrecursivity: false, 
+                    obeysExhaustivity: false, 
+                    requireRecWrapper: false, 
+                    noUnary: true
+                    })));
+        console.log(JSON.stringify(GEN({},'a b c', {
+                    obeysHeadedness: true, 
+                    obeysNonrecursivity: false, 
+                    obeysExhaustivity: true, 
+                    requireRecWrapper: false, 
+                    noUnary: false
+                    })));
+        console.log(JSON.stringify(GEN({},'a b c', {
+                    obeysHeadedness: true, 
+                    obeysNonrecursivity: false, 
+                    obeysExhaustivity: true, 
+                    requireRecWrapper: false, 
+                    noUnary: true
+                    })));
+    </script>
+
+	<pre id="results-container"></pre>
+
+</body></html>

@@ -1,4 +1,17 @@
-/* Built-in Analyses */
+/** Functions for built-in analyses and for saving, loading, and clearing analyses on the interface: 
+ * clearInputs() - possibly should be moved to interface_display_helpers.js
+ * clearAnalysis() - possibly should be moved to interface_display_helpers.js
+ * 
+ * built_in_con(input): helper function
+ * built_in_input(myTrees): helper function
+ * my_built_in_analysis(...): template function for all built-in analyses
+ * various functions to set up individual built-in analyses
+ * built_in(analysis): chooses which analysis setup function to run based on value passed in by interface
+ * record_analysis()
+ * saveAnalysis()
+ * loadAnalysis()
+ * 
+*/
 
 function clearInputs(){
   let inputOptions = spotForm['autoInputOptions'];
@@ -476,6 +489,156 @@ function built_in_Chamorro_RB(){
   my_built_in_analysis(gen, false, chamorrotrees, con);
 }
 
+/* Richard Bibbs's Chamorro clitic analysis as presented at LSA2021
+*/
+function built_in_Chamorro_2021(){
+  var gen = {obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: ['i'], cliticMovement: true};
+  var con = [{name: 'alignLeft', cat:'xp'}, {name: 'alignRight', cat:'xp'}, {name:'noShift'}, {name: 'equalSistersAdj'}, {name: 'binMinBranches', cat:'phi'}, {name: 'strongStart_Elfner', cat:'syll'}];
+  var chamorrotrees = [
+                        {
+                            "id": "XP",
+                            "cat": "xp",
+                            "children": [
+                                {
+                                    "cat": "xp",
+                                    "id": "XP_3",
+                                    "children": [
+                                        {
+                                            "id": "a",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "DP",
+                                    "children": [
+                                        {
+                                            "id": "wp",
+                                            "cat": "clitic"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id": "XP",
+                            "cat": "xp",
+                            "children": [
+                                {
+                                    "cat": "xp",
+                                    "id": "XP_4",
+                                    "children": [
+                                        {
+                                            "id": "a",
+                                            "cat": "x0"
+                                        },
+                                        {
+                                            "cat": "xp",
+                                            "id": "XP_5",
+                                            "children": [
+                                                {
+                                                    "id": "b",
+                                                    "cat": "x0"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "DP",
+                                    "children": [
+                                        {
+                                            "id": "wp",
+                                            "cat": "clitic"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id": "XP",
+                            "cat": "xp",
+                            "children": [
+                                {
+                                    "cat": "xp",
+                                    "id": "XP_4",
+                                    "children": [
+                                        {
+                                            "cat": "xp",
+                                            "id": "XP_5",
+                                            "children": [
+                                                {
+                                                    "id": "a",
+                                                    "cat": "x0"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "cat": "xp",
+                                            "id": "XP_6",
+                                            "children": [
+                                                {
+                                                    "id": "b",
+                                                    "cat": "x0"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "DP",
+                                    "children": [
+                                        {
+                                            "id": "wp",
+                                            "cat": "clitic"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id": "XP",
+                            "cat": "xp",
+                            "children": [
+                                {
+                                    "cat": "xp",
+                                    "id": "XP_4",
+                                    "children": [
+                                        {
+                                            "cat": "xp",
+                                            "id": "XP_5",
+                                            "children": [
+                                                {
+                                                    "id": "a",
+                                                    "cat": "x0"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": "b",
+                                            "cat": "x0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "cat": "xp",
+                                    "id": "DP",
+                                    "children": [
+                                        {
+                                            "id": "wp",
+                                            "cat": "clitic"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ];
+  my_built_in_analysis(gen, false, chamorrotrees, con);
+}
+
 function built_in(analysis) {
   if(analysis === "irish") {
     built_in_Irish();
@@ -516,12 +679,10 @@ function built_in(analysis) {
   if(analysis=== "chamorro"){
     built_in_Chamorro_RB();
   }
+  if(analysis==="chamorro2021"){
+    built_in_Chamorro_2021();
+  }
 }
-
-/* Save Analysis:
- * functionality to save the options, constraints and inputs of an analysis to
- * be loaded later by the existing built-in analysis functionality
- */
 
 /* Record Analysis:
  * function to gather all of the options, constraints and inputs currently in

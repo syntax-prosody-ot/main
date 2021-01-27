@@ -60,9 +60,6 @@ function binMaxBranches(s, ptree, cat, n){
 	return vcount;
 }
 
-function ternMaxBranches(s, p, c){
-	return(binMaxBranches(s, p, c, 3));
-}
 
 //A combined binarity constraint (branch-counting)
 function binBranches(stree, ptree, cat, n){
@@ -397,4 +394,14 @@ function binMaxHead(s, ptree, cat, options) {
 		}
 	}
 	return vcount;
+}
+
+/* Ternarity constraints
+*/
+function ternMaxBranches(s, p, c){
+	return(binMaxBranches(s, p, c, 3));
+}
+
+function ternMaxLeaves(s, p, c){
+	return(binMaxLeaves(s, p, c, 3));
 }

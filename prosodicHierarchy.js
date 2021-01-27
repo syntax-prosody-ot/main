@@ -96,11 +96,11 @@ function nextLower(pCat, cat){
 	var i = pCat.indexOf(cat);
 	if (i < 0){
 		var errMsg = cat + ' is not a prosodic category in the currently defined prosodic hierarchy, '+pCat;
-		displayError(errMsg);
+		//displayError(errMsg);
 		throw new Error(errMsg);
 	}
 	else if(i===pCat.length-1){
-		displayError(cat + ' is the lowest category defined in the prosodic hierarchy; returning category '+cat);
+		console.warn(cat + ' is the lowest category defined in the prosodic hierarchy; returning category '+cat);
 		return cat;
 	}
 	return pCat[i+1];
