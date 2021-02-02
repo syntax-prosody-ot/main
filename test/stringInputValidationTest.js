@@ -1,6 +1,18 @@
 // Interface testing with mocha and chai
-mocha.setup("bdd"); //brings "describe", "it", etc. into global namespace
-var assert = chai.assert; 
+//mocha.setup("bdd"); //brings "describe", "it", etc. into global namespace
+var assert; //= chai.assert; 
+
+function setUpStringTest(){
+    mocha.setup("bdd");
+    mocha.checkLeaks();
+    assert = chai.assert;
+
+    const mochaDiv = document.createElement("div");
+    mochaDiv.setAttribute("id", "mocha");
+
+    const notResults = document.getElementsByClassName("spotBlock")[2];
+    notResults.insertBefore(mochaDiv, notResults.firstChild);
+}
 
 //let divd = document.getElementById("spotForm")["genStringsInput"].value;
 //divd = "a";
@@ -14,50 +26,52 @@ var assert = chai.assert;
 
 //inputToGenAuto = string of terminal input
 
-describe("Generate trees", function() {
-    it("Generate combinations and permutations not added", function() {
-        document.getElementById("spotForm")["genStringsInput"].value = "";
-        document.getElementById("spotForm")["genStringsInput"].length = undefined;
-        document.getElementById("stringGeneration").classList = [""];
-        genTerminalStrings(); //add that generate tree button was clicked instead
+function runStringTest() {
+    setUpStringTest();
+    describe("Generate trees", function() {
+        it("Generate combinations and permutations not added", function() {
+            document.getElementById("spotForm")["genStringsInput"].value = "";
+            document.getElementById("spotForm")["genStringsInput"].length = undefined;
+            document.getElementById("stringGeneration").classList = [""];
+            genTerminalStrings(); //add that generate tree button was clicked instead
+        });
+        it("Generate combinations and permutations closed", function() {
+            document.getElementById("spotForm")["genStringsInput"].value = "j";
+            document.getElementById("spotForm")["genStringsMin"].value = 3;
+            document.getElementById("spotForm")["genStringsMax"].value = 3;
+            document.getElementById("spotForm")["genStringsInput"].length = undefined;
+            document.getElementById("stringGeneration").classList = [""];
+            genTerminalStrings(); //add that generate tree button was clicked instead
+        });
+        for(let i = 0; i < 11; i++){
+            it("Generate number: " + i, function() {
+                document.getElementById("spotForm")["genStringsInput"].value = "j"
+                document.getElementById("spotForm")["genStringsMin"].value = i;
+                document.getElementById("spotForm")["genStringsMax"].value = i;
+                document.getElementById("spotForm")["genStringsInput"].length = undefined;
+                document.getElementById("stringGeneration").classList = ["open"];
+                genTerminalStrings(); //add that generate tree button was clicked instead
+            });
+        }
     });
-    it("Generate combinations and permutations closed", function() {
-        document.getElementById("spotForm")["genStringsInput"].value = "j";
-        document.getElementById("spotForm")["genStringsMin"].value = 3;
-        document.getElementById("spotForm")["genStringsMax"].value = 3;
-        document.getElementById("spotForm")["genStringsInput"].length = undefined;
-        document.getElementById("stringGeneration").classList = [""];
-        genTerminalStrings(); //add that generate tree button was clicked instead
-    });
-    for(let i = 0; i < 11; i++){
-        it("Generate number: " + i, function() {
-            document.getElementById("spotForm")["genStringsInput"].value = "j"
-            document.getElementById("spotForm")["genStringsMin"].value = i;
-            document.getElementById("spotForm")["genStringsMax"].value = i;
+
+    describe("Generate terminal strings", function() {
+        it("Input not added", function() {
+            document.getElementById("spotForm")["genStringsInput"].value = "";
             document.getElementById("spotForm")["genStringsInput"].length = undefined;
             document.getElementById("stringGeneration").classList = ["open"];
             genTerminalStrings(); //add that generate tree button was clicked instead
         });
-    }
-});
-
-describe("Generate terminal strings", function() {
-    it("Input not added", function() {
-        document.getElementById("spotForm")["genStringsInput"].value = "";
-        document.getElementById("spotForm")["genStringsInput"].length = undefined;
-        document.getElementById("stringGeneration").classList = ["open"];
-        genTerminalStrings(); //add that generate tree button was clicked instead
+        for(let i = 0; i < 11; i++){
+            it("Generate number: " + i, function() {
+                document.getElementById("spotForm")["genStringsInput"].value = "j"
+                document.getElementById("spotForm")["genStringsMin"].value = i;
+                document.getElementById("spotForm")["genStringsMax"].value = i;
+                document.getElementById("spotForm")["genStringsInput"].length = undefined;
+                document.getElementById("stringGeneration").classList = ["open"];
+                genTerminalStrings(); //add that generate tree button was clicked instead
+            });
+        }
     });
-    for(let i = 0; i < 11; i++){
-        it("Generate number: " + i, function() {
-            document.getElementById("spotForm")["genStringsInput"].value = "j"
-            document.getElementById("spotForm")["genStringsMin"].value = i;
-            document.getElementById("spotForm")["genStringsMax"].value = i;
-            document.getElementById("spotForm")["genStringsInput"].length = undefined;
-            document.getElementById("stringGeneration").classList = ["open"];
-            genTerminalStrings(); //add that generate tree button was clicked instead
-        });
-    }
-});
-
-mocha.run();
+    mocha.run();
+}
