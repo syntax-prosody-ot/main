@@ -110,6 +110,8 @@ function trimRedundantNodes(inputTree, attribute){
 		var tree = trimDeadEndNodes(trimSilentTerminals(inputTree));
 	}else if(attribute=="func"){
 		var tree = trimDeadEndNodes(trimFunctionalTerminals(inputTree));
+	}else{
+		tree = inputTree;
 	}
 	function trimInner(node){
 		if(node.children && node.children.length){
