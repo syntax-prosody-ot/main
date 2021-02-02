@@ -1,8 +1,7 @@
 // Interface testing with mocha and chai
-//mocha.setup("bdd"); //brings "describe", "it", etc. into global namespace
-var assert; //= chai.assert; 
+var assert; 
 
-function setUpStringTest(){
+function setUp(){
     mocha.setup("bdd");
     mocha.checkLeaks();
     assert = chai.assert;
@@ -14,28 +13,17 @@ function setUpStringTest(){
     notResults.insertBefore(mochaDiv, notResults.firstChild);
 }
 
-//let divd = document.getElementById("spotForm")["genStringsInput"].value;
-//divd = "a";
-//console.log(divd);
-//console.log(spotForm.genStringsInput.value);
-//document.getElementById("spotForm")["genStringsInput"].value
-
-//genStringsInput = list of terminal input
-//genStringsMin = list of terminal min
-//genStringsMax = list of terminal max
-
-//inputToGenAuto = string of terminal input
-
-function runStringTest() {
-    setUpStringTest();
+function runStringInputValidationTest() {
+    setUp();
     describe("Generate trees", function() {
-        it("Generate combinations and permutations not added", function() {
+        it("Generate combinations and permutations not added - no warning", function() {
             document.getElementById("spotForm")["genStringsInput"].value = "";
             document.getElementById("spotForm")["genStringsInput"].length = undefined;
             document.getElementById("stringGeneration").classList = [""];
             genTerminalStrings(); //add that generate tree button was clicked instead
         });
-        it("Generate combinations and permutations closed", function() {
+
+        it("Generate combinations and permutations closed - warning", function() {
             document.getElementById("spotForm")["genStringsInput"].value = "j";
             document.getElementById("spotForm")["genStringsMin"].value = 3;
             document.getElementById("spotForm")["genStringsMax"].value = 3;
@@ -43,9 +31,10 @@ function runStringTest() {
             document.getElementById("stringGeneration").classList = [""];
             genTerminalStrings(); //add that generate tree button was clicked instead
         });
+
         for(let i = 0; i < 11; i++){
-            it("Generate number: " + i, function() {
-                document.getElementById("spotForm")["genStringsInput"].value = "j"
+            it("Generate number: " + i + " - no warning except input 0 or 10", function() {
+                document.getElementById("spotForm")["genStringsInput"].value = "j";
                 document.getElementById("spotForm")["genStringsMin"].value = i;
                 document.getElementById("spotForm")["genStringsMax"].value = i;
                 document.getElementById("spotForm")["genStringsInput"].length = undefined;
@@ -53,6 +42,31 @@ function runStringTest() {
                 genTerminalStrings(); //add that generate tree button was clicked instead
             });
         }
+
+        it("Generate no min or max present number - warning", function() {
+            document.getElementById("spotForm")["genStringsInput"].value = "j";
+            document.getElementById("spotForm")["genStringsInput"].length = undefined;
+            document.getElementById("stringGeneration").classList = ["open"];
+            genTerminalStrings(); //add that generate tree button was clicked instead
+        });
+
+        it("Generate min or max present not number - warning", function() {
+            document.getElementById("spotForm")["genStringsInput"].value = "j";
+            document.getElementById("spotForm")["genStringsMin"].value = "j";
+            document.getElementById("spotForm")["genStringsMax"].value = "j";
+            document.getElementById("spotForm")["genStringsInput"].length = undefined;
+            document.getElementById("stringGeneration").classList = ["open"];
+            genTerminalStrings(); //add that generate tree button was clicked instead
+        });
+
+        it("Generate min greater than max - warning", function() {
+            document.getElementById("spotForm")["genStringsInput"].value = "j"
+            document.getElementById("spotForm")["genStringsMin"].value = 5;
+            document.getElementById("spotForm")["genStringsMax"].value = 3;
+            document.getElementById("spotForm")["genStringsInput"].length = undefined;
+            document.getElementById("stringGeneration").classList = ["open"];
+            genTerminalStrings(); //add that generate tree button was clicked instead
+        });
     });
 
     describe("Generate terminal strings", function() {
@@ -62,8 +76,9 @@ function runStringTest() {
             document.getElementById("stringGeneration").classList = ["open"];
             genTerminalStrings(); //add that generate tree button was clicked instead
         });
+
         for(let i = 0; i < 11; i++){
-            it("Generate number: " + i, function() {
+            it("Generate number: " + i + " - no warning except input 0 or 10", function() {
                 document.getElementById("spotForm")["genStringsInput"].value = "j"
                 document.getElementById("spotForm")["genStringsMin"].value = i;
                 document.getElementById("spotForm")["genStringsMax"].value = i;
@@ -72,6 +87,31 @@ function runStringTest() {
                 genTerminalStrings(); //add that generate tree button was clicked instead
             });
         }
+
+        it("Generate no min or max present number - warning", function() {
+            document.getElementById("spotForm")["genStringsInput"].value = "j";
+            document.getElementById("spotForm")["genStringsInput"].length = undefined;
+            document.getElementById("stringGeneration").classList = ["open"];
+            genTerminalStrings(); //add that generate tree button was clicked instead
+        });
+
+        it("Generate min or max present not number - warning", function() {
+            document.getElementById("spotForm")["genStringsInput"].value = "j";
+            document.getElementById("spotForm")["genStringsMin"].value = "j";
+            document.getElementById("spotForm")["genStringsMax"].value = "j";
+            document.getElementById("spotForm")["genStringsInput"].length = undefined;
+            document.getElementById("stringGeneration").classList = ["open"];
+            genTerminalStrings(); //add that generate tree button was clicked instead
+        });
+
+        it("Generate min greater than max - warning", function() {
+            document.getElementById("spotForm")["genStringsInput"].value = "j"
+            document.getElementById("spotForm")["genStringsMin"].value = 5;
+            document.getElementById("spotForm")["genStringsMax"].value = 3;
+            document.getElementById("spotForm")["genStringsInput"].length = undefined;
+            document.getElementById("stringGeneration").classList = ["open"];
+            genTerminalStrings(); //add that generate tree button was clicked instead
+        });
     });
     mocha.run();
 }
