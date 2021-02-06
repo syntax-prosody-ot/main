@@ -195,7 +195,8 @@ function strongStartClitic(s, ptree, cat){
 	
 	var vcount = 0;
 	
-	if(pCat.isHigher(ptree.cat, 'w') && ptree.children.length>1){		
+	//Corrected 2/5/21: this was checking that ptree.children.length>1, which is not correct since strongStartClitic as defined in BEM doesn't care how many children are present
+	if(pCat.isHigher(ptree.cat, 'w') && ptree.children.length){		
 		var leftmostCat = ptree.children[0].cat;
 
 		if(pCat.isLower(leftmostCat, 'w'))
