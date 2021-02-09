@@ -410,6 +410,13 @@ function binMaxHead(s, ptree, cat, options) {
 	return vcount;
 }
 
+function binMinHead(s, p, cat, options){
+	options = options || {};
+	options.minimal = true;
+	if(!options.side) options.side = 'left'; //default to left-headed for Ojibwe reasons
+	return binMaxHead(s, p, cat, options);
+}
+
 /* Ternarity constraints
 */
 function ternMaxBranches(s, p, c){
