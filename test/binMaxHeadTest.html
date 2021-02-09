@@ -47,7 +47,7 @@ var x = {
                 "id": "nonhead",
                 "children": [
                     {
-                        "id": "a",
+                        "id": "aa",
                         "cat": "w"
                     },
                     {
@@ -65,7 +65,7 @@ var x = {
                 "id": "head",
                 "children": [
                     {
-                        "id": "c",
+                        "id": "cc",
                         "cat": "w",
                     },
                     {
@@ -79,7 +79,7 @@ var x = {
 
 // Example 2:
 // {id: 'rootw', cat: 'w', children:
-// [ {id: 'nonhead', cat: 'w', size: 2},
+// [ {id: 'nonhead', cat: 'w', size: 1},
 // {id: 'head', cat: 'w', head: true, size: 3}
 // ]
 // }
@@ -94,12 +94,8 @@ var y = {
                 "id": "nonhead",
                 "children": [
                     {
-                        "id": "a",
-                        "cat": "w"
-                    },
-                    {
-                        "id": "b",
-                        "cat": "w"
+                        "id": "F",
+                        "cat": "Ft"
                     }
                 ]
             },
@@ -204,25 +200,111 @@ var a = {
         ]
     }
 
+var b = {
+        "id": "rootw",
+        "cat": "w",
+        "children": [
+            {
+                "cat": "w",
+                "id": "lefthead",
+                "children": [
+                    {
+                        "id": "FFF_2",
+                        "cat": "w"
+                    },
+                    {
+                        "id": "b",
+                        "cat": "w"
+                    }
+                ]
+            },
+            {
+                "cat": "w",
+                "id": "FFF_1"
+            }
+        ]
+    }
+
+
 var s = null;
 
 describe('binMaxHead: Head Binarity Constraint for Japanese Compounds.', function() {
-            it('binMaxHead(s, x, w),    x =   ' + parenthesizeTree(x) + ' --> Expected Violations: 0', function() {
-                assert.equal(binMaxHead(s, x, 'w'), 0);
-            });
-            it('binMaxHead(s, y, w),    y =   ' + parenthesizeTree(y) + ' --> Expected Violations: 1', function() {
-               assert.equal(binMaxHead(s,y,'w'), 1);
-            });
-            it('binMaxHead(s, z, w),    z =   ' + parenthesizeTree(z) + ' --> Expected Violations: 0', function() {
-               assert.equal(binMaxHead(s, z, 'w'), 0);
-            });
-            it('binMaxHead(s, z, phi),    z =   ' + parenthesizeTree(z) + ' --> Expected Violations: 1', function() {
-               assert.equal(binMaxHead(s, z, 'phi'), 1);
-            });
-            it('binMaxHead(s, a, w),    a =   ' + parenthesizeTree(a) + ' --> Expected Violations: 1', function() {
-               assert.equal(binMaxHead(s, a, 'w'), 1);
-            });
+        it('binMaxHead(s, x, w),    x =   ' + parenthesizeTree(x) + ' --> Expected Violations: 0', function() {
+            assert.equal(binMaxHead(s, x, 'w'), 0);
         });
+        it('binMaxHead(s, y, w),    y =   ' + parenthesizeTree(y) + ' --> Expected Violations: 1', function() {
+            assert.equal(binMaxHead(s,y,'w'), 1);
+        });
+        it('binMaxHead(s, z, w),    z =   ' + parenthesizeTree(z) + ' --> Expected Violations: 0', function() {
+            assert.equal(binMaxHead(s, z, 'w'), 0);
+        });
+        it('binMaxHead(s, z, phi),    z =   ' + parenthesizeTree(z) + ' --> Expected Violations: 1', function() {
+            assert.equal(binMaxHead(s, z, 'phi'), 1);
+        });
+        it('binMaxHead(s, a, w),    a =   ' + parenthesizeTree(a) + ' --> Expected Violations: 1', function() {
+            assert.equal(binMaxHead(s, a, 'w'), 1);
+        });
+});
+
+describe('binMaxHead, heads on left', function(){
+        it('binMaxHead(s, x, "w"),    x =   ' + parenthesizeTree(x) + ' --> Expected Violations: 1', function() {
+            assert.equal(binMaxHead(s, x, 'w', {side:'left'}), 1);
+        });
+        it('binMaxHead(s, y, "w"),    y =   ' + parenthesizeTree(y) + ' --> Expected Violations: 0', function() {
+            assert.equal(binMaxHead(s,y,'w', {side:'left'}), 0);
+        });
+        it('binMaxHead(s, z, "w"),    z =   ' + parenthesizeTree(z) + ' --> Expected Violations: 0', function() {
+            assert.equal(binMaxHead(s, z, 'w', {side:'left'}), 0);
+        });
+        it('binMaxHead(s, z, "phi"),    z =   ' + parenthesizeTree(z) + ' --> Expected Violations: 0', function() {
+            assert.equal(binMaxHead(s, z, 'phi', {side:'left'}), 0);
+        });
+        it('binMaxHead(s, b, "w"),    b =   ' + parenthesizeTree(b) + ' --> Expected Violations: 1', function() {
+            assert.equal(binMaxHead(s, b, 'w', {side:'left'}), 1);
+        });
+});
+
+describe('binMaxHead(minimal), heads on left', function(){
+        it('binMinHead(s, {(a)*(b c)}, "i"), one violation', function(){
+            var itree = {
+                cat:'i', 
+                id:'root', 
+                children:[
+                    {cat:'phi', children:[{cat:'w', id:'a'}]},
+                    {cat:'phi', children:[{cat:'w', id:'b'}, {cat:'w', id:'c'}]}
+                ]
+            };
+            assert.equal(binMaxHead(s, itree, 'i', {side:'left', minimal:true}), 1);
+        });
+
+        it('binMinHead(s, {(a*)(b* c)}, "phi"), two violations', function(){
+            var itree = {
+                cat:'i', 
+                id:'root', 
+                children:[
+                    {cat:'phi', children:[{cat:'w', id:'a'}]},
+                    {cat:'phi', children:[{cat:'w', id:'b'}, {cat:'w', id:'c'}]}
+                ]
+            };
+            assert.equal(binMaxHead(s, itree, 'i', {side:'left', minimal:true}), 1);
+        });
+
+        it('binMinHead(s, x, "w"),    x =   ' + parenthesizeTree(markHeads(x, 'left'), {showHeads:true}) + ' --> Expected Violations: 0', function() {
+            assert.equal(binMaxHead(s, x, 'w', {side:'left', minimal:true}),0);
+        });
+        it('binMinHead(s, y, "w"),    y =   ' + parenthesizeTree(markHeads(y, 'left'), {showHeads:true}) + ' --> Expected Violations: 3', function() {
+            assert.equal(binMaxHead(s,y,'w', {side:'left', minimal:true}), 3);
+        });
+        it('binMinHead(s, z, "w"),    z =   ' + parenthesizeTree(markHeads(z, 'left'), {showHeads:true}) + ' --> Expected Violations: 2', function() {
+            assert.equal(binMaxHead(s, z, 'w', {side:'left', minimal:true}), 2);
+        });
+        it('binMinHead(s, z, "phi"),    z =   ' + parenthesizeTree(z, {showHeads:true}) + ' --> Expected Violations: 0', function() {
+            assert.equal(binMaxHead(s, z, 'phi', {side:'left', minimal:true}), 0);
+        });
+        it('binMainHead(s, b, "w"),    b =   ' + parenthesizeTree(b, {showHeads:true}) + ' --> Expected Violations: 0', function() {
+            assert.equal(binMaxHead(s, b, 'w', {side:'left', minimal:true}), 0);
+        });
+});
      
         mocha.run(); //don't forget to run the test!!!
 </script>
