@@ -586,7 +586,7 @@
 								<div class="constraint-row">
 									<span><input type="checkbox" name="genOptions" id="trimTrees">Trim syntactic tree</span>
 									<div class="info">
-										<span class="content">When checked, evaluates mapping constraints against a version of the input tree where silent nodes and terminals of a category other than "x0" or "clitic" are removed. Also removes vacuous recursion, eg. [[a b]] &rightarrow; [a b]</span>
+										<span class="content">When checked, evaluates mapping constraints against a version of the input tree where silent terminals are removed. This reflects the definition of Match-Phrase<sub>T</sub> in Elfner 2012 (p.28). This version of Match ignores terminal nodes that are unrepresented phonologically:<p>"Suppose there is a syntactic phrase (XP) in the syntactic representation that exhaustively dominates a set of one or more terminal nodes &alpha;. Assign one violation mark if there is no phonological phrase (&phi;) in the phonological representation that exhaustively dominates all and only the phonological exponents of the terminal nodes in &alpha;."</p>Also removed are terminals of a category other than "x0" or "clitic" and cases of vacuous recursion, eg. [[a b]] &rightarrow; [a b]. </span>
 									</div>
 								</div>
 
