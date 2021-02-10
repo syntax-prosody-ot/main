@@ -853,7 +853,7 @@
 			<legend><h2>Prosodic categories <span class="arrow"></span></h2></legend>
 			<div class="constraint-row"><span>Root prosodic tree in</span>
 				<div class="info">
-					<span class="content">Specify the category of the root node for all the pTrees created by GEN.</span>
+					<span class="content">Specify the category of the root node for all the pTrees created by GEN. If roots are prosodic words, intermediate levels are feet, and terminals are syllables, then [ ] will stand for word boundaries and ( ) for foot boundaries. Otherwise, intonational phrase boundaries will be represented with { }, phonological phrase boundaries with ( ), and word boundaries with (w ).</span>
 				</div>
 			</div>
 			<div class="category-row">
@@ -862,7 +862,7 @@
 				<div class="category-selection-div"><input type="radio" name="genOptions-rootCategory" value="w">&omega;</div>
 			</div>
 		<div class="constraint-row"><span>Intermediate nodes are</span>
-			<div class="info"><span class="content">Specify the category of the nodes below the root and above the terminals. This is the category where GEN will create recursion.</span></div>
+			<div class="info"><span class="content">Specify the category of the nodes below the root and above the terminals. This is the category where GEN will create recursion. <br>If roots are prosodic words, intermediate levels are feet, and terminals are syllables, then [ ] will stand for word boundaries and ( ) for foot boundaries. Otherwise, intonational phrase boundaries will be represented with { }, phonological phrase boundaries with ( ), and word boundaries with (w ).</span></div>
 		</div>
 		<div class="category-row">
 				<div class="category-selection-div"><input type="radio" name="genOptions-recursiveCategory" value="i">&iota;</div>
@@ -871,7 +871,7 @@
 		</div>
 		<div class="constraint-row"><span>Prosodic terminals are</span>
 			<div class="info">
-				<span class="content">Specify the category of the terminal nodes for the pTrees GEN will create. N.B. GEN will always map terminals marked with "-clitic" to syllables.</span></div>
+				<span class="content">Specify the category of the terminal nodes for the pTrees GEN will create. N.B. GEN will always map terminals marked with "-clitic" to syllables.<br> If roots are prosodic words, intermediate levels are feet, and terminals are syllables, then [ ] will stand for word boundaries and ( ) for foot boundaries. Otherwise, intonational phrase boundaries will be represented with { }, phonological phrase boundaries with ( ), and word boundaries with (w ).</span></div>
 			</div>
 			<div class="category-row">
 				<div class="category-selection-div"><input type="radio" name="genOptions-terminalCategory" value="phi">&phi;</div>
@@ -2317,7 +2317,8 @@
 								<p>Clicking "Get results" initiates a download of a tab-separated version of the resulting tableau.
 								The tab-separated version of the tableau will also appear in a text-area, from which it can be copy-pasted. (Use Control-A to select it if it's not already selected.)
 								An html version of the tableau will also display below. </p>
-								<p>Trees in the violation tableau are shown in bracket notation. Curly braces { } stand for CP boundaries in a syntactic tree, and for intonational phrase boundaries in a syntactic tree. Parentheses ( ) stand for phonological phrase boundaries. Square brackets [ ] in a syntactic tree stand for XP boundaries, and in a prosodic tree stand for prosodic word boundaries (not shown for terminal nodes that are prosodic words).</p>
+								<p>Trees in the violation tableau are shown in bracket notation. Curly braces { } stand for CP boundaries in a syntactic tree, and for intonational phrase boundaries in a syntactic tree. Parentheses ( ) stand for phonological phrase boundaries. Square brackets [ ] in a syntactic tree stand for XP boundaries, and in a prosodic tree stand for prosodic word boundaries (not shown for terminal nodes that are prosodic words).</p> 
+								<p>But if roots are prosodic words, intermediate levels are feet, and terminals are syllables, an alternative bracketing is employed, where [ ] stand for word boundaries and ( ) for foot boundaries.</p>
 								<p>Features are shown with the following suffixed abbreviations: .f = functional; .a = has a lexical accent; .foc = focused; * = head of the phonological constituent.</p>
 							</span>
 						</span>
