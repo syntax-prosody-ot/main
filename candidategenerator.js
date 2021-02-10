@@ -367,6 +367,11 @@ function GENwithPermutation(stree, words, options){
 		}
 	}
 
+  // Make sure words is an array
+  if (typeof words === "string") {
+    words = words.split(' ');
+  }
+  
 	//Make sure words is defined before using it to generate word orders
 	if(!words || words.length<leaves.length){
 		words = new Array(leaves.length);
