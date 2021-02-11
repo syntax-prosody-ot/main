@@ -75,26 +75,30 @@ function trimFunctionalTerminals(inputTree){
 }
 
 //function to trim non-x0 terminals
-function trimDeadEndNodes(node){
-	if(node.children && node.children.length){
-		var i = 0; //indexing variable
-		while(i<node.children.length){ //iterate over children
-			var child = node.children[i];
-			//if child is a syntactic terminal that is not an x0, get rid of it
-			if(!(child.children && child.children.length) && (child.cat != "x0" && child.cat != "clitic")){
-				node.children.splice(i, 1); //remove child from children array of node
-				if(node.children.length === 0){/*if node doesn't have any children,
-					node.children shouldn't really be an array anymore */
-					node.children === false;
+function trimDeadEndNodes(inputTree){
+	var treeCopy = copyTree(inputTree);
+	function trimDeadEndInner(node){
+		if(node.children && node.children.length){
+			var i = 0; //indexing variable
+			while(i<node.children.length){ //iterate over children
+				var child = node.children[i];
+				//if child is a syntactic terminal that is not an x0, get rid of it
+				if(!(child.children && child.children.length) && (child.cat != "x0" && child.cat != "clitic")){
+					node.children.splice(i, 1); //remove child from children array of node
+					if(node.children.length === 0){/*if node doesn't have any children,
+						node.children shouldn't really be an array anymore */
+						node.children = false;
+					}
+				}
+				else {
+					trimDeadEndInner(child); //recursive function call
+				 	i++; //iterate indexing variable, we only want to do this if node.children didn't change
 				}
 			}
-			else {
-				trimDeadEndNodes(child); //recursive function call
-			 	i++; //iterate indexing variable, we only want to do this if node.children didn't change
-			}
 		}
+		return node;
 	}
-	return node;
+	return trimDeadEndInner(treeCopy);
 }
 
 /* function to remove redundant nodes. A node is redundant iff it dominates all
@@ -104,15 +108,23 @@ function trimDeadEndNodes(node){
 function trimRedundantNodes(inputTree, attribute){
 	/*call the other two tree trimming functions first, because they might create
 	redundant nodes. trimSilentTerminals() might create dead-end terminals,
-	so call that inside of trim deadEndTerminals(). trimSilentTerminals()
+	so also call trimDeadEndNodes(). trimSilentTerminals()
 	creates a copy of the tree*/
 	if(attribute=="silent"){
-		var tree = trimDeadEndNodes(trimSilentTerminals(inputTree));
+		var tree = trimSilentTerminals(inputTree);
 	}else if(attribute=="func"){
-		var tree = trimDeadEndNodes(trimFunctionalTerminals(inputTree));
+		var tree = trimFunctionalTerminals(inputTree);
 	}else{
 		tree = inputTree;
 	}
+	var i = 0;
+
+	//Must call multiple times to make sure all dead-ends are removed. If run only once, a non-x0 terminal will be removed but leave another dead end in its parent.
+	while(i < 5){
+		tree = trimDeadEndNodes(tree);
+		i++;
+	};
+
 	function trimInner(node){
 		if(node.children && node.children.length){
 			for(var i = 0; i<node.children.length; i++){
