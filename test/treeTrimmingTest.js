@@ -314,7 +314,7 @@ stree9 = {
     ]
 };
 
-function testtest(){
+function treeTrimmingTest(){
     describe('Tree Trimming Tests', function() {
         it('Does nothing if tree is OK', function() {
             assert.equal(parenthesizeTree(removeSpecifiedNodes(stree1,'silent')),'{[a b] [c d]}');
