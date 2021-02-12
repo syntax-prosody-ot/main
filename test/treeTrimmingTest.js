@@ -314,33 +314,34 @@ stree9 = {
     ]
 };
 
-describe('Tree Trimming Tests', function() {
-    it('Does nothing if tree is OK', function() {
-        assert.equal(parenthesizeTree(removeSpecifiedNodes(stree1,'silent')),'{[a b] [c d]}');
+function testtest(){
+    describe('Tree Trimming Tests', function() {
+        it('Does nothing if tree is OK', function() {
+            assert.equal(parenthesizeTree(removeSpecifiedNodes(stree1,'silent')),'{[a b] [c d]}');
+        });
+        it('Removes silent terminals', function() {
+            assert.equal(parenthesizeTree(removeSpecifiedNodes(stree2,'silent')),'{[a b] [d]}');
+        });
+        it('Removes terminals with invalid categories', function() {
+            assert.equal(parenthesizeTree(removeSpecifiedNodes(stree3,'silent')),'{[a b] [d]}');
+        });
+        it('Removes silent and invalid terminals', function() {
+            assert.equal(parenthesizeTree(removeSpecifiedNodes(stree4,'silent')),'{[a] [d]}');
+        });
+        it("Removes instances of recursion", function() {
+            assert.equal(parenthesizeTree(removeSpecifiedNodes(stree5,'silent')),'{[a b] [c d]}');
+        });
+        it("Removes instances of recursion after silent terminal removal", function() {
+            assert.equal(parenthesizeTree(removeSpecifiedNodes(stree6,'silent')),'{[a b]}');
+        });
+        it("Removes instances of recursion after invalid terminal removal", function() {
+            assert.equal(parenthesizeTree(removeSpecifiedNodes(stree7,'silent')),'{[a b]}');
+        });
+        it("Removes instances of recursion after silent and invalid terminal removal", function() {
+            assert.equal(parenthesizeTree(removeSpecifiedNodes(stree8,'silent')),'{[a b]}');
+        });
+        it('Leaves embedded CPs', function() {
+            assert.equal(parenthesizeTree(removeSpecifiedNodes(stree9,'silent')),'{[{[b]}]}');
+        });
     });
-    it('Removes silent terminals', function() {
-        assert.equal(parenthesizeTree(removeSpecifiedNodes(stree2,'silent')),'{[a b] [d]}');
-    });
-    it('Removes terminals with invalid categories', function() {
-        assert.equal(parenthesizeTree(removeSpecifiedNodes(stree3,'silent')),'{[a b] [d]}');
-    });
-    it('Removes silent and invalid terminals', function() {
-        assert.equal(parenthesizeTree(removeSpecifiedNodes(stree4,'silent')),'{[a] [d]}');
-    });
-    it("Removes instances of recursion", function() {
-        assert.equal(parenthesizeTree(removeSpecifiedNodes(stree5,'silent')),'{[a b] [c d]}');
-    });
-    it("Removes instances of recursion after silent terminal removal", function() {
-        assert.equal(parenthesizeTree(removeSpecifiedNodes(stree6,'silent')),'{[a b]}');
-    });
-    it("Removes instances of recursion after invalid terminal removal", function() {
-        assert.equal(parenthesizeTree(removeSpecifiedNodes(stree7,'silent')),'{[a b]}');
-    });
-    it("Removes instances of recursion after silent and invalid terminal removal", function() {
-        assert.equal(parenthesizeTree(removeSpecifiedNodes(stree8,'silent')),'{[a b]}');
-    });
-    it('Leaves embedded CPs', function() {
-        assert.equal(parenthesizeTree(removeSpecifiedNodes(stree9,'silent')),'{[{[b]}]}');
-    });
-});
-
+}
