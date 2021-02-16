@@ -323,6 +323,7 @@ function GENwithCliticMovement(stree, words, options) {
   return [].concat.apply([], candidateSets);
 }
 
+//If both an stree and words are provided, words take priority. 
 function GENwithPermutation(stree, words, options){
 
 	var leaves = getLeaves(stree);
@@ -370,15 +371,28 @@ function GENwithPermutation(stree, words, options){
   // Make sure words is an array
   if (typeof words === "string") {
     words = words.split(' ');
+    if (words[0] === ""){
+      words = [];
+    }
   }
   
 	//Make sure words is defined before using it to generate word orders
-	if(!words || words.length<leaves.length){
-		words = new Array(leaves.length);
-		for(var i in leaves){
-			words[i] = leaves[i].id;
-		}
-		//console.log(words);
+  //Display warning if:
+  //    -There are no words or leaves
+  //    -There are mismatching words and leaves
+  if(((words && !words.length) || !words) && ((leaves && !leaves.length) || !leaves)){
+    displayWarning("GENwithPermutation() was not given any syntactic tree or words to permute.");
+    words = [];
+  }
+	else if(words && words.length){
+    (leaves.length && leaves.length !== words.length) ? displayWarning("GENwithPermutation() was given a mismatching syntactic tree and words as input. The words will be used, and the syntactic tree disregarded.") : "";
+	}
+  else{
+    words = new Array(leaves.length);
+    for(var i in leaves){
+      words[i] = leaves[i].id;
+  }
+		
 	}
 	allOrdersInner(words, words.length);
 	var candidateSets = [];
