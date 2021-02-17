@@ -21,4 +21,4 @@ jobs:
       #- run: npm test
       - name: binarityTest
         shell: bash
-        run: test/binarityTest.js
+        run: mocha test/binarityTest.js
