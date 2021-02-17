@@ -1,3 +1,6 @@
+import {mocha} from '../lib/test/mocha.min.js';
+import {chai} from '../lib/test/chai.min.js';
+
 mocha.setup("bdd"); //brings "describe", "it", etc. into global namespace
 //mocha.checkLeaks();
 var assert = chai.assert; //no one wants to type out "chai.assert" every time
