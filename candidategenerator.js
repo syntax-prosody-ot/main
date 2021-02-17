@@ -323,6 +323,15 @@ function GENwithCliticMovement(stree, words, options) {
   return [].concat.apply([], candidateSets);
 }
 
+/**
+ * GENwithPermutation: function that takes an stree or a list of words and returns a set of candidates
+ * <input, output> in which input = stree and the outputs are GEN run on all orders of the words.
+ * Word orders are computed using Heap's algorithm, implemented in allOrdersInner().
+ * 
+ * @param {*} stree A syntactic tree to use as the input in the candidate pairs <input, output> 
+ * @param {*} words A list of words. Can be a string of space-separated words, or an array of words
+ * @param {*} options An object of options to pass along to GEN()
+ */
 //If both an stree and words are provided, words take priority. 
 function GENwithPermutation(stree, words, options){
 
