@@ -54,7 +54,7 @@
 
 #mocha .test {
   margin-left: 15px;
-  overflow: hidden;
+  overflow: auto;
 }
 
 #mocha .test.pending:hover h2::after {
