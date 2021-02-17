@@ -308,3 +308,15 @@ function matchMinPS(s, ptree, cat, options) {
 	options.minProsody = true;
   return matchPS(s, ptree, cat, options);
 }
+
+/** Bidirectional or "symmetrical" Match
+ *  No options because this constraint is for the purpose of simplifying 
+ *  investigations of interactions between well-formedness constraints.
+ *  Options can be added later.
+ **/
+function matchSPPS(s, ptree, scat){
+	var spVcount = matchSP(s, ptree, scat);
+	var pcat = categoryPairings[scat];
+	var psVcount = matchPS(s, ptree, pcat);
+	return spVcount + psVcount;
+}
