@@ -380,12 +380,12 @@ function GENwithPermutation(stree, words, options){
   //Display warning if:
   //    -There are no words or leaves
   //    -There are mismatching words and leaves
-  if(((words && !words.length) || !words) && ((leaves && !leaves.length) || !leaves)){
+  if((!words || !words.length) && (!leaves || !leaves.length)){
     displayWarning("GENwithPermutation() was not given any syntactic tree or words to permute.");
     words = [];
   }
-	else if(words && words.length){
-    (leaves.length && leaves.length !== words.length) ? displayWarning("GENwithPermutation() was given a mismatching syntactic tree and words as input. The words will be used, and the syntactic tree disregarded.") : "";
+	else if((words && words.length) && (leaves.length && leaves.length !== words.length)){
+     displayWarning("The arguments words and stree to GENwithPermutation() are mismatched. The function will use words and ignore the stree.");
 	}
   else{
     words = new Array(leaves.length);
