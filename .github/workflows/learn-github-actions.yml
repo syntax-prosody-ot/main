@@ -15,8 +15,8 @@ jobs:
       #- run: bats -v
       - run: npm install mocha #global
       #test with run: mocha first to check if mocha can be used
-      #- run: npm install --save mocha chai
-      #- run: node_modules/mocha/bin/mocha test #doesn't work and don't need if mocha works
+      - run: npm install --save mocha chai
+      - run: node_modules/mocha/bin/mocha test #doesn't work and don't need if mocha works
       - run: npm test
       - name: binarityTest
         shell: bash
