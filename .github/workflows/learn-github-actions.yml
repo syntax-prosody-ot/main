@@ -14,14 +14,14 @@ jobs:
       #- run: npm install -g bats
       #- run: bats -v
 
-      - run: npm install mocha #global
+      - run: npm install --global mocha #global
       #test with run: mocha first to check if mocha can be used
-      - run: npm install --save mocha chai
-      - run: node_modules/mocha/bin/mocha test #doesn't work and don't need if mocha works
-      - run: npm test
+      - run: npm install --global chai
+      #- run: node_modules/mocha/bin/mocha test #doesn't work and don't need if mocha works
+      #- run: npm test
       - name: binarityTest
         shell: bash
-        run: test/binarityTest.html
+        run: test/binarityTest.js
 
       #run the html file and github action will let it pass if it passes not if it doesn't
       
