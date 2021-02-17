@@ -6,7 +6,7 @@ on:
       -master
   
 jobs:
-  check-bats-version:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -15,4 +15,5 @@ jobs:
       #- run: bats -v
       - run: npm install mocha
       - run: node_modules/mocha/bin/mocha test
-      - run: runStringTest()
+      - name: binarityTest.html
+        run: test/binarityTest.html
