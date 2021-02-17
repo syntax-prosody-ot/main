@@ -13,6 +13,7 @@ jobs:
       - uses: actions/setup-node@v1
       #- run: npm install -g bats
       #- run: bats -v
+
       - run: npm install mocha #global
       #test with run: mocha first to check if mocha can be used
       - run: npm install --save mocha chai

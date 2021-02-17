@@ -1,12 +1,17 @@
 
-// Produces an array of arrays representing a tableau
-// Options: GEN options and options for parenthesize trees
-// trimStree option uses the trimmed version of the sTree
-// showHeads: marks and shows the heads of Japanese compound words
-	// in the future, this might get a string value specifying a language other than Japanese
-// ph: prosodic hierarchy object with elements as follows:
-// 	.pCat: custom pCat list to be passed to Gen
-// 	.categoryPairings: custom category pairings to be passed to constraints
+/** Produces an array of arrays representing a tableau
+ * Options: GEN options and options for parenthesize trees
+ * - trimStree option uses the trimmed version of the sTree
+ * - showHeads: for marking and showing heads of prosodic constituents
+ * 	If showHeads=== 'right' or 'left', mark heads of all prosodic 
+ * 	constituents, using the function markHeads(), defined in 
+ *  constraints/recursiveCatEvals.js (this is not a good location -- should move it).
+ * 	Otherwise, just pass showHeads along to parenthesizeTree() so that heads get marked with * in the bracket notation.
+ * 
+ * - ph: prosodic hierarchy object with elements as follows:
+ * 		.pCat: custom pCat list to be passed to Gen
+ * 		.categoryPairings: custom category pairings to be passed to constraints  
+*/ 
 function makeTableau(candidateSet, constraintSet, options){
 	//all options passed to makeTableau are passed into parenthesizeTree, so make
 	//sure your options in dependent functions have unique names from other funcs
@@ -69,7 +74,11 @@ function makeTableau(candidateSet, constraintSet, options){
 
 	for(var i = 1; i <= numCand; i++){
 		var candidate = candidateSet[numCand-i];
-		if(options.showHeads){candidate[1] = markHeads(candidate[1], options.showHeads);}
+		let heads;
+		if(heads === 'right' || heads === 'left')
+		{
+			candidate[1] = markHeads(candidate[1], options.showHeads);
+		}
 		var ptreeStr = options.inputTypeString ? candidate[1] : parenthesizeTree(globalNameOrDirect(candidate[1]), options);
 		var tableauRow = [ptreeStr];
 		// the last element is the getter function that retrieves the category pairings received from GEN in candidategenerator.js
