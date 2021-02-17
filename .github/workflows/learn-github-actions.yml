@@ -22,6 +22,3 @@ jobs:
       - name: binarityTest
         shell: bash
         run: test/binarityTest.js
-
-      #run the html file and github action will let it pass if it passes not if it doesn't
-      
