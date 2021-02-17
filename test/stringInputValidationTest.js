@@ -16,6 +16,9 @@ function setUp(){
 function runStringInputValidationTest() {
     setUp();
     describe("Generate trees", function() {
+        this.timeout(15000); //timeout at 15000ms
+        //override timeout - write done inside the parenthesis of function() 
+        //setTimeout(done, #timeout time in ms) for the test you want to change timeout
         it("Generate combinations and permutations not added", function() {
             document.getElementById("spotForm")["genStringsInput"].value = "";
             document.getElementById("spotForm")["genStringsInput"].length = undefined;
@@ -81,6 +84,7 @@ function runStringInputValidationTest() {
     });
 
     describe("Generate terminal strings", function() {
+        this.timeout(15000);
         it("Input not added", function() {
             document.getElementById("spotForm")["genStringsInput"].value = "";
             document.getElementById("spotForm")["genStringsInput"].length = undefined;
