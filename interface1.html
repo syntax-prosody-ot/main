@@ -569,7 +569,7 @@
 			</div>
 
 			<form id="spotForm">
-
+			
 			<!--INPUT-->
 			<div class="spotBlock input">
 			<h2>GEN: Input parameters
@@ -797,7 +797,7 @@
 			</div>
 
 		</div>
-
+			
 		<!--GEN OPTIONS-->
 		<div class="spotBlock">
 		<legend><h2>GEN: Output parameters</h2></legend>
@@ -970,6 +970,20 @@
 							<div class="category-selection-div"><input type="checkbox" name="category-matchPS" value="i">&iota;</div>
 							<div class="category-selection-div"><input type="checkbox" name="category-matchPS" value="phi" checked="checked">&phi;</div>
 							<div class="category-selection-div"><input type="checkbox" name="category-matchPS" value="w">&omega;</div>
+						</div>
+					</div>
+
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="matchSPPS">Match(Syntax&harr;Prosody)</span>
+							<div class="info">
+								<span class="content">Combines violations from MatchSP and MatchPS; see information on those constraints. Intended as a symmetrical faithfulness constraint in syntax-prosody mapping, to enable simplified typologies. SPOT function: matchSPPS().</span>
+							</div>
+						</div>
+						<div class="category-row">
+							<div class="category-selection-div"><input type="checkbox" name="category-matchSPPS" value="cp">CP / &iota;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-matchSPPS" value="xp" checked="checked">XP / &phi;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-matchSPPS" value="x0">X<sup>0</sup> / &omega;</div>
 						</div>
 					</div>
 

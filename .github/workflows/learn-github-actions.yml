@@ -6,12 +6,19 @@ on:
       -master
   
 jobs:
-  check-bats-version:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
       #- run: npm install -g bats
       #- run: bats -v
-      - run: npm install mocha
-      - run: node_modules/mocha/bin/mocha test
+
+      - run: npm install --global mocha #global
+      #test with run: mocha first to check if mocha can be used
+      - run: npm install --global chai
+      #- run: node_modules/mocha/bin/mocha test #doesn't work and don't need if mocha works
+      #- run: npm test
+      - name: binarityTest
+        shell: bash
+        run: test/binarityTest.js
