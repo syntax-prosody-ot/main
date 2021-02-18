@@ -1,3 +1,7 @@
+if(typeof window === "undefined"){
+  window = {};
+}
+
 (function() {
 
   window.GEN_impl = function(sTree, leaves, options) {
