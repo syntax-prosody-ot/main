@@ -11,14 +11,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
-      #- run: npm install -g bats
-      #- run: bats -v
-
       - run: npm install mocha #global
       #test with run: mocha first to check if mocha can be used
       - run: npm install chai
-      - run: node_modules/mocha/bin/mocha test/binarityTest.js
-      #- run: npm test
+      - run: npm test
       #- name: binarityTest
       #  shell: bash
       #  run: mocha test/binarityTest.js
