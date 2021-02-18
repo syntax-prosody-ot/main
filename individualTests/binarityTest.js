@@ -387,5 +387,3 @@ var assert = require('chai').assert; //no one wants to type out "chai.assert" ev
                      assert.equal(binMinBranches({},ptree6,'phi'), 0);
                  });
              });
-     
-mocha.run(); //don't forget to run the test!!!
