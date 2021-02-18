@@ -1,6 +1,6 @@
-mocha.setup("bdd"); //brings "describe", "it", etc. into global namespace
+//mocha.setup("bdd"); //brings "describe", "it", etc. into global namespace
 //mocha.checkLeaks();
-var assert = chai.assert; //no one wants to type out "chai.assert" every time
+var assert = require('chai').assert; //no one wants to type out "chai.assert" every time
 // For ptree = ((a b)(c d)),
          var ptree1 =    {
              "id": "root",
