@@ -4,6 +4,7 @@ on:
   push:
     branches:
       -master
+      -auto-testing
   
 jobs:
   build:
