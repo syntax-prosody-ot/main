@@ -13,6 +13,7 @@
 		<meta charset="UTF-8">
 		<script src="../lib/test/mocha.min.js"></script>
 		<script src="../lib/test/chai.min.js"></script>
+		
 		<link rel="stylesheet" type="text/css" href="../lib/test/mocha.css">
 		<!--mocha setup stuff to be continued in document body-->
 		
@@ -23,174 +24,37 @@
 		 BinMax(phi-min)
 		* Violated if a minimal phi contains more than 2 minimal words --> leaf-counting
 	</div>
-<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
-	<h2>Binarity subcat</h2>
-	<pre id="results-container"></pre>
+	<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+		<h2>Binarity subcat</h2>
+		<pre id="results-container"></pre>
 
-	<script>
-		mocha.setup("bdd"); //brings "describe", "it", etc. into global namespace
-			//mocha.checkLeaks();
-			var assert = chai.assert; //no one wants to type out "chai.assert" every time
-	</script>
-	
+		<script>
+			mocha.setup("bdd"); //brings "describe", "it", etc. into global namespace
+				//mocha.checkLeaks();
+				var assert = chai.assert; //no one wants to type out "chai.assert" every time
+		</script>
 
+		<!--Load the test script AFTER doing the mocha setup.-->
+		<script src="binMaxPhiMinTest.js"></script>
 
-<script>
+		<script>
+			binMaxPhiMinTest();			
+			mocha.run(); //don't forget to run the test!!!
+			
+			var cand1 = GEN({}, 'a b c d', {obeysExhaustivity: true});
+			var cand2 = GEN({}, 'a b c d', {obeysExhaustivity: true, rootCategory: 'phi', recursiveCategory: 'w', terminalCategory:'w'});
+			var con = ['binMax_minLeaves-phi','binMax_minLeaves-i', 'binMaxLeaves-phi'];
 
+			function runDemo() {
+					writeTableau(makeTableau(cand1, con));
+					revealNextSegment();
+				lastSegmentId++;
+				writeTableau(makeTableau(cand2, con));
+					revealNextSegment();
+					lastSegmentId++;
+				}
 
-// Example 1
-// ( chihoo [[ken satsu] choo] ) = ( w [w F] )
-// --> no violation: only 2 minimal words in the phi
-var tree1 = {
-	"id":"phi0",
-	"cat":"phi",
-	"children":
-		[
-			{
-				"id":"word1",
-				"cat":"w"
-      },
-      {
-        "id":"word2",
-				"cat":"w"
-      },
-      {
-        "id":"clitic1",
-				"cat":"foot"
-      }
-		]
-};
+		</script>
 
-// Example 2
-// ( chihoo [ [ koo kyoo][dan tai] ] ) = (w [w w] )
-// --> violation: 3 minimal words in the phi
-var tree2 = {
-	"id":"phi0",
-	"cat":"phi",
-	"children":
-		[
-			{
-				"id":"word1",
-				"cat":"w"
-      },
-      {
-        "id":"word2",
-				"cat":"w"
-      },
-      {
-        "id":"word3",
-				"cat":"w"
-      }
-		]
-};
-
-// Example 3
-// ( chihoo ([ [ koo kyoo][dan tai] ]) ) = (w ([w w]) )
-// --> no violation: 3 minimal words in the non-minimal phi, but only 2 minimal words (w) in the minimal phi
-var tree3 = {
-	"id":"phi0",
-	"cat":"phi",
-	"children":
-		[
-      {
-        "id":"word1",
-        "cat":"w"
-      },
-			{
-				"id":"phi1",
-				"cat":"phi",
-        "children":
-          [
-            {
-              "id":"word2",
-      				"cat":"w"
-            },
-            {
-              "id":"word3",
-      				"cat":"w"
-            }
-          ]
-			}
-		]
-};
-
-// Example 4
-// 1 violation
-var tree4 = {
-	"id":"phi0",
-	"cat":"phi",
-	"children":
-		[
-      {
-        "id":"word1",
-        "cat":"w"
-      },
-			{
-				"id":"phi1",
-				"cat":"phi",
-        "children":
-          [
-            {
-              "id":"word2",
-      				"cat":"w"
-            },
-            {
-              "id":"word3",
-      				"cat":"w"
-            },
-            {
-              "id":"word4",
-      				"cat":"w"
-            }
-          ]
-			}
-		]
-};
-
-var s = undefined;
-var c = 'phi';
-
-
-describe('Tree1: ( chihoo [[ken satsu] choo] ) = ( w [w F] ) ', function() {
-            it('binMax_minLeaves(s, tree1, c), Expected Violations: 0', function() {
-                assert.equal(binMax_minLeaves(s, tree1, c), 0);
-            });
-        });
-		
-describe('Tree2: ( chihoo [ [ koo kyoo][dan tai] ] ) = (w [w w] ) ', function() {
-            it('binMax_minLeaves(s, tree2, c) Expected Violations: 1', function() {
-                assert.equal(binMax_minLeaves(s, tree2, c), 1);
-            });
-        });
-		
-describe('Tree3: ( chihoo ([ [ koo kyoo][dan tai] ]) ) = (w ([w w]) ) ', function() {
-            it('binMax_minLeaves(s, tree3, c) Expected Violations: 0', function() {
-                assert.equal(binMax_minLeaves(s, tree3, c), 0);
-            });
-        });
-		
-describe('Tree4: ' + parenthesizeTree(tree4), function() {
-            it('binMax_minLeaves(s, tree4, c) Expected Violations: 1', function() {
-                assert.equal(binMax_minLeaves(s, tree4, c), 1);
-            });
-        });
-		
-		
-        mocha.run(); //don't forget to run the test!!!
-var cand1 = GEN({}, 'a b c d', {obeysExhaustivity: true});
-var cand2 = GEN({}, 'a b c d', {obeysExhaustivity: true, rootCategory: 'phi', recursiveCategory: 'w', terminalCategory:'w'});
-var con = ['binMax_minLeaves-phi','binMax_minLeaves-i', 'binMaxLeaves-phi'];
-
-function runDemo() {
-		writeTableau(makeTableau(cand1, con));
-		revealNextSegment();
-    lastSegmentId++;
-    writeTableau(makeTableau(cand2, con));
-		revealNextSegment();
-		lastSegmentId++;
-	}
-
-</script>
-
-</body>
+	</body>
 </html>
