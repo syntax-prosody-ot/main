@@ -23,3 +23,5 @@ function myTestFunctionName(){
     });
 }
 
+//myTestFunctionName();
+//Call the test function at the end of the file so that it actually executes in mocha testing in the terminal.
