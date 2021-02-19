@@ -120,9 +120,16 @@ function trimRedundantNodes(inputTree, attribute){
 	var i = 0;
 
 	//Must call multiple times to make sure all dead-ends are removed. If run only once, a non-x0 terminal will be removed but leave another dead end in its parent.
-	while(i < 5){
+	var is_finished = false;
+	while(!is_finished){
+		is_finished = true;
 		tree = trimDeadEndNodes(tree);
-		i++;
+		leaves = getLeaves(tree);
+		for(i = 0; i < leaves.length; i++){
+			if(leaves[i].cat != "x0"){
+				is_finished = false;
+			}
+		}
 	};
 
 	function trimInner(node){
