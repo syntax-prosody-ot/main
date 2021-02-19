@@ -1,4 +1,4 @@
-name: learn-github-actions
+name: test-spot-backend
 on: 
   pull_request:
     branches: [ master ]
