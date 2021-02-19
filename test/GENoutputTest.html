@@ -14,40 +14,58 @@
     <script src="../lib/test/chai.min.js"></script>
     <link rel="stylesheet" type="text/css" href="../lib/test/mocha.css">
     <!--mocha setup stuff to be continued in document body-->
-    <style type = "text/css">
-    <!--
-        .tab { margin-left: 40px; }
-        .twotab { margin-left: 80px; }
-    -->
+
     </style>
 </head>
 <body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
 
     <h2>Automated GEN Testing</h2>
-    <p>These tests check the number of trees produced by GEN at 3 terminal nodes as well as which trees are produced.</p>
-    <p>There are also tests for the SPOT functions "GENwithCliticMovement" which reorders one clitic, and "GENwithPermutation," which reorders all terminals.</p>
-    <p>Keeping the terminal and intermediate categories constant, the phonological tree candidate sets produced by SPOT’s core GEN function for n words are determined by five main parameters.  These parameters are as follows:
-<p>GEN parameters in SPOT:</p>
-<p class="tab">(1) Root tree in a phonological phrase (φ) </p>
-<p class="twotab">[+φ root] = {requireRecWrapper:true}: Prosodic trees are rooted in phonological phrases.</p>
-<p class="twotab">[–φ root]: Prosodic trees are rooted in intonational phrases.</p>
-<p class="tab">(2) Non-Recursivity: </p>
-<p class="twotab">[+NonRec] = {obeysNonrecursivity:true}: All children of a node of category K must be of category < K.</p>
-<p class="twotab">[–NonRec]: All children of a node of category K must be of category ≤ K. That is, nodes of category K may dominate other nodes of category K.</p>
-<p class="tab">(3) Intermediate Branching: </p>
-<p class="twotab">[+Branching] = {noUnary:true}: Every non-root, non-terminal node (i.e., every φ) will have at least two children. No intermediate nodes will be unary.</p>
-<p class="twotab">[–Branching]: Some intermediate nodes (namely, minimal φs) may be unary.</p>
-<p class="tab">(4) No Level Skipping (Exhaustivity): </p>
-<p class="twotab">[+Exh] = {obeysExhaustivity:true}: Every non-root node of level K is dominated by a node of level K or K+1.</p>
-<p class="twotab">[–Exh]: Non-root nodes of level K may be dominated by nodes of any level ≥ K. </p>
-<p class="tab">(5) Headedness:</p>
-<p class="twotab">[+Hd] = {obeysHeadedness:true}: Every non-terminal node of level K immediately dominates at least one node of level K–1.</p>
-<p class="twotab">[–Hd]: It is possible for a non-terminal node of level K to dominate only nodes of level ≤ K–2. </p>
+    <div style="padding-left:5%">
+        <p>These tests check the number of trees produced by GEN at 3 terminal nodes as well as which trees are produced.</p>
+        <p>There are also tests for the SPOT functions "GENwithCliticMovement" which reorders one clitic, and "GENwithPermutation," which reorders all terminals.</p>
+        <p>Keeping the terminal and intermediate categories constant, the phonological tree candidate sets produced by SPOT’s core GEN function for n words are determined by five main parameters.  These parameters are as follows:</p>
+        <h3>GEN parameters in SPOT:</h3>
+        <ol>
+            <li>Root tree in a phonological phrase (φ) 
+                <ul>
+                    <li>[+φ root] = {requireRecWrapper:true}: Prosodic trees are rooted in phonological phrases.</li>
+                    <li>[–φ root]: Prosodic trees are rooted in intonational phrases.</li>
+                </ul>
+            </li>
+            
+            <li>Non-Recursivity:
+                <ul>
+                    <li>[+NonRec] = {obeysNonrecursivity:true}: All children of a node of category K must be of category &lt; K.</li>
+                    <li>[–NonRec]: All children of a node of category K must be of category ≤ K. That is, nodes of category K may dominate other nodes of category K.</li>
+                </ul>
+            </li>
+            <li>Intermediate Branching:
+            <ul>
+                <li>[+Branching] = {noUnary:true}: Every non-root, non-terminal node (i.e., every φ) will have at least two children. No intermediate nodes will be unary.</li>
+                <li>[–Branching]: Some intermediate nodes (namely, minimal φs) may be unary.</li>
+            </ul>
+            
+            <li>No Level Skipping (Exhaustivity):
+                <ul>
+                    <li>[+Exh] = {obeysExhaustivity:true}: Every non-root node of level K is dominated by a node of level K or K+1.</li>
+                    <li>[–Exh]: Non-root nodes of level K may be dominated by nodes of any level ≥ K. </li>
+                </ul>            
+            
+            <li>Headedness:
+                <ul>
+                    <li>[+Hd] = {obeysHeadedness:true}: Every non-terminal node of level K immediately dominates at least one node of level K–1.</li>
+                    <li>[–Hd]: It is possible for a non-terminal node of level K to dominate only nodes of level ≤ K–2. </li>
+                </ul>
+            </li>
+        </ol>
+            
 
-       For more information on the GEN parameters and parameter combinations, see "<a href="https://docs.google.com/document/d/1nebQNVQTaIh11uqlUzB0PtlHZHch2lfft3KHCBdUVrU/view">Candidate Set Cardinalities in SPOT</a>" and its accompanying <a href="https://docs.google.com/spreadsheets/d/1tanjKvH02vuyEXecP9wQB9cIar7weHqk6N20Ztim2yc/view#gid=985755809">spreadsheet</a>.</p>
+        <p>
+            For more information on the GEN parameters and parameter combinations, see <a href="https://docs.google.com/document/d/1nebQNVQTaIh11uqlUzB0PtlHZHch2lfft3KHCBdUVrU/view">Candidate Set Cardinalities in SPOT</a> and its accompanying <a href="https://docs.google.com/spreadsheets/d/1tanjKvH02vuyEXecP9wQB9cIar7weHqk6N20Ztim2yc/view#gid=985755809">spreadsheet</a>.
+        </p>
+    </div>
     
-    <script src="./GENoutputTrees.js"></script>
-    <script src="./GENoutputTest.js"></script>
+    
     
     <!--Mocha stuff (2/2)-->
     <script>
@@ -55,6 +73,11 @@
         //mocha.checkLeaks();
         var assert = chai.assert; //no one wants to type out "chai.assert" every time
     </script>
+
+    <!--Import AFTER doing mocha setup.-->
+    <script src= "GENoutputTrees.js"></script>
+    <script src= "GENoutputTest.js"></script>
+
     <div id="mocha">
         Automated GEN Testing
     </div>
