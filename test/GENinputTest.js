@@ -1,45 +1,14 @@
-<html>
-<head>
-	<title>SPOT investigation: autogenerating inputs</title>
+//GENinputTest.js
 
-	<link rel="stylesheet" type="text/css" href="../spot.css">
+function logTrees(message, trees){
+    console.log(message, trees.length);
+    for(var s in trees){
+        console.log(parenthesizeTree(trees[s]));
+    }
+}
 
-	<script src="../lib/jszip.min.js"></script>
-	<script src="../trees/abstractMatchTrees.js"></script>
-	
-	<!--Mocha setup stuff (1/2)-->
-    <meta charset="UTF-8">
-    <script src="../lib/test/mocha.min.js"></script>
-    <script src="../lib/test/chai.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="../lib/test/mocha.css">
-    <!--mocha setup stuff to be continued in document body-->
-	
-
-	<!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
-	(open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
-	<script src="../build/spot.js"></script>	
-
-				
-</head>
-
-<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
-	<h2>GENerating inputs</h2>
-
-	<!--Mocha stuff (2/2)-->
-    <script>
-        mocha.setup("bdd"); //brings "describe", "it", etc. into global namespace
-        //mocha.checkLeaks();
-        var assert = chai.assert; //no one wants to type out "chai.assert" every time
-    </script>
-    <div id="mocha">
-        This is where test results should show up
-    </div>
-    <!--Mocha is set up now, you just need to write and run tests-->
-
-	<pre id="results-container"></pre>
-
-<script>
-	describe("Default settings: Binary branching syntactic trees rooted in XP with recursive XPs, x0 terminals", function(){
+function GENinputTest(){
+    describe("Default settings: Binary branching syntactic trees rooted in XP with recursive XPs, x0 terminals", function(){
 		it("a b trees = [a [b]], [[a] b], [[a][b]]", function(){
 			var shortTrees = sTreeGEN('a b');
 			logTrees('ab trees', shortTrees);
@@ -167,107 +136,6 @@
 	
 	});
 
-	mocha.run();
+}
 
-	function logTrees(message, trees){
-		console.log(message, trees.length);
-		for(var s in trees){
-			console.log(parenthesizeTree(trees[s]));
-		}
-	}
-	
-	// var inputGenOptions = {rootCategory: 'xp', recursiveCategory: 'xp', terminalCategory:'x0', syntactic: true};
-	// var autoSTreePairs = GEN({}, 'a b c', inputGenOptions);
-	// var sTreeList = autoSTreePairs.map(x=>x[1]);
-	// var noX0Sisters = sTreeList.filter(x => !x0Sisters(x, 'x0'));
-	// var binaryBrTrees = sTreeList.filter(x => !ternaryNodes(x, 2));
-	// var maxTTrees = sTreeList.filter(x => !x0Sisters(x, 'x0') && !ternaryNodes(x, 2));
-	/*var sTreeList = sTreeGEN('a b c', {maxBranching:2, rootCategory:'xp', recursiveCategory:'xp', noAdjuncts:true});
-	logTrees('abc trees', sTreeList);
-
-	var shortTrees = sTreeGEN('a b');
-	logTrees('ab trees', shortTrees)
-
-	var bareCliticTrees = sTreeGEN('a b', {addClitics:true, cliticsAreBare: true, noAdjacentHeads:false, noBarLevels: true});
-	var xpCliticTrees = sTreeGEN('a b', {addClitics:true, cliticsAreBare: false});
-
-	logTrees('Bare clitic trees', bareCliticTrees);
-	logTrees('XP clitic trees', xpCliticTrees);
-*/
-	/*Constraint sets.*/
-	var MatchSPMatchPS = ['binMaxBranches-phi', 'binMinBranches-phi', 'matchSP-xp'];
-	
-	/*A list of names for constraint sets.*/
-    var conNames = ['MatchSPMatchPS'];
-	
-	//Candidate sets are generated with the options below.
-	var output_gen_options = {obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: ['i'], addTones: false, requireRecWrapper: false};
-
-	
-	
-	// ---- Functions that don't necessarily need to be customized ----
-	
-	/*Function that concatenates a bunch of tableaux for various candidate sets into one large tableau. It does not need to be modified if you are only comparing different constraint sets. But it can be modified to deal with your particular analysis. For example, to consider multiple possible input syntaxes, you can add an outer for-loop to iterate over the different tree sets, as well as interating over the trees in each set.*/
-    function makeTableauCsvs(consName) {
-        var csvSegs = [];	//List to accumulate tableaux in
-		
-        //For each syntactic tree in sTreeList, make a tableau using the current constraint set
-        for(var j=0; j<sTreeList.length; j++){
-            var currentSTree = globalNameOrDirect(sTreeList[j]); 
-			var leaves = getLeaves(currentSTree);
-			var wordList = [];
-			for(var i=0; i < leaves.length; i++){
-				wordList.push(leaves[i].id);
-			}
-			var wordString = wordList.join(' ');
-
-            //Make the candidate set using the GEN function (defined in candidategenerator.js)
-			//Leave the 2nd argument as an empty string to scrape words from the terminals of the syntactic tree.
-            var candSet = GEN(sTreeList[j], '', output_gen_options);
-            
-			//Make the tableau using the makeTableau function (defined in tableauMaker.js)
-            var tabl = makeTableau(candSet, window[consName], {showTones: output_gen_options.addTones});
-			
-			//Write the tableau to the screen and reveal it -- only uncomment this if you don't have too many tableaux!
-			writeTableau(tabl)
-			revealNextSegment();
-			lastSegmentId++;
-			
-			//Add the tableau from the current stree to cumulative tableau that is being built in csvSegs.
-            csvSegs.push(tableauToCsv(tabl, '\t', {noHeader: j}));
-        }
-		
-		//Save the tableau as a tab-separated file, named after consName
-        //saveTextAs(csvSegs.join('\n'),"tableau_"+consName+".tsv");
-    }
-	
-	/*This function executes automatically when the page is reloaded. It calls all the other functions.*/
-    function runDemo() {
-	//Iterate over the different constraint sets. Make a tableau for each one.
-		for(var i = 0; i<conNames.length; i++){
-			//makeTableauCsvs(conNames[i]);
-		}
-    }
-    
-    /*Utilities for saving files.*/
-    function saveAs(blob, name) {
-        var a = document.createElement("a");
-        a.display = "none";
-        a.href = URL.createObjectURL(blob);
-        a.download = name;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-    }
-   
-    function saveTextAs(text, name) {
-        saveAs(new Blob([text], {type: "text/csv", encoding: 'utf-8'}), name);
-    }
-	
-
-
-</script>
-
-</body>
-
-</html>
+GENinputTest();

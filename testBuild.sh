@@ -1,3 +1,3 @@
-source jsbuild.sh
-cat test/*.js lib/test/*.js > build/test.js
-cat build/test.js >> build/spot.js
+source jsbuild.sh #create constraints.js, top.js, and spot.js
+cat test/*.js > build/test.js
+cat build/test.js lib/test/*.js >> build/spot.js

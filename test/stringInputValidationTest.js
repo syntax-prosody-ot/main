@@ -1,4 +1,6 @@
-// Interface testing with mocha and chai
+// Interface testing with mocha and chai for input validation for string generation.
+// Doesn't get auto-tested in the console at present because it requires the interface.
+
 var assert; 
 
 function setUp(){
