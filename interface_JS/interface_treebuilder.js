@@ -347,14 +347,10 @@ function treeUIMakeParent() {
 
 function deleteTreeUINodes() {
 	var nodes = getSelectedNodes();
-	//console.log(nodes);
-
 	if (nodes) {
 		var treeIndex = nodes[0].m.treeIndex;
-		for (var i = 1; i < nodes.length; i++) {
-			console.log(nodes[i].m.treeIndex, treeIndex);
-			console.log(nodes[i].m.parent.id, nodes[0].m.parent.id);
-			if (nodes[i].m.treeIndex != treeIndex && nodes[i].m.parent.id != nodes[0].m.parent.id) {
+		for (var i = 1; i < nodes.length; i++) {;
+			if(nodes[i].m.treeIndex != treeIndex) {
 				displayError('You attempted to delete nodes from multiple trees. Please delete nodes one tree at a time.');
 				return;
 			}
