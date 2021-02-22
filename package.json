@@ -1,0 +1,10 @@
+{
+    "name": "spot",
+    "scripts": {
+        "test": "mocha ./test/compiledTest/test.js --reporter spec"
+    },
+    "dependencies": {
+        "chai": "^4.3.0",
+        "mocha": "^8.3.0"
+    }
+}

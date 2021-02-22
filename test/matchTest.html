@@ -1,4 +1,4 @@
-<html><head> 
+<html><head>  
     <title>SPOT Automated Testing</title>
 
 	<link rel="stylesheet" type="text/css" href="../spot.css">
@@ -20,6 +20,9 @@
 
     <h2>SPOT Automated Testing</h2>
 
+    <!--Import error message functions-->
+    <script src="./message_funcs.js"></script>
+
     <!--Mocha stuff (2/2)-->
     <script>
         mocha.setup("bdd"); //brings "describe", "it", etc. into global namespace
@@ -27,14 +30,13 @@
         var assert = chai.assert; //no one wants to type out "chai.assert" every time
     </script>
     <div id="mocha">
-        This is where test results should show up
+        Testing MatchSP/PS subcategorization
     </div>
     <!--Mocha is set up now, you just need to write and run tests-->
-    <!--Step 1: Import the actual test function from the js file where you've defined it-->
-    <script src="test_TEMPLATE.js"></script>
+    <script src="matchTest.js"></script>
     <script>
-        myTestFunctionName(); //Step 2: Call the test function
-        mocha.run(); //Step 3: Actually run the test!!!
+        matchTest();
+        mocha.run(); //don't forget to run the test!!!
     </script>
     <!--That's all you need for testing with mocha and chai-->
 

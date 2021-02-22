@@ -1,29 +1,7 @@
 
 var lastSegmentId = 0, nextSegmentToReveal = 0;
-
-
-var logLines = [];
-function logreport(line){
-    logLines.push(['<span class="report-line segment-', lastSegmentId, (lastSegmentId >= nextSegmentToReveal) ? ' segment-hidden' : '', '">', line, '<br></span>'].join(''));
-    flushLog();
-}
-logreport.debug = function() {
-    if (logreport.debug.on)
-        return logreport.call(this, Array.prototype.slice.call(arguments));
-}
-logreport.debug.on = true;
-
+//logreport functions have been moved to main/logreport.js
 var resultsContainer;
-function flushLog() {
-    if (resultsContainer) {
-        var fragment = document.createElement('div');
-        fragment.innerHTML = logLines.join('');
-        resultsContainer.appendChild(fragment);
-        logLines = [];
-    } else {
-        console.error('Tried to flush log before window loaded.');
-    }
-}
 
 function writeTableau(tableauContent) {
     if (resultsContainer) {
