@@ -166,24 +166,56 @@ function deduplicateTerminals(terminalList) {
 	return dedupedTerminals;
 }
 
+/** Function to take a string and category and return an object wordObj with attributes
+ *  wordObj.id = word
+ *  wordObj.cat = cat
+ * 
+ * Also convert hyphenated information about accent and status as a clitic that is 
+ * appended to the word argument to attributes of wordObj.
+ * 
+ * If input word is already an object, return it after checking its category.
+ * - if word.cat == cat, return as is
+ * - if word.cat == "clitic" and syntactic==true, return as is
+ * - if word.cat == "clitic" and syntactic==false, change word.cat to "syll"
+ * - if word.cat != cat, and word.cat != clitic, change word.cat to cat.
+ */
 function wrapInLeafCat(word, cat, syntactic){
-	//by default, the leaf category is 'w'
-	var myCat = cat || 'w';
-	var wordId = word;
-
-	//check if the input specifies this is a clitic and set category appropriately
-	var isClitic = word.indexOf('-clitic')>=0;
-	if (isClitic){
-		myCat = syntactic ? 'clitic' : 'syll'; //syntactic tree vs prosodic trees
-		wordId = wordId.split('-clitic')[0];
+	//If word is already an object with appropriate properties, then check categories and return.
+	if(typeof word === "object"){
+		if(word.cat && word.id){
+			//convert "clitic" to "syll" if we're making a prosodic tree
+			if(word.cat==="clitic" && !syntactic){
+				word.cat = "syll";
+			}
+			//otherwise change cat to the specified cat if they don't match
+			else if (word.cat !== cat){
+				word.cat = cat;
+			}
+			
+			return word;
+		}
+		else displayWarning("wrapInLeafCat: argument word is already an object but lacks an id or cat.");
 	}
-	var wordObj = {cat: myCat};
 
-	//check if the input specifies this is an accented word, and set accent to true if so
-	if(word.indexOf('-accent') >= 0){
-		wordObj.accent = true;
-		wordId = wordId.split('-accent')[0];
+	//Otherwise, word is a string and must be converted into an object.
+	else{
+		var myCat = cat || 'w'; //by default, the leaf category is 'w'
+		var wordId = word;
+
+		//check if the input specifies this is a clitic and set category appropriately
+		var isClitic = word.indexOf('-clitic')>=0;
+		if (isClitic){
+			myCat = syntactic ? 'clitic' : 'syll'; //syntactic tree vs prosodic trees
+			wordId = wordId.split('-clitic')[0];
+		}
+		var wordObj = {cat: myCat};
+
+		//check if the input specifies this is an accented word, and set accent to true if so
+		if(word.indexOf('-accent') >= 0){
+			wordObj.accent = true;
+			wordId = wordId.split('-accent')[0];
+		}
+		wordObj.id = wordId;
+		return wordObj;
 	}
-	wordObj.id = wordId;
-	return wordObj;
 }
