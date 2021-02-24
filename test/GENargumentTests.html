@@ -38,81 +38,15 @@
     </div>
     
     <!--Mocha is set up now, you just need to write and run tests-->
+    <script src="./GENargumentTests.js"></script>
+    
     <script>
-        
-        stree = {
-            "id": "CP1",
-            "cat": "cp",
-            "children": [
-                {
-                    "id": "a",
-                    "cat": "x0"
-                },
-                {
-                    "id": "b",
-                    "cat": "x0"
-                },
-                {
-                    "id": "c",
-                    "cat": "x0"
-                }
-            ]
-        }
-
-        describe('GEN with various inputs', function() {
-            it('GEN with stree only', function() {
-                assert.equal(GEN({},'a b c').length, 24, "");
-            });
-            it('GEN with words only', function() {
-                assert.equal(GEN({},'a b c').length, 24, "");
-            });
-            it('GEN with stree and words, different length', function() {
-                assert.equal(GEN({},'a b c').length, 24, "");
-            });
-            it('GEN with stree and words, same length', function() {
-                assert.equal(GEN({},'a b c').length, 24, "");
-            });
-        });
-
-        describe('GENwithCliticMovement with various inputs', function() {
-            it('GEN with stree only', function() {
-                assert.equal(GEN({},'a b c').length, 24, "");
-            });
-            it('GEN with words only', function() {
-                assert.equal(GEN({},'a b c').length, 24, "");
-            });
-            it('GEN with stree and words', function() {
-                assert.equal(GEN({},'a b c').length, 24, "");
-            });
-            it('GEN with stree and words, same length', function() {
-                assert.equal(GEN({},'a b c').length, 24, "");
-            });
-        });
-
-        describe('GENwithPermutation with various inputs', function() {
-            it('GEN with stree only', function() {
-                assert.equal(GEN({},'a b c').length, 24, "");
-            });
-            it('GEN with words only', function() {
-                assert.equal(GEN({},'a b c').length, 24, "");
-            });
-            it('GEN with stree and words', function() {
-                assert.equal(GEN({},'a b c').length, 24, "");
-            });
-            it('GEN with stree and words, same length', function() {
-                assert.equal(GEN({},'a b c').length, 24, "");
-            });
-        });
 
         mocha.run(); //don't forget to run the test!!!
 
-
     </script>
     <!--That's all you need for testing with mocha and chai-->
-    <script type="text/javascript">
-        console.log(GENwithPermutation({},'a b c'));
-        
-    </script>
+    <script type="text/javascript"></script>
 
 	<pre id="results-container"></pre>
 
