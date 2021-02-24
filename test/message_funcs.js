@@ -13,3 +13,18 @@ function messageAlign(stree, ptree, d, options) {
         return `align with direction ${d} and ${Object.keys(options)},\
         \n\t${parenthesizeTree(stree)} --> ${parenthesizeTree(ptree)}`;
     }
+
+function messageGEN(treePairs, expectedPairs, options){
+    options = options || {"no options": 0};
+    return `with ${Object.keys(options)},\
+        \n\tExpected ${convertTreePairsListToString(treePairs)} \n\tto equal ${convertTreePairsListToString(expectedPairs)}`;
+}
+
+function convertTreePairsListToString(treeList){
+    var pairStringList = [];
+    for(let i=0; i<treeList.length; i++){
+        let sp = [parenthesizeTree(treeList[i][0]), parenthesizeTree(treeList[i][1])].join(', ');
+        pairStringList = pairStringList.concat(sp);
+    }
+    return pairStringList.join('; ');
+}
