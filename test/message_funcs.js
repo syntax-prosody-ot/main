@@ -13,3 +13,7 @@ function messageAlign(stree, ptree, d, options) {
         return `align with direction ${d} and ${Object.keys(options)},\
         \n\t${parenthesizeTree(stree)} --> ${parenthesizeTree(ptree)}`;
     }
+
+function displayWarning(message){
+    console.log(message);
+}
