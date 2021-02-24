@@ -136,7 +136,7 @@ function sTreeGEN(terminalString, options)
  */
 function addClitic(sTree, side="right", rootCategory, inside, bareClitic){
   if(side===true){side="right"}
-  var cliticX0 = {id:'x', cat: 'clitic'};
+  var cliticX0 = {id:'cliticParent', cat:'x0', children:[{id:'x', cat: 'clitic'}]};
   //Unless bareClitic==true, wrap the clitic in an XP layer
   if(!bareClitic){
     var cliticObj = {id:'dp', cat: 'xp', children: [cliticX0]};
