@@ -23,8 +23,10 @@
 </head>
 <body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
 
-    <h2>Automated GEN Testing</h2>
-    
+    <h2>GEN Argument Tests</h2>
+    <p>This testfile checks that standard GEN(), GENwithCliticMovement(), and GENwithPermutation() function correctly when passed certain arguments.  The GEN functions can receive an stree, a string of terminals, neither, or both, and these tests make sure that the output is as expected.</p>
+    <p>WARNING: Tests will fail if pop-up is left onscreen for longer than two seconds.</p>
+
     <script src="./GENoutputTrees.js"></script>
 
     <!--Mocha stuff (2/2)-->
@@ -39,7 +41,7 @@
     
     <!--Mocha is set up now, you just need to write and run tests-->
     <script src="./GENargumentTests.js"></script>
-    
+
     <script>
 
         mocha.run(); //don't forget to run the test!!!
