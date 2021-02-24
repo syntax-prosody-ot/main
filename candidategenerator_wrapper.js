@@ -220,16 +220,17 @@ function wrapInLeafCat(word, cat, syntactic){
 		}
 		wordObj = {cat: myCat};
 
-		if(myCat==="clitic"){
-			wordObj = addParent(wordObj);
-		}
-
 		//check if the input specifies this is an accented word, and set accent to true if so
 		if(word.indexOf('-accent') >= 0){
 			wordObj.accent = true;
 			wordId = wordId.split('-accent')[0];
 		}
 		wordObj.id = wordId;
+
+		//add an x0 layer if this is a (syntactic) clitic
+		if(myCat==="clitic"){
+			wordObj = addParent(wordObj);
+		}
 		return wordObj;
 	}
 }
