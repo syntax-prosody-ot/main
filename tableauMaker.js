@@ -62,7 +62,7 @@ function makeTableau(candidateSet, constraintSet, options){
 	}
 
 	if(options.trimStree){
-		header[0] = header[0].concat(' trimmed: ', parenthesizeTree(trimRedundantNodes(sTreeObject)));
+		header[0] = header[0].concat(' trimmed: ', parenthesizeTree(removeSpecifiedNodes(sTreeObject, 'silent')));
 	}
 
 	tableau.push(header);
@@ -107,7 +107,7 @@ function makeTableau(candidateSet, constraintSet, options){
 			//var numViolations = runConstraint(constraintAndCat[0], candidate[0], candidate[1], constraintAndCat[1]); ++lastSegmentId; // show log of each constraint run
 			var oldDebugOn = logreport.debug.on;
 			logreport.debug.on = false;
-			trimmedTree = options.trimStree ? trimRedundantNodes(getCandidate(candidate[0])) : getCandidate(candidate[0]);
+			trimmedTree = options.trimStree ? removeSpecifiedNodes(getCandidate(candidate[0]), 'silent') : getCandidate(candidate[0]);
 			//if options.catsMatch --> add it to myConOptions
 
 			//options for this constraint:

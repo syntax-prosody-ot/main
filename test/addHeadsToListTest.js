@@ -1,37 +1,5 @@
-<html><head> 
-    <title>Add Minimal Phi Head Testing</title>
-
-	<link rel="stylesheet" type="text/css" href="../spot.css">
-
-    <!--If running tests that do not have to do with the interface, run jsbuild.sh or jsbuild.bat
-        in root directory of the project. If running interface testing, run testbuild.sh
-        or testBuild.bat-->
-    <script src="../build/spot.js"></script>
-
-    <!--Mocha setup stuff (1/2)-->
-    <meta charset="UTF-8">
-    <script src="../lib/test/mocha.min.js"></script>
-    <script src="../lib/test/chai.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="../lib/test/mocha.css">
-    <!--mocha setup stuff to be continued in document body-->
-    
-</head>
-<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
-
-    <h2>SPOT Automated Testing</h2>
-    
-
-    <!--Mocha stuff (2/2)-->
-    <script>
-        mocha.setup("bdd"); //brings "describe", "it", etc. into global namespace
-        //mocha.checkLeaks();
-        var assert = chai.assert; //no one wants to type out "chai.assert" every time
-    </script>
-    <div id="mocha"></div> <!--This is where the Mocha tests show up-->
-    <pre id="results-container"></pre> <!--This is where the tableau will show up-->
-    <!--Mocha is set up now, you just need to write and run tests-->
-    <script>
-        describe("copyNode", function() {
+function addHeadsToListTest(){
+    describe("copyNode", function() {
             let testNode;
             beforeEach(function() {
                 testNode = {
@@ -440,26 +408,6 @@
                 assert.deepEqual(expectedOutput, genHeadsForList(testTrees));
             });
         });
+}
 
-        mocha.run();
-    </script>
-    
-
-    <script>
-        function runDemo(){
-            var plainCands = GEN({id:'heads of minimal phis'}, 'a b c d', {obeysExhaustivity:true, noUnary:true});
-            var headedCands = genHeadsForList(plainCands);
-            console.log(headedCands);
-            var myTabl = makeTableau(headedCands, ['binMaxBranches-phi'], {showHeads:'phi'})
-            writeTableau(myTabl);
-            revealNextSegment();
-
-            var plainCands = GEN({id:'heads of minimal iotas'}, 'a b c', {noUnary:true});
-            var headedCands = genHeadsForList(plainCands, 'i');
-            console.log(headedCands);
-            var myTabl = makeTableau(headedCands, ['binMaxBranches-i'], {showHeads:'i'})
-            writeTableau(myTabl);
-            revealNextSegment();
-        }
-    </script>
-</body></html>
+addHeadsToListTest();

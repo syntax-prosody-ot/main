@@ -1,4 +1,3 @@
-<!--In Progress-->
 <html><head> 
     <title>SPOT Automated Testing</title>
 
@@ -19,7 +18,8 @@
 </head>
 <body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
 
-    <h2>SPOT Automated Testing</h2>
+    <h2>Automatic Tree Trimming Tests</h2>
+    <p>Tests the following functions:<p>- trimSilentTerminals()</p><p>- trimRedundantNodes()</p><p>- trimSpecifiedNodes()</p><p>- trimDeadEndNodes()</p></p>
 
     <!--Mocha stuff (2/2)-->
     <script>
@@ -28,16 +28,18 @@
         var assert = chai.assert; //no one wants to type out "chai.assert" every time
     </script>
     <div id="mocha">
-        Binarity Automated Testing
+        
     </div>
-    <!--Mocha is set up now, you just need to write and run tests-->
 
-    <script src="../constraints/binarity.js"></script>
-    <script src="binarityTest.js"></script>
+    <!--Mocha is set up now, you just need to write and run tests-->
+    <script src="treeTrimmingTest.js"></script>
     <script>
-        binarityTest();
-        mocha.run(); //don't forget to run the test!!!
+        treeTrimmingTest();
+        mocha.run();
     </script>
+
+
     <!--That's all you need for testing with mocha and chai-->
-    </body>
-</html>
+
+
+</body></html>

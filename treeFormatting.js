@@ -8,8 +8,21 @@ var categoryBrackets = {
 	"w": ["(w ", ")"],
 	"clitic": ["",""],
 	"syll": ["",""],
-	"Ft": ["", ""],
+	"Ft": ["(F ", ")"],
 	"u": ["{u ", "}"]
+};
+
+var subWordBrackets = {
+	"i": "{}",
+	"cp": "{}",
+	"xp": "[]",
+	"phi": "()",
+	"x0": ["[x0 ","]"],
+	"clitic": ["",""],
+	"u": ["{u ", "}"],
+	"w": ["[","]"],
+	"Ft": ["(",")"],
+	"syll": ["",""]
 };
 
 /* Function that takes a [default=prosodic] tree and returns a string version where phi boundaries are marked with '(' ')'
@@ -27,7 +40,7 @@ function parenthesizeTree(tree, options){
 	var showNewCats = options.showNewCats || true;
 	var invisCats = options.invisibleCategories || [];
 	var showTones = options.showTones || false;
-	var parens = options.parens || Object.assign({}, categoryBrackets);
+	var parens = options.parens || Object.assign({}, (options.subword)? subWordBrackets : categoryBrackets);
 
 	if(options.showTones){
 		tree = window[options.showTones](tree);

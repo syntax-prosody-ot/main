@@ -142,7 +142,7 @@ window.GEN = function(sTree, words, options){
 		leaves.push(wrapInLeafCat(words[i], options.terminalCategory, options.syntactic));
 	}
 
-	return GEN_impl(sTree, leaves, options);
+	return window.GEN_impl(sTree, leaves, options);
 }
 
 function deduplicateTerminals(terminalList) {

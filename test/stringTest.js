@@ -1,4 +1,5 @@
-// Interface testing with mocha and chai
+// Interface testing with mocha and chai. Tests save/load/clear for string generation on the interface.
+// Doesn't get auto-tested in the console at present because it requires the interface.
 
 var assert;
 

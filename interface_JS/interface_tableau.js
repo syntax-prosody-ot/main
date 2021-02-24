@@ -271,6 +271,12 @@ function sendToTableau(e) {
 
     var tableauOptions = getTableauOptions(genOptions);
 
+    //If the tree is rooted in a word, the recursive category is the foot, and the terminal category is the syllable, then
+    //the function makeTableau() will be called with the option "subword" which will change bracketing notation for parenthesizeTree().
+    if (genOptions.rootCategory === "w" && genOptions.recursiveCategory === "Ft" && genOptions.terminalCategory === "syll") {
+        tableauOptions.subword = true;
+    }
+
     var resultsConCl = document.getElementById("results-container").classList;
     resultsConCl.add('show-tableau');
 
