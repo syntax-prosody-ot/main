@@ -62,113 +62,115 @@ stree_clitic = {
 
 function GENargumentTests(){
 
-    describe('GEN with various inputs (compare output as string)', function() {
-        it('GEN with no input', function() {
-            assert.equal(GEN({},'').length, 2, "");
-        });
-        it('GEN with stree only', function() {
-            assert.equal(JSON.stringify(GEN(stree,'')), g0, "");
-        });
-        it('GEN with words only', function() {
-            assert.equal(JSON.stringify(GEN({},'a b c')), g1, "");
-        });
-        it('GEN with stree and words, different length', function() {
-            assert.equal(JSON.stringify(GEN(stree,'a b')), g2, "");
-        });
-        it('GEN with stree and words, same length', function() {
-            assert.equal(JSON.stringify(GEN(stree,'a b c')), g3, "");
-        });
-    });
+	describe("GENargumentTests.html", function(){
+	    describe('GEN with various inputs (compare output as string)', function() {
+	        it('GEN with no input', function() {
+	            assert.equal(GEN({},'').length, 2, "");
+	        });
+	        it('GEN with stree only', function() {
+	            assert.equal(JSON.stringify(GEN(stree,'')), g0, "");
+	        });
+	        it('GEN with words only', function() {
+	            assert.equal(JSON.stringify(GEN({},'a b c')), g1, "");
+	        });
+	        it('GEN with stree and words, different length', function() {
+	            assert.equal(JSON.stringify(GEN(stree,'a b')), g2, "");
+	        });
+	        it('GEN with stree and words, same length', function() {
+	            assert.equal(JSON.stringify(GEN(stree,'a b c')), g3, "");
+	        });
+	    });
 
-    describe('GEN with various inputs (compare output by length)', function() {
-        it('GEN with no input', function() {
-            assert.equal(GEN({},'').length, 2, "");
-        });
-        it('GEN with stree only', function() {
-            assert.equal(GEN(stree,'').length, 48, "");
-        });
-        it('GEN with words only', function() {
-            assert.equal(GEN({},'a b c').length, 48, "");
-        });
-        it('GEN with stree and words, different length', function() {
-            assert.equal(GEN(stree,'a b').length, 8, "");
-        });
-        it('GEN with stree and words, same length', function() {
-            assert.equal(GEN(stree,'a b c').length, 48, "");
-        });
-    });
+	    describe('GEN with various inputs (compare output by length)', function() {
+	        it('GEN with no input', function() {
+	            assert.equal(GEN({},'').length, 2, "");
+	        });
+	        it('GEN with stree only', function() {
+	            assert.equal(GEN(stree,'').length, 48, "");
+	        });
+	        it('GEN with words only', function() {
+	            assert.equal(GEN({},'a b c').length, 48, "");
+	        });
+	        it('GEN with stree and words, different length', function() {
+	            assert.equal(GEN(stree,'a b').length, 8, "");
+	        });
+	        it('GEN with stree and words, same length', function() {
+	            assert.equal(GEN(stree,'a b c').length, 48, "");
+	        });
+	    });
 
-    describe('GENwithCliticMovement with various inputs (compare output as string)', function() {
-        it('GEN with no input', function() {
-            assert.equal(GENwithCliticMovement({},'').length, 2, "");
-        });
-        it('GEN with stree only', function() {
-            assert.equal(JSON.stringify(GENwithCliticMovement(stree_clitic,'')), gwcm0, "");
-        });
-        it('GEN with words only', function() {
-            assert.equal(JSON.stringify(GENwithCliticMovement({},'a b c-clitic')), gwcm1, "");
-        });
-        it('GEN with stree and words, different length', function() {
-            assert.equal(JSON.stringify(GENwithCliticMovement(stree_clitic,'b c-clitic')), gwcm2, "");    
-        });
-        it('GEN with stree and words, same length', function() {
-            assert.equal(JSON.stringify(GENwithCliticMovement(stree_clitic,'a b c-clitic')), gwcm3, ""); 
-        });
-    });
+	    describe('GENwithCliticMovement with various inputs (compare output as string)', function() {
+	        it('GEN with no input', function() {
+	            assert.equal(GENwithCliticMovement({},'').length, 2, "");
+	        });
+	        it('GEN with stree only', function() {
+	            assert.equal(JSON.stringify(GENwithCliticMovement(stree_clitic,'')), gwcm0, "");
+	        });
+	        it('GEN with words only', function() {
+	            assert.equal(JSON.stringify(GENwithCliticMovement({},'a b c-clitic')), gwcm1, "");
+	        });
+	        it('GEN with stree and words, different length', function() {
+	            assert.equal(JSON.stringify(GENwithCliticMovement(stree_clitic,'b c-clitic')), gwcm2, "");    
+	        });
+	        it('GEN with stree and words, same length', function() {
+	            assert.equal(JSON.stringify(GENwithCliticMovement(stree_clitic,'a b c-clitic')), gwcm3, ""); 
+	        });
+	    });
 
-    describe('GENwithCliticMovement with various inputs (compare output by legnth)', function() {
-        it('GEN with no input', function() {
-            assert.equal(GENwithCliticMovement({},'').length, 2, "");
-        });
-        it('GEN with stree only', function() {
-            assert.equal(GENwithCliticMovement(stree_clitic,'').length, 48*3, "");
-        });
-        it('GEN with words only', function() {
-            assert.equal(GENwithCliticMovement({},'a b c-clitic').length, 48*3, "");
-        });
-        it('GEN with stree and words, different length', function() {
-            assert.equal(GENwithCliticMovement(stree_clitic,'b c-clitic').length, 8*2, "");    
-        });
-        it('GEN with stree and words, same length', function() {
-            assert.equal(GENwithCliticMovement(stree_clitic,'a b c-clitic').length, 48*3, ""); 
-        });
-    });
+	    describe('GENwithCliticMovement with various inputs (compare output by legnth)', function() {
+	        it('GEN with no input', function() {
+	            assert.equal(GENwithCliticMovement({},'').length, 2, "");
+	        });
+	        it('GEN with stree only', function() {
+	            assert.equal(GENwithCliticMovement(stree_clitic,'').length, 48*3, "");
+	        });
+	        it('GEN with words only', function() {
+	            assert.equal(GENwithCliticMovement({},'a b c-clitic').length, 48*3, "");
+	        });
+	        it('GEN with stree and words, different length', function() {
+	            assert.equal(GENwithCliticMovement(stree_clitic,'b c-clitic').length, 8*2, "");    
+	        });
+	        it('GEN with stree and words, same length', function() {
+	            assert.equal(GENwithCliticMovement(stree_clitic,'a b c-clitic').length, 48*3, ""); 
+	        });
+	    });
 
-    describe('GENwithPermutation with various inputs (compare output as string)', function() {
-        it('GEN with no input', function() {
-            assert.equal(GENwithPermutation({},''), '', "");
-        });
-        it('GEN with stree only', function() {
-            assert.equal(JSON.stringify(GENwithPermutation(stree,'')), gwp0, "");
-        });
-        it('GEN with words only', function() {
-            assert.equal(JSON.stringify(GENwithPermutation({},'a b c')), gwp1, "");
-        });
-        it('GEN with stree and words, different length', function() {
-            assert.equal(JSON.stringify(GENwithPermutation(stree,'a b')), gwp2, "");
-        });
-        it('GEN with stree and words, same length', function() {
-            assert.equal(JSON.stringify(GENwithPermutation(stree,'a b c')), gwp3, "");
-        });
-    });
+	    describe('GENwithPermutation with various inputs (compare output as string)', function() {
+	        it('GEN with no input', function() {
+	            assert.equal(GENwithPermutation({},''), '', "");
+	        });
+	        it('GEN with stree only', function() {
+	            assert.equal(JSON.stringify(GENwithPermutation(stree,'')), gwp0, "");
+	        });
+	        it('GEN with words only', function() {
+	            assert.equal(JSON.stringify(GENwithPermutation({},'a b c')), gwp1, "");
+	        });
+	        it('GEN with stree and words, different length', function() {
+	            assert.equal(JSON.stringify(GENwithPermutation(stree,'a b')), gwp2, "");
+	        });
+	        it('GEN with stree and words, same length', function() {
+	            assert.equal(JSON.stringify(GENwithPermutation(stree,'a b c')), gwp3, "");
+	        });
+	    });
 
-    describe('GENwithPermutation with various inputs (compare output by length)', function() {
-        it('GEN with no input', function() {
-            assert.equal(GENwithPermutation({},'').length, 0, "");
-        });
-        it('GEN with stree only', function() {
-            assert.equal(GENwithPermutation(stree,'').length, 48*6, "");
-        });
-        it('GEN with words only', function() {
-            assert.equal(GENwithPermutation({},'a b c').length, 48*6, "");
-        });
-        it('GEN with stree and words, different length', function() {
-            assert.equal(GENwithPermutation(stree,'a b').length, 8*2, "");
-        });
-        it('GEN with stree and words, same length', function() {
-            assert.equal(GENwithPermutation(stree,'a b c').length, 48*6, "");
-        });
-    });
+	    describe('GENwithPermutation with various inputs (compare output by length)', function() {
+	        it('GEN with no input', function() {
+	            assert.equal(GENwithPermutation({},'').length, 0, "");
+	        });
+	        it('GEN with stree only', function() {
+	            assert.equal(GENwithPermutation(stree,'').length, 48*6, "");
+	        });
+	        it('GEN with words only', function() {
+	            assert.equal(GENwithPermutation({},'a b c').length, 48*6, "");
+	        });
+	        it('GEN with stree and words, different length', function() {
+	            assert.equal(GENwithPermutation(stree,'a b').length, 8*2, "");
+	        });
+	        it('GEN with stree and words, same length', function() {
+	            assert.equal(GENwithPermutation(stree,'a b c').length, 48*6, "");
+	        });
+	    });
+	});
 };
 
 GENargumentTests();
