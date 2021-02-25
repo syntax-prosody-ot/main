@@ -28,9 +28,9 @@ function convertTreePairsListToString(treeList){
         pairStringList = pairStringList.concat(sp);
     }
     return pairStringList.join('; ');
+}
 
 // an interface-free version of displayWarning() for testing in the terminal
-  function displayWarning(message){
+function displayWarning(message){
     console.log(message);
-
 }
