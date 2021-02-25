@@ -1,11 +1,11 @@
 //GENinputTest.js
 
 function logTrees(message, trees){
-	var treeLog = [message +', '+trees.length + '\n'];
+	var treeLog = [message +', '+trees.length];
     for(var s in trees){
         treeLog = treeLog.concat(parenthesizeTree(trees[s]));
     }
-	return treeLog.join(', ');
+	return treeLog.join('\n');
 }
 
 function GENinputTest(){
@@ -92,32 +92,31 @@ function GENinputTest(){
 		describe("a b trees, with clitics", function(){
 			it("XP clitics on left", function(){
 				var shortTrees = sTreeGEN('a b', {addClitics:"left"});
-				logTrees('ab trees with leftward clitics', shortTrees);
-				var expectedTrees = JSON.parse('[{"id":"root","cat":"xp","children":[{"id":"dp","cat":"xp","children":[{"id":"x","cat":"clitic"}]},{"id":"root","cat":"xp","children":[{"cat":"x0","id":"a"},{"id":"xp0","cat":"xp","children":[{"cat":"x0","id":"b"}]}]}]},{"id":"root","cat":"xp","children":[{"id":"dp","cat":"xp","children":[{"id":"x","cat":"clitic"}]},{"id":"root","cat":"xp","children":[{"id":"xp1","cat":"xp","children":[{"cat":"x0","id":"a"}]},{"cat":"x0","id":"b"}]}]},{"id":"root","cat":"xp","children":[{"id":"dp","cat":"xp","children":[{"id":"x","cat":"clitic"}]},{"id":"root","cat":"xp","children":[{"id":"xp1","cat":"xp","children":[{"cat":"x0","id":"a"}]},{"id":"xp0","cat":"xp","children":[{"cat":"x0","id":"b"}]}]}]}]');
-				assert.deepEqual(shortTrees, expectedTrees, JSON.stringify(shortTrees, null, 4)+"\n"+JSON.stringify(expectedTrees, null, 4));
+				var expectedTrees = JSON.parse('[{"id":"root","cat":"xp","children":[{"id":"dp","cat":"xp","children":[{"id":"cliticParent","cat":"x0","children":[{"id":"x","cat":"clitic"}]}]},{"id":"root","cat":"xp","children":[{"cat":"x0","id":"a"},{"id":"xp0","cat":"xp","children":[{"cat":"x0","id":"b"}]}]}]},{"id":"root","cat":"xp","children":[{"id":"dp","cat":"xp","children":[{"id":"cliticParent","cat":"x0","children":[{"id":"x","cat":"clitic"}]}]},{"id":"root","cat":"xp","children":[{"id":"xp1","cat":"xp","children":[{"cat":"x0","id":"a"}]},{"cat":"x0","id":"b"}]}]},{"id":"root","cat":"xp","children":[{"id":"dp","cat":"xp","children":[{"id":"cliticParent","cat":"x0","children":[{"id":"x","cat":"clitic"}]}]},{"id":"root","cat":"xp","children":[{"id":"xp1","cat":"xp","children":[{"cat":"x0","id":"a"}]},{"id":"xp0","cat":"xp","children":[{"cat":"x0","id":"b"}]}]}]}]');
+				assert.deepEqual(shortTrees, expectedTrees, logTrees('ab trees with leftward clitics', shortTrees)+JSON.stringify(shortTrees, null, 4)+"\n"+JSON.stringify(expectedTrees, null, 4));
 			});
 	
 			it("XP clitics on right", function(){
 				var abcTrees = sTreeGEN('a b', {addClitics:'right'});
-				var expectedTreeString = '[{"id":"root","cat":"xp","children":[{"id":"root","cat":"xp","children":[{"cat":"x0","id":"a"},{"id":"xp0","cat":"xp","children":[{"cat":"x0","id":"b"}]}]},{"id":"dp","cat":"xp","children":[{"id":"x","cat":"clitic"}]}]},{"id":"root","cat":"xp","children":[{"id":"root","cat":"xp","children":[{"id":"xp1","cat":"xp","children":[{"cat":"x0","id":"a"}]},{"cat":"x0","id":"b"}]},{"id":"dp","cat":"xp","children":[{"id":"x","cat":"clitic"}]}]},{"id":"root","cat":"xp","children":[{"id":"root","cat":"xp","children":[{"id":"xp1","cat":"xp","children":[{"cat":"x0","id":"a"}]},{"id":"xp0","cat":"xp","children":[{"cat":"x0","id":"b"}]}]},{"id":"dp","cat":"xp","children":[{"id":"x","cat":"clitic"}]}]}]';
+				var expectedTreeString = '[{"id":"root","cat":"xp","children":[{"id":"root","cat":"xp","children":[{"cat":"x0","id":"a"},{"id":"xp0","cat":"xp","children":[{"cat":"x0","id":"b"}]}]},{"id":"dp","cat":"xp","children":[{"id":"cliticParent","cat":"x0","children":[{"id":"x","cat":"clitic"}]}]}]},{"id":"root","cat":"xp","children":[{"id":"root","cat":"xp","children":[{"id":"xp1","cat":"xp","children":[{"cat":"x0","id":"a"}]},{"cat":"x0","id":"b"}]},{"id":"dp","cat":"xp","children":[{"id":"cliticParent","cat":"x0","children":[{"id":"x","cat":"clitic"}]}]}]},{"id":"root","cat":"xp","children":[{"id":"root","cat":"xp","children":[{"id":"xp1","cat":"xp","children":[{"cat":"x0","id":"a"}]},{"id":"xp0","cat":"xp","children":[{"cat":"x0","id":"b"}]}]},{"id":"dp","cat":"xp","children":[{"id":"cliticParent","cat":"x0","children":[{"id":"x","cat":"clitic"}]}]}]}]';
 				assert(JSON.stringify(abcTrees)===expectedTreeString, logTrees('ab trees with rightward clitics', abcTrees));
 			});
 	
 			it("X0 clitics on left", function(){
 				var shortTrees = sTreeGEN('a b c', {addClitics:"left", cliticsAreBare:true});
-				var expectedTreeString = '[{"id":"root","cat":"xp","children":[{"id":"x","cat":"clitic"},{"id":"root","cat":"xp","children":[{"cat":"x0","id":"a"},{"id":"xp0","cat":"xp","children":[{"cat":"x0","id":"b"},{"cat":"x0","id":"c"}]}]}]},{"id":"root","cat":"xp","children":[{"id":"x","cat":"clitic"},{"id":"root","cat":"xp","children":[{"id":"xp1","cat":"xp","children":[{"cat":"x0","id":"a"},{"cat":"x0","id":"b"}]},{"cat":"x0","id":"c"}]}]}]';
+				var expectedTreeString = '[{"id":"root","cat":"xp","children":[{"id":"cliticParent","cat":"x0","children":[{"id":"x","cat":"clitic"}]},{"id":"root","cat":"xp","children":[{"cat":"x0","id":"a"},{"id":"xp0","cat":"xp","children":[{"cat":"x0","id":"b"},{"cat":"x0","id":"c"}]}]}]},{"id":"root","cat":"xp","children":[{"id":"cliticParent","cat":"x0","children":[{"id":"x","cat":"clitic"}]},{"id":"root","cat":"xp","children":[{"id":"xp1","cat":"xp","children":[{"cat":"x0","id":"a"},{"cat":"x0","id":"b"}]},{"cat":"x0","id":"c"}]}]}]';
 				assert(JSON.stringify(shortTrees)===expectedTreeString, logTrees('a b c trees with bare leftward clitics', shortTrees));
 			});
 	
 			it("XP clitics with invisible bar levels", function(){
 				var shortTrees = sTreeGEN('a b', {addClitics:"left", cliticsInsideFirstRoot:true});
-				var expectedTreeString = '[{"id":"root","cat":"xp","children":[{"id":"dp","cat":"xp","children":[{"id":"x","cat":"clitic"}]},{"cat":"x0","id":"a"},{"id":"xp0","cat":"xp","children":[{"cat":"x0","id":"b"}]}]},{"id":"root","cat":"xp","children":[{"id":"dp","cat":"xp","children":[{"id":"x","cat":"clitic"}]},{"id":"xp1","cat":"xp","children":[{"cat":"x0","id":"a"}]},{"cat":"x0","id":"b"}]}]';
+				var expectedTreeString = '[{"id":"root","cat":"xp","children":[{"id":"dp","cat":"xp","children":[{"id":"cliticParent","cat":"x0","children":[{"id":"x","cat":"clitic"}]}]},{"cat":"x0","id":"a"},{"id":"xp0","cat":"xp","children":[{"cat":"x0","id":"b"}]}]},{"id":"root","cat":"xp","children":[{"id":"dp","cat":"xp","children":[{"id":"cliticParent","cat":"x0","children":[{"id":"x","cat":"clitic"}]}]},{"id":"xp1","cat":"xp","children":[{"cat":"x0","id":"a"}]},{"cat":"x0","id":"b"}]}]';
 				assert(JSON.stringify(shortTrees)===expectedTreeString, logTrees('a b trees with leftward clitics inside', shortTrees));
 			});
 	
-			it("XP clitics with CP root", function(){
+			it("XP clitics with CP root: clitics go inside the CP", function(){
 				var cpTrees = sTreeGEN('a b', {addClitics:"right", rootCategory:'cp'});
-				var expectedTreeString = '[{"id":"root","cat":"cp","children":[{"id":"xp4","cat":"xp","children":[{"cat":"x0","id":"a"},{"id":"xp2","cat":"xp","children":[{"cat":"x0","id":"b"}]}]},{"id":"dp","cat":"xp","children":[{"id":"x","cat":"clitic"}]}]},{"id":"root","cat":"cp","children":[{"id":"xp5","cat":"xp","children":[{"id":"xp3","cat":"xp","children":[{"cat":"x0","id":"a"}]},{"cat":"x0","id":"b"}]},{"id":"dp","cat":"xp","children":[{"id":"x","cat":"clitic"}]}]},{"id":"root","cat":"cp","children":[{"id":"xp6","cat":"xp","children":[{"id":"xp3","cat":"xp","children":[{"cat":"x0","id":"a"}]},{"id":"xp2","cat":"xp","children":[{"cat":"x0","id":"b"}]}]},{"id":"dp","cat":"xp","children":[{"id":"x","cat":"clitic"}]}]}]';
+				var expectedTreeString = '[{"id":"root","cat":"cp","children":[{"id":"xp4","cat":"xp","children":[{"cat":"x0","id":"a"},{"id":"xp2","cat":"xp","children":[{"cat":"x0","id":"b"}]}]},{"id":"dp","cat":"xp","children":[{"id":"cliticParent","cat":"x0","children":[{"id":"x","cat":"clitic"}]}]}]},{"id":"root","cat":"cp","children":[{"id":"xp5","cat":"xp","children":[{"id":"xp3","cat":"xp","children":[{"cat":"x0","id":"a"}]},{"cat":"x0","id":"b"}]},{"id":"dp","cat":"xp","children":[{"id":"cliticParent","cat":"x0","children":[{"id":"x","cat":"clitic"}]}]}]},{"id":"root","cat":"cp","children":[{"id":"xp6","cat":"xp","children":[{"id":"xp3","cat":"xp","children":[{"cat":"x0","id":"a"}]},{"id":"xp2","cat":"xp","children":[{"cat":"x0","id":"b"}]}]},{"id":"dp","cat":"xp","children":[{"id":"cliticParent","cat":"x0","children":[{"id":"x","cat":"clitic"}]}]}]}]';
 				assert(JSON.stringify(cpTrees)===expectedTreeString, logTrees('XP clitics with CP root', cpTrees));
 			})
 		
