@@ -14,6 +14,7 @@ function messageAlign(stree, ptree, d, options) {
         \n\t${parenthesizeTree(stree)} --> ${parenthesizeTree(ptree)}`;
     }
 
+
 function messageGEN(treePairs, expectedPairs, options){
     options = options || {"no options": 0};
     return `with ${Object.keys(options)},\
@@ -27,4 +28,9 @@ function convertTreePairsListToString(treeList){
         pairStringList = pairStringList.concat(sp);
     }
     return pairStringList.join('; ');
+
+// an interface-free version of displayWarning() for testing in the terminal
+  function displayWarning(message){
+    console.log(message);
+
 }
