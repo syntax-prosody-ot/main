@@ -117,17 +117,6 @@ window.GEN = function(sTree, words, options){
 	if(typeof words === "string") { // words can be a space-separated string of words or an array of words; if string, split up into an array
 		if (!words) { // if empty, scrape words from sTree
 			words = getLeaves(sTree);
-			/* for (var i = 0; i < words.length; i++) {
-				var catSuffix = '';
-				if (words[i].cat == 'clitic'){
-					catSuffix = '-clitic';
-				}
-				var accentSuffix = '';
-				if(words[i].accent){
-					accentSuffix = '-accent';
-				}
-				words[i] = words[i].id+catSuffix+accentSuffix;
-			} */
 		} else {
 			words = words.split(' ');
 			words = deduplicateTerminals(words);
