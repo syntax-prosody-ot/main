@@ -116,7 +116,14 @@ window.GEN = function(sTree, words, options){
 
 	if(typeof words === "string") { // words can be a space-separated string of words or an array of words; if string, split up into an array
 		if (!words) { // if empty, scrape words from sTree
-			words = getLeaves(sTree);
+			if(sTree.cat && sTree.id){
+				words = getLeaves(sTree);
+			}
+			else{
+				let message = "window.GEN() was called no valid input!";
+				displayError(message);
+				return [];
+			}
 		} else {
 			words = words.split(' ');
 			words = deduplicateTerminals(words);

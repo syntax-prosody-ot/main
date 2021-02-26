@@ -274,6 +274,10 @@ function generateWordOrders(wordList, clitic) {
 */
 
 function GENwithCliticMovement(stree, words, options) {
+  if(!words && (!stree.cat || !stree.id)){
+    displayError("GENwithCliticMovement was called with no valid input!");
+    return [];
+  }
   // Identify the clitic of interest
   var clitic = '';
   // First try to read words and clitic off the tree
