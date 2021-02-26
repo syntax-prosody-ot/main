@@ -34,3 +34,7 @@ function convertTreePairsListToString(treeList){
 function displayWarning(message){
     console.log(message);
 }
+
+function displayError(message){
+    console.log(message);
+}
