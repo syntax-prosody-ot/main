@@ -3,7 +3,7 @@
 //testing narityTest.html
 function narityTest(){
     var fiveTree = {cat:'phi', id:'x', children:[{id:'w1', cat:'w'},{id:'w2', cat:'w'},{id:'w3', cat:'w'},{id:'w4', cat:'w'},{id:'w5', cat:'w'}]};
-
+    describe("narityTest.html", function(){
         describe('Compare violations of n-arity for '+parenthesizeTree(fiveTree)+', tests maximality only', function() {
             it('binMaxBranches(phi) assigns differing violations depending on argument n', function() {
                 assert.equal(binMaxBranches({}, fiveTree, 'phi'), 1);
@@ -38,5 +38,6 @@ function narityTest(){
                 assert.equal(ternMaxLeaves({}, fiveTree, 'phi'), 1);
             });
         });
+    });
 }
 narityTest();

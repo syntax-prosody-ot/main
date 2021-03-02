@@ -57,6 +57,7 @@ function syntacticFiltersTest(){
     
 
     //Contains Adjunct automated test
+    describe("syntacticFiltersTest.html", function(){
     describe('Adjunct Test: [a [b [c]]]', function () {
         it('does not contain an adjunct', function () {
             var x = {
@@ -905,5 +906,6 @@ function syntacticFiltersTest(){
                 assert.equal(headsOnWrongSide(noRootBadTree2, side, strict), true);
             });
         });
+    });
 }
 syntacticFiltersTest();
