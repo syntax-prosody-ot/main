@@ -115,29 +115,31 @@ var tree4 = {
 
 function binMaxPhiMinTest(){
     
-    describe('Tree1: ( chihoo [[ken satsu] choo] ) = ( w [w F] ) ', function() {
-            it('binMax_minLeaves(s, tree1, c), Expected Violations: 0', function() {
-                assert.equal(binMax_minLeaves(s, tree1, c), 0);
-            });
-        });
-		
-    describe('Tree2: ( chihoo [ [ koo kyoo][dan tai] ] ) = (w [w w] ) ', function() {
-            it('binMax_minLeaves(s, tree2, c) Expected Violations: 1', function() {
-                assert.equal(binMax_minLeaves(s, tree2, c), 1);
-            });
-        });
-		
-    describe('Tree3: ( chihoo ([ [ koo kyoo][dan tai] ]) ) = (w ([w w]) ) ', function() {
-            it('binMax_minLeaves(s, tree3, c) Expected Violations: 0', function() {
-                assert.equal(binMax_minLeaves(s, tree3, c), 0);
-            });
-        });
-		
-    describe('Tree4: ' + parenthesizeTree(tree4), function() {
-            it('binMax_minLeaves(s, tree4, c) Expected Violations: 1', function() {
-                assert.equal(binMax_minLeaves(s, tree4, c), 1);
-            });
-        });
+    describe("binMaxPhiMinTest.html", function() {
+      describe('Tree1: ( chihoo [[ken satsu] choo] ) = ( w [w F] ) ', function() {
+              it('binMax_minLeaves(s, tree1, c), Expected Violations: 0', function() {
+                  assert.equal(binMax_minLeaves(s, tree1, c), 0);
+              });
+          });
+  		
+      describe('Tree2: ( chihoo [ [ koo kyoo][dan tai] ] ) = (w [w w] ) ', function() {
+              it('binMax_minLeaves(s, tree2, c) Expected Violations: 1', function() {
+                  assert.equal(binMax_minLeaves(s, tree2, c), 1);
+              });
+          });
+  		
+      describe('Tree3: ( chihoo ([ [ koo kyoo][dan tai] ]) ) = (w ([w w]) ) ', function() {
+              it('binMax_minLeaves(s, tree3, c) Expected Violations: 0', function() {
+                  assert.equal(binMax_minLeaves(s, tree3, c), 0);
+              });
+          });
+  		
+      describe('Tree4: ' + parenthesizeTree(tree4), function() {
+              it('binMax_minLeaves(s, tree4, c) Expected Violations: 1', function() {
+                  assert.equal(binMax_minLeaves(s, tree4, c), 1);
+              });
+          });
+    });
 }
 
 binMaxPhiMinTest();

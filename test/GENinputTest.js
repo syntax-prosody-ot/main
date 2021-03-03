@@ -9,6 +9,7 @@ function logTrees(message, trees){
 }
 
 function GENinputTest(){
+
 	describe("GEN for syntactic trees", function(){
 		describe("Default settings: Binary branching syntactic trees rooted in XP with recursive XPs, x0 terminals", function(){
 			it("a b trees = [a [b]], [[a] b], [[a][b]]", function(){
