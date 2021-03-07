@@ -74,7 +74,7 @@ function makeTableau(candidateSet, constraintSet, options){
 
 	for(var i = 1; i <= numCand; i++){
 		var candidate = candidateSet[numCand-i];
-		let heads;
+		let heads = options.showHeads;
 		if(heads === 'right' || heads === 'left')
 		{
 			candidate[1] = markHeads(candidate[1], options.showHeads);

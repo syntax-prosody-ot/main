@@ -147,6 +147,11 @@ function markHeadsJapanese(mytree){
  * 	side: 'left' or 'right' (default)
  */
 function markHeads(mytree, side){
+	//Only run markheads if mytree hasn't been marked for heads
+	if(mytree.headsMarked){
+		return mytree;
+	}
+
 	if(typeof side !== 'string' || !(side === 'right' || side === 'left')){
 		console.warn('"side" argument of markHeads() must be "right" or "left", default to "right"');
 		side = 'right';
@@ -168,6 +173,8 @@ function markHeads(mytree, side){
 			}
 		}
 	}
+	//Indicate that this tree has been marked for heads
+	mytree.headsMarked = true;
 	return mytree;
 
 	function markHeadsInner(child, previousChildren, side){
