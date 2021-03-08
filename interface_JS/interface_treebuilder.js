@@ -88,7 +88,17 @@ function UTree(root) {
 						nodeClasses += ' rootNode';
 					}
 					var catInputId = makeElementId('catInput', node), idInputId = makeElementId('idInput', node);
-					rowFrags.push('<div id="treeNode-' + node.m.nodeId + '-' + node.m.treeIndex + '" class="' + nodeClasses + '" style="width: ' + pxWidth + 'px">' + stemContainer + '<div class="inputContainer"><input id="' + catInputId + '" class="catInput" type="text" value="' + node.cat + '"></input></div><div class="inputContainer"><input id="' + idInputId + '" class="idInput" type="text" value="' + node.id + '"></input></div></div>');
+					var inputSuffixId = "";
+			 		if (node.silentHead == true){ //silentHead = true
+						inputSuffixId += ", silentHead";
+					}
+					if (node.func == true){ //func = true
+						inputSuffixId += ", func";
+					}
+					if (node.foc == true){ //foc = true
+						inputSuffixId += ", foc";
+					}
+					rowFrags.push('<div id="treeNode-' + node.m.nodeId + '-' + node.m.treeIndex + '" class="' + nodeClasses + '" style="width: ' + pxWidth + 'px">' + stemContainer + '<div class="inputContainer"><input id="' + catInputId + '" class="catInput" type="text" value="' + node.cat + inputSuffixId + '"></input></div><div class="inputContainer"><input id="' + idInputId + '" class="idInput" type="text" value="' + node.id + '"></input></div></div>');
 				}
 			}
 			frags.push('<div>');
