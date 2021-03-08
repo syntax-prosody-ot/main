@@ -1,0 +1,1 @@
+type treeBuild\*.js 1>build\build_in_tree.js 2>NUL

@@ -1,0 +1,1 @@
+cat treeBuild/*.js >> build/build_in_tree.js
