@@ -1,1 +1,1 @@
-cat treeBuild/*.js >> build/build_in_tree.js
+cat treeBuild/*.js >> build/built_in_trees.js
