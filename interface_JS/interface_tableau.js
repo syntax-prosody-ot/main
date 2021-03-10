@@ -147,18 +147,22 @@ function getInputsForTableau(){
     }
     if(autoOrManual == 3){
         try{
-            sTrees = getSTrees();
-            console.log(sTrees);
-            myGenInputs.pString = "";
-            sTrees += getAutoSTreeList();
-            console.log(sTrees);
+            if (getAutoSTreeList() && getSTrees()){
+                sTrees = getSTrees();
+                myGenInputs.pString = "";
+                sTrees = sTrees.concat(getAutoSTreeList());
+            }else if(getAutoSTreeList()){
+                myGenInputs.pString = "";
+                sTrees = getAutoSTreeList();
+            }else{
+                sTrees = getSTrees();
+            }
         }
         catch(e){
             displayError(e.message, e);
             return;
         }
     }
-    console.log(sTrees)
     return sTrees;
 }
 
