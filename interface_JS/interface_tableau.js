@@ -96,7 +96,8 @@ function getInputsForTableau(){
     }
     var doubleInputWarningMsg = "Inputs were provided on both the Manual tab and the Automatic tab of Gen: Inputs. The candidate set will be created using inputs on the tab that is currently visible. Inputs that are not currently displayed will be ignored.";
     var sTrees;
-    var treeSelectOption = document.getElementById('treeEditOption');
+    
+    var treeSelectOption = document.getElementById('treeEditOption'); // Determine which options has been choosen from manual and automatic tab or both
     treeSelectOption = treeSelectOption.options[treeSelectOption.selectedIndex].text;
     var autoOrManual = 0;
     if(treeSelectOption == "Manual Tree Only"){
@@ -145,6 +146,7 @@ function getInputsForTableau(){
             }
         }
     }
+    // if both trees are selected
     if(autoOrManual == 3){
         try{
             if (getAutoSTreeList() && getSTrees()){
