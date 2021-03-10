@@ -117,6 +117,7 @@ function getInputsForTableau(){
     }else if(treeSelectOption == "both-tree"){
         autoOrManual = 3;  
     }else if(treeSelectOption == "clear-tree"){
+        clearTableau()
         clearAll();
         return;
     }
