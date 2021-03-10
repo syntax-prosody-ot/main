@@ -98,7 +98,7 @@ function getInputsForTableau(){
     var sTrees;
     
     var treeSelectOption = document.getElementById('treeEditOption'); // options selecting input from manual, automatic tab or both tabs
-    treeSelectOption = treeSelectOption.options[treeSelectOption.selectedIndex].text;
+    treeSelectOption = treeSelectOption.value; // getting the value of the option the user has selected
     var autoOrManual = 0;
 
     // determine if both generate tree and build syntax has input
@@ -110,13 +110,13 @@ function getInputsForTableau(){
     }
 
     //if else statment for displaying the correct option
-    if(treeSelectOption == "Manual Tree Only"){
+    if(treeSelectOption == "manual-tree"){
         autoOrManual = 1;
-    }else if (treeSelectOption == "Automatic Tree Only"){
+    }else if (treeSelectOption == "auto-tree"){
         autoOrManual = 2;
-    }else if(treeSelectOption == "Both Trees"){
+    }else if(treeSelectOption == "both-tree"){
         autoOrManual = 3;  
-    }else if(treeSelectOption == "Clear Input"){
+    }else if(treeSelectOption == "clear-tree"){
         clearAll();
         return;
     }
