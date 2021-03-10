@@ -97,9 +97,19 @@ function getInputsForTableau(){
     var doubleInputWarningMsg = "Inputs were provided on both the Manual tab and the Automatic tab of Gen: Inputs. The candidate set will be created using inputs on the tab that is currently visible. Inputs that are not currently displayed will be ignored.";
     var sTrees;
     
-    var treeSelectOption = document.getElementById('treeEditOption'); // Determine which options has been choosen from manual and automatic tab or both
+    var treeSelectOption = document.getElementById('treeEditOption'); // options selecting input from manual, automatic tab or both tabs
     treeSelectOption = treeSelectOption.options[treeSelectOption.selectedIndex].text;
     var autoOrManual = 0;
+
+    // determine if both generate tree and build syntax has input
+    if ((spotForm.inputToGen.value != "" || (treeCode != "{}" && treeCode != "[]")) && getAutoSTreeList() && document.getElementById('treeOption').style.display != "block"){
+        document.getElementById('treeOption').style.display = "block";
+        document.getElementById('autoTreeArea').scrollIntoView({behavior: 'smooth'});
+        displayWarning("Choose an option from the dropdown menu.");
+        return;
+    }
+
+    //if else statment for displaying the correct option
     if(treeSelectOption == "Manual Tree Only"){
         autoOrManual = 1;
     }else if (treeSelectOption == "Automatic Tree Only"){
@@ -112,38 +122,33 @@ function getInputsForTableau(){
     }
     //If the Automatic tab is visible...
     if(autoOrManual == 0 || autoOrManual == 2){
-        if(document.getElementById('inputOptions').style.display == 'block') {
-            //Check whether the manual tab also has content & provide a warning; zero out pString
-            if (spotForm.inputToGen.value != "" || (treeCode != "{}" && treeCode != "[]")) {
-                displayWarning(doubleInputWarningMsg);
-            }
-            myGenInputs.pString = "";
-            //Try to actually get the auto-generated sTrees.
-            try{
-                sTrees = getAutoSTreeList();
-            }
-            catch(e){
-                displayError(e.message, e);
-                return;
-            }
-            
+        //Check whether the manual tab also has content & provide a warning; zero out pString
+       // if (spotForm.inputToGen.value != "" || (treeCode != "{}" && treeCode != "[]")) {
+       //     displayWarning(doubleInputWarningMsg);
+       // }
+        myGenInputs.pString = "";
+        //Try to actually get the auto-generated sTrees.
+        try{
+            sTrees = getAutoSTreeList();
+        }
+        catch(e){
+            displayError(e.message, e);
+            return;
         }
     }
     //Otherwise, the Manual tab is visible
-    if(autoOrManual == 0 || autoOrManual == 1){ 
-        if(document.getElementById('inputOptions').style.display != 'block') {    
-            //check whether the Automatic tab has content
-            if (getAutoSTreeList()){
-                displayWarning(doubleInputWarningMsg);
-            }
-            // Get the input syntactic trees from manual tree builder
-            try{
-                sTrees = getSTrees();
-            }
-            catch(e){
-                displayError(e.message, e);
-                return;
-            }
+    if(autoOrManual == 0 || autoOrManual == 1){     
+        //check whether the Automatic tab has content
+       // if (getAutoSTreeList()){
+       //         displayWarning(doubleInputWarningMsg);
+       //     }
+        // Get the input syntactic trees from manual tree builder
+        try{
+            sTrees = getSTrees();
+        }
+        catch(e){
+            displayError(e.message, e);
+            return;
         }
     }
     // if both trees are selected
