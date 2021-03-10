@@ -148,14 +148,17 @@ function getInputsForTableau(){
     if(autoOrManual == 3){
         try{
             sTrees = getSTrees();
+            console.log(sTrees);
             myGenInputs.pString = "";
-            sTrees = getAutoSTreeList();
+            sTrees += getAutoSTreeList();
+            console.log(sTrees);
         }
         catch(e){
             displayError(e.message, e);
             return;
         }
     }
+    console.log(sTrees)
     return sTrees;
 }
 
