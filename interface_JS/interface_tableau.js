@@ -94,20 +94,61 @@ function getInputsForTableau(){
     if(treeCode !== "{}") {
         myGenInputs.pString = "";
     }
-    
     var doubleInputWarningMsg = "Inputs were provided on both the Manual tab and the Automatic tab of Gen: Inputs. The candidate set will be created using inputs on the tab that is currently visible. Inputs that are not currently displayed will be ignored.";
-    
     var sTrees;
+    var treeSelectOption = document.getElementById('treeEditOption');
+    treeSelectOption = treeSelectOption.options[treeSelectOption.selectedIndex].text;
+    var autoOrManual = 0;
+    if(treeSelectOption == "Manual Tree Only"){
+        autoOrManual = 1;
+    }else if (treeSelectOption == "Automatic Tree Only"){
+        autoOrManual = 2;
+    }else if(treeSelectOption == "Both Trees"){
+        autoOrManual = 3;  
+    }else if(treeSelectOption == "Clear Input"){
+        clearAll();
+        return;
+    }
     //If the Automatic tab is visible...
-    if(document.getElementById('inputOptions').style.display == 'block') {
-        //Check whether the manual tab also has content & provide a warning; zero out pString
-        if (spotForm.inputToGen.value != "" || (treeCode != "{}" && treeCode != "[]")) {
-            displayWarning(doubleInputWarningMsg);
+    if(autoOrManual == 0 || autoOrManual == 2){
+        if(document.getElementById('inputOptions').style.display == 'block') {
+            //Check whether the manual tab also has content & provide a warning; zero out pString
+            if (spotForm.inputToGen.value != "" || (treeCode != "{}" && treeCode != "[]")) {
+                displayWarning(doubleInputWarningMsg);
+            }
+            myGenInputs.pString = "";
+            //Try to actually get the auto-generated sTrees.
+            try{
+                sTrees = getAutoSTreeList();
+            }
+            catch(e){
+                displayError(e.message, e);
+                return;
+            }
+            
         }
-        myGenInputs.pString = "";
-
-        //Try to actually get the auto-generated sTrees.
+    }
+    //Otherwise, the Manual tab is visible
+    if(autoOrManual == 0 || autoOrManual == 1){ 
+        if(document.getElementById('inputOptions').style.display != 'block') {    
+            //check whether the Automatic tab has content
+            if (getAutoSTreeList()){
+                displayWarning(doubleInputWarningMsg);
+            }
+            // Get the input syntactic trees from manual tree builder
+            try{
+                sTrees = getSTrees();
+            }
+            catch(e){
+                displayError(e.message, e);
+                return;
+            }
+        }
+    }
+    if(autoOrManual == 3){
         try{
+            sTrees = getSTrees();
+            myGenInputs.pString = "";
             sTrees = getAutoSTreeList();
         }
         catch(e){
@@ -115,24 +156,6 @@ function getInputsForTableau(){
             return;
         }
     }
-    
-    //Otherwise, the Manual tab is visible
-    else{    
-        //check whether the Automatic tab has content
-        if (getAutoSTreeList()){
-            displayWarning(doubleInputWarningMsg);
-        }
-
-        // Get the input syntactic trees from manual tree builder
-        try{
-            sTrees = getSTrees();
-        }
-        catch(e){
-            displayError(e.message, e);
-            return;
-        }
-    }
-
     return sTrees;
 }
 
