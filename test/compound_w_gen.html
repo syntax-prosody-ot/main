@@ -31,11 +31,13 @@
     var terminalStrings = [];
     for(var i = 0; i<words.length; i++){
         for(var j = 0; j < words.length; j++){
-            var tString = [words[i], words[j]].join(' ');
-            terminalStrings.push(tString);
+			for(var k = 0; k < words.length; k++){
+				var tString = [words[i], words[j], words[k]].join(' ');
+	            terminalStrings.push(tString);
+			}
         }
     }
-    console.log(terminalStrings);
+    console.log(terminalStrings.join(', '));
     var sTreeList = [
 						{
 							"id": "CP1",
@@ -75,7 +77,7 @@
     var conNames = ['starStruc'];
 	
 	//Candidate sets are generated with the options below.
-	var output_gen_options = {rootCategory: 'phi', recursiveCategory: 'phi-w', terminalCategory: 'w'};
+	var output_gen_options = {rootCategory: 'phi', recursiveCategory: 'phi-w', terminalCategory: 'w', noUnary:true};
     //{obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: ['i'], addTones: false, requireRecWrapper: false};
 
 	
