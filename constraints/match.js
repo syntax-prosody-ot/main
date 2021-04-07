@@ -118,7 +118,7 @@ function matchSP(inputTree, pTree, sCat, options)
 {
 	options = options || {};
 	var sParent = inputTree;
-	markMinMax(sParent);
+	sParent = markMinMax(sParent, options);
 	if(sParent.cat === sCat)
 		logreport.debug("\tSeeking match for "+sParent.id + " in tree rooted in "+pTree.id);
 	var vcount = 0;
@@ -164,7 +164,7 @@ function hasMatch(sNode, pTree, options)
 {
 
 	var sLeaves = getLeaves(sNode);
-	markMinMax(pTree);
+	markMinMax(pTree, options);
 	if((options.anyPCat || catsMatch(sNode.cat, pTree.cat))
 	&& sameIds(getLeaves(pTree), sLeaves)
 	&& !(options.requireLexical && pTree.func)
@@ -264,7 +264,7 @@ function matchCustomSP(sTree, pTree, sCat, options){
 //Match for custom match PS options
 function matchCustomPS(sTree, pTree, sCat, options){
 	options = options || {};
-	return matchPS(pTree, sTree, sCat, options);
+	return matchPS(sTree, pTree, sCat, options);
 }
 
 //Match Maximal P --> S
@@ -273,7 +273,7 @@ function matchMaxPS(sTree, pTree, pCat, options){
 	options = options || {};
 	options.maxSyntax = true;
 	options.maxProsody = true;
-	return matchPS(pTree, sTree, pCat, options);
+	return matchPS(sTree, pTree, pCat, options);
 }
 
 //Match P --> S version of matchMaxSyntax. See comment there for explanation
@@ -307,4 +307,16 @@ function matchMinPS(s, ptree, cat, options) {
 	options.minSyntax = true;
 	options.minProsody = true;
   return matchPS(s, ptree, cat, options);
+}
+
+/** Bidirectional or "symmetrical" Match
+ *  No options because this constraint is for the purpose of simplifying 
+ *  investigations of interactions between well-formedness constraints.
+ *  Options can be added later.
+ **/
+function matchSPPS(s, ptree, scat){
+	var spVcount = matchSP(s, ptree, scat);
+	var pcat = categoryPairings[scat];
+	var psVcount = matchPS(s, ptree, pcat);
+	return spVcount + psVcount;
 }

@@ -1,14 +1,22 @@
 
-// Produces an array of arrays representing a tableau
-// Options: GEN options and options for parenthesize trees
-// trimStree option uses the trimmed version of the sTree
-// showHeads: marks and shows the heads of Japanese compound words
-	// in the future, this might get a string value specifying a language other than Japanese
-
+/** Produces an array of arrays representing a tableau
+ * Options: GEN options and options for parenthesize trees
+ * - trimStree option uses the trimmed version of the sTree
+ * - showHeads: for marking and showing heads of prosodic constituents
+ * 	If showHeads=== 'right' or 'left', mark heads of all prosodic 
+ * 	constituents, using the function markHeads(), defined in 
+ *  constraints/recursiveCatEvals.js (this is not a good location -- should move it).
+ * 	Otherwise, just pass showHeads along to parenthesizeTree() so that heads get marked with * in the bracket notation.
+ * 
+ * - ph: prosodic hierarchy object with elements as follows:
+ * 		.pCat: custom pCat list to be passed to Gen
+ * 		.categoryPairings: custom category pairings to be passed to constraints  
+*/ 
 function makeTableau(candidateSet, constraintSet, options){
 	//all options passed to makeTableau are passed into parenthesizeTree, so make
 	//sure your options in dependent functions have unique names from other funcs
 	options = options || {};
+	
 	var tableau = [];
 	//Make a header for the tableau, containing all the constraint names.
 	//First element is empty, to correspond to the column of candidates.
@@ -54,31 +62,58 @@ function makeTableau(candidateSet, constraintSet, options){
 	}
 
 	if(options.trimStree){
-		header[0] = header[0].concat(' trimmed: ', parenthesizeTree(trimRedundantNodes(sTreeObject)));
+		header[0] = header[0].concat(' trimmed: ', parenthesizeTree(removeSpecifiedNodes(sTreeObject, 'silent')));
 	}
 
 	tableau.push(header);
 
 	var getCandidate = options.inputTypeString ? function(candidate) {return candidate;} : globalNameOrDirect;
-
+	
 	//Assess violations for each candidate.
 	var numCand = candidateSet.length;
+
 	for(var i = 1; i <= numCand; i++){
 		var candidate = candidateSet[numCand-i];
-		if(options.showHeads){candidate[1] = markHeadsJapanese(candidate[1]);}
+		let heads;
+		if(heads === 'right' || heads === 'left')
+		{
+			candidate[1] = markHeads(candidate[1], options.showHeads);
+		}
 		var ptreeStr = options.inputTypeString ? candidate[1] : parenthesizeTree(globalNameOrDirect(candidate[1]), options);
 		var tableauRow = [ptreeStr];
-		for(var j = 0; j < constraintSet.length; j++){
+		// the last element is the getter function that retrieves the category pairings received from GEN in candidategenerator.js
+		
+		// Maintain a list of constraints that use the cat argument for something 
+		// other than an actual category
+		var catExceptionConstraints = ['alignRightMorpheme', 'alignLeftMorpheme'];
 
+		for(var j = 0; j < constraintSet.length; j++){
 			var [constraint, cat, conOptions] = constraintSet[j].split('-');
+			// If the current constraint isn't in the list of exceptional 
+			// category constraints, and a category argument was provided, 
+			// then check if the category argument is in pCat or sCat.
+			if(catExceptionConstraints.indexOf(constraint)<0){
+				if(cat && !pCat.includes(cat) && !sCat.includes(cat)){
+					console.log(pCat);
+					var errorMsg = "Category argument " + cat + " is not a valid category with the current settings.\nCurrently valid prosodic categories: " + JSON.stringify(pCat) + "\nValid syntactic categories: " + JSON.stringify(sCat);
+					displayError(errorMsg);
+					throw new Error(errorMsg);
+				}
+			}
+			
 			if(!conOptions){
 				conOptions = "{}";
 			}
 			//var numViolations = runConstraint(constraintAndCat[0], candidate[0], candidate[1], constraintAndCat[1]); ++lastSegmentId; // show log of each constraint run
 			var oldDebugOn = logreport.debug.on;
 			logreport.debug.on = false;
-			trimmedTree = options.trimStree ? trimRedundantNodes(getCandidate(candidate[0])) : getCandidate(candidate[0]);
-			var numViolations = globalNameOrDirect(constraint)(trimmedTree, getCandidate(candidate[1]), cat, JSON.parse(conOptions)); logreport.debug.on = oldDebugOn; // don't show the log of each constraint run
+			trimmedTree = options.trimStree ? removeSpecifiedNodes(getCandidate(candidate[0]), 'silent') : getCandidate(candidate[0]);
+			//if options.catsMatch --> add it to myConOptions
+
+			//options for this constraint:
+			var myConOptions = JSON.parse(conOptions);
+			
+			var numViolations = globalNameOrDirect(constraint)(trimmedTree, getCandidate(candidate[1]), cat, myConOptions); logreport.debug.on = oldDebugOn; // don't show the log of each constraint run
 			tableauRow.push(numViolations);
 		}
 		tableau.push(tableauRow);

@@ -1,3 +1,6 @@
+if(typeof window === "undefined"){
+  window = {};
+}
 (function() {
 
 window.GEN_impl = function(sTree, leaves, options) {
@@ -305,99 +308,3 @@ function popRecCat(options){
 
 
 })();
-
-function containsClitic(x){
-	return x.indexOf("clitic")>-1;
-}
-
-function generateWordOrders(wordList, clitic){
-	if(typeof wordList === 'string'){
-		var cliticTagIndex = wordList.indexOf("-clitic");
-		if(cliticTagIndex > 0){
-			var wordListParts = wordList.split("-clitic");
-			wordList = wordListParts[0]+wordListParts[1];
-		}
-		wordList = wordList.split(' ');
-	}
-	//Find the clitic to move around
-	var cliticIndex = wordList.indexOf(clitic);
-	if(cliticIndex < 0)
-		throw new Error("The provided clitic "+clitic+" was not found in the word list");
-	//Slice the clitic out
-	var beforeClitic = wordList.slice(0,cliticIndex);
-	var afterClitic = wordList.slice(cliticIndex+1, wordList.length);
-	var cliticlessWords = beforeClitic.concat(afterClitic);
-
-	var orders = new Array(wordList.length);
-	for(var i = 0; i <= cliticlessWords.length; i++){
-		beforeClitic = cliticlessWords.slice(0,i);
-		afterClitic = cliticlessWords.slice(i, cliticlessWords.length);
-		orders[i] = beforeClitic.concat([clitic+"-clitic"], afterClitic);
-	}
-	return orders;
-}
-
-/* Arguments:
-	stree: a syntatic tree, with the clitic marked as cat: "clitic"
-	words: optional string or array of strings which are the desired leaves
-	options: options for GEN
-
-   Returns: GEN run on each possible order of the words, where possible orders
-   are those where terminals other than the clitic remian in place but the clitic can occupy any position.
-
-   Caveat: If there are multiple clitics, only the first will be moved.
-*/
-function GENwithCliticMovement(stree, words, options){
-	// Identify the clitic of interest
-	var clitic = '';
-	// First try to read words and clitic off the tree
-	var leaves = getLeaves(stree);
-	if(leaves.length > 0 && leaves[0].id){
-		//console.log(leaves);
-		var leaf = 0;
-		while(clitic === '' && leaf < leaves.length){
-			if(leaves[leaf].cat==="clitic")
-				clitic = leaves[leaf].id;
-			leaf++;
-		}
-		if(clitic === ''){
-			console.warn("GENWithCliticMovement was called but no node in stree has category clitic was provided in stree");
-			console.log(stree);
-			return GEN(stree, words, options);
-			//throw new Error("GENWithCliticMovement was called but no node in stree has category clitic was provided in stree");
-
-		}
-	}
-	//Otherwise, get the clitic from words
-	else
-	{
-		// Make sure words is an array
-		if(typeof words === "string"){
-			words = words.split(' ');
-		}
-		var x = words.find(containsClitic);
-		if(!x){ //x is undefined if no word in "words" contains "clitic"
-			console.warn("GENWithCliticMovement was called but no node in stree has category clitic was provided in stree");
-			console.log(stree);
-			return GEN(stree, words, options);
-		}
-		clitic = x.split('-clitic')[0];
-		words[words.indexOf(x)] = clitic;
-	}
-
-	//Make sure words is defined before using it to generate word orders
-	if(!words || words.length<leaves.length){
-		words = new Array(leaves.length);
-		for(var i in leaves){
-			words[i] = leaves[i].id;
-		}
-		
-	}
-	var wordOrders = generateWordOrders(words, clitic);
-	var candidateSets = new Array(wordOrders.length);
-	for(var i = 0; i<wordOrders.length; i++){
-		candidateSets[i] = GEN(stree, wordOrders[i], options);
-	}
-	//candidateSets;
-	return [].concat.apply([], candidateSets);
-}

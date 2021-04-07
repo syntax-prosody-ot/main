@@ -5,23 +5,30 @@ SPOT (Syntax-Prosody in Optimality Theory) is a JavaScript-based application for
 
 See https://spot.sites.ucsc.edu/ for news and updates.
 
+Please contact the Jenny Bellik or Nick Kalivoda (UC Santa Cruz) if you would like to see a new constraint or feature added to SPOT, or for assistance in developing an analysis in SPOT.
+
 Features
 --------
 * online access at <https://people.ucsc.edu/~jbellik/spot/interface1.html>
 * automatic violation counting: for all constraints in the SPOT system
-* automatic candidate generation: exhaustive generation of all prosodic trees with a given number of terminals
+* automatic candidate generation: exhaustive generation of all prosodic or syntactic trees with a given set of terminals
 * graphical user interface for building a JavaScript representation of the syntactic input tree(s)
 * easy interface with OTWorkplace and other OT software: SPOT outputs .csv files that can be pasted into OTWorkplace, so as to take advantage of the typology, optima finding, and constraint ranking tools available there.
 
 All the code for SPOT is available on Github: https://github.com/syntax-prosody-ot/main
 
-A template for custom analyses can be found in <https://github.com/syntax-prosody-ot/main/blob/master/SPOT_custom_analysis_template.html>.
+How to install locally
+----------------------
+* Download the codebase using the green *Code* button at the top right corner of the page. 
+* Unzip the file.
+* Build: You can build locally by running the appropriate build script (main/jsbuild.sh in Unix systems, or main/jsbuild.bat). Or you can download precompiled build files from the build repository https://github.com/syntax-prosody-ot/SPOT_build and put them in main/build.
+* Open main/interface1.html in Chrome or Firefox (Most other browsers, such as Safari, are okay, too, but Internet Explorer will not work.) to use the web interface locally.
+* Or write your own analysis file, starting from the template for custom analyses located in main/SPOT_custom_analysis_template.html.
 
-Please contact the Jenny Bellik or Nick Kalivoda (UC Santa Cruz) if you would like to see a new constraint added to SPOT, or for assistance in developing one yourself.
 
 How to cite
 -----------
-Bellik, J., O. Bellik, N. Kalivoda (2019). Syntax-Prosody for OT. JavaScript application. <https://github.com/syntax-prosody-ot>
+Bellik, Jennifer, Ozan Bellik, Nick Kalivoda (2015-2021). Syntax-Prosody for OT. JavaScript application. <https://spot.sites.ucsc.edu/>
 
 
 

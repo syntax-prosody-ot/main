@@ -1,0 +1,60 @@
+<html>
+  <head>
+    <title>SPOT Automated Testing (binMaxPhiMin)</title>
+  
+	<link rel="stylesheet" type="text/css" href="../spot.css">
+	
+	 <!--If running tests that do not have to do with the interface, run jsbuild.sh or jsbuild.bat
+        in root directory of the project. If running interface testing, run testbuild.sh
+        or testBuild.bat-->
+		<script src="../build/spot.js"></script>
+
+		<!--Mocha setup stuff (1/2)-->
+		<meta charset="UTF-8">
+		<script src="../lib/test/mocha.min.js"></script>
+		<script src="../lib/test/chai.min.js"></script>
+		
+		<link rel="stylesheet" type="text/css" href="../lib/test/mocha.css">
+		<!--mocha setup stuff to be continued in document body-->
+		
+	</head>
+	<h2>SPOT Automated Testing</h2>
+	<div id="mocha">
+		binMaxPhiMin Automated Test:<br> 
+		 BinMax(phi-min)
+		* Violated if a minimal phi contains more than 2 minimal words --> leaf-counting
+	</div>
+	<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+		<h2>Binarity subcat</h2>
+		<pre id="results-container"></pre>
+
+		<script>
+			mocha.setup("bdd"); //brings "describe", "it", etc. into global namespace
+				//mocha.checkLeaks();
+				var assert = chai.assert; //no one wants to type out "chai.assert" every time
+		</script>
+
+		<!--Load the test script AFTER doing the mocha setup.-->
+		<script src="binMaxPhiMinTest.js"></script>
+
+		<script>
+			binMaxPhiMinTest();			
+			mocha.run(); //don't forget to run the test!!!
+			
+			var cand1 = GEN({}, 'a b c d', {obeysExhaustivity: true});
+			var cand2 = GEN({}, 'a b c d', {obeysExhaustivity: true, rootCategory: 'phi', recursiveCategory: 'w', terminalCategory:'w'});
+			var con = ['binMax_minLeaves-phi','binMax_minLeaves-i', 'binMaxLeaves-phi'];
+
+			function runDemo() {
+					writeTableau(makeTableau(cand1, con));
+					revealNextSegment();
+				lastSegmentId++;
+				writeTableau(makeTableau(cand2, con));
+					revealNextSegment();
+					lastSegmentId++;
+				}
+
+		</script>
+
+	</body>
+</html>

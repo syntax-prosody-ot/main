@@ -17,15 +17,37 @@
 	- noUnary (boolean): if true, don't create any nodes that immediately dominate only a single terminal.
 	- requireRecWrapper (boolean). Formerly "requirePhiStem"
 	- syntactic (boolean): are we generating syntactic trees?
+   - ph (prosodic heirarchy object):
+   	pCat: custom pCat used in GEN
+	categoryPairings: custom category pairings passed to makeTableau passed to constraints
 */
 window.GEN = function(sTree, words, options){
 	options = options || {}; // if options is undefined, set it to an empty object (so you can query its properties without crashing things)
 
-	//Point to first recursiveCat
-	options.recursiveCatIndex = 0;
-
+	
+	//Set prosodic hierarchy if we're making prosodic trees. Don't bother with this for syntactic trees.
+	if(!options.syntactic){
+		// Create the ph object if none was passed or what was passed was incomplete, and set it the default PH object, defined in prosodicHierarchy.js
+		if (!(options.ph && options.ph.pCat && options.ph.categoryPairings)){
+			options.ph = PH_PHI;
+			//console.log("The prosodic hierarchy input to GEN was missing or incomplete, so ph has been set by default to PH_PHI, defined in prosodicHierarchy.js");
+		}
+		
+		setPCat(options.ph.pCat);
+		setCategoryPairings(options.ph.categoryPairings);
+		// give a warning if there are categories from categoryPairings not present in pCat
+		if (!checkProsodicHierarchy(options.ph.pCat, options.ph.categoryPairings)){
+			displayWarning("One or more categories in the provided map of syntactic-prosodic correspondences (categoryPairings) do not exist in the provided prosodic hierarchy (pCat). Resetting pCat and categoryPairings to their default values, defined in PH_PHI.");
+			//set pCat and categoryPairings to their default values
+			resetPCat();
+			resetCategoryPairings();
+			options.ph = PH_PHI;
+		}
+	}
+	
 	//Set the relevant category hierarchy (syntactic or prosodic) based on the GEN option syntactic
 	var categoryHierarchy = options.syntactic ? sCat : pCat;
+	var defaultRecCat = options.syntactic ? "xp" : "phi"; //sets the default of recursiveCategory option to "phi" if prosodic, "xp" if syntactic
 
 	// Check for multiple recursive categories
 	if(options.recursiveCategory && options.recursiveCategory.length){
@@ -47,11 +69,15 @@ window.GEN = function(sTree, words, options){
 		options.recursiveCats = [options.recursiveCategory];
 	}
 
+	//Point to first recursiveCat
+	options.recursiveCatIndex = 0;
+
+
 	/* First, warn the user if they have specified terminalCategory and/or
 	 * rootCategory without specifying recursiveCategory
 	 */
 	 if(!options.recursiveCategory && (options.rootCategory || options.terminalCategory)){
-		if(!window.confirm("You have not specified the recursive category for GEN, it will default to 'phi'.\nClick OK if you wish to continue."))
+		if(!window.confirm("You have not specified the recursive category for GEN, it will default to "+ defaultRecCat +".\nClick OK if you wish to continue."))
 			throw new Error("GEN was canceled by user.");
 	}
 	/* the prosodic hierarchy should include the categories specified in
@@ -59,74 +85,74 @@ window.GEN = function(sTree, words, options){
 	 * But if they are not, the default setting code throws unhelpful errors.
 	 * The finally block throws more helpful errors and alert boxes instead
 	 */
-	
+
 	//a flag for whether the user has included a novel category undefined in categoryHierarchy
 	var novelCategories = false;
 	try{
-		//sets the default of recursiveCategory option to "phi"
-		options.recursiveCategory = options.recursiveCategory || "phi";
+		
+		options.recursiveCategory = options.recursiveCategory || defaultRecCat;
 		//sets the default of rootCategory based on recursiveCategory
 		options.rootCategory = options.rootCategory || categoryHierarchy.nextHigher(options.recursiveCategory);
 		//sets the default of terminalCategory based on recursiveCategory
 		options.terminalCategory = options.terminalCategory|| categoryHierarchy.nextLower(options.recursiveCategory);
 	}
 	finally{
+		var novelCatWarning = " is not a valid category with the current settings.\nCurrently valid prosodic categories: " + JSON.stringify(pCat) + "\nValid syntactic categories: " + JSON.stringify(sCat);
 		if(options.rootCategory && categoryHierarchy.indexOf(options.rootCategory)<0){
-			alert("Warning:\n"+options.rootCategory+" is not in SPOT's pre-defined prosodic hierarchy (see pCat and sCat in prosodicHierarch.js)");
+			var err = new Error("Specified root category "+options.recursiveCategory+novelCatWarning);
+			displayError(err.message, err);
 			novelCategories = true;
-			//throw new Error(options.rootCategory+" is not in SPOT's pre-defined prosodic hierarchy (see pCat in prosodicHierarch.js)");
+			throw err;
 		}
 		if(categoryHierarchy.indexOf(options.recursiveCategory)<0){
-			alert("Warning:\n"+options.recursiveCategory+" is not in SPOT's pre-defined prosodic hierarchy (see pCat and sCat in prosodicHierarch.js)");
+			var err = new Error("Specified recursive category "+options.recursiveCategory+novelCatWarning);
+			displayError(err.message, err);
 			novelCategories = true;
-			//throw new Error(options.recursiveCategory+" is not in SPOT's pre-defined prosodic hierarchy (see pCat in prosodicHierarch.js)");
+			throw err;
 		}
 		if(options.terminalCategory && categoryHierarchy.indexOf(options.terminalCategory)<0){
-			alert("Warning:\n"+options.terminalCategory+" is not in SPOT's pre-defined prosodic hierarchy (see pCat and sCat in prosodicHierarch.js)");
+			var err = new Error("Specified terminal category "+options.recursiveCategory+novelCatWarning);
+			displayError(err.message, err);
 			novelCategories = true;
-			//throw new Error(options.terminalCategory+" is not in SPOT's pre-defined prosodic hierarchy (see pCat in prosodicHierarch.js)");
+			throw err;
 		}
 	}
 
 	//Warnings for adverse GEN options combinations:
 	if(options.rootCategory === options.recursiveCategory && options.obeysNonrecursivity){
-		console.warn("You have instructed GEN to produce non-recursive trees and to produce trees where the root node and intermediate nodes are of the same category. Some of the trees GEN produces will be recursive.");
+		displayWarning("You have instructed GEN to produce non-recursive trees and to produce trees where the root node and intermediate nodes are of the same category. Some of the trees GEN produces will be recursive.");
 	}
 	if(options.rootCategory === options.terminalCategory && options.obeysNonrecursivity){
-		console.warn("You have instructed GEN to produce non-recursive trees and to produce trees where the root node and terminal nodes are of the same category. All of the trees GEN produces will be recursive.");
+		displayWarning("You have instructed GEN to produce non-recursive trees and to produce trees where the root node and terminal nodes are of the same category. All of the trees GEN produces will be recursive.");
 	}
 	if(options.recursiveCategory === options.terminalCategory && options.obeysNonrecursivity){
-		console.warn("You have instructed GEN to produce non-recursive trees and to produce trees where the intermediate nodes and the terminal nodes are of the same category. You will only get one bracketing.");
+		displayWarning("You have instructed GEN to produce non-recursive trees and to produce trees where the intermediate nodes and the terminal nodes are of the same category. You will only get one bracketing.");
 	}
 
 	//Perform additional checks of layering if novel categories are involved.
 	if(!novelCategories){
 		if(categoryHierarchy.isHigher(options.recursiveCategory, options.rootCategory) || categoryHierarchy.isHigher(options.terminalCategory, options.recursiveCategory)){
-			console.warn("You have instructed GEN to produce trees that do not obey layering. See pCat and sCat in prosodicHierarchy.js");
+			displayWarning("You have instructed GEN to produce trees that do not obey layering. See pCat and sCat in prosodicHierarchy.js");
 		}
 		else{
 			if(options.recursiveCategory !== categoryHierarchy.nextLower(options.rootCategory) && options.recursiveCategory !== options.rootCategory){
-				console.warn(""+options.recursiveCategory+" is not directly below "+options.rootCategory+" in the prosodic hierarchy. None of the resulting trees will be exhaustive because GEN will not generate any "+categoryHierarchy.nextLower(options.rootCategory)+"s. See pCat and sCat in prosodicHierarchy.js");
+				displayWarning(""+options.recursiveCategory+" is not directly below "+options.rootCategory+" in the prosodic hierarchy. None of the resulting trees will be exhaustive because GEN will not generate any "+categoryHierarchy.nextLower(options.rootCategory)+"s. See pCat and sCat in prosodicHierarchy.js");
 			}
 			if(options.terminalCategory !== categoryHierarchy.nextLower(options.recursiveCategory) && options.terminalCategory !== options.recursiveCategory){
-				console.warn(""+options.terminalCategory+" is not directly below "+options.recursiveCategory+" in the prosodic hierarchy. None of the resulting trees will be exhaustive because GEN will not generate any "+categoryHierarchy.nextLower(options.recursiveCategory)+"s. See pCat and sCat in prosodicHierarchy.js");
+				displayWarning(""+options.terminalCategory+" is not directly below "+options.recursiveCategory+" in the prosodic hierarchy. None of the resulting trees will be exhaustive because GEN will not generate any "+categoryHierarchy.nextLower(options.recursiveCategory)+"s. Current pCat: "+pCat);
 			}
 		}
 	}
 
 	if(typeof words === "string") { // words can be a space-separated string of words or an array of words; if string, split up into an array
 		if (!words) { // if empty, scrape words from sTree
-			words = getLeaves(sTree);
-			for (var i = 0; i < words.length; i++) {
-				var catSuffix = '';
-				if (words[i].cat == 'clitic'){
-					catSuffix = '-clitic';
-				}
-				var accentSuffix = '';
-				if(words[i].accent){
-					accentSuffix = '-'+words[i].accent;
-				}
-				words[i] = words[i].id+catSuffix+accentSuffix;
+			if(sTree.cat && sTree.id){
+				words = getLeaves(sTree);
+			}
+			else{
+				let message = "window.GEN() was called no valid input!";
+				displayError(message);
+				return [];
 			}
 		} else {
 			words = words.split(' ');
@@ -141,10 +167,10 @@ window.GEN = function(sTree, words, options){
 		recNum: 0
 	}
 	for(var i=0; i<words.length; i++){
-		leaves.push(wrapInLeafCat(words[i], options.terminalCategory));
+		leaves.push(wrapInLeafCat(words[i], options.terminalCategory, options.syntactic));
 	}
 
-	return GEN_impl(sTree, leaves, options);
+	return window.GEN_impl(sTree, leaves, options);
 }
 
 function deduplicateTerminals(terminalList) {
@@ -168,25 +194,73 @@ function deduplicateTerminals(terminalList) {
 	return dedupedTerminals;
 }
 
-function wrapInLeafCat(word, cat){
-	var myCat = cat || 'w';
-	var wordId = word;
-	var isClitic = word.indexOf('-clitic')>=0;
-	if (isClitic){
-		myCat = 'syll';
-		wordId = wordId.split('-clitic')[0];
+/** Function to take a string and category and return an object wordObj with attributes
+ *  wordObj.id = word
+ *  wordObj.cat = cat
+ * 
+ * Also convert hyphenated information about accent and status as a clitic that is 
+ * appended to the word argument to attributes of wordObj.
+ * 
+ * If input word is already an object, return it after checking its category.
+ * - if word.cat == cat, return as is
+ * - if word.cat == "clitic" and syntactic==true, create an x0 layer over the clitic
+ * - if word.cat == "clitic" and syntactic==false, change word.cat to "syll"
+ * - if word.cat != cat, and word.cat != clitic, change word.cat to cat.
+ */
+function wrapInLeafCat(word, cat, syntactic){
+	var wordObj;
+	//If word is already an object with appropriate properties, then check categories and return.
+	if(typeof word === "object"){
+		if(word.cat && word.id){
+			wordObj = JSON.parse(JSON.stringify(word)); //deep copy shortcut
+			//convert "clitic" to "syll" if we're making a prosodic tree
+			if(wordObj.cat==="clitic"){
+				if(!syntactic){
+					wordObj.cat = "syll";
+				}
+				else{ //if it's a clitic and we're making syntactic trees, then give it an x0 layer 
+					var cliticObj = wordObj;
+					wordObj = addParent(cliticObj);
+				}
+			} 
+			//otherwise change cat to the specified cat if they don't match
+			else if (wordObj.cat !== cat){
+				wordObj.cat = cat;
+			}
+			
+			return wordObj;
+		}
+		else displayWarning("wrapInLeafCat: argument word is already an object but lacks an id or cat.");
 	}
-	var wordObj = {cat: myCat};
-	var accented = word.indexOf('-accented') >= 0;
-	var	unaccented = word.indexOf('-unaccented') >= 0;
-	if(accented){
-		wordObj.accent = 'a';
-		wordId = wordId.split('-accented')[0];
+
+	//Otherwise, word is a string and must be converted into an object.
+	else{
+		var myCat = cat || 'w'; //by default, the leaf category is 'w'
+		var wordId = word;
+
+		//check if the input specifies this is a clitic and set category appropriately
+		var isClitic = word.indexOf('-clitic')>=0;
+		if (isClitic){
+			myCat = syntactic ? 'clitic' : 'syll'; //syntactic tree vs prosodic trees
+			wordId = wordId.split('-clitic')[0];
+		}
+		wordObj = {cat: myCat};
+
+		//check if the input specifies this is an accented word, and set accent to true if so
+		if(word.indexOf('-accent') >= 0){
+			wordObj.accent = true;
+			wordId = wordId.split('-accent')[0];
+		}
+		wordObj.id = wordId;
+
+		//add an x0 layer if this is a (syntactic) clitic
+		if(myCat==="clitic"){
+			wordObj = addParent(wordObj);
+		}
+		return wordObj;
 	}
-	else if(unaccented){
-		wordObj.accent = 'u';
-		wordId = wordId.split('-unaccented')[0];
-	}
-	wordObj.id = wordId;
-	return wordObj;
+}
+
+function addParent(child, parentCat="x0", parentId="clitic_x0"){
+	return {cat:parentCat, id:parentId, children:[child]};
 }

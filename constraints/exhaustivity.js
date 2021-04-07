@@ -32,6 +32,9 @@ function exhaustChild(s, ptree){
 function exhaust1(s, ptree){
 	return exhaustChild(s, ptree);
 }
+
+/* Assign a violation for every node of category k that has one or more children of category < (k-1), for every k.
+*/
 function exhaustParent(s, ptree){
 //Assumes trees that obey Layering.
 	//Base case: if parent is a terminal, return 0 violations.

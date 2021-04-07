@@ -1,37 +1,43 @@
-<html>
-<head>
-	<title>Syntax-prosody interface application</title>
+<!--In Progress-->
+<html><head> 
+    <title>SPOT Automated Testing</title>
 
 	<link rel="stylesheet" type="text/css" href="../spot.css">
 
-	<!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
-	(open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
-	<script src="../build/spot.js"></script>
-	
+    <!--If running tests that do not have to do with the interface, run jsbuild.sh or jsbuild.bat
+        in root directory of the project. If running interface testing, run testbuild.sh
+        or testBuild.bat-->
+    <script src="../build/spot.js"></script>
+
+    <!--Mocha setup stuff (1/2)-->
+    <meta charset="UTF-8">
+    <script src="../lib/test/mocha.min.js"></script>
+    <script src="../lib/test/chai.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../lib/test/mocha.css">
+    <!--mocha setup stuff to be continued in document body-->
+    
 </head>
-
 <body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
-	<h2>Syntax-prosody interface application -- Kinyambo Test</h2>
-	<pre id="results-container"></pre>
 
-	<script src="../trees/binarityTrees.js"></script>
-	<script src="../trees/trees.js"></script>
-	
-	<script>
-	var constraintSetBinMax = ['binMaxBranches-phi', 'binMaxBranchesGradient-phi', 'binMax2Words-phi', 'binMax2WordsGradient-phi'];
-	var candidateSet = [[syntree1, pTree3words], [syntree1, pTree4words], [syntree1, pTree4wordsRec], [syntree1, pTree4words2xRec]];
-	var constraintSetBinMin = ['binMin2Words-phi', 'binMin2WordsGradient-phi'];
-	var candidateSetMin = [[syntree1, pTree0word], [syntree1, pTree0wordRec], [syntree1, pTree1word], [syntree1, pTree1wordRec], [syntree1, pTree1word2xRec], [syntree1, pTree2words]];
-		
-	function runDemo() {
-		
-		writeTableau(makeTableau(candidateSetMin, constraintSetBinMin));
-		revealNextSegment();
-		lastSegmentId++;
-	}
+    <h2>SPOT Automated Testing</h2>
 
-	</script>
+    <!--Mocha stuff (2/2)-->
+    <script>
+        mocha.setup("bdd"); //brings "describe", "it", etc. into global namespace
+        //mocha.checkLeaks();
+        var assert = chai.assert; //no one wants to type out "chai.assert" every time
+    </script>
+    <div id="mocha">
+        Binarity Automated Testing
+    </div>
+    <!--Mocha is set up now, you just need to write and run tests-->
 
-</body>
-
+    <script src="../constraints/binarity.js"></script>
+    <script src="binarityTest.js"></script>
+    <script>
+        binarityTest();
+        mocha.run(); //don't forget to run the test!!!
+    </script>
+    <!--That's all you need for testing with mocha and chai-->
+    </body>
 </html>
