@@ -104,7 +104,6 @@ function getInputsForTableau(){
    // determine if both generate tree and build syntax has input
     if ((spotForm.inputToGen.value != "" || (treeCode != "{}" && treeCode != "[]")) && getAutoSTreeList() && document.getElementById('treeOption').style.display != "block" && autoOrManual == 0){
         document.getElementById('treeOption').style.display = "block";
-        document.getElementById('save-load-section').scrollIntoView({behavior: 'smooth'});
         return;
     }
 
