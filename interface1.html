@@ -12,10 +12,10 @@
 		<link rel="stylesheet" type="text/css" href="lib/test/mocha.css">
 		<link rel="icon" type="image/x-icon" href="images/favicon.ico">
 		
-		<!-- Including  jQuery Dialog UI Here-->
+		<!-- Including  jQuery Dialog UI Here
 		<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/ui-darkness/jquery-ui.css" rel="stylesheet">
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>-->
 
 
 		<style>
@@ -801,24 +801,10 @@
 				</div>
 
 			</div>
-			<div id="dialog" style="display: none">
+			<!--jQuery Code test <div id="dialog" style="display: none">
 				<p> Inputs were provided on both the Manual tab and the Automatic tab of Gen: Inputs. Please select an option from the dropdown menu to choose which set of trees to use in the tableaux.</p>
-			</div>
-			<div id="treeOption" style="display: none">
-				<hr/>
-					<div>
-						<select id = "treeEditOption">
-							<option value = "option-tree">Select: Use tree(s) from</option>
-							<option value = "manual-tree">manual tab only</option>
-							<option value = "auto-tree">automatic tab only</option>
-							<option value = "both-tree">both tabs</option>
-							<option value = "clear-tree">Clear all trees</option>
-						</select>
-						<div class="info">
-							<span class="content"><p>Inputs were provided on both the Manual tab and the Automatic tab of Gen: Inputs. Please select an option from the dropdown menu to choose which set of trees to use in the tableaux.</p></span>
-						</div>
-					</div>	
-			</div>
+			</div>-->
+			
 		</div>
 			
 		<!--GEN OPTIONS-->
@@ -2336,6 +2322,21 @@
 					<button onclick="document.getElementById('chooseFile').style='display: block'; document.getElementById('save/load-dialog').innerHTML = ''" type="button" style="margin:5px">Load
 					</button>
 					<br/>
+					<div id="treeOption" style="display: none">
+						<hr/>
+							<div>
+								<select id = "treeEditOption">
+									<option value = "option-tree">Select: Use tree(s) from</option>
+									<option value = "manual-tree">manual tab only</option>
+									<option value = "auto-tree">automatic tab only</option>
+									<option value = "both-tree">both tabs</option>
+									<option value = "clear-tree">Clear all trees</option>
+								</select>
+								<div class="info">
+									<span class="content"><p>Inputs were provided on both the Manual tab and the Automatic tab of Gen: Inputs. Please select an option from the dropdown menu to choose which set of trees to use in the tableaux.</p></span>
+								</div>
+							</div>	
+					</div>
 					<div id="chooseFile" style="display: none">
 						<div style="font-size: 13px; color: #555" id="chooseFilePrompt">
 							Upload an analysis that you previously downloaded from SPOT:
