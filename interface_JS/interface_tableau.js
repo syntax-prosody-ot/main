@@ -105,8 +105,8 @@ function getInputsForTableau(){
     if ((spotForm.inputToGen.value != "" || (treeCode != "{}" && treeCode != "[]")) && getAutoSTreeList() && document.getElementById('treeOption').style.display != "block"){
         document.getElementById('treeOption').style.display = "block";
         document.getElementById('autoTreeArea').scrollIntoView({behavior: 'smooth'});
-        displayWarning("Choose an option from the dropdown menu.");
-        return;
+        displayWarning("Choose an option from the dropdown menu."); // make another helper function in display to do a pop up
+        return;//var 
     }
 
     //if else statment for displaying the correct option
