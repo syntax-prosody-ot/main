@@ -39,7 +39,6 @@ window.addEventListener('load', function(){
 	//treeEditOptions - dropdown list
 	document.getElementById('treeEditOption').onchange = sendToTableau;
 
-
 	document.body.addEventListener('click', openCloseFieldset); //Opening and closing fieldsets (mostly for constraints)
 	document.getElementById("clearAllButton").addEventListener("click", clearAll);
 
