@@ -103,10 +103,28 @@ function getInputsForTableau(){
 
     // determine if both generate tree and build syntax has input
     if ((spotForm.inputToGen.value != "" || (treeCode != "{}" && treeCode != "[]")) && getAutoSTreeList() && document.getElementById('treeOption').style.display != "block"){
-        document.getElementById('treeOption').style.display = "block";
-        document.getElementById('autoTreeArea').scrollIntoView({behavior: 'smooth'});
-        displayWarning("Choose an option from the dropdown menu."); // make another helper function in display to do a pop up
-        return;//var 
+       // document.getElementById('treeOption').style.display = "block";
+       // document.getElementById('autoTreeArea').scrollIntoView({behavior: 'smooth'});
+        //displayWarning("Choose an option from the dropdown menu."); // make another helper function in display to do a pop up
+        var selected = 0;
+        $('div#dialog').dialog({
+        title: "Prompt",
+        buttons: {
+            "First": function() {
+            autoOrManual = 0;
+            },
+            "Second": function() {
+            autoOrManual = 1;
+            },
+            "Third": function() {
+            autoOrManual = 2;
+            },
+            "Fourth": function() {
+            autoOrManual = 3;
+            }
+        }
+        });
+        //return;//var 
     }
 
     //if else statment for displaying the correct option
