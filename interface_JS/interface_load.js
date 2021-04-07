@@ -36,6 +36,7 @@ window.addEventListener('load', function(){
 	// Get Results button
 	spotForm.onsubmit=sendToTableau;
 
+	//treeEditOptions - dropdown list
 	document.getElementById('treeEditOption').onchange = sendToTableau;
 
 
