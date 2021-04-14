@@ -104,6 +104,7 @@ function getInputsForTableau(){
    // determine if both generate tree and build syntax has input
     if ((spotForm.inputToGen.value != "" || (treeCode != "{}" && treeCode != "[]")) && getAutoSTreeList() && document.getElementById('treeOption').style.display != "block" && autoOrManual == 0){
         document.getElementById('treeOption').style.display = "block";
+        displayWarning('Inputs were provided on both the Manual tab and the Automatic tab of Gen: Inputs. Please select an option from the dropdown menu displayed above "Get results" button to choose which set of trees to use in the tableaux.');
         return;
     }
 
@@ -120,12 +121,8 @@ function getInputsForTableau(){
         return;
     }
 
-    //If the Automatic tab is visible...
+    //If the Default is chosen or auto-tree is chosen, display this
     if(autoOrManual == 0 || autoOrManual == 2){
-        //Check whether the manual tab also has content & provide a warning; zero out pString
-       // if (spotForm.inputToGen.value != "" || (treeCode != "{}" && treeCode != "[]")) {
-       //     displayWarning(doubleInputWarningMsg);
-       // }
         myGenInputs.pString = "";
         //Try to actually get the auto-generated sTrees.
         try{
@@ -136,12 +133,8 @@ function getInputsForTableau(){
             return;
         }
     }
-    //Otherwise, the Manual tab is visible
-    if(autoOrManual == 0 || autoOrManual == 1){     
-        //check whether the Automatic tab has content
-       // if (getAutoSTreeList()){
-       //         displayWarning(doubleInputWarningMsg);
-       //     }
+    //Otherwise, if manual-tree is chosen, display this
+    if(autoOrManual == 1){     
         // Get the input syntactic trees from manual tree builder
         try{
             sTrees = getSTrees();
@@ -172,116 +165,6 @@ function getInputsForTableau(){
     }
     return sTrees;
 }
-/*function getInputsForTableau(){
-    myGenInputs.pString = spotForm.inputToGen.value;
-    var treeCode = spotForm.sTree.value; // Get the code that is in the manually generated stree textarea
-    // if code has been generated, then ignore pString in GEN
-    if(treeCode !== "{}") {
-        myGenInputs.pString = "";
-    }
-    var doubleInputWarningMsg = "Inputs were provided on both the Manual tab and the Automatic tab of Gen: Inputs. The candidate set will be created using inputs on the tab that is currently visible. Inputs that are not currently displayed will be ignored.";
-    var sTrees;
-    
-   // var treeSelectOption = document.getElementById('treeEditOption'); // options selecting input from manual, automatic tab or both tabs
-   // treeSelectOption = treeSelectOption.value; // getting the value of the option the user has selected
-   var treeSelectOption = ""; 
-   var autoOrManual = 0;
-
-   // determine if both generate tree and build syntax has input
-   if ((spotForm.inputToGen.value != "" || (treeCode != "{}" && treeCode != "[]")) && getAutoSTreeList() && document.getElementById('treeOption').style.display != "block"){
-    // document.getElementById('treeOption').style.display = "block";
-    // document.getElementById('autoTreeArea').scrollIntoView({behavior: 'smooth'});
-     //displayWarning("Choose an option from the dropdown menu."); // make another helper function in display to do a pop up
-     $('div#dialog').dialog({
-     title: "Select: Use tree(s) from",
-     buttons: {
-         "manual tab only": function() {
-             treeSelectOption = "manual-tree";
-             $("div#dialog").dialog ("close");
-         },
-         "automatic tab only": function() {
-             treeSelectOption = "auto-tree";
-             $("div#dialog").dialog ("close");
-         },
-         "both tabs": function() { 
-             treeSelectOption = "both-tree";
-             $("div#dialog").dialog ("close");
-         },
-         "Clear all trees": function() {
-             treeSelectOption = "clear-tree";
-             $("div#dialog").dialog ("close");
-        }
-    },
-    close: function(){
-    //if else statment for displaying the correct option
-    if(treeSelectOption == "manual-tree"){
-        autoOrManual = 1;
-    }else if (treeSelectOption == "auto-tree"){
-        autoOrManual = 2;
-    }else if(treeSelectOption == "both-tree"){
-        autoOrManual = 3;  
-    }else if(treeSelectOption == "clear-tree"){
-        clearTableau()
-        clearAll();
-        return;
-    }
-    //If the Automatic tab is visible...
-    if(autoOrManual == 0 || autoOrManual == 2){
-        //Check whether the manual tab also has content & provide a warning; zero out pString
-       // if (spotForm.inputToGen.value != "" || (treeCode != "{}" && treeCode != "[]")) {
-       //     displayWarning(doubleInputWarningMsg);
-       // }
-        myGenInputs.pString = "";
-        //Try to actually get the auto-generated sTrees.
-        try{
-            sTrees = getAutoSTreeList();
-        }
-        catch(e){
-            displayError(e.message, e);
-            return;
-        }
-    }
-    //Otherwise, the Manual tab is visible
-    if(autoOrManual == 0 || autoOrManual == 1){     
-        //check whether the Automatic tab has content
-       // if (getAutoSTreeList()){
-       //         displayWarning(doubleInputWarningMsg);
-       //     }
-        // Get the input syntactic trees from manual tree builder
-        try{
-            sTrees = getSTrees();
-        }
-        catch(e){
-            displayError(e.message, e);
-            return;
-        }
-    }
-    // if both trees are selected
-    if(autoOrManual == 3){
-        try{
-            if (getAutoSTreeList() && getSTrees()){
-                sTrees = getSTrees();
-                myGenInputs.pString = "";
-                sTrees = sTrees.concat(getAutoSTreeList());
-            }else if(getAutoSTreeList()){
-                myGenInputs.pString = "";
-                sTrees = getAutoSTreeList();
-            }else{
-                sTrees = getSTrees();
-            }
-        }
-        catch(e){
-            displayError(e.message, e);
-            return;
-        }
-    }
-    console.log(treeSelectOption);
-    return sTrees;
-}
-});
-}
-return;
-}*/
 
 function getOutputGenOptions() {
     var genOptions = {};
