@@ -54,6 +54,9 @@ function makeTableau(candidateSet, constraintSet, options){
 					}
 					optionString += '-'+temp;
 				}
+				if(optionProperties[j]=="side"){
+					optionString += '-'+optionObj[optionProperties[j]];
+				}
 			}
 		}
 		var cat = conParts[1] ? '('+conParts[1]+')' : ''
