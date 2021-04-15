@@ -277,7 +277,10 @@ function toneOptionDisplay(){
 }
 
 function markProsodicHeadsDisplay(){
-    if (document.getElementById('headSideOptions').style.display === 'none' && document.getElementById('showHeads').checked){
+    if (document.getElementById('binMaxHead').checked){
+        document.getElementById('showHeads').checked = true;
+    }
+    if (document.getElementById('showHeads').checked){
         document.getElementById('headSideOptions').style.display = '';
     }
     else{
