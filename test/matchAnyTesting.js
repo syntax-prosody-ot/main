@@ -6,34 +6,35 @@ function matchAnyTesting(){
         children: [
             {
                 cat: "xp",
-                id:"xp1",
+                id:"xp",
                 children: [
                     {
                         cat:"x0",
-                        id: "one"
+                        id: "x0",
+                        children: [
+                            {
+                                cat: "x0",
+                                id:"x0"
+                            }
+                        ]
                     }
                 ]
             },
             {
+                cat: "xp",
+                id:"xp"
+            },
+            {
                 cat: "cp",
-                id: "xp2",
+                id: "cp",
                 children: [
                     {
-                        cat: "xp",
-                        id:"xp3",
-                    },
-                    {
-                        cat: "xp",
-                        id: "xp4",
-                        silentHead: true,
+                        cat: "c0",
+                        id:"c0",
                         children: [
                             {
-                                cat:"x0",
-                                id: "three-silent"
-                            },
-                            {
-                                cat:'x0',
-                                id:'four'
+                                cat: "c0",
+                                id:"c0"
                             }
                         ]
                     }
@@ -48,16 +49,22 @@ function matchAnyTesting(){
 describe("matchAnyTesting.html", function() {
     describe('Tableau 1: Testing "any" Syntactic category', function() {
         it('matchSP-xp', function() {
-            assert.equal(matchSP(sTree, pTree, "xp"), 3);
+            assert.equal(matchSP(sTree, pTree, "xp"), 2);
         });
         it('matchSP-cp', function() {
             assert.equal(matchSP(sTree, pTree, "cp"), 2);
         });
         it('matchSP-any', function() {
-            assert.equal(matchSP(sTree, pTree, "any"), 5);
+            assert.equal(matchSP(sTree, pTree, "any"), 8);
         });
     });
 });
+//add writeTabelau
+var con1 = ['matchSP-xp','matchSP-cp', 'matchSP-any'];
+window.addEventListener("load",function(){
+	writeTableau(makeTableau(GEN(sTree,'xp cp'), con1));
+	revealNextSegment();
+	});
 }
 
 matchAnyTesting();
