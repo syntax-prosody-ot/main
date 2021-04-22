@@ -111,26 +111,20 @@ function matchAnyPCat(){
     };
 
     var ptree3 = {
-        "id": 'root',
+        "id": 'xp',
         "cat": 'phi',
         "children": [
             {
-                "id": 'xp',
-                "cat": 'phi',
-                "children": [
-                    {
-                        "id": 'x',
-                        "cat": 'w'
-                    },
-                    {
-                        "id": 'y',
-                        "cat": 'w'
-                    },
-                    {
-                        "id": 'z',
-                        "cat": 'w'
-                    }
-                ]
+                "id": 'x',
+                "cat": 'w'
+            },
+            {
+                "id": 'y',
+                "cat": 'w'
+            },
+            {
+                "id": 'z',
+                "cat": 'w'
             }
         ]
     }; 
