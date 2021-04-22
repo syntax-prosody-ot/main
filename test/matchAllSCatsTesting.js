@@ -1,5 +1,5 @@
 
-function matchAnyTesting(){
+function matchAllSCatsTesting(){
     var sTree = {
         cat: "cp",
         id: "root",
@@ -67,4 +67,4 @@ window.addEventListener("load",function(){
 	});
 }
 
-matchAnyTesting();
+matchAllSCatsTesting();
