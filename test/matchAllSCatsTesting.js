@@ -46,7 +46,7 @@ function matchAllSCatsTesting(){
         "id": "root",
         "cat": "i",
     };
-describe("matchAnyTesting.html", function() {
+describe("matchAllSCatsTesting.html", function() {
     describe('Tableau 1: Testing "any" Syntactic category', function() {
         it('matchSP-xp', function() {
             assert.equal(matchSP(sTree, pTree, "xp"), 2);
