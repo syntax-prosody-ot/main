@@ -54,6 +54,7 @@ function makeTableau(candidateSet, constraintSet, options){
 					}
 					optionString += '-'+temp;
 				}
+				//For constraints that involve head marking, if "side" is defined as an option then take the value "left" or "right" and append it to the constraint name.
 				if(optionProperties[j]=="side"){
 					optionString += '-'+optionObj[optionProperties[j]];
 				}
