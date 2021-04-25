@@ -29,9 +29,16 @@
 </div>
 
 <script src='./binMaxHeadTest.js'></script>
+<pre id="results-container"></pre>
 <script>
         mocha.run(); //don't forget to run the test!!!
-</script>
+        window.addEventListener("load", function(){
+            writeTableau(makeTableau(GEN({}, "a b c"), ['binMaxHead-phi-{"side":"right"}'], {showHeads: 'right'}));
+            writeTableau(makeTableau(GEN({}, "a b c"), ['binMaxHead-phi-{"side":"left"}'], {showHeads: 'left'}));
+            revealNextSegment();
+        });
+
+</script> 
 
 </body>
 </html>

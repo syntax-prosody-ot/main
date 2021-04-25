@@ -367,7 +367,11 @@ function binMaxHead(s, ptree, cat, options) {
 		console.warn('The option "side" for binMaxHead must be "left" or "right" (default)');
 		options.side = right;
 	}
-	markHeads(ptree, options.side);
+	//Only run markheads if mytree hasn't been marked for heads
+	if (!ptree.headsMarked){
+		markHeads(ptree, options.side);
+	}
+	
 	var vcount = 0;
 
 	if(ptree.children && ptree.children.length){
