@@ -49,22 +49,18 @@ function matchAllSCatsTesting(){
 describe("matchAllSCatsTesting.html", function() {
     describe('Tableau 1: Testing "any" Syntactic category', function() {
         it('matchSP-xp', function() {
-            assert.equal(matchSP(sTree, pTree, "xp"), 2);
+            assert.equal(matchSP(sTree, pTree, "xp"), 2, message(sTree, pTree, 'xp'));
         });
         it('matchSP-cp', function() {
-            assert.equal(matchSP(sTree, pTree, "cp"), 2);
+            assert.equal(matchSP(sTree, pTree, "cp"), 2, message(sTree, pTree, 'cp'));
         });
         it('matchSP-any', function() {
-            assert.equal(matchSP(sTree, pTree, "any"), 8);
+            assert.equal(matchSP(sTree, pTree, "any"), 8, message(sTree, pTree, 'any'));
         });
     });
 });
 //add writeTabelau
-var con1 = ['matchSP-xp','matchSP-cp', 'matchSP-any'];
-window.addEventListener("load",function(){
-	writeTableau(makeTableau(GEN(sTree,'xp cp'), con1));
-	revealNextSegment();
-	});
+return sTree;
 }
 
 matchAllSCatsTesting();

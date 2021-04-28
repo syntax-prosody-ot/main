@@ -30,12 +30,18 @@
         var assert = chai.assert; //no one wants to type out "chai.assert" every time
     </script>
     <div id="mocha">
-        matchAllSCatsTesting.html
+        Testing Matching to any prosodic category
     </div>
     <!--Mocha is set up now, you just need to write and run tests-->
     <script src="matchAllSCatsTesting.js"></script>
     <script>
-            mocha.run(); //don't forget to run the test!!!
+        sTree = mocha.run();
+        var con1 = ['matchSP-xp','matchSP-cp', 'matchSP-any'];
+        window.addEventListener("load",function(){
+	        writeTableau(makeTableau(GEN(sTree,'xp cp'), con1));
+	    revealNextSegment();
+	});
+        
     </script>
     <!--That's all you need for testing with mocha and chai-->
 
