@@ -35,7 +35,14 @@
     <!--Mocha is set up now, you just need to write and run tests-->
     <script src="matchAnyPCat.js"></script>
     <script>
+            var arr = matchAnyPCat();
             mocha.run(); //don't forget to run the test!!!
+            window.addEventListener("load",function(){
+	            writeTableau(arr[0]);
+                writeTableau(arr[1]);
+	            revealNextSegment();
+            });
+
     </script>
     <!--That's all you need for testing with mocha and chai-->
 

@@ -154,6 +154,9 @@ function matchAnyPCat(){
             });
         });
     });
+    var arr = new Array();
+    var con1 = ['matchSP-xp','matchSP-x0','matchSP-cp', 'matchSP-any'];
+    arr[0] = makeTableau(GEN(stree1,'a b c'), con1);
+    arr[1] = makeTableau(GEN(stree2,'a b c'), con1);
+    return arr;
 }
-
-matchAnyPCat();
