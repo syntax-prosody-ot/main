@@ -97,7 +97,7 @@ function makeTableau(candidateSet, constraintSet, options){
 			// category constraints, and a category argument was provided, 
 			// then check if the category argument is in pCat or sCat.
 			if(catExceptionConstraints.indexOf(constraint)<0){
-				if(cat && !pCat.includes(cat) && !sCat.includes(cat)){
+				if(cat && !pCat.includes(cat) && !sCat.includes(cat) && cat!="any"){
 					console.log(pCat);
 					var errorMsg = "Category argument " + cat + " is not a valid category with the current settings.\nCurrently valid prosodic categories: " + JSON.stringify(pCat) + "\nValid syntactic categories: " + JSON.stringify(sCat);
 					displayError(errorMsg);
