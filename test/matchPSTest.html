@@ -1,0 +1,70 @@
+<html><head>  
+    <title>SPOT Automated Testing</title>
+
+	<link rel="stylesheet" type="text/css" href="../spot.css">
+
+    <!--If running tests that do not have to do with the interface, run jsbuild.sh or jsbuild.bat
+        in root directory of the project. If running interface testing, run testbuild.sh
+        or testBuild.bat-->
+    <script src="../build/spot.js"></script>
+
+    <!--Mocha setup stuff (1/2)-->
+    <meta charset="UTF-8">
+    <script src="../lib/test/mocha.min.js"></script>
+    <script src="../lib/test/chai.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../lib/test/mocha.css">
+    <!--mocha setup stuff to be continued in document body-->
+    
+</head>
+<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+
+    <h2>SPOT Automated Testing</h2>
+
+    <!--Import error message functions-->
+    <script src="./message_funcs.js"></script>
+
+    <!--Mocha stuff (2/2)-->
+    <script>
+        mocha.setup("bdd"); //brings "describe", "it", etc. into global namespace
+        //mocha.checkLeaks();
+        var assert = chai.assert; //no one wants to type out "chai.assert" every time
+    </script>
+    <div id="mocha">
+        Testing MatchSP/PS subcategorization
+    </div>
+    <!--Mocha is set up now, you just need to write and run tests-->
+    <script src="matchPSTest.js"></script>
+    <script>
+        matchPSTest();
+        mocha.run(); //don't forget to run the test!!!
+    </script>
+    <!--That's all you need for testing with mocha and chai-->
+
+	<pre id="results-container"></pre>
+
+<script>
+    window.addEventListener("load", function(){
+		// GEN is defined in candidategenerator.js
+		// Arguments: 
+		// - syntactic tree object, which appears in the first cell of the table
+		// - a string consisting of a space separated list of terminals
+		// Returns: an array of pairs <stree, ptree>
+		var myCandSet = GEN({cat: 'w', id: 'a_b_c-clitic'}, 'a b c-clitic');
+
+		// Array of string versions of function names
+		// Category arguments for the functions appear after a hyphen
+		var myConstraintSet = ['matchSP-xp'];//, 'binMinBranches-phi', 'binMaxBranches-phi'];
+
+		// makeTableau() is defined in tableauMaker.js
+		var myTableau = makeTableau(myCandSet, myConstraintSet);
+
+		//Defined in prototypeInterface.js
+		writeTableau(myTableau);
+		
+		//Unhide the tableau div in the html
+        revealNextSegment();
+    });
+
+</script>
+
+</body></html>
