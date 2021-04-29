@@ -48,6 +48,8 @@ window.addEventListener('load', function(){
 	document.getElementById('annotatedWithTones').addEventListener('click', toneOptionDisplay);
 	document.getElementById('showHeads').addEventListener('click', markProsodicHeadsDisplay);
 
+	/** ===CHECKING showHeads IF BinMaxHead CHECKED=== */
+	document.getElementById('binMaxHead').addEventListener('click', markProsodicHeadsDisplay);
 
 	//===MANUAL TREE-BUILDER===
 
