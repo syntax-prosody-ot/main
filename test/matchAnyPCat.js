@@ -136,26 +136,29 @@ function matchAnyPCat(){
     }; 
 
     describe("matchAnyPCat.html", function() {
-        describe('Tableau 1: matchSP-cp', function() {
+        describe('matchSP(cp, any pcat)', function() {
             it('matchSP-cp', function() {
                 assert.equal(matchSP(stree1, ptree1, 'cp', {anyPCat:true}), 0, message(stree1, ptree1, 'cp', {anyPCat:true}));
                 assert.equal(matchSP(stree1, ptree2, 'cp', {anyPCat:true}), 1, message(stree1, ptree2, 'cp', {anyPCat:true}));
             });
+            it('wrapper function matchSPAny', function(){
+                assert.equal(matchSPAny(stree1, ptree2, 'cp'), 1, message(stree1, ptree2, 'cp'));
+            })
         });
-        describe('Tableau 2: matchSP-xp', function() {
+        describe('matchSP(xp, any pcat)', function() {
             it('matchSP-xp', function() {
                 assert.equal(matchSP(stree2, ptree1, 'xp', {anyPCat:true}), 0, message(stree2, ptree1, 'xp', {anyPCat:true}));
                 assert.equal(matchSP(stree2, ptree3, 'xp', {anyPCat:true}), 3, message(stree2, ptree3, 'xp', {anyPCat:true}));
             });
         });
-        describe('Tableau 3: matchSP-any', function() {
+        describe('matchSP(all s-cats, any p-cat)', function() {
             it('matchSP-any', function() {
                 assert.equal(matchSP(stree2, ptree3, 'any', {anyPCat:true}), 7, message(stree2, ptree1, 'any', {anyPCat:true}));
             });
         });
     });
     var arr = new Array();
-    var con1 = ['matchSP-xp','matchSP-x0','matchSP-cp', 'matchSP-any'];
+    var con1 = ['matchSP-xp','matchSP-x0','matchSP-cp', 'matchSPAny-cp'];
     arr[0] = makeTableau(GEN(stree1,'a b c'), con1);
     arr[1] = makeTableau(GEN(stree2,'a b c'), con1);
     return arr;
