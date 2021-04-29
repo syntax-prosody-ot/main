@@ -104,6 +104,15 @@ window.GEN = function(sTree, words, options){
 			novelCategories = true;
 			throw err;
 		}
+		if(options.recursiveCategory.split('-').length>1){
+			for(let i in options.recursiveCategory.split('-')){
+				//call function here for each one
+			}
+		}
+		else{
+			// also call it here
+		}
+		//turn this next chunk into a function
 		if(categoryHierarchy.indexOf(options.recursiveCategory)<0){
 			var err = new Error("Specified recursive category "+options.recursiveCategory+novelCatWarning);
 			displayError(err.message, err);
