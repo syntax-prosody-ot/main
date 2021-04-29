@@ -59,9 +59,8 @@ describe("matchAllSCatsTesting.html", function() {
         });
     });
 });
-//add writeTabelau
-//return sTree;
-var con1 = ['matchSP-xp','matchSP-cp', 'matchSP-any'];
+
+var con1 = ['matchSP-xp','matchSP-x0','matchSP-cp','matchSP-any'];
 var temp = makeTableau(GEN(sTree,'xp cp'), con1);
 return temp;
 }
