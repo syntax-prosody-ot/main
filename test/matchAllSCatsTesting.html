@@ -35,10 +35,10 @@
     <!--Mocha is set up now, you just need to write and run tests-->
     <script src="matchAllSCatsTesting.js"></script>
     <script>
-        sTree = mocha.run();
-        var con1 = ['matchSP-xp','matchSP-cp', 'matchSP-any'];
+        var returnVal = matchAllSCatsTesting();
+        mocha.run();
         window.addEventListener("load",function(){
-	        writeTableau(makeTableau(GEN(sTree,'xp cp'), con1));
+	        writeTableau(returnVal);
 	    revealNextSegment();
 	});
         

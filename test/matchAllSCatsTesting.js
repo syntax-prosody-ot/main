@@ -60,7 +60,10 @@ describe("matchAllSCatsTesting.html", function() {
     });
 });
 //add writeTabelau
-return sTree;
+//return sTree;
+var con1 = ['matchSP-xp','matchSP-cp', 'matchSP-any'];
+var temp = makeTableau(GEN(sTree,'xp cp'), con1);
+return temp;
 }
 
 matchAllSCatsTesting();
