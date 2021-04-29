@@ -1023,13 +1023,16 @@
 						</div>
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
-								<span><input type="checkbox" name="constraints" value="matchSP">MatchMax(Syntax&rarr;Prosody), any prosodic constituent</span>
+								<span><input type="checkbox" name="constraints" value="matchSPAny">Match(Syntax&rarr;Prosody), any prosodic constituent</span>
 								<div class="info">
 									<span class="content">If this option is checked, any prosodic constituent that has the same terminal string as a syntactic constituent s will be considered a valid Match for s.
 								</div>
 							</div>
 							<div class="category-row">
-								<div class="category-selection-div"><div class="all-cats"><input type="checkbox" name="category-matchCustomSP" value="any">Ignore Prosodic Categories</div></div>
+								<div class="category-selection-div"><input type="checkbox" name="category-matchSPAny" value="cp">CP</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-matchSPAny" value="xp" checked="checked">XP</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-matchSPAny" value="x0">X<sup>0</sup></div>
+								<div class="category-selection-div"><div class="all-cats"><input type="checkbox" name="category-matchSPAny" value="any">all syntactic categories</div></div>
 							</div>
 						</div>
 						<div class="constraint-selection-table">
