@@ -131,7 +131,7 @@ function getInputsForTableau(){
         }
     }
 
-    //If the Default is chosen or auto-tree is chosen, display this
+    //If auto-tree is chosen, display this
     if(autoOrManual == 2){
         myGenInputs.pString = "";
         //Try to actually get the auto-generated sTrees.
