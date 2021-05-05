@@ -165,13 +165,13 @@ function matchPSTest(){
 describe("matchPSTest.html", function() {
     describe('Tableau 1: Tests all/only Syntactic Subcategories', function() {
         it('matchPS', function() {
-            assert.equal(matchPS(stree1, ptree1, "xp"), 0, message(stree1, ptree1));
-            assert.equal(matchPS(stree2, ptree1, "xp"), 4, message(stree2, ptree1));
+            assert.equal(matchPS(stree1, ptree1, "phi"), 0, message(stree1, ptree1));
+            assert.equal(matchPS(stree2, ptree1, "phi"), 4, message(stree2, ptree1));
         });
         it('maxProsody', function() {
             let options = {"maxProsody": true};
-            assert.equal(matchPS(stree1, ptree1, "xp", options), 0, message(stree1, ptree1, options));
-            assert.equal(matchPS(stree2, ptree1, "xp", options), 2, message(stree2, ptree1, options));
+            assert.equal(matchPS(stree1, ptree1, "phi", options), 0, message(stree1, ptree1, options));
+            assert.equal(matchPS(stree2, ptree1, "phi", options), 2, message(stree2, ptree1, options));
         });
         it('nonMaxProsody', function() {
             let options = {"nonMaxProsody": true};
