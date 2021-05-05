@@ -55,9 +55,56 @@ function matchPSTest(){
             }
         ]
     };
-	var stree2 = {
+	var stree2 =  {
         "id": "root",
-        "cat": "cp"
+        "cat": "cp",
+        "children": [
+            {
+                "cat": "cp",
+                "children": [
+                    {
+                        "id": "a",
+                        "cat": "x0"
+                    },
+                    {
+                        "cat": "cp",
+                        "children": [
+                            {
+                                "id": "c",
+                                "cat": "x0"
+                            },
+                        ]
+                    }
+                ]
+            },
+            {
+                "cat": "cp",
+                "children": [
+                    {
+                        "id": "b",
+                        "cat": "x0"
+                    },
+                ]
+            },
+            {
+                "cat": "cp",
+                "children": [
+                    {
+                        "id": "d",
+                        "cat": "x0"
+                    },
+                    {
+                        "id": "e",
+                        "cat": "x0"
+                    },
+                    {
+                        "id": "f",
+                        "cat": "x0"
+                    }
+                ]
+            }
+
+        ]
     };
 			
 	var ptree1 =  {
@@ -166,43 +213,43 @@ describe("matchPSTest.html", function() {
     describe('Tableau 2: Tests all/only Prosodic Subcategories', function() {
         it('maxSyntax', function() {
             let options = {"maxSyntax": true};
-            assert.equal(matchPS(stree1, ptree1, "xp", options), 2, message(stree1, ptree1, options));
-            //assert.equal(matchPS(stree2, ptree1, "xp", options), 4, message(stree2, ptree1, options));
+            assert.equal(matchPS(stree1, ptree1, "phi", options), 2, message(stree1, ptree1, options));
+            assert.equal(matchPS(stree2, ptree1, "phi", options), 4, message(stree2, ptree1, options));
         });
         it('nonMaxSyntax', function() {
             let options = {"nonMaxSyntax": true};
-            assert.equal(matchPS(stree1, ptree1, "xp", options), 2, message(stree1, ptree1, options));
-            //assert.equal(matchPS(stree2, ptree1, "xp", options), 4, message(stree2, ptree1, options));
+            assert.equal(matchPS(stree1, ptree1, "phi", options), 2, message(stree1, ptree1, options));
+            assert.equal(matchPS(stree2, ptree1, "phi", options), 4, message(stree2, ptree1, options));
         });
         it('minSyntax', function() {
             let options = {"minSyntax": true};
-            assert.equal(matchPS(stree1, ptree1, "xp", options), 2, message(stree1, ptree1, options));
-            //assert.equal(matchPS(stree2, ptree1, "xp", options), 4, message(stree2, ptree1, options));
+            assert.equal(matchPS(stree1, ptree1, "phi", options), 2, message(stree1, ptree1, options));
+            assert.equal(matchPS(stree2, ptree1, "phi", options), 4, message(stree2, ptree1, options));
         });
         it('maxSyntax minSyntax', function() {
             let options = {"maxSyntax": true, "minSyntax": true};
-            assert.equal(matchPS(stree1, ptree1, "xp", options), 3, message(stree1, ptree1, options));
-            //assert.equal(matchPS(stree2, ptree1, "xp", options), 4, message(stree2, ptree1, options));
+            assert.equal(matchPS(stree1, ptree1, "phi", options), 3, message(stree1, ptree1, options));
+            assert.equal(matchPS(stree2, ptree1, "phi", options), 4, message(stree2, ptree1, options));
         });
         it('nonMSyntax minSyntax', function() {
             let options = {"nonMaxSyntax": true, "minSyntax": true};
-            assert.equal(matchPS(stree1, ptree1, "xp", options), 3, message(stree1, ptree1, options));
-           // assert.equal(matchPS(stree2, ptree1, "xp", options), 4, message(stree2, ptree1, options));
+            assert.equal(matchPS(stree1, ptree1, "phi", options), 3, message(stree1, ptree1, options));
+            assert.equal(matchPS(stree2, ptree1, "phi", options), 4, message(stree2, ptree1, options));
         });
         it('nonMinSyntax', function() {
             let options = {"nonMinSyntax": true};
-            assert.equal(matchPS(stree1, ptree1, "xp", options), 2, message(stree1, ptree1, options));
-            //assert.equal(matchPS(stree2, ptree1, "xp", options), 4, message(stree2, ptree1, options));
+            assert.equal(matchPS(stree1, ptree1, "phi", options), 2, message(stree1, ptree1, options));
+            assert.equal(matchPS(stree2, ptree1, "phi", options), 4, message(stree2, ptree1, options));
         });
         it('maxSyntax nonMinSyntax', function() {
             let options = {"maxSyntax": true, "nonMinSyntax": true};
-            assert.equal(matchPS(stree1, ptree1, "xp", options), 3, message(stree1, ptree1, options));
-            //assert.equal(matchPS(stree2, ptree1, "xp", options), 4, message(stree2, ptree1, options));
+            assert.equal(matchPS(stree1, ptree1, "phi", options), 3, message(stree1, ptree1, options));
+            assert.equal(matchPS(stree2, ptree1, "phi", options), 4, message(stree2, ptree1, options));
         });
         it('nonMaxSyntax nonMinSyntax', function() {
             let options = {"nonMaxSyntax": true, "nonMinSyntax": true};
-            assert.equal(matchPS(stree1, ptree1, "xp", options), 3, message(stree1, ptree1, options));
-            //assert.equal(matchPS(stree2, ptree1, "xp", options), 4, message(stree2, ptree1, options));
+            assert.equal(matchPS(stree1, ptree1, "phi", options), 3, message(stree1, ptree1, options));
+            assert.equal(matchPS(stree2, ptree1, "phi", options), 4, message(stree2, ptree1, options));
         });
     });
 });
