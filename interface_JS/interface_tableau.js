@@ -97,8 +97,8 @@ function getInputsForTableau(){
     var sTrees;
     var treeSelectOption = document.getElementById('treeEditOption'); // options selecting input from manual, automatic tab or both tabs
     treeSelectOptions = treeSelectOption.value; // getting the value of the option the user has selected
-    var manInputsPres = (spotForm.inputToGen.value != "" || (treeCode != "{}" && treeCode != "[]"));
-    var autoInputsPres = getAutoSTreeList();
+    var manInputsPres = (spotForm.inputToGen.value != "" || (treeCode != "{}" && treeCode != "[]")); //manual tab input present boolean
+    var autoInputsPres = getAutoSTreeList(); //automatic tab input present boolean
 
    // determine if both generate tree and build syntax has input
     if (manInputsPres && autoInputsPres && document.getElementById('treeOption').style.display != "block" && treeSelectOptions == "option-tree"){
@@ -107,10 +107,10 @@ function getInputsForTableau(){
         return;
     }
     
-    //If auto-tree is chosen, display this
+    //if the dropdown menu is shown and option is option-tree
     if (treeSelectOptions == "option-tree" && document.getElementById('treeOption').style.display == "block"){
         return;
-    }else if (treeSelectOptions == "option-tree"){
+    }else if (treeSelectOptions == "option-tree"){ //if the dropdown menu is not shoen and option is option-tree
         if(autoInputsPres){
             myGenInputs.pString = "";
             //Try to actually get the auto-generated sTrees.
@@ -134,7 +134,7 @@ function getInputsForTableau(){
             displayWarning('Inputs were not provided on neither the Manual tab or the Automatic tab of Gen: Inputs. Please provide an input');
             return;
         }
-    }else if(treeSelectOptions == "auto-tree"){
+    }else if(treeSelectOptions == "auto-tree"){ //If auto-tree is chosen , display this
         myGenInputs.pString = "";
         if (autoInputsPres){
             //Try to actually get the auto-generated sTrees.
