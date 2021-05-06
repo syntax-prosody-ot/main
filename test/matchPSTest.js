@@ -70,7 +70,7 @@ function matchPSTest(){
                         "cat": "cp",
                         "children": [
                             {
-                                "id": "c",
+                                "id": "b",
                                 "cat": "x0"
                             },
                         ]
@@ -81,7 +81,7 @@ function matchPSTest(){
                 "cat": "cp",
                 "children": [
                     {
-                        "id": "b",
+                        "id": "c",
                         "cat": "x0"
                     },
                 ]
@@ -175,38 +175,38 @@ describe("matchPSTest.html", function() {
         });
         it('nonMaxProsody', function() {
             let options = {"nonMaxProsody": true};
-            assert.equal(matchPS(stree1, ptree1, "xp", options), 0, message(stree1, ptree1, options));
-            assert.equal(matchPS(stree2, ptree1, "xp", options), 2, message(stree2, ptree1, options));
+            assert.equal(matchPS(stree1, ptree1, "phi", options), 0, message(stree1, ptree1, options));
+            assert.equal(matchPS(stree2, ptree1, "phi", options), 2, message(stree2, ptree1, options));
         });
         it('minProsody', function() {
             let options = {"minProsody": true};
-            assert.equal(matchPS(stree1, ptree1, "xp", options), 0, message(stree1, ptree1, options));
-            assert.equal(matchPS(stree2, ptree1, "xp", options), 2, message(stree2, ptree1, options));
+            assert.equal(matchPS(stree1, ptree1, "phi", options), 0, message(stree1, ptree1, options));
+            assert.equal(matchPS(stree2, ptree1, "phi", options), 2, message(stree2, ptree1, options));
         });
         it('minProsody maxProsody', function() {
             let options = {"maxProsody": true, "minProsody": true};
-            assert.equal(matchPS(stree1, ptree1, "xp", options), 0, message(stree1, ptree1, options));
-            assert.equal(matchPS(stree2, ptree1, "xp", options), 1, message(stree2, ptree1, options));
+            assert.equal(matchPS(stree1, ptree1, "phi", options), 0, message(stree1, ptree1, options));
+            assert.equal(matchPS(stree2, ptree1, "phi", options), 1, message(stree2, ptree1, options));
         });
         it('minProsody nonMaxProsody', function() {
             let options = {"nonMaxProsody": true, "minProsody": true};
-            assert.equal(matchPS(stree1, ptree1, "xp", options), 0, message(stree1, ptree1, options));
-            assert.equal(matchPS(stree2, ptree1, "xp", options), 1, message(stree2, ptree1, options));
+            assert.equal(matchPS(stree1, ptree1, "phi", options), 0, message(stree1, ptree1, options));
+            assert.equal(matchPS(stree2, ptree1, "phi", options), 1, message(stree2, ptree1, options));
         });
         it('nonMinProsody', function() {
             let options = {"nonMinProsody": true};
-            assert.equal(matchPS(stree1, ptree1, "xp", options), 0, message(stree1, ptree1, options));
-            assert.equal(matchPS(stree2, ptree1, "xp", options), 2, message(stree2, ptree1, options));
+            assert.equal(matchPS(stree1, ptree1, "phi", options), 0, message(stree1, ptree1, options));
+            assert.equal(matchPS(stree2, ptree1, "phi", options), 2, message(stree2, ptree1, options));
         });
         it('maxProsody nonMinProsody', function() {
             let options = {"nonMinProsody": true, "maxProsody": true};
-            assert.equal(matchPS(stree1, ptree1, "xp", options), 0, message(stree1, ptree1, options));
-            assert.equal(matchPS(stree2, ptree1, "xp", options), 1, message(stree2, ptree1, options));
+            assert.equal(matchPS(stree1, ptree1, "phi", options), 0, message(stree1, ptree1, options));
+            assert.equal(matchPS(stree2, ptree1, "phi", options), 1, message(stree2, ptree1, options));
         });
         it('nonMaxProsody nonMinProsody', function() {
             let options = {"nonMinProsody": true, "nonMaxProsody": true};
-            assert.equal(matchPS(stree1, ptree1, "xp", options), 0, message(stree1, ptree1, options));
-            assert.equal(matchPS(stree2, ptree1, "xp", options), 1, message(stree2, ptree1, options));
+            assert.equal(matchPS(stree1, ptree1, "phi", options), 0, message(stree1, ptree1, options));
+            assert.equal(matchPS(stree2, ptree1, "phi", options), 1, message(stree2, ptree1, options));
         });
     });
 
@@ -253,4 +253,19 @@ describe("matchPSTest.html", function() {
         });
     });
 });
+// GEN is defined in candidategenerator.js
+		// Arguments: 
+		// - syntactic tree object, which appears in the first cell of the table
+		// - a string consisting of a space separated list of terminals
+		// Returns: an array of pairs <stree, ptree>
+       
+		var myCandSet = GEN(stree1, 'a b c');
+
+		// Array of string versions of function names
+		// Category arguments for the functions appear after a hyphen
+		var myConstraintSet = ['matchPS-i', 'matchPS-phi', 'matchPS-w'];//, 'binMinBranches-phi', 'binMaxBranches-phi'];
+
+		// makeTableau() is defined in tableauMaker.js
+		var myTableau = makeTableau(myCandSet, myConstraintSet);
+    return myTableau;
 }
