@@ -39,15 +39,12 @@
 	<pre id="results-container"></pre>
 
 <script>
-        var myTableau = matchPSTest();
-        mocha.run(); //don't forget to run the test!!!
+    var myTableau = matchPSTest();
+    mocha.run(); 
     window.addEventListener("load", function(){
-		//Defined in prototypeInterface.js
 		writeTableau(myTableau);
-		
-		//Unhide the tableau div in the html
         revealNextSegment();
-   // });
+    });
 
 </script>
 
