@@ -188,6 +188,7 @@ function getInputsForTableau(){
         document.getElementById('treeOption').style.display = "none";
         clearTableau()
         clearAll();
+        sTreeList = undefined;
         return;
     }
 
