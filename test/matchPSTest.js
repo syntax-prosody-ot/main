@@ -253,19 +253,7 @@ describe("matchPSTest.html", function() {
         });
     });
 });
-// GEN is defined in candidategenerator.js
-		// Arguments: 
-		// - syntactic tree object, which appears in the first cell of the table
-		// - a string consisting of a space separated list of terminals
-		// Returns: an array of pairs <stree, ptree>
-       
-		var myCandSet = GEN(stree1, 'a b c');
-
-		// Array of string versions of function names
-		// Category arguments for the functions appear after a hyphen
-		var myConstraintSet = ['matchPS-i', 'matchPS-phi', 'matchPS-w'];//, 'binMinBranches-phi', 'binMaxBranches-phi'];
-
-		// makeTableau() is defined in tableauMaker.js
-		var myTableau = makeTableau(myCandSet, myConstraintSet);
-    return myTableau;
+var myConstraintSet = ['matchPS-i', 'matchPS-phi', 'matchPS-w'];//, 'binMinBranches-phi', 'binMaxBranches-phi'];
+var myTableau = makeTableau(GEN(stree1, 'a b c'), myConstraintSet);
+return myTableau;
 }
