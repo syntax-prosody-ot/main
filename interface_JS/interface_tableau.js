@@ -101,14 +101,14 @@ function getInputsForTableau(){
     var autoInputsPres = getAutoSTreeList(); //automatic tab input present boolean
 
    // determine if both generate tree and build syntax has input
-    if (manInputsPres && autoInputsPres && document.getElementById('treeOption').style.display != "block" && treeSelectOptions == "option-tree"){
+    if (manInputsPres && autoInputsPres && document.getElementById('treeOption').style.display != "block" && treeSelectOptions == "default-tree"){
         document.getElementById('treeOption').style.display = "block";
         displayWarning('Inputs were provided on both the Manual tab and the Automatic tab of Gen: Inputs. Please select an option from the dropdown menu displayed above "Get results" button to choose which set of trees to use in the tableaux.');
         return;
     }
     
-    //if the dropdown menu is shown and option is option-tree //default-tree
-    if (treeSelectOptions == "option-tree" && document.getElementById('treeOption').style.display == "block"){
+    //if the dropdown menu is shown and option is default-tree
+    if (treeSelectOptions == "default-tree" && document.getElementById('treeOption').style.display == "block"){
         return;
     }else if(treeSelectOptions == "auto-tree" || (!manInputsPres && autoInputsPres)){ //If auto-tree is chosen, display this
         myGenInputs.pString = "";
