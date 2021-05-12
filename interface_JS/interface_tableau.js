@@ -107,34 +107,10 @@ function getInputsForTableau(){
         return;
     }
     
-    //if the dropdown menu is shown and option is option-tree
+    //if the dropdown menu is shown and option is option-tree //default-tree
     if (treeSelectOptions == "option-tree" && document.getElementById('treeOption').style.display == "block"){
         return;
-    }else if (treeSelectOptions == "option-tree"){ //if the dropdown menu is not shoen and option is option-tree
-        if(autoInputsPres){
-            myGenInputs.pString = "";
-            //Try to actually get the auto-generated sTrees.
-            try{
-                sTrees = getAutoSTreeList();
-            }
-            catch(e){
-                displayError(e.message, e);
-                return;
-            }
-        }else if(manInputsPres){
-            // Get the input syntactic trees from manual tree builder
-            try{
-                sTrees = getSTrees();
-            }
-            catch(e){
-                displayError(e.message, e);
-                return;
-            }
-        }else{
-            displayWarning('Inputs were not provided on neither the Manual tab or the Automatic tab of Gen: Inputs. Please provide an input');
-            return;
-        }
-    }else if(treeSelectOptions == "auto-tree"){ //If auto-tree is chosen , display this
+    }else if(treeSelectOptions == "auto-tree" || (!manInputsPres && autoInputsPres)){ //If auto-tree is chosen, display this
         myGenInputs.pString = "";
         if (autoInputsPres){
             //Try to actually get the auto-generated sTrees.
@@ -148,7 +124,7 @@ function getInputsForTableau(){
         }else{
             return;
         }
-    }else if(treeSelectOptions == "manual-tree"){   //Otherwise, if manual-tree is chosen, display this  
+    }else if(treeSelectOptions == "manual-tree" || (manInputsPres && !autoInputsPres)){   //Otherwise, if manual-tree is chosen, display this  
         // Get the input syntactic trees from manual tree builder
         if (manInputsPres){
             try{
@@ -162,7 +138,6 @@ function getInputsForTableau(){
             return;
         }
     }else if(treeSelectOptions == "both-tree"){ // if both trees are selected
-        //treeSelectOption.selectedIndex = 0;
         if (autoInputsPres && manInputsPres){
             try{
                 if (getAutoSTreeList() && getSTrees()){
@@ -186,7 +161,7 @@ function getInputsForTableau(){
     }else if(treeSelectOptions == "clear-tree"){
         treeSelectOption = treeSelectOption.selectedIndex = 0;
         document.getElementById('treeOption').style.display = "none";
-        clearTableau()
+        //clearTableau() 
         clearAll();
         sTreeList = undefined;
         return;
