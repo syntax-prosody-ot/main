@@ -22,8 +22,8 @@ function strongEndTest(){
                 id:"w",
             },
             {
-                cat: "w",
-                id:"w"
+                cat: "phi",
+                id:"phi"
             }
         ]
     }
@@ -212,25 +212,17 @@ function strongEndTest(){
         ]
     }
     describe("strongEndTest.html", function(){
-        describe('Simple Case', function() {
-            it('ptree1: ', function() {
+        describe('Simple Cases', function() {
+            it('One-Layer Cases', function() {
                 assert.equal(strongEndLocal('', ptree1, ''), 0);
-            });
-            it('ptree2: ', function() {
                 assert.equal(strongEndLocal('', ptree2, ''), 0);
-            });
-            it('ptree3: ', function() {
                 assert.equal(strongEndLocal('', ptree3, ''), 1);
             });
         });
-        describe('Advanced Case', function() {
-            it('ptree4: ', function() {
+        describe('Advanced Cases', function() {
+            it('Multi-Layer Cases', function() {
                 assert.equal(strongEndLocal('', ptree4, ''), 2);
-            });
-            it('ptree5: ', function() {
                 assert.equal(strongEndLocal('', ptree5, ''), 0);
-            });
-            it('ptree6: ', function() {
                 assert.equal(strongEndLocal('', ptree6, ''), 6);
             });
         });
