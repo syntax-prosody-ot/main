@@ -1,6 +1,6 @@
 function strongEndTest(){
     var ptree1 = {
-        cat: "root",
+        cat: "i",
         id: "i",
         children: [
             {
@@ -14,7 +14,7 @@ function strongEndTest(){
         ]
     }
     var ptree2 = {
-        cat: "root",
+        cat: "i",
         id: "i",
         children: [
             {
@@ -28,7 +28,7 @@ function strongEndTest(){
         ]
     }
     var ptree3 = {
-        cat: "root",
+        cat: "i",
         id: "i",
         children: [
             {
@@ -42,7 +42,7 @@ function strongEndTest(){
         ]
     }
     var ptree4 = {
-        cat: "root",
+        cat: "i",
         id: "i",
         children: [
             {
@@ -86,7 +86,7 @@ function strongEndTest(){
         ]
     }
     var ptree5 = {
-        cat: "root",
+        cat: "i",
         id: "i",
         children: [
             {
@@ -144,7 +144,7 @@ function strongEndTest(){
         ]
     }
     var ptree6 = {
-        cat: "root",
+        cat: "i",
         id: "i",
         children: [
             {
@@ -214,7 +214,7 @@ function strongEndTest(){
     describe("strongEndTest.html", function(){
         describe('Simple Cases', function() {
             it('One-Layer Cases', function() {
-                assert.equal(strongEndLocal('', ptree1, ''), 0);
+                assert.equal(strongEndLocal('', ptree1, ''), 10, parenthesizeTree(ptree1));
                 assert.equal(strongEndLocal('', ptree2, ''), 0);
                 assert.equal(strongEndLocal('', ptree3, ''), 1);
             });
