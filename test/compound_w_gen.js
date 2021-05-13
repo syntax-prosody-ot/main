@@ -22,9 +22,9 @@ var gen_ops_ft_term_noUnary = {rootCategory: 'phi', recursiveCategory: 'phi-w', 
 
 
 //Initialize the expected arrays for compound word Gen versions and sort
-var twoWordTerm = JSON.stringify(["(a (b))","((a) b)","((a) (b))","(a b)","([a b])"].sort());
+var twoWordTerm = ["(a (b))","((a) b)","((a) (b))","(a b)","([a b])"];
 
-var threeWordTerm = JSON.stringify(["(((a) (b)) (c))"
+var threeWordTerm = ["(((a) (b)) (c))"
 ,"(((a) (b)) c)"
 ,"(((a) b) (c))"
 ,"(((a) b) c)"
@@ -58,9 +58,9 @@ var threeWordTerm = JSON.stringify(["(((a) (b)) (c))"
 ,"(a (b c))"
 ,"(a [b c])"
 ,"(a b (c))"
-,"(a b c)"].sort());
+,"(a b c)"];
 
-var twoFtTerm = JSON.stringify(["([a.Ft b.Ft])"
+var twoFtTerm = ["([a.Ft b.Ft])"
 ,"([[a.Ft] [b.Ft]])"
 ,"([[a.Ft] b.Ft])"
 ,"([a.Ft [b.Ft]])"
@@ -79,15 +79,15 @@ var twoFtTerm = JSON.stringify(["([a.Ft b.Ft])"
 ,"([a.Ft] b.Ft)"
 ,"(a.Ft ([b.Ft]))"
 ,"(a.Ft (b.Ft))"
-,"(a.Ft [b.Ft])"].sort());
+,"(a.Ft [b.Ft])"];
 
 //Array collected from enumerateThreeFtTerm function below
-var threeFtTerm = JSON.stringify(["((([a.Ft]) ([b.Ft])) ([c.Ft]))","((([a.Ft]) ([b.Ft])) (c.Ft))","((([a.Ft]) ([b.Ft])) [c.Ft])","((([a.Ft]) ([b.Ft])) c.Ft)","((([a.Ft]) (b.Ft)) ([c.Ft]))","((([a.Ft]) (b.Ft)) (c.Ft))","((([a.Ft]) (b.Ft)) [c.Ft])","((([a.Ft]) (b.Ft)) c.Ft)","((([a.Ft]) [b.Ft]) ([c.Ft]))","((([a.Ft]) [b.Ft]) (c.Ft))","((([a.Ft]) [b.Ft]) [c.Ft])","((([a.Ft]) [b.Ft]) c.Ft)","((([a.Ft]) b.Ft) ([c.Ft]))","((([a.Ft]) b.Ft) (c.Ft))","((([a.Ft]) b.Ft) [c.Ft])","((([a.Ft]) b.Ft) c.Ft)","(((a.Ft) ([b.Ft])) ([c.Ft]))","(((a.Ft) ([b.Ft])) (c.Ft))","(((a.Ft) ([b.Ft])) [c.Ft])","(((a.Ft) ([b.Ft])) c.Ft)","(((a.Ft) (b.Ft)) ([c.Ft]))","(((a.Ft) (b.Ft)) (c.Ft))","(((a.Ft) (b.Ft)) [c.Ft])","(((a.Ft) (b.Ft)) c.Ft)","(((a.Ft) [b.Ft]) ([c.Ft]))","(((a.Ft) [b.Ft]) (c.Ft))","(((a.Ft) [b.Ft]) [c.Ft])","(((a.Ft) [b.Ft]) c.Ft)","(((a.Ft) b.Ft) ([c.Ft]))","(((a.Ft) b.Ft) (c.Ft))","(((a.Ft) b.Ft) [c.Ft])","(((a.Ft) b.Ft) c.Ft)","(([[a.Ft] [b.Ft]]) ([c.Ft]))","(([[a.Ft] [b.Ft]]) (c.Ft))","(([[a.Ft] [b.Ft]]) [c.Ft])","(([[a.Ft] [b.Ft]]) c.Ft)","(([[a.Ft] b.Ft]) ([c.Ft]))","(([[a.Ft] b.Ft]) (c.Ft))","(([[a.Ft] b.Ft]) [c.Ft])","(([[a.Ft] b.Ft]) c.Ft)","(([a.Ft [b.Ft]]) ([c.Ft]))","(([a.Ft [b.Ft]]) (c.Ft))","(([a.Ft [b.Ft]]) [c.Ft])","(([a.Ft [b.Ft]]) c.Ft)","(([a.Ft b.Ft]) ([c.Ft]))","(([a.Ft b.Ft]) (c.Ft))","(([a.Ft b.Ft]) [c.Ft])","(([a.Ft b.Ft]) c.Ft)","(([a.Ft] ([b.Ft])) ([c.Ft]))","(([a.Ft] ([b.Ft])) (c.Ft))","(([a.Ft] ([b.Ft])) [c.Ft])","(([a.Ft] ([b.Ft])) c.Ft)","(([a.Ft] (b.Ft)) ([c.Ft]))","(([a.Ft] (b.Ft)) (c.Ft))","(([a.Ft] (b.Ft)) [c.Ft])","(([a.Ft] (b.Ft)) c.Ft)","(([a.Ft] [b.Ft]) ([c.Ft]))","(([a.Ft] [b.Ft]) (c.Ft))","(([a.Ft] [b.Ft]) [c.Ft])","(([a.Ft] [b.Ft]) c.Ft)","(([a.Ft] b.Ft) ([c.Ft]))","(([a.Ft] b.Ft) (c.Ft))","(([a.Ft] b.Ft) [c.Ft])","(([a.Ft] b.Ft) c.Ft)","(([a.Ft]) (([b.Ft]) ([c.Ft])))","(([a.Ft]) (([b.Ft]) (c.Ft)))","(([a.Ft]) (([b.Ft]) [c.Ft]))","(([a.Ft]) (([b.Ft]) c.Ft))","(([a.Ft]) ((b.Ft) ([c.Ft])))","(([a.Ft]) ((b.Ft) (c.Ft)))","(([a.Ft]) ((b.Ft) [c.Ft]))","(([a.Ft]) ((b.Ft) c.Ft))","(([a.Ft]) ([[b.Ft] [c.Ft]]))","(([a.Ft]) ([[b.Ft] c.Ft]))","(([a.Ft]) ([b.Ft [c.Ft]]))","(([a.Ft]) ([b.Ft c.Ft]))","(([a.Ft]) ([b.Ft] ([c.Ft])))","(([a.Ft]) ([b.Ft] (c.Ft)))","(([a.Ft]) ([b.Ft] [c.Ft]))","(([a.Ft]) ([b.Ft] c.Ft))","(([a.Ft]) ([b.Ft]) ([c.Ft]))","(([a.Ft]) ([b.Ft]) (c.Ft))","(([a.Ft]) ([b.Ft]) [c.Ft])","(([a.Ft]) ([b.Ft]) c.Ft)","(([a.Ft]) (b.Ft ([c.Ft])))","(([a.Ft]) (b.Ft (c.Ft)))","(([a.Ft]) (b.Ft [c.Ft]))","(([a.Ft]) (b.Ft c.Ft))","(([a.Ft]) (b.Ft) ([c.Ft]))","(([a.Ft]) (b.Ft) (c.Ft))","(([a.Ft]) (b.Ft) [c.Ft])","(([a.Ft]) (b.Ft) c.Ft)","(([a.Ft]) [[b.Ft] [c.Ft]])","(([a.Ft]) [[b.Ft] c.Ft])","(([a.Ft]) [b.Ft [c.Ft]])","(([a.Ft]) [b.Ft c.Ft])","(([a.Ft]) [b.Ft] ([c.Ft]))","(([a.Ft]) [b.Ft] (c.Ft))","(([a.Ft]) [b.Ft] [c.Ft])","(([a.Ft]) [b.Ft] c.Ft)","(([a.Ft]) b.Ft ([c.Ft]))","(([a.Ft]) b.Ft (c.Ft))","(([a.Ft]) b.Ft [c.Ft])","(([a.Ft]) b.Ft c.Ft)","((a.Ft ([b.Ft])) ([c.Ft]))","((a.Ft ([b.Ft])) (c.Ft))","((a.Ft ([b.Ft])) [c.Ft])","((a.Ft ([b.Ft])) c.Ft)","((a.Ft (b.Ft)) ([c.Ft]))","((a.Ft (b.Ft)) (c.Ft))","((a.Ft (b.Ft)) [c.Ft])","((a.Ft (b.Ft)) c.Ft)","((a.Ft [b.Ft]) ([c.Ft]))","((a.Ft [b.Ft]) (c.Ft))","((a.Ft [b.Ft]) [c.Ft])","((a.Ft [b.Ft]) c.Ft)","((a.Ft b.Ft) ([c.Ft]))","((a.Ft b.Ft) (c.Ft))","((a.Ft b.Ft) [c.Ft])","((a.Ft b.Ft) c.Ft)","((a.Ft) (([b.Ft]) ([c.Ft])))","((a.Ft) (([b.Ft]) (c.Ft)))","((a.Ft) (([b.Ft]) [c.Ft]))","((a.Ft) (([b.Ft]) c.Ft))","((a.Ft) ((b.Ft) ([c.Ft])))","((a.Ft) ((b.Ft) (c.Ft)))","((a.Ft) ((b.Ft) [c.Ft]))","((a.Ft) ((b.Ft) c.Ft))","((a.Ft) ([[b.Ft] [c.Ft]]))","((a.Ft) ([[b.Ft] c.Ft]))","((a.Ft) ([b.Ft [c.Ft]]))","((a.Ft) ([b.Ft c.Ft]))","((a.Ft) ([b.Ft] ([c.Ft])))","((a.Ft) ([b.Ft] (c.Ft)))","((a.Ft) ([b.Ft] [c.Ft]))","((a.Ft) ([b.Ft] c.Ft))","((a.Ft) ([b.Ft]) ([c.Ft]))","((a.Ft) ([b.Ft]) (c.Ft))","((a.Ft) ([b.Ft]) [c.Ft])","((a.Ft) ([b.Ft]) c.Ft)","((a.Ft) (b.Ft ([c.Ft])))","((a.Ft) (b.Ft (c.Ft)))","((a.Ft) (b.Ft [c.Ft]))","((a.Ft) (b.Ft c.Ft))","((a.Ft) (b.Ft) ([c.Ft]))","((a.Ft) (b.Ft) (c.Ft))","((a.Ft) (b.Ft) [c.Ft])","((a.Ft) (b.Ft) c.Ft)","((a.Ft) [[b.Ft] [c.Ft]])","((a.Ft) [[b.Ft] c.Ft])","((a.Ft) [b.Ft [c.Ft]])","((a.Ft) [b.Ft c.Ft])","((a.Ft) [b.Ft] ([c.Ft]))","((a.Ft) [b.Ft] (c.Ft))","((a.Ft) [b.Ft] [c.Ft])","((a.Ft) [b.Ft] c.Ft)","((a.Ft) b.Ft ([c.Ft]))","((a.Ft) b.Ft (c.Ft))","((a.Ft) b.Ft [c.Ft])","((a.Ft) b.Ft c.Ft)","([[[a.Ft] [b.Ft]] [c.Ft]])","([[[a.Ft] [b.Ft]] c.Ft])","([[[a.Ft] b.Ft] [c.Ft]])","([[[a.Ft] b.Ft] c.Ft])","([[a.Ft [b.Ft]] [c.Ft]])","([[a.Ft [b.Ft]] c.Ft])","([[a.Ft b.Ft] [c.Ft]])","([[a.Ft b.Ft] c.Ft])","([[a.Ft] [[b.Ft] [c.Ft]]])","([[a.Ft] [[b.Ft] c.Ft]])","([[a.Ft] [b.Ft [c.Ft]]])","([[a.Ft] [b.Ft c.Ft]])","([[a.Ft] [b.Ft] [c.Ft]])","([[a.Ft] [b.Ft] c.Ft])","([[a.Ft] [b.Ft]] ([c.Ft]))","([[a.Ft] [b.Ft]] (c.Ft))","([[a.Ft] [b.Ft]] [c.Ft])","([[a.Ft] [b.Ft]] c.Ft)","([[a.Ft] b.Ft [c.Ft]])","([[a.Ft] b.Ft c.Ft])","([[a.Ft] b.Ft] ([c.Ft]))","([[a.Ft] b.Ft] (c.Ft))","([[a.Ft] b.Ft] [c.Ft])","([[a.Ft] b.Ft] c.Ft)","([a.Ft [[b.Ft] [c.Ft]]])","([a.Ft [[b.Ft] c.Ft]])","([a.Ft [b.Ft [c.Ft]]])","([a.Ft [b.Ft c.Ft]])","([a.Ft [b.Ft] [c.Ft]])","([a.Ft [b.Ft] c.Ft])","([a.Ft [b.Ft]] ([c.Ft]))","([a.Ft [b.Ft]] (c.Ft))","([a.Ft [b.Ft]] [c.Ft])","([a.Ft [b.Ft]] c.Ft)","([a.Ft b.Ft [c.Ft]])","([a.Ft b.Ft c.Ft])","([a.Ft b.Ft] ([c.Ft]))","([a.Ft b.Ft] (c.Ft))","([a.Ft b.Ft] [c.Ft])","([a.Ft b.Ft] c.Ft)","([a.Ft] (([b.Ft]) ([c.Ft])))","([a.Ft] (([b.Ft]) (c.Ft)))","([a.Ft] (([b.Ft]) [c.Ft]))","([a.Ft] (([b.Ft]) c.Ft))","([a.Ft] ((b.Ft) ([c.Ft])))","([a.Ft] ((b.Ft) (c.Ft)))","([a.Ft] ((b.Ft) [c.Ft]))","([a.Ft] ((b.Ft) c.Ft))","([a.Ft] ([[b.Ft] [c.Ft]]))","([a.Ft] ([[b.Ft] c.Ft]))","([a.Ft] ([b.Ft [c.Ft]]))","([a.Ft] ([b.Ft c.Ft]))","([a.Ft] ([b.Ft] ([c.Ft])))","([a.Ft] ([b.Ft] (c.Ft)))","([a.Ft] ([b.Ft] [c.Ft]))","([a.Ft] ([b.Ft] c.Ft))","([a.Ft] ([b.Ft]) ([c.Ft]))","([a.Ft] ([b.Ft]) (c.Ft))","([a.Ft] ([b.Ft]) [c.Ft])","([a.Ft] ([b.Ft]) c.Ft)","([a.Ft] (b.Ft ([c.Ft])))","([a.Ft] (b.Ft (c.Ft)))","([a.Ft] (b.Ft [c.Ft]))","([a.Ft] (b.Ft c.Ft))","([a.Ft] (b.Ft) ([c.Ft]))","([a.Ft] (b.Ft) (c.Ft))","([a.Ft] (b.Ft) [c.Ft])","([a.Ft] (b.Ft) c.Ft)","([a.Ft] [[b.Ft] [c.Ft]])","([a.Ft] [[b.Ft] c.Ft])","([a.Ft] [b.Ft [c.Ft]])","([a.Ft] [b.Ft c.Ft])","([a.Ft] [b.Ft] ([c.Ft]))","([a.Ft] [b.Ft] (c.Ft))","([a.Ft] [b.Ft] [c.Ft])","([a.Ft] [b.Ft] c.Ft)","([a.Ft] b.Ft ([c.Ft]))","([a.Ft] b.Ft (c.Ft))","([a.Ft] b.Ft [c.Ft])","([a.Ft] b.Ft c.Ft)","(a.Ft (([b.Ft]) ([c.Ft])))","(a.Ft (([b.Ft]) (c.Ft)))","(a.Ft (([b.Ft]) [c.Ft]))","(a.Ft (([b.Ft]) c.Ft))","(a.Ft ((b.Ft) ([c.Ft])))","(a.Ft ((b.Ft) (c.Ft)))","(a.Ft ((b.Ft) [c.Ft]))","(a.Ft ((b.Ft) c.Ft))","(a.Ft ([[b.Ft] [c.Ft]]))","(a.Ft ([[b.Ft] c.Ft]))","(a.Ft ([b.Ft [c.Ft]]))","(a.Ft ([b.Ft c.Ft]))","(a.Ft ([b.Ft] ([c.Ft])))","(a.Ft ([b.Ft] (c.Ft)))","(a.Ft ([b.Ft] [c.Ft]))","(a.Ft ([b.Ft] c.Ft))","(a.Ft ([b.Ft]) ([c.Ft]))","(a.Ft ([b.Ft]) (c.Ft))","(a.Ft ([b.Ft]) [c.Ft])","(a.Ft ([b.Ft]) c.Ft)","(a.Ft (b.Ft ([c.Ft])))","(a.Ft (b.Ft (c.Ft)))","(a.Ft (b.Ft [c.Ft]))","(a.Ft (b.Ft c.Ft))","(a.Ft (b.Ft) ([c.Ft]))","(a.Ft (b.Ft) (c.Ft))","(a.Ft (b.Ft) [c.Ft])","(a.Ft (b.Ft) c.Ft)","(a.Ft [[b.Ft] [c.Ft]])","(a.Ft [[b.Ft] c.Ft])","(a.Ft [b.Ft [c.Ft]])","(a.Ft [b.Ft c.Ft])","(a.Ft [b.Ft] ([c.Ft]))","(a.Ft [b.Ft] (c.Ft))","(a.Ft [b.Ft] [c.Ft])","(a.Ft [b.Ft] c.Ft)","(a.Ft b.Ft ([c.Ft]))","(a.Ft b.Ft (c.Ft))","(a.Ft b.Ft [c.Ft])","(a.Ft b.Ft c.Ft)"].sort());
+var threeFtTerm = ["((([a.Ft]) ([b.Ft])) ([c.Ft]))","((([a.Ft]) ([b.Ft])) (c.Ft))","((([a.Ft]) ([b.Ft])) [c.Ft])","((([a.Ft]) ([b.Ft])) c.Ft)","((([a.Ft]) (b.Ft)) ([c.Ft]))","((([a.Ft]) (b.Ft)) (c.Ft))","((([a.Ft]) (b.Ft)) [c.Ft])","((([a.Ft]) (b.Ft)) c.Ft)","((([a.Ft]) [b.Ft]) ([c.Ft]))","((([a.Ft]) [b.Ft]) (c.Ft))","((([a.Ft]) [b.Ft]) [c.Ft])","((([a.Ft]) [b.Ft]) c.Ft)","((([a.Ft]) b.Ft) ([c.Ft]))","((([a.Ft]) b.Ft) (c.Ft))","((([a.Ft]) b.Ft) [c.Ft])","((([a.Ft]) b.Ft) c.Ft)","(((a.Ft) ([b.Ft])) ([c.Ft]))","(((a.Ft) ([b.Ft])) (c.Ft))","(((a.Ft) ([b.Ft])) [c.Ft])","(((a.Ft) ([b.Ft])) c.Ft)","(((a.Ft) (b.Ft)) ([c.Ft]))","(((a.Ft) (b.Ft)) (c.Ft))","(((a.Ft) (b.Ft)) [c.Ft])","(((a.Ft) (b.Ft)) c.Ft)","(((a.Ft) [b.Ft]) ([c.Ft]))","(((a.Ft) [b.Ft]) (c.Ft))","(((a.Ft) [b.Ft]) [c.Ft])","(((a.Ft) [b.Ft]) c.Ft)","(((a.Ft) b.Ft) ([c.Ft]))","(((a.Ft) b.Ft) (c.Ft))","(((a.Ft) b.Ft) [c.Ft])","(((a.Ft) b.Ft) c.Ft)","(([[a.Ft] [b.Ft]]) ([c.Ft]))","(([[a.Ft] [b.Ft]]) (c.Ft))","(([[a.Ft] [b.Ft]]) [c.Ft])","(([[a.Ft] [b.Ft]]) c.Ft)","(([[a.Ft] b.Ft]) ([c.Ft]))","(([[a.Ft] b.Ft]) (c.Ft))","(([[a.Ft] b.Ft]) [c.Ft])","(([[a.Ft] b.Ft]) c.Ft)","(([a.Ft [b.Ft]]) ([c.Ft]))","(([a.Ft [b.Ft]]) (c.Ft))","(([a.Ft [b.Ft]]) [c.Ft])","(([a.Ft [b.Ft]]) c.Ft)","(([a.Ft b.Ft]) ([c.Ft]))","(([a.Ft b.Ft]) (c.Ft))","(([a.Ft b.Ft]) [c.Ft])","(([a.Ft b.Ft]) c.Ft)","(([a.Ft] ([b.Ft])) ([c.Ft]))","(([a.Ft] ([b.Ft])) (c.Ft))","(([a.Ft] ([b.Ft])) [c.Ft])","(([a.Ft] ([b.Ft])) c.Ft)","(([a.Ft] (b.Ft)) ([c.Ft]))","(([a.Ft] (b.Ft)) (c.Ft))","(([a.Ft] (b.Ft)) [c.Ft])","(([a.Ft] (b.Ft)) c.Ft)","(([a.Ft] [b.Ft]) ([c.Ft]))","(([a.Ft] [b.Ft]) (c.Ft))","(([a.Ft] [b.Ft]) [c.Ft])","(([a.Ft] [b.Ft]) c.Ft)","(([a.Ft] b.Ft) ([c.Ft]))","(([a.Ft] b.Ft) (c.Ft))","(([a.Ft] b.Ft) [c.Ft])","(([a.Ft] b.Ft) c.Ft)","(([a.Ft]) (([b.Ft]) ([c.Ft])))","(([a.Ft]) (([b.Ft]) (c.Ft)))","(([a.Ft]) (([b.Ft]) [c.Ft]))","(([a.Ft]) (([b.Ft]) c.Ft))","(([a.Ft]) ((b.Ft) ([c.Ft])))","(([a.Ft]) ((b.Ft) (c.Ft)))","(([a.Ft]) ((b.Ft) [c.Ft]))","(([a.Ft]) ((b.Ft) c.Ft))","(([a.Ft]) ([[b.Ft] [c.Ft]]))","(([a.Ft]) ([[b.Ft] c.Ft]))","(([a.Ft]) ([b.Ft [c.Ft]]))","(([a.Ft]) ([b.Ft c.Ft]))","(([a.Ft]) ([b.Ft] ([c.Ft])))","(([a.Ft]) ([b.Ft] (c.Ft)))","(([a.Ft]) ([b.Ft] [c.Ft]))","(([a.Ft]) ([b.Ft] c.Ft))","(([a.Ft]) ([b.Ft]) ([c.Ft]))","(([a.Ft]) ([b.Ft]) (c.Ft))","(([a.Ft]) ([b.Ft]) [c.Ft])","(([a.Ft]) ([b.Ft]) c.Ft)","(([a.Ft]) (b.Ft ([c.Ft])))","(([a.Ft]) (b.Ft (c.Ft)))","(([a.Ft]) (b.Ft [c.Ft]))","(([a.Ft]) (b.Ft c.Ft))","(([a.Ft]) (b.Ft) ([c.Ft]))","(([a.Ft]) (b.Ft) (c.Ft))","(([a.Ft]) (b.Ft) [c.Ft])","(([a.Ft]) (b.Ft) c.Ft)","(([a.Ft]) [[b.Ft] [c.Ft]])","(([a.Ft]) [[b.Ft] c.Ft])","(([a.Ft]) [b.Ft [c.Ft]])","(([a.Ft]) [b.Ft c.Ft])","(([a.Ft]) [b.Ft] ([c.Ft]))","(([a.Ft]) [b.Ft] (c.Ft))","(([a.Ft]) [b.Ft] [c.Ft])","(([a.Ft]) [b.Ft] c.Ft)","(([a.Ft]) b.Ft ([c.Ft]))","(([a.Ft]) b.Ft (c.Ft))","(([a.Ft]) b.Ft [c.Ft])","(([a.Ft]) b.Ft c.Ft)","((a.Ft ([b.Ft])) ([c.Ft]))","((a.Ft ([b.Ft])) (c.Ft))","((a.Ft ([b.Ft])) [c.Ft])","((a.Ft ([b.Ft])) c.Ft)","((a.Ft (b.Ft)) ([c.Ft]))","((a.Ft (b.Ft)) (c.Ft))","((a.Ft (b.Ft)) [c.Ft])","((a.Ft (b.Ft)) c.Ft)","((a.Ft [b.Ft]) ([c.Ft]))","((a.Ft [b.Ft]) (c.Ft))","((a.Ft [b.Ft]) [c.Ft])","((a.Ft [b.Ft]) c.Ft)","((a.Ft b.Ft) ([c.Ft]))","((a.Ft b.Ft) (c.Ft))","((a.Ft b.Ft) [c.Ft])","((a.Ft b.Ft) c.Ft)","((a.Ft) (([b.Ft]) ([c.Ft])))","((a.Ft) (([b.Ft]) (c.Ft)))","((a.Ft) (([b.Ft]) [c.Ft]))","((a.Ft) (([b.Ft]) c.Ft))","((a.Ft) ((b.Ft) ([c.Ft])))","((a.Ft) ((b.Ft) (c.Ft)))","((a.Ft) ((b.Ft) [c.Ft]))","((a.Ft) ((b.Ft) c.Ft))","((a.Ft) ([[b.Ft] [c.Ft]]))","((a.Ft) ([[b.Ft] c.Ft]))","((a.Ft) ([b.Ft [c.Ft]]))","((a.Ft) ([b.Ft c.Ft]))","((a.Ft) ([b.Ft] ([c.Ft])))","((a.Ft) ([b.Ft] (c.Ft)))","((a.Ft) ([b.Ft] [c.Ft]))","((a.Ft) ([b.Ft] c.Ft))","((a.Ft) ([b.Ft]) ([c.Ft]))","((a.Ft) ([b.Ft]) (c.Ft))","((a.Ft) ([b.Ft]) [c.Ft])","((a.Ft) ([b.Ft]) c.Ft)","((a.Ft) (b.Ft ([c.Ft])))","((a.Ft) (b.Ft (c.Ft)))","((a.Ft) (b.Ft [c.Ft]))","((a.Ft) (b.Ft c.Ft))","((a.Ft) (b.Ft) ([c.Ft]))","((a.Ft) (b.Ft) (c.Ft))","((a.Ft) (b.Ft) [c.Ft])","((a.Ft) (b.Ft) c.Ft)","((a.Ft) [[b.Ft] [c.Ft]])","((a.Ft) [[b.Ft] c.Ft])","((a.Ft) [b.Ft [c.Ft]])","((a.Ft) [b.Ft c.Ft])","((a.Ft) [b.Ft] ([c.Ft]))","((a.Ft) [b.Ft] (c.Ft))","((a.Ft) [b.Ft] [c.Ft])","((a.Ft) [b.Ft] c.Ft)","((a.Ft) b.Ft ([c.Ft]))","((a.Ft) b.Ft (c.Ft))","((a.Ft) b.Ft [c.Ft])","((a.Ft) b.Ft c.Ft)","([[[a.Ft] [b.Ft]] [c.Ft]])","([[[a.Ft] [b.Ft]] c.Ft])","([[[a.Ft] b.Ft] [c.Ft]])","([[[a.Ft] b.Ft] c.Ft])","([[a.Ft [b.Ft]] [c.Ft]])","([[a.Ft [b.Ft]] c.Ft])","([[a.Ft b.Ft] [c.Ft]])","([[a.Ft b.Ft] c.Ft])","([[a.Ft] [[b.Ft] [c.Ft]]])","([[a.Ft] [[b.Ft] c.Ft]])","([[a.Ft] [b.Ft [c.Ft]]])","([[a.Ft] [b.Ft c.Ft]])","([[a.Ft] [b.Ft] [c.Ft]])","([[a.Ft] [b.Ft] c.Ft])","([[a.Ft] [b.Ft]] ([c.Ft]))","([[a.Ft] [b.Ft]] (c.Ft))","([[a.Ft] [b.Ft]] [c.Ft])","([[a.Ft] [b.Ft]] c.Ft)","([[a.Ft] b.Ft [c.Ft]])","([[a.Ft] b.Ft c.Ft])","([[a.Ft] b.Ft] ([c.Ft]))","([[a.Ft] b.Ft] (c.Ft))","([[a.Ft] b.Ft] [c.Ft])","([[a.Ft] b.Ft] c.Ft)","([a.Ft [[b.Ft] [c.Ft]]])","([a.Ft [[b.Ft] c.Ft]])","([a.Ft [b.Ft [c.Ft]]])","([a.Ft [b.Ft c.Ft]])","([a.Ft [b.Ft] [c.Ft]])","([a.Ft [b.Ft] c.Ft])","([a.Ft [b.Ft]] ([c.Ft]))","([a.Ft [b.Ft]] (c.Ft))","([a.Ft [b.Ft]] [c.Ft])","([a.Ft [b.Ft]] c.Ft)","([a.Ft b.Ft [c.Ft]])","([a.Ft b.Ft c.Ft])","([a.Ft b.Ft] ([c.Ft]))","([a.Ft b.Ft] (c.Ft))","([a.Ft b.Ft] [c.Ft])","([a.Ft b.Ft] c.Ft)","([a.Ft] (([b.Ft]) ([c.Ft])))","([a.Ft] (([b.Ft]) (c.Ft)))","([a.Ft] (([b.Ft]) [c.Ft]))","([a.Ft] (([b.Ft]) c.Ft))","([a.Ft] ((b.Ft) ([c.Ft])))","([a.Ft] ((b.Ft) (c.Ft)))","([a.Ft] ((b.Ft) [c.Ft]))","([a.Ft] ((b.Ft) c.Ft))","([a.Ft] ([[b.Ft] [c.Ft]]))","([a.Ft] ([[b.Ft] c.Ft]))","([a.Ft] ([b.Ft [c.Ft]]))","([a.Ft] ([b.Ft c.Ft]))","([a.Ft] ([b.Ft] ([c.Ft])))","([a.Ft] ([b.Ft] (c.Ft)))","([a.Ft] ([b.Ft] [c.Ft]))","([a.Ft] ([b.Ft] c.Ft))","([a.Ft] ([b.Ft]) ([c.Ft]))","([a.Ft] ([b.Ft]) (c.Ft))","([a.Ft] ([b.Ft]) [c.Ft])","([a.Ft] ([b.Ft]) c.Ft)","([a.Ft] (b.Ft ([c.Ft])))","([a.Ft] (b.Ft (c.Ft)))","([a.Ft] (b.Ft [c.Ft]))","([a.Ft] (b.Ft c.Ft))","([a.Ft] (b.Ft) ([c.Ft]))","([a.Ft] (b.Ft) (c.Ft))","([a.Ft] (b.Ft) [c.Ft])","([a.Ft] (b.Ft) c.Ft)","([a.Ft] [[b.Ft] [c.Ft]])","([a.Ft] [[b.Ft] c.Ft])","([a.Ft] [b.Ft [c.Ft]])","([a.Ft] [b.Ft c.Ft])","([a.Ft] [b.Ft] ([c.Ft]))","([a.Ft] [b.Ft] (c.Ft))","([a.Ft] [b.Ft] [c.Ft])","([a.Ft] [b.Ft] c.Ft)","([a.Ft] b.Ft ([c.Ft]))","([a.Ft] b.Ft (c.Ft))","([a.Ft] b.Ft [c.Ft])","([a.Ft] b.Ft c.Ft)","(a.Ft (([b.Ft]) ([c.Ft])))","(a.Ft (([b.Ft]) (c.Ft)))","(a.Ft (([b.Ft]) [c.Ft]))","(a.Ft (([b.Ft]) c.Ft))","(a.Ft ((b.Ft) ([c.Ft])))","(a.Ft ((b.Ft) (c.Ft)))","(a.Ft ((b.Ft) [c.Ft]))","(a.Ft ((b.Ft) c.Ft))","(a.Ft ([[b.Ft] [c.Ft]]))","(a.Ft ([[b.Ft] c.Ft]))","(a.Ft ([b.Ft [c.Ft]]))","(a.Ft ([b.Ft c.Ft]))","(a.Ft ([b.Ft] ([c.Ft])))","(a.Ft ([b.Ft] (c.Ft)))","(a.Ft ([b.Ft] [c.Ft]))","(a.Ft ([b.Ft] c.Ft))","(a.Ft ([b.Ft]) ([c.Ft]))","(a.Ft ([b.Ft]) (c.Ft))","(a.Ft ([b.Ft]) [c.Ft])","(a.Ft ([b.Ft]) c.Ft)","(a.Ft (b.Ft ([c.Ft])))","(a.Ft (b.Ft (c.Ft)))","(a.Ft (b.Ft [c.Ft]))","(a.Ft (b.Ft c.Ft))","(a.Ft (b.Ft) ([c.Ft]))","(a.Ft (b.Ft) (c.Ft))","(a.Ft (b.Ft) [c.Ft])","(a.Ft (b.Ft) c.Ft)","(a.Ft [[b.Ft] [c.Ft]])","(a.Ft [[b.Ft] c.Ft])","(a.Ft [b.Ft [c.Ft]])","(a.Ft [b.Ft c.Ft])","(a.Ft [b.Ft] ([c.Ft]))","(a.Ft [b.Ft] (c.Ft))","(a.Ft [b.Ft] [c.Ft])","(a.Ft [b.Ft] c.Ft)","(a.Ft b.Ft ([c.Ft]))","(a.Ft b.Ft (c.Ft))","(a.Ft b.Ft [c.Ft])","(a.Ft b.Ft c.Ft)"];
 
-var twoWordTerm_noUnary = JSON.stringify(['(a b)'].sort());
-var threeWordTerm_noUnary = JSON.stringify(['((a b) c)','([a b] c)','(a [b c])','(a (b c))','(a b c)'].sort());
-var twoFtTerm_noUnary = JSON.stringify(['(a.Ft b.Ft)'].sort());
-var threeFtTerm_noUnary = JSON.stringify(['((a.Ft b.Ft) c.Ft)','([a.Ft b.Ft] c.Ft)','(a.Ft [b.Ft c.Ft])','(a.Ft (b.Ft c.Ft))','(a.Ft b.Ft c.Ft)'].sort());
+var twoWordTerm_noUnary = ['(a b)'];
+var threeWordTerm_noUnary = ['((a b) c)','([a b] c)','(a [b c])','(a (b c))','(a b c)'];
+var twoFtTerm_noUnary = ['(a.Ft b.Ft)'];
+var threeFtTerm_noUnary = ['((a.Ft b.Ft) c.Ft)','([a.Ft b.Ft] c.Ft)','(a.Ft [b.Ft c.Ft])','(a.Ft (b.Ft c.Ft))','(a.Ft b.Ft c.Ft)'];
 
 //Initialize threeFtTerm trees based on threeWordTerm trees. threeFtTerm contains 8 times as
 //many trees as threeWordTerm. 
@@ -179,8 +179,6 @@ var gen_twoWordTerm = [];
 for(i=0; i < rawgen_twoWordTerm.length; i++){
     gen_twoWordTerm.push(parenthesizeTree(rawgen_twoWordTerm[i][1], paren_ops));
 };
-//Stringify and sort parenthesized trees - now to be used in Mocha tests
-gen_twoWordTerm = JSON.stringify(gen_twoWordTerm.sort());
 
 //Three word terminals, unary allowed
 var rawgen_threeWordTerm = GEN({}, 'a b c', gen_ops_w_term_unary);
@@ -188,7 +186,6 @@ var gen_threeWordTerm = [];
 for(i=0; i < rawgen_threeWordTerm.length; i++){
     gen_threeWordTerm.push(parenthesizeTree(rawgen_threeWordTerm[i][1], paren_ops));
 };
-gen_threeWordTerm = JSON.stringify(gen_threeWordTerm.sort());
 
 //Two foot terminals, unary allowed
 var rawgen_twoFtTerm = GEN({}, 'a b', gen_ops_ft_term_unary);
@@ -196,7 +193,6 @@ var gen_twoFtTerm = []
 for(i=0; i < rawgen_twoFtTerm.length; i++){
     gen_twoFtTerm.push(parenthesizeTree(rawgen_twoFtTerm[i][1], paren_ops));
 };
-gen_twoFtTerm = JSON.stringify(gen_twoFtTerm.sort());
 
 //Three foot terminals, unary allowed
 var rawgen_threeFtTerm = GEN({}, 'a b c', gen_ops_ft_term_unary);
@@ -205,7 +201,6 @@ for(i=0; i < rawgen_threeFtTerm.length; i++){
     gen_threeFtTerm.push(parenthesizeTree(rawgen_threeFtTerm[i][1], paren_ops));
 };
 gen_threeFtTermCopy = [...gen_threeFtTerm];
-gen_threeFtTerm = JSON.stringify(gen_threeFtTerm.sort());
 
 
 //Two word terminals, no unary branching
@@ -214,8 +209,6 @@ var gen_twoWordTerm_noUnary = [];
 for(i=0; i < rawgen_twoWordTerm_noUnary.length; i++){
     gen_twoWordTerm_noUnary.push(parenthesizeTree(rawgen_twoWordTerm_noUnary[i][1], paren_ops));
 };
-//Stringify and sort parenthesized trees - now to be used in Mocha tests
-gen_twoWordTerm_noUnary = JSON.stringify(gen_twoWordTerm_noUnary.sort());
 
 //Three word terminals, no unary branching
 var rawgen_threeWordTerm_noUnary = GEN({}, 'a b c', gen_ops_w_term_noUnary);
@@ -223,7 +216,6 @@ var gen_threeWordTerm_noUnary = [];
 for(i=0; i < rawgen_threeWordTerm_noUnary.length; i++){
     gen_threeWordTerm_noUnary.push(parenthesizeTree(rawgen_threeWordTerm_noUnary[i][1], paren_ops));
 };
-gen_threeWordTerm_noUnary = JSON.stringify(gen_threeWordTerm_noUnary.sort());
 
 //Two foot terminals, no unary branching
 var rawgen_twoFtTerm_noUnary = GEN({}, 'a b', gen_ops_ft_term_noUnary);
@@ -231,7 +223,6 @@ var gen_twoFtTerm_noUnary = []
 for(i=0; i < rawgen_twoFtTerm_noUnary.length; i++){
     gen_twoFtTerm_noUnary.push(parenthesizeTree(rawgen_twoFtTerm_noUnary[i][1], paren_ops));
 };
-gen_twoFtTerm_noUnary = JSON.stringify(gen_twoFtTerm_noUnary.sort());
 
 //Three foot terminals, no unary branching
 var rawgen_threeFtTerm_noUnary = GEN({}, 'a b c', gen_ops_ft_term_noUnary);
@@ -240,39 +231,61 @@ for(i=0; i < rawgen_threeFtTerm_noUnary.length; i++){
     gen_threeFtTerm_noUnary.push(parenthesizeTree(rawgen_threeFtTerm_noUnary[i][1], paren_ops));
 };
 gen_threeFtTermCopy_noUnary = [...gen_threeFtTerm_noUnary];
-gen_threeFtTerm_noUnary = JSON.stringify(gen_threeFtTerm_noUnary.sort());
 
 //The following commands reveals that the Gen function (on May 12, 2021) does not properly enumerate the possible trees with three foot-terminals and the options in gen_ops_ft_term.
 //console.log(gen_threeFtTermCopy);
 //console.log(new Set(gen_threeFtTermCopy));
 
+//Function returns an array of which the first value is an array of unobserved but expected items and the second value is an array of overgenerated items. 
+function exp_vs_obs_trees(observed, expected){
+    var unobserved = expected.filter(function(x) { return observed.indexOf(x) < 0 });
+    var overgenerated = observed.filter(function(x) {return expected.indexOf(x) < 0});
+    return [unobserved, overgenerated];
+};
+
+//Takes in two arrays, observed values as expected values, and returns an error msg about undergeneration and overgeneration.
+function compareSetErrorMsg(observed, expected){
+    unobserved = exp_vs_obs_trees(observed, expected)[0];
+    overgenerated = exp_vs_obs_trees(observed, expected)[1];
+    var out_string = "There are "+JSON.stringify(unobserved.length)+" ptrees unobserved in GEN's output, and "+JSON.stringify(overgenerated.length)+" overgenerated ptrees in GEN's output. ";
+    if(unobserved.length > 2){
+        out_string = out_string.concat("The unobserved ptrees include "+JSON.stringify(unobserved.slice(0,3))+". ");
+    };
+    if(overgenerated.length > 2){
+        out_string = out_string.concat("The overgenerated ptrees include "+JSON.stringify(overgenerated.slice(0,3))+".");
+    };
+    return out_string;
+};
+
+
+//Mocha Tests
 function compoundWordGenTests(){
     describe('Tests for compund-word Gen allowing unary branches', function() {
         it('Recursive w + phi for two words', function() {
-            assert.equal(gen_twoWordTerm, twoWordTerm, "");
+            assert.equal(JSON.stringify(gen_twoWordTerm.sort()), JSON.stringify(twoWordTerm.sort()), compareSetErrorMsg(gen_twoWordTerm,twoWordTerm));
         });
         it('Recursive w + phi for three words', function() {
-            assert.equal(gen_threeWordTerm, threeWordTerm, "");
+            assert.equal(JSON.stringify(gen_threeWordTerm.sort()), JSON.stringify(threeWordTerm.sort()), compareSetErrorMsg(gen_threeWordTerm,threeWordTerm));
         });
         it('Recursive w + phi with foot terminals for two words', function() {
-            assert.equal(gen_twoFtTerm, twoFtTerm, "");
+            assert.equal(JSON.stringify(gen_twoFtTerm.sort()), JSON.stringify(twoFtTerm.sort()), compareSetErrorMsg(gen_twoFtTerm,twoFtTerm));
         });
         it('Recursive w + phi with foot terminals for three words', function() {
-            assert.equal(gen_threeFtTerm, threeFtTerm, "");
+            assert.equal(JSON.stringify(gen_threeFtTerm.sort()), JSON.stringify(threeFtTerm.sort()), compareSetErrorMsg(gen_threeFtTerm,threeFtTerm));
         });
     });
     describe('Tests for compund-word Gen disallowing unary branches', function() {
         it('Recursive w + phi for two words', function() {
-            assert.equal(gen_twoWordTerm_noUnary, twoWordTerm_noUnary, "");
+            assert.equal(JSON.stringify(gen_twoWordTerm_noUnary.sort()), JSON.stringify(twoWordTerm_noUnary.sort()), compareSetErrorMsg(gen_twoWordTerm_noUnary,twoWordTerm_noUnary));
         });
         it('Recursive w + phi for three words', function() {
-            assert.equal(gen_threeWordTerm_noUnary, threeWordTerm_noUnary, "");
+            assert.equal(JSON.stringify(gen_threeWordTerm_noUnary.sort()), JSON.stringify(threeWordTerm_noUnary.sort()), compareSetErrorMsg(gen_threeWordTerm_noUnary,threeWordTerm_noUnary));
         });
         it('Recursive w + phi with foot terminals for two words', function() {
-            assert.equal(gen_twoFtTerm_noUnary, twoFtTerm_noUnary, "");
+            assert.equal(JSON.stringify(gen_twoFtTerm_noUnary.sort()), JSON.stringify(twoFtTerm_noUnary.sort()), compareSetErrorMsg(gen_twoFtTerm_noUnary,twoFtTerm_noUnary));
         });
         it('Recursive w + phi with foot terminals for three words', function() {
-            assert.equal(gen_threeFtTerm_noUnary, threeFtTerm_noUnary, "");
+            assert.equal(JSON.stringify(gen_threeFtTerm_noUnary.sort()), JSON.stringify(threeFtTerm_noUnary.sort()), compareSetErrorMsg(gen_threeFtTerm_noUnary,threeFtTerm_noUnary));
         });
     });
 };
