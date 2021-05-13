@@ -10,7 +10,8 @@
 	 		- "addJapaneseTones"
 			- "addIrishTones_Elfner"
 			- "addIrishTones_Kalivoda"
-	- noUnary (boolean): if true, don't create any nodes that immediately dominate only a single terminal.
+	- noUnary (boolean): if true, don't create any nodes that immediately dominate only a single node.
+	- maxBranching (numeric): maximum number of children that any node in the tree can have
 	- requireRecWrapper (boolean). Formerly "requirePhiStem"
 	- syntactic (boolean): are we generating syntactic trees?
    - ph (prosodic heirarchy object):
