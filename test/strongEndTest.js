@@ -1,6 +1,6 @@
 function strongEndTest(){
     var ptree1 = {
-        cat: "i",
+        cat: "root",
         id: "i",
         children: [
             {
@@ -14,7 +14,7 @@ function strongEndTest(){
         ]
     }
     var ptree2 = {
-        cat: "i",
+        cat: "root",
         id: "i",
         children: [
             {
@@ -28,7 +28,7 @@ function strongEndTest(){
         ]
     }
     var ptree3 = {
-        cat: "i",
+        cat: "root",
         id: "i",
         children: [
             {
@@ -42,7 +42,7 @@ function strongEndTest(){
         ]
     }
     var ptree4 = {
-        cat: "i",
+        cat: "root",
         id: "i",
         children: [
             {
@@ -86,7 +86,7 @@ function strongEndTest(){
         ]
     }
     var ptree5 = {
-        cat: "i",
+        cat: "root",
         id: "i",
         children: [
             {
@@ -144,7 +144,7 @@ function strongEndTest(){
         ]
     }
     var ptree6 = {
-        cat: "i",
+        cat: "root",
         id: "i",
         children: [
             {
@@ -212,19 +212,23 @@ function strongEndTest(){
         ]
     }
     describe("strongEndTest.html", function(){
-        describe('Simple Cases', function() {
-            it('One-Layer Cases', function() {
-                assert.equal(strongEndLocal('', ptree1, ''), 10, parenthesizeTree(ptree1));
-                assert.equal(strongEndLocal('', ptree2, ''), 0);
-                assert.equal(strongEndLocal('', ptree3, ''), 1);
-            });
+        it('One-Layer Case: [root phi phi]', function() {
+            assert.equal(strongEndLocal('', ptree1, ''), 0, parenthesizeTree(ptree1));
         });
-        describe('Advanced Cases', function() {
-            it('Multi-Layer Cases', function() {
-                assert.equal(strongEndLocal('', ptree4, ''), 2);
-                assert.equal(strongEndLocal('', ptree5, ''), 0);
-                assert.equal(strongEndLocal('', ptree6, ''), 6);
-            });
+        it('One-Layer Case: [root w phi]', function() {
+            assert.equal(strongEndLocal('', ptree2, ''), 0, parenthesizeTree(ptree2));
+        });
+        it('One-Layer Case: [root phi w]', function() {
+            assert.equal(strongEndLocal('', ptree3, ''), 1, parenthesizeTree(ptree3));
+        });
+        it('Multi-Layer Case: [root (phi w) (w w (w phi phi))]', function() {
+            assert.equal(strongEndLocal('', ptree4, ''), 2, parenthesizeTree(ptree4));
+        });
+        it('Multi-Layer Case: [root (phi (w w)) (w w) {w w}]', function() {
+            assert.equal(strongEndLocal('', ptree5, ''), 0, parenthesizeTree(ptree5));
+        });
+        it('Multi-Layer Case: [root (phi (w phi w)) (phi w) (w (phi w) w)]', function() {
+            assert.equal(strongEndLocal('', ptree6, ''), 6, parenthesizeTree(ptree6));
         });
     });
 }
