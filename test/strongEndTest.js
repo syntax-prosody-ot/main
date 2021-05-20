@@ -1,49 +1,49 @@
 function strongEndTest(){
     var ptree1 = {
-        cat: "root",
-        id: "i",
+        cat: "i",
+        id: "root",
         children: [
             {
                 cat: "phi",
-                id:"phi",
+                id:"a",
             },
             {
                 cat: "phi",
-                id:"phi"
+                id:"b"
             }
         ]
     }
     var ptree2 = {
-        cat: "root",
-        id: "i",
+        id: "root",
+        cat: "i",
         children: [
             {
                 cat: "w",
-                id:"w",
+                id:"a",
             },
             {
                 cat: "phi",
-                id:"phi"
+                id:"b"
             }
         ]
     }
     var ptree3 = {
-        cat: "root",
-        id: "i",
+        id: "root",
+        cat: "i",
         children: [
             {
                 cat: "phi",
-                id:"phi",
+                id:"a",
             },
             {
                 cat: "w",
-                id:"w"
+                id:"b"
             }
         ]
     }
     var ptree4 = {
-        cat: "root",
-        id: "i",
+        id: "root",
+        cat: "i",
         children: [
             {
                 cat: "phi",
@@ -51,33 +51,33 @@ function strongEndTest(){
                 children:[
                     {
                         cat: "phi",
-                        id:"phi",
+                        id:"a",
                     },
                     {
                         cat: "w",
-                        id:"w"
+                        id:"b"
                     }
                 ]
             },
             {
                 cat: "w",
-                id:"w",
+                id:"w1",
                 children:[
                     {
                         cat: "w",
-                        id:"w",
+                        id:"c",
                     },
                     {
                         cat: "w",
-                        id:"w",
+                        id:"w3",
                         children:[
                             {
                                 cat: "phi",
-                                id:"phi",
+                                id:"d"
                             },
                             {
                                 cat: "phi",
-                                id:"phi"
+                                id:"e"
                             }
                         ]
                     }
@@ -85,29 +85,30 @@ function strongEndTest(){
             }
         ]
     }
+    
     var ptree5 = {
-        cat: "root",
-        id: "i",
+        cat: "i",
+        id: "root",
         children: [
             {
                 cat: "phi",
-                id:"phi",
+                id:"phi1",
                 children:[
                     {
                         cat: "phi",
-                        id:"phi"
+                        id:"a"
                     },
                     {
                         cat: "phi",
-                        id:"phi",
+                        id:"phi2",
                         children:[
                             {
                                 cat: "w",
-                                id:"w"
+                                id:"b"
                             },
                             {
                                 cat: "w",
-                                id:"w"
+                                id:"c"
                             }
                         ]
                     }
@@ -119,11 +120,11 @@ function strongEndTest(){
                 children:[
                     {
                         cat: "i",
-                        id:"i"
+                        id:"d"
                     },
                     {
                         cat: "i",
-                        id:"i"
+                        id:"e"
                     }
                 ]
             },
@@ -133,39 +134,39 @@ function strongEndTest(){
                 children:[
                     {
                         cat: "w",
-                        id:"w"
+                        id:"f"
                     },
                     {
                         cat: "w",
-                        id:"w"
+                        id:"g"
                     }
                 ]
             }
         ]
     }
     var ptree6 = {
-        cat: "root",
-        id: "i",
+        cat: "i",
+        id: "root",
         children: [
             {
                 cat: "phi",
-                id:"phi",
+                id:"phi1",
                 children:[
                     {
                         cat: "phi",
-                        id:"phi"
+                        id:"phi2"
                     },
                     {
                         cat: "w",
-                        id:"w",
+                        id:"w1",
                         children:[
                             {
                                 cat: "phi",
-                                id:"phi"
+                                id:"a"
                             },
                             {
                                 cat: "w",
-                                id:"w"
+                                id:"b"
                             }
                         ]
                     }
@@ -173,15 +174,15 @@ function strongEndTest(){
             },
             {
                 cat: "phi",
-                id:"phi",
+                id:"phi4",
                 children:[
                     {
                         cat: "phi",
-                        id:"phi"
+                        id:"c"
                     },
                     {
                         cat: "w",
-                        id:"w"
+                        id:"d"
                     }
                 ]
             },
@@ -195,40 +196,57 @@ function strongEndTest(){
                         children:[
                             {
                                 cat: "phi",
-                                id:"phi"
+                                id:"e"
                             },
                             {
                                 cat: "w",
-                                id:"w"
+                                id:"f"
                             }
                         ]
                     },
                     {
                         cat: "w",
-                        id:"w"
+                        id:"g"
                     }
                 ]
             }
         ]
     }
+    
     describe("strongEndTest.html", function(){
-        it('One-Layer Case: [root phi phi]', function() {
-            assert.equal(strongEndLocal('', ptree1, ''), 0, parenthesizeTree(ptree1));
-        });
-        it('One-Layer Case: [root w phi]', function() {
-            assert.equal(strongEndLocal('', ptree2, ''), 0, parenthesizeTree(ptree2));
-        });
-        it('One-Layer Case: [root phi w]', function() {
-            assert.equal(strongEndLocal('', ptree3, ''), 1, parenthesizeTree(ptree3));
-        });
-        it('Multi-Layer Case: [root (phi w) (w w (w phi phi))]', function() {
-            assert.equal(strongEndLocal('', ptree4, ''), 2, parenthesizeTree(ptree4));
-        });
-        it('Multi-Layer Case: [root (phi (w w)) (w w) {w w}]', function() {
-            assert.equal(strongEndLocal('', ptree5, ''), 0, parenthesizeTree(ptree5));
-        });
-        it('Multi-Layer Case: [root (phi (w phi w)) (phi w) (w (phi w) w)]', function() {
-            assert.equal(strongEndLocal('', ptree6, ''), 6, parenthesizeTree(ptree6));
-        });
+        describe('StrongEndLocal, One-Layer Case', function(){
+            it('No violations: '+parenthesizeTree(ptree1), function() {
+                assert.equal(strongEndLocal('', ptree1, ''), 0, parenthesizeTree(ptree1));
+            });
+            it('No violations: '+parenthesizeTree(ptree2), function() {
+                assert.equal(strongEndLocal('', ptree2, ''), 0, parenthesizeTree(ptree2));
+            });
+            it('1 violation: '+parenthesizeTree(ptree3), function() {
+                assert.equal(strongEndLocal('', ptree3, ''), 1, parenthesizeTree(ptree3));
+            });
+        })
+        describe('StrongEndLocal, Multi-Layer Case', function(){
+            it('2 violations: '+parenthesizeTree(ptree4), function() {
+                assert.equal(strongEndLocal('', ptree4, ''), 2, parenthesizeTree(ptree4));
+            });
+            it('No violations: '+parenthesizeTree(ptree5), function() {
+                assert.equal(strongEndLocal('', ptree5, ''), 0, parenthesizeTree(ptree5));
+            });
+            it('6 violations: '+parenthesizeTree(ptree6), function() {
+                assert.equal(strongEndLocal('', ptree6, ''), 6, parenthesizeTree(ptree6));
+            });
+        })
+        /*
+        describe('Parameterizing StrongEnd to a category', function(){
+            it('3 violations: StrongEnd(phi), '+parenthesizeTree(ptree6), function() {
+                assert.equal(strongEndLocal('', ptree6, 'phi'), 3, parenthesizeTree(ptree6));
+            });
+            it('2 violations: StrongEnd(w), '+parenthesizeTree(ptree6), function() {
+                assert.equal(strongEndLocal('', ptree6, 'w'), 2, parenthesizeTree(ptree6));
+            });
+            it('0 violations: StrongEnd(i), '+parenthesizeTree(ptree6), function() {
+                assert.equal(strongEndLocal('', ptree6, 'i'), 2, parenthesizeTree(ptree6));
+            });
+        })*/
     });
 }
