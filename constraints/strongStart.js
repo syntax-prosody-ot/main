@@ -99,6 +99,73 @@ function strongStart_Hsu_iota(s, ptree, k)
 	return strongStart_Hsu(s, ptree, k, 'i');
 }
 
+//can't be parameterized to a category at present -- k is ignored
+function strongEndLocal(s, ptree, k){
+
+	//base case: ptree is a leaf or only has one child
+	if(!ptree.children){
+		return 0;
+	}
+	
+	var vcount = 0;
+	
+	if(ptree.children.length>1){		
+		var rightmostCat = ptree.children[ptree.children.length-1].cat;
+		var sisterCat = ptree.children[ptree.children.length-2].cat;
+		
+		//console.log(leftmostCat);
+		//console.log(sisterCat);
+		//console.log(pCat.isLower(leftmostCat, sisterCat));
+
+		if(pCat.isLower(rightmostCat, sisterCat))
+		{
+			vcount++;
+			//console.log("strongEndLocal violation: "+ptree.children[0]+" "+ptree.children[1]);
+		}
+	}
+	
+	// Recurse
+	for(var i=0; i<ptree.children.length; i++){
+		child = ptree.children[i];
+		vcount += strongEndLocal(s, child, k);
+	}
+	
+	return vcount;
+}
+
+/* Constraint from Sabbagh (2014, p. 62) "Word Order and Prosodic-Structure Constraints in Tagalog":
+
+Weak Start: *(π₁π₂..., where π₁ > π₂
+A prosodic constituent begins with a leftmost daughter that is no higher on the prosodic hierarchy than the constituent that immediately follows.
+*/
+function weakStartLocal(s, ptree, k){
+
+	//base case: ptree is a leaf or only has one child
+	if(!ptree.children){
+		return 0;
+	}
+	
+	var vcount = 0;
+	
+	if(ptree.children.length>1){		
+		var leftmostCat = ptree.children[0].cat;
+		var sisterCat = ptree.children[1].cat;
+
+		if(pCat.isHigher(leftmostCat, sisterCat))
+		{
+			vcount++;
+		}
+	}
+	
+	// Recurse
+	for(var i=0; i<ptree.children.length; i++){
+		child = ptree.children[i];
+		vcount += weakStartLocal(s, child, k);
+	}
+	
+	return vcount;
+}
+
 /* Assign a violation for every node of category cat whose leftmost daughter constituent
 *  is lower in the prosodic hierarchy than any sister constituent to its right.
 *  (intuitive strong start, according to the intuition of Bellik & Kalivoda 2019) 
