@@ -55,6 +55,7 @@ window.GEN = function(sTree, words, options){
 		if(recCats.length > 1){
 			//console.log(recCats);
 			
+			options.recursiveCatIndex = 0;
 			//Set current recursiveCategory
 			options.recursiveCategory = recCats[options.recursiveCatIndex];
 			//Save list of all categories	
@@ -104,21 +105,29 @@ window.GEN = function(sTree, words, options){
 			novelCategories = true;
 			throw err;
 		}
+		//If there are more than one recursive categories defined, make sure to split on '-'.
 		if(options.recursiveCategory.split('-').length>1){
 			for(let i in options.recursiveCategory.split('-')){
-				//call function here for each one
+				//Throws an error for each defined recursive category (split on '-') if it is not a valid category.
+				if(categoryHierarchy.indexOf(options.recursiveCategory)<0){
+					var err = new Error("Specified recursive category "+options.recursiveCategory+novelCatWarning);
+					displayError(err.message, err);
+					novelCategories = true;
+					throw err;
+				}
 			}
 		}
 		else{
-			// also call it here
+			//Throws an error for the defined recursive category if it is not a valid category.
+			if(categoryHierarchy.indexOf(options.recursiveCategory)<0){
+				var err = new Error("Specified recursive category "+options.recursiveCategory+novelCatWarning);
+				displayError(err.message, err);
+				novelCategories = true;
+				throw err;
+			}
 		}
-		//turn this next chunk into a function
-		if(categoryHierarchy.indexOf(options.recursiveCategory)<0){
-			var err = new Error("Specified recursive category "+options.recursiveCategory+novelCatWarning);
-			displayError(err.message, err);
-			novelCategories = true;
-			throw err;
-		}
+		
+		//Throws an error for the defined terminal category if it is not a valid category.
 		if(options.terminalCategory && categoryHierarchy.indexOf(options.terminalCategory)<0){
 			var err = new Error("Specified terminal category "+options.recursiveCategory+novelCatWarning);
 			displayError(err.message, err);
