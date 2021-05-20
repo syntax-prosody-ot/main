@@ -5,7 +5,7 @@ on:
   push:
     branches:
       -master
-      -auto-testing
+      -frontend-testing
   
 jobs:
   build:
