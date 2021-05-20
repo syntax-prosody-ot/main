@@ -99,6 +99,7 @@ function strongStart_Hsu_iota(s, ptree, k)
 	return strongStart_Hsu(s, ptree, k, 'i');
 }
 
+//can't be parameterized to a category at present -- k is ignored
 function strongEndLocal(s, ptree, k){
 
 	//base case: ptree is a leaf or only has one child
