@@ -1,11 +1,5 @@
 name: test-spot-frontend
-on: 
-  pull_request:
-    branches: [ master ]
-  push:
-    branches:
-      -master
-      -frontend-testing
+on: [workflow_dispatch]
   
 jobs:
   build:
