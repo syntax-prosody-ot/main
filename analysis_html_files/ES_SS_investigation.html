@@ -96,7 +96,7 @@
 						maxBranching: 2, noUnary: false,
 						headSide: false, addClitics: false};
 	// Replace 'a b', 'a b c' with the terminal strings you are interested in
-	var terminalStrings = ['a b']//, 'a b c'];
+	var terminalStrings = ['a b', 'a b c'];
 	var sTreeLists = Array(length=terminalStrings.length);
 	for(var i in terminalStrings){
 		sTreeLists[i] = sTreeGEN(terminalStrings[i], sTreeOptions);
@@ -130,9 +130,9 @@
             var tabl = makeTableau(candSet, window[consName]);
 			
 			//Write the tableau to the screen and reveal it -- only uncomment this if you don't have too many tableaux!
-			writeTableau(tabl)
-			revealNextSegment();
-			lastSegmentId++;
+			// writeTableau(tabl)
+			// revealNextSegment();
+			// lastSegmentId++;
 			
 			//Add the tableau from the current stree to cumulative tableau that is being built in csvSegs.
             csvSegs.push(tableauToCsv(tabl, '\t', {noHeader: j}));
