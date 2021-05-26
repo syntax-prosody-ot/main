@@ -4,7 +4,7 @@
 
 	<link rel="stylesheet" type="text/css" href="../spot.css">
 
-	<script src="./lib/jszip.min.js"></script>
+	<script src="../lib/jszip.min.js"></script>
 
 	<!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
 	(open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
@@ -34,7 +34,7 @@
         // Recurse
         for(var i=0; i<ptree.children.length; i++){
             child = ptree.children[i];
-            vcount += strongStartClitic(s, child, cat);
+            vcount += ssHypLoc(stree, child, cat);
         }
 		//Code for going through the tree and evaluate for some structure goes here
 		return vcount;
@@ -60,12 +60,7 @@
         return matchSPPS(stree, ptree, 'xp');
     }
 	</script>
-	
-
-	<!--Change "YOUR_TREES_HERE" to the name of your tree file on the following line. Make sure your file is in main/trees-->
-	//<script src="../trees/ES_SS_trees.js"></script>
-	
-			
+				
 </head>
 
 <body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
@@ -117,9 +112,9 @@
     var conNames = ['conPar', 'conAdj'];
 	
 	//Candidate sets are generated with the options below.
-	var genHd = {obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: false};
-    var genHdless = {obeysHeadedness: false, obeysNonrecursivity: false, obeysExhaustivity: false};
-    var genOptionsList = [genHd, genHdless];
+	var hd = {obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: false};
+    var hdless = {obeysHeadedness: false, obeysNonrecursivity: false, obeysExhaustivity: false};
+    var genOptionsList = ['hd', 'hdless'];
 	
 	
 	/*Add an outer for-loop to iterate over the different tree sets, as well as interating over the trees in each set.*/
@@ -129,7 +124,7 @@
         //For each syntactic tree in sTreeList, make a tableau using the current constraint set
         for(var j=0; j<sTreeList.length; j++){
             //Make the candidate set using the GEN function (defined in candidategenerator.js)
-			var candSet = GEN(sTreeList[j], '', gen_options);
+			var candSet = GEN(sTreeList[j], '', window[genOptions]);
             
 			//Make the tableau using the makeTableau function (defined in tableauMaker.js)
             var tabl = makeTableau(candSet, window[consName]);
@@ -144,7 +139,7 @@
         }
 		
 		//Save the tableau as a tab-separated file, named after consName
-        saveTextAs(csvSegs.join('\n'),"tableau_"+consName+".csv");
+        saveTextAs(csvSegs.join('\n'),"tableau_"+consName+"_"+genOptions+".csv");
     }
 	
 	/*This function executes automatically when the page is reloaded. It calls all the other functions.*/
