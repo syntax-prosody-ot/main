@@ -2,7 +2,6 @@
     "name": "spot",
     "scripts": {
         "test": "mocha ./test/compiledTest/test.js --reporter spec"
-        "front-end": "mocha ./test/stringInputValidationTest.js --reporter spec",
     },
     "dependencies": {
         "chai": "^4.3.0",
