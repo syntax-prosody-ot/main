@@ -12,6 +12,7 @@ jobs:
       - run: npm install chai
       - run: sudo apt-get install firefox
       - run: firefox interface1.html
+        shell: bash
       - run: ./mochaBuild.sh
       - run: npm test
  
