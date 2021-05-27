@@ -14,7 +14,7 @@ jobs:
       - run: npm install selenium-webdriver
       - run: npm install -g chromedriver 
       - run: ./mochaBuild.sh #inside of mochaBuild.sh create new script that builds frontend tests
-      - run: npm run test2 #inside of test2 run mocha & selenium file test
+      - run: npm run test_frontend #inside of test2 run mocha & selenium file test
       #have to create selenium file and run that file with npm
     
  
