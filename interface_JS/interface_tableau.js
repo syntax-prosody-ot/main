@@ -95,8 +95,8 @@ function getInputsForTableau(){
         myGenInputs.pString = "";
     }
     var sTrees;
-    var treeSelectOption = document.getElementById('treeEditOption'); // options selecting input from manual, automatic tab or both tabs
-    treeSelectOptions = treeSelectOption.value; // getting the value of the option the user has selected
+    var treeSelectManual = document.getElementById('treeEditOption'); // options selecting input from manual, automatic tab or both tabs
+    var treeSelectOptions = treeSelectManual.value; // getting the value of the option the user has selected
     var manInputsPres = (spotForm.inputToGen.value != "" || (treeCode != "{}" && treeCode != "[]")); //manual tab input present boolean
     var autoInputsPres = getAutoSTreeList(); //automatic tab input present boolean
 
@@ -159,7 +159,7 @@ function getInputsForTableau(){
             return;
         }
     }else if(treeSelectOptions == "clear-tree"){
-        treeSelectOption = treeSelectOption.selectedIndex = 0;
+        treeSelectManual = treeSelectManual.selectedIndex = 0;
         document.getElementById('treeOption').style.display = "none";
         clearAll();
         sTreeList = undefined;
