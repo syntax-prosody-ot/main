@@ -11,6 +11,7 @@ jobs:
       #test with run: mocha first to check if mocha can be used
       - run: npm install chai
       - run: sudo apt-get install firefox
+      - run: curl "main/interface1.html"
       - run: ./mochaBuild.sh
       - run: npm test
  
