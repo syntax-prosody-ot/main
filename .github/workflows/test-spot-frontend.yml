@@ -13,5 +13,8 @@ jobs:
       - run: sudo apt install google-chrome-stable
       - run: npm install selenium-webdriver
       - run: npm install -g chromedriver 
-      - run: npm run test2
+      - run: ./mochaBuild.sh #inside of mochaBuild.sh create new script that builds frontend tests
+      - run: npm run test2 #inside of test2 being mocha test should run selenium file
+      #have to create selenium file and run that file with npm
+    
  
