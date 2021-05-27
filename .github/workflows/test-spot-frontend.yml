@@ -13,6 +13,5 @@ jobs:
       - run: sudo apt install google-chrome-stable
       - run: npm install selenium-webdriver
       - run: npm install -g chromedriver 
-      - run: ./mochaBuild.sh
       - run: npm run test2
  
