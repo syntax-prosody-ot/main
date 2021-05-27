@@ -1,9 +1,7 @@
 {
     "name": "spot",
     "scripts": {
-        "test": "npm run test",
-        "test1": "mocha ./test/compiledTest/test.js --reporter spec",
-        "test2": "mocha ./test/stringInputValidationTest.js --reporter spec"
+        "test": "mocha ./test/compiledTest/test.js --reporter spec"
     },
     "dependencies": {
         "chai": "^4.3.0",
