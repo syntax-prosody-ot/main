@@ -1,7 +1,7 @@
 {
     "name": "spot",
     "scripts": {
-        "test": "npm run test",
+        "test": "npm run test1",
         "test1": "mocha ./test/compiledTest/test.js --reporter spec",
         "test2": "mocha ./test/stringInputValidationTest.js --reporter spec"
     },
