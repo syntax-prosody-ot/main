@@ -14,5 +14,5 @@ jobs:
       - run: npm install selenium-webdriver
       - run: npm install -g chromedriver 
       - run: ./mochaBuild.sh
-      - run: mocha ./test/stringInputValidationTest.js --reporter spec
+      - run: npm run test2
  
