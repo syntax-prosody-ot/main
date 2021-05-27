@@ -12,7 +12,7 @@ jobs:
       - run: npm install chai
       - run: sudo apt-get install firefox
       - run: npm install selenium-webdriver
-      - run: install -g firefoxdriver
+      - run: install -g geckodriver
       - run: ./mochaBuild.sh
       - run: npm test
  
