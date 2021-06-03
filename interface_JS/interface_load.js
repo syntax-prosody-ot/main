@@ -36,6 +36,9 @@ window.addEventListener('load', function(){
 	// Get Results button
 	spotForm.onsubmit=sendToTableau;
 
+	//treeEditOptions - dropdown list
+	document.getElementById('treeEditOption').onchange = sendToTableau;
+
 	document.body.addEventListener('click', openCloseFieldset); //Opening and closing fieldsets (mostly for constraints)
 	document.getElementById("clearAllButton").addEventListener("click", clearAll);
 
@@ -45,6 +48,8 @@ window.addEventListener('load', function(){
 	document.getElementById('annotatedWithTones').addEventListener('click', toneOptionDisplay);
 	document.getElementById('showHeads').addEventListener('click', markProsodicHeadsDisplay);
 
+	/** ===CHECKING showHeads IF BinMaxHead CHECKED=== */
+	document.getElementById('binMaxHead').addEventListener('click', markProsodicHeadsDisplay);
 
 	//===MANUAL TREE-BUILDER===
 

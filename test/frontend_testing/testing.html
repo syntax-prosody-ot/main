@@ -1,0 +1,46 @@
+<html><head>  
+    <title>SPOT Automated Testing</title>
+
+	<!--<link rel="stylesheet" type="text/css" href="../spot.css">-->
+
+    <!--If running tests that do not have to do with the interface, run jsbuild.sh or jsbuild.bat
+        in root directory of the project. If running interface testing, run testbuild.sh
+        or testBuild.bat-->
+    <script src="../../build/spot.js"></script>
+
+    <!--Mocha setup stuff (1/2)-->
+    <meta charset="UTF-8">
+    <script src="../../lib/test/mocha.min.js"></script>
+    <script src="../../lib/test/chai.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../lib/test/mocha.css">
+    <!--mocha setup stuff to be continued in document body-->
+    
+</head>
+<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+
+    <h2>SPOT Automated Testing</h2>
+    <iframe src="../../interface1.html" width = "555" height = "200"></iframe>
+    <script>mocha.setup("bdd");
+    mocha.checkLeaks();
+    assert = chai.assert;
+</script>
+<div id="mocha">
+    This is where test results should show up
+</div>
+<script>
+    const mochaDiv = document.createElement("div");
+    mochaDiv.setAttribute("id", "mocha");
+
+    const notResults = document.getElementsByClassName("spotBlock")[2];
+    notResults.insertBefore(mochaDiv, notResults.firstChild);</script> 
+
+    <!--Mocha stuff (2/2)-->
+    <!--Mocha is set up now, you just need to write and run tests-->
+    <script src="stringInputValidationTest.js"></script>
+    <!--That's all you need for testing with mocha and chai-->
+    <script>
+    runStringInputValidationTest();</script>
+
+	<pre id="results-container"></pre>
+
+</body></html>

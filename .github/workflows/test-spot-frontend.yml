@@ -1,0 +1,15 @@
+name: test-spot-frontend
+on: [workflow_dispatch]
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+      - run: npm i mocha-headless-chrome
+      - run: npm install chai
+     # - run: ./frontendBuild.sh #build script that complie front end tests
+      - run: npm run test_frontend
+    
+ 

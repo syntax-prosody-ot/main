@@ -3,15 +3,11 @@
 		<title>SPOT Interface</title>
 
 		<script src="build/spot.js"></script>
-		<script src="./trees/built-in_trees.js"></script>
-		<script src="./trees/left_branching_accent_trees_2_3_4_words.js"></script>
-		<script src="./trees/abstractMatchTrees.js"></script>
-		<script src="./trees/chamorro_clitic_trees.js"></script>
-		<script src='./trees/Italian_BuiltIn_Trees.js'></script>
+		<script src="build/built_in_trees.js"></script>
 		<link rel="stylesheet" type="text/css" href="spot.css">
 		<link rel="stylesheet" type="text/css" href="lib/test/mocha.css">
 		<link rel="icon" type="image/x-icon" href="images/favicon.ico">
-
+		
 		<style>
 			body {
 				margin: 0px;
@@ -269,6 +265,10 @@
 			.category-selection-div{
 				display: inline-block;
 				width: 5em;
+			}
+
+			.category-selection-div .all-cats{
+				width: 20em;
 			}
 
 			.option-selection-div{
@@ -569,7 +569,7 @@
 			</div>
 
 			<form id="spotForm">
-
+			
 			<!--INPUT-->
 			<div class="spotBlock input">
 			<h2>GEN: Input parameters
@@ -586,7 +586,7 @@
 								<div class="constraint-row">
 									<span><input type="checkbox" name="genOptions" id="trimTrees">Trim syntactic tree</span>
 									<div class="info">
-										<span class="content">When checked, evaluates mapping constraints against a version of the input tree where silent nodes and terminals of a category other than "x0" or "clitic" are removed. Also removes vacuous recursion, eg. [[a b]] &rightarrow; [a b]</span>
+										<span class="content">When checked, evaluates mapping constraints against a version of the input tree where silent terminals are removed. This reflects the definition of Match-Phrase<sub>T</sub> in Elfner 2012 (p.28). This version of Match ignores terminal nodes that are unrepresented phonologically:<p>"Suppose there is a syntactic phrase (XP) in the syntactic representation that exhaustively dominates a set of one or more terminal nodes &alpha;. Assign one violation mark if there is no phonological phrase (&phi;) in the phonological representation that exhaustively dominates all and only the phonological exponents of the terminal nodes in &alpha;."</p>Also removed are terminals of a category other than "x0" or "clitic" and cases of vacuous recursion, eg. [[a b]] &rightarrow; [a b]. </span>
 									</div>
 								</div>
 
@@ -795,9 +795,9 @@
 				</div>
 
 			</div>
-
+			
 		</div>
-
+			
 		<!--GEN OPTIONS-->
 		<div class="spotBlock">
 		<legend><h2>GEN: Output parameters</h2></legend>
@@ -810,7 +810,7 @@
 				</div>
 			</div>
 			<div class="constraint-row">
-				<span><input type="checkbox" name="genOptions" value="obeysHeadedness">Enforce headedness</span>
+				<span><input type="checkbox" name="genOptions" value="obeysHeadedness" checked="checked">Enforce headedness</span>
 				<div class="info">
 					<span class="content">If selected, every non-terminal pTree node of level <i>k</i> must immediately dominate a node of level <i>k</i>&minus;1.</span>
 				</div>
@@ -853,7 +853,7 @@
 			<legend><h2>Prosodic categories <span class="arrow"></span></h2></legend>
 			<div class="constraint-row"><span>Root prosodic tree in</span>
 				<div class="info">
-					<span class="content">Specify the category of the root node for all the pTrees created by GEN.</span>
+					<span class="content">Specify the category of the root node for all the pTrees created by GEN. If roots are prosodic words, intermediate levels are feet, and terminals are syllables, then [ ] will stand for word boundaries and ( ) for foot boundaries. Otherwise, intonational phrase boundaries will be represented with { }, phonological phrase boundaries with ( ), and word boundaries with (w ).</span>
 				</div>
 			</div>
 			<div class="category-row">
@@ -862,21 +862,23 @@
 				<div class="category-selection-div"><input type="radio" name="genOptions-rootCategory" value="w">&omega;</div>
 			</div>
 		<div class="constraint-row"><span>Intermediate nodes are</span>
-			<div class="info"><span class="content">Specify the category of the nodes below the root and above the terminals. This is the category where GEN will create recursion.</span></div>
+			<div class="info"><span class="content">Specify the category of the nodes below the root and above the terminals. This is the category where GEN will create recursion. <br>If roots are prosodic words, intermediate levels are feet, and terminals are syllables, then [ ] will stand for word boundaries and ( ) for foot boundaries. Otherwise, intonational phrase boundaries will be represented with { }, phonological phrase boundaries with ( ), and word boundaries with (w ).</span></div>
 		</div>
 		<div class="category-row">
 				<div class="category-selection-div"><input type="radio" name="genOptions-recursiveCategory" value="i">&iota;</div>
 				<div class="category-selection-div"><input type="radio" name="genOptions-recursiveCategory" value="phi" checked="checked">&phi;</div>
 				<div class="category-selection-div"><input type="radio" name="genOptions-recursiveCategory" value="w">&omega;</div>
+				<div class="category-selection-div"><input type="radio" name="genOptions-recursiveCategory" value="Ft">Ft</div>
 		</div>
 		<div class="constraint-row"><span>Prosodic terminals are</span>
 			<div class="info">
-				<span class="content">Specify the category of the terminal nodes for the pTrees GEN will create. N.B. GEN will always map terminals marked with "-clitic" to syllables.</span></div>
+				<span class="content">Specify the category of the terminal nodes for the pTrees GEN will create. N.B. GEN will always map terminals marked with "-clitic" to syllables.<br> If roots are prosodic words, intermediate levels are feet, and terminals are syllables, then [ ] will stand for word boundaries and ( ) for foot boundaries. Otherwise, intonational phrase boundaries will be represented with { }, phonological phrase boundaries with ( ), and word boundaries with (w ).</span></div>
 			</div>
 			<div class="category-row">
 				<div class="category-selection-div"><input type="radio" name="genOptions-terminalCategory" value="phi">&phi;</div>
 				<div class="category-selection-div"><input type="radio" name="genOptions-terminalCategory" value="w" checked="checked">&omega;</div>
 				<div class="category-selection-div"><input type="radio" name="genOptions-terminalCategory" value="Ft">Ft</div>
+				<div class="category-selection-div"><input type="radio" name="genOptions-terminalCategory" value="syll">&sigma;</div>
 			</div>
 		</fieldset>
 
@@ -939,6 +941,7 @@
 							<div class="category-selection-div"><input type="checkbox" name="category-matchSP" value="cp">CP</div>
 							<div class="category-selection-div"><input type="checkbox" name="category-matchSP" value="xp" checked="checked">XP</div>
 							<div class="category-selection-div"><input type="checkbox" name="category-matchSP" value="x0">X<sup>0</sup></div>
+							<div class="category-selection-div"><div class="all-cats"><input type="checkbox" name="category-matchSP" value="any">all syntactic categories</div></div>
 						</div>
 						<div class="category-row">
 							<div class="custom-text">
@@ -968,6 +971,20 @@
 							<div class="category-selection-div"><input type="checkbox" name="category-matchPS" value="i">&iota;</div>
 							<div class="category-selection-div"><input type="checkbox" name="category-matchPS" value="phi" checked="checked">&phi;</div>
 							<div class="category-selection-div"><input type="checkbox" name="category-matchPS" value="w">&omega;</div>
+						</div>
+					</div>
+
+					<div class="constraint-selection-table">
+						<div class="constraint-row">
+							<span><input type="checkbox" name="constraints" value="matchSPPS">Match(Syntax&harr;Prosody)</span>
+							<div class="info">
+								<span class="content">Combines violations from MatchSP and MatchPS; see information on those constraints. Intended as a symmetrical faithfulness constraint in syntax-prosody mapping, to enable simplified typologies. SPOT function: matchSPPS().</span>
+							</div>
+						</div>
+						<div class="category-row">
+							<div class="category-selection-div"><input type="checkbox" name="category-matchSPPS" value="cp">CP / &iota;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-matchSPPS" value="xp" checked="checked">XP / &phi;</div>
+							<div class="category-selection-div"><input type="checkbox" name="category-matchSPPS" value="x0">X<sup>0</sup> / &omega;</div>
 						</div>
 					</div>
 
@@ -1004,7 +1021,20 @@
 								</div>
 							</div>
 						</div>
-
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="matchSPAny">Match(Syntax&rarr;Prosody), any prosodic constituent</span>
+								<div class="info">
+									<span class="content">If this option is checked, any prosodic constituent that has the same terminal string as a syntactic constituent s will be considered a valid Match for s.
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-matchSPAny" value="cp">CP</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-matchSPAny" value="xp" checked="checked">XP</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-matchSPAny" value="x0">X<sup>0</sup></div>
+								<div class="category-selection-div"><div class="all-cats"><input type="checkbox" name="category-matchSPAny" value="any">all syntactic categories</div></div>
+							</div>
+						</div>
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="matchNonMinSyntax">MatchNonMinimal(Syntax&rarr;Prosody)</span>
@@ -1621,7 +1651,7 @@
 							<div class="constraint-row">
 									<span><input type="checkbox" name="constraints" value="alignFocLeft">AlignFocLeft</span>
 									<div class="info">
-									<span class="content">For every node S with attribute "foc" in sTree, assign a violation if the left-edge of S is not aligned to the left-edge of a node of category pCat in pTree. SPOT function: alignFocLeft()</span>
+									<span class="content">For every node S with attribute "foc" in sTree, assign a violation if the left-edge of S is not aligned to the left-edge of a node of category pCat in pTree. SPOT function: alignFocLeft(). (<a href ="https://spot.sites.ucsc.edu/bibliography/">Truckenbrodt 1999</a>)</span>
 									</div>
 							</div>
 							<div class="category-row">
@@ -1635,7 +1665,7 @@
 							<div class="constraint-row">
 									<span><input type="checkbox" name="constraints" value="alignFocRight">AlignFocRight</span>
 									<div class="info">
-									<span class="content">For every node S with attribute "foc" in sTree, assign a violation if the right-edge of S is not aligned to the right-edge of a node of category pCat in pTree. SPOT function: alignFocRight()</span>
+									<span class="content">For every node S with attribute "foc" in sTree, assign a violation if the right-edge of S is not aligned to the right-edge of a node of category pCat in pTree. SPOT function: alignFocRight(). (<a href ="https://spot.sites.ucsc.edu/bibliography/">Truckenbrodt 1999</a>)</span>
 									</div>
 							</div>
 							<div class="category-row">
@@ -1855,9 +1885,9 @@
 					<div id="moreBinarityConstraints" class="more-constraints">
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
-								<span><input type="checkbox" name="constraints" value="binMaxHead">BinMaxHead</span>
+								<span><input type="checkbox" name="constraints" value="binMaxHead" id="binMaxHead">BinMaxHead</span>
 								<div class="info">
-									<span class="content">Assign a violation for node of the selected category whose head is suprabinary (i.e., has more than two children). SPOT function: binMaxHead()</span>
+									<span class="content">Assign a violation for node of the selected category whose head is suprabinary (i.e., has more than two children). Uses head marking direction in the "Tree marking options" section of "GEN: Output Parameters" above. If direction not defined, defaults to right. SPOT function: binMaxHead()</span>
 								</div>
 							</div>
 								<div class="category-row">
@@ -2127,7 +2157,7 @@
 							</div>
 							<div class="category-row">
 								<div class="category-selection-div"><input type="checkbox" name="category-strongStart_Hsu_phi" value="w" checked="checked">&omega;</div>
-								<div class="category-selection-div"><input type="checkbox" name="category-strongStart_Hsu_phi" value="Ft">Foot</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-strongStart_Hsu_phi" value="Ft">Ft</div>
 								<div class="category-selection-div"><input type="checkbox" name="category-strongStart_Hsu_phi" value="syll">&sigma;</div>
 							</div>
 						</div>
@@ -2154,8 +2184,43 @@
 
 							</div>-->
 						</div>
-					</div>
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="weakStartLocal">WeakStart</span>
+								<div class="info">
+									<span class="content">
+										A prosodic constituent begins with a leftmost daughter that is no higher
+										on the prosodic hierarchy than the constituent that immediately follows.				
+									</span>
 
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-weakStartLocal" value="i">&iota;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-weakStartLocal" value="phi" checked="checked">&phi;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-weakStartLocal" value="w">&omega;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-weakStartLocal" value="">all</div>
+							</div>
+						</div>
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" value="strongEndLocal">StrongEnd</span>
+								<div class="info">
+									<span class="content">
+										Assign one violation for every node in the prosodic tree whose rightmost daughter
+										is of category ω and is lower on the prosodic hierarchy than its sister immediately to its left.
+									</span>
+
+								</div>
+							</div>
+							<div class="category-row">
+								<div class="category-selection-div"><input type="checkbox" name="category-strongEndLocal" value="i">&iota;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-strongEndLocal" value="phi" checked="checked">&phi;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-strongEndLocal" value="w">&omega;</div>
+								<div class="category-selection-div"><input type="checkbox" name="category-strongEndLocal" value="">all</div>
+							</div>
+						</div>
+					</div>
 				</fieldset>
 
 				<br/>
@@ -2228,7 +2293,7 @@
 							<div class="constraint-row">
 								<span><input type="checkbox" name="constraints" value="nonRecChild">Non-recursivity (child)</span>
 								<div class="info">
-									<span class="content">Assign one violation for every node of category K immediately dominated by another node of category K. SPOT function: nonRecChild(). For Non-Recursivity as a violable constraint, see <a href ="https://spot.sites.ucsc.edu/bibliography/">Selkirk 1996</a>. For this specific implementation & implications, see <a href ="https://spot.sites.ucsc.edu/bibliography/">Bellik & Kalivoda 2017</a> (SPOT1 Workshop slides)</span>
+									<span class="content">Assign one violation for every node of category K immediately dominated by another node of category K. SPOT function: nonRecChild(). (<a href ="https://spot.sites.ucsc.edu/bibliography/">Ito & Mester 2013</a>; see also <a href ="https://spot.sites.ucsc.edu/bibliography/">Bellik & Kalivoda 2017</a>)</span>
 								</div>
 							</div>
 								<div class="category-row">
@@ -2240,7 +2305,7 @@
 
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
-								<span><input type="checkbox" name=constraints value="nonRecPairs">Non-recursivity, pairwise</span>
+								<span><input type="checkbox" name=constraints value="nonRecPairs">Non-recursivity (pairwise)</span>
 								<div class="info">
 									<span class="content">Assign one violation for every pair of nodes X and Y in the prosodic tree such that X and Y are both of category K and X dominates (contains at any level) Y. SPOT function: nonRecPairs(). For Non-Recursivity as a violable constraint, see <a href ="https://spot.sites.ucsc.edu/bibliography/">Selkirk 1996</a>. For this specific implementation & implications, see <a href ="https://spot.sites.ucsc.edu/bibliography/">Bellik & Kalivoda 2017</a> (SPOT1 Workshop slides)</span>
 								</div>
@@ -2310,6 +2375,21 @@
 					<button onclick="document.getElementById('chooseFile').style='display: block'; document.getElementById('save/load-dialog').innerHTML = ''" type="button" style="margin:5px">Load
 					</button>
 					<br/>
+					<div id="treeOption" style="display: none">
+						<hr/>
+							<div>
+								<select id = "treeEditOption">
+									<option value = "default-tree">Select: Use tree(s) from</option>
+									<option value = "manual-tree">manual tab only</option>
+									<option value = "auto-tree">automatic tab only</option>
+									<option value = "both-tree">both tabs</option>
+									<option value = "clear-tree">Clear all trees</option>
+								</select>
+								<div class="info">
+									<span class="content"><p>Inputs were provided on both the Manual tab and the Automatic tab of Gen: Inputs. Please select an option from the dropdown menu to choose which set of trees to use in the tableaux.</p></span>
+								</div>
+							</div>	
+					</div>
 					<div id="chooseFile" style="display: none">
 						<div style="font-size: 13px; color: #555" id="chooseFilePrompt">
 							Upload an analysis that you previously downloaded from SPOT:
@@ -2330,7 +2410,8 @@
 								<p>Clicking "Get results" initiates a download of a tab-separated version of the resulting tableau.
 								The tab-separated version of the tableau will also appear in a text-area, from which it can be copy-pasted. (Use Control-A to select it if it's not already selected.)
 								An html version of the tableau will also display below. </p>
-								<p>Trees in the violation tableau are shown in bracket notation. Curly braces { } stand for CP boundaries in a syntactic tree, and for intonational phrase boundaries in a syntactic tree. Parentheses ( ) stand for phonological phrase boundaries. Square brackets [ ] in a syntactic tree stand for XP boundaries, and in a prosodic tree stand for prosodic word boundaries (not shown for terminal nodes that are prosodic words).</p>
+								<p>Trees in the violation tableau are shown in bracket notation. Curly braces { } stand for CP boundaries in a syntactic tree, and for intonational phrase boundaries in a syntactic tree. Parentheses ( ) stand for phonological phrase boundaries. Square brackets [ ] in a syntactic tree stand for XP boundaries, and in a prosodic tree stand for prosodic word boundaries (not shown for terminal nodes that are prosodic words).</p> 
+								<p>But if roots are prosodic words, intermediate levels are feet, and terminals are syllables, an alternative bracketing is employed, where [ ] stand for word boundaries and ( ) for foot boundaries.</p>
 								<p>Features are shown with the following suffixed abbreviations: .f = functional; .a = has a lexical accent; .foc = focused; * = head of the phonological constituent.</p>
 							</span>
 						</span>

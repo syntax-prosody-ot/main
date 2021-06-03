@@ -1,0 +1,11 @@
+{
+    "name": "spot",
+    "scripts": {
+        "test_backend": "mocha ./test/compiledTest/test.js --reporter spec",
+        "test_frontend": "mocha-headless-chrome -f ./test/frontend_testing/testing.html --reporter spec"
+    },
+    "dependencies": {
+        "chai": "^4.3.0",
+        "mocha": "^8.3.0"
+    }
+}

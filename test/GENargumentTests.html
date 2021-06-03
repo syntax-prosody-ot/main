@@ -1,0 +1,55 @@
+<html><head> 
+    <title>SPOT Automated Testing</title>
+
+	<link rel="stylesheet" type="text/css" href="../spot.css">
+
+    <!--If running tests that do not have to do with the interface, run jsbuild.sh or jsbuild.bat
+        in root directory of the project. If running interface testing, run testbuild.sh
+        or testBuild.bat-->
+    <script src="../build/spot.js"></script>
+
+    <!--Mocha setup stuff (1/2)-->
+    <meta charset="UTF-8">
+    <script src="../lib/test/mocha.min.js"></script>
+    <script src="../lib/test/chai.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../lib/test/mocha.css">
+    <!--mocha setup stuff to be continued in document body-->
+    <style type = "text/css">
+    
+        .tab { margin-left: 40px; }
+        .twotab { margin-left: 80px; }
+    
+    </style>
+</head>
+<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+
+    <h2>GEN Argument Tests</h2>
+    <p>This testfile checks that standard GEN(), GENwithCliticMovement(), and GENwithPermutation() function correctly when passed certain arguments.  The GEN functions can receive an stree, a string of terminals, neither, or both, and these tests make sure that the output is as expected.</p>
+    <p>WARNING: Tests will fail if pop-up is left onscreen for longer than two seconds. RECOMMENDATION: Use the enter key.</p>
+
+    <script src="./GENoutputTrees.js"></script>
+
+    <!--Mocha stuff (2/2)-->
+    <script>
+        mocha.setup("bdd"); //brings "describe", "it", etc. into global namespace
+        //mocha.checkLeaks();
+        var assert = chai.assert; //no one wants to type out "chai.assert" every time
+    </script>
+    <div id="mocha">
+        Automated GEN Testing
+    </div>
+    
+    <!--Mocha is set up now, you just need to write and run tests-->
+    <script src="./GENargumentTests.js"></script>
+
+    <script>
+
+        mocha.run(); //don't forget to run the test!!!
+
+    </script>
+    <!--That's all you need for testing with mocha and chai-->
+    <script type="text/javascript"></script>
+
+	<pre id="results-container"></pre>
+
+</body></html>

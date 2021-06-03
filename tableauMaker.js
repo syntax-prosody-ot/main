@@ -54,6 +54,10 @@ function makeTableau(candidateSet, constraintSet, options){
 					}
 					optionString += '-'+temp;
 				}
+				//For constraints that involve head marking, if "side" is defined as an option then take the value "left" or "right" and append it to the constraint name.
+				if(optionProperties[j]=="side"){
+					optionString += '-'+optionObj[optionProperties[j]];
+				}
 			}
 		}
 		var cat = conParts[1] ? '('+conParts[1]+')' : ''
@@ -62,7 +66,7 @@ function makeTableau(candidateSet, constraintSet, options){
 	}
 
 	if(options.trimStree){
-		header[0] = header[0].concat(' trimmed: ', parenthesizeTree(trimRedundantNodes(sTreeObject)));
+		header[0] = header[0].concat(' trimmed: ', parenthesizeTree(removeSpecifiedNodes(sTreeObject, 'silent')));
 	}
 
 	tableau.push(header);
@@ -74,7 +78,7 @@ function makeTableau(candidateSet, constraintSet, options){
 
 	for(var i = 1; i <= numCand; i++){
 		var candidate = candidateSet[numCand-i];
-		let heads;
+		let heads = options.showHeads;
 		if(heads === 'right' || heads === 'left')
 		{
 			candidate[1] = markHeads(candidate[1], options.showHeads);
@@ -93,7 +97,7 @@ function makeTableau(candidateSet, constraintSet, options){
 			// category constraints, and a category argument was provided, 
 			// then check if the category argument is in pCat or sCat.
 			if(catExceptionConstraints.indexOf(constraint)<0){
-				if(cat && !pCat.includes(cat) && !sCat.includes(cat)){
+				if(cat && !pCat.includes(cat) && !sCat.includes(cat) && cat!="any"){
 					console.log(pCat);
 					var errorMsg = "Category argument " + cat + " is not a valid category with the current settings.\nCurrently valid prosodic categories: " + JSON.stringify(pCat) + "\nValid syntactic categories: " + JSON.stringify(sCat);
 					displayError(errorMsg);
@@ -107,7 +111,7 @@ function makeTableau(candidateSet, constraintSet, options){
 			//var numViolations = runConstraint(constraintAndCat[0], candidate[0], candidate[1], constraintAndCat[1]); ++lastSegmentId; // show log of each constraint run
 			var oldDebugOn = logreport.debug.on;
 			logreport.debug.on = false;
-			trimmedTree = options.trimStree ? trimRedundantNodes(getCandidate(candidate[0])) : getCandidate(candidate[0]);
+			trimmedTree = options.trimStree ? removeSpecifiedNodes(getCandidate(candidate[0]), 'silent') : getCandidate(candidate[0]);
 			//if options.catsMatch --> add it to myConOptions
 
 			//options for this constraint:

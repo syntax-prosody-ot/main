@@ -1,0 +1,23 @@
+name: test-spot-backend
+on: 
+  pull_request:
+    branches: [ master ]
+  push:
+    branches:
+      -master
+      -auto-testing
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+      - run: npm install mocha #global
+      #test with run: mocha first to check if mocha can be used
+      - run: npm install chai
+      - run: ./mochaBuild.sh
+      - run: npm run test_backend
+      #- name: binarityTest
+      #  shell: bash
+      #  run: mocha test/binarityTest.js
