@@ -194,7 +194,6 @@ function gen(leaves, options){
 				var wLeftsides = gen(leaves.slice(0,i), options);
 				for(var k = 0; k<wLeftsides.length; k++){
 					var wLeftside = wrapInRecCat(wLeftsides[k], options);
-					popRecCat(options);
 					if(wLeftside){
 						//console.log(i, "wLeftside:", wLeftside);
 						//Combine the all-leaf leftside with all the possible rightsides that aren't empty
@@ -206,7 +205,8 @@ function gen(leaves, options){
 							}
 						}
 					}
-				}	
+				}
+				popRecCat(options);	
 			}
  
 		}
