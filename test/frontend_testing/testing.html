@@ -6,13 +6,13 @@
     <!--If running tests that do not have to do with the interface, run jsbuild.sh or jsbuild.bat
         in root directory of the project. If running interface testing, run testbuild.sh
         or testBuild.bat-->
-    <script src="../build/spot.js"></script>
+    <script src="../../build/spot.js"></script>
 
     <!--Mocha setup stuff (1/2)-->
     <meta charset="UTF-8">
-    <script src="../lib/test/mocha.min.js"></script>
-    <script src="../lib/test/chai.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="../lib/test/mocha.css">
+    <script src="../../lib/test/mocha.min.js"></script>
+    <script src="../../lib/test/chai.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../lib/test/mocha.css">
     <!--mocha setup stuff to be continued in document body-->
     
 </head>
@@ -26,7 +26,7 @@
 <div id="mocha">
     This is where test results should show up
 </div>
-<iframe src="./interface1.html"></iframe>
+<iframe src="../../interface1.html"></iframe>
 <script>
     const mochaDiv = document.createElement("div");
     mochaDiv.setAttribute("id", "mocha");
