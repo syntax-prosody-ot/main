@@ -7,12 +7,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
-      - run: npm install -g mocha
       - run: npm i mocha-headless-chrome
-      #test with run: mocha first to check if mocha can be used
       - run: npm install chai
       - run: ./mochaBuild.sh #inside of mochaBuild.sh create new script that builds frontend tests
-      - run: npm run test_frontend #inside of test2 run mocha & selenium file test
-      #have to create selenium file and run that file with npm
+      - run: npm run test_frontend
     
  
