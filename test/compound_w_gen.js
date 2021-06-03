@@ -232,6 +232,19 @@ for(i=0; i < rawgen_threeFtTerm_noUnary.length; i++){
 };
 gen_threeFtTermCopy_noUnary = [...gen_threeFtTerm_noUnary];
 
+//Beyond three terminals
+var rawgen_fiveWordTerm_unary = GEN({}, 'a b c d e', gen_ops_w_term_unary);
+var gen_fiveWordTerm_unary = [];
+for(i=0; i < rawgen_fiveWordTerm_unary.length; i++){
+    gen_fiveWordTerm_unary.push(parenthesizeTree(rawgen_fiveWordTerm_unary[i][1], paren_ops));
+};
+
+var rawgen_sevenWordTerm_unary = GEN({}, 'a b c d e f g', gen_ops_w_term_unary);
+var gen_sevenWordTerm_unary = [];
+for(i=0; i < rawgen_sevenWordTerm_unary.length; i++){
+    gen_sevenWordTerm_unary.push(parenthesizeTree(rawgen_sevenWordTerm_unary[i][1], paren_ops));
+};
+
 //The following commands reveals that the Gen function (on May 12, 2021) does not properly enumerate the possible trees with three foot-terminals and the options in gen_ops_ft_term.
 //console.log(gen_threeFtTermCopy);
 //console.log(new Set(gen_threeFtTermCopy));
@@ -295,32 +308,42 @@ function compareSetErrorMsg(observed, expected){
 
 //Mocha Tests
 function compoundWordGenTests(){
-    describe('Tests for compund-word Gen allowing unary branches', function() {
+    describe('Tests for compound-word Gen allowing unary branches', function() {
         it('Recursive w + phi for two words', function() {
             assert.equal(JSON.stringify(gen_twoWordTerm.sort()), JSON.stringify(twoWordTerm.sort()), compareSetErrorMsg(gen_twoWordTerm,twoWordTerm));
         });
         it('Recursive w + phi for three words', function() {
             assert.equal(JSON.stringify(gen_threeWordTerm.sort()), JSON.stringify(threeWordTerm.sort()), compareSetErrorMsg(gen_threeWordTerm,threeWordTerm));
         });
-        it('Recursive w + phi with foot terminals for two words', function() {
+        it('Recursive w + phi with two foot terminals', function() {
             assert.equal(JSON.stringify(gen_twoFtTerm.sort()), JSON.stringify(twoFtTerm.sort()), compareSetErrorMsg(gen_twoFtTerm,twoFtTerm));
         });
-        it('Recursive w + phi with foot terminals for three words', function() {
+        it('Recursive w + phi with three foot terminals', function() {
             assert.equal(JSON.stringify(gen_threeFtTerm.sort()), JSON.stringify(threeFtTerm.sort()), compareSetErrorMsg(gen_threeFtTerm,threeFtTerm));
         });
     });
-    describe('Tests for compund-word Gen disallowing unary branches', function() {
+    describe('Tests for compound-word Gen disallowing unary branches', function() {
         it('Recursive w + phi for two words', function() {
             assert.equal(JSON.stringify(gen_twoWordTerm_noUnary.sort()), JSON.stringify(twoWordTerm_noUnary.sort()), compareSetErrorMsg(gen_twoWordTerm_noUnary,twoWordTerm_noUnary));
         });
         it('Recursive w + phi for three words', function() {
             assert.equal(JSON.stringify(gen_threeWordTerm_noUnary.sort()), JSON.stringify(threeWordTerm_noUnary.sort()), compareSetErrorMsg(gen_threeWordTerm_noUnary,threeWordTerm_noUnary));
         });
-        it('Recursive w + phi with foot terminals for two words', function() {
+        it('Recursive w + phi with two foot terminals', function() {
             assert.equal(JSON.stringify(gen_twoFtTerm_noUnary.sort()), JSON.stringify(twoFtTerm_noUnary.sort()), compareSetErrorMsg(gen_twoFtTerm_noUnary,twoFtTerm_noUnary));
         });
-        it('Recursive w + phi with foot terminals for three words', function() {
+        it('Recursive w + phi with three foot terminals', function() {
             assert.equal(JSON.stringify(gen_threeFtTerm_noUnary.sort()), JSON.stringify(threeFtTerm_noUnary.sort()), compareSetErrorMsg(gen_threeFtTerm_noUnary,threeFtTerm_noUnary));
+        });
+    });
+    describe('Tests for compound-word Gen beyond three terminals', function() {
+        it('Recursive w + phi for five word terminals', function() {
+            assert.equal(gen_fiveWordTerm_unary.length, 2589, "");
+            assert.equal(count_duplicate(gen_fiveWordTerm_unary).length, 0, "");
+        });
+        it('Recursive w + phi for seven word terminals', function() {
+            assert.equal(gen_sevenWordTerm_unary.length, 250807, "");
+            assert.equal(count_duplicate(gen_sevenWordTerm_unary).length, 0, "");
         });
     });
 };
