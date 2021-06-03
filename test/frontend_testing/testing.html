@@ -19,14 +19,14 @@
 <body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
 
     <h2>SPOT Automated Testing</h2>
+    <iframe src="../../interface1.html" width = "555" height = "200"></iframe>
     <script>mocha.setup("bdd");
-    //mocha.checkLeaks();
+    mocha.checkLeaks();
     assert = chai.assert;
 </script>
 <div id="mocha">
     This is where test results should show up
 </div>
-<iframe src="../../interface1.html"></iframe>
 <script>
     const mochaDiv = document.createElement("div");
     mochaDiv.setAttribute("id", "mocha");
