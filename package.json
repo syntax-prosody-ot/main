@@ -2,7 +2,7 @@
     "name": "spot",
     "scripts": {
         "test_backend": "mocha ./test/compiledTest/test.js --reporter spec",
-        "test_frontend": "mocha-headless-chrome -f ./test/compiledTest/test.js --reporter spec"
+        "test_frontend": "mocha-headless-chrome -f ./test/stringInputValidationTest.html --reporter spec"
     },
     "dependencies": {
         "chai": "^4.3.0",
