@@ -9,7 +9,7 @@ jobs:
       - uses: actions/setup-node@v1
       - run: npm i mocha-headless-chrome
       - run: npm install chai
-      - run: ./mochaBuild.sh #inside of mochaBuild.sh create new script that builds frontend tests
+     # - run: ./frontendBuild.sh #build script that complie front end tests
       - run: npm run test_frontend
     
  
