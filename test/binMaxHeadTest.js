@@ -403,6 +403,7 @@ function binMaxHeadTest(){
                 ]
             };
             assert.equal(binMaxHead(s, itree, 'i', {side:'left', minimal:true}), 1);
+            assert.equal(binMinHead(s, itree, 'i', {side:'left'}), 1);
         });
 
         it('binMinHead(s, {(a*)(b* c)}, "phi"), two violations', function(){
@@ -491,8 +492,9 @@ function binMaxHeadTest(){
             ]
         };
 
-        it('binMainHead(s, bMin, "w"),    bMin =   ' + parenthesizeTree(bMin, {showHeads:true}) + ' --> Expected Violations: 0', function() {
+        it('binMinHead(s, bMin, "w"),    bMin =   ' + parenthesizeTree(bMin, {showHeads:true}) + ' --> Expected Violations: 0', function() {
             assert.equal(binMaxHead(s, bMin, 'w', {side:'left', minimal:true}), 0);
+            assert.equal(binMinHead(s, bMin, 'w', {side:'left'}), 0);
         });
     });
 
