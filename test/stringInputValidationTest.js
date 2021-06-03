@@ -16,7 +16,7 @@ function setUp(){
 }
 
 function runStringInputValidationTest() {
-    setUp();
+    //setUp();
     describe("stringInputValidationTest.js", function(){
         describe("Generate trees", function() {
             this.timeout(15000); //timeout at 15000ms
