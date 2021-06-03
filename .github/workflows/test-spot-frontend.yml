@@ -7,6 +7,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
+      - run: npm install -g mocha
       - run: npm i mocha-headless-chrome
       #test with run: mocha first to check if mocha can be used
       - run: npm install chai
