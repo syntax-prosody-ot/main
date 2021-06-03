@@ -7,10 +7,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
-      - run: npm install mocha #global
-      #test with run: mocha first to check if mocha can be used
+      - run: npm i mocha-headless-chrome
       - run: npm install chai
-      #-run: ./interface1.html
-      - run: ./mochaBuild.sh
-      - run: npm test
+     # - run: ./frontendBuild.sh #build script that complie front end tests
+      - run: npm run test_frontend
+    
  

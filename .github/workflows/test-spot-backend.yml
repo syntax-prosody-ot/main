@@ -17,7 +17,7 @@ jobs:
       #test with run: mocha first to check if mocha can be used
       - run: npm install chai
       - run: ./mochaBuild.sh
-      - run: npm test
+      - run: npm run test_backend
       #- name: binarityTest
       #  shell: bash
       #  run: mocha test/binarityTest.js
