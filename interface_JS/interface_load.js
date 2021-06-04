@@ -50,6 +50,7 @@ window.addEventListener('load', function(){
 
 	/** ===CHECKING showHeads IF BinMaxHead CHECKED=== */
 	document.getElementById('binMaxHead').addEventListener('click', markProsodicHeadsDisplay);
+	document.getElementById('binMinHead').addEventListener('click', markProsodicHeadsDisplay);
 
 	//===MANUAL TREE-BUILDER===
 
