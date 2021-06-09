@@ -126,11 +126,11 @@ function addCombinationsPermuatationsToTable(){
             }
         }else{
             /*confirm user wants to continue if the input is greater than or equal to 5 */
-            //if (inputIsFive == true){
-            //    if(!confirm("Min or Max input is greater than or equal to 5 which may cause your browser to freeze due to too many terminal strings being generated. Confirm that you want to continue.")){
-            //        throw new Error ('Min or Max input is greater than or equal to 5.');
-            //    }
-           // }
+            if (inputIsFive == true){
+                if(!confirm("Min or Max input is greater than or equal to 5 which may cause your browser to freeze due to too many terminal strings being generated. Confirm that you want to continue.")){
+                    throw new Error ('Min or Max input is greater than or equal to 5.');
+                }
+            }
             var inputList = spotForm.genStringsInput.value;
             var min = spotForm.genStringsMin.value;
             var max = spotForm.genStringsMax.value;
