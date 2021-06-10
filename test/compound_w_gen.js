@@ -16,9 +16,24 @@ paren_ops = {parens: compWordBrackets};
 
 //Initialize the options used in compound word Gen versions
 var gen_ops_w_term_unary = {rootCategory: 'phi', recursiveCategory: 'phi-w', terminalCategory: 'w', noUnary:false};
-var gen_ops_ft_term_unary = {rootCategory: 'phi', recursiveCategory: 'phi-w', terminalCategory: 'Ft', noUnary:false, obeysExhaustivity:false};
+var gen_ops_ft_term_unary = {rootCategory: 'phi', recursiveCategory: 'phi-w', terminalCategory: 'Ft', noUnary:false,};
 var gen_ops_w_term_noUnary = {rootCategory: 'phi', recursiveCategory: 'phi-w', terminalCategory: 'w', noUnary:true};
-var gen_ops_ft_term_noUnary = {rootCategory: 'phi', recursiveCategory: 'phi-w', terminalCategory: 'Ft', noUnary:true, obeysExhaustivity:false};
+var gen_ops_ft_term_noUnary = {rootCategory: 'phi', recursiveCategory: 'phi-w', terminalCategory: 'Ft', noUnary:true};
+
+var gen_ops_w_term_headed = {rootCategory: 'phi', recursiveCategory: 'phi-w', terminalCategory: 'w', obeysHeadedness:true};
+var gen_ops_w_term_nonRecursive = {rootCategory: 'phi', recursiveCategory: 'phi-w', terminalCategory: 'w', obeysNonrecursivity:true};
+var gen_ops_w_term_exhaustive = {rootCategory: 'phi', recursiveCategory: 'phi-w', terminalCategory: 'w', obeysExhaustivity:true};
+var gen_ops_w_term_iotaRoot = {rootCategory: 'i', recursiveCategory: 'phi-w', terminalCategory: 'w'};
+
+//ops
+/*
+
++ headed
++ non-recursive
++ exhaustive
++ iota rooted
+
+*/
 
 
 //Initialize the expected arrays for compound word Gen versions and sort
@@ -88,6 +103,163 @@ var twoWordTerm_noUnary = ['([a b])','(a b)'];
 var threeWordTerm_noUnary = ['([[a b] c])','([a [b c]])','([a b c])','((a b) c)','([a b] c)','(a [b c])','(a (b c))','(a b c)'];
 var twoFtTerm_noUnary = ['(a.Ft b.Ft)','([a.Ft b.Ft])'];
 var threeFtTerm_noUnary = ['([[a.Ft b.Ft] c.Ft])','([a.Ft [b.Ft c.Ft]])','([a.Ft b.Ft c.Ft])','((a.Ft b.Ft) c.Ft)','([a.Ft b.Ft] c.Ft)','(a.Ft [b.Ft c.Ft])','(a.Ft (b.Ft c.Ft))','(a.Ft b.Ft c.Ft)'];
+
+//Alternative option expected arrays
+var threeWordTerm_headed = ["(((a) (b)) (c))"
+,"(((a) (b)) c)"
+,"(((a) b) (c))"
+,"(((a) b) c)"
+,"(([a b]) (c))"
+,"(([a b]) c)"
+,"((a (b)) (c))"
+,"((a (b)) c)"
+,"((a) ((b) (c)))"
+,"((a) ((b) c))"
+,"((a) ([b c]))"
+,"((a) (b (c)))"
+,"((a) (b) (c))"
+,"((a) (b) c)"
+,"((a) (b c))"
+,"((a) [b c])"
+,"((a) b (c))"
+,"((a) b c)"
+,"((a b) (c))"
+,"((a b) c)"
+,"([[a b] c])"
+,"([a [b c]])"
+,"([a b] (c))"
+,"([a b] c)"
+,"([a b c])"
+,"(a ((b) (c)))"
+,"(a ((b) c))"
+,"(a ([b c]))"
+,"(a (b (c)))"
+,"(a (b) (c))"
+,"(a (b) c)"
+,"(a (b c))"
+,"(a [b c])"
+,"(a b (c))"
+,"(a b c)"];
+
+var threeWordTerm_exhaustive = ["(((a) (b)) (c))"
+,"(((a) (b)) c)"
+,"(((a) b) (c))"
+,"(((a) b) c)"
+,"(([a b]) (c))"
+,"(([a b]) c)"
+,"((a (b)) (c))"
+,"((a (b)) c)"
+,"((a) ((b) (c)))"
+,"((a) ((b) c))"
+,"((a) ([b c]))"
+,"((a) (b (c)))"
+,"((a) (b) (c))"
+,"((a) (b) c)"
+,"((a) (b c))"
+,"((a) [b c])"
+,"((a) b (c))"
+,"((a) b c)"
+,"((a b) (c))"
+,"((a b) c)"
+,"([[a b] c])"
+,"([a [b c]])"
+,"([a b] (c))"
+,"([a b] c)"
+,"([a b c])"
+,"(a ((b) (c)))"
+,"(a ((b) c))"
+,"(a ([b c]))"
+,"(a (b (c)))"
+,"(a (b) (c))"
+,"(a (b) c)"
+,"(a (b c))"
+,"(a [b c])"
+,"(a b (c))"
+,"(a b c)"];
+
+var threeWordTerm_nonRecursive = ["((a) (b) (c))"
+,"((a) (b) c)"
+,"((a) (b c))"
+,"((a) b (c))"
+,"((a) b c)"
+,"((a b) (c))"
+,"((a b) c)"
+,"(a (b) (c))"
+,"(a (b) c)"
+,"(a (b c))"
+,"(a b (c))"
+,"(a b c)"];
+
+var threeWordTerm_iotaRoot = ["{(((a) (b)) (c))}"
+,"{(((a) (b)) c)}"
+,"{(((a) b) (c))}"
+,"{(((a) b) c)}"
+,"{(([a b]) (c))}"
+,"{(([a b]) c)}"
+,"{((a (b)) (c))}"
+,"{((a (b)) c)}"
+,"{((a) ((b) (c)))}"
+,"{((a) ((b) c))}"
+,"{((a) ([b c]))}"
+,"{((a) (b (c)))}"
+,"{((a) (b) (c))}"
+,"{((a) (b) c)}"
+,"{((a) (b c))}"
+,"{((a) [b c])}"
+,"{((a) b (c))}"
+,"{((a) b c)}"
+,"{((a b) (c))}"
+,"{((a b) c)}"
+,"{([[a b] c])}"
+,"{([a [b c]])}"
+,"{([a b] (c))}"
+,"{([a b] c)}"
+,"{([a b c])}"
+,"{(a ((b) (c)))}"
+,"{(a ((b) c))}"
+,"{(a ([b c]))}"
+,"{(a (b (c)))}"
+,"{(a (b) (c))}"
+,"{(a (b) c)}"
+,"{(a (b c))}"
+,"{(a [b c])}"
+,"{(a b (c))}"
+,"{(a b c)}"
+,"{((a) (b)) (c)}"
+,"{((a) (b)) c}"
+,"{((a) b) (c)}"
+,"{((a) b) c}"
+,"{([a b]) (c)}"
+,"{([a b]) c}"
+,"{(a (b)) (c)}"
+,"{(a (b)) c}"
+,"{(a) ((b) (c))}"
+,"{(a) ((b) c)}"
+,"{(a) ([b c])}"
+,"{(a) (b (c))}"
+,"{(a) (b) (c)}"
+,"{(a) (b) c}"
+,"{(a) (b c)}"
+,"{(a) [b c]}"
+,"{(a) b (c)}"
+,"{(a) b c}"
+,"{(a b) (c)}"
+,"{(a b) c}"
+,"{[[a b] c]}"
+,"{[a [b c]]}"
+,"{[a b] (c)}"
+,"{[a b] c}"
+,"{[a b c]}"
+,"{a ((b) (c))}"
+,"{a ((b) c)}"
+,"{a ([b c])}"
+,"{a (b (c))}"
+,"{a (b) (c)}"
+,"{a (b) c}"
+,"{a (b c)}"
+,"{a [b c]}"
+,"{a b (c)}"
+,"{a b c}"];
 
 //Initialize threeFtTerm trees based on threeWordTerm trees. threeFtTerm contains 8 times as
 //many trees as threeWordTerm. 
@@ -232,11 +404,53 @@ for(i=0; i < rawgen_threeFtTerm_noUnary.length; i++){
 };
 gen_threeFtTermCopy_noUnary = [...gen_threeFtTerm_noUnary];
 
+//Alternative Options:
+    //- Headedness
+    //- Exhaustivity
+    //- Non-recursivity
+    //- Rooted in iota
+
+var rawgen_threeWordTerm_headed = GEN({}, 'a b c', gen_ops_w_term_headed);
+var gen_threeWordTerm_headed = [];
+for(i=0; i < rawgen_threeWordTerm_headed.length; i++){
+    gen_threeWordTerm_headed.push(parenthesizeTree(rawgen_threeWordTerm_headed[i][1], paren_ops));
+};
+
+var rawgen_threeWordTerm_exhaustive = GEN({}, 'a b c', gen_ops_w_term_exhaustive);
+var gen_threeWordTerm_exhaustive = [];
+for(i=0; i < rawgen_threeWordTerm_exhaustive.length; i++){
+    gen_threeWordTerm_exhaustive.push(parenthesizeTree(rawgen_threeWordTerm_exhaustive[i][1], paren_ops));
+};
+
+var rawgen_threeWordTerm_nonRecursive = GEN({}, 'a b c', gen_ops_w_term_nonRecursive);
+var gen_threeWordTerm_nonRecursive = [];
+for(i=0; i < rawgen_threeWordTerm_nonRecursive.length; i++){
+    gen_threeWordTerm_nonRecursive.push(parenthesizeTree(rawgen_threeWordTerm_nonRecursive[i][1], paren_ops));
+};
+
+var rawgen_threeWordTerm_iotaRoot = GEN({}, 'a b c', gen_ops_w_term_iotaRoot);
+var gen_threeWordTerm_iotaRoot = [];
+for(i=0; i < rawgen_threeWordTerm_iotaRoot.length; i++){
+    gen_threeWordTerm_iotaRoot.push(parenthesizeTree(rawgen_threeWordTerm_iotaRoot[i][1], paren_ops));
+};
+
 //Beyond three terminals
+var rawgen_fourWordTerm_unary = GEN({}, 'a b c d', gen_ops_w_term_unary);
+var gen_fourWordTerm_unary = [];
+for(i=0; i < rawgen_fourWordTerm_unary.length; i++){
+    gen_fourWordTerm_unary.push(parenthesizeTree(rawgen_fourWordTerm_unary[i][1], paren_ops));
+};
+
 var rawgen_fiveWordTerm_unary = GEN({}, 'a b c d e', gen_ops_w_term_unary);
 var gen_fiveWordTerm_unary = [];
 for(i=0; i < rawgen_fiveWordTerm_unary.length; i++){
     gen_fiveWordTerm_unary.push(parenthesizeTree(rawgen_fiveWordTerm_unary[i][1], paren_ops));
+};
+
+var rawgen_sixWordTerm_unary = GEN({}, 'a b c d e f', gen_ops_w_term_unary);
+var gen_sixWordTerm_unary = [];
+for(i=0; i < rawgen_sixWordTerm_unary.length; i++){
+    gen_sixWordTerm_unary.push(parenthesizeTree(rawgen_sixWordTerm_unary[i][1], paren_ops));
 };
 
 var rawgen_sevenWordTerm_unary = GEN({}, 'a b c d e f g', gen_ops_w_term_unary);
@@ -336,12 +550,49 @@ function compoundWordGenTests(){
             assert.equal(JSON.stringify(gen_threeFtTerm_noUnary.sort()), JSON.stringify(threeFtTerm_noUnary.sort()), compareSetErrorMsg(gen_threeFtTerm_noUnary,threeFtTerm_noUnary));
         });
     });
+    describe('Tests for compound-word Gen with alternative options', function() {
+        it('Must obey headedness with three word terminals', function() {
+            assert.equal(JSON.stringify(gen_threeWordTerm_headed.sort()), JSON.stringify(threeWordTerm_headed.sort()), compareSetErrorMsg(gen_threeWordTerm_headed,threeWordTerm_headed));
+        });
+        it('Must obey exhaustivity with three word terminals', function() {
+            assert.equal(JSON.stringify(gen_threeWordTerm_exhaustive.sort()), JSON.stringify(threeWordTerm_exhaustive.sort()), compareSetErrorMsg(gen_threeWordTerm_exhaustive,threeWordTerm_exhaustive));
+        });
+        it('Must obey non-recursivity with three word terminals', function() {
+            assert.equal(JSON.stringify(gen_threeWordTerm_nonRecursive.sort()), JSON.stringify(threeWordTerm_nonRecursive.sort()), compareSetErrorMsg(gen_threeWordTerm_nonRecursive,threeWordTerm_nonRecursive));
+        });
+        it('Tree rooted in iota with three word terminals', function() {
+            assert.equal(JSON.stringify(gen_threeWordTerm_iotaRoot.sort()), JSON.stringify(threeWordTerm_iotaRoot.sort()), compareSetErrorMsg(gen_threeWordTerm_iotaRoot,threeWordTerm_iotaRoot));
+        });
+    });
+
+    /*The process for finding the numbers below (i.e. 287, 2589, 24905, etc.) takes a bottom-up approach:
+        
+        -Step 1) find all the trees with one or fewer intermediate word layers. (essentially non-recursive, intermediate-branching trees)
+
+        -Step 2) for each of the Step 1 trees, calculate the number of word parsings below the intermediate layer (the Schroder numbers)
+
+        -Step 3) for each of the Step 1 trees, calculate the number of phi parsings above the intermediate layer (the Schroder numbers multiplied by 2^n)
+
+        -Step 4) for each of the Step 1 trees, multiply Step 2 results and Step 3 results
+
+        -Step 5) Add all of the results together from Step 4.
+
+    */
+
     describe('Tests for compound-word Gen beyond three terminals', function() {
-        it('Recursive w + phi for five word terminals', function() {
+        it('Four word terminals', function() {
+            assert.equal(gen_fourWordTerm_unary.length, 287, "");
+            assert.equal(count_duplicate(gen_fourWordTerm_unary).length, 0, "");
+        });
+        it('Five word terminals', function() {
             assert.equal(gen_fiveWordTerm_unary.length, 2589, "");
             assert.equal(count_duplicate(gen_fiveWordTerm_unary).length, 0, "");
         });
-        it('Recursive w + phi for seven word terminals', function() {
+        it('Six word terminals', function() {
+            assert.equal(gen_sixWordTerm_unary.length, 24905, "");
+            assert.equal(count_duplicate(gen_sixWordTerm_unary).length, 0, "");
+        });
+        it('Seven word terminals', function() {
             assert.equal(gen_sevenWordTerm_unary.length, 250807, "");
             assert.equal(count_duplicate(gen_sevenWordTerm_unary).length, 0, "");
         });
