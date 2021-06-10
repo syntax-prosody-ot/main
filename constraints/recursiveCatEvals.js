@@ -169,8 +169,8 @@ function markHeads(mytree, side){
 			}
 		}
 	}
-	//Indicate that this tree has been marked for heads
-	mytree.headsMarked = true;
+	//Indicate that this tree has been marked for heads, and on which side
+	mytree.headsMarked = side;
 	return mytree;
 
 	function markHeadsInner(child, previousChildren, side){
