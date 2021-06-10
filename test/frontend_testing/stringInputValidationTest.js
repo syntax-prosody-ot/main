@@ -78,7 +78,7 @@ function runStringInputValidationTest() {
                 assert.equal(document.getElementById("error").style.display, "block", "Displayed error not showing!");
             });
 
-            it("Generate min greater than max", async function() {
+            it("Generate min greater than max", function() {
                 document.getElementById("spotForm")["genStringsInput"].value = "j"
                 document.getElementById("spotForm")["genStringsMin"].value = 5;
                 document.getElementById("spotForm")["genStringsMax"].value = 3;
