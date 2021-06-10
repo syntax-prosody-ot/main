@@ -73,7 +73,6 @@ window.GEN = function(sTree, words, options){
 	//Point to first recursiveCat
 	options.recursiveCatIndex = 0;
 
-
 	/* First, warn the user if they have specified terminalCategory and/or
 	 * rootCategory without specifying recursiveCategory
 	 */
@@ -99,32 +98,36 @@ window.GEN = function(sTree, words, options){
 	}
 	finally{
 		var novelCatWarning = " is not a valid category with the current settings.\nCurrently valid prosodic categories: " + JSON.stringify(pCat) + "\nValid syntactic categories: " + JSON.stringify(sCat);
+
+		//private function to avoid code duplication in warning about novel recursive cats
+		function novelRecursiveCatEval(recCat){
+			if(categoryHierarchy.indexOf(recCat)<0){
+				var err = new Error("Specified recursive category "+recCat+novelCatWarning);
+				displayError(err.message, err);
+				novelCategories = true;
+				throw err;
+			}
+		}
+
 		if(options.rootCategory && categoryHierarchy.indexOf(options.rootCategory)<0){
 			var err = new Error("Specified root category "+options.recursiveCategory+novelCatWarning);
 			displayError(err.message, err);
 			novelCategories = true;
 			throw err;
 		}
-		//If there are more than one recursive categories defined, make sure to split on '-'.
-		if(options.recursiveCategory.split('-').length>1){
-			for(let i in options.recursiveCategory.split('-')){
-				//Throws an error for each defined recursive category (split on '-') if it is not a valid category.
-				if(categoryHierarchy.indexOf(options.recursiveCategory)<0){
-					var err = new Error("Specified recursive category "+options.recursiveCategory+novelCatWarning);
-					displayError(err.message, err);
-					novelCategories = true;
-					throw err;
-				}
+
+		//Throw an error for any specified recursive category(s) that are valid. 
+		//if...else structure because there could be more than 1 recursive cat:
+
+		//Multiple recursive cats: options.recursiveCats is only defined if options.recursiveCategory contained a hyphen and has been split (line 62 above).
+		if(options.recursiveCats && options.recursiveCats.length){
+			for(let i in options.recursiveCats){
+				novelRecursiveCatEval(options.recursiveCats[i]);
 			}
 		}
+		//Only one recursive cat
 		else{
-			//Throws an error for the defined recursive category if it is not a valid category.
-			if(categoryHierarchy.indexOf(options.recursiveCategory)<0){
-				var err = new Error("Specified recursive category "+options.recursiveCategory+novelCatWarning);
-				displayError(err.message, err);
-				novelCategories = true;
-				throw err;
-			}
+			novelRecursiveCatEval(options.recursiveCategory);
 		}
 		
 		//Throws an error for the defined terminal category if it is not a valid category.
