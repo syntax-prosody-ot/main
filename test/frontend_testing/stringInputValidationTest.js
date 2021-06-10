@@ -18,6 +18,9 @@ function setUp(){
 function runStringInputValidationTest() {
     //setUp();
     describe("stringInputValidationTest.js", function(){
+        window.confirm = async function(){ //automatically returning true for confirm prompts
+            return true;
+        }
         describe("Generate trees", function() {
             this.timeout(15000); //timeout at 15000ms
             //override timeout - write done inside the parenthesis of function() 
@@ -75,7 +78,7 @@ function runStringInputValidationTest() {
                 assert.equal(document.getElementById("error").style.display, "block", "Displayed error not showing!");
             });
 
-            it("Generate min greater than max", function() {
+            it("Generate min greater than max", async function() {
                 document.getElementById("spotForm")["genStringsInput"].value = "j"
                 document.getElementById("spotForm")["genStringsMin"].value = 5;
                 document.getElementById("spotForm")["genStringsMax"].value = 3;
