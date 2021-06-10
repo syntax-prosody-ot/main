@@ -18,6 +18,9 @@ function setUp(){
 function runStringInputValidationTest() {
     //setUp();
     describe("stringInputValidationTest.js", function(){
+        window.confirm = async function(){ //automatically returning true for confirm prompts
+            return true;
+        }
         describe("Generate trees", function() {
             this.timeout(15000); //timeout at 15000ms
             //override timeout - write done inside the parenthesis of function() 
