@@ -10,6 +10,7 @@ jobs:
       - run: npm i mocha-headless-chrome
       - run: npm install chai
      # - run: ./frontendBuild.sh #build script that complie front end tests
+      - run: ./jsbuild.sh
       - run: npm run test_frontend
     
  
