@@ -1,11 +1,10 @@
 // Interface testing with mocha and chai. Tests save/load/clear for string generation on the interface.
 // Doesn't get auto-tested in the console at present because it requires the interface.
 
-/*var assert;
+var assert;
 
 function setUpStringTest(){
     mocha.setup('bdd');
-    mocha.checkLeaks();
     assert = chai.assert;
 
     const mochaDiv = document.createElement("div");
@@ -14,11 +13,9 @@ function setUpStringTest(){
     const notResults = document.getElementsByClassName("not-results")[0];
 
     notResults.insertBefore(mochaDiv, notResults.firstChild);
-}*/
+}
 
-function runStringTest() {
-   // setUpStringTest();
-
+function stringTest() {
     describe("stringTest.js", function(){
         describe("String Generation save/load/clear test", function(){
             var testSettings = '';
@@ -108,6 +105,10 @@ function runStringTest() {
             });
         });
     });
+}
 
+function runstringTest() {
+    setUpStringTest();
+    stringTest();
     mocha.run();
 }

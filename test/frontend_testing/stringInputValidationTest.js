@@ -5,7 +5,6 @@ var assert;
 
 function setUp(){
     mocha.setup("bdd");
-    mocha.checkLeaks();
     assert = chai.assert;
 
     const mochaDiv = document.createElement("div");
@@ -15,8 +14,7 @@ function setUp(){
     notResults.insertBefore(mochaDiv, notResults.firstChild);
 }
 
-function runStringInputValidationTest() {
-    //setUp();
+function stringInputValidationTest() {
     describe("stringInputValidationTest.js", function(){
         window.confirm = async function(){ //automatically returning true for confirm prompts
             return true;
@@ -145,5 +143,10 @@ function runStringInputValidationTest() {
             });
         });
     });
+}
+
+function runstringInputValidationTest() {
+    setUp();
+    stringInputValidationTest();
     mocha.run();
 }
