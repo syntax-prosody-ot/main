@@ -1,4 +1,4 @@
-source jsbuild.sh
+source testBuild.sh
 cat interface1.html test/frontend_testing/frontend.html > test/frontend_testing/test.html
 sed -i "" 's|build/spot.js|../../build/spot.js|g' test/frontend_testing/test.html
 sed -i "" 's|build/built_in_trees.js|../../build/built_in_trees.js|g' test/frontend_testing/test.html
