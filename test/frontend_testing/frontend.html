@@ -1,0 +1,45 @@
+<html><head>  
+    <script src="../../build/spot.js"></script>
+
+    <!--Mocha setup stuff (1/2)-->
+    <meta charset="UTF-8">
+    <script src="../../lib/test/mocha.min.js"></script>
+    <script src="../../lib/test/chai.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../lib/test/mocha.css">
+    <!--mocha setup stuff to be continued in document body-->
+    
+</head>
+<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+    <script>
+    mocha.setup("bdd");
+    assert = chai.assert;
+    </script>
+<div id="mocha"></div>
+<script>
+    const mochaDiv = document.createElement("div");
+    mochaDiv.setAttribute("id", "mocha");
+
+    const notResults = document.getElementById("save-load-section");
+    notResults.insertBefore(mochaDiv, notResults.firstChild);
+</script> 
+    <!--frontend testing steps: put your js file with src then run test function
+        be sure to add clearAll and clearTableau after test function call
+    Examples are shown below-->
+    <script src="stringInputValidationTest.js"></script>
+    <script>
+    stringInputValidationTest();
+    clearAll();
+    clearTableau();
+    </script>
+    <script src="stringTest.js"></script>
+    <script>
+    stringTest();
+    clearAll();
+    clearTableau();
+    </script>
+    <!--add frontend testing functions below-->
+
+    <script>mocha.run()</script>
+	<pre id="results-container"></pre>
+
+</body></html>
