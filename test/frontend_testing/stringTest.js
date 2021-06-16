@@ -107,7 +107,7 @@ function stringTest() {
     });
 }
 
-function runstringTest() {
+function runStringTest() {
     setUpStringTest();
     stringTest();
     mocha.run();

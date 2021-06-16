@@ -145,7 +145,7 @@ function stringInputValidationTest() {
     });
 }
 
-function runstringInputValidationTest() {
+function runStringInputValidationTest() {
     setUp();
     stringInputValidationTest();
     mocha.run();
