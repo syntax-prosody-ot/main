@@ -130,8 +130,9 @@ window.GEN = function(sTree, words, options){
 			novelRecursiveCatEval(options.recursiveCategory);
 		}
 		
-		//Throws an error for the defined terminal category if it is not a valid category.
-		if(options.terminalCategory && categoryHierarchy.indexOf(options.terminalCategory)<0){
+		// Throws an error for the defined terminal category if it is not a valid category.
+		// Don't check terminal category if we're building syntactic trees.
+		if(!options.syntactic && options.terminalCategory && categoryHierarchy.indexOf(options.terminalCategory)<0){
 			var err = new Error("Specified terminal category "+options.recursiveCategory+novelCatWarning);
 			displayError(err.message, err);
 			novelCategories = true;
