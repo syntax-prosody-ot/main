@@ -17,24 +17,45 @@
 	<pre id="results-container"></pre>
 
 <script>
+    function binNonMin(ptree, cat){
+        var vcount = 0;
+        if(ptree.children && ptree.children.length){
+            if(ptree.cat === cat && !isMinimal(ptree) && ptree.children.length>2){
+                //logreport("VIOLATION: "+ptree.id+" has "+ptree.children.length+" children!");
+                vcount++;
+            }
+            for(var i = 0; i<ptree.children.length; i++){
+                vcount += binNonMin(ptree.children[i], cat);
+            }
+        }
+        return vcount;
+    }
+
+</script>
+
+<script>
 	// ---- Variables that need to be customized ----
     var abcd = 'a b c d'.split(' ');
     var sTreeList = [];
-    for(let i=2; i<abcd.length; i++){
-        sTreeList = sTreeList.concat(sTreeGEN(abcd.slice(0,i).join(' '), {rootCategory:'x0', recursiveCategory: 'x0', terminalCategory: 'Ft'}));
+    for(let i=2; i<abcd.length+1; i++){
+        sTreeList = sTreeList.concat(sTreeGEN(abcd.slice(0,i).join(' '), {rootCategory:'x0', recursiveCategory: 'x0', terminalCategory: 'Ft', maxBranching:4}));
     }
+    function mySFilter(x){
+        return (eqSis({}, x)==0 && binNonMin(x, 'x0')==0);
+    }
+    sTreeList = sTreeList.filter(x => mySFilter(x));
     
-    sTreeList = sTreeList.filter(x => eqSis({}, x)==0);
+    for(s in sTreeList){
+        console.log(parenthesizeTree(sTreeList[s]));
+    }
 	
-	/*Constraint sets are defined below. You can change these or add your own. A constraint set is a list of constraint function names (refer to the files in constraints.js for names) + category arguments (separated from constraint names with -; refer to prosodicHierarchy.js for a list of defined categories).*/
-	
-	var compoundCon = ['matchSP-x0', 'matchPS-x0', 'binMaxLeaves-w', 'binMinLeaves-w'];
-	
+	/*Constraint sets*/
+	var basicCon = ['matchSP-x0', 'matchPS-w', 'binMaxLeaves-w', 'binMinLeaves-w'];
+	var phiCon = basicCon.concat('matchPS-phi');
+    var headCon = basicCon.concat('binMaxHead-w', 'matchPS-phi');
 		
-	//var conOther = ['constraint1-xp','constraint2-phi', 'constraint3-w', 'etc-i'];
-	
 	/*A list of names for constraint sets.*/
-    var conNames = ['compoundCon'];
+    var conNames = ['headCon'];
 	
 	//Candidate sets are generated with the options below.
 	var gen_options = {
@@ -78,7 +99,8 @@
 			revealNextSegment();
 			lastSegmentId++;
 			
-			//Add the tableau from the current stree to cumulative tableau that is being built in csvSegs.
+
+            //Add the tableau from the current stree to cumulative tableau that is being built in csvSegs.
             csvSegs.push(tableauToCsv(tabl, '\t', {noHeader: j}));
         }
 		
