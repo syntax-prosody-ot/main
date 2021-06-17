@@ -24,6 +24,7 @@
         sTreeList = sTreeList.concat(sTreeGEN(abcd.slice(0,i).join(' '), {rootCategory:'x0', recursiveCategory: 'x0', terminalCategory: 'Ft'}));
     }
     
+    sTreeList = sTreeList.filter(x => eqSis({}, x)==0);
 	
 	/*Constraint sets are defined below. You can change these or add your own. A constraint set is a list of constraint function names (refer to the files in constraints.js for names) + category arguments (separated from constraint names with -; refer to prosodicHierarchy.js for a list of defined categories).*/
 	
