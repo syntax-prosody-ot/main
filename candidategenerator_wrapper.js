@@ -151,17 +151,24 @@ window.GEN = function(sTree, words, options){
 		displayWarning("You have instructed GEN to produce non-recursive trees and to produce trees where the intermediate nodes and the terminal nodes are of the same category. You will only get one bracketing.");
 	}
 
-	//Perform additional checks of layering if novel categories are involved.
+	//Perform additional checks of layering if novel categories are not involved.
 	if(!novelCategories){
 		if(categoryHierarchy.isHigher(options.recursiveCategory, options.rootCategory) || categoryHierarchy.isHigher(options.terminalCategory, options.recursiveCategory)){
 			displayWarning("You have instructed GEN to produce trees that do not obey layering. See pCat and sCat in prosodicHierarchy.js");
 		}
 		else{
-			if(options.recursiveCategory !== categoryHierarchy.nextLower(options.rootCategory) && options.recursiveCategory !== options.rootCategory){
+			//Check that the highest recursive category is immediately below the selected root category.
+			if(options.recursiveCategory !== categoryHierarchy.nextLower(options.rootCategory) && options.recursiveCategory !== options.rootCategory)
+			{
 				displayWarning(""+options.recursiveCategory+" is not directly below "+options.rootCategory+" in the prosodic hierarchy. None of the resulting trees will be exhaustive because GEN will not generate any "+categoryHierarchy.nextLower(options.rootCategory)+"s. See pCat and sCat in prosodicHierarchy.js");
 			}
-			if(options.terminalCategory !== categoryHierarchy.nextLower(options.recursiveCategory) && options.terminalCategory !== options.recursiveCategory){
-				displayWarning(""+options.terminalCategory+" is not directly below "+options.recursiveCategory+" in the prosodic hierarchy. None of the resulting trees will be exhaustive because GEN will not generate any "+categoryHierarchy.nextLower(options.recursiveCategory)+"s. Current pCat: "+pCat);
+			//Check that the lowest recursive category is immediately above the chosen terminal category.
+			if(!options.recursiveCats){
+				options.recursiveCats = [options.recursiveCategory];
+			}
+			var lowestRecCat = options.recursiveCats[options.recursiveCats.length-1];
+			if(options.terminalCategory !== categoryHierarchy.nextLower(lowestRecCat) && options.terminalCategory !== lowestRecCat){
+				displayWarning(""+options.terminalCategory+" is not directly below "+lowestRecCat+" in the prosodic hierarchy. None of the resulting trees will be exhaustive because GEN will not generate any "+categoryHierarchy.nextLower(lowestRecCat)+"s. Current pCat: "+pCat);
 			}
 		}
 	}
