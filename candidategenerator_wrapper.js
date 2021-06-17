@@ -51,7 +51,15 @@ window.GEN = function(sTree, words, options){
 
 	// Check for multiple recursive categories
 	if(options.recursiveCategory && options.recursiveCategory.length){
-		var recCats = options.recursiveCategory.split('-');
+		if(typeof options.recursiveCategory === "string"){
+			var recCats = options.recursiveCategory.split('-');
+		}
+		else {
+			var recCats = [];
+			for(var i = 0; i<options.recursiveCategory.length; i++){
+				recCats = recCats.concat(options.recursiveCategory[i]);
+			}
+		}
 		if(recCats.length > 1){
 			//console.log(recCats);
 			
