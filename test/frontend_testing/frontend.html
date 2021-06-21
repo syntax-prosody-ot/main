@@ -5,23 +5,20 @@
     </script>
 <div id="mocha"></div>
 <script>
-    //adding tag for mocha div
     const mochaDiv = document.createElement("div");
     mochaDiv.setAttribute("id", "mocha");
 
     const notResults = document.getElementById("save-load-section");
     notResults.insertBefore(mochaDiv, notResults.firstChild);
-</script> 
+    </script> 
+
     <script>
     var funct = [];
     for (var j in window) {
-        if (window.hasOwnProperty(j)) {
+        if (window.hasOwnProperty(j) &&  j.indexOf('_r') == 0) {
             funct.push(j);
         }
     }
-    funct = funct.filter(function(item, index) {
-        return item.indexOf('_r') == 0; 
-    });
     for (var j = 0; j < funct.length; j++) {
         eval(funct[j])();
         clearAll();

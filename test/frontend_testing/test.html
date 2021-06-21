@@ -2432,13 +2432,13 @@
     <script>
     var funct = [];
     for (var j in window) {
-        if (window.hasOwnProperty(j)) {
+        if (window.hasOwnProperty(j) &&  j.indexOf('_r') == 0) {
             funct.push(j);
         }
     }
-    funct = funct.filter(function(item, index) {
+    /*funct = funct.filter(function(item, index) {
         return item.indexOf('_r') == 0; 
-    });
+    });*/
     for (var j = 0; j < funct.length; j++) {
         eval(funct[j])();
         clearAll();
