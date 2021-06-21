@@ -2415,46 +2415,36 @@
 
 	</body>
 </html>
-<html><head>  
-    <script src="../../../../build/spot.js"></script>
-
-    <!--Mocha setup stuff (1/2)-->
-    <meta charset="UTF-8">
-    <script src="../../../../lib/test/mocha.min.js"></script>
-    <script src="../../../../lib/test/chai.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="../../../../lib/test/mocha.css">
-    <!--mocha setup stuff to be continued in document body-->
-    
-</head>
-<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+<html><body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
     <script>
     mocha.setup("bdd");
     assert = chai.assert;
     </script>
 <div id="mocha"></div>
 <script>
+    //adding tag for mocha div
     const mochaDiv = document.createElement("div");
     mochaDiv.setAttribute("id", "mocha");
 
     const notResults = document.getElementById("save-load-section");
     notResults.insertBefore(mochaDiv, notResults.firstChild);
 </script> 
-    <!--frontend testing run test function inside script tag
-        be sure to add clearAll and clearTableau after test function call
-    Examples are shown below-->
     <script>
-    stringInputValidationTest();
-    clearAll();
-    clearTableau();
-    </script>
-    <script>
-    stringTest();
-    clearAll();
-    clearTableau();
-    </script>
-    <!--add frontend testing functions below-->
-
+    var funct = [];
+    for (var j in window) {
+        if (window.hasOwnProperty(j)) {
+            funct.push(j);
+        }
+    }
+    funct = funct.filter(function(item, index) {
+        return item.indexOf('_r') == 0; 
+    });
+    for (var j = 0; j < funct.length; j++) {
+        eval(funct[j])();
+        clearAll();
+        clearTableau();
+    }
+    </script>  
     <script>mocha.run()</script>
 	<pre id="results-container"></pre>
-
 </body></html>
