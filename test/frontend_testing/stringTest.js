@@ -15,7 +15,7 @@ function setUpStringTest(){
     notResults.insertBefore(mochaDiv, notResults.firstChild);
 }
 
-function stringTest() {
+function _rStringTest() {
     describe("stringTest.js", function(){
         describe("String Generation save/load/clear test", function(){
             var testSettings = '';
@@ -109,6 +109,6 @@ function stringTest() {
 
 function runStringTest() {
     setUpStringTest();
-    stringTest();
+    _rStringTest();
     mocha.run();
 }

@@ -14,7 +14,7 @@ function setUp(){
     notResults.insertBefore(mochaDiv, notResults.firstChild);
 }
 
-function stringInputValidationTest() {
+function _rStringInputValidationTest() {
     describe("stringInputValidationTest.js", function(){
         window.confirm = async function(){ //automatically returning true for confirm prompts
            return true;
@@ -147,6 +147,6 @@ function stringInputValidationTest() {
 
 function runStringInputValidationTest() {
     setUp();
-    stringInputValidationTest();
+    _rStringInputValidationTest();
     mocha.run();
 }
