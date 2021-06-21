@@ -90,12 +90,11 @@
 	1. Recommended: Auto-generate a systematic set of syntactic trees using sTreeGEN()
 	2. Manually create and save trees (either in a separate tree file (trees/YOUR_TREES_HERE.js) or in this document), and list their variable names in the array.*/
 
-	//Option 1: Auto generation of trees (Recommended)
 	var sTreeOptions = {rootCategory:'cp', recursiveCategory: 'xp', terminalCategory: 'x0',
 						noAdjacentHeads: true, noAdjuncts: false, 
 						maxBranching: 2, noUnary: false,
 						headSide: false, addClitics: false};
-	// Replace 'a b', 'a b c' with the terminal strings you are interested in
+	
 	var terminalStrings = ['a b', 'a b c'];
 	var sTreeLists = Array(length=terminalStrings.length);
 	for(var i in terminalStrings){
