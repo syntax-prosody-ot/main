@@ -64,6 +64,7 @@ function isHigher(pCat, cat1, cat2){
 	if(pCat.indexOf(cat1) < 0 || pCat.indexOf(cat2) < 0){
 		let prosodicMismatchMsg = cat1 + " or "+cat2 + " is not in the current category hierarchy "+pCat;
 		console.warn(prosodicMismatchMsg);
+		return false;
 	}
 	return (pCat.indexOf(cat1) < pCat.indexOf(cat2));
 }
@@ -80,6 +81,7 @@ function isLower(pCat, cat1, cat2){
 	if(pCat.indexOf(cat1) < 0 || pCat.indexOf(cat2) < 0){
 		let prosodicMismatchMsg = cat1 + " or "+cat2 + "is not in the current category hierarchy "+pCat;
 		console.warn(prosodicMismatchMsg);
+		return false;
 	}
 	return (pCat.indexOf(cat1) > pCat.indexOf(cat2));
 }
