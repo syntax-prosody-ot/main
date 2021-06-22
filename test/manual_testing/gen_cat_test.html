@@ -2,21 +2,21 @@
 <head>
 	<title>SPOT investigation: autogenerating inputs</title>
 
-	<link rel="stylesheet" type="text/css" href="../spot.css">
+	<link rel="stylesheet" type="text/css" href="../../spot.css">
 
-	<script src="../lib/jszip.min.js"></script>
-    <script src="../trees/abstractMatchTrees.js"></script>
-	
+	<script src="../../lib/jszip.min.js"></script>
+    	
 
 	<!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
 	(open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
-	<script src="../build/spot.js"></script>	
+	<script src="../../build/spot.js"></script>	
 
 				
 </head>
 
 <body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
 	<h2>GENerating inputs</h2>
+	<p>A visual check that changing the categories for output GEN produces reasonable results. Labels in the input cell of each tableau indicate the root category, recursive category, and terminal category used in GEN for that tableau.</p>
 	<pre id="results-container"></pre>
 
 <script>
@@ -36,6 +36,7 @@
     var w_w_w = {rootCategory:'w', recursiveCategory:'w', terminalCategory: 'w'};
  
     var output_gen_opt_list = [i_phi_w, phi_phi_w, phi_w_w, w_w_w];
+	var labels = ['i_phi_w', 'phi_phi_w', 'phi_w_w', 'w_w_w'];
 
     var myCategoryBrackets = {
 	"i": "{}",
@@ -63,7 +64,8 @@
             //Make the candidate set using the GEN function (defined in candidategenerator.js)
             //Leave the 2nd argument as an empty string to scrape words from the terminals of the syntactic tree.
             var output_gen_options = output_gen_opt_list[j];
-            var candSet = GEN({}, 'a b c', output_gen_options);
+			var labelObj = {id:labels[j], cat:'x0'};
+            var candSet = GEN(labelObj, 'a b c', output_gen_options);
             
 			//Make the tableau using the makeTableau function (defined in tableauMaker.js)
             var tabl = makeTableau(candSet, window[consName], {showTones: output_gen_options.addTones, parens: myCategoryBrackets});
