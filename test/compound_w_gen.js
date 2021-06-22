@@ -563,7 +563,7 @@ function compareSetErrorMsg(observed, expected){
 
 //Mocha Tests
 function compoundWordGenTests(){
-    describe('Tests for compound-word Gen allowing unary branches', function() {
+    describe('Tests for compound-word Gen allowing unary branches. Phi root.', function() {
         it('Recursive w + phi for two words', function() {
             assert.equal(JSON.stringify(gen_twoWordTerm.sort()), JSON.stringify(twoWordTerm.sort()), compareSetErrorMsg(gen_twoWordTerm,twoWordTerm));
         });
@@ -577,7 +577,7 @@ function compoundWordGenTests(){
             assert.equal(JSON.stringify(gen_threeFtTerm.sort()), JSON.stringify(threeFtTerm.sort()), compareSetErrorMsg(gen_threeFtTerm,threeFtTerm));
         });
     });
-    describe('Tests for compound-word Gen disallowing unary branches', function() {
+    describe('Tests for compound-word Gen disallowing unary branches. Phi root.', function() {
         it('Recursive w + phi for two words', function() {
             assert.equal(JSON.stringify(gen_twoWordTerm_noUnary.sort()), JSON.stringify(twoWordTerm_noUnary.sort()), compareSetErrorMsg(gen_twoWordTerm_noUnary,twoWordTerm_noUnary));
         });
@@ -591,7 +591,7 @@ function compoundWordGenTests(){
             assert.equal(JSON.stringify(gen_threeFtTerm_noUnary.sort()), JSON.stringify(threeFtTerm_noUnary.sort()), compareSetErrorMsg(gen_threeFtTerm_noUnary,threeFtTerm_noUnary));
         });
     });
-    describe('Tests for compound-word Gen with alternative options', function() {
+    describe('Tests for compound-word Gen with alternative options. Iota root, phi/w recursion.', function() {
         it('Must obey headedness with three word terminals', function() {
             assert.equal(JSON.stringify(gen_threeWordTerm_headed.sort()), JSON.stringify(threeWordTerm_headed.sort()), compareSetErrorMsg(gen_threeWordTerm_headed,threeWordTerm_headed));
         });
