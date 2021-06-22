@@ -49,6 +49,8 @@ window.GEN = function(sTree, words, options){
 	var categoryHierarchy = options.syntactic ? sCat : pCat;
 	var defaultRecCat = options.syntactic ? "xp" : "phi"; //sets the default of recursiveCategory option to "phi" if prosodic, "xp" if syntactic
 
+	options.recursiveCategory = options.recursiveCategory || defaultRecCat;
+
 	// Check for multiple recursive categories
 	if(options.recursiveCategory && options.recursiveCategory.length){
 		if(typeof options.recursiveCategory === "string"){
