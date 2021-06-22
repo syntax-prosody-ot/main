@@ -34,9 +34,11 @@
     var phi_phi_w = {rootCategory:'phi', recursiveCategory:'phi', terminalCategory: 'w'};
     var phi_w_w = {rootCategory:'phi', recursiveCategory:'w', terminalCategory: 'w'};
     var w_w_w = {rootCategory:'w', recursiveCategory:'w', terminalCategory: 'w'};
+
+	var phi_phiw_w = {rootCategory:'phi', recursiveCategory:'phi-w', terminalCategory: 'w'};
  
-    var output_gen_opt_list = [i_phi_w, phi_phi_w, phi_w_w, w_w_w];
-	var labels = ['i_phi_w', 'phi_phi_w', 'phi_w_w', 'w_w_w'];
+    var output_gen_opt_list = [i_phi_w, phi_phi_w, phi_w_w, w_w_w, phi_phiw_w];
+	var labels = ['i_phi_w', 'phi_phi_w', 'phi_w_w', 'w_w_w', 'phi_phiw_w'];
 
     var myCategoryBrackets = {
 	"i": "{}",
