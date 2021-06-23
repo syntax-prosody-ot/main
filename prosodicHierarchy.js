@@ -1,7 +1,7 @@
 /* TWO POSSIBLE PROSODIC HIERARCHY THEORIES */
 PH_PHI = {
 	// Defines the prosodic hierarchy. Lower index = higher category.
-	pCat : ["u", "i", "phi", "w", "Ft", "syll"],
+	pCat : ["i", "phi", "w", "Ft", "syll"],
 
 	//An array of pairs to define which syntactic categories "match" which prosodic categories.
 	categoryPairings : {
@@ -62,8 +62,9 @@ function resetCategoryPairings(){
 //Function that compares two prosodic categories and returns whether cat1 is higher in the prosodic hierarchy than cat2
 function isHigher(pCat, cat1, cat2){
 	if(pCat.indexOf(cat1) < 0 || pCat.indexOf(cat2) < 0){
-		let prosodicMismatchMsg = cat1 + " or "+cat2 + " is not in the current prosodic hierarchy "+pCat;
-		throw new Error(prosodicMismatchMsg);
+		let prosodicMismatchMsg = cat1 + " or "+cat2 + " is not in the current category hierarchy "+pCat;
+		console.warn(prosodicMismatchMsg);
+		return false;
 	}
 	return (pCat.indexOf(cat1) < pCat.indexOf(cat2));
 }
@@ -78,8 +79,9 @@ sCat.isHigher = function(cat1, cat2){
 // Functions that compare two prosodic/syntactic categories and returns true if cat 1 is lower in the prosodic hierarchy than cat2
 function isLower(pCat, cat1, cat2){
 	if(pCat.indexOf(cat1) < 0 || pCat.indexOf(cat2) < 0){
-		let prosodicMismatchMsg = cat1 + " or "+cat2 + "is not in the current prosodic hierarchy "+pCat;
-		throw new Error(prosodicMismatchMsg);
+		let prosodicMismatchMsg = cat1 + " or "+cat2 + "is not in the current category hierarchy "+pCat;
+		console.warn(prosodicMismatchMsg);
+		return false;
 	}
 	return (pCat.indexOf(cat1) > pCat.indexOf(cat2));
 }
