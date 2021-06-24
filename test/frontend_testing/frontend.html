@@ -15,7 +15,7 @@
     <script>
     var funct = [];
     for (var j in window) {
-        if (window.hasOwnProperty(j) &&  j.indexOf('_r') == 0) {
+        if (window.hasOwnProperty(j) &&  j.indexOf('_r') == 0 && typeof window[j] === 'function') {
             funct.push(j);
         }
     }
