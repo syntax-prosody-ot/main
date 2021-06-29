@@ -34,20 +34,19 @@ Part 1: setting up mocha tests
 * This function should contain all the describe() and it() statements of the actual test.
 * It is important that the function that contains mocha tests starts with _r
 
-function _r<test>() /{
-	//tests
-/}
+function _r<test>() {\
+	//tests\
+}
 
 Part 2: setting up function being run on interface1.html
 ----------------
 * Running individual test suites manually on the interface, write a function that runs both the setUp<test>() and _r<test>() functions. This can be called from the console of interface1.html, if the build file spot.js has been built using testBuild.sh or testBuild.bat (rather than the default jsbuild.sh / jsbuild.bat). 
 
-function run<test>() {
-   setUpMocha(tag, arg);  //setUp mocha
-   _r<test>();    //call the mocha tests
-   mocha.run();   //run mocha tests
+function run<test>() {\
+   setUpMocha(tag, arg);  //setUp mocha\
+   _r<test>();    //call the mocha tests\
+   mocha.run();   //run mocha tests\
 }
-
 
 Running the test on interface1.html
 ----------------
