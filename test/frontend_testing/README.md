@@ -34,9 +34,9 @@ Part 1: setting up mocha tests
 * This function should contain all the describe() and it() statements of the actual test.
 * It is important that the function that contains mocha tests starts with _r
 
-function _r<test>() {
+function _r<test>() /{
 	//tests
-}
+/}
 
 Part 2: setting up function being run on interface1.html
 ----------------
