@@ -53,14 +53,14 @@ function _rStringTest() {
                     //we know the order arbitraryStrings were assigned, check that the same order is preserved
                     assert(input.value === unusedStrings.pop(), input.name + " did not load correctly");
                 }
-            });*/
+            });
 
             it("Save with two strings", function() {
-                /* All we have to do now is click the "add list of terminals" button to get
+                //All we have to do now is click the "add list of terminals" button to get
                    more terminal string inputs and run the exact same three testcases above.
                    I don't want to factor out the copied code, though, because then clicking
                    on the test case in mocha would be less useful.
-                */
+                
                 document.getElementById("addList").click();
                 for(let input of inputs) {
                     if(input.type === 'text') {
@@ -89,6 +89,7 @@ function _rStringTest() {
                     assert(input.value === unusedStrings.pop(), input.name + " did not load correctly");
                 }
             });
+            */
         });
     });
 }
