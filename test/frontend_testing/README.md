@@ -4,7 +4,7 @@ frontend testing README
 Different files contributing to the frontend test
 ----------------
 
-Build Script - frontendBuild.sh/frontendBuild.bat
+* Build Script - *frontendBuild.sh/frontendBuild.bat
 ----------------
 
 * source testBuild.sh - will be using things from testBuild.sh
