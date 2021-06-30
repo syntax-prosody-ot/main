@@ -282,6 +282,43 @@ function strongStartClitic(s, ptree, cat){
 
 }
 
+/** Category-independent version of strongStartClitic.
+ * Proposed by Jennifer Bellik in SS-ES stringency chapter in AOT book
+ * as a generalized version of the hyperlocally-scoped SS constraint
+ * in Bennett, Elfner, & McCloskey 2016. May also be conceived of as
+ * Exhaustivity enforced at the left edge only.
+ * 
+ * "Assign a violation for every node of category k whose first daughter
+ * is of category < k-1." (Bellik 2021)
+ * 
+*/
+function ssHypLoc(stree, ptree, cat){
+	var vcount = 0;
+
+	//base case: ptree is a leaf or only has one child
+	if(!ptree.children){
+		return vcount;
+	}
+
+	if(ptree.children.length){		
+		var parentCat = ptree.cat;
+		var firstChildCat = ptree.children[0].cat;
+
+		if(pCat.isLower(firstChildCat, pCat.nextLower(parentCat)))
+		{
+			vcount++;
+		}
+	}
+
+	// Recurse
+	for(var i=0; i<ptree.children.length; i++){
+		child = ptree.children[i];
+		vcount += ssHypLoc(stree, child, cat);
+	}
+	//Code for going through the tree and evaluate for some structure goes here
+	return vcount;
+}
+
 /* Strong start (cat init)
  * Assign one violation for every node of category k that is initial in a node of category
  * k+2 and sister to a node of category k+1
