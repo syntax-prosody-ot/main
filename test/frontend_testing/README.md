@@ -5,7 +5,7 @@ Different files contributing to the frontend test
 ----------------
 
 Build Script - frontendBuild.sh/frontendBuild.bat
-#####
+----------------
 
 * source testBuild.sh - will be using things from testBuild.sh
 * cat command which copies interface1.html and frontend.html files to a file, note that placing does matters. interface1.html should be copied first and therefore, should be the first argument of cat command and then the rest can be copied
