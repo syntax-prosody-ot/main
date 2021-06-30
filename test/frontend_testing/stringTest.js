@@ -46,14 +46,14 @@ function _rStringTest() {
                 }
             });
 
-            it("Load with one string", function() {
+            /*it("Load with one string", function() {
                 //load earlier saved string
                 my_built_in_analysis({}, false, testSettings, []);
                 for(let input of inputs) {
                     //we know the order arbitraryStrings were assigned, check that the same order is preserved
                     assert(input.value === unusedStrings.pop(), input.name + " did not load correctly");
                 }
-            });
+            });*/
 
             it("Save with two strings", function() {
                 /* All we have to do now is click the "add list of terminals" button to get
