@@ -417,7 +417,7 @@ function binMaxHead(s, ptree, cat, options) {
  * Implemented to help with Max Kaplan's Ojibwe analysis 
  * (for the iota level)
  */
- function binMinHead(s, p, cat, options){
+function binMinHead(s, p, cat, options){
 	options = options || {};
 	options.minimal = true;
 	if(!options.side) options.side = 'left'; //default to left-headed for Ojibwe reasons
