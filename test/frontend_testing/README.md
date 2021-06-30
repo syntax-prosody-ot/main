@@ -27,6 +27,10 @@ test.html
 ----------------
 * run frontendBuild.sh which will compile frontend.html and interface1.html together
 
+Github actions - test-spot-frontend.yml
+----------------
+* Installs mocha-headless-chrome which uses mocha and puppeteer and runs frontendBuild.sh build script. It will automatically generate frontend tests in headless-chrome and gets the results.
+
 How to add a new frontend test:
 ----------------
 Do not add anything to frontend.html when creating tests unless specifically making changes to it. Testing is done with headless Chrome, currently, being using just mocha but can add on other testing packages such as puppeteer. Examples of test files are stringInputValidationTest.js and stringTest.js in test/frontend_testing
