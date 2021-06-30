@@ -31,10 +31,10 @@ function convertTreePairsListToString(treeList){
 }
 
 // an interface-free version of displayWarning() for testing in the terminal
-function displayWarning(message){
+/*function displayWarning(message){
     console.log(message);
 }
 
 function displayError(message){
-    console.log(message);
-}
+   console.log(message);
+}*/
