@@ -1,4 +1,4 @@
-README testing for frontend instructions 
+README testing
 ================
 
 Different files contributing to the frontend test
