@@ -1,0 +1,178 @@
+<html>
+<head>
+	<title>Syntax prosody interface application</title>
+
+	<link rel="stylesheet" type="text/css" href="../spot.css">
+
+	<script src="../lib/jszip.min.js"></script>
+
+	<!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
+	(open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
+	<script src="../build/spot.js"></script>	
+	<script>
+	/*Custom names for constraints*/
+
+    //Category-independent version of strongStartClitic
+	function ssHypLoc(stree, ptree, cat){
+        var vcount = 0;
+
+        //base case: ptree is a leaf or only has one child
+        if(!ptree.children){
+            return vcount;
+        }
+        
+        if(ptree.children.length){		
+            var parentCat = ptree.cat;
+            var firstChildCat = ptree.children[0].cat;
+
+            if(pCat.isLower(firstChildCat, pCat.nextLower(parentCat)))
+            {
+                vcount++;
+            }
+        }
+        
+        // Recurse
+        for(var i=0; i<ptree.children.length; i++){
+            child = ptree.children[i];
+            vcount += ssHypLoc(stree, child, cat);
+        }
+		//Code for going through the tree and evaluate for some structure goes here
+		return vcount;
+	}
+
+    //Rename other constraints for convenience
+    function ssGlob(stree, ptree, cat){
+        return strongStart(stree, ptree, cat);
+    }
+    function ssLoc(stree, ptree, cat){
+        return strongStart_Elfner(stree, ptree, cat);
+    }
+
+    function esPar(stree, ptree, cat){
+        return eqSis(stree, ptree, cat);
+    }
+
+    function esAdj(stree, ptree, cat){
+        return equalSistersAdj(stree, ptree, cat);
+    }
+
+    function match(stree, ptree){
+        return matchSPPS(stree, ptree, 'xp');
+    }
+
+    function ssClitic(stree, ptree){
+        return strongStartClitic(stree, ptree);
+    }
+	</script>
+				
+</head>
+
+<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+	<h2>MY ANALYSIS: investigation using SPOT</h2>
+	<pre id="results-container"></pre>
+
+<script>
+	// ---- Variables that need to be customized ----
+	
+	// 	Options for auto-generating input syntactic trees 
+	// 	see sTreeGEN() in inputCandidateGenerator.js):
+	//   - rootCategory: default = 'xp'
+	//   - recursiveCategory: default = 'xp'
+	//   - terminalCategory: default = 'x0'
+	//   - noAdjacentHeads: are x0 sisters allowed? [x0 x0]. Defaults to true.
+	//   - noAdjuncts: are xp sisters allowed? [xp xp]. Defaults to false.
+	//   - maxBranching: determines the maximum number of branches that are tolerated in 
+	//     the resulting syntactic trees. Default = 2
+	//   - addClitics: 'right' or 'left' determines whether clitics are added on the 
+	//     righthand-side or the left; true will default to right. false doesn't add any clitics. 
+	//     Default false.
+	//   - headSide: 'right', 'left', 'right-strict', 'left-strict'. 
+	//     Which side will heads be required to be on, relative to their complements? 
+	//     Also, must heads be at the very edge (strict)?
+
+	/*sTreeList is an array of syntactic trees. There are two options for getting the list of syntactic trees:
+	1. Recommended: Auto-generate a systematic set of syntactic trees using sTreeGEN()
+	2. Manually create and save trees (either in a separate tree file (trees/YOUR_TREES_HERE.js) or in this document), and list their variable names in the array.*/
+
+	var sTreeOptions = {rootCategory:'cp', recursiveCategory: 'xp', terminalCategory: 'x0',
+						noAdjacentHeads: true, noAdjuncts: false, 
+						maxBranching: 2, noUnary: false,
+						headSide: false, allowClitic: true};
+	
+	var terminalStrings = ['a b', 'a b c'];
+	var sTreeLists = Array(length=terminalStrings.length);
+	for(var i in terminalStrings){
+		sTreeLists[i] = sTreeGEN(terminalStrings[i], sTreeOptions);
+	}
+	var sTreeList = sTreeLists.flat();
+
+	/*Constraint sets are defined below. You can change these or add your own. A constraint set is a list of constraint function names (refer to the files in constraints.js for names) + category arguments (separated from constraint names with -; refer to prosodicHierarchy.js for a list of defined categories).*/
+    var noES = ['ssGlob', 'ssLoc','ssHypLoc', 'matchSPPS-xp'];
+	var conPar = ['esPar','ssGlob', 'ssLoc','ssHypLoc', 'matchSPPS-xp'];
+	var conAdj = ['esAdj','ssGlob', 'ssLoc','ssHypLoc', 'matchSPPS-xp'];
+	//var conOther = ['constraint1-xp','constraint2-phi', 'constraint3-w', 'etc-i'];
+	
+	/*A list of names for your constraint sets. These are used for naming the tableau csv files and finding the lists of constraint names. They need to match the variable names above.*/
+    var conNames = ['noES','conPar', 'conAdj'];
+	
+	//Candidate sets are generated with the options below.
+	var hd = {obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: false};
+    var hdless = {obeysHeadedness: false, obeysNonrecursivity: false, obeysExhaustivity: false};
+    var genOptionsList = ['hd', 'hdless'];
+	
+	
+	/*Add an outer for-loop to iterate over the different tree sets, as well as interating over the trees in each set.*/
+    function makeTableauCsvs(consName, genOptions) {
+        var csvSegs = [];	//List to accumulate tableaux in
+		
+        //For each syntactic tree in sTreeList, make a tableau using the current constraint set
+        for(var j=0; j<sTreeList.length; j++){
+            //Make the candidate set using the GEN function (defined in candidategenerator.js)
+			var candSet = GEN(sTreeList[j], '', window[genOptions]);
+            
+			//Make the tableau using the makeTableau function (defined in tableauMaker.js)
+            var tabl = makeTableau(candSet, window[consName]);
+			
+			//Write the tableau to the screen and reveal it -- only uncomment this if you don't have too many tableaux!
+			// writeTableau(tabl)
+			// revealNextSegment();
+			// lastSegmentId++;
+			
+			//Add the tableau from the current stree to cumulative tableau that is being built in csvSegs.
+            csvSegs.push(tableauToCsv(tabl, '\t', {noHeader: j}));
+        }
+		
+		//Save the tableau as a tab-separated file, named after consName
+        saveTextAs(csvSegs.join('\n'),"tableau_"+consName+"_"+genOptions+".csv");
+    }
+	
+	/*This function executes automatically when the page is reloaded. It calls all the other functions.*/
+    function runDemo() {
+	//Iterate over the different constraint sets. Make a tableau for each one.
+		for(var i = 0; i<conNames.length; i++){
+            for(var j = 0; j<genOptionsList.length; j++){
+                makeTableauCsvs(conNames[i], genOptionsList[j]);
+            }
+		}
+    }
+    
+    /*Utilities for saving files.*/
+    function saveAs(blob, name) {
+        var a = document.createElement("a");
+        a.display = "none";
+        a.href = URL.createObjectURL(blob);
+        a.download = name;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+   
+    function saveTextAs(text, name) {
+        saveAs(new Blob([text], {type: "text/csv", encoding: 'utf-8'}), name);
+    }
+
+</script>
+
+</body>
+
+</html>

@@ -247,14 +247,22 @@ function matchMaxSyntax(sTree, pTree, sCat, options){
 	return matchSP(sTree, pTree, sCat, options);
  }
 
-//Match for any prosodic constituent
+//MatchSP, sCat to any prosodic constituent
 function matchSPAny(sTree, pTree, sCat, options){
 	options = options || {};
 	options.anyPCat = true;
 	return matchSP(sTree, pTree, sCat, options);
 }
 
- //Match all non-minimal syntactic nodes
+// MatchPS, pCat to any prosodic constituent
+// needs testing
+function matchPSAny(sTree, pTree, pCat, options){
+	options = options || {};
+	options.anyPCat = true;
+	return matchPS(sTree, pTree, pCat, options);
+}
+
+//Match all non-minimal syntactic nodes
 function matchNonMinSyntax(sTree, pTree, sCat, options){
 	options = options || {};
 	options.nonMinSyntax = true;

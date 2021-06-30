@@ -4,8 +4,12 @@
    - obeysHeadedness (boolean)
    - obeysNonrecursivity (boolean)
 	 - rootCategory (string)
-	 - recursiveCategory (string)
+	 - recursiveCategory (string) --> '-' separated list of categories, from highest to lowest (e.g. 'phi-w', not 'w-phi')
+	 	-> saved in recursiveCats (see below) + becomes a string rep of the current recursive category
 	 - terminalCategory (string)
+
+	 - recursiveCatIndex (int): tracks which recursive category we're currently using
+	 - recursiveCats (list of strings): list of recursive categories to use
    - addTones (string). Possible values include:
 	 		- "addJapaneseTones"
 			- "addIrishTones_Elfner"
@@ -21,6 +25,7 @@
 window.GEN = function(sTree, words, options){
 	options = options || {}; // if options is undefined, set it to an empty object (so you can query its properties without crashing things)
 
+	
 	//Set prosodic hierarchy if we're making prosodic trees. Don't bother with this for syntactic trees.
 	if(!options.syntactic){
 		// Create the ph object if none was passed or what was passed was incomplete, and set it the default PH object, defined in prosodicHierarchy.js
@@ -41,8 +46,43 @@ window.GEN = function(sTree, words, options){
 		}
 	}
 	
+	//Set the relevant category hierarchy (syntactic or prosodic) based on the GEN option syntactic
 	var categoryHierarchy = options.syntactic ? sCat : pCat;
 	var defaultRecCat = options.syntactic ? "xp" : "phi"; //sets the default of recursiveCategory option to "phi" if prosodic, "xp" if syntactic
+
+	options.recursiveCategory = options.recursiveCategory || defaultRecCat;
+
+	// Check for multiple recursive categories
+	if(options.recursiveCategory && options.recursiveCategory.length){
+		if(typeof options.recursiveCategory === "string"){
+			var recCats = options.recursiveCategory.split('-');
+		}
+		else {
+			var recCats = [];
+			for(var i = 0; i<options.recursiveCategory.length; i++){
+				recCats = recCats.concat(options.recursiveCategory[i]);
+			}
+		}
+		if(recCats.length > 1){
+			//console.log(recCats);
+			
+			options.recursiveCatIndex = 0;
+			//Set current recursiveCategory
+			options.recursiveCategory = recCats[options.recursiveCatIndex];
+			//Save list of all categories	
+			options.recursiveCats = recCats;
+		}
+		if(recCats.length > 2){
+			this.alert("You have entered more than 2 recursive categories!")
+		}
+	}
+
+	if(!options.recursiveCats){
+		options.recursiveCats = [options.recursiveCategory];
+	}
+
+	//Point to first recursiveCat
+	options.recursiveCatIndex = 0;
 
 	/* First, warn the user if they have specified terminalCategory and/or
 	 * rootCategory without specifying recursiveCategory
@@ -69,19 +109,41 @@ window.GEN = function(sTree, words, options){
 	}
 	finally{
 		var novelCatWarning = " is not a valid category with the current settings.\nCurrently valid prosodic categories: " + JSON.stringify(pCat) + "\nValid syntactic categories: " + JSON.stringify(sCat);
+
+		//private function to avoid code duplication in warning about novel recursive cats
+		function novelRecursiveCatEval(recCat){
+			if(categoryHierarchy.indexOf(recCat)<0){
+				var err = new Error("Specified recursive category "+recCat+novelCatWarning);
+				displayError(err.message, err);
+				novelCategories = true;
+				throw err;
+			}
+		}
+
 		if(options.rootCategory && categoryHierarchy.indexOf(options.rootCategory)<0){
 			var err = new Error("Specified root category "+options.recursiveCategory+novelCatWarning);
 			displayError(err.message, err);
 			novelCategories = true;
 			throw err;
 		}
-		if(categoryHierarchy.indexOf(options.recursiveCategory)<0){
-			var err = new Error("Specified recursive category "+options.recursiveCategory+novelCatWarning);
-			displayError(err.message, err);
-			novelCategories = true;
-			throw err;
+
+		//Throw an error for any specified recursive category(s) that are valid. 
+		//if...else structure because there could be more than 1 recursive cat:
+
+		//Multiple recursive cats: options.recursiveCats is only defined if options.recursiveCategory contained a hyphen and has been split (line 62 above).
+		if(options.recursiveCats && options.recursiveCats.length){
+			for(let i in options.recursiveCats){
+				novelRecursiveCatEval(options.recursiveCats[i]);
+			}
 		}
-		if(options.terminalCategory && categoryHierarchy.indexOf(options.terminalCategory)<0){
+		//Only one recursive cat
+		else{
+			novelRecursiveCatEval(options.recursiveCategory);
+		}
+		
+		// Throws an error for the defined terminal category if it is not a valid category.
+		// Don't check terminal category if we're building syntactic trees.
+		if(!options.syntactic && options.terminalCategory && categoryHierarchy.indexOf(options.terminalCategory)<0){
 			var err = new Error("Specified terminal category "+options.recursiveCategory+novelCatWarning);
 			displayError(err.message, err);
 			novelCategories = true;
@@ -100,17 +162,24 @@ window.GEN = function(sTree, words, options){
 		displayWarning("You have instructed GEN to produce non-recursive trees and to produce trees where the intermediate nodes and the terminal nodes are of the same category. You will only get one bracketing.");
 	}
 
-	//Perform additional checks of layering if novel categories are involved.
+	//Perform additional checks of layering if novel categories are not involved.
 	if(!novelCategories){
 		if(categoryHierarchy.isHigher(options.recursiveCategory, options.rootCategory) || categoryHierarchy.isHigher(options.terminalCategory, options.recursiveCategory)){
 			displayWarning("You have instructed GEN to produce trees that do not obey layering. See pCat and sCat in prosodicHierarchy.js");
 		}
 		else{
-			if(options.recursiveCategory !== categoryHierarchy.nextLower(options.rootCategory) && options.recursiveCategory !== options.rootCategory){
+			//Check that the highest recursive category is immediately below the selected root category.
+			if(options.recursiveCategory !== categoryHierarchy.nextLower(options.rootCategory) && options.recursiveCategory !== options.rootCategory)
+			{
 				displayWarning(""+options.recursiveCategory+" is not directly below "+options.rootCategory+" in the prosodic hierarchy. None of the resulting trees will be exhaustive because GEN will not generate any "+categoryHierarchy.nextLower(options.rootCategory)+"s. See pCat and sCat in prosodicHierarchy.js");
 			}
-			if(options.terminalCategory !== categoryHierarchy.nextLower(options.recursiveCategory) && options.terminalCategory !== options.recursiveCategory){
-				displayWarning(""+options.terminalCategory+" is not directly below "+options.recursiveCategory+" in the prosodic hierarchy. None of the resulting trees will be exhaustive because GEN will not generate any "+categoryHierarchy.nextLower(options.recursiveCategory)+"s. Current pCat: "+pCat);
+			//Check that the lowest recursive category is immediately above the chosen terminal category.
+			if(!options.recursiveCats){
+				options.recursiveCats = [options.recursiveCategory];
+			}
+			var lowestRecCat = options.recursiveCats[options.recursiveCats.length-1];
+			if(options.terminalCategory !== categoryHierarchy.nextLower(lowestRecCat) && options.terminalCategory !== lowestRecCat){
+				displayWarning(""+options.terminalCategory+" is not directly below "+lowestRecCat+" in the prosodic hierarchy. None of the resulting trees will be exhaustive because GEN will not generate any "+categoryHierarchy.nextLower(lowestRecCat)+"s. Current pCat: "+pCat);
 			}
 		}
 	}

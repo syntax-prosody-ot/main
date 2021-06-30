@@ -198,7 +198,17 @@ function getOutputGenOptions() {
 
     //plug correct value into category options
     genOptions.rootCategory = spotForm['genOptions-rootCategory'].value;
-    genOptions.recursiveCategory = spotForm['genOptions-recursiveCategory'].value;
+    genOptions.recursiveCategory = "";
+    //genOpsRC is an array passed in from the recursiveCategory checkboxes
+    var genOpsRC = spotForm['genOptions-recursiveCategory'];
+    for (var i = 0; i<genOpsRC.length; i++){
+        if(genOpsRC[i].value && genOpsRC[i].checked){
+            if(genOptions.recursiveCategory.length){
+                genOptions.recursiveCategory = genOptions.recursiveCategory.concat("-")
+            }
+            genOptions.recursiveCategory = genOptions.recursiveCategory.concat(genOpsRC[i].value);
+        }
+    }
     genOptions.terminalCategory = spotForm['genOptions-terminalCategory'].value;
 
     //warn user if they do something weird with the category options

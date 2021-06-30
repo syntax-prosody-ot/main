@@ -4,12 +4,12 @@
 
 	<link rel="stylesheet" type="text/css" href="../spot.css">
 
-	<script src="../lib/jszip.min.js"></script>
+	<script src="../../lib/jszip.min.js"></script>
 	
 
 	<!-- to keep spot.js in sync with the codebase make sure to run jsbuild.sh after making any changes to javascript files in the main directory or in the constraints sub-directory
 	(open a terminal, cd into the main directory, type ./jsbuild.sh and hit enter) -->
-	<script src="../build/spot.js"></script>	
+	<script src="../../build/spot.js"></script>	
 
 				
 </head>
@@ -21,66 +21,65 @@
 <script>
 	// ---- Variables that need to be customized ----
 	
-	    var words = ['F', 'FF', 'FFF']; //, 'FFFF'];
+	// var inputGenOptions = {rootCategory: 'xp', recursiveCategory: 'xp', terminalCategory:'x0', syntactic: true};
+	// var autoSTreePairs = GEN({}, 'a b c', inputGenOptions);
+	// var sTreeList = autoSTreePairs.map(x=>x[1]);
+	// var noX0Sisters = sTreeList.filter(x => !x0Sisters(x, 'x0'));
+	// var binaryBrTrees = sTreeList.filter(x => !ternaryNodes(x, 2));
+	// var maxTTrees = sTreeList.filter(x => !x0Sisters(x, 'x0') && !ternaryNodes(x, 2));
+    var words = ['F', 'FF', 'FFF'];
     var terminalStrings = [];
-
-    //Two word compound strings
     for(var i = 0; i<words.length; i++){
         for(var j = 0; j < words.length; j++){
-            var tString = [words[i], words[j]].join(' ');
-            terminalStrings.push(tString);
+			for(var k = 0; k < words.length; k++){
+				var tString = [words[i], words[j], words[k]].join(' ');
+	            terminalStrings.push(tString);
+			}
         }
     }
-
-    //Three word compound strings
-    for(var i = 0; i<words.length; i++){
-        for(var j = 0; j < words.length; j++){
-            for(var k = 0; k < words.length; k++){
-                var tString = [words[i], words[j], words[k]].join(' ');
-                terminalStrings.push(tString);
-            }
-        }
-    }
-    
-    //There are a total of 16 (4^2) + 64 (4^3) = 80 
-    console.log(terminalStrings);
-
-
-    //Generate all the possible syntactic trees for these terminal strings.
-    var sTreeOptions = {
-        rootCategory: 'x0', recursiveCategory: 'x0', 
-        maxBranching: 2, minBranching:2, 
-        noAdjacentHeads: false, noMirrorImages:false
-    };
-
-    var myTrees = [];
-
-    for(var i = 0; i<terminalStrings.length; i++){
-        var currString = terminalStrings[i];
-        var currTrees = sTreeGEN(currString, sTreeOptions);
-        myTrees.push(currTrees);
-    }
-
-
-    var sTreeList = myTrees.flat();
-
-    console.log("Number of sTrees: ", sTreeList.length);
-    for(var i in sTreeList){
-        //console.log(parenthesizeTree(sTreeList[i]));
-    }
+    console.log(terminalStrings.join(', '));
+    var sTreeList = [
+						{
+							"id": "CP1",
+							"cat": "cp",
+							"children": [
+								{
+									"id": "a",
+									"cat": "x0"
+								},/*
+								{
+									"id": "b",
+									"cat": "x0"
+								},
+								{
+									"id": "d",
+									"cat": "x0"
+								},*/
+								{
+									"cat": "xp",
+									"id": "XP_3",
+									"children": [
+										{
+											"id": "c",
+											"cat": "x0"
+										}
+									]
+								}
+							]
+						}
+					];
 
 
 	/*Constraint sets.*/
-    var starStruc = ['starCat-phi', 'starCat-w'];
-    var con1 = ['matchSP-x0', 'matchPS-w', 'binMaxHead-w', 'binMinBranches-w', 'binMinBranches-phi', 'equalSistersAdj'];
-
+	var starStruc = ['starCat-phi', 'starCat-w'];
 	
 	/*A list of names for constraint sets.*/
-    var conNames = ['con1'];
+    var conNames = ['starStruc'];
 	
 	//Candidate sets are generated with the options below.
+	var output_gen_options = {rootCategory: 'phi', recursiveCategory: 'phi-w', terminalCategory: 'w', noUnary:true};
+    //{obeysHeadedness: true, obeysNonrecursivity: false, obeysExhaustivity: ['i'], addTones: false, requireRecWrapper: false};
 
-	var output_gen_options = {rootCategory: 'phi', recursiveCategory: 'phi-w', terminalCategory: 'w', noUnary:false};
 	
 	
 	// ---- Functions that don't necessarily need to be customized ----
@@ -89,27 +88,24 @@
     function makeTableauCsvs(consName) {
         var csvSegs = [];	//List to accumulate tableaux in
 
-        var candSets = [];
-        for(var s=0; s<sTreeList.length; s++){
-            var sTree = sTreeList[s];
-            var cs = GEN(sTree, '', output_gen_options);
-            
-            var leaves = getLeaves(sTree);
-            
-            candSets.push(cs);
-        }
-        //the next line is useful for testing only
-        //candSets = [GEN({}, 'a b c', output_gen_options)];
-		for(var i=0; i<candSets.length; i++){
+		var candSet2w = GEN({}, 'a b', output_gen_options);
+		var candSet3w = GEN({}, 'a b c', output_gen_options);
+		var candSet4w = GEN({}, 'a b c d', output_gen_options);
+		var genOptFt = output_gen_options;
+		genOptFt.terminalCategory = 'Ft';
+		genOptFt.obeysExhaustivity = true;
+		var candSet2Ft = GEN({}, 'a b', genOptFt);
+		var candSet4Ft = GEN({}, 'a b c d', genOptFt);
+
+		var candSets = [candSet4Ft]; //[candSet2w, candSet2Ft, candSet3w, candSet4w];
+		for(var i in candSets){
 			//Make the tableau using the makeTableau function (defined in tableauMaker.js)
-			var tabl = makeTableau(candSets[i], window[consName], {showHeads:true});
+			var tabl = makeTableau(candSets[i], window[consName]);
 			writeTableau(tabl);
 			revealNextSegment();
-            lastSegmentId++;
-
-            csvSegs.push(tableauToCsv(tabl, '\t', {noHeader: i}));
+			lastSegmentId++;
 		}
-        saveTextAs(csvSegs.join('\n'),"tableau_"+consName+".tsv");
+
 
     }
 	
