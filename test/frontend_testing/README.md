@@ -4,27 +4,27 @@ frontend testing README
 Different files contributing to the frontend test
 ----------------
 
-* Build Script - *frontendBuild.sh/frontendBuild.bat
+Build Script - frontendBuild.sh/frontendBuild.bat
 ----------------
 
 * source testBuild.sh - will be using things from testBuild.sh
 * cat command which copies interface1.html and frontend.html files to a file, note that placing does matters. interface1.html should be copied first and therefore, should be the first argument of cat command and then the rest can be copied
 * sed command just replaces directory of src and href tags in html so that things are referencing the right files and the right directory path is listed. 
 
-frontend.html
-###
+Build test names - frontend.html
+----------------
 * displays mocha testing in test.html in 'save-load-section', note this can be changed if you would like to but for individual tests from interface1.html DO NOT change the mocha code
 * appends the function name starting with '_r' (which all frontend tests should start with, this is the function in frontend testing that contains mocha tests) to an array
 * test functions are ran first then clearAll() and clearTableau() are ran after each tests so that tests don't get interfered
 
 setUpMocha.js - setUpMocha(tag, arg); sets up mocha for tests
-###
+----------------
 * tag is the html tag or html class place where you want your mocha test to appear. It's optional and the default is "save-load-section".
 * index is the index for the class tag. It's optional and the default is 0. 
 * arg is the string that tells whether tag input is html tag or html class. It's optional and the default is "tag".
 
 test.html
-###
+----------------
 * run frontendBuild.sh which will compile frontend.html and interface1.html together
 
 How to add a new frontend test:
