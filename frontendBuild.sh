@@ -1,4 +1,5 @@
 #source testBuild.sh
+
 source jsbuild.sh
 cat test/frontend_testing/*.js > build/test.js
 cat build/test.js lib/test/*.js >> build/spot.js
