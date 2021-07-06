@@ -307,7 +307,7 @@ function built_in_input(myTrees){
       document.getElementById("genStringsDoneButton").click();
     }
 
-    document.getElementById('autoGenDoneButton').click();
+    //document.getElementById('autoGenDoneButton').click();
   }
 }
 
