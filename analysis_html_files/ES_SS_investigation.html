@@ -86,27 +86,37 @@
 	//     Which side will heads be required to be on, relative to their complements? 
 	//     Also, must heads be at the very edge (strict)?
 
-	/*sTreeList is an array of syntactic trees. There are two options for getting the list of syntactic trees:
-	1. Recommended: Auto-generate a systematic set of syntactic trees using sTreeGEN()
-	2. Manually create and save trees (either in a separate tree file (trees/YOUR_TREES_HERE.js) or in this document), and list their variable names in the array.*/
+	/**Define two sets of syntactic trees without clitics:
+     * 1. rooted in cp: level-skipping doubly weak starts will be possible optima.
+     * 2. rooted in xp: level-skipping doubly weak starts will be HB.
+    */
+
+	var terminalStrings = ['a b', 'a b c'];
 
 	var sTreeOptions = {rootCategory:'cp', recursiveCategory: 'xp', terminalCategory: 'x0',
 						noAdjacentHeads: true, noAdjuncts: false, 
 						maxBranching: 2, noUnary: false,
 						headSide: false, addClitics: false};
 	
-	var terminalStrings = ['a b', 'a b c'];
 	var sTreeLists = Array(length=terminalStrings.length);
 	for(var i in terminalStrings){
 		sTreeLists[i] = sTreeGEN(terminalStrings[i], sTreeOptions);
 	}
 	var sTreeList = sTreeLists.flat();
 
+    sTreeOptions.rootCategory = 'xp';
+    sTreeOptions.allowClitic = true;
+    var xpTreeLists = Array(length=terminalStrings.length);
+    for(var i in terminalStrings){
+		xpTreeLists[i] = sTreeGEN(terminalStrings[i], sTreeOptions);
+	}
+	var xpTreeList = xpTreeLists.flat();
+
 	/*Constraint sets are defined below. You can change these or add your own. A constraint set is a list of constraint function names (refer to the files in constraints.js for names) + category arguments (separated from constraint names with -; refer to prosodicHierarchy.js for a list of defined categories).*/
     var noES = ['ssGlob', 'ssLoc','ssHypLoc', 'matchSPPS-xp'];
 	var conPar = ['esPar','ssGlob', 'ssLoc','ssHypLoc', 'matchSPPS-xp'];
 	var conAdj = ['esAdj','ssGlob', 'ssLoc','ssHypLoc', 'matchSPPS-xp'];
-	//var conOther = ['constraint1-xp','constraint2-phi', 'constraint3-w', 'etc-i'];
+	var xpRoot = noES;
 	
 	/*A list of names for your constraint sets. These are used for naming the tableau csv files and finding the lists of constraint names. They need to match the variable names above.*/
     var conNames = ['noES','conPar', 'conAdj'];
@@ -118,7 +128,7 @@
 	
 	
 	/*Add an outer for-loop to iterate over the different tree sets, as well as interating over the trees in each set.*/
-    function makeTableauCsvs(consName, genOptions) {
+    function makeTableauCsvs(consName, genOptions, sTreeList = sTreeList) {
         var csvSegs = [];	//List to accumulate tableaux in
 		
         //For each syntactic tree in sTreeList, make a tableau using the current constraint set
@@ -144,12 +154,15 @@
 	
 	/*This function executes automatically when the page is reloaded. It calls all the other functions.*/
     function runDemo() {
-	//Iterate over the different constraint sets. Make a tableau for each one.
-		for(var i = 0; i<conNames.length; i++){
+	    //Iterate over the different constraint sets. Make a tableau for each one.
+		/*for(var i = 0; i<conNames.length; i++){
             for(var j = 0; j<genOptionsList.length; j++){
                 makeTableauCsvs(conNames[i], genOptionsList[j]);
             }
-		}
+		}*/
+        for(var j = 0; j<genOptionsList.length; j++){
+            makeTableauCsvs('xpRoot', genOptionsList[j], xpTreeList);
+        }
     }
     
     /*Utilities for saving files.*/
