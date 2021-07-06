@@ -1,7 +1,7 @@
 #source testBuild.sh
 
 source jsbuild.sh
-cat test/frontend_testing/*.js > build/test.js
+cat test/*.js test/frontend_testing/*.js > build/test.js
 cat build/test.js lib/test/*.js >> build/spot.js
 
 cat interface1.html test/frontend_testing/frontend.html > test/frontend_testing/test.html
