@@ -1,5 +1,3 @@
-#source testBuild.sh
-
 source jsbuild.sh
 cat test/addHeadsToListTest.js test/message_funcs.js test/frontend_testing/*.js > build/test.js
 cat build/test.js lib/test/*.js >> build/spot.js
