@@ -299,7 +299,7 @@ function ssHypLoc(stree, ptree, cat){
 	if(!ptree.children){
 		return vcount;
 	}
-	
+
 	if(ptree.children.length){		
 		var parentCat = ptree.cat;
 		var firstChildCat = ptree.children[0].cat;
@@ -309,7 +309,7 @@ function ssHypLoc(stree, ptree, cat){
 			vcount++;
 		}
 	}
-	
+
 	// Recurse
 	for(var i=0; i<ptree.children.length; i++){
 		child = ptree.children[i];

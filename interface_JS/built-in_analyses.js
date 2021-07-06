@@ -781,7 +781,7 @@ function record_analysis(){
     if(strGENboxes.length !== strMinBoxes.length || strGENboxes.length !== strMaxBoxes.length){
       const err = new Error("Missing interface element");
       displayError("Error: " + err.message + '. Interface is broken at "Generate Combinations and \
-      Permutations and cannot be saved at this time.');
+      Permutations" and the analysis cannot be saved at this time.');
       throw err;
     }
 

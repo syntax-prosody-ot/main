@@ -2,11 +2,13 @@
 	<head>
 		<title>SPOT Interface</title>
 
-		<script src="build/spot.js"></script>
-		<script src="build/built_in_trees.js"></script>
-		<link rel="stylesheet" type="text/css" href="spot.css">
-		<link rel="stylesheet" type="text/css" href="lib/test/mocha.css">
-		<link rel="icon" type="image/x-icon" href="images/favicon.ico">
+		<script src="../../build/spot.js"></script>
+		<script src="../../build/built_in_trees.js"></script>
+		<script src="../../lib/test/mocha.min.js"></script>
+    	<script src="../../lib/test/chai.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../spot.css">
+		<link rel="stylesheet" type="text/css" href="../../lib/test/mocha.css">
+		<link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
 		
 		<style>
 			body {
@@ -517,7 +519,7 @@
 	<div style="padding-bottom:40px">
 
 		<div class="header">
-			<img src="images/logo.png" alt="SPOT">
+			<img src="../../images/logo.png" alt="SPOT">
 			<span class="subtitle"><span style="display: inline-block; width:50%; font-size:larger;">Syntax-Prosody in Optimality Theory </span><span style="display:inline-block; text-align:right;"><a href="https://spot.sites.ucsc.edu/">spot.sites.ucsc.edu/</a></span></span>
 		</div>
 		<div class="below-header" style="background-color: #d0d8e0;">
@@ -865,10 +867,10 @@
 			<div class="info"><span class="content">Specify the category of the nodes below the root and above the terminals. This is the category where GEN will create recursion. <br>If roots are prosodic words, intermediate levels are feet, and terminals are syllables, then [ ] will stand for word boundaries and ( ) for foot boundaries. Otherwise, intonational phrase boundaries will be represented with { }, phonological phrase boundaries with ( ), and word boundaries with (w ).</span></div>
 		</div>
 		<div class="category-row">
-				<div class="category-selection-div"><input type="radio" name="genOptions-recursiveCategory" value="i">&iota;</div>
-				<div class="category-selection-div"><input type="radio" name="genOptions-recursiveCategory" value="phi" checked="checked">&phi;</div>
-				<div class="category-selection-div"><input type="radio" name="genOptions-recursiveCategory" value="w">&omega;</div>
-				<div class="category-selection-div"><input type="radio" name="genOptions-recursiveCategory" value="Ft">Ft</div>
+				<div class="category-selection-div"><input type="checkbox" name="genOptions-recursiveCategory" value="i">&iota;</div>
+				<div class="category-selection-div"><input type="checkbox" name="genOptions-recursiveCategory" value="phi" checked="checked">&phi;</div>
+				<div class="category-selection-div"><input type="checkbox" name="genOptions-recursiveCategory" value="w">&omega;</div>
+				<div class="category-selection-div"><input type="checkbox" name="genOptions-recursiveCategory" value="Ft">Ft</div>
 		</div>
 		<div class="constraint-row"><span>Prosodic terminals are</span>
 			<div class="info">
@@ -1896,6 +1898,20 @@
 									<div class="category-selection-div"><input type="checkbox" name="category-binMaxHead" value="w">&omega;</div>
 								</div>
 						</div>
+						<div class="constraint-selection-table">
+							<div class="constraint-row">
+								<span><input type="checkbox" name="constraints" id="binMinHead" value="binMinHead">BinMinHead</span>
+								<div class="info">
+									<span class="content">Assign a violation for node of the selected category whose head is non-branching (i.e., has less than two children). SPOT function: binMinHead()</span>
+								</div>
+							</div>
+								<div class="category-row">
+									<div class="category-selection-div"><input type="checkbox" name="category-binMinHead" value="i">&iota;</div>
+									<div class="category-selection-div"><input type="checkbox" name="category-binMinHead" value="phi" checked="checked">&phi;</div>
+									<div class="category-selection-div"><input type="checkbox" name="category-binMinHead" value="w">&omega;</div>
+								</div>
+						</div>
+
 						<!--<h3>...with prosodic subcategories</h3>-->
 						<div class="constraint-selection-table">
 							<div class="constraint-row">
@@ -2413,51 +2429,28 @@
 
 	</body>
 </html>
-          
-<html><head>  
-    <title>SPOT Automated Testing</title>
-
-	<!--<link rel="stylesheet" type="text/css" href="../spot.css">-->
-
-    <!--If running tests that do not have to do with the interface, run jsbuild.sh or jsbuild.bat
-        in root directory of the project. If running interface testing, run testbuild.sh
-        or testBuild.bat-->
-    <script src="../../build/spot.js"></script>
-
-    <!--Mocha setup stuff (1/2)-->
-    <meta charset="UTF-8">
-    <script src="../../lib/test/mocha.min.js"></script>
-    <script src="../../lib/test/chai.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="../../lib/test/mocha.css">
-    <!--mocha setup stuff to be continued in document body-->
-    
-</head>
+<html>
 <body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+    
+    <div id="mocha"></div>
 
-    <h2>SPOT Automated Testing</h2>
-    <iframe src="../../interface1.html" width = "555" height = "200"></iframe>
-    <script>mocha.setup("bdd");
-    mocha.checkLeaks();
-    assert = chai.assert;
-</script>
-<div id="mocha">
-    This is where test results should show up
-</div>
-<script>
-    const mochaDiv = document.createElement("div");
-    mochaDiv.setAttribute("id", "mocha");
-
-    const notResults = document.getElementsByClassName("spotBlock")[2];
-    notResults.insertBefore(mochaDiv, notResults.firstChild);</script> 
-
-    <!--Mocha stuff (2/2)-->
-    <!--Mocha is set up now, you just need to write and run tests-->
-    <script src="stringInputValidationTest.js"></script>
-    <!--That's all you need for testing with mocha and chai-->
     <script>
-    runStringInputValidationTest();</script>
+    setUpMocha();
+    var funct = [];
+    for (var j in window) {
+        if (window.hasOwnProperty(j) &&  j.indexOf('_r') == 0 && typeof window[j] === 'function') {
+            funct.push(j);
+        }
+    }
+    for (var j = 0; j < funct.length; j++) {
+        eval(funct[j])();
+        clearAll();
+        clearTableau();
+    }
+    </script>  
 
+    <script>mocha.run()</script>
 	<pre id="results-container"></pre>
 
-
-</body></html>
+</body>
+</html>

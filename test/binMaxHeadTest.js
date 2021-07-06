@@ -392,6 +392,7 @@ function binMaxHeadTest(){
           });
       });
 
+
       describe('binMaxHead(minimal), heads on left', function(){
         it('binMinHead(s, {(a)*(b c)}, "i"), one violation', function(){
             var itree = {
@@ -423,39 +424,39 @@ function binMaxHeadTest(){
         });
 
         var yMin = {
-                    "id": "rootw",
-                    "cat": "w",
-                    "children": [
-                        {
-                            "cat": "w",
-                            "id": "nonhead",
-                            "children": [
-                                {
-                                    "id": "F",
-                                    "cat": "Ft"
-                                }
-                            ]
-                        },
-                        {
-                            "cat": "w",
-                            "id": "head",
-                            "children": [
-                                {
-                                    "id": "c",
-                                    "cat": "w"
-                                },
-                                {
-                                    "id": "d",
-                                    "cat": "w"
-                                },
+                    "id": "rootw",
+                    "cat": "w",
+                    "children": [
+                        {
+                            "cat": "w",
+                            "id": "nonhead",
+                            "children": [
                                 {
-                                    "id": "e",
-                                    "cat": "w"
-                                },
-                            ]
-                        }
-                    ]
-                }
+                                    "id": "F",
+                                    "cat": "Ft"
+                                }
+                            ]
+                        },
+                        {
+                            "cat": "w",
+                            "id": "head",
+                            "children": [
+                                {
+                                    "id": "c",
+                                    "cat": "w"
+                                },
+                                {
+                                    "id": "d",
+                                    "cat": "w"
+                                },
+                                {
+                                    "id": "e",
+                                    "cat": "w"
+                                },
+                            ]
+                        }
+                    ]
+                }
 
         it('binMinHead(s, yMin, "w"),    yMin =   ' + parenthesizeTree(markHeads(yMin, 'left'), {showHeads:true}) + ' --> Expected Violations: 3', function() {
             assert.equal(binMaxHead(s,yMin,'w', {side:'left', minimal:true}), 3);
