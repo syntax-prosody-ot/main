@@ -1,21 +1,7 @@
 // Interface testing with mocha and chai for input validation for string generation.
 // Doesn't get auto-tested in the console at present because it requires the interface.
 
-var assert; 
-
-function setUpStringInputTest(){
-    mocha.setup("bdd");
-    mocha.checkLeaks();
-    assert = chai.assert;
-
-    const mochaDiv = document.createElement("div");
-    mochaDiv.setAttribute("id", "mocha");
-
-    const notResults = document.getElementsByClassName("spotBlock")[2];
-    notResults.insertBefore(mochaDiv, notResults.firstChild);
-}
-
-function stringInputTest() {
+function _rInputDropDownTest() {
     describe("stringInputTest.js", function(){
         window.confirm = async function(){ //automatically returning true for confirm prompts
             return true;
@@ -38,8 +24,8 @@ function stringInputTest() {
     });
 }
 
-function runStringInputTest() {
-    setUpStringInputTest();
-    stringInputTest();
+function runInputDropDownTest() {
+    setUpMocha();
+    _rInputDropDownTest();
     mocha.run();
 }
