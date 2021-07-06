@@ -364,7 +364,7 @@ and in that case would need a type-sensitive implementation of getLeaves
 	is not binary
 
 	Depends on markHeads, defined in main/constraints/recursiveCatEvals.js
-	
+
 	options:
 	- side: 'left' or 'right', defaults to 'right' (for Japanese). Which side are heads marked on?
 	- minimal: true or false, defaults to false. Assess minimal binarity instead of maximal binarity.
