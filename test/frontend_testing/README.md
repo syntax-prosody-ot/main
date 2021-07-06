@@ -62,6 +62,7 @@ Part 1: Set up mocha tests
 		function _r<>() {
 			describe("my test description", function(){
 				it("individual test description", function(){
+					//if puppeteer is used, include it in it statments (except the opening and closing browser)
 					assert(...)
 				}
 			}
