@@ -2431,19 +2431,13 @@
 </html>
 <html><body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
     <script>
-    mocha.setup("bdd");
-    assert = chai.assert;
+   // mocha.setup("bdd");
+   // assert = chai.assert;
     </script>
+
 <div id="mocha"></div>
-<script>
-    const mochaDiv = document.createElement("div");
-    mochaDiv.setAttribute("id", "mocha");
-
-    const notResults = document.getElementById("save-load-section");
-    notResults.insertBefore(mochaDiv, notResults.firstChild);
-    </script> 
-
     <script>
+    setUpMocha();
     var funct = [];
     for (var j in window) {
         if (window.hasOwnProperty(j) &&  j.indexOf('_r') == 0 && typeof window[j] === 'function') {
