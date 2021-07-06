@@ -6,8 +6,9 @@ function _rStringTest() {
         describe("String Generation save/load/clear test", function(){
             var testSettings = '';
             var numOfInputs = 0;
-            const arbitraryStrings = ["9000", "9001", "9002", "9003", "9004", "9005",
-             "9006", "9007", "9008", "9009"]; //strings you would not find anywhere else in the saved analysis
+            const arbitraryStrings = ["9000", "9001", "9002", "9003", "4", "3",
+             "9006", "5", "2", "9009"]; //strings you would not find anywhere else in the saved analysis
+             //apart from 4, 3, 5 and 2, which were needed to avoid messing up the input validation in terminal string generation. They are used as max and min values in the tests "Load with one / two strings"
             var unusedStrings, listDiv, inputs; //assigned beforeEach below
 
 
@@ -30,7 +31,7 @@ function _rStringTest() {
                 }
                 let savedString = record_analysis();
                 testSettings = JSON.parse(savedString).myTrees;
-                //object is more usefull than string later on. should not change until "two strings" tests
+                //object is more useful than string later on. should not change until "two strings" tests
 
                 for(let i = 0; i < numOfInputs.length; i++){
                     //all we need to know now is that the arbitrary strings all ended up in the saved analysis
@@ -47,8 +48,10 @@ function _rStringTest() {
             });
 
             it("Load with one string", function() {
+                //console.log(testSettings);
                 //load earlier saved string
                 my_built_in_analysis({}, false, testSettings, []);
+                //{id:'root', cat:'cp'}, {id:'root', cat:'xp'}
                 for(let input of inputs) {
                     //we know the order arbitraryStrings were assigned, check that the same order is preserved
                     assert(input.value === unusedStrings.pop(), input.name + " did not load correctly");
@@ -82,6 +85,7 @@ function _rStringTest() {
                 }
             });
             it("Load with two strings", function() {
+                //console.log(testSettings);
                 my_built_in_analysis({}, false, testSettings, []);
                 for(let input of inputs) {
                     assert(input.value === unusedStrings.pop(), input.name + " did not load correctly");
