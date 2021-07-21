@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>SPOT investigation of compound word prosody</title>
+	<title>SPOT investigation of rebracketing with BalSis vs. BinLeaves</title>
 
 	<link rel="stylesheet" type="text/css" href="../spot.css">
 
@@ -139,7 +139,9 @@
 	
 	//Candidate sets are generated with the options below.
 	var gen_options = {
-        rootCategory:'phi', 
+        rootCategory:'i',
+        recursiveCategory: 'phi',
+        terminalCatgory: 'w', 
         obeysHeadedness: true, 
         obeysNonrecursivity: false, 
         obeysExhaustivity: false, 
