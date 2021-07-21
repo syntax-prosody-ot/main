@@ -433,7 +433,7 @@ function binMaxHeadTest(){
                             "children": [
                                 {
                                     "id": "F",
-                                    "cat": "Ft"
+                                    "cat": "ft"
                                 }
                             ]
                         },

@@ -60,59 +60,61 @@ stree_clitic = {
     ]
 }
 
+var optionsNoHead = {obeysHeadedness: false};
+
 function GENargumentTests(){
     describe('GENargumentTests', function(){
         describe('GEN with various inputs (compare output as string)', function() {
             it('GEN with no input', function() {
-                assert.equal(GEN({},'').length, 0, "");
+                assert.equal(GEN({},'', optionsNoHead).length, 0, "");
             });
             it('GEN with stree only', function() {
-                assert.deepEqual(GEN(stree,''), JSON.parse(g0), "");
+                assert.deepEqual(GEN(stree,'', optionsNoHead), JSON.parse(g0), "");
             });
             it('GEN with words only', function() {
-                assert.equal(JSON.stringify(GEN({},'a b c')), g1, "");
+                assert.equal(JSON.stringify(GEN({},'a b c', optionsNoHead)), g1, "");
             });
             it('GEN with stree and words, different length', function() {
-                assert.equal(JSON.stringify(GEN(stree,'a b')), g2, "");
+                assert.equal(JSON.stringify(GEN(stree,'a b', optionsNoHead)), g2, "");
             });
             it('GEN with stree and words, same length', function() {
-                assert.equal(JSON.stringify(GEN(stree,'a b c')), g3, "");
+                assert.equal(JSON.stringify(GEN(stree,'a b c', optionsNoHead)), g3, "");
             });
         });
     
         describe('GEN with various inputs (compare output by length)', function() {
             it('GEN with no input', function() {
-                assert.equal(GEN({},'').length, 0, "");
+                assert.equal(GEN({},'',optionsNoHead).length, 0, "");
             });
             it('GEN with stree only', function() {
-                assert.equal(GEN(stree,'').length, 48, "");
+                assert.equal(GEN(stree,'',optionsNoHead).length, 48, "");
             });
             it('GEN with words only', function() {
-                assert.equal(GEN({},'a b c').length, 48, "");
+                assert.equal(GEN({},'a b c',optionsNoHead).length, 48, "");
             });
             it('GEN with stree and words, different length', function() {
-                assert.equal(GEN(stree,'a b').length, 8, "");
+                assert.equal(GEN(stree,'a b',optionsNoHead).length, 8, "");
             });
             it('GEN with stree and words, same length', function() {
-                assert.equal(GEN(stree,'a b c').length, 48, "");
+                assert.equal(GEN(stree,'a b c',optionsNoHead).length, 48, "");
             });
         });
     
         describe('GENwithCliticMovement with various inputs (compare output as string)', function() {
             it('GEN with no input', function() {
-                assert.equal(GENwithCliticMovement({},'').length, 0, "");
+                assert.equal(GENwithCliticMovement({},'',optionsNoHead).length, 0, "");
             });
             it('GEN with stree only', function() {
-                assert.equal(JSON.stringify(GENwithCliticMovement(stree_clitic,'')), gwcm0, "");
+                assert.equal(JSON.stringify(GENwithCliticMovement(stree_clitic,'',optionsNoHead)), gwcm0, "");
             });
             it('GEN with words only', function() {
-                assert.equal(JSON.stringify(GENwithCliticMovement({},'a b c-clitic')), gwcm1, "");
+                assert.equal(JSON.stringify(GENwithCliticMovement({},'a b c-clitic',optionsNoHead)), gwcm1, "");
             });
             it('GEN with stree and words, different length', function() {
-                assert.equal(JSON.stringify(GENwithCliticMovement(stree_clitic,'b c-clitic')), gwcm2, "");    
+                assert.equal(JSON.stringify(GENwithCliticMovement(stree_clitic,'b c-clitic',optionsNoHead)), gwcm2, "");    
             });
             it('GEN with stree and words, same length', function() {
-                assert.equal(JSON.stringify(GENwithCliticMovement(stree_clitic,'a b c-clitic')), gwcm3, ""); 
+                assert.equal(JSON.stringify(GENwithCliticMovement(stree_clitic,'a b c-clitic',optionsNoHead)), gwcm3, ""); 
             });
         });
     
@@ -121,16 +123,16 @@ function GENargumentTests(){
                 assert.equal(GENwithCliticMovement({},'').length, 0, "");
             });
             it('GEN with stree only', function() {
-                assert.equal(GENwithCliticMovement(stree_clitic,'').length, 48*3, "");
+                assert.equal(GENwithCliticMovement(stree_clitic,'',optionsNoHead).length, 48*3, "");
             });
             it('GEN with words only', function() {
-                assert.equal(GENwithCliticMovement({},'a b c-clitic').length, 48*3, "");
+                assert.equal(GENwithCliticMovement({},'a b c-clitic',optionsNoHead).length, 48*3, "");
             });
             it('GEN with stree and words, different length', function() {
-                assert.equal(GENwithCliticMovement(stree_clitic,'b c-clitic').length, 8*2, "");    
+                assert.equal(GENwithCliticMovement(stree_clitic,'b c-clitic',optionsNoHead).length, 8*2, "");    
             });
             it('GEN with stree and words, same length', function() {
-                assert.equal(GENwithCliticMovement(stree_clitic,'a b c-clitic').length, 48*3, ""); 
+                assert.equal(GENwithCliticMovement(stree_clitic,'a b c-clitic',optionsNoHead).length, 48*3, ""); 
             });
         });
     
@@ -139,16 +141,16 @@ function GENargumentTests(){
                 assert.equal(GENwithPermutation({},''), '', "");
             });
             it('GEN with stree only', function() {
-                assert.equal(JSON.stringify(GENwithPermutation(stree,'')), gwp0, "");
+                assert.equal(JSON.stringify(GENwithPermutation(stree,'',optionsNoHead)), gwp0, "");
             });
             it('GEN with words only', function() {
-                assert.equal(JSON.stringify(GENwithPermutation({},'a b c')), gwp1, "");
+                assert.equal(JSON.stringify(GENwithPermutation({},'a b c',optionsNoHead)), gwp1, "");
             });
             it('GEN with stree and words, different length', function() {
-                assert.equal(JSON.stringify(GENwithPermutation(stree,'a b')), gwp2, "");
+                assert.equal(JSON.stringify(GENwithPermutation(stree,'a b',optionsNoHead)), gwp2, "");
             });
             it('GEN with stree and words, same length', function() {
-                assert.equal(JSON.stringify(GENwithPermutation(stree,'a b c')), gwp3, "");
+                assert.equal(JSON.stringify(GENwithPermutation(stree,'a b c',optionsNoHead)), gwp3, "");
             });
         });
     
@@ -157,16 +159,16 @@ function GENargumentTests(){
                 assert.equal(GENwithPermutation({},'').length, 0, "");
             });
             it('GEN with stree only', function() {
-                assert.equal(GENwithPermutation(stree,'').length, 48*6, "");
+                assert.equal(GENwithPermutation(stree,'',optionsNoHead).length, 48*6, "");
             });
             it('GEN with words only', function() {
-                assert.equal(GENwithPermutation({},'a b c').length, 48*6, "");
+                assert.equal(GENwithPermutation({},'a b c',optionsNoHead).length, 48*6, "");
             });
             it('GEN with stree and words, different length', function() {
-                assert.equal(GENwithPermutation(stree,'a b').length, 8*2, "");
+                assert.equal(GENwithPermutation(stree,'a b',optionsNoHead).length, 8*2, "");
             });
             it('GEN with stree and words, same length', function() {
-                assert.equal(GENwithPermutation(stree,'a b c').length, 48*6, "");
+                assert.equal(GENwithPermutation(stree,'a b c',optionsNoHead).length, 48*6, "");
             });
         });
     });
