@@ -16,7 +16,7 @@ window.GEN_impl = function(sTree, leaves, options) {
 	 * only one child, which will be of the same category, ie. {i {i (...) (...)}}
 	 */
 	var rootlessCand = gen(leaves, recursiveOptions)
-	if(options.rootCategory !== options.recursiveCategory){
+	if(options.rootCategory !== options.recursiveCategory[0]){
 		rootlessCand = addRecCatWrapped(gen(leaves, recursiveOptions), options);
 	}
 

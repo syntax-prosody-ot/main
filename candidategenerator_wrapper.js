@@ -24,7 +24,7 @@
 	categoryPairings: custom category pairings passed to makeTableau passed to constraints
 */
 window.GEN = function(sTree, words, options){
-	options = options || {obeysHeadedness: true}; // if options is undefined, set it to an empty object (so you can query its properties without crashing things)
+	options = {...options} || {obeysHeadedness: true}; // if options is undefined, set it to an empty object (so you can query its properties without crashing things)
 	//Set obeysHeadedness:true by default
 
 	//Set prosodic hierarchy if we're making prosodic trees. Don't bother with this for syntactic trees.
