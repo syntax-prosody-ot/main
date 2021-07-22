@@ -40,7 +40,7 @@ function sTreeGEN(terminalString, options)
     }
     
     options.syntactic = true;
-    options.recursiveCategory = options.recursiveCategory || 'xp';
+    options.recursiveCategory = options.recursiveCategory || ['xp'];
     options.terminalCategory = options.terminalCategory || 'x0';
     options.rootCategory = options.rootCategory || 'xp';
 
@@ -49,7 +49,7 @@ function sTreeGEN(terminalString, options)
     if(options.cliticsInsideFirstRoot){
       options.noBarLevels = true;
     }
-    if(options.noBarLevels && options.recursiveCategory !== 'x0'){
+    if(options.noBarLevels && options.recursiveCategory !== ['x0']){
       options.maxBranching = 3;
       options.cliticsInsideFirstRoot = true;
     }
@@ -70,7 +70,7 @@ function sTreeGEN(terminalString, options)
       options.noAdjacentHeads = false;
     }
 
-    if(options.recursiveCategory === 'x0'){
+    if(options.recursiveCategory === ['x0']){
       options.noAdjacentHeads = false;
     }
 
