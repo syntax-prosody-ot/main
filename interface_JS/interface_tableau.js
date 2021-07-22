@@ -165,14 +165,11 @@ function getOutputGenOptions() {
 
     //plug correct value into category options
     genOptions.rootCategory = spotForm['genOptions-rootCategory'].value;
-    genOptions.recursiveCategory = "";
+    genOptions.recursiveCategory = [];
     genOpsRC = spotForm['genOptions-recursiveCategory'];
     for (var i = 0; i<genOpsRC.length; i++){
         if(genOpsRC[i].value && genOpsRC[i].checked){
-            if(genOptions.recursiveCategory.length){
-                genOptions.recursiveCategory = genOptions.recursiveCategory.concat("-")
-            }
-            genOptions.recursiveCategory = genOptions.recursiveCategory.concat(genOpsRC[i].value);
+            genOptions.recursiveCategory.push(genOpsRC[i].value);
         }
     }
     genOptions.terminalCategory = spotForm['genOptions-terminalCategory'].value;
@@ -180,16 +177,19 @@ function getOutputGenOptions() {
     //warn user if they do something weird with the category options
     var rootCategoryError = new Error("The specified root category is lower on the prosodic hierarchy\nthan the specified recursive category.");
     var terminalCategoryError = new Error("The specified recursive category is not higher on the prosodic hierarchy\nthan the specified terminal category.");
-    if(pCat.isHigher(genOptions.recursiveCategory, genOptions.rootCategory)){
-        if(!confirm(rootCategoryError.message + " Are you sure you want to continue?\nIf you are confused, change Root Category and Recursive Category\nin \"Options for prosodic tree generation (GEN function)\"")){
-            throw rootCategoryError;
+    for(var i = 0; i<genOptions.recursiveCategory; i++){
+        if(pCat.isHigher(genOptions.recursiveCategory[i], genOptions.rootCategory)){
+            if(!confirm(rootCategoryError.message + " Are you sure you want to continue?\nIf you are confused, change Root Category and Recursive Category\nin \"Options for prosodic tree generation (GEN function)\"")){
+                throw rootCategoryError;
+            }
+            if(!pCat.isHigher(genOptions.recursiveCategory[i], genOptions.terminalCategory)){
+                if(!confirm(terminalCategoryError.message + " Are you sure you want to continue?\nIf you are confused, change Terminal Category and Recursive Category\nin \"Options for prosodic tree generation (GEN function)\"")){
+                    throw terminalCategoryError;
+                }
+            }
         }
     }
-    if(!pCat.isHigher(genOptions.recursiveCategory, genOptions.terminalCategory)){
-        if(!confirm(terminalCategoryError.message + " Are you sure you want to continue?\nIf you are confused, change Terminal Category and Recursive Category\nin \"Options for prosodic tree generation (GEN function)\"")){
-            throw terminalCategoryError;
-        }
-    }
+    
 
     return genOptions;
 }
