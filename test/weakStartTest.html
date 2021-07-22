@@ -1,5 +1,6 @@
-<html><head> 
-    <title>SPOT Automated Testing (binMaxHead)</title>
+<html>
+<head>
+	<title>SPOT Automated Testing</title>
 
 	<link rel="stylesheet" type="text/css" href="../spot.css">
 
@@ -14,33 +15,29 @@
     <script src="../lib/test/chai.min.js"></script>
     <link rel="stylesheet" type="text/css" href="../lib/test/mocha.css">
     <!--mocha setup stuff to be continued in document body-->
-    
+	
 </head>
+
 <body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+
     <h2>SPOT Automated Testing</h2>
-<script>
-    mocha.setup("bdd"); //brings "describe", "it", etc. into global namespace
+    <!--Mocha stuff (2/2)-->
+    <script>
+        mocha.setup("bdd"); //brings "describe", "it", etc. into global namespace
         //mocha.checkLeaks();
         var assert = chai.assert; //no one wants to type out "chai.assert" every time
-</script>
+    </script>
+    <div id="mocha">
+        
+    </div>
 
-<div id="mocha">
-    binMaxHead Automated Test
-</div>
-
-<script src='./binMaxHeadTest.js'></script>
-<pre id="results-container"></pre>
-<script>
-        mocha.run(); //don't forget to run the test!!!
-        window.addEventListener("load", function(){
-            writeTableau(makeTableau(GEN({}, "a b c"), ['binMaxHead-phi-{"side":"right"}'], {showHeads: 'right'}));
-            writeTableau(makeTableau(GEN({}, "a b c"), ['binMaxHead-phi-{"side":"left"}'], {showHeads: 'left'}));
-            revealNextSegment();
-        });
-
-</script> 
+    <!--Mocha is set up now, you just need to write and run tests-->
+    <script src="weakStartTest.js"></script>
+    <script>
+        weakStartTest();
+        mocha.run();
+    </script>
 
 </body>
+
 </html>
-
-

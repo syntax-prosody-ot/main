@@ -99,6 +99,73 @@ function strongStart_Hsu_iota(s, ptree, k)
 	return strongStart_Hsu(s, ptree, k, 'i');
 }
 
+//can't be parameterized to a category at present -- k is ignored
+function strongEndLocal(s, ptree, k){
+
+	//base case: ptree is a leaf or only has one child
+	if(!ptree.children){
+		return 0;
+	}
+	
+	var vcount = 0;
+	
+	if(ptree.children.length>1){		
+		var rightmostCat = ptree.children[ptree.children.length-1].cat;
+		var sisterCat = ptree.children[ptree.children.length-2].cat;
+		
+		//console.log(leftmostCat);
+		//console.log(sisterCat);
+		//console.log(pCat.isLower(leftmostCat, sisterCat));
+
+		if(pCat.isLower(rightmostCat, sisterCat))
+		{
+			vcount++;
+			//console.log("strongEndLocal violation: "+ptree.children[0]+" "+ptree.children[1]);
+		}
+	}
+	
+	// Recurse
+	for(var i=0; i<ptree.children.length; i++){
+		child = ptree.children[i];
+		vcount += strongEndLocal(s, child, k);
+	}
+	
+	return vcount;
+}
+
+/* Constraint from Sabbagh (2014, p. 62) "Word Order and Prosodic-Structure Constraints in Tagalog":
+
+Weak Start: *(π₁π₂..., where π₁ > π₂
+A prosodic constituent begins with a leftmost daughter that is no higher on the prosodic hierarchy than the constituent that immediately follows.
+*/
+function weakStartLocal(s, ptree, k){
+
+	//base case: ptree is a leaf or only has one child
+	if(!ptree.children){
+		return 0;
+	}
+	
+	var vcount = 0;
+	
+	if(ptree.children.length>1){		
+		var leftmostCat = ptree.children[0].cat;
+		var sisterCat = ptree.children[1].cat;
+
+		if(pCat.isHigher(leftmostCat, sisterCat))
+		{
+			vcount++;
+		}
+	}
+	
+	// Recurse
+	for(var i=0; i<ptree.children.length; i++){
+		child = ptree.children[i];
+		vcount += weakStartLocal(s, child, k);
+	}
+	
+	return vcount;
+}
+
 /* Assign a violation for every node of category cat whose leftmost daughter constituent
 *  is lower in the prosodic hierarchy than any sister constituent to its right.
 *  (intuitive strong start, according to the intuition of Bellik & Kalivoda 2019) 
@@ -213,6 +280,43 @@ function strongStartClitic(s, ptree, cat){
 	
 	return vcount;
 
+}
+
+/** Category-independent version of strongStartClitic.
+ * Proposed by Jennifer Bellik in SS-ES stringency chapter in AOT book
+ * as a generalized version of the hyperlocally-scoped SS constraint
+ * in Bennett, Elfner, & McCloskey 2016. May also be conceived of as
+ * Exhaustivity enforced at the left edge only.
+ * 
+ * "Assign a violation for every node of category k whose first daughter
+ * is of category < k-1." (Bellik 2021)
+ * 
+*/
+function ssHypLoc(stree, ptree, cat){
+	var vcount = 0;
+
+	//base case: ptree is a leaf or only has one child
+	if(!ptree.children){
+		return vcount;
+	}
+
+	if(ptree.children.length){		
+		var parentCat = ptree.cat;
+		var firstChildCat = ptree.children[0].cat;
+
+		if(pCat.isLower(firstChildCat, pCat.nextLower(parentCat)))
+		{
+			vcount++;
+		}
+	}
+
+	// Recurse
+	for(var i=0; i<ptree.children.length; i++){
+		child = ptree.children[i];
+		vcount += ssHypLoc(stree, child, cat);
+	}
+	//Code for going through the tree and evaluate for some structure goes here
+	return vcount;
 }
 
 /* Strong start (cat init)

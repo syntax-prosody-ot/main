@@ -277,7 +277,12 @@ function toneOptionDisplay(){
 }
 
 function markProsodicHeadsDisplay(){
-    if (document.getElementById('headSideOptions').style.display === 'none' && document.getElementById('showHeads').checked){
+    if ((document.getElementById('binMaxHead').checked || document.getElementById('binMinHead').checked) && !document.getElementById('showHeads').checked){
+        document.getElementById('treeDisplayOptions').setAttribute('class','open');
+        document.getElementById('showHeads').checked = true;
+        displayWarning('"Mark prosodic heads" in "Tree marking option" will remain checked while BinMaxHead or BinMinHead is active.');
+    }
+    if (document.getElementById('showHeads').checked){
         document.getElementById('headSideOptions').style.display = '';
     }
     else{

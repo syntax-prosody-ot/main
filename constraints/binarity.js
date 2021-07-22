@@ -359,15 +359,33 @@ and in that case would need a type-sensitive implementation of getLeaves
 
 /*
 	Head binarity for Japanese compounds
+	Assign a violation for every node of category cat
+	whose head (as marked by markHeads + options.side)
+	is not binary
+
+	Depends on markHeads, defined in main/constraints/recursiveCatEvals.js
+
+	options:
+	- side: 'left' or 'right', defaults to 'right' (for Japanese). Which side are heads marked on?
+	- minimal: true or false, defaults to false. Assess minimal binarity instead of maximal binarity.
 */
 function binMaxHead(s, ptree, cat, options) {
+	function assessBin(a, minimal){
+		if(minimal) return a < 2;
+		else return a > 2;
+	}
+
 	options = options || {};
 	options.side = options.side || 'right';
 	if(typeof options.side !== 'string' || !(options.side === 'right' || options.side == 'left')){
 		console.warn('The option "side" for binMaxHead must be "left" or "right" (default)');
 		options.side = right;
 	}
-	markHeads(ptree, options.side);
+	//Only run markheads if mytree hasn't been marked for heads
+	if (ptree.headsMarked !== options.side){
+		markHeads(ptree, options.side);
+	}
+	
 	var vcount = 0;
 
 	if(ptree.children && ptree.children.length){
@@ -375,14 +393,15 @@ function binMaxHead(s, ptree, cat, options) {
 			for(var i = 0; i<ptree.children.length; i++){
 				if(ptree.children[i].head === true) {
 					if(ptree.children[i].children){
-						if(ptree.children[i].children.length > 2) {
+						var numChil = ptree.children[i].children.length;
+						if(assessBin(numChil, options.minimal)) {
 							vcount++;
 						}
 					}
 					else {
 						var id = ptree.children[i].id.split('_');
 						id = id[0];
-						if(id.length > 2) {
+						if(assessBin(id.length, options.minimal)) {
 							vcount++;
 						}
 					}
@@ -394,6 +413,17 @@ function binMaxHead(s, ptree, cat, options) {
 		}
 	}
 	return vcount;
+}
+
+/** Minimal binarity for heads
+ * Implemented to help with Max Kaplan's Ojibwe analysis 
+ * (for the iota level)
+ */
+function binMinHead(s, p, cat, options){
+	options = options || {};
+	options.minimal = true;
+	if(!options.side) options.side = 'left'; //default to left-headed for Ojibwe reasons
+	return binMaxHead(s, p, cat, options);
 }
 
 /* Ternarity constraints

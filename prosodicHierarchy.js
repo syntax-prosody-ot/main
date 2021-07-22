@@ -1,7 +1,7 @@
 /* TWO POSSIBLE PROSODIC HIERARCHY THEORIES */
 PH_PHI = {
 	// Defines the prosodic hierarchy. Lower index = higher category.
-	pCat : ["i", "phi", "w", "Ft", "syll"],
+	pCat : ["i", "phi", "w", "ft", "syll"],
 
 	//An array of pairs to define which syntactic categories "match" which prosodic categories.
 	categoryPairings : {

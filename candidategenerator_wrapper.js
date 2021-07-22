@@ -15,7 +15,8 @@
 	 		- "addJapaneseTones"
 			- "addIrishTones_Elfner"
 			- "addIrishTones_Kalivoda"
-	- noUnary (boolean): if true, don't create any nodes that immediately dominate only a single terminal.
+	- noUnary (boolean): if true, don't create any nodes that immediately dominate only a single node.
+	- maxBranching (numeric): maximum number of children that any node in the tree can have
 	- requireRecWrapper (boolean). Formerly "requirePhiStem"
 	- syntactic (boolean): are we generating syntactic trees?
    - ph (prosodic heirarchy object):
@@ -23,11 +24,12 @@
 	categoryPairings: custom category pairings passed to makeTableau passed to constraints
 */
 window.GEN = function(sTree, words, options){
-	options = options || {}; // if options is undefined, set it to an empty object (so you can query its properties without crashing things)
+	options = options || {obeysHeadedness: true}; // if options is undefined, set it to an empty object (so you can query its properties without crashing things)
+	//Set obeysHeadedness:true by default
 
-	
 	//Set prosodic hierarchy if we're making prosodic trees. Don't bother with this for syntactic trees.
 	if(!options.syntactic){
+		
 		// Create the ph object if none was passed or what was passed was incomplete, and set it the default PH object, defined in prosodicHierarchy.js
 		if (!(options.ph && options.ph.pCat && options.ph.categoryPairings)){
 			options.ph = PH_PHI;

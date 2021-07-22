@@ -68,7 +68,7 @@ function sameIds(a1, a2){
 }
 
 
-function matchPS(sParent, pParent, pCat, options)
+function matchPS(sTree, pParent, pCat, options)
 //Assign a violation for every prosodic node of type pCat in pParent that doesn't have a corresponding syntactic node in sTree,
 //where "corresponding" is defined as: dominates all and only the same terminals, and has the corresponding syntactic category
 //Assumes no null terminals.
@@ -76,7 +76,6 @@ function matchPS(sParent, pParent, pCat, options)
 //is set to true. The same goes for the syntactic trees
 {
 	options = options || {};
-	var sTree = sParent;
 	var flippedOptions = {};
 	flippedOptions.maxSyntax = options.maxProsody || false;
 	flippedOptions.nonMaxSyntax = options.nonMaxProsody || false;
@@ -248,7 +247,22 @@ function matchMaxSyntax(sTree, pTree, sCat, options){
 	return matchSP(sTree, pTree, sCat, options);
  }
 
- //Match all non-minimal syntactic nodes
+//MatchSP, sCat to any prosodic constituent
+function matchSPAny(sTree, pTree, sCat, options){
+	options = options || {};
+	options.anyPCat = true;
+	return matchSP(sTree, pTree, sCat, options);
+}
+
+// MatchPS, pCat to any prosodic constituent
+// needs testing
+function matchPSAny(sTree, pTree, pCat, options){
+	options = options || {};
+	options.anyPCat = true;
+	return matchPS(sTree, pTree, pCat, options);
+}
+
+//Match all non-minimal syntactic nodes
 function matchNonMinSyntax(sTree, pTree, sCat, options){
 	options = options || {};
 	options.nonMinSyntax = true;

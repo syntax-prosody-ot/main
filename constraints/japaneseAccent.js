@@ -37,7 +37,7 @@ function accentAsHead(s, p, c){
 		}
 		
 		//if an accented word is discovered...
-		if((child.accent==="a" || child.accent==='A') && child.cat==="w"){
+		if(child.accent===true && child.cat==="w"){
 			aCount++;
 			//console.log("child.id ("+child.id+") is an accented word. aCount = "+aCount);
 		}

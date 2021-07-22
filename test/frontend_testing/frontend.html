@@ -1,0 +1,25 @@
+<html>
+<body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
+    
+    <div id="mocha"></div>
+
+    <script>
+    setUpMocha();
+    var funct = [];
+    for (var j in window) {
+        if (window.hasOwnProperty(j) &&  j.indexOf('_r') == 0 && typeof window[j] === 'function') {
+            funct.push(j);
+        }
+    }
+    for (var j = 0; j < funct.length; j++) {
+        eval(funct[j])();
+        clearAll();
+        clearTableau();
+    }
+    </script>  
+
+    <script>mocha.run()</script>
+	<pre id="results-container"></pre>
+
+</body>
+</html>

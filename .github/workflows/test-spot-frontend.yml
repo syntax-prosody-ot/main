@@ -1,0 +1,21 @@
+name: test-spot-frontend
+on: 
+  pull_request:
+    branches: [ master ]
+  push:
+    branches:
+      -master
+      -auto-testing
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+      - run: npm i mocha-headless-chrome
+      - run: npm install chai
+      - run: ./frontendBuild.sh
+      - run: npm run test_frontend
+    
+ 
