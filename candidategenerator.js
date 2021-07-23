@@ -16,7 +16,7 @@ window.GEN_impl = function(sTree, leaves, options) {
 	 * only one child, which will be of the same category, ie. {i {i (...) (...)}}
 	 */
 	var rootlessCand = gen(leaves, recursiveOptions)
-	if(options.rootCategory !== options.recursiveCategory){
+	if(options.rootCategory !== options.recursiveCategory[0]){
 		rootlessCand = addRecCatWrapped(gen(leaves, recursiveOptions), options);
 	}
 
@@ -153,7 +153,7 @@ function gen(leaves, options){
 		for(var j = 0; j<rightsides.length; j++){
 			var currRightside = rightsides[j];
 			var firstRight = currRightside[0];
-			if(!currRightside.length || (firstRight.children && firstRight.children.length) || (firstRight.cat != options.terminalCategory && !isLower(pCat, firstRight.cat, options.terminalCategory)))
+			if(!currRightside.length || (firstRight.children && firstRight.children.length))
 			{
 				cand = leftside.concat(currRightside);
 				candidates.push(cand);

@@ -94,76 +94,43 @@ function getInputsForTableau(){
     if(treeCode !== "{}") {
         myGenInputs.pString = "";
     }
+    
+    var doubleInputWarningMsg = "Inputs were provided on both the Manual tab and the Automatic tab of Gen: Inputs. The candidate set will be created using inputs on the tab that is currently visible. Inputs that are not currently displayed will be ignored.";
+    
     var sTrees;
-    var treeSelectMenu = document.getElementById('treeEditOption'); // options selecting input from manual, automatic tab or both tabs
-    var treeSelectOptions = treeSelectMenu.value; // getting the value of the option the user has selected
-    var manInputsPres = (spotForm.inputToGen.value != "" || (treeCode != "{}" && treeCode != "[]")); //manual tab input present boolean
-    var autoInputsPres = getAutoSTreeList(); //automatic tab input present boolean
+    //If the Automatic tab is visible...
+    if(document.getElementById('inputOptions').style.display == 'block') {
+        //Check whether the manual tab also has content & provide a warning; zero out pString
+        if (spotForm.inputToGen.value != "" || (treeCode != "{}" && treeCode != "[]")) {
+            displayWarning(doubleInputWarningMsg);
+        }
+        myGenInputs.pString = "";
 
-   // determine if both generate tree and build syntax has input
-    if (manInputsPres && autoInputsPres && document.getElementById('treeOption').style.display != "block" && treeSelectOptions == "default-tree"){
-        document.getElementById('treeOption').style.display = "block";
-        displayWarning('Inputs were provided on both the Manual tab and the Automatic tab of Gen: Inputs. Please select an option from the dropdown menu displayed above "Get results" button to choose which set of trees to use in the tableaux.');
-        return;
+        //Try to actually get the auto-generated sTrees.
+        try{
+            sTrees = getAutoSTreeList();
+        }
+        catch(e){
+            displayError(e.message, e);
+            return;
+        }
     }
     
-    //if the dropdown menu is shown and option is default-tree
-    if (treeSelectOptions == "default-tree" && document.getElementById('treeOption').style.display == "block"){
-        return;
-    }else if(treeSelectOptions == "auto-tree" || (!manInputsPres && autoInputsPres)){ //If auto-tree is chosen, display this
-        myGenInputs.pString = "";
-        if (autoInputsPres){
-            //Try to actually get the auto-generated sTrees.
-            try{
-                sTrees = getAutoSTreeList();
-            }
-            catch(e){
-                displayError(e.message, e);
-                return;
-            }
-        }else{
-            return;
+    //Otherwise, the Manual tab is visible
+    else{    
+        //check whether the Automatic tab has content
+        if (getAutoSTreeList()){
+            displayWarning(doubleInputWarningMsg);
         }
-    }else if(treeSelectOptions == "manual-tree" || (manInputsPres && !autoInputsPres)){   //Otherwise, if manual-tree is chosen, display this  
+
         // Get the input syntactic trees from manual tree builder
-        if (manInputsPres){
-            try{
-                sTrees = getSTrees();
-            }
-            catch(e){
-                displayError(e.message, e);
-                return;
-            }
-        }else{
+        try{
+            sTrees = getSTrees();
+        }
+        catch(e){
+            displayError(e.message, e);
             return;
         }
-    }else if(treeSelectOptions == "both-tree"){ // if both trees are selected
-        if (autoInputsPres && manInputsPres){
-            try{
-                if (getAutoSTreeList() && getSTrees()){
-                    sTrees = getSTrees();
-                    myGenInputs.pString = "";
-                    sTrees = sTrees.concat(getAutoSTreeList());
-                }else if(getAutoSTreeList()){
-                    myGenInputs.pString = "";
-                    sTrees = getAutoSTreeList();
-                }else{
-                    sTrees = getSTrees();
-                }
-            }
-            catch(e){
-                displayError(e.message, e);
-                return;
-            }
-        }else{
-            return;
-        }
-    }else if(treeSelectOptions == "clear-tree"){
-        treeSelectMenu = treeSelectMenu.selectedIndex = 0;
-        document.getElementById('treeOption').style.display = "none";
-        clearAll();
-        sTreeList = undefined;
-        return;
     }
 
     return sTrees;
@@ -198,15 +165,11 @@ function getOutputGenOptions() {
 
     //plug correct value into category options
     genOptions.rootCategory = spotForm['genOptions-rootCategory'].value;
-    genOptions.recursiveCategory = "";
-    //genOpsRC is an array passed in from the recursiveCategory checkboxes
-    var genOpsRC = spotForm['genOptions-recursiveCategory'];
+    genOptions.recursiveCategory = [];
+    genOpsRC = spotForm['genOptions-recursiveCategory'];
     for (var i = 0; i<genOpsRC.length; i++){
         if(genOpsRC[i].value && genOpsRC[i].checked){
-            if(genOptions.recursiveCategory.length){
-                genOptions.recursiveCategory = genOptions.recursiveCategory.concat("-")
-            }
-            genOptions.recursiveCategory = genOptions.recursiveCategory.concat(genOpsRC[i].value);
+            genOptions.recursiveCategory.push(genOpsRC[i].value);
         }
     }
     genOptions.terminalCategory = spotForm['genOptions-terminalCategory'].value;
@@ -214,16 +177,19 @@ function getOutputGenOptions() {
     //warn user if they do something weird with the category options
     var rootCategoryError = new Error("The specified root category is lower on the prosodic hierarchy\nthan the specified recursive category.");
     var terminalCategoryError = new Error("The specified recursive category is not higher on the prosodic hierarchy\nthan the specified terminal category.");
-    if(pCat.isHigher(genOptions.recursiveCategory, genOptions.rootCategory)){
-        if(!confirm(rootCategoryError.message + " Are you sure you want to continue?\nIf you are confused, change Root Category and Recursive Category\nin \"Options for prosodic tree generation (GEN function)\"")){
-            throw rootCategoryError;
+    for(var i = 0; i<genOptions.recursiveCategory; i++){
+        if(pCat.isHigher(genOptions.recursiveCategory[i], genOptions.rootCategory)){
+            if(!confirm(rootCategoryError.message + " Are you sure you want to continue?\nIf you are confused, change Root Category and Recursive Category\nin \"Options for prosodic tree generation (GEN function)\"")){
+                throw rootCategoryError;
+            }
+            if(!pCat.isHigher(genOptions.recursiveCategory[i], genOptions.terminalCategory)){
+                if(!confirm(terminalCategoryError.message + " Are you sure you want to continue?\nIf you are confused, change Terminal Category and Recursive Category\nin \"Options for prosodic tree generation (GEN function)\"")){
+                    throw terminalCategoryError;
+                }
+            }
         }
     }
-    if(!pCat.isHigher(genOptions.recursiveCategory, genOptions.terminalCategory)){
-        if(!confirm(terminalCategoryError.message + " Are you sure you want to continue?\nIf you are confused, change Terminal Category and Recursive Category\nin \"Options for prosodic tree generation (GEN function)\"")){
-            throw terminalCategoryError;
-        }
-    }
+    
 
     return genOptions;
 }
@@ -306,11 +272,9 @@ function checkForLongInputs(genOptions){
  */
 function sendToTableau(e) {
     if (e.preventDefault) e.preventDefault();
+
     var constraintSet = getCheckedConstraints();
     myGenInputs.sTrees = getInputsForTableau();
-    if (myGenInputs.sTrees == undefined){
-        return false;
-    }
     var genOptions = getOutputGenOptions();
     checkForLongInputs(genOptions);
 
