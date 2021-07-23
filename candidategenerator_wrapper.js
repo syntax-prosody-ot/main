@@ -71,6 +71,7 @@ window.GEN = function(sTree, words, options){
 	}
 	else {
 		options.recursiveCategory = [options.recursiveCategory];
+		recCats.push(options.recursiveCategory[0]);
 	}
 	
 	options.recursiveCats = options.recursiveCategory;

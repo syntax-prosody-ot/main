@@ -39,6 +39,10 @@ function sTreeGEN(terminalString, options)
         options.noAdjacentHeads = true;
     }
     
+    if(typeof options.recursiveCategory === "string"){
+      options.recursiveCategory = [options.recursiveCategory];
+    }
+
     options.syntactic = true;
     options.recursiveCategory = options.recursiveCategory || ['xp'];
     options.terminalCategory = options.terminalCategory || 'x0';
@@ -70,7 +74,7 @@ function sTreeGEN(terminalString, options)
       options.noAdjacentHeads = false;
     }
 
-    if(options.recursiveCategory === ['x0']){
+    if(options.recursiveCategory[0] === 'x0'){
       options.noAdjacentHeads = false;
     }
 
