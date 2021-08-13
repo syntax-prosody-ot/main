@@ -25,7 +25,12 @@
 window.GEN = function(sTree, words, options){
 	options = options || {obeysHeadedness: true}; // if options is undefined, set it to an empty object (so you can query its properties without crashing things)
 	//Set obeysHeadedness:true by default
+	options = evaluateGenOptions(options);
+	var leaves = handleGenTerminals(sTree, words, options);
+	return window.GEN_impl(sTree, leaves, options);
+}
 
+function evaluateGenOptions(options){
 	//Set prosodic hierarchy if we're making prosodic trees. Don't bother with this for syntactic trees.
 	if(!options.syntactic){
 		
@@ -185,6 +190,10 @@ window.GEN = function(sTree, words, options){
 		}
 	}
 
+	return options;
+}
+
+function handleGenTerminals(sTree, words, options){
 	if(typeof words === "string") { // words can be a space-separated string of words or an array of words; if string, split up into an array
 		if (!words) { // if empty, scrape words from sTree
 			if(sTree.cat && sTree.id){
@@ -211,7 +220,7 @@ window.GEN = function(sTree, words, options){
 		leaves.push(wrapInLeafCat(words[i], options.terminalCategory, options.syntactic));
 	}
 
-	return window.GEN_impl(sTree, leaves, options);
+	return leaves;
 }
 
 function deduplicateTerminals(terminalList) {
