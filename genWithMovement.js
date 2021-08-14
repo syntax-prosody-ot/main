@@ -1,5 +1,5 @@
 function containsClitic(x) {
-    return x.indexOf("clitic") > -1;
+    return (x.indexOf("clitic") > -1 || x.cat === 'clitic');
   }
   
   
@@ -114,17 +114,6 @@ function containsClitic(x) {
   //If both an stree and words are provided, words take priority. 
   function GENwithPermutation(stree, words, options){
   
-    options = options || {};
-  
-      var leaves = getLeaves(stree);
-  
-    if(!leaves[0].cat){
-      leaves = [];
-    }
-  
-      var permutations = [];
-    var words = words || [];
-  
       //function for swapping elements in an array, takes array and indexes of elements to be swapped
       function swap(array, index1, index2){
           var swapped = [];
@@ -141,9 +130,30 @@ function containsClitic(x) {
           }
           return swapped;
       }
-  
+    
+      options = options || {};
+      options = evaluateGenOptions(options);
+      if(!options.terminalCategory){
+        console.warn("Terminal category is not defined.")
+      }
+
+      var leaves = handleGenTerminals(stree, words, options);
+      //console.log(leaves);
+    
+    //Make sure words is defined before using it to generate word orders
+    //Display warning if:
+    //    -There are no words or leaves
+    //    -There are mismatching words and leaves
+    if(!words.length && !leaves.length){
+      displayError("GENwithPermutation(): Both leaves and words are undefined. It is possible that GENwithPermutation() was not given any syntactic tree or words to permute.");
+      return '';
+    }
+    else if(words.length && leaves.length && leaves.length !== words.length){
+    //  displayWarning("The arguments words and stree to GENwithPermutation() are mismatched. The function will use words and ignore the stree.");
+    }
+
+    var permutations = [];
       //actual implementation of Heap's algorithm
-  
       function allOrdersInner(innerList, k){
           if(k == 1){
               permutations.push(innerList);
@@ -163,37 +173,11 @@ function containsClitic(x) {
               }
           }
       }
-  
-    // Make sure words is an array
-    if (typeof words === "string") {
-      words = words.split(' ');
-      if (words[0] === ""){
-        words = [];
-      }
-    }
-    
-      //Make sure words is defined before using it to generate word orders
-    //Display warning if:
-    //    -There are no words or leaves
-    //    -There are mismatching words and leaves
-    if(!words.length && !leaves.length){
-      displayWarning("GENwithPermutation() was not given any syntactic tree or words to permute.");
-      return '';
-    }
-      else if(words.length && leaves.length && leaves.length !== words.length){
-      displayWarning("The arguments words and stree to GENwithPermutation() are mismatched. The function will use words and ignore the stree.");
-      }
-    else if(!words.length && leaves.length){
-      words = new Array(leaves.length);
-      for(var i in leaves){
-        words[i] = leaves[i].id;
-      }	
-      }
-  
-      allOrdersInner(words, words.length);
+      
+      allOrdersInner(leaves, leaves.length);
       var candidateSets = [];
       for(var i = 0; i<permutations.length; i++){
-          candidateSets[i] = GEN(stree, permutations[i], options);
+          candidateSets[i] = GEN_impl(stree, permutations[i], options);
       }
       //candidateSets;
       return [].concat.apply([], candidateSets);

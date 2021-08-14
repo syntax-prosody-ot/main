@@ -1,11 +1,10 @@
 <html>
 <head>
-	<title>SPOT investigation: autogenerating inputs</title>
+	<title>SPOT testing: Generating outputs with reordering of all terminals</title>
 
 	<link rel="stylesheet" type="text/css" href="../spot.css">
 
 	<script src="../lib/jszip.min.js"></script>
-	<script src="../trees/abstractMatchTrees.js"></script>
 	
 	<!--Mocha setup stuff (1/2)-->
     <meta charset="UTF-8">
@@ -23,7 +22,7 @@
 </head>
 
 <body style="padding-left: 5%; padding-right: 5%; padding-top: 20px">
-	<h2>GENerating inputs</h2>
+	<h2>SPOT testing: Generating outputs with reordering of all terminals</h2>
 
 	<!--Mocha stuff (2/2)-->
     <script>
@@ -37,6 +36,7 @@
     <!--Mocha is set up now, you just need to write and run tests-->
 
 	<pre id="results-container"></pre>
+    <script src="../candidategenerator_wrapper.js"></script>
     <script src="message_funcs.js"></script>
 	<script src="GENwithPermutationTest.js"></script>
 

@@ -1,12 +1,19 @@
 //test for input management and generating actual permutations with functions in genWithMovement.js
 
+//const { assert } = require("chai");
+
+function logCand(cand){
+    for(let i in cand){
+        console.log(parenthesizeTree(cand[i][1]))
+    }
+}
 
 function genWithPermutationTest(){
     
     describe("GENwithPermutation handles different types of word argument", function(){
         it("words string with clitic", function(){
-            var wordsResult = GENwithPermutation({}, 'a b-clitic', {obeysNonrecursivity:true, obeysHeadedness:true});
-            assert.equal(JSON.stringify(wordsResult), '[[{},{"id":"root","cat":"i","children":[{"id":"phi3","cat":"phi","children":[{"cat":"w","id":"a"}]},{"cat":"syll","id":"b"}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi4","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"syll","id":"b"}]}]}],[{},{"id":"root","cat":"i","children":[{"cat":"syll","id":"b"},{"id":"phi2","cat":"phi","children":[{"cat":"w","id":"a"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi4","cat":"phi","children":[{"cat":"syll","id":"b"},{"cat":"w","id":"a"}]}]}]]');
+            var wordsResult = GENwithPermutation({}, 'a b-clitic', {obeysNonrecursivity:true, obeysExhaustivity:['i']});
+            assert.equal(JSON.stringify(wordsResult), '[[{},{"id":"root","cat":"i","children":[{"id":"phi3","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi2","cat":"phi","children":[{"cat":"syll","id":"b"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi4","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"syll","id":"b"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi8","cat":"phi","children":[{"cat":"syll","id":"b"}]},{"id":"phi7","cat":"phi","children":[{"cat":"w","id":"a"}]}]}],[{},{"id":"root","cat":"i","children":[{"id":"phi9","cat":"phi","children":[{"cat":"syll","id":"b"},{"cat":"w","id":"a"}]}]}]]');
         });
         it("words string without clitic", function(){
             var wordsResult = GENwithPermutation({}, 'a b', {obeysNonrecursivity:true, obeysExhaustivity:true});
@@ -24,6 +31,12 @@ function genWithPermutationTest(){
             var expectedResult = JSON.parse(expectedResultString);
             assert.deepEqual(x, expectedResult,  JSON.stringify(x, null, 4) + '\n' + JSON.stringify(expectedResult, null, 4))//messageGEN(x, expectedResult, options)); //something's wrong with this deepEqual comparison -- visual comparison reveals no differences
         });
+
+        it("stree with clitic", function(){
+            var x = GENwithPermutation({id:'root', cat:'cp', children:[{cat:'x0', id:'a'}, {cat:'clitic', id:'b'}]}, '', {obeysNonrecursivity:true, obeysHeadedness:true});
+            var expectedResultString = [[{"id":"root","cat":"cp","children":[{"cat":"x0","id":"a"},{"cat":"clitic","id":"b"}]},{"id":"root","cat":"i","children":[{"cat":"w","id":"a"},{"id":"phi2","cat":"phi","children":[{"cat":"syll","id":"b"}]}]}],[{"id":"root","cat":"cp","children":[{"cat":"x0","id":"a"},{"cat":"clitic","id":"b"}]},{"id":"root","cat":"i","children":[{"id":"phi3","cat":"phi","children":[{"cat":"w","id":"a"}]},{"cat":"syll","id":"b"}]}],[{"id":"root","cat":"cp","children":[{"cat":"x0","id":"a"},{"cat":"clitic","id":"b"}]},{"id":"root","cat":"i","children":[{"id":"phi3","cat":"phi","children":[{"cat":"w","id":"a"}]},{"id":"phi2","cat":"phi","children":[{"cat":"syll","id":"b"}]}]}],[{"id":"root","cat":"cp","children":[{"cat":"x0","id":"a"},{"cat":"clitic","id":"b"}]},{"id":"root","cat":"i","children":[{"id":"phi4","cat":"phi","children":[{"cat":"w","id":"a"},{"cat":"syll","id":"b"}]}]}],[{"id":"root","cat":"cp","children":[{"cat":"x0","id":"a"},{"cat":"clitic","id":"b"}]},{"id":"root","cat":"i","children":[{"cat":"syll","id":"b"},{"id":"phi2","cat":"phi","children":[{"cat":"w","id":"a"}]}]}],[{"id":"root","cat":"cp","children":[{"cat":"x0","id":"a"},{"cat":"clitic","id":"b"}]},{"id":"root","cat":"i","children":[{"id":"phi3","cat":"phi","children":[{"cat":"syll","id":"b"}]},{"cat":"w","id":"a"}]}],[{"id":"root","cat":"cp","children":[{"cat":"x0","id":"a"},{"cat":"clitic","id":"b"}]},{"id":"root","cat":"i","children":[{"id":"phi3","cat":"phi","children":[{"cat":"syll","id":"b"}]},{"id":"phi2","cat":"phi","children":[{"cat":"w","id":"a"}]}]}],[{"id":"root","cat":"cp","children":[{"cat":"x0","id":"a"},{"cat":"clitic","id":"b"}]},{"id":"root","cat":"i","children":[{"id":"phi4","cat":"phi","children":[{"cat":"syll","id":"b"},{"cat":"w","id":"a"}]}]}]];
+            assert.equal(JSON.stringify(x), expectedResultString);
+        })
     });
     /*describe("GEN handles duplicates", function(){
         it("words string with duplicates", function(){
