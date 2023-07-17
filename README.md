@@ -5,11 +5,11 @@ SPOT (Syntax-Prosody in Optimality Theory) is a JavaScript-based application for
 
 See https://spot.sites.ucsc.edu/ for news and updates.
 
-Please contact the Jenny Bellik or Nick Kalivoda (UC Santa Cruz) if you would like to see a new constraint or feature added to SPOT, or for assistance in developing an analysis in SPOT.
+Please contact Jenny Bellik or Nick Kalivoda (UC Santa Cruz) if you would like to see a new constraint or feature added to SPOT, or for assistance in developing an analysis in SPOT.
 
 Features
 --------
-* online access at <https://people.ucsc.edu/~jbellik/spot/interface1.html>
+* online access at <[https://babel.ucsc.edu/~spot/spot/interface1.html](https://babel.ucsc.edu/~spot/spot/interface1.html)>
 * automatic violation counting: for all constraints in the SPOT system
 * automatic candidate generation: exhaustive generation of all prosodic or syntactic trees with a given set of terminals
 * graphical user interface for building a JavaScript representation of the syntactic input tree(s)
